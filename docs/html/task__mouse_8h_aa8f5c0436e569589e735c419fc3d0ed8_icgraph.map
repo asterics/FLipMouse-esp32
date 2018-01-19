@@ -1,0 +1,6 @@
+<map id="task_mouse" name="task_mouse">
+<area shape="rect" id="node2" href="$config__switcher_8c.html#af5af5079d1982d42e165039e6de7e40a" title="configSwitcherTask" alt="" coords="147,5,284,32"/>
+<area shape="rect" id="node5" href="$task__commands_8c.html#a67e18f3921bbb80116577096dd7fccac" title="doMouseParsing" alt="" coords="156,56,275,83"/>
+<area shape="rect" id="node3" href="$config__switcher_8h.html#a86cf5463fd33be463736adad4ee9d7ca" title="configSwitcherInit" alt="" coords="332,5,459,32"/>
+<area shape="rect" id="node4" href="$flipmouse__fabi__esp32__kbdmouse__main_8c.html#abce06be17fc37d675118a678a8100a36" title="app_main" alt="" coords="507,5,585,32"/>
+</map>

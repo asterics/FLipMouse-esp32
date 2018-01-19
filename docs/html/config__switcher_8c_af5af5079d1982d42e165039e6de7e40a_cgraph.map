@@ -1,0 +1,25 @@
+<map id="configSwitcherTask" name="configSwitcherTask">
+<area shape="rect" id="node2" href="$hal__storage_8c.html#ac67aaf5a3af4140bff3d7c134b9d771f" title="halStorageStartTransaction" alt="" coords="194,5,374,32"/>
+<area shape="rect" id="node3" href="$hal__storage_8c.html#aad5b764e7c611ff24dbcdd872dc9ae76" title="halStorageLoad" alt="" coords="228,56,340,83"/>
+<area shape="rect" id="node6" href="$hal__storage_8c.html#a75596c64adaa2b8d9104530acc94b094" title="halStorageLoadName" alt="" coords="211,107,357,133"/>
+<area shape="rect" id="node12" href="$hal__storage_8c.html#a00b5db14e24d7ada8a42aa6b3f1a1cb7" title="halStorageFinishTransaction" alt="" coords="191,157,377,184"/>
+<area shape="rect" id="node13" href="$hal__adc_8c.html#a4135bb73c2271b4a27db8d8d81884de7" title="halAdcUpdateConfig" alt="" coords="213,208,355,235"/>
+<area shape="rect" id="node17" href="$hal__ble_8c.html#accf307974a0046bce38582d0260bf841" title="halBLEReset" alt="" coords="235,259,333,285"/>
+<area shape="rect" id="node18" href="$task__mouse_8c.html#aa8f5c0436e569589e735c419fc3d0ed8" title="task_mouse" alt="" coords="237,309,331,336"/>
+<area shape="rect" id="node19" href="$task__kbd_8c.html#a8ff4618047a049178bfb1d60abfefb5d" title="task_keyboard" alt="" coords="231,360,337,387"/>
+<area shape="rect" id="node21" href="$config__switcher_8c.html#a083adf41746c3380dcc6dbc099047f2e" title="task_configswitcher" alt="" coords="215,411,353,437"/>
+<area shape="rect" id="node22" href="$hal__adc_8c.html#a3217185bc86562dee8617ded3872022f" title="task_calibration" alt="" coords="227,461,341,488"/>
+<area shape="rect" id="node24" href="$hal__storage_8c.html#abc699ff3996d12d3e6bcc9e372b277e0" title="halStorageLoadGetVBConfigs" alt="" coords="887,411,1083,437"/>
+<area shape="rect" id="node4" href="$hal__storage_8c.html#a7e0a934f829b47e2445189dd95e962d6" title="halStorageGetNumberOfSlots" alt="" coords="637,56,832,83"/>
+<area shape="rect" id="node5" href="$hal__storage_8c.html#a4b6566ef5b69c85d422df52435c95d36" title="halStorageChecks" alt="" coords="1132,183,1261,209"/>
+<area shape="rect" id="node7" href="$hal__storage_8c.html#aae19bcf97360ccd7af4ddf906ff85141" title="halStorageGetNumberForName" alt="" coords="632,107,837,133"/>
+<area shape="rect" id="node8" href="$hal__storage_8c.html#a3b1b266074bd493fe43dcf980852a422" title="halStorageLoadNumber" alt="" coords="425,157,584,184"/>
+<area shape="rect" id="node9" href="$hal__storage_8c.html#aed4beb2e1bd8cd78a201fbcb49958cba" title="halStorageCreateDefault" alt="" coords="652,208,817,235"/>
+<area shape="rect" id="node10" href="$hal__storage_8c.html#aadf9ff06990d0f0af2eea2e6f2b8082a" title="halStorageStore" alt="" coords="927,208,1042,235"/>
+<area shape="rect" id="node11" href="$hal__storage_8c.html#a1503debb336ea2d708e4e0884c7aa6a3" title="halStorageStoreSetVBConfigs" alt="" coords="885,259,1084,285"/>
+<area shape="rect" id="node14" href="$hal__adc_8c.html#aadc294c08df0386572ffdc8e7228f6b4" title="halAdcTaskMouse" alt="" coords="439,208,570,235"/>
+<area shape="rect" id="node15" href="$hal__adc_8c.html#a452077aaa6a576304708d00d4ec439f1" title="halAdcTaskJoystick" alt="" coords="435,259,575,285"/>
+<area shape="rect" id="node16" href="$hal__adc_8c.html#aee719704e643d27c1faab768cf4bc22e" title="halAdcTaskThreshold" alt="" coords="431,309,579,336"/>
+<area shape="rect" id="node20" href="$task__kbd_8c.html#aad4ceb3ea958b99d596870013982d96e" title="sendToQueue" alt="" coords="453,360,556,387"/>
+<area shape="rect" id="node23" href="$hal__adc_8c.html#ae549c157d94729e8b06cb391f0f2c97b" title="halAdcCalibrate" alt="" coords="447,461,562,488"/>
+</map>

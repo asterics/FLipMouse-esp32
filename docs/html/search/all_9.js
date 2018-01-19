@@ -1,0 +1,10 @@
+var searchData=
+[
+  ['joystick',['JOYSTICK',['../common_8h.html#a43f0521562303f42d96251f43d198c66a9cdb4c7b3f2d3cd904160e767d3a4a2c',1,'common.h']]],
+  ['joystick_5fcommand',['joystick_command',['../structjoystick__command.html',1,'']]],
+  ['joystick_5fcommand_5ft',['joystick_command_t',['../common_8h.html#af0acd69c825ad599f4c9b9e371604996',1,'common.h']]],
+  ['joystick_5fdata',['joystick_data',['../structjoystick__data.html',1,'']]],
+  ['joystick_5fdata_5ft',['joystick_data_t',['../hid__desc_8h.html#a812129cd2b9154d87a93f262b21f7544',1,'hid_desc.h']]],
+  ['joystick_5fmovement_5fble',['joystick_movement_ble',['../flipmouse__fabi__esp32__kbdmouse__main_8c.html#ae6da2ec03555c40a51588302e5879835',1,'joystick_movement_ble():&#160;flipmouse_fabi_esp32_kbdmouse_main.c'],['../common_8h.html#ae6da2ec03555c40a51588302e5879835',1,'joystick_movement_ble():&#160;flipmouse_fabi_esp32_kbdmouse_main.c']]],
+  ['joystick_5fmovement_5fusb',['joystick_movement_usb',['../flipmouse__fabi__esp32__kbdmouse__main_8c.html#ae57a2da1ef72f6611b9d71fce0356352',1,'joystick_movement_usb():&#160;flipmouse_fabi_esp32_kbdmouse_main.c'],['../common_8h.html#ae57a2da1ef72f6611b9d71fce0356352',1,'joystick_movement_usb():&#160;flipmouse_fabi_esp32_kbdmouse_main.c']]]
+];

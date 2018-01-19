@@ -1,0 +1,10 @@
+<map id="hidd_le_env_t" name="hidd_le_env_t">
+<area shape="rect" id="node2" href="$structhidd__clcb__t.html" title="hidd_clcb_t" alt="" coords="352,109,440,135"/>
+<area shape="rect" id="node3" href="$unionesp__hidd__cb__param__t.html" title="HIDD callback parameters union. " alt="" coords="321,159,471,186"/>
+<area shape="rect" id="node4" href="$structesp__hidd__cb__param__t_1_1hidd__connect__evt__param.html" title="ESP_HIDD_EVENT_CONNECT. " alt="" coords="14,5,189,47"/>
+<area shape="rect" id="node5" href="$structesp__hidd__cb__param__t_1_1hidd__deinit__finish__evt__param.html" title="ESP_HIDD_EVENT_DEINIT_FINISH. " alt="" coords="27,71,176,127"/>
+<area shape="rect" id="node6" href="$structesp__hidd__cb__param__t_1_1hidd__init__finish__evt__param.html" title="ESP_HIDD_EVENT_INIT_FINISH. " alt="" coords="9,152,193,193"/>
+<area shape="rect" id="node7" href="$structesp__hidd__cb__param__t_1_1hidd__disconnect__evt__param.html" title="ESP_HIDD_EVENT_DISCONNECT. " alt="" coords="5,217,197,259"/>
+<area shape="rect" id="node8" href="$structhidd__inst__t.html" title="hidd_inst_t" alt="" coords="353,246,439,273"/>
+<area shape="rect" id="node9" href="$structhidd__feature__t.html" title="HIDD Features structure. " alt="" coords="49,283,153,310"/>
+</map>

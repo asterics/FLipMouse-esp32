@@ -1,0 +1,4 @@
+<map id="halSerialSwitchTXChannel" name="halSerialSwitchTXChannel">
+<area shape="rect" id="node2" href="$hal__serial_8h.html#a8f987ba001c2a39c959a551a94b5df43" title="halSerialSendUSBSerial" alt="" coords="231,5,393,32"/>
+<area shape="rect" id="node3" href="$hal__serial_8c.html#a4135f4381e4995152515091845c50c8f" title="halSerialTaskMouse" alt="" coords="441,5,581,32"/>
+</map>

@@ -1,0 +1,8 @@
+var searchData=
+[
+  ['virtualbutton',['virtualButton',['../structtaskConfigSwitcherConfig.html#acf206e3d16ac612266677ae74fb39b92',1,'taskConfigSwitcherConfig::virtualButton()'],['../structtaskNoParameterConfig.html#ae7e56968b4aa5b8b0f0a4e8b9eb5c645',1,'taskNoParameterConfig::virtualButton()'],['../structtaskKeyboardConfig.html#aae706eddea395cbff84ab46814bcc9ae',1,'taskKeyboardConfig::virtualButton()'],['../structtaskMouseConfig.html#a3bb6fa49c72ff534b4178abf12b213f6',1,'taskMouseConfig::virtualButton()']]],
+  ['virtualbuttoncommand',['virtualButtonCommand',['../structgeneralConfig.html#a98d9a4aa6f20d96934a99e63f280e429',1,'generalConfig']]],
+  ['virtualbuttonconfig',['virtualButtonConfig',['../structgeneralConfig.html#ad54324c99dcd927be3cd155a0ee64dfa',1,'generalConfig']]],
+  ['virtualbuttonsin',['virtualButtonsIn',['../flipmouse__fabi__esp32__kbdmouse__main_8c.html#a591ffaa399081915a0eab951f83f93e2',1,'virtualButtonsIn():&#160;flipmouse_fabi_esp32_kbdmouse_main.c'],['../common_8h.html#a591ffaa399081915a0eab951f83f93e2',1,'virtualButtonsIn():&#160;flipmouse_fabi_esp32_kbdmouse_main.c']]],
+  ['virtualbuttonsout',['virtualButtonsOut',['../flipmouse__fabi__esp32__kbdmouse__main_8c.html#a3633668cff0a27ea52ca662673978667',1,'virtualButtonsOut():&#160;flipmouse_fabi_esp32_kbdmouse_main.c'],['../common_8h.html#a3633668cff0a27ea52ca662673978667',1,'virtualButtonsOut():&#160;flipmouse_fabi_esp32_kbdmouse_main.c']]]
+];

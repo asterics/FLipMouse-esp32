@@ -1,0 +1,8 @@
+<map id="halStorageLoadName" name="halStorageLoadName">
+<area shape="rect" id="node2" href="$hal__storage_8c.html#aae19bcf97360ccd7af4ddf906ff85141" title="halStorageGetNumberForName" alt="" coords="407,5,612,32"/>
+<area shape="rect" id="node4" href="$hal__storage_8c.html#a3b1b266074bd493fe43dcf980852a422" title="halStorageLoadNumber" alt="" coords="200,56,359,83"/>
+<area shape="rect" id="node3" href="$hal__storage_8c.html#a4b6566ef5b69c85d422df52435c95d36" title="halStorageChecks" alt="" coords="907,81,1036,108"/>
+<area shape="rect" id="node5" href="$hal__storage_8c.html#aed4beb2e1bd8cd78a201fbcb49958cba" title="halStorageCreateDefault" alt="" coords="427,107,592,133"/>
+<area shape="rect" id="node6" href="$hal__storage_8c.html#aadf9ff06990d0f0af2eea2e6f2b8082a" title="halStorageStore" alt="" coords="702,107,817,133"/>
+<area shape="rect" id="node7" href="$hal__storage_8c.html#a1503debb336ea2d708e4e0884c7aa6a3" title="halStorageStoreSetVBConfigs" alt="" coords="660,157,859,184"/>
+</map>

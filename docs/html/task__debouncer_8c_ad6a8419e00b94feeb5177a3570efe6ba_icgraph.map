@@ -1,0 +1,6 @@
+<map id="cancelTimer" name="cancelTimer">
+<area shape="rect" id="node2" href="$task__debouncer_8c.html#a4a76abdbb849aa0bbc66aa001c6f4af9" title="debouncerCallback" alt="" coords="147,5,280,32"/>
+<area shape="rect" id="node4" href="$task__debouncer_8h.html#a79d88e490be7198b9cc37556c66b837b" title="Function task for debouncing virtual buttons. " alt="" coords="457,31,572,57"/>
+<area shape="rect" id="node3" href="$task__debouncer_8c.html#a2d41ed2a246a1b8d4ee5510262001e50" title="startTimer" alt="" coords="328,5,409,32"/>
+<area shape="rect" id="node5" href="$flipmouse__fabi__esp32__kbdmouse__main_8c.html#abce06be17fc37d675118a678a8100a36" title="app_main" alt="" coords="620,31,699,57"/>
+</map>

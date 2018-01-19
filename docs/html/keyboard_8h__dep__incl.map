@@ -1,0 +1,25 @@
+<map id="/home/beni/sync/Projects/FH/FLipMouse&#45;esp32/main/keyboard_layout_helper/keyboard.h" name="/home/beni/sync/Projects/FH/FLipMouse&#45;esp32/main/keyboard_layout_helper/keyboard.h">
+<area shape="rect" id="node2" href="$common_8h.html" title="/home/beni/sync/Projects\l/FH/FLipMouse&#45;esp32/main\l/function_tasks/common.h" alt="" coords="1184,109,1367,165"/>
+<area shape="rect" id="node21" href="$hal__ble_8c.html" title="/home/beni/sync/Projects\l/FH/FLipMouse&#45;esp32/main\l/hal/hal_ble.c" alt="" coords="1751,317,1934,373"/>
+<area shape="rect" id="node22" href="$hal__serial_8h.html" title="/home/beni/sync/Projects\l/FH/FLipMouse&#45;esp32/main\l/hal/hal_serial.h" alt="" coords="2028,213,2211,269"/>
+<area shape="rect" id="node24" href="$keyboard_8c.html" title="/home/beni/sync/Projects\l/FH/FLipMouse&#45;esp32/main\l/keyboard_layout_helper/keyboard.c" alt="" coords="1931,109,2162,165"/>
+<area shape="rect" id="node3" href="$config__switcher_8h.html" title="/home/beni/sync/Projects\l/FH/FLipMouse&#45;esp32/main\l/config_switcher.h" alt="" coords="926,317,1108,373"/>
+<area shape="rect" id="node6" href="$hal__storage_8h.html" title="/home/beni/sync/Projects\l/FH/FLipMouse&#45;esp32/main\l/hal/hal_storage.h" alt="" coords="758,421,940,477"/>
+<area shape="rect" id="node8" href="$task__kbd_8h.html" title="/home/beni/sync/Projects\l/FH/FLipMouse&#45;esp32/main\l/function_tasks/task_kbd.h" alt="" coords="1598,213,1780,269"/>
+<area shape="rect" id="node9" href="$task__commands_8h.html" title="/home/beni/sync/Projects\l/FH/FLipMouse&#45;esp32/main\l/function_tasks/task_commands.h" alt="" coords="2008,317,2231,373"/>
+<area shape="rect" id="node12" href="$task__mouse_8h.html" title="/home/beni/sync/Projects\l/FH/FLipMouse&#45;esp32/main\l/function_tasks/task_mouse.h" alt="" coords="912,213,1109,269"/>
+<area shape="rect" id="node14" href="$task__debouncer_8h.html" title="/home/beni/sync/Projects\l/FH/FLipMouse&#45;esp32/main\l/function_tasks/task_debouncer.h" alt="" coords="248,213,466,269"/>
+<area shape="rect" id="node16" href="$hal__adc_8h.html" title="/home/beni/sync/Projects\l/FH/FLipMouse&#45;esp32/main\l/hal/hal_adc.h" alt="" coords="524,213,707,269"/>
+<area shape="rect" id="node18" href="$hal__io_8h.html" title="/home/beni/sync/Projects\l/FH/FLipMouse&#45;esp32/main\l/hal/hal_io.h" alt="" coords="1184,213,1367,269"/>
+<area shape="rect" id="node20" href="$hal__ble_8h.html" title="/home/beni/sync/Projects\l/FH/FLipMouse&#45;esp32/main\l/hal/hal_ble.h" alt="" coords="1391,213,1574,269"/>
+<area shape="rect" id="node4" href="$config__switcher_8c.html" title="/home/beni/sync/Projects\l/FH/FLipMouse&#45;esp32/main\l/config_switcher.c" alt="" coords="964,421,1147,477"/>
+<area shape="rect" id="node5" href="$flipmouse__fabi__esp32__kbdmouse__main_8c.html" title="/home/beni/sync/Projects\l/FH/FLipMouse&#45;esp32/main\l/flipmouse_fabi_esp32_kbdmouse_main.c" alt="" coords="1272,421,1538,477"/>
+<area shape="rect" id="node7" href="$hal__storage_8c.html" title="/home/beni/sync/Projects\l/FH/FLipMouse&#45;esp32/main\l/hal/hal_storage.c" alt="" coords="758,525,940,581"/>
+<area shape="rect" id="node11" href="$task__kbd_8c.html" title="/home/beni/sync/Projects\l/FH/FLipMouse&#45;esp32/main\l/function_tasks/task_kbd.c" alt="" coords="1544,317,1727,373"/>
+<area shape="rect" id="node10" href="$task__commands_8c.html" title="/home/beni/sync/Projects\l/FH/FLipMouse&#45;esp32/main\l/function_tasks/task_commands.c" alt="" coords="2008,421,2231,477"/>
+<area shape="rect" id="node13" href="$task__mouse_8c.html" title="/home/beni/sync/Projects\l/FH/FLipMouse&#45;esp32/main\l/function_tasks/task_mouse.c" alt="" coords="653,317,850,373"/>
+<area shape="rect" id="node15" href="$task__debouncer_8c.html" title="/home/beni/sync/Projects\l/FH/FLipMouse&#45;esp32/main\l/function_tasks/task_debouncer.c" alt="" coords="50,317,269,373"/>
+<area shape="rect" id="node17" href="$hal__adc_8c.html" title="/home/beni/sync/Projects\l/FH/FLipMouse&#45;esp32/main\l/hal/hal_adc.c" alt="" coords="395,317,578,373"/>
+<area shape="rect" id="node19" href="$hal__io_8c.html" title="/home/beni/sync/Projects\l/FH/FLipMouse&#45;esp32/main\l/hal/hal_io.c" alt="" coords="1184,317,1367,373"/>
+<area shape="rect" id="node23" href="$hal__serial_8c.html" title="/home/beni/sync/Projects\l/FH/FLipMouse&#45;esp32/main\l/hal/hal_serial.c" alt="" coords="2306,317,2488,373"/>
+</map>

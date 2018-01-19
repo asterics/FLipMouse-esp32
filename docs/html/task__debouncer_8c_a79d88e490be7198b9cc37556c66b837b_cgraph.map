@@ -1,0 +1,6 @@
+<map id="task_debouncer" name="task_debouncer">
+<area shape="rect" id="node2" href="$task__debouncer_8c.html#a308ec03f3a777bacc9507657f285159a" title="isDebouncerActive" alt="" coords="479,5,611,32"/>
+<area shape="rect" id="node3" href="$task__debouncer_8c.html#a2d41ed2a246a1b8d4ee5510262001e50" title="startTimer" alt="" coords="168,31,249,57"/>
+<area shape="rect" id="node5" href="$task__debouncer_8c.html#ad6a8419e00b94feeb5177a3570efe6ba" title="cancelTimer" alt="" coords="498,56,591,83"/>
+<area shape="rect" id="node4" href="$task__debouncer_8c.html#a4a76abdbb849aa0bbc66aa001c6f4af9" title="debouncerCallback" alt="" coords="297,31,431,57"/>
+</map>

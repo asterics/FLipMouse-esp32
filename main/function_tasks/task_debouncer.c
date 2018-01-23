@@ -17,8 +17,11 @@
  * 
  * Copyright 2017 Benjamin Aigner <aignerb@technikum-wien.at,
  * beni@asterics-foundation.org>
+ */
+/**
+ * @file
  * 
- * This file contains the task implementation for the virtual button
+ * @brief This file contains the task implementation for the virtual button
  * debouncer.
  * 
  * Uses the event flags of virtualButtonsIn and if a flag is set there,
@@ -29,27 +32,99 @@
 
 #include "task_debouncer.h"
 
-
+/** Tag for ESP_LOG logging */
 #define LOG_TAG "task_debouncer"
 
+/** @brief Debounce timer status - IDLE
+ * 
+ * Timer is not running & waiting for a new command */
 #define TIMER_IDLE      0
+
+/** @brief Debounce timer status - PRESS
+ * 
+ * Timer is running & waiting for debounce time to elapse,
+ * triggering the press flag of a virtual button. */
 #define TIMER_PRESS     1
+
+/** @brief Debounce timer status - RELEASE
+ * 
+ * Timer is running & waiting for debounce time to elapse,
+ * triggering the release flag of a virtual button. */
 #define TIMER_RELEASE   2
+
+
+/** @brief Debounce timer status - DEADTIME
+ * 
+ * Timer is running & waiting for time to elapse,
+ * during this timer is running, VBs are locked and not mapped.
+ * @todo Implement the deadtime & anti-tremor functions  */
 #define TIMER_DEADTIME  3
 
-/** easy access to number with eventgroup iterator (i) and VB number in group (j, 0-3)*/
+/** Define for easy access to number with eventgroup iterator (i) and VB number in group (j, 0-3)*/
 #define VB_ITER(i,j)  ((i*4) + j)
+/** Check for both flags, PRESS and RELEASE */
 #define VB_FLAG_BOTH(x) ((1<<x) | (1<<(x+4)) )
+/** Check for press flag */
 #define VB_FLAG_PRESS(x) ((1<<x))
+/** Check for release flag */
 #define VB_FLAG_RELEASE(x) ((1<<(x+4)))
 
+/** @brief Array of timer handles
+ * 
+ * This array contains all possible running timer handles.
+ * A maximum of DEBOUNCERCHANNELS timers can be concurrently running.
+ * 
+ * @see DEBOUNCERCHANNELS
+ */
 TimerHandle_t xTimers[DEBOUNCERCHANNELS];
+
+/** @brief Direction/function of the corresponding timer
+ * 
+ * This array signals the direction of the corresponding timer
+ * of the xTimers array.
+ * 
+ * @see xTimers
+ * @see TIMER_DEADTIME
+ * @see TIMER_PRESS
+ * @see TIMER_RELEASE
+ * @see TIMER_IDLE
+ * */
 uint8_t xTimerDirection[DEBOUNCERCHANNELS];
+
+/** @brief Time for each virtual button used for deadtime
+ * 
+ * This array contains the time for each virtual button, which
+ * should be used for deadtime locking.
+ * @todo Implement deadtime & use this array for the config switcher
+ * @see TIMER_DEADTIME
+ * */
 uint16_t xTimeDebounceDeadtime[NUMBER_VIRTUALBUTTONS*4];
+
+/** @brief Time for each virtual button used for press debouncing
+ * 
+ * This array contains the time for each virtual button, which
+ * should be used for press debouncing
+ * @todo Use this array for the config switcher & control it externally
+ * @see TIMER_PRESS
+ * */
 uint16_t xTimeDebouncePress[NUMBER_VIRTUALBUTTONS*4];
+
+/** @brief Time for each virtual button used for release debouncing
+ * 
+ * This array contains the time for each virtual button, which
+ * should be used for release debouncing
+ * @todo Use this array for the config switcher & control it externally
+ * @see TIMER_RELEASE
+ * */
 uint16_t xTimeDebounceRelease[NUMBER_VIRTUALBUTTONS*4];
 
-
+/** @brief Look for a possibly running debouncing timer
+ * 
+ * This method does a look-up in the xTimers array to find a running
+ * timer with the given VB number (used as timer id).
+ * @param virtualButton Number of VB to look for a running timer
+ * @return Array offset used for xTimers array if a running timer is found, -1 if no timer was found
+ * */
 int8_t isDebouncerActive(uint32_t virtualButton)
 {
   for(uint8_t i = 0; i<DEBOUNCERCHANNELS; i++)
@@ -62,6 +137,14 @@ int8_t isDebouncerActive(uint32_t virtualButton)
   return -1;
 }
 
+
+/** @brief Cancel a possibly running debouncing timer
+ * 
+ * This method does a look-up in the xTimers array to find a running
+ * timer with the given VB number (used as timer id) and cancel it
+ * @param virtualButton Number of VB to look for a running timer
+ * @return Array offset where this running timer was found & canceled, -1 if no timer was found
+ * */
 int8_t cancelTimer(uint8_t virtualButton)
 {
   //check all debouncerchannels for a running timer for this
@@ -81,7 +164,20 @@ int8_t cancelTimer(uint8_t virtualButton)
   return -1;
 }
 
-
+/** @brief Timer callback for debouncing
+ * 
+ * This callback is executed on an expired debounce timer.
+ * Depending on the timer functionality (determined by xTimerDirection),
+ * either the PRESS or RELEASE virtualbutton flag are set in
+ * virtualButtonsOut flag group. In addition, the input flags are cleared
+ * as well (virtualButtonsIn).
+ * 
+ * @see virtualButtonsOut
+ * @see virtualButtonsIn
+ * @see xTimerDirection
+ * @todo Add the deadtime functionality here
+ * @param xTimer Timer handle of the expired timer
+ * */
 void debouncerCallback(TimerHandle_t xTimer) {
   //get own ID (virtual button)
   uint8_t virtualButton = (uint32_t) pvTimerGetTimerID(xTimer);
@@ -117,7 +213,17 @@ void debouncerCallback(TimerHandle_t xTimer) {
   }
 }
 
-
+/** @brief Start a debouncing timer with given debounce time and VB number
+ * 
+ * This method starts a new timer for the virtual button with the given
+ * time. If there is no space to save the timer handle, -1 is returned and
+ * no timer started.
+ * 
+ * @see DEBOUNCERCHANNELS
+ * @see xTimers
+ * @param virtualButton Number of VB to start a new timer for
+ * @return -1 if no free timer slot was found (DEBOUNCERCHANNELS), the timer array index otherwise
+ * */
 int8_t startTimer(uint32_t virtualButton, uint16_t debounceTime)
 {
   //check all debouncerchannels for a free slot.
@@ -133,6 +239,7 @@ int8_t startTimer(uint32_t virtualButton, uint16_t debounceTime)
       {
         ESP_LOGE(LOG_TAG,"Cannot start debouncing timer!");
       }
+      //return array index for further use
       return i;
     } 
   }
@@ -140,15 +247,38 @@ int8_t startTimer(uint32_t virtualButton, uint16_t debounceTime)
   return -1;
 }
 
+/** @brief Debouncing main task
+ * 
+ * This task is periodically testing the virtualButtonsIn flags
+ * for changes (DEBOUNCE_RESOLUTION_MS is used as delay between task
+ * wakeups). If a change is detected (either press or release flag for
+ * a virtualbutton is set), a timer is started.<br>
+ * Either the timer expires and the flag is mapped to virtualButtonsOut
+ * by debouncerCallback.<br>
+ * Or the input flag is cleared again by the responsible task and the
+ * debouncer cancels the timer as well (input was too short).
+ * 
+ * 
+ * @see DEBOUNCERCHANNELS
+ * @see DEBOUNCE_RESOLUTION_MS
+ * @see xTimers
+ * @see debouncerCallback
+ * @see virtualButtonsIn
+ * @see virtualButtonsOut
+ * @note This task is persistently running
+ * @todo Add anti-tremor & deadtime functionality
+ * @param virtualButton Number of VB to start a new timer for
+ * @return -1 if no free timer slot was found (DEBOUNCERCHANNELS), the timer array index otherwise
+ * */
 void task_debouncer(void *param)
 {
   for(uint8_t i =0; i<NUMBER_VIRTUALBUTTONS;i++)
   {
     //test if eventgroup is created
-    if(virtualButtonsIn[i] == 0 || virtualButtonsOut[i] == 0)
+    while(virtualButtonsIn[i] == 0 || virtualButtonsOut[i] == 0)
     {
-      ESP_LOGE(LOG_TAG,"Eventgroup uninitialized, exiting!!!");
-      vTaskDelete(NULL);
+      ESP_LOGE(LOG_TAG,"Eventgroup uninitialized, retry in 1s");
+      vTaskDelay(1000/portTICK_PERIOD_MS);
     }
     //set timer direction to idle on startup
     xTimerDirection[i] = TIMER_IDLE;

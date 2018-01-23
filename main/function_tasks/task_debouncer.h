@@ -17,8 +17,11 @@
  * 
  * Copyright 2017 Benjamin Aigner <aignerb@technikum-wien.at,
  * beni@asterics-foundation.org>
+ */
+/**
+ * @file
  * 
- * This file contains the task implementation for the virtual button
+ * @brief This file contains the task implementation for the virtual button
  * debouncer.
  * 
  * Uses the event flags of virtualButtonsIn and if a flag is set there,
@@ -35,19 +38,53 @@
 //common definitions & data for all of these functional tasks
 #include "common.h"
 
-/** default time before debounce kicks in and flag is mapped */
-//todo: this value is high for testing! Usually ~50-100ms
+/** Default time before debounce kicks in and flag is mapped 
+ * from virtualButtonsIn to virtualButtonsOut. 
+ * @see virtualButtonsIn
+ * @see virtualButtonsOut
+ * @todo Change this value from testing (500ms) to production (~50-100ms)
+ * @note Should be a factor of DEBOUNCE_RESOLUTION_MS, to avoid float divisions
+ * */
 #define DEBOUNCETIME_MS 500
-/** time between each flag is checked and timers are started 
+
+/** Time between each flag is checked and timers are started 
  * if a debounce value less than this is selected, flags are mapped
- * immediately */
+ * immediately
+ * @note Please use a value >10ms, otherwise it might be less than a systick
+ * @note Adjust according to DEBOUNCETIME_MS
+ * @see DEBOUNCETIME_MS */
+ 
 #define DEBOUNCE_RESOLUTION_MS 10
-/** number of concurrent debouncing channels, each channel represents
+/** Number of concurrent debouncing channels, each channel represents
  * one software timer handle */
 #define DEBOUNCERCHANNELS 32
 
+/** Stack size for debouncer task */
 #define TASK_DEBOUNCER_STACKSIZE 2048
 
+/** @brief Debouncing main task
+ * 
+ * This task is periodically testing the virtualButtonsIn flags
+ * for changes (DEBOUNCE_RESOLUTION_MS is used as delay between task
+ * wakeups). If a change is detected (either press or release flag for
+ * a virtualbutton is set), a timer is started.<br>
+ * Either the timer expires and the flag is mapped to virtualButtonsOut
+ * by debouncerCallback.<br>
+ * Or the input flag is cleared again by the responsible task and the
+ * debouncer cancels the timer as well (input was too short).
+ * 
+ * 
+ * @see DEBOUNCERCHANNELS
+ * @see DEBOUNCE_RESOLUTION_MS
+ * @see xTimers
+ * @see debouncerCallback
+ * @see virtualButtonsIn
+ * @see virtualButtonsOut
+ * @note This task is persistently running
+ * @todo Add anti-tremor & deadtime functionality
+ * @param virtualButton Number of VB to start a new timer for
+ * @return -1 if no free timer slot was found (DEBOUNCERCHANNELS), the timer array index otherwise
+ * */
 void task_debouncer(void *param);
 
 

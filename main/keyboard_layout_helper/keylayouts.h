@@ -107,7 +107,6 @@ extern "C"{
 
 #define KEY_MEDIA_VOLUME         (224 | 0xE400 ) // Volume
 #define KEY_MEDIA_BALANCE        (225 | 0xE400 ) // Balance
-#define KEY_MEDIA_MUTE           (226 | 0xE400 ) // Mute
 #define KEY_MEDIA_BASS           (227 | 0xE400 ) // Bass
 /*++++++++++++++++*/
 

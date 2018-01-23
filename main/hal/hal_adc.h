@@ -72,9 +72,10 @@
 
 /**
  * Function task for triggering calibration of up/down/left/right input
- * @section Function Tasks
+ * @addtogroup Function Tasks
  * @param param No parameter needed, except virtual button number
  * @see taskNoParameterConfig_t
+ * @see VB_SINGLESHOT
  * */
 void task_calibration(taskNoParameterConfig_t *param);
 

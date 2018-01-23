@@ -305,14 +305,14 @@ void halAdcCalibrate(void)
  * halAdcCalibrate is called to measure the ADC values and create a new
  * calibration value.
  * 
- * @section Function Tasks
+ * @addtogroup Function Tasks
  * @param param No parameter needed, except virtual button number
  * @see taskNoParameterConfig_t
  * @see halAdcCalibrate
  * */
 void task_calibration(taskNoParameterConfig_t *param)
 {
-    EventBits_t uxBits;
+    EventBits_t uxBits = 0;
     if(param == NULL)
     {
         ESP_LOGE(LOG_TAG,"parameter = NULL, cannot proceed");
@@ -325,31 +325,40 @@ void task_calibration(taskNoParameterConfig_t *param)
     //calculate bitmask offset within the EventGroup
     uint8_t evGroupShift = param->virtualButton % 4;
     //final pointer to the EventGroup used by this task
-    EventGroupHandle_t *evGroup;
+    EventGroupHandle_t *evGroup = NULL;
     //ticks between task timeouts
     const TickType_t xTicksToWait = 2000 / portTICK_PERIOD_MS;
+    //local VB
+    uint8_t vb = param->virtualButton;
     
-    //check for correct offset
-    if(evGroupIndex >= NUMBER_VIRTUALBUTTONS)
+    if(vb != VB_SINGLESHOT)
     {
-        ESP_LOGE(LOG_TAG,"virtual button group unsupported: %d ",evGroupIndex);
-        vTaskDelete(NULL);
-        return;
-    }
-    
-    //test if event groups are already initialized, otherwise exit immediately
-    if(virtualButtonsOut[evGroupIndex] == 0)
-    {
-        ESP_LOGE("task_calib","uninitialized event group for virtual buttons, quitting this task");
-        vTaskDelete(NULL);
-        return;
-    } else {
+        //check for correct offset
+        if(evGroupIndex >= NUMBER_VIRTUALBUTTONS)
+        {
+            ESP_LOGE(LOG_TAG,"virtual button group unsupported: %d ",evGroupIndex);
+            vTaskDelete(NULL);
+            return;
+        }
+        
+        //test if event groups are already initialized, otherwise exit immediately
+        while(virtualButtonsOut[evGroupIndex] == 0)
+        {
+            ESP_LOGE("task_calib","uninitialized event group for virtual buttons, retry in 1s");
+            vTaskDelay(1000/portTICK_PERIOD_MS);
+        } 
+        //save final event group for later
         evGroup = virtualButtonsOut[evGroupIndex];
     }
 
-
     while(1)
     {
+        //in single shot mode, just trigger calibration & return
+        if(vb == VB_SINGLESHOT)
+        {
+            halAdcCalibrate();
+            return;
+        }
         //wait for the flag
         uxBits = xEventGroupWaitBits(evGroup,(1<<evGroupShift),pdTRUE,pdFALSE,xTicksToWait);
         //test for a valid set flag (else branch would be timeout)

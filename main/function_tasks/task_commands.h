@@ -148,6 +148,7 @@
 
 #include "hal_serial.h"
 #include "task_mouse.h"
+#include "task_kbd.h"
 
 #define TASK_COMMANDS_STACKSIZE 2048
 

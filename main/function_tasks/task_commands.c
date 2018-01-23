@@ -30,13 +30,7 @@
                             virtual buttons are defined in common.h
 
     USB HID commands:
-          
-          AT WU             move mouse wheel up  
-          AT WD             move mouse wheel down  
-          AT WS <uint>      set mouse wheel stepsize (e.g. "AT WS 3" sets the wheel stepsize to 3 rows)
-   
-          AT MX <int>       move mouse in x direction (e.g. "AT MX 4" moves cursor 4 pixels to the right)  
-          AT MY <int>       move mouse in y direction (e.g. "AT MY -10" moves cursor 10 pixels up)
+
           AT RO <uint>      rotate stick orientation (e.g. "AT RO 180" flips x any y movements)  
 
           AT JX <int>       set joystick x axis (e.g. "AT JX 512" sets the x-axis to middle position)  
@@ -117,12 +111,12 @@
  
 static TaskHandle_t currentCommandTask = NULL;
 uint8_t doMouseParsing(uint8_t *cmdBuffer, taskMouseConfig_t *mouseinstance);
+uint8_t doKeyboardParsing(uint8_t *cmdBuffer, taskKeyboardConfig_t *kbdinstance);
 
 /** just check all queues if they are initialized
  * @return 0 on uninitialized queues, 1 if all are initialized*/
 static int checkqueues(void)
 {
-  int initialized = 1;
   // check keyboard queues
   if(keyboard_usb_press == 0) return 0;
   if(keyboard_ble_press == 0) return 0;
@@ -144,9 +138,18 @@ static int checkqueues(void)
   return 1;
 }
 
+uint8_t doKeyboardParsing(uint8_t *cmdBuffer, taskKeyboardConfig_t *kbdinstance)
+{
+  
+  //not consumed, no command found for keyboard
+  return 0;
+}
+
 uint8_t doMouseParsing(uint8_t *cmdBuffer, taskMouseConfig_t *mouseinstance)
 {
-  char * endBuf;
+  //we are doing AT command triggered action, so this mouse command
+  //is always a singleshot. Simply call the task function.
+  mouseinstance->virtualButton = VB_SINGLESHOT;
   
   /*++++ mouse clicks ++++*/
   //AT CL, AT CR, AT CM, AT CD
@@ -156,16 +159,33 @@ uint8_t doMouseParsing(uint8_t *cmdBuffer, taskMouseConfig_t *mouseinstance)
     switch(cmdBuffer[4])
     {
       //do single clicks (left,right,middle)
-      case 'L': mouseinstance->type = LEFT; mouse_direct(mouseinstance); return 1;
-      case 'R': mouseinstance->type = RIGHT; mouse_direct(mouseinstance); return 1;
-      case 'M': mouseinstance->type = MIDDLE; mouse_direct(mouseinstance); return 1;
+      case 'L': mouseinstance->type = LEFT; task_mouse(mouseinstance); return 1;
+      case 'R': mouseinstance->type = RIGHT; task_mouse(mouseinstance); return 1;
+      case 'M': mouseinstance->type = MIDDLE; task_mouse(mouseinstance); return 1;
       //do left double click
       case 'D': 
         mouseinstance->type = LEFT;
         mouseinstance->actionparam = M_DOUBLE; 
-        mouse_direct(mouseinstance); 
+        task_mouse(mouseinstance); 
         return 1;
       //not an AT C? command for mouse, return 0 (not consumed)
+      default: return 0;
+    }
+  }
+  
+  /*++++ mouse wheel up/down; set stepsize ++++*/
+  if(memcmp(cmdBuffer,"AT W",4) == 0)
+  {
+    mouseinstance->type = WHEEL;
+    mouseinstance->actionparam = M_UNUSED;
+    switch(cmdBuffer[4])
+    {
+      //move mouse wheel up/down
+      case 'U': mouseinstance->actionvalue = mouse_get_wheel(); task_mouse(mouseinstance); return 1;
+      case 'D': mouseinstance->actionvalue = -mouse_get_wheel(); task_mouse(mouseinstance); return 1;
+      //set mouse wheel stepsize. If unsuccessful, default will return 0
+      case 'S': 
+        if(mouse_set_wheel(strtol((char*)&(cmdBuffer[6]),NULL,10)) == 0) return 1;
       default: return 0;
     }
   }
@@ -177,9 +197,9 @@ uint8_t doMouseParsing(uint8_t *cmdBuffer, taskMouseConfig_t *mouseinstance)
     mouseinstance->actionparam = M_HOLD;
     switch(cmdBuffer[4])
     {
-      case 'L': mouseinstance->type = LEFT; mouse_direct(mouseinstance); return 1;
-      case 'R': mouseinstance->type = RIGHT; mouse_direct(mouseinstance); return 1;
-      case 'M': mouseinstance->type = MIDDLE; mouse_direct(mouseinstance); return 1;
+      case 'L': mouseinstance->type = LEFT; task_mouse(mouseinstance); return 1;
+      case 'R': mouseinstance->type = RIGHT; task_mouse(mouseinstance); return 1;
+      case 'M': mouseinstance->type = MIDDLE; task_mouse(mouseinstance); return 1;
       default: return 0;
     }
   }
@@ -191,9 +211,9 @@ uint8_t doMouseParsing(uint8_t *cmdBuffer, taskMouseConfig_t *mouseinstance)
     mouseinstance->actionparam = M_RELEASE;
     switch(cmdBuffer[4])
     {
-      case 'L': mouseinstance->type = LEFT; mouse_direct(mouseinstance); return 1;
-      case 'R': mouseinstance->type = RIGHT; mouse_direct(mouseinstance); return 1;
-      case 'M': mouseinstance->type = MIDDLE; mouse_direct(mouseinstance); return 1;
+      case 'L': mouseinstance->type = LEFT; task_mouse(mouseinstance); return 1;
+      case 'R': mouseinstance->type = RIGHT; task_mouse(mouseinstance); return 1;
+      case 'M': mouseinstance->type = MIDDLE; task_mouse(mouseinstance); return 1;
       default: return 0;
     }
   }  
@@ -204,7 +224,8 @@ uint8_t doMouseParsing(uint8_t *cmdBuffer, taskMouseConfig_t *mouseinstance)
   {
     mouseinstance->actionparam = M_UNUSED;
     //mouseinstance->actionvalue = atoi((char*)&(cmdBuffer[6]));
-    mouseinstance->actionvalue = strtoimax((char*)&(cmdBuffer[6]),&endBuf,10);
+    //mouseinstance->actionvalue = strtoimax((char*)&(cmdBuffer[6]),&endBuf,10);
+    mouseinstance->actionvalue = strtol((char*)&(cmdBuffer[6]),NULL,10);
     if(mouseinstance->actionvalue > 127 || mouseinstance->actionvalue < 217)
     {
       ESP_LOGW(LOG_TAG,"Cannot send mouse command, param unknown");
@@ -212,8 +233,8 @@ uint8_t doMouseParsing(uint8_t *cmdBuffer, taskMouseConfig_t *mouseinstance)
     }
     switch(cmdBuffer[4])
     {
-      case 'X': mouseinstance->type = X; mouse_direct(mouseinstance); return 1;
-      case 'Y': mouseinstance->type = Y; mouse_direct(mouseinstance); return 1;
+      case 'X': mouseinstance->type = X; task_mouse(mouseinstance); return 1;
+      case 'Y': mouseinstance->type = Y; task_mouse(mouseinstance); return 1;
       default: return 0;
     }
   }
@@ -223,7 +244,7 @@ uint8_t doMouseParsing(uint8_t *cmdBuffer, taskMouseConfig_t *mouseinstance)
   if(memcmp(cmdBuffer,"AT CL",5) == 0) {
     mouseinstance->type = LEFT;
     mouseinstance->actionparam = M_CLICK;
-    mouse_direct(mouseinstance);
+    task_mouse(mouseinstance);
     return 1;
   }
   return 0;
@@ -236,6 +257,7 @@ void task_commands(void *params)
   uint8_t commandBuffer[ATCMD_LENGTH];
   
   taskMouseConfig_t cmdMouse;
+  taskKeyboardConfig_t cmdKeyboard;
 
   while(1)
   {
@@ -254,6 +276,7 @@ void task_commands(void *params)
       //do parsing :-)
       //simplified into smaller functions, to make reading easy.
       if(doMouseParsing(commandBuffer,&cmdMouse)) continue;
+      if(doKeyboardParsing(commandBuffer,&cmdKeyboard)) continue;
       
 
       //wait 30ms ticks, in case a long UART frame is transmitted

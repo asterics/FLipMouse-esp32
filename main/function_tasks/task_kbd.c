@@ -35,22 +35,16 @@
 void sendToQueue(QueueHandle_t queue, uint16_t *data)
 {
   size_t offset = 0;
-  while(data[offset] != 0)
+  //loop until either \0 termination or length of parameter is reached
+  while(data[offset] != 0 && offset < TASK_KEYBOARD_PARAMETERLENGTH)
   {
     xQueueSend(queue,&data[offset],TIMEOUT);
     offset++;
   }
 }
 
-void keyboard_direct(taskKeyboardConfig_t *param)
-{
-  //TODO: wie am Besten mit task & command parser kombinieren?
-}
-
-
 void task_keyboard(taskKeyboardConfig_t *param)
 {
-  EventBits_t uxBits;
   //check for param struct
   if(param == NULL)
   {
@@ -58,6 +52,8 @@ void task_keyboard(taskKeyboardConfig_t *param)
     vTaskDelete(NULL);
     return;
   }
+  //event bits used for pending on debounced buttons
+  EventBits_t uxBits = 0;
   //store for later use
   uint8_t keyboardType = param->type;
   //calculate array index of EventGroup array (each 4 VB have an own EventGroup)
@@ -65,25 +61,32 @@ void task_keyboard(taskKeyboardConfig_t *param)
   //calculate bitmask offset within the EventGroup
   uint8_t evGroupShift = param->virtualButton % 4;
   //final pointer to the EventGroup used by this task
-  EventGroupHandle_t *evGroup;
+  EventGroupHandle_t *evGroup = NULL;
   //ticks between task timeouts
   const TickType_t xTicksToWait = 2000 / portTICK_PERIOD_MS;
+  //local keystring
+  uint16_t keys[TASK_KEYBOARD_PARAMETERLENGTH];
+  memcpy(keys,param->keycodes_text,sizeof(keys[TASK_KEYBOARD_PARAMETERLENGTH]));
+  //local virtual button
+  uint8_t vb = param->virtualButton;
   
-  //check for correct offset
-  if(evGroupIndex >= NUMBER_VIRTUALBUTTONS)
+  if(vb != VB_SINGLESHOT)
   {
-    ESP_LOGE(LOG_TAG,"virtual button group unsupported: %d ",evGroupIndex);
-    vTaskDelete(NULL);
-    return;
-  }
-  
-  //test if event groups are already initialized, otherwise exit immediately
-  if(virtualButtonsOut[evGroupIndex] == 0)
-  {
-    ESP_LOGE(LOG_TAG,"uninitialized event group for virtual buttons, quitting this task");
-    vTaskDelete(NULL);
-    return;
-  } else {
+    //check for correct offset
+    if(evGroupIndex >= NUMBER_VIRTUALBUTTONS)
+    {
+      ESP_LOGE(LOG_TAG,"virtual button group unsupported: %d ",evGroupIndex);
+      vTaskDelete(NULL);
+      return;
+    }
+    
+    //test if event groups are already initialized, otherwise exit immediately
+    while(virtualButtonsOut[evGroupIndex] == 0)
+    {
+      ESP_LOGE(LOG_TAG,"uninitialized event group for virtual buttons, retry in 1s");
+      vTaskDelay(1000/portTICK_PERIOD_MS);
+    } 
+    //event group initialized, store for later usage
     evGroup = virtualButtonsOut[evGroupIndex];
   }
   
@@ -104,38 +107,41 @@ void task_keyboard(taskKeyboardConfig_t *param)
         case RELEASE:
         case PRESS_RELEASE:
         case WRITE:
-          //wait for the flag
-          uxBits = xEventGroupWaitBits(evGroup,(1<<evGroupShift),pdTRUE,pdFALSE,xTicksToWait);
+          //wait for the flag (only if not in singleshot mode)
+          if(vb != VB_SINGLESHOT)
+          {
+            uxBits = xEventGroupWaitBits(evGroup,(1<<evGroupShift),pdTRUE,pdFALSE,xTicksToWait);
+          }
           //test for a valid set flag (else branch would be timeout)
-          if(uxBits & (1<<evGroupShift))
+          if((uxBits & (1<<evGroupShift)) || vb == VB_SINGLESHOT)
           {
             if(keyboardType == PRESS)
             {
               if(xEventGroupGetBits(connectionRoutingStatus) & DATATO_USB) 
-                sendToQueue(keyboard_usb_press,param->keycodes_text);
+                sendToQueue(keyboard_usb_press,keys);
               if(xEventGroupGetBits(connectionRoutingStatus) & DATATO_BLE) 
-                sendToQueue(keyboard_ble_press,param->keycodes_text);
+                sendToQueue(keyboard_ble_press,keys);
             }
             if(keyboardType == RELEASE)
             {
               if(xEventGroupGetBits(connectionRoutingStatus) & DATATO_USB) 
-                sendToQueue(keyboard_usb_release,param->keycodes_text);
+                sendToQueue(keyboard_usb_release,keys);
               if(xEventGroupGetBits(connectionRoutingStatus) & DATATO_BLE) 
-                sendToQueue(keyboard_ble_release,param->keycodes_text);
+                sendToQueue(keyboard_ble_release,keys);
             }
             if(keyboardType == PRESS_RELEASE || keyboardType == WRITE)
             {
               if(xEventGroupGetBits(connectionRoutingStatus) & DATATO_USB)
               {
-                sendToQueue(keyboard_usb_press,param->keycodes_text);
+                sendToQueue(keyboard_usb_press,keys);
                 vTaskDelay(2);
-                sendToQueue(keyboard_usb_release,param->keycodes_text);
+                sendToQueue(keyboard_usb_release,keys);
               }
               if(xEventGroupGetBits(connectionRoutingStatus) & DATATO_BLE) 
               {
-                sendToQueue(keyboard_ble_press,param->keycodes_text);
+                sendToQueue(keyboard_ble_press,keys);
                 vTaskDelay(2);
-                sendToQueue(keyboard_ble_release,param->keycodes_text);
+                sendToQueue(keyboard_ble_release,keys);
               }
             }
           }
@@ -144,21 +150,25 @@ void task_keyboard(taskKeyboardConfig_t *param)
         //this action is triggered on a button press AND a release
         case PRESS_RELEASE_BUTTON:
           //wait for the flags (press & release)
-          uxBits = xEventGroupWaitBits(evGroup,(1<<evGroupShift)|(1<<(evGroupShift+4)),pdTRUE,pdFALSE,xTicksToWait);
-          //test for a valid set flag
-          if(uxBits & (1<<evGroupShift))
+          if(vb != VB_SINGLESHOT)
           {
-            if(xEventGroupGetBits(connectionRoutingStatus) & DATATO_USB) 
-                sendToQueue(keyboard_usb_press,param->keycodes_text);
-            if(xEventGroupGetBits(connectionRoutingStatus) & DATATO_BLE) 
-                sendToQueue(keyboard_ble_press,param->keycodes_text);
+            uxBits = xEventGroupWaitBits(evGroup,(1<<evGroupShift)| \
+              (1<<(evGroupShift+4)),pdTRUE,pdFALSE,xTicksToWait);
           }
-          if(uxBits & (1<<(evGroupShift+4)))
+          //test for a valid set flag
+          if((uxBits & (1<<evGroupShift)) || vb == VB_SINGLESHOT)
           {
             if(xEventGroupGetBits(connectionRoutingStatus) & DATATO_USB) 
-                sendToQueue(keyboard_usb_release,param->keycodes_text);
+                sendToQueue(keyboard_usb_press,keys);
             if(xEventGroupGetBits(connectionRoutingStatus) & DATATO_BLE) 
-                sendToQueue(keyboard_ble_release,param->keycodes_text);
+                sendToQueue(keyboard_ble_press,keys);
+          }
+          if((uxBits & (1<<(evGroupShift+4))) || vb == VB_SINGLESHOT)
+          {
+            if(xEventGroupGetBits(connectionRoutingStatus) & DATATO_USB) 
+                sendToQueue(keyboard_usb_release,keys);
+            if(xEventGroupGetBits(connectionRoutingStatus) & DATATO_BLE) 
+                sendToQueue(keyboard_ble_release,keys);
           }
           
         break;
@@ -171,5 +181,8 @@ void task_keyboard(taskKeyboardConfig_t *param)
           vTaskDelete(NULL);
           return;
       }
+      
+      //function tasks in singleshot must return
+      if(vb == VB_SINGLESHOT) return;
   }
 }

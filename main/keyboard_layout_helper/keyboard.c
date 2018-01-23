@@ -23,14 +23,45 @@
  * 
  */
  
+/**
+ * @file 
+ * Contains arrays for each locale with corresponding keylayouts
+ * 
+ * This file is built around keylayouts.h, a header file for all
+ * keyboard layouts from Paul Stoffregen.
+ * To avoid modifying the header file, this file is playing some tricks
+ * with preprocessor defines:
+ * 
+ * 1.) Include header "undefkeylayouts.h", which removes all previously set
+ *     keycodes and different bit sets <br>
+ * 
+ * 2.) Define the currently used keyboard layout <br>
+ * 
+ * 3.) Include the "keylayouts.h" header <br>
+ * 
+ * 4.) Use all the bits, masks and keycodes <br>
+ * 
+ * 5.) Redo steps 1-4 for all different arrays for all keyboard layouts
+ * 
+ * If you want to get keycodes for a defined ASCII or UNICODE character,
+ * please use the functions provided by this file.
+ * 
+ * @see keyboard_layouts
+ * */
+ 
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdint.h>
 #include <string.h>
 #include "keyboard.h"
 #include "esp_log.h"
-#define TAG "KB"
+#define LOG_TAG "KB"
 
+/** 
+ * @brief Defines the bits and deadkeys itself for all available deadkeys
+ * for US_INTERNATIONAL. All other layouts have an equal array.
+ * If a layout does not have deadkeys at all, this array is of [2][1] dimension
+ * and initialised with {0,0} */
 const uint16_t deadkey_USINT[2][5] = {
   #include "undefkeylayouts.h"
   #define LAYOUT_US_INTERNATIONAL
@@ -38,6 +69,7 @@ const uint16_t deadkey_USINT[2][5] = {
   {CIRCUMFLEX_BITS, ACUTE_ACCENT_BITS, GRAVE_ACCENT_BITS, TILDE_BITS, DIAERESIS_BITS},
   {DEADKEY_CIRCUMFLEX, DEADKEY_ACUTE_ACCENT, DEADKEY_GRAVE_ACCENT, DEADKEY_TILDE, DEADKEY_DIAERESIS}
 };
+///@cond DONTINCLUDETHIS
 const uint16_t deadkey_DE[2][3] = { 
   #include "undefkeylayouts.h"
   #define LAYOUT_GERMAN
@@ -188,7 +220,11 @@ const uint16_t deadkey_SR[2][10] = {
   {CIRCUMFLEX_BITS, DOUBLE_ACUTE_BITS, CEDILLA_BITS, DEGREE_SIGN_BITS, CARON_BITS, ACUTE_ACCENT_BITS, BREVE_BITS, DOT_ABOVE_BITS, DIAERESIS_BITS, OGONEK_BITS},
   {DEADKEY_CIRCUMFLEX, DEADKEY_DOUBLE_ACUTE, DEADKEY_CEDILLA, DEADKEY_DEGREE_SIGN, DEADKEY_CARON, DEADKEY_ACUTE_ACCENT, DEADKEY_BREVE, DEADKEY_DOT_ABOVE, DEADKEY_DIAERESIS, DEADKEY_OGONEK} 
 };
+///@endcond
 
+/** 
+ * @brief Defines all masks necessary for either getting modifiers or
+ * the keycode. */
 const uint16_t keycodes_masks[][5] = {
   #include "undefkeylayouts.h"
   #define LAYOUT_US_ENGLISH
@@ -198,6 +234,7 @@ const uint16_t keycodes_masks[][5] = {
   #define LAYOUT_US_INTERNATIONAL
   #include "keylayouts.h"
   { SHIFT_MASK, ALTGR_MASK, DEADKEYS_MASK, KEYCODE_MASK, 0},
+  ///@cond DONTINCLUDETHIS
   #include "undefkeylayouts.h"
   #define LAYOUT_GERMAN
   #include "keylayouts.h"
@@ -290,14 +327,18 @@ const uint16_t keycodes_masks[][5] = {
   #define LAYOUT_SERBIAN_LATIN_ONLY
   #include "keylayouts.h"
   { SHIFT_MASK, ALTGR_MASK, DEADKEYS_MASK, KEYCODE_MASK, 0}
+  ///@endcond
 };
 
 /**
- * array of pointers to a deadkey bits array for each locale.
+ * @brief  Array of pointers to a deadkey bits array for each locale.
  * 
- * @see keycodes_deadkey_DE (or any other language)
- * WARNING: locale offset is different, because there is no
- * LAYOUT_US_ENGLISH!
+ * We are using offset 0 from the deadkey_XXX array, because it contains
+ * the bitmasks.
+ * 
+ * @see deadkey_USINT (or any other language)
+ * @warning Locale offset is different here, because there is no
+ * LAYOUT_US_ENGLISH (no deadkeys at all)
  * */
 const uint16_t* keycodes_deadkey_bits[] = {
   deadkey_USINT[0],
@@ -325,14 +366,16 @@ const uint16_t* keycodes_deadkey_bits[] = {
   deadkey_CZ[0],
   deadkey_SR[0]
 };
+
 /**
- * array of pointers to a deadkey array for each locale.
- * Index position of deadkey and deadkey bits equals between
- * keycodes_deadkey_bits and keycodes_deadkey.
+ * @brief  Array of pointers to a deadkey keycodes array for each locale.
  * 
- * @see keycodes_deadkey_DE (or any other language)
- * WARNING: locale offset is different, because there is no
- * LAYOUT_US_ENGLISH!
+ * We are using offset 1 from the deadkey_XXX array, because it contains
+ * the keycodes.
+ * 
+ * @see deadkey_USINT (or any other language)
+ * @warning Locale offset is different here, because there is no
+ * LAYOUT_US_ENGLISH (no deadkeys at all)
  * */
 const uint16_t* keycodes_deadkey[] = {
   deadkey_USINT[1],
@@ -381,6 +424,18 @@ const uint16_t keycodes_unicode_extra[][11] = {
 };
 #endif
 
+
+/**
+ * @brief Array of all keycodes for ASCII symbols.
+ * 
+ * The array offset is on the one hand the locale as it is defined
+ * in keyboard_layouts and on the other hand the ASCII number - 0x20.
+ * --> ASCII 0x22 character ('2') is for US_ENGLISH on position [0][2]
+ * 
+ * @see keyboard_layouts
+ * @warning Locale offset is different to the deadkey arrays, we have
+ * LAYOUT_US_ENGLISH here.
+ * */
 const uint16_t keycodes_ascii[][96] = {
   #include "undefkeylayouts.h"
   #define LAYOUT_US_ENGLISH
@@ -440,6 +495,7 @@ const uint16_t keycodes_ascii[][96] = {
     ASCII_78, ASCII_79, ASCII_7A, ASCII_7B,
     ASCII_7C, ASCII_7D, ASCII_7E, ASCII_7F
   },
+  ///@cond DONTINCLUDETHIS
   #include "undefkeylayouts.h"
   #define LAYOUT_GERMAN
   #include "keylayouts.h"
@@ -1107,12 +1163,19 @@ const uint16_t keycodes_ascii[][96] = {
     ASCII_78, ASCII_79, ASCII_7A, ASCII_7B,
     ASCII_7C, ASCII_7D, ASCII_7E, ASCII_7F
   }
+  ///@endcond
 };
 
 /**
- * array of keycodes for ISO8859 code points.
- * WARNING: locale offset is different, because there is no
- * LAYOUT_US_ENGLISH!
+ * @brief  Array of all keycodes for ISO8859 (unicode) symbols/code points.
+ * 
+ * The array offset is on the one hand the locale as it is defined
+ * in keyboard_layouts and on the other hand the unicode number - 0xA0.
+ * --> unicode 0xA2 character is for US_INTERNATIONAL on position [0][2]
+ * 
+ * @see keyboard_layouts
+ * @warning Locale offset is different to the ASCII array, we don't have
+ * LAYOUT_US_ENGLISH here.
  * */
 const uint16_t keycodes_iso_8859_1[][96] = {
   #include "undefkeylayouts.h"
@@ -1144,6 +1207,7 @@ const uint16_t keycodes_iso_8859_1[][96] = {
   ISO_8859_1_F8, ISO_8859_1_F9, ISO_8859_1_FA, ISO_8859_1_FB,
   ISO_8859_1_FC, ISO_8859_1_FD, ISO_8859_1_FE, ISO_8859_1_FF
   },
+  ///@cond DONTINCLUDETHIS
   #include "undefkeylayouts.h"
   #define LAYOUT_GERMAN
   #include "keylayouts.h"
@@ -1811,8 +1875,22 @@ const uint16_t keycodes_iso_8859_1[][96] = {
   ISO_8859_1_F8, ISO_8859_1_F9, ISO_8859_1_FA, ISO_8859_1_FB,
   ISO_8859_1_FC, ISO_8859_1_FD, ISO_8859_1_FE, ISO_8859_1_FF
   }
+  ///@endcond
 };
 
+/** @brief Parse a decoded code point to a keycode, step 2
+ * 
+ * This method parses a fully assembled code point to a
+ * keycode. To get a fully assembled cpoint, use the method parse_for_keycode.
+ * 
+ * @see parse_for_keycode
+ * @see keycodes_masks
+ * @see keycodes_ascii
+ * @see keycodes_iso_8859_1
+ * @param cpoint Fully assembled ASCII or ISO8859-1 code point
+ * @param locale Currently used keyboard layout
+ * @return 0 if no keycode was found (invalid cpoint), the keycode otherwise
+ */
 uint16_t unicode_to_keycode(uint16_t cpoint, uint8_t locale)
 {
 	// Unicode code points beyond U+FFFF are not supported
@@ -1820,60 +1898,82 @@ uint16_t unicode_to_keycode(uint16_t cpoint, uint8_t locale)
 	if (cpoint < 32) {
 		if (cpoint == 10) 
     {
-      ESP_LOGI(TAG,"cpoint %d, locale %d, mask %d, key %d",cpoint,locale,keycodes_masks[locale][3],KEY_ENTER);
+      ESP_LOGI(LOG_TAG,"cpoint %d, locale %d, mask %d, key %d",cpoint,locale,keycodes_masks[locale][3],KEY_ENTER);
       return KEY_ENTER & keycodes_masks[locale][3];
     }
 		if (cpoint == 11) 
     {
-      ESP_LOGI(TAG,"cpoint %d, locale %d, mask %d, key %d",cpoint,locale,keycodes_masks[locale][3],KEY_TAB);
+      ESP_LOGI(LOG_TAG,"cpoint %d, locale %d, mask %d, key %d",cpoint,locale,keycodes_masks[locale][3],KEY_TAB);
       return KEY_TAB & keycodes_masks[locale][3];
     }
 		return 0;
 	}
 	if (cpoint < 128) 
   {
-    ESP_LOGI(TAG,"ASCII lookup");
-    ESP_LOGI(TAG,"cpoint %d, locale %d, mask --, key %d",cpoint,locale,keycodes_ascii[locale][cpoint - 0x20]);
+    ESP_LOGI(LOG_TAG,"ASCII lookup");
+    ESP_LOGI(LOG_TAG,"cpoint %d, locale %d, mask --, key %d",cpoint,locale,keycodes_ascii[locale][cpoint - 0x20]);
     return keycodes_ascii[locale][cpoint - 0x20];
   }
 	if (cpoint <= 0xA0) 
   {
-    ESP_LOGE(TAG,"unkown cpoint");
+    ESP_LOGE(LOG_TAG,"unkown cpoint");
     return 0;
   }
 	if (cpoint < 0x100)
   {
     if(locale == LAYOUT_US_ENGLISH) 
     {
-      ESP_LOGE(TAG,"locale is LAYOUT_US_ENGLISH, no unicode available");
+      ESP_LOGE(LOG_TAG,"locale is LAYOUT_US_ENGLISH, no unicode available");
       return 0;
     } else {
-      ESP_LOGI(TAG,"cpoint %d, locale %d, mask --, key %d",cpoint,locale,keycodes_iso_8859_1[locale-1][cpoint-0xA0]);
+      ESP_LOGI(LOG_TAG,"cpoint %d, locale %d, mask --, key %d",cpoint,locale,keycodes_iso_8859_1[locale-1][cpoint-0xA0]);
       return keycodes_iso_8859_1[locale-1][cpoint-0xA0];
     }
   }
 	//TODO: do UNICODE_EXTRA characters here....
-  ESP_LOGE(TAG,"nothing applies in unicode_to_keycode");
+  ESP_LOGE(LOG_TAG,"nothing applies in unicode_to_keycode");
 	return 0;
 }
 
+
+/** @brief Parse a keycode for deadkey input, step 3
+ * 
+ * This method parses a keycode for a possible deadkey
+ * sequence. If the parsed keycode needs a deadkey press, the 
+ * corresponding keycode is returned. If no deadkey is required, 0 is returned.
+ * To get a keycode, use the method unicode_to_keycode.
+ * 
+ * @see unicode_to_keycode
+ * @see keycodes_masks
+ * @param keycode Keycode which might need a deadkey pressed
+ * @param locale Currently used keyboard layout
+ * @return 0 if no deadkey needs to be pressed, the deadkey keycode otherwise
+ */
 uint16_t deadkey_to_keycode(uint16_t keycode, uint8_t locale)
 {
 	keycode &= keycodes_masks[locale][2];
 	if (keycode == 0) return 0;
-  ESP_LOGI(TAG,"deadkeys: applying mask 0x%X, result: %d", keycodes_masks[locale][2], keycode);
+  ESP_LOGI(LOG_TAG,"deadkeys: applying mask 0x%X, result: %d", keycodes_masks[locale][2], keycode);
   for(uint8_t i = 0; i<sizeof(keycodes_deadkey_bits[locale]); i++)
   {
     if(keycode == keycodes_deadkey_bits[locale][i])
     {
-      ESP_LOGI(TAG,"deadkey found, index: %d, deadkey: %d",i,keycodes_deadkey[locale][i]);
+      ESP_LOGI(LOG_TAG,"deadkey found, index: %d, deadkey: %d",i,keycodes_deadkey[locale][i]);
       return keycodes_deadkey[locale][i];
     }
   }
-  ESP_LOGI(TAG,"no deadkey");
+  ESP_LOGI(LOG_TAG,"no deadkey");
 	return 0;
 }
 
+/** @brief Mask the keycode to get the HID keycode, step 4
+ * 
+ * This method masks out all modifier bits and returns the direct
+ * HID keycode, which can be used in HID reports.
+ * 
+ * @param keycode Keycode from other parsing methods
+ * @return 8-bit keycode for HID
+ **/
 uint8_t keycode_to_key(uint16_t keycode)
 {
 	uint8_t key = keycode & 0x3F;
@@ -1881,26 +1981,33 @@ uint8_t keycode_to_key(uint16_t keycode)
 	return key;
 }
 
-
-
+/** @brief Mask the keycode to get the modifiers, step 5
+ * 
+ * This method masks out all keycode bits and returns the direct
+ * HID modifier byte, which can be used in HID reports.
+ * 
+ * @param keycode Keycode from other parsing methods
+ * @param locale Currently used keyboard layout
+ * @return 8-bit keycode for HID
+ **/
 uint8_t keycode_to_modifier(uint16_t keycode, uint8_t locale)
 {
 	uint8_t modifier=0;
 	if (keycode & keycodes_masks[locale][0]) modifier |= MODIFIERKEY_SHIFT;
 	if (keycode & keycodes_masks[locale][1]) modifier |= MODIFIERKEY_RIGHT_ALT;
 	if (keycode & keycodes_masks[locale][4]) modifier |= MODIFIERKEY_RIGHT_CTRL;
-  if(modifier) ESP_LOGI(TAG,"found modifiers: %X",modifier);
+  if(modifier) ESP_LOGI(LOG_TAG,"found modifiers: %X",modifier);
 	return modifier;
 }
 
-/** parse an incoming byte for a keycode
+/** @brief Parse an incoming byte for a keycode, step 1
  * 
  * This method parses one incoming byte for the given locale.
  * It returns 0 if there is no keycode or another byte is needed (Unicode input).
  * If a modifier is needed the given modifier byte is updated.
  * 
  * In the case of a necessary deadkey sequence, the second keystroke
- * is returned and the first keystroke is written to the given parameter
+ * is returned and the first keystroke is written to the given parameter.
  * 
  * @see keyboard_layouts
  * @return 0 if another byte is needed or no keycode is found; the keycode otherwise
@@ -1957,7 +2064,10 @@ uint8_t parse_for_keycode(uint8_t inputdata, uint8_t locale, uint8_t *keycode_mo
 	return 0;
 }
 
-/** remove a keycode from the given HID keycode array.
+/** @brief Remove a keycode from the given HID keycode array.
+ * 
+ * This is a helper function for managing a 6 byte keycode array for
+ * HID reports.
  * 
  * @note The size of the keycode_arr parameter MUST be 6
  * @return 0 if the keycode was removed, 1 if the keycode was not in the array
@@ -1977,7 +2087,10 @@ uint8_t remove_keycode(uint8_t keycode,uint8_t *keycode_arr)
   return ret;
 }
 
-/** add a keycode to the given HID keycode array.
+/** @brief Add a keycode to the given HID keycode array.
+ * 
+ * This is a helper function for managing a 6 byte keycode array for
+ * HID reports.
  * 
  * @note The size of the keycode_arr parameter MUST be 6
  * @return 0 if the keycode was added, 1 if the keycode was already in the array and 2 if there was no space
@@ -2008,12 +2121,17 @@ uint8_t add_keycode(uint8_t keycode,uint8_t *keycode_arr)
 }
 
 
-/** get a keycode for the given UTF codepoint
+/** @brief Get a keycode for 16bit input, step 0 (if necessary)
  * 
- * This method parses a 16bit unicode character to a keycode.
- * If a modifier is needed the given modifier byte is updated.
+ * This method parses a 16bit unicode character to a keycode by simply
+ * invoking parse_for_keycode two times.
+ * Some parameter in the FLipMouse/FABI configuration might be using 16bits
+ * for characters, so in this case this function is used.
  * 
- * @see keyboard_layouts
+ * @see parse_for_keycode
+ * @param cpoint Codepoint to be parsed (16bit!!!)
+ * @param keycode_modifier Modifier byte which will be changed to reflect this cpoint
+ * @param deadkey_first_keystroke If a deadkey needs to be pressed first, this will be the keycode
  * @return 0 if no keycode is found; the keycode otherwise
  * */
 uint8_t get_keycode(uint16_t cpoint,uint8_t locale,uint8_t *keycode_modifier, uint8_t *deadkey_first_keystroke)
@@ -2031,7 +2149,7 @@ uint8_t get_keycode(uint16_t cpoint,uint8_t locale,uint8_t *keycode_modifier, ui
 }
 
 
-/** getting the HID country code for a given locale
+/** @brief Getting the HID country code for a given locale
  * 
  * Source: USB Device class definition for HID, page 33
  * 
@@ -2085,7 +2203,7 @@ uint8_t get_hid_country_code(uint8_t locale)
       return 13;
 
     default:
-      ESP_LOGE(TAG,"no hid country code found for locale %d",locale);
+      ESP_LOGE(LOG_TAG,"no hid country code found for locale %d",locale);
       return 0;
   }
 }

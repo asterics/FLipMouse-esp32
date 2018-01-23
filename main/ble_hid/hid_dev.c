@@ -13,12 +13,15 @@
 // limitations under the License.
 
 #include "hid_dev.h"
+#include "keylayouts.h"
 #include "bt_trace.h"
 #include <stdint.h>
 #include <string.h>
 #include <stdbool.h>
 #include <stdio.h>
 
+/** @brief mask for media keycodes to limit to 8bit */
+#define M(x) (x&0xFF)
 
 #ifdef __cplusplus
 extern "C" {
@@ -70,67 +73,67 @@ void hid_consumer_build_report(uint8_t *buffer, consumer_cmd_t cmd)
     }
     
     switch (cmd) {
-        case HID_CONSUMER_CHANNEL_UP:
+        case M(KEY_MEDIA_CHANNEL_UP):
             HID_CC_RPT_SET_CHANNEL(buffer, HID_CC_RPT_CHANNEL_UP);
             break;
 
-        case HID_CONSUMER_CHANNEL_DOWN:
+        case M(KEY_MEDIA_CHANNEL_DOWN):
             HID_CC_RPT_SET_CHANNEL(buffer, HID_CC_RPT_CHANNEL_DOWN);
             break;
 
-        case HID_CONSUMER_VOLUME_UP:
+        case M(KEY_MEDIA_VOLUME_INC):
             HID_CC_RPT_SET_VOLUME_UP(buffer);
             break;
 
-        case HID_CONSUMER_VOLUME_DOWN:
+        case M(KEY_MEDIA_VOLUME_DEC):
             HID_CC_RPT_SET_VOLUME_DOWN(buffer);
             break;
 
-        case HID_CONSUMER_MUTE:
+        case M(KEY_MEDIA_MUTE):
             HID_CC_RPT_SET_BUTTON(buffer, HID_CC_RPT_MUTE);
             break;
 
-        case HID_CONSUMER_POWER:
+        case M(KEY_MEDIA_POWER):
             HID_CC_RPT_SET_BUTTON(buffer, HID_CC_RPT_POWER);
             break;
 
-        case HID_CONSUMER_RECALL_LAST:
+        case M(KEY_MEDIA_RECALL_LAST):
             HID_CC_RPT_SET_BUTTON(buffer, HID_CC_RPT_LAST);
             break;
 
-        case HID_CONSUMER_ASSIGN_SEL:
+        case M(KEY_MEDIA_ASSIGN_SEL):
             HID_CC_RPT_SET_BUTTON(buffer, HID_CC_RPT_ASSIGN_SEL);
             break;
 
-        case HID_CONSUMER_PLAY:
+        case M(KEY_MEDIA_PLAY):
             HID_CC_RPT_SET_BUTTON(buffer, HID_CC_RPT_PLAY);
             break;
 
-        case HID_CONSUMER_PAUSE:
+        case M(KEY_MEDIA_PAUSE):
             HID_CC_RPT_SET_BUTTON(buffer, HID_CC_RPT_PAUSE);
             break;
 
-        case HID_CONSUMER_RECORD:
+        case M(KEY_MEDIA_RECORD):
             HID_CC_RPT_SET_BUTTON(buffer, HID_CC_RPT_RECORD);
             break;
 
-        case HID_CONSUMER_FAST_FORWARD:
+        case M(KEY_MEDIA_FAST_FORWARD):
             HID_CC_RPT_SET_BUTTON(buffer, HID_CC_RPT_FAST_FWD);
             break;
 
-        case HID_CONSUMER_REWIND:
+        case M(KEY_MEDIA_REWIND):
             HID_CC_RPT_SET_BUTTON(buffer, HID_CC_RPT_REWIND);
             break;
 
-        case HID_CONSUMER_SCAN_NEXT_TRK:
+        case M(KEY_MEDIA_NEXT_TRACK):
             HID_CC_RPT_SET_BUTTON(buffer, HID_CC_RPT_SCAN_NEXT_TRK);
             break;
 
-        case HID_CONSUMER_SCAN_PREV_TRK:
+        case M(KEY_MEDIA_PREV_TRACK):
             HID_CC_RPT_SET_BUTTON(buffer, HID_CC_RPT_SCAN_PREV_TRK);
             break;
 
-        case HID_CONSUMER_STOP:
+        case M(KEY_MEDIA_STOP):
             HID_CC_RPT_SET_BUTTON(buffer, HID_CC_RPT_STOP);
             break;
 

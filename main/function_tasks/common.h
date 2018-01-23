@@ -17,6 +17,7 @@
 /** number of virtual button event groups. One event group is used for 4 VBs */
 #define NUMBER_VIRTUALBUTTONS 8
 
+
 /** maximum length for a slot name */
 #define SLOTNAME_LENGTH   32
 
@@ -34,26 +35,32 @@
 /** bitmask used to signal a FLipMouse in CIM mode (no USB/BLE functionality) */
 #define DATATO_CIM (1<<5)
 
-/** event groups for all virtual buttons, used by functional tasks to be triggered.
- * each EventGroupHandle contains 4 virtual buttons (VB), press and release actions are included:
+/** @brief Event group array for all virtual buttons, used by functional tasks to be triggered.
+ * 
+ * Each EventGroupHandle contains 4 virtual buttons (VB), press and release actions are included:
  * (1<<0) press action of VB 0 (or 4, 8, 12, 16, 20, 24, 28, depending on array index)
  * (1<<1) press action of VB 1 (or 5, 9, 13, 17, 21, 25, 29, depending on array index)
  * (1<<2) press action of VB 2 (or 6, 10, 14, 18, 22, 26, 30, depending on array index)
  * (1<<3) press action of VB 3 (or 7, 11, 15, 19, 23, 27, 31, depending on array index)
- * the same for release actions:
+ * The same for release actions:
  * (1<<4) release for VB 0 (+ the others)
  * (1<<5) release for VB 1 (+ the others) 
  * (1<<6) release for VB 2 (+ the others) 
  * (1<<7) release for VB 3 (+ the others) 
  * 
- * each functional task should pend on these flags, which will be set by
+ * Each functional task should pend on these flags, which will be set by
  * the hal task or the analog task.
  * Please reset the flag after pending.
  * Unused flags can be left set, on a task change for a virtual button,
- * these flags are reset
+ * these flags are reset.
+ * 
+ * @warning If you want to debounce an action, set the corresponding flag in virtualButtonsIn
+ * @see virtualButtonsIn
  * */
 extern EventGroupHandle_t virtualButtonsOut[NUMBER_VIRTUALBUTTONS];
-/** input for debouncer
+
+/** @brief Event group array for all virtual buttons, used by functional tasks to send a signal to the debouncer task
+ * 
  * Equal to virtualButtonsOut, only these flags should be used to
  * invoke the debouncer. If one of these flags will be set, this flag
  * will be set in virtualButtonsOut as well (by the debouncer).
@@ -64,9 +71,8 @@ extern EventGroupHandle_t virtualButtonsOut[NUMBER_VIRTUALBUTTONS];
  * should be invoked.
  * If no debouncing is necessary, write directly to virtualButtonsOut
  * 
- * VB pending tasks should always pend for virtualButtonsOut.
+ * @warning VB pending tasks should always pend for virtualButtonsOut.
  * @see virtualButtonsOut
- * 
  * */
 extern EventGroupHandle_t virtualButtonsIn[NUMBER_VIRTUALBUTTONS];
 
@@ -142,6 +148,11 @@ extern QueueHandle_t config_switcher;
 #define VB_PUFF         9
 #define VB_STRONGSIP    10
 #define VB_STRONGPUFF   11
+
+/** special virtual button, which is used to trigger a task immediately.
+ * After this single action, each function body of functional tasks
+ * is REQUIRED to do a return. */
+#define VB_SINGLESHOT   32
 
 
 /*++++ TASK PRIORITY ASSIGNMENT ++++*/

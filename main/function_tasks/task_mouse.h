@@ -44,8 +44,6 @@
 #define MOUSE_BUTTON_MIDDLE (1<<2)
 #define MOUSE_DEFAULT_WHEELSTEPS 4 
 
-//TODO: setter/getter for static settings (wheel steps)
-//TODO: additional task parameter for doing one-shot (task deletes itself) controlling by at commands
 //TODO: add release function for buttons
 
 /** type of mouse action which should be triggered by this task:
@@ -77,8 +75,9 @@ typedef struct taskMouseConfig {
   uint virtualButton;
 } taskMouseConfig_t;
 
+/** return 0 on success, 1 otherwise */
+uint8_t mouse_set_wheel(uint8_t steps);
+uint8_t mouse_get_wheel(void);
 void task_mouse(taskMouseConfig_t *param);
-void mouse_direct(taskMouseConfig_t *param);
-
 
 #endif

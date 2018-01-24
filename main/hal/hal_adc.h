@@ -18,17 +18,28 @@
  * 
  * Copyright 2017 Benjamin Aigner <aignerb@technikum-wien.at,
  * beni@asterics-foundation.org>
- * 
- * This header file contains the hardware abstraction for all ADC tasks
- * Depending on the configuration either the ADC data is fed directly
- * into the mouse or joystick queue (with deadzoning, averaging and
- * all that stuff) or (in alternativ mode) is routed via virtual buttons
- * (VB)
- * 
- * Compared to the tasks in the folder "function_tasks" all HAL tasks are
- * singletons.
- * Call init to intialize & use the adc config.
  */
+/** @file
+ * @brief HAL TASK + FUNCTIONAL TASK - This module contains the hardware abstraction as well as
+ * the calculations of the ADC.
+ * 
+ * The hal_adc files are used to measure all ADC inputs (4 direction
+ * sensors and 1 pressure sensor).
+ * In addition, depending on the configuration, different ADC tasks are
+ * loaded.
+ * One of these tasks is loaded:
+ * halAdcMouse - Use the ADC values as mouse input <br>
+ * halAdcThreshold - Use the ADC values to trigger virtual buttons 
+ * (keyboard actions for example) <br>
+ * halAdcJoystick - Use the ADC input to control the HID joystick <br>
+ * These tasks are HAL tasks, which means they might be reloaded/changed,
+ * but they are not managed outside this module.<br>
+ * In addition, the FUNCTIONAL task task_calibration can be used to
+ * trigger a zero-point calibration of the mouthpiece.
+ * 
+ * @see adc_config_t
+ * @todo Add raw value reporting for: CIM mode and serial interface
+ * */
  
 #include <string.h>
 #include <freertos/FreeRTOS.h>
@@ -64,22 +75,25 @@
 
 /** Task priority for ADC task */
 #define HAL_IO_ADC_TASK_PRIORITY 4
-/** task_calibration (function task, not HAL!) stack size */
+/** Stacksize for functional task task_calibration.
+ * @see task_calibration */
 #define TASK_CALIB_STACKSIZE 2048
 
-/** parameter for mouse acceleration calculation */
+/** Parameter for mouse acceleration calculation */
 #define ACCELTIME_MAX 20000
 
-/**
- * Function task for triggering calibration of up/down/left/right input
- * @addtogroup Function Tasks
- * @param param No parameter needed, except virtual button number
- * @see taskNoParameterConfig_t
- * @see VB_SINGLESHOT
- * */
+
+/** @brief FUNCTIONAL TASK - Trigger zero-point calibration of mouthpiece
+ * 
+ * This task is used to trigger a zero-point calibration of
+ * up/down/left/right input.
+ * 
+ * @param param Task configuration
+ * @see halAdcCalibrate
+ * @see taskNoParameterConfig_t*/
 void task_calibration(taskNoParameterConfig_t *param);
 
-/** Reload ADC config
+/** @brief Reload ADC config
  * 
  * This method reloads the ADC config.
  * Depending on the configuration, a task switch might be initiated
@@ -91,7 +105,7 @@ void task_calibration(taskNoParameterConfig_t *param);
 esp_err_t halAdcUpdateConfig(adc_config_t* params);
 
 
-/** Init the ADC driver module
+/** @brief Init the ADC driver module
  * 
  * This method initializes the HAL ADC driver with the given config
  * Depending on the configuration, different tasks are initialized
@@ -102,7 +116,4 @@ esp_err_t halAdcUpdateConfig(adc_config_t* params);
  * */
 esp_err_t halAdcInit(adc_config_t* params);
 
-//TODO: set ADC report mode enabling:
-//sending to CIM (maybe via adc_config_r->mode)
-//sending to Serial (report RAW)
 #endif

@@ -16,21 +16,32 @@
  * 
  * Copyright 2017 Benjamin Aigner <aignerb@technikum-wien.at,
  * beni@asterics-foundation.org>
- * 
- * This file contains the hardware abstraction for all ADC tasks
- * Depending on the configuration either the ADC data is fed directly
- * into the mouse or joystick queue (with deadzoning, averaging and
- * all that stuff) or (in alternativ mode) is routed via virtual buttons
- * (VB)
- * 
- * Compared to the tasks in the folder "function_tasks" all HAL tasks are
- * singletons.
- * Call init to initialize every necessary data structure.
  */
+/** @file
+ * @brief HAL TASK + FUNCTIONAL TASK - This module contains the hardware abstraction as well as
+ * the calculations of the ADC.
+ * 
+ * The hal_adc files are used to measure all ADC inputs (4 direction
+ * sensors and 1 pressure sensor).
+ * In addition, depending on the configuration, different ADC tasks are
+ * loaded.
+ * One of these tasks is loaded:
+ * halAdcMouse - Use the ADC values as mouse input <br>
+ * halAdcThreshold - Use the ADC values to trigger virtual buttons 
+ * (keyboard actions for example) <br>
+ * halAdcJoystick - Use the ADC input to control the HID joystick <br>
+ * These tasks are HAL tasks, which means they might be reloaded/changed,
+ * but they are not managed outside this module.<br>
+ * In addition, the FUNCTIONAL task task_calibration can be used to
+ * trigger a zero-point calibration of the mouthpiece.
+ * 
+ * @see adc_config_t
+ * @todo Add raw value reporting for: CIM mode and serial interface
+ * */
  
 #include "hal_adc.h"
 
-
+/** Tag for ESP_LOG logging */
 #define LOG_TAG "hal_adc"
 
 /** current loaded ADC task handle, used to delete & recreate an ADC task
@@ -43,6 +54,7 @@ TaskHandle_t adcHandle = NULL;
  * @see adc_config_t
  * */
 adc_config_t adc_conf;
+
 /** calibration characteristics, loaded by esp-idf provided methods*/
 esp_adc_cal_characteristics_t characteristics;
 
@@ -55,14 +67,14 @@ void halAdcTaskJoystick(void * pvParameters);
 void halAdcTaskThreshold(void * pvParameters);
 
 
-
-/** Reload ADC config
+/** @brief Reload ADC config
  * 
  * This method reloads the ADC config.
  * Depending on the configuration, a task switch might be initiated
  * to switch the mouthpiece mode from e.g., Joystick to Mouse to 
  * Alternative Mode (Threshold operated).
  * @param params New ADC config
+ * @todo Clear pending VB flags on a config switch
  * @return ESP_OK on success, ESP_FAIL otherwise (wrong config, out of memory)
  * */
 esp_err_t halAdcUpdateConfig(adc_config_t* params)
@@ -119,12 +131,16 @@ esp_err_t halAdcUpdateConfig(adc_config_t* params)
     return ESP_OK;
 }
 
+/** @brief Process pressure sensor (sip & puff)
+ * @todo Do everything here, no sip&puff currently available.
+ * @param pressurevalue Currently measured pressure.
+ * */
 void halAdcProcessPressure(uint32_t pressurevalue)
 {
     //TODO: sip&puff, strongsip&puff
 }
 
-/** Mouse task for ADC
+/** @brief HAL TASK - Mouse task for ADC
  * 
  * This task is used for the mouse moving mode of the moutpiece.
  * It is invoked on config changes and reads out all 4 sensors,
@@ -233,7 +249,7 @@ void halAdcTaskMouse(void * pvParameters)
     }
 }
 
-/** Joystick task for ADC
+/** @brief HAL TASK - Joystick task for ADC
  * 
  * This task is used for the joystick mode of the moutpiece.
  * It is invoked on config changes and reads out all 4 sensors,
@@ -242,6 +258,8 @@ void halAdcTaskMouse(void * pvParameters)
  * 
  * The calculated joystick movements are sent to the corresponding
  * joystick command queues (either BLE, USB or BOTH).
+ * 
+ * @todo Implement the full joystick interface. Currently completely unimplemented.
  * 
  * */
 void halAdcTaskJoystick(void * pvParameters)
@@ -287,10 +305,14 @@ void halAdcTaskJoystick(void * pvParameters)
     }
 }
 
-/** calibration funktion
+/** @brief Calibration function
  * 
  * This method is called to calibrate the offset value for x and y
  * axis of the mouthpiece.
+ * Either triggered by the functional task task_calibration or on a
+ * config change.
+ * 
+ * @todo Implement everything...
  **/
 void halAdcCalibrate(void)
 {
@@ -298,18 +320,15 @@ void halAdcCalibrate(void)
 }
 
 
-/**
- * Function task for triggering calibration of up/down/left/right input.
+
+/** @brief FUNCTIONAL TASK - Trigger zero-point calibration of mouthpiece
  * 
- * If a calibration is triggered by the virtual button, the method
- * halAdcCalibrate is called to measure the ADC values and create a new
- * calibration value.
+ * This task is used to trigger a zero-point calibration of
+ * up/down/left/right input.
  * 
- * @addtogroup Function Tasks
- * @param param No parameter needed, except virtual button number
- * @see taskNoParameterConfig_t
+ * @param param Task configuration
  * @see halAdcCalibrate
- * */
+ * @see taskNoParameterConfig_t*/
 void task_calibration(taskNoParameterConfig_t *param)
 {
     EventBits_t uxBits = 0;
@@ -369,7 +388,7 @@ void task_calibration(taskNoParameterConfig_t *param)
     }
 }
 
-/** Threshold task for ADC
+/** @brief HAL TASK - Threshold task for ADC
  * 
  * This task is used for threshold mode of the moutpiece.
  * It is invoked on config changes and reads out all 4 sensors,
@@ -450,7 +469,8 @@ void halAdcTaskThreshold(void * pvParameters)
     
 }
 
-/** Init the ADC driver module
+
+/** @brief Init the ADC driver module
  * 
  * This method initializes the HAL ADC driver with the given config
  * Depending on the configuration, different tasks are initialized

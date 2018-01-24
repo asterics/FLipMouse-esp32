@@ -10,6 +10,21 @@
 
 #include "keyboard.h"
 
+/** @brief module firmware version
+ * 
+ * This string is used to determine the running firmware version.
+ * It is printed on the "AT FW" command. */
+#define MODULE_ID "ESP32BT_v0.1"
+
+/** ID String to be printed on "AT ID" command.
+ * @note Change this depending on FABI/FLipMouse build. */
+#define IDSTRING "FLipMouse V3.0"
+
+/** @brief UART interface for command parsing & sending USB HID
+ * @todo Change to external UART; currently set to serial port of monitor for debugging */
+#define EX_UART_NUM UART_NUM_0
+
+
 // which device is using this firmware?
 //#define DEVICE_FABI
 #define DEVICE_FLIPMOUSE

@@ -63,16 +63,25 @@ $(function() {
 </div><!--header-->
 <div class="contents">
 <p>All these listed functions are so called "FunctionTasks". These are tasks, which are loaded and bound to a virtual button. Each time either "press" or "release" flag of this bound virtual button is set, a bound task is waking up and triggering different actions.</p>
+<p>Each of these functional tasks has a parameter, which contains at least the virtual button number.</p>
+<p>If you want to trigger a single action without binding the task to a virtual button, please pass the parameter as usual (depending on the task and the configuration) and <b>set the virtualbutton to VB_SINGLESHOT</b> to force the function to return after the action is triggered.</p>
+<p>It is not necessary to create these functions as tasks in single shot mode!</p>
 <p>The debouncer task is taking care of debouncing flags from virtualButtonsIn (set by input sensor) to virtualButtonsOut (function tasks are pending on bits there).</p>
 <p>Currently implemented function tasks which can be bound by the config switcher:</p>
 <dl class="section see"><dt>See also</dt><dd><a class="el" href="task__kbd_8h.html#a8ff4618047a049178bfb1d60abfefb5d">task_keyboard</a> </dd>
 <dd>
 <a class="el" href="task__mouse_8h.html#aa8f5c0436e569589e735c419fc3d0ed8">task_mouse</a> </dd>
 <dd>
-<a class="el" href="config__switcher_8h.html#a083adf41746c3380dcc6dbc099047f2e">task_configswitcher</a> </dd>
+<a class="el" href="config__switcher_8h.html#a083adf41746c3380dcc6dbc099047f2e" title="FUNCTIONAL TASK - Load another slot. ">task_configswitcher</a> </dd>
 <dd>
-<a class="el" href="hal__adc_8h.html#a3217185bc86562dee8617ded3872022f">task_calibration</a></dd></dl>
-<p>The loading/unloading is done by the config switcher task </p><dl class="section see"><dt>See also</dt><dd><a class="el" href="config__switcher_8c.html#af5af5079d1982d42e165039e6de7e40a">configSwitcherTask</a> </dd></dl>
+<a class="el" href="hal__adc_8h.html#a3217185bc86562dee8617ded3872022f" title="FUNCTIONAL TASK - Trigger zero-point calibration of mouthpiece. ">task_calibration</a></dd></dl>
+<p>The loading/unloading is done by the config switcher task </p><dl class="section see"><dt>See also</dt><dd><a class="el" href="config__switcher_8c.html#af5af5079d1982d42e165039e6de7e40a" title="CONTINOUS TASK - Config switcher task, internal config reloading. ">configSwitcherTask</a></dd></dl>
+<p>Virtual Button number for single shot triggering: </p><dl class="section see"><dt>See also</dt><dd><a class="el" href="common_8h.html#a784ceb4b2d4c4fb77baa99646c6e5035">VB_SINGLESHOT</a></dd></dl>
+<dl class="section warning"><dt>Warning</dt><dd>Do not create a task in single shot mode, just call the function </dd>
+<dd>
+Do not call the function if in FUNCTIONAL mode, the task function will block </dd>
+<dd>
+As long as the function or the task is active, the parameter pointer MUST be valid </dd></dl>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>

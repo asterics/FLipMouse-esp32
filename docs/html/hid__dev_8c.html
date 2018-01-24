@@ -63,12 +63,14 @@ $(function() {
 </div><!-- top -->
 <div class="header">
   <div class="summary">
+<a href="#define-members">Macros</a> &#124;
 <a href="#func-members">Functions</a>  </div>
   <div class="headertitle">
 <div class="title">hid_dev.c File Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
 <div class="textblock"><code>#include &quot;<a class="el" href="hid__dev_8h_source.html">hid_dev.h</a>&quot;</code><br />
+<code>#include &quot;keylayouts.h&quot;</code><br />
 <code>#include &quot;bt_trace.h&quot;</code><br />
 <code>#include &lt;stdint.h&gt;</code><br />
 <code>#include &lt;string.h&gt;</code><br />
@@ -77,6 +79,12 @@ $(function() {
 </div>
 <p><a href="hid__dev_8c_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="define-members"></a>
+Macros</h2></td></tr>
+<tr class="memitem:ae5c30dc4497ee36bd90bf416cc8ac289"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="hid__dev_8c.html#ae5c30dc4497ee36bd90bf416cc8ac289">M</a>(x)&#160;&#160;&#160;(x&amp;0xFF)</td></tr>
+<tr class="memdesc:ae5c30dc4497ee36bd90bf416cc8ac289"><td class="mdescLeft">&#160;</td><td class="mdescRight">mask for media keycodes to limit to 8bit  <a href="#ae5c30dc4497ee36bd90bf416cc8ac289">More...</a><br /></td></tr>
+<tr class="separator:ae5c30dc4497ee36bd90bf416cc8ac289"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
 <tr class="memitem:a6df72a6bb64d5c8cd7490eb11617b7ab"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="hid__dev_8c.html#a6df72a6bb64d5c8cd7490eb11617b7ab">hid_dev_register_reports</a> (uint8_t num_reports, <a class="el" href="structhid__report__map__t.html">hid_report_map_t</a> *p_report)</td></tr>
@@ -86,6 +94,31 @@ Functions</h2></td></tr>
 <tr class="memitem:ae3c48383740d3aa04584b20f3447eb02"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="hid__dev_8c.html#ae3c48383740d3aa04584b20f3447eb02">hid_consumer_build_report</a> (uint8_t *buffer, <a class="el" href="hid__dev_8h.html#aed4225041f5388cc8ad2a127bb8482d9">consumer_cmd_t</a> cmd)</td></tr>
 <tr class="separator:ae3c48383740d3aa04584b20f3447eb02"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
+<h2 class="groupheader">Macro Definition Documentation</h2>
+<a id="ae5c30dc4497ee36bd90bf416cc8ac289"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae5c30dc4497ee36bd90bf416cc8ac289">&#9670;&nbsp;</a></span>M</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define M</td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">x</td><td>)</td>
+          <td>&#160;&#160;&#160;(x&amp;0xFF)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>mask for media keycodes to limit to 8bit </p>
+
+<p class="definition">Definition at line <a class="el" href="hid__dev_8c_source.html#l00024">24</a> of file <a class="el" href="hid__dev_8c_source.html">hid_dev.c</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="hid__dev_8c_source.html#l00068">hid_consumer_build_report()</a>.</p>
+
+</div>
+</div>
 <h2 class="groupheader">Function Documentation</h2>
 <a id="ae3c48383740d3aa04584b20f3447eb02"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ae3c48383740d3aa04584b20f3447eb02">&#9670;&nbsp;</a></span>hid_consumer_build_report()</h2>
@@ -113,7 +146,7 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="hid__dev_8c_source.html#l00065">65</a> of file <a class="el" href="hid__dev_8c_source.html">hid_dev.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="hid__dev_8c_source.html#l00068">68</a> of file <a class="el" href="hid__dev_8c_source.html">hid_dev.c</a>.</p>
 
 <p class="reference">Referenced by <a class="el" href="esp__hidd__prf__api_8c_source.html#l00096">esp_hidd_send_consumer_value()</a>.</p>
 <div class="dynheader">
@@ -153,7 +186,7 @@ Here is the caller graph for this function:</div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="hid__dev_8c_source.html#l00043">43</a> of file <a class="el" href="hid__dev_8c_source.html">hid_dev.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="hid__dev_8c_source.html#l00046">46</a> of file <a class="el" href="hid__dev_8c_source.html">hid_dev.c</a>.</p>
 
 </div>
 </div>
@@ -207,7 +240,7 @@ Here is the caller graph for this function:</div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="hid__dev_8c_source.html#l00050">50</a> of file <a class="el" href="hid__dev_8c_source.html">hid_dev.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="hid__dev_8c_source.html#l00053">53</a> of file <a class="el" href="hid__dev_8c_source.html">hid_dev.c</a>.</p>
 
 <p class="reference">Referenced by <a class="el" href="esp__hidd__prf__api_8c_source.html#l00096">esp_hidd_send_consumer_value()</a>, <a class="el" href="esp__hidd__prf__api_8c_source.html#l00109">esp_hidd_send_keyboard_value()</a>, and <a class="el" href="esp__hidd__prf__api_8c_source.html#l00130">esp_hidd_send_mouse_value()</a>.</p>
 <div class="dynheader">

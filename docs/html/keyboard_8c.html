@@ -77,1594 +77,95 @@ $(function() {
 <code>#include &quot;<a class="el" href="keyboard_8h_source.html">keyboard.h</a>&quot;</code><br />
 <code>#include &quot;esp_log.h&quot;</code><br />
 <code>#include &quot;<a class="el" href="undefkeylayouts_8h_source.html">undefkeylayouts.h</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="keylayouts_8h_source.html">keylayouts.h</a>&quot;</code><br />
+<code>#include &quot;keylayouts.h&quot;</code><br />
 </div>
 <p><a href="keyboard_8c_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="define-members"></a>
 Macros</h2></td></tr>
-<tr class="memitem:afc3d101f633a076cc1ca84b85b6224b2"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="keyboard_8c.html#afc3d101f633a076cc1ca84b85b6224b2">TAG</a>&#160;&#160;&#160;&quot;KB&quot;</td></tr>
-<tr class="separator:afc3d101f633a076cc1ca84b85b6224b2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7ce0df38eb467e59f209470c8f5ac4e6"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="keyboard_8c.html#a7ce0df38eb467e59f209470c8f5ac4e6">LOG_TAG</a>&#160;&#160;&#160;&quot;KB&quot;</td></tr>
+<tr class="separator:a7ce0df38eb467e59f209470c8f5ac4e6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1638d6d17cf44a63e695eedae81b455d"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="keyboard_8c.html#a1638d6d17cf44a63e695eedae81b455d">LAYOUT_US_INTERNATIONAL</a></td></tr>
 <tr class="separator:a1638d6d17cf44a63e695eedae81b455d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aceef572805444a989979f448be618319"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="keyboard_8c.html#aceef572805444a989979f448be618319">LAYOUT_GERMAN</a></td></tr>
-<tr class="separator:aceef572805444a989979f448be618319"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aad2fd12d24e1bae1037a408918ff0b9d"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="keyboard_8c.html#aad2fd12d24e1bae1037a408918ff0b9d">LAYOUT_GERMAN_MAC</a></td></tr>
-<tr class="separator:aad2fd12d24e1bae1037a408918ff0b9d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7148ffcc8366a9deb3b7678d20146268"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="keyboard_8c.html#a7148ffcc8366a9deb3b7678d20146268">LAYOUT_CANADIAN_FRENCH</a></td></tr>
-<tr class="separator:a7148ffcc8366a9deb3b7678d20146268"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a686d697fc598d6e5a4fdb68d50620d19"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="keyboard_8c.html#a686d697fc598d6e5a4fdb68d50620d19">LAYOUT_CANADIAN_MULTILINGUAL</a></td></tr>
-<tr class="separator:a686d697fc598d6e5a4fdb68d50620d19"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a52b80e4146c9640d64ec3b7af2be2dca"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="keyboard_8c.html#a52b80e4146c9640d64ec3b7af2be2dca">LAYOUT_FINNISH</a></td></tr>
-<tr class="separator:a52b80e4146c9640d64ec3b7af2be2dca"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a720f109b22b97d28577a43578cef7f2c"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="keyboard_8c.html#a720f109b22b97d28577a43578cef7f2c">LAYOUT_FRENCH</a></td></tr>
-<tr class="separator:a720f109b22b97d28577a43578cef7f2c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab9fd177ff958d0d0b0fb0a558ad945b8"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="keyboard_8c.html#ab9fd177ff958d0d0b0fb0a558ad945b8">LAYOUT_DANISH</a></td></tr>
-<tr class="separator:ab9fd177ff958d0d0b0fb0a558ad945b8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4fbcba188bbdb9f3c3b29308618495b6"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="keyboard_8c.html#a4fbcba188bbdb9f3c3b29308618495b6">LAYOUT_NORWEGIAN</a></td></tr>
-<tr class="separator:a4fbcba188bbdb9f3c3b29308618495b6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a88879936f82cf6e5d22096fb21b7d8cc"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="keyboard_8c.html#a88879936f82cf6e5d22096fb21b7d8cc">LAYOUT_SWEDISH</a></td></tr>
-<tr class="separator:a88879936f82cf6e5d22096fb21b7d8cc"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a37ce368689681603162c2ef1ddb1476f"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="keyboard_8c.html#a37ce368689681603162c2ef1ddb1476f">LAYOUT_SPANISH</a></td></tr>
-<tr class="separator:a37ce368689681603162c2ef1ddb1476f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aeb65fc7db7e8fb8a4cdb6d919a4a9025"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="keyboard_8c.html#aeb65fc7db7e8fb8a4cdb6d919a4a9025">LAYOUT_PORTUGUESE</a></td></tr>
-<tr class="separator:aeb65fc7db7e8fb8a4cdb6d919a4a9025"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a16bb8c6d27788821a597e0f45c495093"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="keyboard_8c.html#a16bb8c6d27788821a597e0f45c495093">LAYOUT_PORTUGUESE_BRAZILIAN</a></td></tr>
-<tr class="separator:a16bb8c6d27788821a597e0f45c495093"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a273ae6f1fe5753a455d683c3422aa885"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="keyboard_8c.html#a273ae6f1fe5753a455d683c3422aa885">LAYOUT_FRENCH_BELGIAN</a></td></tr>
-<tr class="separator:a273ae6f1fe5753a455d683c3422aa885"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af21eaa9046c4c2523741cfa02c400c18"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="keyboard_8c.html#af21eaa9046c4c2523741cfa02c400c18">LAYOUT_GERMAN_SWISS</a></td></tr>
-<tr class="separator:af21eaa9046c4c2523741cfa02c400c18"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad59d2f4641e101992620b867f044d72a"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="keyboard_8c.html#ad59d2f4641e101992620b867f044d72a">LAYOUT_FRENCH_SWISS</a></td></tr>
-<tr class="separator:ad59d2f4641e101992620b867f044d72a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a83ca464d85116bd148a13182e368a2f2"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="keyboard_8c.html#a83ca464d85116bd148a13182e368a2f2">LAYOUT_SPANISH_LATIN_AMERICA</a></td></tr>
-<tr class="separator:a83ca464d85116bd148a13182e368a2f2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae27b9070e3570a46cc8af0c2935dee70"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="keyboard_8c.html#ae27b9070e3570a46cc8af0c2935dee70">LAYOUT_IRISH</a></td></tr>
-<tr class="separator:ae27b9070e3570a46cc8af0c2935dee70"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab40d1022fa22a1bc7b27c92bac3ed486"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="keyboard_8c.html#ab40d1022fa22a1bc7b27c92bac3ed486">LAYOUT_ICELANDIC</a></td></tr>
-<tr class="separator:ab40d1022fa22a1bc7b27c92bac3ed486"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aac1aa3230df05cf8c202a36ec578b806"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="keyboard_8c.html#aac1aa3230df05cf8c202a36ec578b806">LAYOUT_TURKISH</a></td></tr>
-<tr class="separator:aac1aa3230df05cf8c202a36ec578b806"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac48bf88bb72267efdf3210e276133138"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="keyboard_8c.html#ac48bf88bb72267efdf3210e276133138">LAYOUT_CZECH</a></td></tr>
-<tr class="separator:ac48bf88bb72267efdf3210e276133138"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0b7eb61073d84d51169be2bcc76170d1"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="keyboard_8c.html#a0b7eb61073d84d51169be2bcc76170d1">LAYOUT_SERBIAN_LATIN_ONLY</a></td></tr>
-<tr class="separator:a0b7eb61073d84d51169be2bcc76170d1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:abdc0bad07026dc79af21786f20351716"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="keyboard_8c.html#abdc0bad07026dc79af21786f20351716">LAYOUT_US_ENGLISH</a></td></tr>
 <tr class="separator:abdc0bad07026dc79af21786f20351716"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1638d6d17cf44a63e695eedae81b455d"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="keyboard_8c.html#a1638d6d17cf44a63e695eedae81b455d">LAYOUT_US_INTERNATIONAL</a></td></tr>
 <tr class="separator:a1638d6d17cf44a63e695eedae81b455d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aceef572805444a989979f448be618319"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="keyboard_8c.html#aceef572805444a989979f448be618319">LAYOUT_GERMAN</a></td></tr>
-<tr class="separator:aceef572805444a989979f448be618319"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aad2fd12d24e1bae1037a408918ff0b9d"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="keyboard_8c.html#aad2fd12d24e1bae1037a408918ff0b9d">LAYOUT_GERMAN_MAC</a></td></tr>
-<tr class="separator:aad2fd12d24e1bae1037a408918ff0b9d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7148ffcc8366a9deb3b7678d20146268"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="keyboard_8c.html#a7148ffcc8366a9deb3b7678d20146268">LAYOUT_CANADIAN_FRENCH</a></td></tr>
-<tr class="separator:a7148ffcc8366a9deb3b7678d20146268"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a686d697fc598d6e5a4fdb68d50620d19"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="keyboard_8c.html#a686d697fc598d6e5a4fdb68d50620d19">LAYOUT_CANADIAN_MULTILINGUAL</a></td></tr>
-<tr class="separator:a686d697fc598d6e5a4fdb68d50620d19"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7a3c47a4838455550e8e4fd0db30be7e"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="keyboard_8c.html#a7a3c47a4838455550e8e4fd0db30be7e">LAYOUT_UNITED_KINGDOM</a></td></tr>
-<tr class="separator:a7a3c47a4838455550e8e4fd0db30be7e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a52b80e4146c9640d64ec3b7af2be2dca"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="keyboard_8c.html#a52b80e4146c9640d64ec3b7af2be2dca">LAYOUT_FINNISH</a></td></tr>
-<tr class="separator:a52b80e4146c9640d64ec3b7af2be2dca"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a720f109b22b97d28577a43578cef7f2c"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="keyboard_8c.html#a720f109b22b97d28577a43578cef7f2c">LAYOUT_FRENCH</a></td></tr>
-<tr class="separator:a720f109b22b97d28577a43578cef7f2c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab9fd177ff958d0d0b0fb0a558ad945b8"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="keyboard_8c.html#ab9fd177ff958d0d0b0fb0a558ad945b8">LAYOUT_DANISH</a></td></tr>
-<tr class="separator:ab9fd177ff958d0d0b0fb0a558ad945b8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4fbcba188bbdb9f3c3b29308618495b6"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="keyboard_8c.html#a4fbcba188bbdb9f3c3b29308618495b6">LAYOUT_NORWEGIAN</a></td></tr>
-<tr class="separator:a4fbcba188bbdb9f3c3b29308618495b6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a88879936f82cf6e5d22096fb21b7d8cc"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="keyboard_8c.html#a88879936f82cf6e5d22096fb21b7d8cc">LAYOUT_SWEDISH</a></td></tr>
-<tr class="separator:a88879936f82cf6e5d22096fb21b7d8cc"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a37ce368689681603162c2ef1ddb1476f"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="keyboard_8c.html#a37ce368689681603162c2ef1ddb1476f">LAYOUT_SPANISH</a></td></tr>
-<tr class="separator:a37ce368689681603162c2ef1ddb1476f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aeb65fc7db7e8fb8a4cdb6d919a4a9025"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="keyboard_8c.html#aeb65fc7db7e8fb8a4cdb6d919a4a9025">LAYOUT_PORTUGUESE</a></td></tr>
-<tr class="separator:aeb65fc7db7e8fb8a4cdb6d919a4a9025"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aaaa9a0d9e98065f5397568284e47ef91"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="keyboard_8c.html#aaaa9a0d9e98065f5397568284e47ef91">LAYOUT_ITALIAN</a></td></tr>
-<tr class="separator:aaaa9a0d9e98065f5397568284e47ef91"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a16bb8c6d27788821a597e0f45c495093"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="keyboard_8c.html#a16bb8c6d27788821a597e0f45c495093">LAYOUT_PORTUGUESE_BRAZILIAN</a></td></tr>
-<tr class="separator:a16bb8c6d27788821a597e0f45c495093"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a273ae6f1fe5753a455d683c3422aa885"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="keyboard_8c.html#a273ae6f1fe5753a455d683c3422aa885">LAYOUT_FRENCH_BELGIAN</a></td></tr>
-<tr class="separator:a273ae6f1fe5753a455d683c3422aa885"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af21eaa9046c4c2523741cfa02c400c18"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="keyboard_8c.html#af21eaa9046c4c2523741cfa02c400c18">LAYOUT_GERMAN_SWISS</a></td></tr>
-<tr class="separator:af21eaa9046c4c2523741cfa02c400c18"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad59d2f4641e101992620b867f044d72a"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="keyboard_8c.html#ad59d2f4641e101992620b867f044d72a">LAYOUT_FRENCH_SWISS</a></td></tr>
-<tr class="separator:ad59d2f4641e101992620b867f044d72a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a83ca464d85116bd148a13182e368a2f2"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="keyboard_8c.html#a83ca464d85116bd148a13182e368a2f2">LAYOUT_SPANISH_LATIN_AMERICA</a></td></tr>
-<tr class="separator:a83ca464d85116bd148a13182e368a2f2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae27b9070e3570a46cc8af0c2935dee70"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="keyboard_8c.html#ae27b9070e3570a46cc8af0c2935dee70">LAYOUT_IRISH</a></td></tr>
-<tr class="separator:ae27b9070e3570a46cc8af0c2935dee70"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab40d1022fa22a1bc7b27c92bac3ed486"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="keyboard_8c.html#ab40d1022fa22a1bc7b27c92bac3ed486">LAYOUT_ICELANDIC</a></td></tr>
-<tr class="separator:ab40d1022fa22a1bc7b27c92bac3ed486"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aac1aa3230df05cf8c202a36ec578b806"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="keyboard_8c.html#aac1aa3230df05cf8c202a36ec578b806">LAYOUT_TURKISH</a></td></tr>
-<tr class="separator:aac1aa3230df05cf8c202a36ec578b806"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac48bf88bb72267efdf3210e276133138"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="keyboard_8c.html#ac48bf88bb72267efdf3210e276133138">LAYOUT_CZECH</a></td></tr>
-<tr class="separator:ac48bf88bb72267efdf3210e276133138"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0b7eb61073d84d51169be2bcc76170d1"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="keyboard_8c.html#a0b7eb61073d84d51169be2bcc76170d1">LAYOUT_SERBIAN_LATIN_ONLY</a></td></tr>
-<tr class="separator:a0b7eb61073d84d51169be2bcc76170d1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:abdc0bad07026dc79af21786f20351716"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="keyboard_8c.html#abdc0bad07026dc79af21786f20351716">LAYOUT_US_ENGLISH</a></td></tr>
 <tr class="separator:abdc0bad07026dc79af21786f20351716"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1638d6d17cf44a63e695eedae81b455d"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="keyboard_8c.html#a1638d6d17cf44a63e695eedae81b455d">LAYOUT_US_INTERNATIONAL</a></td></tr>
 <tr class="separator:a1638d6d17cf44a63e695eedae81b455d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aceef572805444a989979f448be618319"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="keyboard_8c.html#aceef572805444a989979f448be618319">LAYOUT_GERMAN</a></td></tr>
-<tr class="separator:aceef572805444a989979f448be618319"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aad2fd12d24e1bae1037a408918ff0b9d"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="keyboard_8c.html#aad2fd12d24e1bae1037a408918ff0b9d">LAYOUT_GERMAN_MAC</a></td></tr>
-<tr class="separator:aad2fd12d24e1bae1037a408918ff0b9d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7148ffcc8366a9deb3b7678d20146268"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="keyboard_8c.html#a7148ffcc8366a9deb3b7678d20146268">LAYOUT_CANADIAN_FRENCH</a></td></tr>
-<tr class="separator:a7148ffcc8366a9deb3b7678d20146268"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a686d697fc598d6e5a4fdb68d50620d19"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="keyboard_8c.html#a686d697fc598d6e5a4fdb68d50620d19">LAYOUT_CANADIAN_MULTILINGUAL</a></td></tr>
-<tr class="separator:a686d697fc598d6e5a4fdb68d50620d19"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7a3c47a4838455550e8e4fd0db30be7e"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="keyboard_8c.html#a7a3c47a4838455550e8e4fd0db30be7e">LAYOUT_UNITED_KINGDOM</a></td></tr>
-<tr class="separator:a7a3c47a4838455550e8e4fd0db30be7e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a52b80e4146c9640d64ec3b7af2be2dca"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="keyboard_8c.html#a52b80e4146c9640d64ec3b7af2be2dca">LAYOUT_FINNISH</a></td></tr>
-<tr class="separator:a52b80e4146c9640d64ec3b7af2be2dca"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a720f109b22b97d28577a43578cef7f2c"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="keyboard_8c.html#a720f109b22b97d28577a43578cef7f2c">LAYOUT_FRENCH</a></td></tr>
-<tr class="separator:a720f109b22b97d28577a43578cef7f2c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab9fd177ff958d0d0b0fb0a558ad945b8"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="keyboard_8c.html#ab9fd177ff958d0d0b0fb0a558ad945b8">LAYOUT_DANISH</a></td></tr>
-<tr class="separator:ab9fd177ff958d0d0b0fb0a558ad945b8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4fbcba188bbdb9f3c3b29308618495b6"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="keyboard_8c.html#a4fbcba188bbdb9f3c3b29308618495b6">LAYOUT_NORWEGIAN</a></td></tr>
-<tr class="separator:a4fbcba188bbdb9f3c3b29308618495b6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a88879936f82cf6e5d22096fb21b7d8cc"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="keyboard_8c.html#a88879936f82cf6e5d22096fb21b7d8cc">LAYOUT_SWEDISH</a></td></tr>
-<tr class="separator:a88879936f82cf6e5d22096fb21b7d8cc"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a37ce368689681603162c2ef1ddb1476f"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="keyboard_8c.html#a37ce368689681603162c2ef1ddb1476f">LAYOUT_SPANISH</a></td></tr>
-<tr class="separator:a37ce368689681603162c2ef1ddb1476f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aeb65fc7db7e8fb8a4cdb6d919a4a9025"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="keyboard_8c.html#aeb65fc7db7e8fb8a4cdb6d919a4a9025">LAYOUT_PORTUGUESE</a></td></tr>
-<tr class="separator:aeb65fc7db7e8fb8a4cdb6d919a4a9025"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aaaa9a0d9e98065f5397568284e47ef91"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="keyboard_8c.html#aaaa9a0d9e98065f5397568284e47ef91">LAYOUT_ITALIAN</a></td></tr>
-<tr class="separator:aaaa9a0d9e98065f5397568284e47ef91"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a16bb8c6d27788821a597e0f45c495093"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="keyboard_8c.html#a16bb8c6d27788821a597e0f45c495093">LAYOUT_PORTUGUESE_BRAZILIAN</a></td></tr>
-<tr class="separator:a16bb8c6d27788821a597e0f45c495093"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a273ae6f1fe5753a455d683c3422aa885"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="keyboard_8c.html#a273ae6f1fe5753a455d683c3422aa885">LAYOUT_FRENCH_BELGIAN</a></td></tr>
-<tr class="separator:a273ae6f1fe5753a455d683c3422aa885"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af21eaa9046c4c2523741cfa02c400c18"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="keyboard_8c.html#af21eaa9046c4c2523741cfa02c400c18">LAYOUT_GERMAN_SWISS</a></td></tr>
-<tr class="separator:af21eaa9046c4c2523741cfa02c400c18"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad59d2f4641e101992620b867f044d72a"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="keyboard_8c.html#ad59d2f4641e101992620b867f044d72a">LAYOUT_FRENCH_SWISS</a></td></tr>
-<tr class="separator:ad59d2f4641e101992620b867f044d72a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a83ca464d85116bd148a13182e368a2f2"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="keyboard_8c.html#a83ca464d85116bd148a13182e368a2f2">LAYOUT_SPANISH_LATIN_AMERICA</a></td></tr>
-<tr class="separator:a83ca464d85116bd148a13182e368a2f2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae27b9070e3570a46cc8af0c2935dee70"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="keyboard_8c.html#ae27b9070e3570a46cc8af0c2935dee70">LAYOUT_IRISH</a></td></tr>
-<tr class="separator:ae27b9070e3570a46cc8af0c2935dee70"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab40d1022fa22a1bc7b27c92bac3ed486"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="keyboard_8c.html#ab40d1022fa22a1bc7b27c92bac3ed486">LAYOUT_ICELANDIC</a></td></tr>
-<tr class="separator:ab40d1022fa22a1bc7b27c92bac3ed486"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aac1aa3230df05cf8c202a36ec578b806"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="keyboard_8c.html#aac1aa3230df05cf8c202a36ec578b806">LAYOUT_TURKISH</a></td></tr>
-<tr class="separator:aac1aa3230df05cf8c202a36ec578b806"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac48bf88bb72267efdf3210e276133138"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="keyboard_8c.html#ac48bf88bb72267efdf3210e276133138">LAYOUT_CZECH</a></td></tr>
-<tr class="separator:ac48bf88bb72267efdf3210e276133138"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0b7eb61073d84d51169be2bcc76170d1"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="keyboard_8c.html#a0b7eb61073d84d51169be2bcc76170d1">LAYOUT_SERBIAN_LATIN_ONLY</a></td></tr>
-<tr class="separator:a0b7eb61073d84d51169be2bcc76170d1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1638d6d17cf44a63e695eedae81b455d"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="keyboard_8c.html#a1638d6d17cf44a63e695eedae81b455d">LAYOUT_US_INTERNATIONAL</a></td></tr>
 <tr class="separator:a1638d6d17cf44a63e695eedae81b455d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aceef572805444a989979f448be618319"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="keyboard_8c.html#aceef572805444a989979f448be618319">LAYOUT_GERMAN</a></td></tr>
-<tr class="separator:aceef572805444a989979f448be618319"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aad2fd12d24e1bae1037a408918ff0b9d"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="keyboard_8c.html#aad2fd12d24e1bae1037a408918ff0b9d">LAYOUT_GERMAN_MAC</a></td></tr>
-<tr class="separator:aad2fd12d24e1bae1037a408918ff0b9d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7148ffcc8366a9deb3b7678d20146268"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="keyboard_8c.html#a7148ffcc8366a9deb3b7678d20146268">LAYOUT_CANADIAN_FRENCH</a></td></tr>
-<tr class="separator:a7148ffcc8366a9deb3b7678d20146268"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a686d697fc598d6e5a4fdb68d50620d19"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="keyboard_8c.html#a686d697fc598d6e5a4fdb68d50620d19">LAYOUT_CANADIAN_MULTILINGUAL</a></td></tr>
-<tr class="separator:a686d697fc598d6e5a4fdb68d50620d19"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7a3c47a4838455550e8e4fd0db30be7e"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="keyboard_8c.html#a7a3c47a4838455550e8e4fd0db30be7e">LAYOUT_UNITED_KINGDOM</a></td></tr>
-<tr class="separator:a7a3c47a4838455550e8e4fd0db30be7e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a52b80e4146c9640d64ec3b7af2be2dca"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="keyboard_8c.html#a52b80e4146c9640d64ec3b7af2be2dca">LAYOUT_FINNISH</a></td></tr>
-<tr class="separator:a52b80e4146c9640d64ec3b7af2be2dca"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a720f109b22b97d28577a43578cef7f2c"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="keyboard_8c.html#a720f109b22b97d28577a43578cef7f2c">LAYOUT_FRENCH</a></td></tr>
-<tr class="separator:a720f109b22b97d28577a43578cef7f2c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab9fd177ff958d0d0b0fb0a558ad945b8"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="keyboard_8c.html#ab9fd177ff958d0d0b0fb0a558ad945b8">LAYOUT_DANISH</a></td></tr>
-<tr class="separator:ab9fd177ff958d0d0b0fb0a558ad945b8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4fbcba188bbdb9f3c3b29308618495b6"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="keyboard_8c.html#a4fbcba188bbdb9f3c3b29308618495b6">LAYOUT_NORWEGIAN</a></td></tr>
-<tr class="separator:a4fbcba188bbdb9f3c3b29308618495b6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a88879936f82cf6e5d22096fb21b7d8cc"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="keyboard_8c.html#a88879936f82cf6e5d22096fb21b7d8cc">LAYOUT_SWEDISH</a></td></tr>
-<tr class="separator:a88879936f82cf6e5d22096fb21b7d8cc"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a37ce368689681603162c2ef1ddb1476f"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="keyboard_8c.html#a37ce368689681603162c2ef1ddb1476f">LAYOUT_SPANISH</a></td></tr>
-<tr class="separator:a37ce368689681603162c2ef1ddb1476f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aeb65fc7db7e8fb8a4cdb6d919a4a9025"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="keyboard_8c.html#aeb65fc7db7e8fb8a4cdb6d919a4a9025">LAYOUT_PORTUGUESE</a></td></tr>
-<tr class="separator:aeb65fc7db7e8fb8a4cdb6d919a4a9025"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aaaa9a0d9e98065f5397568284e47ef91"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="keyboard_8c.html#aaaa9a0d9e98065f5397568284e47ef91">LAYOUT_ITALIAN</a></td></tr>
-<tr class="separator:aaaa9a0d9e98065f5397568284e47ef91"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a16bb8c6d27788821a597e0f45c495093"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="keyboard_8c.html#a16bb8c6d27788821a597e0f45c495093">LAYOUT_PORTUGUESE_BRAZILIAN</a></td></tr>
-<tr class="separator:a16bb8c6d27788821a597e0f45c495093"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a273ae6f1fe5753a455d683c3422aa885"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="keyboard_8c.html#a273ae6f1fe5753a455d683c3422aa885">LAYOUT_FRENCH_BELGIAN</a></td></tr>
-<tr class="separator:a273ae6f1fe5753a455d683c3422aa885"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af21eaa9046c4c2523741cfa02c400c18"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="keyboard_8c.html#af21eaa9046c4c2523741cfa02c400c18">LAYOUT_GERMAN_SWISS</a></td></tr>
-<tr class="separator:af21eaa9046c4c2523741cfa02c400c18"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad59d2f4641e101992620b867f044d72a"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="keyboard_8c.html#ad59d2f4641e101992620b867f044d72a">LAYOUT_FRENCH_SWISS</a></td></tr>
-<tr class="separator:ad59d2f4641e101992620b867f044d72a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a83ca464d85116bd148a13182e368a2f2"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="keyboard_8c.html#a83ca464d85116bd148a13182e368a2f2">LAYOUT_SPANISH_LATIN_AMERICA</a></td></tr>
-<tr class="separator:a83ca464d85116bd148a13182e368a2f2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae27b9070e3570a46cc8af0c2935dee70"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="keyboard_8c.html#ae27b9070e3570a46cc8af0c2935dee70">LAYOUT_IRISH</a></td></tr>
-<tr class="separator:ae27b9070e3570a46cc8af0c2935dee70"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab40d1022fa22a1bc7b27c92bac3ed486"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="keyboard_8c.html#ab40d1022fa22a1bc7b27c92bac3ed486">LAYOUT_ICELANDIC</a></td></tr>
-<tr class="separator:ab40d1022fa22a1bc7b27c92bac3ed486"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aac1aa3230df05cf8c202a36ec578b806"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="keyboard_8c.html#aac1aa3230df05cf8c202a36ec578b806">LAYOUT_TURKISH</a></td></tr>
-<tr class="separator:aac1aa3230df05cf8c202a36ec578b806"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac48bf88bb72267efdf3210e276133138"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="keyboard_8c.html#ac48bf88bb72267efdf3210e276133138">LAYOUT_CZECH</a></td></tr>
-<tr class="separator:ac48bf88bb72267efdf3210e276133138"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0b7eb61073d84d51169be2bcc76170d1"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="keyboard_8c.html#a0b7eb61073d84d51169be2bcc76170d1">LAYOUT_SERBIAN_LATIN_ONLY</a></td></tr>
-<tr class="separator:a0b7eb61073d84d51169be2bcc76170d1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
 <tr class="memitem:add849eefda31316c7d22d45f49e261e2"><td class="memItemLeft" align="right" valign="top">uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="keyboard_8c.html#add849eefda31316c7d22d45f49e261e2">unicode_to_keycode</a> (uint16_t cpoint, uint8_t locale)</td></tr>
+<tr class="memdesc:add849eefda31316c7d22d45f49e261e2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Parse a decoded code point to a keycode, step 2.  <a href="#add849eefda31316c7d22d45f49e261e2">More...</a><br /></td></tr>
 <tr class="separator:add849eefda31316c7d22d45f49e261e2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6b593fa493aea40be410640981b1c181"><td class="memItemLeft" align="right" valign="top">uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="keyboard_8c.html#a6b593fa493aea40be410640981b1c181">deadkey_to_keycode</a> (uint16_t keycode, uint8_t locale)</td></tr>
+<tr class="memdesc:a6b593fa493aea40be410640981b1c181"><td class="mdescLeft">&#160;</td><td class="mdescRight">Parse a keycode for deadkey input, step 3.  <a href="#a6b593fa493aea40be410640981b1c181">More...</a><br /></td></tr>
 <tr class="separator:a6b593fa493aea40be410640981b1c181"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a464318439ffe82e71e063a5c9582aa69"><td class="memItemLeft" align="right" valign="top">uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="keyboard_8c.html#a464318439ffe82e71e063a5c9582aa69">keycode_to_key</a> (uint16_t keycode)</td></tr>
+<tr class="memdesc:a464318439ffe82e71e063a5c9582aa69"><td class="mdescLeft">&#160;</td><td class="mdescRight">Mask the keycode to get the HID keycode, step 4.  <a href="#a464318439ffe82e71e063a5c9582aa69">More...</a><br /></td></tr>
 <tr class="separator:a464318439ffe82e71e063a5c9582aa69"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:acdbf297ed74d4534f035e0732c2f1081"><td class="memItemLeft" align="right" valign="top">uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="keyboard_8c.html#acdbf297ed74d4534f035e0732c2f1081">keycode_to_modifier</a> (uint16_t keycode, uint8_t locale)</td></tr>
+<tr class="memdesc:acdbf297ed74d4534f035e0732c2f1081"><td class="mdescLeft">&#160;</td><td class="mdescRight">Mask the keycode to get the modifiers, step 5.  <a href="#acdbf297ed74d4534f035e0732c2f1081">More...</a><br /></td></tr>
 <tr class="separator:acdbf297ed74d4534f035e0732c2f1081"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aaa2d4d5bce20b87c88be1a9a33aa85a4"><td class="memItemLeft" align="right" valign="top">uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="keyboard_8c.html#aaa2d4d5bce20b87c88be1a9a33aa85a4">parse_for_keycode</a> (uint8_t inputdata, uint8_t locale, uint8_t *keycode_modifier, uint8_t *deadkey_first_keycode)</td></tr>
+<tr class="memdesc:aaa2d4d5bce20b87c88be1a9a33aa85a4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Parse an incoming byte for a keycode, step 1.  <a href="#aaa2d4d5bce20b87c88be1a9a33aa85a4">More...</a><br /></td></tr>
 <tr class="separator:aaa2d4d5bce20b87c88be1a9a33aa85a4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a999cf21107da9c1a7e3797e72d95045b"><td class="memItemLeft" align="right" valign="top">uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="keyboard_8c.html#a999cf21107da9c1a7e3797e72d95045b">remove_keycode</a> (uint8_t keycode, uint8_t *keycode_arr)</td></tr>
+<tr class="memdesc:a999cf21107da9c1a7e3797e72d95045b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Remove a keycode from the given HID keycode array.  <a href="#a999cf21107da9c1a7e3797e72d95045b">More...</a><br /></td></tr>
 <tr class="separator:a999cf21107da9c1a7e3797e72d95045b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5aebbf68f68f1d3212fb187ff156e5c1"><td class="memItemLeft" align="right" valign="top">uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="keyboard_8c.html#a5aebbf68f68f1d3212fb187ff156e5c1">add_keycode</a> (uint8_t keycode, uint8_t *keycode_arr)</td></tr>
+<tr class="memdesc:a5aebbf68f68f1d3212fb187ff156e5c1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Add a keycode to the given HID keycode array.  <a href="#a5aebbf68f68f1d3212fb187ff156e5c1">More...</a><br /></td></tr>
 <tr class="separator:a5aebbf68f68f1d3212fb187ff156e5c1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af0f4540ba277012b977691ac7416ba96"><td class="memItemLeft" align="right" valign="top">uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="keyboard_8c.html#af0f4540ba277012b977691ac7416ba96">get_keycode</a> (uint16_t cpoint, uint8_t locale, uint8_t *keycode_modifier, uint8_t *deadkey_first_keystroke)</td></tr>
+<tr class="memdesc:af0f4540ba277012b977691ac7416ba96"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get a keycode for 16bit input, step 0 (if necessary)  <a href="#af0f4540ba277012b977691ac7416ba96">More...</a><br /></td></tr>
 <tr class="separator:af0f4540ba277012b977691ac7416ba96"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5d5bd056cc1731c96de8522b7040f5f1"><td class="memItemLeft" align="right" valign="top">uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="keyboard_8c.html#a5d5bd056cc1731c96de8522b7040f5f1">get_hid_country_code</a> (uint8_t locale)</td></tr>
+<tr class="memdesc:a5d5bd056cc1731c96de8522b7040f5f1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Getting the HID country code for a given locale.  <a href="#a5d5bd056cc1731c96de8522b7040f5f1">More...</a><br /></td></tr>
 <tr class="separator:a5d5bd056cc1731c96de8522b7040f5f1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="var-members"></a>
 Variables</h2></td></tr>
 <tr class="memitem:a229e41acc78a3d889c7911f17e90e147"><td class="memItemLeft" align="right" valign="top">const uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="keyboard_8c.html#a229e41acc78a3d889c7911f17e90e147">deadkey_USINT</a> [2][5]</td></tr>
+<tr class="memdesc:a229e41acc78a3d889c7911f17e90e147"><td class="mdescLeft">&#160;</td><td class="mdescRight">Defines the bits and deadkeys itself for all available deadkeys for US_INTERNATIONAL. All other layouts have an equal array. If a layout does not have deadkeys at all, this array is of [2][1] dimension and initialised with {0,0}.  <a href="#a229e41acc78a3d889c7911f17e90e147">More...</a><br /></td></tr>
 <tr class="separator:a229e41acc78a3d889c7911f17e90e147"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a817c70e9a81eca8f3c97d1f62ddc7658"><td class="memItemLeft" align="right" valign="top">const uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="keyboard_8c.html#a817c70e9a81eca8f3c97d1f62ddc7658">deadkey_DE</a> [2][3]</td></tr>
-<tr class="separator:a817c70e9a81eca8f3c97d1f62ddc7658"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af1c4026b992bf0c8d0e828ffd73696fd"><td class="memItemLeft" align="right" valign="top">const uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="keyboard_8c.html#af1c4026b992bf0c8d0e828ffd73696fd">deadkey_DEMAC</a> [2][5]</td></tr>
-<tr class="separator:af1c4026b992bf0c8d0e828ffd73696fd"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1a679f4c297e8dff55d2ec29d4ee2dbc"><td class="memItemLeft" align="right" valign="top">const uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="keyboard_8c.html#a1a679f4c297e8dff55d2ec29d4ee2dbc">deadkey_CAFR</a> [2][5]</td></tr>
-<tr class="separator:a1a679f4c297e8dff55d2ec29d4ee2dbc"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad86b1e3cc68fb787d38bd88652a145a9"><td class="memItemLeft" align="right" valign="top">const uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="keyboard_8c.html#ad86b1e3cc68fb787d38bd88652a145a9">deadkey_CAINT</a> [2][7]</td></tr>
-<tr class="separator:ad86b1e3cc68fb787d38bd88652a145a9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8f7369d73ee8ef5c3ea8be40820d7ba2"><td class="memItemLeft" align="right" valign="top">const uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="keyboard_8c.html#a8f7369d73ee8ef5c3ea8be40820d7ba2">deadkey_UK</a> [2][1] = {{0},{0}}</td></tr>
-<tr class="separator:a8f7369d73ee8ef5c3ea8be40820d7ba2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1f15ce1497fc2cb9adc87d2b6054eab7"><td class="memItemLeft" align="right" valign="top">const uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="keyboard_8c.html#a1f15ce1497fc2cb9adc87d2b6054eab7">deadkey_FI</a> [2][5]</td></tr>
-<tr class="separator:a1f15ce1497fc2cb9adc87d2b6054eab7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9b768ccf0fc5a165515b463061e4736b"><td class="memItemLeft" align="right" valign="top">const uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="keyboard_8c.html#a9b768ccf0fc5a165515b463061e4736b">deadkey_FR</a> [2][4]</td></tr>
-<tr class="separator:a9b768ccf0fc5a165515b463061e4736b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:addff838ccd6d5b4b599d81110b2cf8c0"><td class="memItemLeft" align="right" valign="top">const uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="keyboard_8c.html#addff838ccd6d5b4b599d81110b2cf8c0">deadkey_DK</a> [2][5]</td></tr>
-<tr class="separator:addff838ccd6d5b4b599d81110b2cf8c0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1d0dd2de1a877e2179ccb74b332e0fae"><td class="memItemLeft" align="right" valign="top">const uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="keyboard_8c.html#a1d0dd2de1a877e2179ccb74b332e0fae">deadkey_NW</a> [2][5]</td></tr>
-<tr class="separator:a1d0dd2de1a877e2179ccb74b332e0fae"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ade8fdb0a2b933d6d55bdc1674e1df67a"><td class="memItemLeft" align="right" valign="top">const uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="keyboard_8c.html#ade8fdb0a2b933d6d55bdc1674e1df67a">deadkey_SW</a> [2][5]</td></tr>
-<tr class="separator:ade8fdb0a2b933d6d55bdc1674e1df67a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6ebf4960ef3f10ea2778a20aac2d0ca2"><td class="memItemLeft" align="right" valign="top">const uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="keyboard_8c.html#a6ebf4960ef3f10ea2778a20aac2d0ca2">deadkey_ES</a> [2][5]</td></tr>
-<tr class="separator:a6ebf4960ef3f10ea2778a20aac2d0ca2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a711a5f58eea15d8675cd0a2aff4c330c"><td class="memItemLeft" align="right" valign="top">const uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="keyboard_8c.html#a711a5f58eea15d8675cd0a2aff4c330c">deadkey_PT</a> [2][5]</td></tr>
-<tr class="separator:a711a5f58eea15d8675cd0a2aff4c330c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9ec646288a0cda3da65d49a13230a9e4"><td class="memItemLeft" align="right" valign="top">const uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="keyboard_8c.html#a9ec646288a0cda3da65d49a13230a9e4">deadkey_IT</a> [2][1] = {{0},{0}}</td></tr>
-<tr class="separator:a9ec646288a0cda3da65d49a13230a9e4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7cd2ac928f84dc65f75a5e4a7ab2927f"><td class="memItemLeft" align="right" valign="top">const uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="keyboard_8c.html#a7cd2ac928f84dc65f75a5e4a7ab2927f">deadkey_PTBR</a> [2][5]</td></tr>
-<tr class="separator:a7cd2ac928f84dc65f75a5e4a7ab2927f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a931f46c9a475ed4d85d2592c97d5cff3"><td class="memItemLeft" align="right" valign="top">const uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="keyboard_8c.html#a931f46c9a475ed4d85d2592c97d5cff3">deadkey_FRBE</a> [2][5]</td></tr>
-<tr class="separator:a931f46c9a475ed4d85d2592c97d5cff3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9bf2e329f08d21ca682b608348d88cfd"><td class="memItemLeft" align="right" valign="top">const uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="keyboard_8c.html#a9bf2e329f08d21ca682b608348d88cfd">deadkey_DESW</a> [2][5]</td></tr>
-<tr class="separator:a9bf2e329f08d21ca682b608348d88cfd"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7dc33e172cc74ca8883551aaff9baea8"><td class="memItemLeft" align="right" valign="top">const uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="keyboard_8c.html#a7dc33e172cc74ca8883551aaff9baea8">deadkey_FRSW</a> [2][5]</td></tr>
-<tr class="separator:a7dc33e172cc74ca8883551aaff9baea8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a578ebcef8bee280e893e52ad813be21e"><td class="memItemLeft" align="right" valign="top">const uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="keyboard_8c.html#a578ebcef8bee280e893e52ad813be21e">deadkey_ESLAT</a> [2][4]</td></tr>
-<tr class="separator:a578ebcef8bee280e893e52ad813be21e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7bb698e4abbb9d5d7481bd4a8572ec06"><td class="memItemLeft" align="right" valign="top">const uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="keyboard_8c.html#a7bb698e4abbb9d5d7481bd4a8572ec06">deadkey_IR</a> [2][2]</td></tr>
-<tr class="separator:a7bb698e4abbb9d5d7481bd4a8572ec06"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae0bd36eaca99cc09379a366bf45233fc"><td class="memItemLeft" align="right" valign="top">const uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="keyboard_8c.html#ae0bd36eaca99cc09379a366bf45233fc">deadkey_IC</a> [2][5]</td></tr>
-<tr class="separator:ae0bd36eaca99cc09379a366bf45233fc"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abc900190df89ebab495224ce7bc85d71"><td class="memItemLeft" align="right" valign="top">const uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="keyboard_8c.html#abc900190df89ebab495224ce7bc85d71">deadkey_TK</a> [2][5]</td></tr>
-<tr class="separator:abc900190df89ebab495224ce7bc85d71"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ada903161913e0afa0c219744cbc7e5ea"><td class="memItemLeft" align="right" valign="top">const uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="keyboard_8c.html#ada903161913e0afa0c219744cbc7e5ea">deadkey_CZ</a> [2][8]</td></tr>
-<tr class="separator:ada903161913e0afa0c219744cbc7e5ea"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a793dcbc9946ff5506a1f0cf8b92bd037"><td class="memItemLeft" align="right" valign="top">const uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="keyboard_8c.html#a793dcbc9946ff5506a1f0cf8b92bd037">deadkey_SR</a> [2][10]</td></tr>
-<tr class="separator:a793dcbc9946ff5506a1f0cf8b92bd037"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0ae734f3d887d01aa5f80a94a790811e"><td class="memItemLeft" align="right" valign="top">const uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="keyboard_8c.html#a0ae734f3d887d01aa5f80a94a790811e">keycodes_masks</a> [][5]</td></tr>
+<tr class="memdesc:a0ae734f3d887d01aa5f80a94a790811e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Defines all masks necessary for either getting modifiers or the keycode.  <a href="#a0ae734f3d887d01aa5f80a94a790811e">More...</a><br /></td></tr>
 <tr class="separator:a0ae734f3d887d01aa5f80a94a790811e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab70ab5036ec28888431d1dc0ec37445b"><td class="memItemLeft" align="right" valign="top">const uint16_t *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="keyboard_8c.html#ab70ab5036ec28888431d1dc0ec37445b">keycodes_deadkey_bits</a> []</td></tr>
+<tr class="memdesc:ab70ab5036ec28888431d1dc0ec37445b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Array of pointers to a deadkey bits array for each locale.  <a href="#ab70ab5036ec28888431d1dc0ec37445b">More...</a><br /></td></tr>
 <tr class="separator:ab70ab5036ec28888431d1dc0ec37445b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac18553d9a9796a6f44b41ead4c3423f3"><td class="memItemLeft" align="right" valign="top">const uint16_t *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="keyboard_8c.html#ac18553d9a9796a6f44b41ead4c3423f3">keycodes_deadkey</a> []</td></tr>
+<tr class="memdesc:ac18553d9a9796a6f44b41ead4c3423f3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Array of pointers to a deadkey keycodes array for each locale.  <a href="#ac18553d9a9796a6f44b41ead4c3423f3">More...</a><br /></td></tr>
 <tr class="separator:ac18553d9a9796a6f44b41ead4c3423f3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a172fe222da40fcc3be018a1cc64a66cf"><td class="memItemLeft" align="right" valign="top">const uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="keyboard_8c.html#a172fe222da40fcc3be018a1cc64a66cf">keycodes_ascii</a> [][96]</td></tr>
+<tr class="memdesc:a172fe222da40fcc3be018a1cc64a66cf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Array of all keycodes for ASCII symbols.  <a href="#a172fe222da40fcc3be018a1cc64a66cf">More...</a><br /></td></tr>
 <tr class="separator:a172fe222da40fcc3be018a1cc64a66cf"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aac030c42fe73735fe4008f601eeb7892"><td class="memItemLeft" align="right" valign="top">const uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="keyboard_8c.html#aac030c42fe73735fe4008f601eeb7892">keycodes_iso_8859_1</a> [][96]</td></tr>
+<tr class="memdesc:aac030c42fe73735fe4008f601eeb7892"><td class="mdescLeft">&#160;</td><td class="mdescRight">Array of all keycodes for ISO8859 (unicode) symbols/code points.  <a href="#aac030c42fe73735fe4008f601eeb7892">More...</a><br /></td></tr>
 <tr class="separator:aac030c42fe73735fe4008f601eeb7892"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Macro Definition Documentation</h2>
-<a id="a7148ffcc8366a9deb3b7678d20146268"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a7148ffcc8366a9deb3b7678d20146268">&#9670;&nbsp;</a></span>LAYOUT_CANADIAN_FRENCH <span class="overload">[1/4]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define LAYOUT_CANADIAN_FRENCH</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p class="reference">Referenced by <a class="el" href="keyboard_8c_source.html#l02042">get_hid_country_code()</a>.</p>
-
-</div>
-</div>
-<a id="a7148ffcc8366a9deb3b7678d20146268"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a7148ffcc8366a9deb3b7678d20146268">&#9670;&nbsp;</a></span>LAYOUT_CANADIAN_FRENCH <span class="overload">[2/4]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define LAYOUT_CANADIAN_FRENCH</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a7148ffcc8366a9deb3b7678d20146268"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a7148ffcc8366a9deb3b7678d20146268">&#9670;&nbsp;</a></span>LAYOUT_CANADIAN_FRENCH <span class="overload">[3/4]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define LAYOUT_CANADIAN_FRENCH</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a7148ffcc8366a9deb3b7678d20146268"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a7148ffcc8366a9deb3b7678d20146268">&#9670;&nbsp;</a></span>LAYOUT_CANADIAN_FRENCH <span class="overload">[4/4]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define LAYOUT_CANADIAN_FRENCH</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a686d697fc598d6e5a4fdb68d50620d19"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a686d697fc598d6e5a4fdb68d50620d19">&#9670;&nbsp;</a></span>LAYOUT_CANADIAN_MULTILINGUAL <span class="overload">[1/4]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define LAYOUT_CANADIAN_MULTILINGUAL</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p class="reference">Referenced by <a class="el" href="keyboard_8c_source.html#l02042">get_hid_country_code()</a>.</p>
-
-</div>
-</div>
-<a id="a686d697fc598d6e5a4fdb68d50620d19"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a686d697fc598d6e5a4fdb68d50620d19">&#9670;&nbsp;</a></span>LAYOUT_CANADIAN_MULTILINGUAL <span class="overload">[2/4]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define LAYOUT_CANADIAN_MULTILINGUAL</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a686d697fc598d6e5a4fdb68d50620d19"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a686d697fc598d6e5a4fdb68d50620d19">&#9670;&nbsp;</a></span>LAYOUT_CANADIAN_MULTILINGUAL <span class="overload">[3/4]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define LAYOUT_CANADIAN_MULTILINGUAL</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a686d697fc598d6e5a4fdb68d50620d19"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a686d697fc598d6e5a4fdb68d50620d19">&#9670;&nbsp;</a></span>LAYOUT_CANADIAN_MULTILINGUAL <span class="overload">[4/4]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define LAYOUT_CANADIAN_MULTILINGUAL</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="ac48bf88bb72267efdf3210e276133138"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac48bf88bb72267efdf3210e276133138">&#9670;&nbsp;</a></span>LAYOUT_CZECH <span class="overload">[1/4]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define LAYOUT_CZECH</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p class="reference">Referenced by <a class="el" href="keyboard_8c_source.html#l02042">get_hid_country_code()</a>.</p>
-
-</div>
-</div>
-<a id="ac48bf88bb72267efdf3210e276133138"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac48bf88bb72267efdf3210e276133138">&#9670;&nbsp;</a></span>LAYOUT_CZECH <span class="overload">[2/4]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define LAYOUT_CZECH</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="ac48bf88bb72267efdf3210e276133138"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac48bf88bb72267efdf3210e276133138">&#9670;&nbsp;</a></span>LAYOUT_CZECH <span class="overload">[3/4]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define LAYOUT_CZECH</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="ac48bf88bb72267efdf3210e276133138"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac48bf88bb72267efdf3210e276133138">&#9670;&nbsp;</a></span>LAYOUT_CZECH <span class="overload">[4/4]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define LAYOUT_CZECH</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="ab9fd177ff958d0d0b0fb0a558ad945b8"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab9fd177ff958d0d0b0fb0a558ad945b8">&#9670;&nbsp;</a></span>LAYOUT_DANISH <span class="overload">[1/4]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define LAYOUT_DANISH</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p class="reference">Referenced by <a class="el" href="keyboard_8c_source.html#l02042">get_hid_country_code()</a>.</p>
-
-</div>
-</div>
-<a id="ab9fd177ff958d0d0b0fb0a558ad945b8"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab9fd177ff958d0d0b0fb0a558ad945b8">&#9670;&nbsp;</a></span>LAYOUT_DANISH <span class="overload">[2/4]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define LAYOUT_DANISH</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="ab9fd177ff958d0d0b0fb0a558ad945b8"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab9fd177ff958d0d0b0fb0a558ad945b8">&#9670;&nbsp;</a></span>LAYOUT_DANISH <span class="overload">[3/4]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define LAYOUT_DANISH</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="ab9fd177ff958d0d0b0fb0a558ad945b8"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab9fd177ff958d0d0b0fb0a558ad945b8">&#9670;&nbsp;</a></span>LAYOUT_DANISH <span class="overload">[4/4]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define LAYOUT_DANISH</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a52b80e4146c9640d64ec3b7af2be2dca"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a52b80e4146c9640d64ec3b7af2be2dca">&#9670;&nbsp;</a></span>LAYOUT_FINNISH <span class="overload">[1/4]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define LAYOUT_FINNISH</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p class="reference">Referenced by <a class="el" href="keyboard_8c_source.html#l02042">get_hid_country_code()</a>.</p>
-
-</div>
-</div>
-<a id="a52b80e4146c9640d64ec3b7af2be2dca"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a52b80e4146c9640d64ec3b7af2be2dca">&#9670;&nbsp;</a></span>LAYOUT_FINNISH <span class="overload">[2/4]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define LAYOUT_FINNISH</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a52b80e4146c9640d64ec3b7af2be2dca"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a52b80e4146c9640d64ec3b7af2be2dca">&#9670;&nbsp;</a></span>LAYOUT_FINNISH <span class="overload">[3/4]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define LAYOUT_FINNISH</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a52b80e4146c9640d64ec3b7af2be2dca"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a52b80e4146c9640d64ec3b7af2be2dca">&#9670;&nbsp;</a></span>LAYOUT_FINNISH <span class="overload">[4/4]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define LAYOUT_FINNISH</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a720f109b22b97d28577a43578cef7f2c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a720f109b22b97d28577a43578cef7f2c">&#9670;&nbsp;</a></span>LAYOUT_FRENCH <span class="overload">[1/4]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define LAYOUT_FRENCH</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p class="reference">Referenced by <a class="el" href="keyboard_8c_source.html#l02042">get_hid_country_code()</a>.</p>
-
-</div>
-</div>
-<a id="a720f109b22b97d28577a43578cef7f2c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a720f109b22b97d28577a43578cef7f2c">&#9670;&nbsp;</a></span>LAYOUT_FRENCH <span class="overload">[2/4]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define LAYOUT_FRENCH</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a720f109b22b97d28577a43578cef7f2c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a720f109b22b97d28577a43578cef7f2c">&#9670;&nbsp;</a></span>LAYOUT_FRENCH <span class="overload">[3/4]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define LAYOUT_FRENCH</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a720f109b22b97d28577a43578cef7f2c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a720f109b22b97d28577a43578cef7f2c">&#9670;&nbsp;</a></span>LAYOUT_FRENCH <span class="overload">[4/4]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define LAYOUT_FRENCH</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a273ae6f1fe5753a455d683c3422aa885"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a273ae6f1fe5753a455d683c3422aa885">&#9670;&nbsp;</a></span>LAYOUT_FRENCH_BELGIAN <span class="overload">[1/4]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define LAYOUT_FRENCH_BELGIAN</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p class="reference">Referenced by <a class="el" href="keyboard_8c_source.html#l02042">get_hid_country_code()</a>.</p>
-
-</div>
-</div>
-<a id="a273ae6f1fe5753a455d683c3422aa885"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a273ae6f1fe5753a455d683c3422aa885">&#9670;&nbsp;</a></span>LAYOUT_FRENCH_BELGIAN <span class="overload">[2/4]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define LAYOUT_FRENCH_BELGIAN</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a273ae6f1fe5753a455d683c3422aa885"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a273ae6f1fe5753a455d683c3422aa885">&#9670;&nbsp;</a></span>LAYOUT_FRENCH_BELGIAN <span class="overload">[3/4]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define LAYOUT_FRENCH_BELGIAN</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a273ae6f1fe5753a455d683c3422aa885"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a273ae6f1fe5753a455d683c3422aa885">&#9670;&nbsp;</a></span>LAYOUT_FRENCH_BELGIAN <span class="overload">[4/4]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define LAYOUT_FRENCH_BELGIAN</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="ad59d2f4641e101992620b867f044d72a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad59d2f4641e101992620b867f044d72a">&#9670;&nbsp;</a></span>LAYOUT_FRENCH_SWISS <span class="overload">[1/4]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define LAYOUT_FRENCH_SWISS</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p class="reference">Referenced by <a class="el" href="keyboard_8c_source.html#l02042">get_hid_country_code()</a>.</p>
-
-</div>
-</div>
-<a id="ad59d2f4641e101992620b867f044d72a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad59d2f4641e101992620b867f044d72a">&#9670;&nbsp;</a></span>LAYOUT_FRENCH_SWISS <span class="overload">[2/4]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define LAYOUT_FRENCH_SWISS</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="ad59d2f4641e101992620b867f044d72a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad59d2f4641e101992620b867f044d72a">&#9670;&nbsp;</a></span>LAYOUT_FRENCH_SWISS <span class="overload">[3/4]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define LAYOUT_FRENCH_SWISS</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="ad59d2f4641e101992620b867f044d72a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad59d2f4641e101992620b867f044d72a">&#9670;&nbsp;</a></span>LAYOUT_FRENCH_SWISS <span class="overload">[4/4]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define LAYOUT_FRENCH_SWISS</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="aceef572805444a989979f448be618319"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aceef572805444a989979f448be618319">&#9670;&nbsp;</a></span>LAYOUT_GERMAN <span class="overload">[1/4]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define LAYOUT_GERMAN</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p class="reference">Referenced by <a class="el" href="keyboard_8c_source.html#l02042">get_hid_country_code()</a>.</p>
-
-</div>
-</div>
-<a id="aceef572805444a989979f448be618319"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aceef572805444a989979f448be618319">&#9670;&nbsp;</a></span>LAYOUT_GERMAN <span class="overload">[2/4]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define LAYOUT_GERMAN</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="aceef572805444a989979f448be618319"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aceef572805444a989979f448be618319">&#9670;&nbsp;</a></span>LAYOUT_GERMAN <span class="overload">[3/4]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define LAYOUT_GERMAN</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="aceef572805444a989979f448be618319"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aceef572805444a989979f448be618319">&#9670;&nbsp;</a></span>LAYOUT_GERMAN <span class="overload">[4/4]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define LAYOUT_GERMAN</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="aad2fd12d24e1bae1037a408918ff0b9d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aad2fd12d24e1bae1037a408918ff0b9d">&#9670;&nbsp;</a></span>LAYOUT_GERMAN_MAC <span class="overload">[1/4]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define LAYOUT_GERMAN_MAC</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p class="reference">Referenced by <a class="el" href="keyboard_8c_source.html#l02042">get_hid_country_code()</a>.</p>
-
-</div>
-</div>
-<a id="aad2fd12d24e1bae1037a408918ff0b9d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aad2fd12d24e1bae1037a408918ff0b9d">&#9670;&nbsp;</a></span>LAYOUT_GERMAN_MAC <span class="overload">[2/4]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define LAYOUT_GERMAN_MAC</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="aad2fd12d24e1bae1037a408918ff0b9d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aad2fd12d24e1bae1037a408918ff0b9d">&#9670;&nbsp;</a></span>LAYOUT_GERMAN_MAC <span class="overload">[3/4]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define LAYOUT_GERMAN_MAC</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="aad2fd12d24e1bae1037a408918ff0b9d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aad2fd12d24e1bae1037a408918ff0b9d">&#9670;&nbsp;</a></span>LAYOUT_GERMAN_MAC <span class="overload">[4/4]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define LAYOUT_GERMAN_MAC</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="af21eaa9046c4c2523741cfa02c400c18"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af21eaa9046c4c2523741cfa02c400c18">&#9670;&nbsp;</a></span>LAYOUT_GERMAN_SWISS <span class="overload">[1/4]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define LAYOUT_GERMAN_SWISS</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p class="reference">Referenced by <a class="el" href="keyboard_8c_source.html#l02042">get_hid_country_code()</a>.</p>
-
-</div>
-</div>
-<a id="af21eaa9046c4c2523741cfa02c400c18"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af21eaa9046c4c2523741cfa02c400c18">&#9670;&nbsp;</a></span>LAYOUT_GERMAN_SWISS <span class="overload">[2/4]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define LAYOUT_GERMAN_SWISS</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="af21eaa9046c4c2523741cfa02c400c18"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af21eaa9046c4c2523741cfa02c400c18">&#9670;&nbsp;</a></span>LAYOUT_GERMAN_SWISS <span class="overload">[3/4]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define LAYOUT_GERMAN_SWISS</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="af21eaa9046c4c2523741cfa02c400c18"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af21eaa9046c4c2523741cfa02c400c18">&#9670;&nbsp;</a></span>LAYOUT_GERMAN_SWISS <span class="overload">[4/4]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define LAYOUT_GERMAN_SWISS</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="ab40d1022fa22a1bc7b27c92bac3ed486"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab40d1022fa22a1bc7b27c92bac3ed486">&#9670;&nbsp;</a></span>LAYOUT_ICELANDIC <span class="overload">[1/4]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define LAYOUT_ICELANDIC</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p class="reference">Referenced by <a class="el" href="keyboard_8c_source.html#l02042">get_hid_country_code()</a>.</p>
-
-</div>
-</div>
-<a id="ab40d1022fa22a1bc7b27c92bac3ed486"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab40d1022fa22a1bc7b27c92bac3ed486">&#9670;&nbsp;</a></span>LAYOUT_ICELANDIC <span class="overload">[2/4]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define LAYOUT_ICELANDIC</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="ab40d1022fa22a1bc7b27c92bac3ed486"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab40d1022fa22a1bc7b27c92bac3ed486">&#9670;&nbsp;</a></span>LAYOUT_ICELANDIC <span class="overload">[3/4]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define LAYOUT_ICELANDIC</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="ab40d1022fa22a1bc7b27c92bac3ed486"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab40d1022fa22a1bc7b27c92bac3ed486">&#9670;&nbsp;</a></span>LAYOUT_ICELANDIC <span class="overload">[4/4]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define LAYOUT_ICELANDIC</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="ae27b9070e3570a46cc8af0c2935dee70"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae27b9070e3570a46cc8af0c2935dee70">&#9670;&nbsp;</a></span>LAYOUT_IRISH <span class="overload">[1/4]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define LAYOUT_IRISH</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p class="reference">Referenced by <a class="el" href="keyboard_8c_source.html#l02042">get_hid_country_code()</a>.</p>
-
-</div>
-</div>
-<a id="ae27b9070e3570a46cc8af0c2935dee70"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae27b9070e3570a46cc8af0c2935dee70">&#9670;&nbsp;</a></span>LAYOUT_IRISH <span class="overload">[2/4]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define LAYOUT_IRISH</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="ae27b9070e3570a46cc8af0c2935dee70"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae27b9070e3570a46cc8af0c2935dee70">&#9670;&nbsp;</a></span>LAYOUT_IRISH <span class="overload">[3/4]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define LAYOUT_IRISH</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="ae27b9070e3570a46cc8af0c2935dee70"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae27b9070e3570a46cc8af0c2935dee70">&#9670;&nbsp;</a></span>LAYOUT_IRISH <span class="overload">[4/4]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define LAYOUT_IRISH</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="aaaa9a0d9e98065f5397568284e47ef91"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aaaa9a0d9e98065f5397568284e47ef91">&#9670;&nbsp;</a></span>LAYOUT_ITALIAN <span class="overload">[1/3]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define LAYOUT_ITALIAN</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p class="reference">Referenced by <a class="el" href="keyboard_8c_source.html#l02042">get_hid_country_code()</a>.</p>
-
-</div>
-</div>
-<a id="aaaa9a0d9e98065f5397568284e47ef91"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aaaa9a0d9e98065f5397568284e47ef91">&#9670;&nbsp;</a></span>LAYOUT_ITALIAN <span class="overload">[2/3]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define LAYOUT_ITALIAN</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="aaaa9a0d9e98065f5397568284e47ef91"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aaaa9a0d9e98065f5397568284e47ef91">&#9670;&nbsp;</a></span>LAYOUT_ITALIAN <span class="overload">[3/3]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define LAYOUT_ITALIAN</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a4fbcba188bbdb9f3c3b29308618495b6"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a4fbcba188bbdb9f3c3b29308618495b6">&#9670;&nbsp;</a></span>LAYOUT_NORWEGIAN <span class="overload">[1/4]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define LAYOUT_NORWEGIAN</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p class="reference">Referenced by <a class="el" href="keyboard_8c_source.html#l02042">get_hid_country_code()</a>.</p>
-
-</div>
-</div>
-<a id="a4fbcba188bbdb9f3c3b29308618495b6"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a4fbcba188bbdb9f3c3b29308618495b6">&#9670;&nbsp;</a></span>LAYOUT_NORWEGIAN <span class="overload">[2/4]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define LAYOUT_NORWEGIAN</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a4fbcba188bbdb9f3c3b29308618495b6"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a4fbcba188bbdb9f3c3b29308618495b6">&#9670;&nbsp;</a></span>LAYOUT_NORWEGIAN <span class="overload">[3/4]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define LAYOUT_NORWEGIAN</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a4fbcba188bbdb9f3c3b29308618495b6"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a4fbcba188bbdb9f3c3b29308618495b6">&#9670;&nbsp;</a></span>LAYOUT_NORWEGIAN <span class="overload">[4/4]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define LAYOUT_NORWEGIAN</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="aeb65fc7db7e8fb8a4cdb6d919a4a9025"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aeb65fc7db7e8fb8a4cdb6d919a4a9025">&#9670;&nbsp;</a></span>LAYOUT_PORTUGUESE <span class="overload">[1/4]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define LAYOUT_PORTUGUESE</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p class="reference">Referenced by <a class="el" href="keyboard_8c_source.html#l02042">get_hid_country_code()</a>.</p>
-
-</div>
-</div>
-<a id="aeb65fc7db7e8fb8a4cdb6d919a4a9025"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aeb65fc7db7e8fb8a4cdb6d919a4a9025">&#9670;&nbsp;</a></span>LAYOUT_PORTUGUESE <span class="overload">[2/4]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define LAYOUT_PORTUGUESE</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="aeb65fc7db7e8fb8a4cdb6d919a4a9025"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aeb65fc7db7e8fb8a4cdb6d919a4a9025">&#9670;&nbsp;</a></span>LAYOUT_PORTUGUESE <span class="overload">[3/4]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define LAYOUT_PORTUGUESE</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="aeb65fc7db7e8fb8a4cdb6d919a4a9025"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aeb65fc7db7e8fb8a4cdb6d919a4a9025">&#9670;&nbsp;</a></span>LAYOUT_PORTUGUESE <span class="overload">[4/4]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define LAYOUT_PORTUGUESE</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a16bb8c6d27788821a597e0f45c495093"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a16bb8c6d27788821a597e0f45c495093">&#9670;&nbsp;</a></span>LAYOUT_PORTUGUESE_BRAZILIAN <span class="overload">[1/4]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define LAYOUT_PORTUGUESE_BRAZILIAN</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p class="reference">Referenced by <a class="el" href="keyboard_8c_source.html#l02042">get_hid_country_code()</a>.</p>
-
-</div>
-</div>
-<a id="a16bb8c6d27788821a597e0f45c495093"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a16bb8c6d27788821a597e0f45c495093">&#9670;&nbsp;</a></span>LAYOUT_PORTUGUESE_BRAZILIAN <span class="overload">[2/4]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define LAYOUT_PORTUGUESE_BRAZILIAN</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a16bb8c6d27788821a597e0f45c495093"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a16bb8c6d27788821a597e0f45c495093">&#9670;&nbsp;</a></span>LAYOUT_PORTUGUESE_BRAZILIAN <span class="overload">[3/4]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define LAYOUT_PORTUGUESE_BRAZILIAN</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a16bb8c6d27788821a597e0f45c495093"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a16bb8c6d27788821a597e0f45c495093">&#9670;&nbsp;</a></span>LAYOUT_PORTUGUESE_BRAZILIAN <span class="overload">[4/4]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define LAYOUT_PORTUGUESE_BRAZILIAN</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a0b7eb61073d84d51169be2bcc76170d1"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a0b7eb61073d84d51169be2bcc76170d1">&#9670;&nbsp;</a></span>LAYOUT_SERBIAN_LATIN_ONLY <span class="overload">[1/4]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define LAYOUT_SERBIAN_LATIN_ONLY</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a0b7eb61073d84d51169be2bcc76170d1"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a0b7eb61073d84d51169be2bcc76170d1">&#9670;&nbsp;</a></span>LAYOUT_SERBIAN_LATIN_ONLY <span class="overload">[2/4]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define LAYOUT_SERBIAN_LATIN_ONLY</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a0b7eb61073d84d51169be2bcc76170d1"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a0b7eb61073d84d51169be2bcc76170d1">&#9670;&nbsp;</a></span>LAYOUT_SERBIAN_LATIN_ONLY <span class="overload">[3/4]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define LAYOUT_SERBIAN_LATIN_ONLY</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a0b7eb61073d84d51169be2bcc76170d1"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a0b7eb61073d84d51169be2bcc76170d1">&#9670;&nbsp;</a></span>LAYOUT_SERBIAN_LATIN_ONLY <span class="overload">[4/4]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define LAYOUT_SERBIAN_LATIN_ONLY</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a37ce368689681603162c2ef1ddb1476f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a37ce368689681603162c2ef1ddb1476f">&#9670;&nbsp;</a></span>LAYOUT_SPANISH <span class="overload">[1/4]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define LAYOUT_SPANISH</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p class="reference">Referenced by <a class="el" href="keyboard_8c_source.html#l02042">get_hid_country_code()</a>.</p>
-
-</div>
-</div>
-<a id="a37ce368689681603162c2ef1ddb1476f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a37ce368689681603162c2ef1ddb1476f">&#9670;&nbsp;</a></span>LAYOUT_SPANISH <span class="overload">[2/4]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define LAYOUT_SPANISH</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a37ce368689681603162c2ef1ddb1476f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a37ce368689681603162c2ef1ddb1476f">&#9670;&nbsp;</a></span>LAYOUT_SPANISH <span class="overload">[3/4]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define LAYOUT_SPANISH</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a37ce368689681603162c2ef1ddb1476f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a37ce368689681603162c2ef1ddb1476f">&#9670;&nbsp;</a></span>LAYOUT_SPANISH <span class="overload">[4/4]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define LAYOUT_SPANISH</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a83ca464d85116bd148a13182e368a2f2"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a83ca464d85116bd148a13182e368a2f2">&#9670;&nbsp;</a></span>LAYOUT_SPANISH_LATIN_AMERICA <span class="overload">[1/4]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define LAYOUT_SPANISH_LATIN_AMERICA</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p class="reference">Referenced by <a class="el" href="keyboard_8c_source.html#l02042">get_hid_country_code()</a>.</p>
-
-</div>
-</div>
-<a id="a83ca464d85116bd148a13182e368a2f2"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a83ca464d85116bd148a13182e368a2f2">&#9670;&nbsp;</a></span>LAYOUT_SPANISH_LATIN_AMERICA <span class="overload">[2/4]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define LAYOUT_SPANISH_LATIN_AMERICA</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a83ca464d85116bd148a13182e368a2f2"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a83ca464d85116bd148a13182e368a2f2">&#9670;&nbsp;</a></span>LAYOUT_SPANISH_LATIN_AMERICA <span class="overload">[3/4]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define LAYOUT_SPANISH_LATIN_AMERICA</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a83ca464d85116bd148a13182e368a2f2"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a83ca464d85116bd148a13182e368a2f2">&#9670;&nbsp;</a></span>LAYOUT_SPANISH_LATIN_AMERICA <span class="overload">[4/4]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define LAYOUT_SPANISH_LATIN_AMERICA</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a88879936f82cf6e5d22096fb21b7d8cc"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a88879936f82cf6e5d22096fb21b7d8cc">&#9670;&nbsp;</a></span>LAYOUT_SWEDISH <span class="overload">[1/4]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define LAYOUT_SWEDISH</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p class="reference">Referenced by <a class="el" href="keyboard_8c_source.html#l02042">get_hid_country_code()</a>.</p>
-
-</div>
-</div>
-<a id="a88879936f82cf6e5d22096fb21b7d8cc"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a88879936f82cf6e5d22096fb21b7d8cc">&#9670;&nbsp;</a></span>LAYOUT_SWEDISH <span class="overload">[2/4]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define LAYOUT_SWEDISH</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a88879936f82cf6e5d22096fb21b7d8cc"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a88879936f82cf6e5d22096fb21b7d8cc">&#9670;&nbsp;</a></span>LAYOUT_SWEDISH <span class="overload">[3/4]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define LAYOUT_SWEDISH</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a88879936f82cf6e5d22096fb21b7d8cc"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a88879936f82cf6e5d22096fb21b7d8cc">&#9670;&nbsp;</a></span>LAYOUT_SWEDISH <span class="overload">[4/4]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define LAYOUT_SWEDISH</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="aac1aa3230df05cf8c202a36ec578b806"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aac1aa3230df05cf8c202a36ec578b806">&#9670;&nbsp;</a></span>LAYOUT_TURKISH <span class="overload">[1/4]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define LAYOUT_TURKISH</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p class="reference">Referenced by <a class="el" href="keyboard_8c_source.html#l02042">get_hid_country_code()</a>.</p>
-
-</div>
-</div>
-<a id="aac1aa3230df05cf8c202a36ec578b806"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aac1aa3230df05cf8c202a36ec578b806">&#9670;&nbsp;</a></span>LAYOUT_TURKISH <span class="overload">[2/4]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define LAYOUT_TURKISH</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="aac1aa3230df05cf8c202a36ec578b806"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aac1aa3230df05cf8c202a36ec578b806">&#9670;&nbsp;</a></span>LAYOUT_TURKISH <span class="overload">[3/4]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define LAYOUT_TURKISH</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="aac1aa3230df05cf8c202a36ec578b806"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aac1aa3230df05cf8c202a36ec578b806">&#9670;&nbsp;</a></span>LAYOUT_TURKISH <span class="overload">[4/4]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define LAYOUT_TURKISH</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a7a3c47a4838455550e8e4fd0db30be7e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a7a3c47a4838455550e8e4fd0db30be7e">&#9670;&nbsp;</a></span>LAYOUT_UNITED_KINGDOM <span class="overload">[1/3]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define LAYOUT_UNITED_KINGDOM</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p class="reference">Referenced by <a class="el" href="keyboard_8c_source.html#l02042">get_hid_country_code()</a>.</p>
-
-</div>
-</div>
-<a id="a7a3c47a4838455550e8e4fd0db30be7e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a7a3c47a4838455550e8e4fd0db30be7e">&#9670;&nbsp;</a></span>LAYOUT_UNITED_KINGDOM <span class="overload">[2/3]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define LAYOUT_UNITED_KINGDOM</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a7a3c47a4838455550e8e4fd0db30be7e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a7a3c47a4838455550e8e4fd0db30be7e">&#9670;&nbsp;</a></span>LAYOUT_UNITED_KINGDOM <span class="overload">[3/3]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define LAYOUT_UNITED_KINGDOM</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>Contains arrays for each locale with corresponding keylayouts</p>
+<p>This file is built around keylayouts.h, a header file for all keyboard layouts from Paul Stoffregen. To avoid modifying the header file, this file is playing some tricks with preprocessor defines:</p>
+<p>1.) Include header "undefkeylayouts.h", which removes all previously set keycodes and different bit sets <br />
+</p>
+<p>2.) Define the currently used keyboard layout <br />
+</p>
+<p>3.) Include the "keylayouts.h" header <br />
+</p>
+<p>4.) Use all the bits, masks and keycodes <br />
+</p>
+<p>5.) Redo steps 1-4 for all different arrays for all keyboard layouts</p>
+<p>If you want to get keycodes for a defined ASCII or UNICODE character, please use the functions provided by this file.</p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="keyboard_8h.html#a2a924c746739f7a895f76d13ef8e6e5f">keyboard_layouts</a> </dd></dl>
+
+<p class="definition">Definition in file <a class="el" href="keyboard_8c_source.html">keyboard.c</a>.</p>
+</div><h2 class="groupheader">Macro Definition Documentation</h2>
 <a id="abdc0bad07026dc79af21786f20351716"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#abdc0bad07026dc79af21786f20351716">&#9670;&nbsp;</a></span>LAYOUT_US_ENGLISH <span class="overload">[1/2]</span></h2>
 
@@ -1677,7 +178,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="reference">Referenced by <a class="el" href="keyboard_8c_source.html#l02042">get_hid_country_code()</a>, and <a class="el" href="keyboard_8c_source.html#l01816">unicode_to_keycode()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="keyboard_8c_source.html#l02160">get_hid_country_code()</a>, and <a class="el" href="keyboard_8c_source.html#l01894">unicode_to_keycode()</a>.</p>
 
 </div>
 </div>
@@ -1707,7 +208,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="reference">Referenced by <a class="el" href="keyboard_8c_source.html#l02042">get_hid_country_code()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="keyboard_8c_source.html#l02160">get_hid_country_code()</a>.</p>
 
 </div>
 </div>
@@ -1753,21 +254,21 @@ Variables</h2></td></tr>
 
 </div>
 </div>
-<a id="afc3d101f633a076cc1ca84b85b6224b2"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#afc3d101f633a076cc1ca84b85b6224b2">&#9670;&nbsp;</a></span>TAG</h2>
+<a id="a7ce0df38eb467e59f209470c8f5ac4e6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7ce0df38eb467e59f209470c8f5ac4e6">&#9670;&nbsp;</a></span>LOG_TAG</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">#define TAG&#160;&#160;&#160;&quot;KB&quot;</td>
+          <td class="memname">#define LOG_TAG&#160;&#160;&#160;&quot;KB&quot;</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="keyboard_8c_source.html#l00032">32</a> of file <a class="el" href="keyboard_8c_source.html">keyboard.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="keyboard_8c_source.html#l00058">58</a> of file <a class="el" href="keyboard_8c_source.html">keyboard.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="keyboard_8c_source.html#l01860">deadkey_to_keycode()</a>, <a class="el" href="keyboard_8c_source.html#l02042">get_hid_country_code()</a>, <a class="el" href="keyboard_8c_source.html#l01886">keycode_to_modifier()</a>, and <a class="el" href="keyboard_8c_source.html#l01816">unicode_to_keycode()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="keyboard_8c_source.html#l01952">deadkey_to_keycode()</a>, <a class="el" href="keyboard_8c_source.html#l02160">get_hid_country_code()</a>, <a class="el" href="keyboard_8c_source.html#l01993">keycode_to_modifier()</a>, and <a class="el" href="keyboard_8c_source.html#l01894">unicode_to_keycode()</a>.</p>
 
 </div>
 </div>
@@ -1797,11 +298,13 @@ Variables</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>add a keycode to the given HID keycode array.</p>
+
+<p>Add a keycode to the given HID keycode array. </p>
+<p>This is a helper function for managing a 6 byte keycode array for HID reports.</p>
 <dl class="section note"><dt>Note</dt><dd>The size of the keycode_arr parameter MUST be 6 </dd></dl>
 <dl class="section return"><dt>Returns</dt><dd>0 if the keycode was added, 1 if the keycode was already in the array and 2 if there was no space </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="keyboard_8c_source.html#l01985">1985</a> of file <a class="el" href="keyboard_8c_source.html">keyboard.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="keyboard_8c_source.html#l02098">2098</a> of file <a class="el" href="keyboard_8c_source.html">keyboard.c</a>.</p>
 
 </div>
 </div>
@@ -1831,7 +334,21 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="keyboard_8c_source.html#l01860">1860</a> of file <a class="el" href="keyboard_8c_source.html">keyboard.c</a>.</p>
+<p>Parse a keycode for deadkey input, step 3. </p>
+<p>This method parses a keycode for a possible deadkey sequence. If the parsed keycode needs a deadkey press, the corresponding keycode is returned. If no deadkey is required, 0 is returned. To get a keycode, use the method unicode_to_keycode.</p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="keyboard_8c.html#add849eefda31316c7d22d45f49e261e2" title="Parse a decoded code point to a keycode, step 2. ">unicode_to_keycode</a> </dd>
+<dd>
+<a class="el" href="keyboard_8c.html#a0ae734f3d887d01aa5f80a94a790811e" title="Defines all masks necessary for either getting modifiers or the keycode. ">keycodes_masks</a> </dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">keycode</td><td>Keycode which might need a deadkey pressed </td></tr>
+    <tr><td class="paramname">locale</td><td>Currently used keyboard layout </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>0 if no deadkey needs to be pressed, the deadkey keycode otherwise </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="keyboard_8c_source.html#l01952">1952</a> of file <a class="el" href="keyboard_8c_source.html">keyboard.c</a>.</p>
 
 </div>
 </div>
@@ -1850,7 +367,8 @@ Variables</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>getting the HID country code for a given locale</p>
+
+<p>Getting the HID country code for a given locale. </p>
 <p>Source: USB Device class definition for HID, page 33</p>
 <dl class="section see"><dt>See also</dt><dd><a class="el" href="keyboard_8h.html#a2a924c746739f7a895f76d13ef8e6e5f">keyboard_layouts</a> </dd></dl>
 <dl class="section return"><dt>Returns</dt><dd>bCountryCode value for HID info </dd></dl>
@@ -1861,7 +379,7 @@ Variables</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="keyboard_8c_source.html#l02042">2042</a> of file <a class="el" href="keyboard_8c_source.html">keyboard.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="keyboard_8c_source.html#l02160">2160</a> of file <a class="el" href="keyboard_8c_source.html">keyboard.c</a>.</p>
 
 </div>
 </div>
@@ -1902,12 +420,21 @@ Variables</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>get a keycode for the given UTF codepoint</p>
-<p>This method parses a 16bit unicode character to a keycode. If a modifier is needed the given modifier byte is updated.</p>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="keyboard_8h.html#a2a924c746739f7a895f76d13ef8e6e5f">keyboard_layouts</a> </dd></dl>
+
+<p>Get a keycode for 16bit input, step 0 (if necessary) </p>
+<p>This method parses a 16bit unicode character to a keycode by simply invoking parse_for_keycode two times. Some parameter in the FLipMouse/FABI configuration might be using 16bits for characters, so in this case this function is used.</p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="keyboard_8c.html#aaa2d4d5bce20b87c88be1a9a33aa85a4" title="Parse an incoming byte for a keycode, step 1. ">parse_for_keycode</a> </dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">cpoint</td><td>Codepoint to be parsed (16bit!!!) </td></tr>
+    <tr><td class="paramname">keycode_modifier</td><td>Modifier byte which will be changed to reflect this cpoint </td></tr>
+    <tr><td class="paramname">deadkey_first_keystroke</td><td>If a deadkey needs to be pressed first, this will be the keycode </td></tr>
+  </table>
+  </dd>
+</dl>
 <dl class="section return"><dt>Returns</dt><dd>0 if no keycode is found; the keycode otherwise </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="keyboard_8c_source.html#l02019">2019</a> of file <a class="el" href="keyboard_8c_source.html">keyboard.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="keyboard_8c_source.html#l02137">2137</a> of file <a class="el" href="keyboard_8c_source.html">keyboard.c</a>.</p>
 
 </div>
 </div>
@@ -1927,7 +454,17 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="keyboard_8c_source.html#l01877">1877</a> of file <a class="el" href="keyboard_8c_source.html">keyboard.c</a>.</p>
+<p>Mask the keycode to get the HID keycode, step 4. </p>
+<p>This method masks out all modifier bits and returns the direct HID keycode, which can be used in HID reports.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">keycode</td><td>Keycode from other parsing methods </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>8-bit keycode for HID </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="keyboard_8c_source.html#l01977">1977</a> of file <a class="el" href="keyboard_8c_source.html">keyboard.c</a>.</p>
 
 </div>
 </div>
@@ -1957,7 +494,18 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="keyboard_8c_source.html#l01886">1886</a> of file <a class="el" href="keyboard_8c_source.html">keyboard.c</a>.</p>
+<p>Mask the keycode to get the modifiers, step 5. </p>
+<p>This method masks out all keycode bits and returns the direct HID modifier byte, which can be used in HID reports.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">keycode</td><td>Keycode from other parsing methods </td></tr>
+    <tr><td class="paramname">locale</td><td>Currently used keyboard layout </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>8-bit keycode for HID </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="keyboard_8c_source.html#l01993">1993</a> of file <a class="el" href="keyboard_8c_source.html">keyboard.c</a>.</p>
 
 </div>
 </div>
@@ -1998,13 +546,14 @@ Variables</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>parse an incoming byte for a keycode</p>
+
+<p>Parse an incoming byte for a keycode, step 1. </p>
 <p>This method parses one incoming byte for the given locale. It returns 0 if there is no keycode or another byte is needed (Unicode input). If a modifier is needed the given modifier byte is updated.</p>
-<p>In the case of a necessary deadkey sequence, the second keystroke is returned and the first keystroke is written to the given parameter</p>
+<p>In the case of a necessary deadkey sequence, the second keystroke is returned and the first keystroke is written to the given parameter.</p>
 <dl class="section see"><dt>See also</dt><dd><a class="el" href="keyboard_8h.html#a2a924c746739f7a895f76d13ef8e6e5f">keyboard_layouts</a> </dd></dl>
 <dl class="section return"><dt>Returns</dt><dd>0 if another byte is needed or no keycode is found; the keycode otherwise </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="keyboard_8c_source.html#l01909">1909</a> of file <a class="el" href="keyboard_8c_source.html">keyboard.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="keyboard_8c_source.html#l02016">2016</a> of file <a class="el" href="keyboard_8c_source.html">keyboard.c</a>.</p>
 
 <p class="reference">Referenced by <a class="el" href="hal__serial_8c_source.html#l00092">halSerialTaskKeyboardPress()</a>, and <a class="el" href="hal__serial_8c_source.html#l00167">halSerialTaskKeyboardRelease()</a>.</p>
 <div class="dynheader">
@@ -2044,11 +593,13 @@ Here is the caller graph for this function:</div>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>remove a keycode from the given HID keycode array.</p>
+
+<p>Remove a keycode from the given HID keycode array. </p>
+<p>This is a helper function for managing a 6 byte keycode array for HID reports.</p>
 <dl class="section note"><dt>Note</dt><dd>The size of the keycode_arr parameter MUST be 6 </dd></dl>
 <dl class="section return"><dt>Returns</dt><dd>0 if the keycode was removed, 1 if the keycode was not in the array </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="keyboard_8c_source.html#l01965">1965</a> of file <a class="el" href="keyboard_8c_source.html">keyboard.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="keyboard_8c_source.html#l02075">2075</a> of file <a class="el" href="keyboard_8c_source.html">keyboard.c</a>.</p>
 
 </div>
 </div>
@@ -2078,379 +629,29 @@ Here is the caller graph for this function:</div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="keyboard_8c_source.html#l01816">1816</a> of file <a class="el" href="keyboard_8c_source.html">keyboard.c</a>.</p>
+<p>Parse a decoded code point to a keycode, step 2. </p>
+<p>This method parses a fully assembled code point to a keycode. To get a fully assembled cpoint, use the method parse_for_keycode.</p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="keyboard_8c.html#aaa2d4d5bce20b87c88be1a9a33aa85a4" title="Parse an incoming byte for a keycode, step 1. ">parse_for_keycode</a> </dd>
+<dd>
+<a class="el" href="keyboard_8c.html#a0ae734f3d887d01aa5f80a94a790811e" title="Defines all masks necessary for either getting modifiers or the keycode. ">keycodes_masks</a> </dd>
+<dd>
+<a class="el" href="keyboard_8c.html#a172fe222da40fcc3be018a1cc64a66cf" title="Array of all keycodes for ASCII symbols. ">keycodes_ascii</a> </dd>
+<dd>
+<a class="el" href="keyboard_8c.html#aac030c42fe73735fe4008f601eeb7892" title="Array of all keycodes for ISO8859 (unicode) symbols/code points. ">keycodes_iso_8859_1</a> </dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">cpoint</td><td>Fully assembled ASCII or ISO8859-1 code point </td></tr>
+    <tr><td class="paramname">locale</td><td>Currently used keyboard layout </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>0 if no keycode was found (invalid cpoint), the keycode otherwise </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="keyboard_8c_source.html#l01894">1894</a> of file <a class="el" href="keyboard_8c_source.html">keyboard.c</a>.</p>
 
 </div>
 </div>
 <h2 class="groupheader">Variable Documentation</h2>
-<a id="a1a679f4c297e8dff55d2ec29d4ee2dbc"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a1a679f4c297e8dff55d2ec29d4ee2dbc">&#9670;&nbsp;</a></span>deadkey_CAFR</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">const uint16_t deadkey_CAFR[2][5]</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p class="definition">Definition at line <a class="el" href="keyboard_8c_source.html#l00055">55</a> of file <a class="el" href="keyboard_8c_source.html">keyboard.c</a>.</p>
-
-</div>
-</div>
-<a id="ad86b1e3cc68fb787d38bd88652a145a9"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad86b1e3cc68fb787d38bd88652a145a9">&#9670;&nbsp;</a></span>deadkey_CAINT</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">const uint16_t deadkey_CAINT[2][7]</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p class="definition">Definition at line <a class="el" href="keyboard_8c_source.html#l00062">62</a> of file <a class="el" href="keyboard_8c_source.html">keyboard.c</a>.</p>
-
-</div>
-</div>
-<a id="ada903161913e0afa0c219744cbc7e5ea"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ada903161913e0afa0c219744cbc7e5ea">&#9670;&nbsp;</a></span>deadkey_CZ</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">const uint16_t deadkey_CZ[2][8]</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p class="definition">Definition at line <a class="el" href="keyboard_8c_source.html#l00177">177</a> of file <a class="el" href="keyboard_8c_source.html">keyboard.c</a>.</p>
-
-</div>
-</div>
-<a id="a817c70e9a81eca8f3c97d1f62ddc7658"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a817c70e9a81eca8f3c97d1f62ddc7658">&#9670;&nbsp;</a></span>deadkey_DE</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">const uint16_t deadkey_DE[2][3]</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p class="definition">Definition at line <a class="el" href="keyboard_8c_source.html#l00041">41</a> of file <a class="el" href="keyboard_8c_source.html">keyboard.c</a>.</p>
-
-</div>
-</div>
-<a id="af1c4026b992bf0c8d0e828ffd73696fd"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af1c4026b992bf0c8d0e828ffd73696fd">&#9670;&nbsp;</a></span>deadkey_DEMAC</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">const uint16_t deadkey_DEMAC[2][5]</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p class="definition">Definition at line <a class="el" href="keyboard_8c_source.html#l00048">48</a> of file <a class="el" href="keyboard_8c_source.html">keyboard.c</a>.</p>
-
-</div>
-</div>
-<a id="a9bf2e329f08d21ca682b608348d88cfd"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a9bf2e329f08d21ca682b608348d88cfd">&#9670;&nbsp;</a></span>deadkey_DESW</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">const uint16_t deadkey_DESW[2][5]</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p class="definition">Definition at line <a class="el" href="keyboard_8c_source.html#l00135">135</a> of file <a class="el" href="keyboard_8c_source.html">keyboard.c</a>.</p>
-
-</div>
-</div>
-<a id="addff838ccd6d5b4b599d81110b2cf8c0"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#addff838ccd6d5b4b599d81110b2cf8c0">&#9670;&nbsp;</a></span>deadkey_DK</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">const uint16_t deadkey_DK[2][5]</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p class="definition">Definition at line <a class="el" href="keyboard_8c_source.html#l00084">84</a> of file <a class="el" href="keyboard_8c_source.html">keyboard.c</a>.</p>
-
-</div>
-</div>
-<a id="a6ebf4960ef3f10ea2778a20aac2d0ca2"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a6ebf4960ef3f10ea2778a20aac2d0ca2">&#9670;&nbsp;</a></span>deadkey_ES</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">const uint16_t deadkey_ES[2][5]</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p class="definition">Definition at line <a class="el" href="keyboard_8c_source.html#l00105">105</a> of file <a class="el" href="keyboard_8c_source.html">keyboard.c</a>.</p>
-
-</div>
-</div>
-<a id="a578ebcef8bee280e893e52ad813be21e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a578ebcef8bee280e893e52ad813be21e">&#9670;&nbsp;</a></span>deadkey_ESLAT</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">const uint16_t deadkey_ESLAT[2][4]</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p class="definition">Definition at line <a class="el" href="keyboard_8c_source.html#l00149">149</a> of file <a class="el" href="keyboard_8c_source.html">keyboard.c</a>.</p>
-
-</div>
-</div>
-<a id="a1f15ce1497fc2cb9adc87d2b6054eab7"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a1f15ce1497fc2cb9adc87d2b6054eab7">&#9670;&nbsp;</a></span>deadkey_FI</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">const uint16_t deadkey_FI[2][5]</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p class="definition">Definition at line <a class="el" href="keyboard_8c_source.html#l00070">70</a> of file <a class="el" href="keyboard_8c_source.html">keyboard.c</a>.</p>
-
-</div>
-</div>
-<a id="a9b768ccf0fc5a165515b463061e4736b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a9b768ccf0fc5a165515b463061e4736b">&#9670;&nbsp;</a></span>deadkey_FR</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">const uint16_t deadkey_FR[2][4]</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p class="definition">Definition at line <a class="el" href="keyboard_8c_source.html#l00077">77</a> of file <a class="el" href="keyboard_8c_source.html">keyboard.c</a>.</p>
-
-</div>
-</div>
-<a id="a931f46c9a475ed4d85d2592c97d5cff3"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a931f46c9a475ed4d85d2592c97d5cff3">&#9670;&nbsp;</a></span>deadkey_FRBE</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">const uint16_t deadkey_FRBE[2][5]</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p class="definition">Definition at line <a class="el" href="keyboard_8c_source.html#l00128">128</a> of file <a class="el" href="keyboard_8c_source.html">keyboard.c</a>.</p>
-
-</div>
-</div>
-<a id="a7dc33e172cc74ca8883551aaff9baea8"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a7dc33e172cc74ca8883551aaff9baea8">&#9670;&nbsp;</a></span>deadkey_FRSW</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">const uint16_t deadkey_FRSW[2][5]</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p class="definition">Definition at line <a class="el" href="keyboard_8c_source.html#l00142">142</a> of file <a class="el" href="keyboard_8c_source.html">keyboard.c</a>.</p>
-
-</div>
-</div>
-<a id="ae0bd36eaca99cc09379a366bf45233fc"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae0bd36eaca99cc09379a366bf45233fc">&#9670;&nbsp;</a></span>deadkey_IC</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">const uint16_t deadkey_IC[2][5]</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p class="definition">Definition at line <a class="el" href="keyboard_8c_source.html#l00163">163</a> of file <a class="el" href="keyboard_8c_source.html">keyboard.c</a>.</p>
-
-</div>
-</div>
-<a id="a7bb698e4abbb9d5d7481bd4a8572ec06"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a7bb698e4abbb9d5d7481bd4a8572ec06">&#9670;&nbsp;</a></span>deadkey_IR</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">const uint16_t deadkey_IR[2][2]</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p class="definition">Definition at line <a class="el" href="keyboard_8c_source.html#l00156">156</a> of file <a class="el" href="keyboard_8c_source.html">keyboard.c</a>.</p>
-
-</div>
-</div>
-<a id="a9ec646288a0cda3da65d49a13230a9e4"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a9ec646288a0cda3da65d49a13230a9e4">&#9670;&nbsp;</a></span>deadkey_IT</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">const uint16_t deadkey_IT[2][1] = {{0},{0}}</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p class="definition">Definition at line <a class="el" href="keyboard_8c_source.html#l00119">119</a> of file <a class="el" href="keyboard_8c_source.html">keyboard.c</a>.</p>
-
-</div>
-</div>
-<a id="a1d0dd2de1a877e2179ccb74b332e0fae"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a1d0dd2de1a877e2179ccb74b332e0fae">&#9670;&nbsp;</a></span>deadkey_NW</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">const uint16_t deadkey_NW[2][5]</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p class="definition">Definition at line <a class="el" href="keyboard_8c_source.html#l00091">91</a> of file <a class="el" href="keyboard_8c_source.html">keyboard.c</a>.</p>
-
-</div>
-</div>
-<a id="a711a5f58eea15d8675cd0a2aff4c330c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a711a5f58eea15d8675cd0a2aff4c330c">&#9670;&nbsp;</a></span>deadkey_PT</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">const uint16_t deadkey_PT[2][5]</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p class="definition">Definition at line <a class="el" href="keyboard_8c_source.html#l00112">112</a> of file <a class="el" href="keyboard_8c_source.html">keyboard.c</a>.</p>
-
-</div>
-</div>
-<a id="a7cd2ac928f84dc65f75a5e4a7ab2927f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a7cd2ac928f84dc65f75a5e4a7ab2927f">&#9670;&nbsp;</a></span>deadkey_PTBR</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">const uint16_t deadkey_PTBR[2][5]</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p class="definition">Definition at line <a class="el" href="keyboard_8c_source.html#l00121">121</a> of file <a class="el" href="keyboard_8c_source.html">keyboard.c</a>.</p>
-
-</div>
-</div>
-<a id="a793dcbc9946ff5506a1f0cf8b92bd037"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a793dcbc9946ff5506a1f0cf8b92bd037">&#9670;&nbsp;</a></span>deadkey_SR</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">const uint16_t deadkey_SR[2][10]</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p class="definition">Definition at line <a class="el" href="keyboard_8c_source.html#l00184">184</a> of file <a class="el" href="keyboard_8c_source.html">keyboard.c</a>.</p>
-
-</div>
-</div>
-<a id="ade8fdb0a2b933d6d55bdc1674e1df67a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ade8fdb0a2b933d6d55bdc1674e1df67a">&#9670;&nbsp;</a></span>deadkey_SW</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">const uint16_t deadkey_SW[2][5]</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p class="definition">Definition at line <a class="el" href="keyboard_8c_source.html#l00098">98</a> of file <a class="el" href="keyboard_8c_source.html">keyboard.c</a>.</p>
-
-</div>
-</div>
-<a id="abc900190df89ebab495224ce7bc85d71"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#abc900190df89ebab495224ce7bc85d71">&#9670;&nbsp;</a></span>deadkey_TK</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">const uint16_t deadkey_TK[2][5]</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p class="definition">Definition at line <a class="el" href="keyboard_8c_source.html#l00170">170</a> of file <a class="el" href="keyboard_8c_source.html">keyboard.c</a>.</p>
-
-</div>
-</div>
-<a id="a8f7369d73ee8ef5c3ea8be40820d7ba2"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a8f7369d73ee8ef5c3ea8be40820d7ba2">&#9670;&nbsp;</a></span>deadkey_UK</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">const uint16_t deadkey_UK[2][1] = {{0},{0}}</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p class="definition">Definition at line <a class="el" href="keyboard_8c_source.html#l00069">69</a> of file <a class="el" href="keyboard_8c_source.html">keyboard.c</a>.</p>
-
-</div>
-</div>
 <a id="a229e41acc78a3d889c7911f17e90e147"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a229e41acc78a3d889c7911f17e90e147">&#9670;&nbsp;</a></span>deadkey_USINT</h2>
 
@@ -2463,7 +664,9 @@ Here is the caller graph for this function:</div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="keyboard_8c_source.html#l00034">34</a> of file <a class="el" href="keyboard_8c_source.html">keyboard.c</a>.</p>
+<p>Defines the bits and deadkeys itself for all available deadkeys for US_INTERNATIONAL. All other layouts have an equal array. If a layout does not have deadkeys at all, this array is of [2][1] dimension and initialised with {0,0}. </p>
+
+<p class="definition">Definition at line <a class="el" href="keyboard_8c_source.html#l00065">65</a> of file <a class="el" href="keyboard_8c_source.html">keyboard.c</a>.</p>
 
 </div>
 </div>
@@ -2479,9 +682,14 @@ Here is the caller graph for this function:</div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="keyboard_8c_source.html#l00384">384</a> of file <a class="el" href="keyboard_8c_source.html">keyboard.c</a>.</p>
+<p>Array of all keycodes for ASCII symbols. </p>
+<p>The array offset is on the one hand the locale as it is defined in keyboard_layouts and on the other hand the ASCII number - 0x20. &ndash;&gt; ASCII 0x22 character ('2') is for US_ENGLISH on position [0][2]</p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="keyboard_8h.html#a2a924c746739f7a895f76d13ef8e6e5f">keyboard_layouts</a> </dd></dl>
+<dl class="section warning"><dt>Warning</dt><dd>Locale offset is different to the deadkey arrays, we have LAYOUT_US_ENGLISH here. </dd></dl>
 
-<p class="reference">Referenced by <a class="el" href="keyboard_8c_source.html#l01816">unicode_to_keycode()</a>.</p>
+<p class="definition">Definition at line <a class="el" href="keyboard_8c_source.html#l00439">439</a> of file <a class="el" href="keyboard_8c_source.html">keyboard.c</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="keyboard_8c_source.html#l01894">unicode_to_keycode()</a>.</p>
 
 </div>
 </div>
@@ -2496,36 +704,16 @@ Here is the caller graph for this function:</div>
         </tr>
       </table>
 </div><div class="memdoc">
-<b>Initial value:</b><div class="fragment"><div class="line">= {</div><div class="line">  <a class="code" href="keyboard_8c.html#a229e41acc78a3d889c7911f17e90e147">deadkey_USINT</a>[1],</div><div class="line">  <a class="code" href="keyboard_8c.html#a817c70e9a81eca8f3c97d1f62ddc7658">deadkey_DE</a>[1],</div><div class="line">  <a class="code" href="keyboard_8c.html#af1c4026b992bf0c8d0e828ffd73696fd">deadkey_DEMAC</a>[1],</div><div class="line">  <a class="code" href="keyboard_8c.html#a1a679f4c297e8dff55d2ec29d4ee2dbc">deadkey_CAFR</a>[1],</div><div class="line">  <a class="code" href="keyboard_8c.html#ad86b1e3cc68fb787d38bd88652a145a9">deadkey_CAINT</a>[1],</div><div class="line">  <a class="code" href="keyboard_8c.html#a8f7369d73ee8ef5c3ea8be40820d7ba2">deadkey_UK</a>[1],</div><div class="line">  <a class="code" href="keyboard_8c.html#a1f15ce1497fc2cb9adc87d2b6054eab7">deadkey_FI</a>[1],</div><div class="line">  <a class="code" href="keyboard_8c.html#a9b768ccf0fc5a165515b463061e4736b">deadkey_FR</a>[1],</div><div class="line">  <a class="code" href="keyboard_8c.html#addff838ccd6d5b4b599d81110b2cf8c0">deadkey_DK</a>[1],</div><div class="line">  <a class="code" href="keyboard_8c.html#a1d0dd2de1a877e2179ccb74b332e0fae">deadkey_NW</a>[1],</div><div class="line">  <a class="code" href="keyboard_8c.html#ade8fdb0a2b933d6d55bdc1674e1df67a">deadkey_SW</a>[1],</div><div class="line">  <a class="code" href="keyboard_8c.html#a6ebf4960ef3f10ea2778a20aac2d0ca2">deadkey_ES</a>[1],</div><div class="line">  <a class="code" href="keyboard_8c.html#a711a5f58eea15d8675cd0a2aff4c330c">deadkey_PT</a>[1],</div><div class="line">  <a class="code" href="keyboard_8c.html#a9ec646288a0cda3da65d49a13230a9e4">deadkey_IT</a>[1],</div><div class="line">  <a class="code" href="keyboard_8c.html#a7cd2ac928f84dc65f75a5e4a7ab2927f">deadkey_PTBR</a>[1],</div><div class="line">  <a class="code" href="keyboard_8c.html#a931f46c9a475ed4d85d2592c97d5cff3">deadkey_FRBE</a>[1],</div><div class="line">  <a class="code" href="keyboard_8c.html#a9bf2e329f08d21ca682b608348d88cfd">deadkey_DESW</a>[1],</div><div class="line">  <a class="code" href="keyboard_8c.html#a7dc33e172cc74ca8883551aaff9baea8">deadkey_FRSW</a>[1],</div><div class="line">  <a class="code" href="keyboard_8c.html#a578ebcef8bee280e893e52ad813be21e">deadkey_ESLAT</a>[1],</div><div class="line">  <a class="code" href="keyboard_8c.html#a7bb698e4abbb9d5d7481bd4a8572ec06">deadkey_IR</a>[1],</div><div class="line">  <a class="code" href="keyboard_8c.html#ae0bd36eaca99cc09379a366bf45233fc">deadkey_IC</a>[1],</div><div class="line">  <a class="code" href="keyboard_8c.html#abc900190df89ebab495224ce7bc85d71">deadkey_TK</a>[1],</div><div class="line">  <a class="code" href="keyboard_8c.html#ada903161913e0afa0c219744cbc7e5ea">deadkey_CZ</a>[1],</div><div class="line">  <a class="code" href="keyboard_8c.html#a793dcbc9946ff5506a1f0cf8b92bd037">deadkey_SR</a>[1]</div><div class="line">}</div><div class="ttc" id="keyboard_8c_html_abc900190df89ebab495224ce7bc85d71"><div class="ttname"><a href="keyboard_8c.html#abc900190df89ebab495224ce7bc85d71">deadkey_TK</a></div><div class="ttdeci">const uint16_t deadkey_TK[2][5]</div><div class="ttdef"><b>Definition:</b> <a href="keyboard_8c_source.html#l00170">keyboard.c:170</a></div></div>
-<div class="ttc" id="keyboard_8c_html_a931f46c9a475ed4d85d2592c97d5cff3"><div class="ttname"><a href="keyboard_8c.html#a931f46c9a475ed4d85d2592c97d5cff3">deadkey_FRBE</a></div><div class="ttdeci">const uint16_t deadkey_FRBE[2][5]</div><div class="ttdef"><b>Definition:</b> <a href="keyboard_8c_source.html#l00128">keyboard.c:128</a></div></div>
-<div class="ttc" id="keyboard_8c_html_af1c4026b992bf0c8d0e828ffd73696fd"><div class="ttname"><a href="keyboard_8c.html#af1c4026b992bf0c8d0e828ffd73696fd">deadkey_DEMAC</a></div><div class="ttdeci">const uint16_t deadkey_DEMAC[2][5]</div><div class="ttdef"><b>Definition:</b> <a href="keyboard_8c_source.html#l00048">keyboard.c:48</a></div></div>
-<div class="ttc" id="keyboard_8c_html_a9b768ccf0fc5a165515b463061e4736b"><div class="ttname"><a href="keyboard_8c.html#a9b768ccf0fc5a165515b463061e4736b">deadkey_FR</a></div><div class="ttdeci">const uint16_t deadkey_FR[2][4]</div><div class="ttdef"><b>Definition:</b> <a href="keyboard_8c_source.html#l00077">keyboard.c:77</a></div></div>
-<div class="ttc" id="keyboard_8c_html_a6ebf4960ef3f10ea2778a20aac2d0ca2"><div class="ttname"><a href="keyboard_8c.html#a6ebf4960ef3f10ea2778a20aac2d0ca2">deadkey_ES</a></div><div class="ttdeci">const uint16_t deadkey_ES[2][5]</div><div class="ttdef"><b>Definition:</b> <a href="keyboard_8c_source.html#l00105">keyboard.c:105</a></div></div>
-<div class="ttc" id="keyboard_8c_html_a9bf2e329f08d21ca682b608348d88cfd"><div class="ttname"><a href="keyboard_8c.html#a9bf2e329f08d21ca682b608348d88cfd">deadkey_DESW</a></div><div class="ttdeci">const uint16_t deadkey_DESW[2][5]</div><div class="ttdef"><b>Definition:</b> <a href="keyboard_8c_source.html#l00135">keyboard.c:135</a></div></div>
-<div class="ttc" id="keyboard_8c_html_a7bb698e4abbb9d5d7481bd4a8572ec06"><div class="ttname"><a href="keyboard_8c.html#a7bb698e4abbb9d5d7481bd4a8572ec06">deadkey_IR</a></div><div class="ttdeci">const uint16_t deadkey_IR[2][2]</div><div class="ttdef"><b>Definition:</b> <a href="keyboard_8c_source.html#l00156">keyboard.c:156</a></div></div>
-<div class="ttc" id="keyboard_8c_html_a7dc33e172cc74ca8883551aaff9baea8"><div class="ttname"><a href="keyboard_8c.html#a7dc33e172cc74ca8883551aaff9baea8">deadkey_FRSW</a></div><div class="ttdeci">const uint16_t deadkey_FRSW[2][5]</div><div class="ttdef"><b>Definition:</b> <a href="keyboard_8c_source.html#l00142">keyboard.c:142</a></div></div>
-<div class="ttc" id="keyboard_8c_html_a1d0dd2de1a877e2179ccb74b332e0fae"><div class="ttname"><a href="keyboard_8c.html#a1d0dd2de1a877e2179ccb74b332e0fae">deadkey_NW</a></div><div class="ttdeci">const uint16_t deadkey_NW[2][5]</div><div class="ttdef"><b>Definition:</b> <a href="keyboard_8c_source.html#l00091">keyboard.c:91</a></div></div>
-<div class="ttc" id="keyboard_8c_html_a8f7369d73ee8ef5c3ea8be40820d7ba2"><div class="ttname"><a href="keyboard_8c.html#a8f7369d73ee8ef5c3ea8be40820d7ba2">deadkey_UK</a></div><div class="ttdeci">const uint16_t deadkey_UK[2][1]</div><div class="ttdef"><b>Definition:</b> <a href="keyboard_8c_source.html#l00069">keyboard.c:69</a></div></div>
-<div class="ttc" id="keyboard_8c_html_ade8fdb0a2b933d6d55bdc1674e1df67a"><div class="ttname"><a href="keyboard_8c.html#ade8fdb0a2b933d6d55bdc1674e1df67a">deadkey_SW</a></div><div class="ttdeci">const uint16_t deadkey_SW[2][5]</div><div class="ttdef"><b>Definition:</b> <a href="keyboard_8c_source.html#l00098">keyboard.c:98</a></div></div>
-<div class="ttc" id="keyboard_8c_html_a229e41acc78a3d889c7911f17e90e147"><div class="ttname"><a href="keyboard_8c.html#a229e41acc78a3d889c7911f17e90e147">deadkey_USINT</a></div><div class="ttdeci">const uint16_t deadkey_USINT[2][5]</div><div class="ttdef"><b>Definition:</b> <a href="keyboard_8c_source.html#l00034">keyboard.c:34</a></div></div>
-<div class="ttc" id="keyboard_8c_html_ada903161913e0afa0c219744cbc7e5ea"><div class="ttname"><a href="keyboard_8c.html#ada903161913e0afa0c219744cbc7e5ea">deadkey_CZ</a></div><div class="ttdeci">const uint16_t deadkey_CZ[2][8]</div><div class="ttdef"><b>Definition:</b> <a href="keyboard_8c_source.html#l00177">keyboard.c:177</a></div></div>
-<div class="ttc" id="keyboard_8c_html_a7cd2ac928f84dc65f75a5e4a7ab2927f"><div class="ttname"><a href="keyboard_8c.html#a7cd2ac928f84dc65f75a5e4a7ab2927f">deadkey_PTBR</a></div><div class="ttdeci">const uint16_t deadkey_PTBR[2][5]</div><div class="ttdef"><b>Definition:</b> <a href="keyboard_8c_source.html#l00121">keyboard.c:121</a></div></div>
-<div class="ttc" id="keyboard_8c_html_a1f15ce1497fc2cb9adc87d2b6054eab7"><div class="ttname"><a href="keyboard_8c.html#a1f15ce1497fc2cb9adc87d2b6054eab7">deadkey_FI</a></div><div class="ttdeci">const uint16_t deadkey_FI[2][5]</div><div class="ttdef"><b>Definition:</b> <a href="keyboard_8c_source.html#l00070">keyboard.c:70</a></div></div>
-<div class="ttc" id="keyboard_8c_html_a711a5f58eea15d8675cd0a2aff4c330c"><div class="ttname"><a href="keyboard_8c.html#a711a5f58eea15d8675cd0a2aff4c330c">deadkey_PT</a></div><div class="ttdeci">const uint16_t deadkey_PT[2][5]</div><div class="ttdef"><b>Definition:</b> <a href="keyboard_8c_source.html#l00112">keyboard.c:112</a></div></div>
-<div class="ttc" id="keyboard_8c_html_a578ebcef8bee280e893e52ad813be21e"><div class="ttname"><a href="keyboard_8c.html#a578ebcef8bee280e893e52ad813be21e">deadkey_ESLAT</a></div><div class="ttdeci">const uint16_t deadkey_ESLAT[2][4]</div><div class="ttdef"><b>Definition:</b> <a href="keyboard_8c_source.html#l00149">keyboard.c:149</a></div></div>
-<div class="ttc" id="keyboard_8c_html_a9ec646288a0cda3da65d49a13230a9e4"><div class="ttname"><a href="keyboard_8c.html#a9ec646288a0cda3da65d49a13230a9e4">deadkey_IT</a></div><div class="ttdeci">const uint16_t deadkey_IT[2][1]</div><div class="ttdef"><b>Definition:</b> <a href="keyboard_8c_source.html#l00119">keyboard.c:119</a></div></div>
-<div class="ttc" id="keyboard_8c_html_addff838ccd6d5b4b599d81110b2cf8c0"><div class="ttname"><a href="keyboard_8c.html#addff838ccd6d5b4b599d81110b2cf8c0">deadkey_DK</a></div><div class="ttdeci">const uint16_t deadkey_DK[2][5]</div><div class="ttdef"><b>Definition:</b> <a href="keyboard_8c_source.html#l00084">keyboard.c:84</a></div></div>
-<div class="ttc" id="keyboard_8c_html_a817c70e9a81eca8f3c97d1f62ddc7658"><div class="ttname"><a href="keyboard_8c.html#a817c70e9a81eca8f3c97d1f62ddc7658">deadkey_DE</a></div><div class="ttdeci">const uint16_t deadkey_DE[2][3]</div><div class="ttdef"><b>Definition:</b> <a href="keyboard_8c_source.html#l00041">keyboard.c:41</a></div></div>
-<div class="ttc" id="keyboard_8c_html_a793dcbc9946ff5506a1f0cf8b92bd037"><div class="ttname"><a href="keyboard_8c.html#a793dcbc9946ff5506a1f0cf8b92bd037">deadkey_SR</a></div><div class="ttdeci">const uint16_t deadkey_SR[2][10]</div><div class="ttdef"><b>Definition:</b> <a href="keyboard_8c_source.html#l00184">keyboard.c:184</a></div></div>
-<div class="ttc" id="keyboard_8c_html_a1a679f4c297e8dff55d2ec29d4ee2dbc"><div class="ttname"><a href="keyboard_8c.html#a1a679f4c297e8dff55d2ec29d4ee2dbc">deadkey_CAFR</a></div><div class="ttdeci">const uint16_t deadkey_CAFR[2][5]</div><div class="ttdef"><b>Definition:</b> <a href="keyboard_8c_source.html#l00055">keyboard.c:55</a></div></div>
-<div class="ttc" id="keyboard_8c_html_ad86b1e3cc68fb787d38bd88652a145a9"><div class="ttname"><a href="keyboard_8c.html#ad86b1e3cc68fb787d38bd88652a145a9">deadkey_CAINT</a></div><div class="ttdeci">const uint16_t deadkey_CAINT[2][7]</div><div class="ttdef"><b>Definition:</b> <a href="keyboard_8c_source.html#l00062">keyboard.c:62</a></div></div>
-<div class="ttc" id="keyboard_8c_html_ae0bd36eaca99cc09379a366bf45233fc"><div class="ttname"><a href="keyboard_8c.html#ae0bd36eaca99cc09379a366bf45233fc">deadkey_IC</a></div><div class="ttdeci">const uint16_t deadkey_IC[2][5]</div><div class="ttdef"><b>Definition:</b> <a href="keyboard_8c_source.html#l00163">keyboard.c:163</a></div></div>
-</div><!-- fragment --><p>array of pointers to a deadkey array for each locale. Index position of deadkey and deadkey bits equals between keycodes_deadkey_bits and keycodes_deadkey.</p>
-<dl class="section see"><dt>See also</dt><dd>keycodes_deadkey_DE (or any other language) WARNING: locale offset is different, because there is no LAYOUT_US_ENGLISH! </dd></dl>
+<b>Initial value:</b><div class="fragment"><div class="line">= {</div><div class="line">  <a class="code" href="keyboard_8c.html#a229e41acc78a3d889c7911f17e90e147">deadkey_USINT</a>[1],</div><div class="line">  deadkey_DE[1],</div><div class="line">  deadkey_DEMAC[1],</div><div class="line">  deadkey_CAFR[1],</div><div class="line">  deadkey_CAINT[1],</div><div class="line">  deadkey_UK[1],</div><div class="line">  deadkey_FI[1],</div><div class="line">  deadkey_FR[1],</div><div class="line">  deadkey_DK[1],</div><div class="line">  deadkey_NW[1],</div><div class="line">  deadkey_SW[1],</div><div class="line">  deadkey_ES[1],</div><div class="line">  deadkey_PT[1],</div><div class="line">  deadkey_IT[1],</div><div class="line">  deadkey_PTBR[1],</div><div class="line">  deadkey_FRBE[1],</div><div class="line">  deadkey_DESW[1],</div><div class="line">  deadkey_FRSW[1],</div><div class="line">  deadkey_ESLAT[1],</div><div class="line">  deadkey_IR[1],</div><div class="line">  deadkey_IC[1],</div><div class="line">  deadkey_TK[1],</div><div class="line">  deadkey_CZ[1],</div><div class="line">  deadkey_SR[1]</div><div class="line">}</div><div class="ttc" id="keyboard_8c_html_a229e41acc78a3d889c7911f17e90e147"><div class="ttname"><a href="keyboard_8c.html#a229e41acc78a3d889c7911f17e90e147">deadkey_USINT</a></div><div class="ttdeci">const uint16_t deadkey_USINT[2][5]</div><div class="ttdoc">Defines the bits and deadkeys itself for all available deadkeys for US_INTERNATIONAL. All other layouts have an equal array. If a layout does not have deadkeys at all, this array is of [2][1] dimension and initialised with {0,0}. </div><div class="ttdef"><b>Definition:</b> <a href="keyboard_8c_source.html#l00065">keyboard.c:65</a></div></div>
+</div><!-- fragment -->
+<p>Array of pointers to a deadkey keycodes array for each locale. </p>
+<p>We are using offset 1 from the deadkey_XXX array, because it contains the keycodes.</p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="keyboard_8c.html#a229e41acc78a3d889c7911f17e90e147" title="Defines the bits and deadkeys itself for all available deadkeys for US_INTERNATIONAL. All other layouts have an equal array. If a layout does not have deadkeys at all, this array is of [2][1] dimension and initialised with {0,0}. ">deadkey_USINT</a> (or any other language) </dd></dl>
+<dl class="section warning"><dt>Warning</dt><dd>Locale offset is different here, because there is no LAYOUT_US_ENGLISH (no deadkeys at all) </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="keyboard_8c_source.html#l00337">337</a> of file <a class="el" href="keyboard_8c_source.html">keyboard.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="keyboard_8c_source.html#l00380">380</a> of file <a class="el" href="keyboard_8c_source.html">keyboard.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="keyboard_8c_source.html#l01860">deadkey_to_keycode()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="keyboard_8c_source.html#l01952">deadkey_to_keycode()</a>.</p>
 
 </div>
 </div>
@@ -2540,36 +728,16 @@ Here is the caller graph for this function:</div>
         </tr>
       </table>
 </div><div class="memdoc">
-<b>Initial value:</b><div class="fragment"><div class="line">= {</div><div class="line">  <a class="code" href="keyboard_8c.html#a229e41acc78a3d889c7911f17e90e147">deadkey_USINT</a>[0],</div><div class="line">  <a class="code" href="keyboard_8c.html#a817c70e9a81eca8f3c97d1f62ddc7658">deadkey_DE</a>[0],</div><div class="line">  <a class="code" href="keyboard_8c.html#af1c4026b992bf0c8d0e828ffd73696fd">deadkey_DEMAC</a>[0],</div><div class="line">  <a class="code" href="keyboard_8c.html#a1a679f4c297e8dff55d2ec29d4ee2dbc">deadkey_CAFR</a>[0],</div><div class="line">  <a class="code" href="keyboard_8c.html#ad86b1e3cc68fb787d38bd88652a145a9">deadkey_CAINT</a>[0],</div><div class="line">  <a class="code" href="keyboard_8c.html#a8f7369d73ee8ef5c3ea8be40820d7ba2">deadkey_UK</a>[0],</div><div class="line">  <a class="code" href="keyboard_8c.html#a1f15ce1497fc2cb9adc87d2b6054eab7">deadkey_FI</a>[0],</div><div class="line">  <a class="code" href="keyboard_8c.html#a9b768ccf0fc5a165515b463061e4736b">deadkey_FR</a>[0],</div><div class="line">  <a class="code" href="keyboard_8c.html#addff838ccd6d5b4b599d81110b2cf8c0">deadkey_DK</a>[0],</div><div class="line">  <a class="code" href="keyboard_8c.html#a1d0dd2de1a877e2179ccb74b332e0fae">deadkey_NW</a>[0],</div><div class="line">  <a class="code" href="keyboard_8c.html#ade8fdb0a2b933d6d55bdc1674e1df67a">deadkey_SW</a>[0],</div><div class="line">  <a class="code" href="keyboard_8c.html#a6ebf4960ef3f10ea2778a20aac2d0ca2">deadkey_ES</a>[0],</div><div class="line">  <a class="code" href="keyboard_8c.html#a711a5f58eea15d8675cd0a2aff4c330c">deadkey_PT</a>[0],</div><div class="line">  <a class="code" href="keyboard_8c.html#a9ec646288a0cda3da65d49a13230a9e4">deadkey_IT</a>[0],</div><div class="line">  <a class="code" href="keyboard_8c.html#a7cd2ac928f84dc65f75a5e4a7ab2927f">deadkey_PTBR</a>[0],</div><div class="line">  <a class="code" href="keyboard_8c.html#a931f46c9a475ed4d85d2592c97d5cff3">deadkey_FRBE</a>[0],</div><div class="line">  <a class="code" href="keyboard_8c.html#a9bf2e329f08d21ca682b608348d88cfd">deadkey_DESW</a>[0],</div><div class="line">  <a class="code" href="keyboard_8c.html#a7dc33e172cc74ca8883551aaff9baea8">deadkey_FRSW</a>[0],</div><div class="line">  <a class="code" href="keyboard_8c.html#a578ebcef8bee280e893e52ad813be21e">deadkey_ESLAT</a>[0],</div><div class="line">  <a class="code" href="keyboard_8c.html#a7bb698e4abbb9d5d7481bd4a8572ec06">deadkey_IR</a>[0],</div><div class="line">  <a class="code" href="keyboard_8c.html#ae0bd36eaca99cc09379a366bf45233fc">deadkey_IC</a>[0],</div><div class="line">  <a class="code" href="keyboard_8c.html#abc900190df89ebab495224ce7bc85d71">deadkey_TK</a>[0],</div><div class="line">  <a class="code" href="keyboard_8c.html#ada903161913e0afa0c219744cbc7e5ea">deadkey_CZ</a>[0],</div><div class="line">  <a class="code" href="keyboard_8c.html#a793dcbc9946ff5506a1f0cf8b92bd037">deadkey_SR</a>[0]</div><div class="line">}</div><div class="ttc" id="keyboard_8c_html_abc900190df89ebab495224ce7bc85d71"><div class="ttname"><a href="keyboard_8c.html#abc900190df89ebab495224ce7bc85d71">deadkey_TK</a></div><div class="ttdeci">const uint16_t deadkey_TK[2][5]</div><div class="ttdef"><b>Definition:</b> <a href="keyboard_8c_source.html#l00170">keyboard.c:170</a></div></div>
-<div class="ttc" id="keyboard_8c_html_a931f46c9a475ed4d85d2592c97d5cff3"><div class="ttname"><a href="keyboard_8c.html#a931f46c9a475ed4d85d2592c97d5cff3">deadkey_FRBE</a></div><div class="ttdeci">const uint16_t deadkey_FRBE[2][5]</div><div class="ttdef"><b>Definition:</b> <a href="keyboard_8c_source.html#l00128">keyboard.c:128</a></div></div>
-<div class="ttc" id="keyboard_8c_html_af1c4026b992bf0c8d0e828ffd73696fd"><div class="ttname"><a href="keyboard_8c.html#af1c4026b992bf0c8d0e828ffd73696fd">deadkey_DEMAC</a></div><div class="ttdeci">const uint16_t deadkey_DEMAC[2][5]</div><div class="ttdef"><b>Definition:</b> <a href="keyboard_8c_source.html#l00048">keyboard.c:48</a></div></div>
-<div class="ttc" id="keyboard_8c_html_a9b768ccf0fc5a165515b463061e4736b"><div class="ttname"><a href="keyboard_8c.html#a9b768ccf0fc5a165515b463061e4736b">deadkey_FR</a></div><div class="ttdeci">const uint16_t deadkey_FR[2][4]</div><div class="ttdef"><b>Definition:</b> <a href="keyboard_8c_source.html#l00077">keyboard.c:77</a></div></div>
-<div class="ttc" id="keyboard_8c_html_a6ebf4960ef3f10ea2778a20aac2d0ca2"><div class="ttname"><a href="keyboard_8c.html#a6ebf4960ef3f10ea2778a20aac2d0ca2">deadkey_ES</a></div><div class="ttdeci">const uint16_t deadkey_ES[2][5]</div><div class="ttdef"><b>Definition:</b> <a href="keyboard_8c_source.html#l00105">keyboard.c:105</a></div></div>
-<div class="ttc" id="keyboard_8c_html_a9bf2e329f08d21ca682b608348d88cfd"><div class="ttname"><a href="keyboard_8c.html#a9bf2e329f08d21ca682b608348d88cfd">deadkey_DESW</a></div><div class="ttdeci">const uint16_t deadkey_DESW[2][5]</div><div class="ttdef"><b>Definition:</b> <a href="keyboard_8c_source.html#l00135">keyboard.c:135</a></div></div>
-<div class="ttc" id="keyboard_8c_html_a7bb698e4abbb9d5d7481bd4a8572ec06"><div class="ttname"><a href="keyboard_8c.html#a7bb698e4abbb9d5d7481bd4a8572ec06">deadkey_IR</a></div><div class="ttdeci">const uint16_t deadkey_IR[2][2]</div><div class="ttdef"><b>Definition:</b> <a href="keyboard_8c_source.html#l00156">keyboard.c:156</a></div></div>
-<div class="ttc" id="keyboard_8c_html_a7dc33e172cc74ca8883551aaff9baea8"><div class="ttname"><a href="keyboard_8c.html#a7dc33e172cc74ca8883551aaff9baea8">deadkey_FRSW</a></div><div class="ttdeci">const uint16_t deadkey_FRSW[2][5]</div><div class="ttdef"><b>Definition:</b> <a href="keyboard_8c_source.html#l00142">keyboard.c:142</a></div></div>
-<div class="ttc" id="keyboard_8c_html_a1d0dd2de1a877e2179ccb74b332e0fae"><div class="ttname"><a href="keyboard_8c.html#a1d0dd2de1a877e2179ccb74b332e0fae">deadkey_NW</a></div><div class="ttdeci">const uint16_t deadkey_NW[2][5]</div><div class="ttdef"><b>Definition:</b> <a href="keyboard_8c_source.html#l00091">keyboard.c:91</a></div></div>
-<div class="ttc" id="keyboard_8c_html_a8f7369d73ee8ef5c3ea8be40820d7ba2"><div class="ttname"><a href="keyboard_8c.html#a8f7369d73ee8ef5c3ea8be40820d7ba2">deadkey_UK</a></div><div class="ttdeci">const uint16_t deadkey_UK[2][1]</div><div class="ttdef"><b>Definition:</b> <a href="keyboard_8c_source.html#l00069">keyboard.c:69</a></div></div>
-<div class="ttc" id="keyboard_8c_html_ade8fdb0a2b933d6d55bdc1674e1df67a"><div class="ttname"><a href="keyboard_8c.html#ade8fdb0a2b933d6d55bdc1674e1df67a">deadkey_SW</a></div><div class="ttdeci">const uint16_t deadkey_SW[2][5]</div><div class="ttdef"><b>Definition:</b> <a href="keyboard_8c_source.html#l00098">keyboard.c:98</a></div></div>
-<div class="ttc" id="keyboard_8c_html_a229e41acc78a3d889c7911f17e90e147"><div class="ttname"><a href="keyboard_8c.html#a229e41acc78a3d889c7911f17e90e147">deadkey_USINT</a></div><div class="ttdeci">const uint16_t deadkey_USINT[2][5]</div><div class="ttdef"><b>Definition:</b> <a href="keyboard_8c_source.html#l00034">keyboard.c:34</a></div></div>
-<div class="ttc" id="keyboard_8c_html_ada903161913e0afa0c219744cbc7e5ea"><div class="ttname"><a href="keyboard_8c.html#ada903161913e0afa0c219744cbc7e5ea">deadkey_CZ</a></div><div class="ttdeci">const uint16_t deadkey_CZ[2][8]</div><div class="ttdef"><b>Definition:</b> <a href="keyboard_8c_source.html#l00177">keyboard.c:177</a></div></div>
-<div class="ttc" id="keyboard_8c_html_a7cd2ac928f84dc65f75a5e4a7ab2927f"><div class="ttname"><a href="keyboard_8c.html#a7cd2ac928f84dc65f75a5e4a7ab2927f">deadkey_PTBR</a></div><div class="ttdeci">const uint16_t deadkey_PTBR[2][5]</div><div class="ttdef"><b>Definition:</b> <a href="keyboard_8c_source.html#l00121">keyboard.c:121</a></div></div>
-<div class="ttc" id="keyboard_8c_html_a1f15ce1497fc2cb9adc87d2b6054eab7"><div class="ttname"><a href="keyboard_8c.html#a1f15ce1497fc2cb9adc87d2b6054eab7">deadkey_FI</a></div><div class="ttdeci">const uint16_t deadkey_FI[2][5]</div><div class="ttdef"><b>Definition:</b> <a href="keyboard_8c_source.html#l00070">keyboard.c:70</a></div></div>
-<div class="ttc" id="keyboard_8c_html_a711a5f58eea15d8675cd0a2aff4c330c"><div class="ttname"><a href="keyboard_8c.html#a711a5f58eea15d8675cd0a2aff4c330c">deadkey_PT</a></div><div class="ttdeci">const uint16_t deadkey_PT[2][5]</div><div class="ttdef"><b>Definition:</b> <a href="keyboard_8c_source.html#l00112">keyboard.c:112</a></div></div>
-<div class="ttc" id="keyboard_8c_html_a578ebcef8bee280e893e52ad813be21e"><div class="ttname"><a href="keyboard_8c.html#a578ebcef8bee280e893e52ad813be21e">deadkey_ESLAT</a></div><div class="ttdeci">const uint16_t deadkey_ESLAT[2][4]</div><div class="ttdef"><b>Definition:</b> <a href="keyboard_8c_source.html#l00149">keyboard.c:149</a></div></div>
-<div class="ttc" id="keyboard_8c_html_a9ec646288a0cda3da65d49a13230a9e4"><div class="ttname"><a href="keyboard_8c.html#a9ec646288a0cda3da65d49a13230a9e4">deadkey_IT</a></div><div class="ttdeci">const uint16_t deadkey_IT[2][1]</div><div class="ttdef"><b>Definition:</b> <a href="keyboard_8c_source.html#l00119">keyboard.c:119</a></div></div>
-<div class="ttc" id="keyboard_8c_html_addff838ccd6d5b4b599d81110b2cf8c0"><div class="ttname"><a href="keyboard_8c.html#addff838ccd6d5b4b599d81110b2cf8c0">deadkey_DK</a></div><div class="ttdeci">const uint16_t deadkey_DK[2][5]</div><div class="ttdef"><b>Definition:</b> <a href="keyboard_8c_source.html#l00084">keyboard.c:84</a></div></div>
-<div class="ttc" id="keyboard_8c_html_a817c70e9a81eca8f3c97d1f62ddc7658"><div class="ttname"><a href="keyboard_8c.html#a817c70e9a81eca8f3c97d1f62ddc7658">deadkey_DE</a></div><div class="ttdeci">const uint16_t deadkey_DE[2][3]</div><div class="ttdef"><b>Definition:</b> <a href="keyboard_8c_source.html#l00041">keyboard.c:41</a></div></div>
-<div class="ttc" id="keyboard_8c_html_a793dcbc9946ff5506a1f0cf8b92bd037"><div class="ttname"><a href="keyboard_8c.html#a793dcbc9946ff5506a1f0cf8b92bd037">deadkey_SR</a></div><div class="ttdeci">const uint16_t deadkey_SR[2][10]</div><div class="ttdef"><b>Definition:</b> <a href="keyboard_8c_source.html#l00184">keyboard.c:184</a></div></div>
-<div class="ttc" id="keyboard_8c_html_a1a679f4c297e8dff55d2ec29d4ee2dbc"><div class="ttname"><a href="keyboard_8c.html#a1a679f4c297e8dff55d2ec29d4ee2dbc">deadkey_CAFR</a></div><div class="ttdeci">const uint16_t deadkey_CAFR[2][5]</div><div class="ttdef"><b>Definition:</b> <a href="keyboard_8c_source.html#l00055">keyboard.c:55</a></div></div>
-<div class="ttc" id="keyboard_8c_html_ad86b1e3cc68fb787d38bd88652a145a9"><div class="ttname"><a href="keyboard_8c.html#ad86b1e3cc68fb787d38bd88652a145a9">deadkey_CAINT</a></div><div class="ttdeci">const uint16_t deadkey_CAINT[2][7]</div><div class="ttdef"><b>Definition:</b> <a href="keyboard_8c_source.html#l00062">keyboard.c:62</a></div></div>
-<div class="ttc" id="keyboard_8c_html_ae0bd36eaca99cc09379a366bf45233fc"><div class="ttname"><a href="keyboard_8c.html#ae0bd36eaca99cc09379a366bf45233fc">deadkey_IC</a></div><div class="ttdeci">const uint16_t deadkey_IC[2][5]</div><div class="ttdef"><b>Definition:</b> <a href="keyboard_8c_source.html#l00163">keyboard.c:163</a></div></div>
-</div><!-- fragment --><p>array of pointers to a deadkey bits array for each locale.</p>
-<dl class="section see"><dt>See also</dt><dd>keycodes_deadkey_DE (or any other language) WARNING: locale offset is different, because there is no LAYOUT_US_ENGLISH! </dd></dl>
+<b>Initial value:</b><div class="fragment"><div class="line">= {</div><div class="line">  <a class="code" href="keyboard_8c.html#a229e41acc78a3d889c7911f17e90e147">deadkey_USINT</a>[0],</div><div class="line">  deadkey_DE[0],</div><div class="line">  deadkey_DEMAC[0],</div><div class="line">  deadkey_CAFR[0],</div><div class="line">  deadkey_CAINT[0],</div><div class="line">  deadkey_UK[0],</div><div class="line">  deadkey_FI[0],</div><div class="line">  deadkey_FR[0],</div><div class="line">  deadkey_DK[0],</div><div class="line">  deadkey_NW[0],</div><div class="line">  deadkey_SW[0],</div><div class="line">  deadkey_ES[0],</div><div class="line">  deadkey_PT[0],</div><div class="line">  deadkey_IT[0],</div><div class="line">  deadkey_PTBR[0],</div><div class="line">  deadkey_FRBE[0],</div><div class="line">  deadkey_DESW[0],</div><div class="line">  deadkey_FRSW[0],</div><div class="line">  deadkey_ESLAT[0],</div><div class="line">  deadkey_IR[0],</div><div class="line">  deadkey_IC[0],</div><div class="line">  deadkey_TK[0],</div><div class="line">  deadkey_CZ[0],</div><div class="line">  deadkey_SR[0]</div><div class="line">}</div><div class="ttc" id="keyboard_8c_html_a229e41acc78a3d889c7911f17e90e147"><div class="ttname"><a href="keyboard_8c.html#a229e41acc78a3d889c7911f17e90e147">deadkey_USINT</a></div><div class="ttdeci">const uint16_t deadkey_USINT[2][5]</div><div class="ttdoc">Defines the bits and deadkeys itself for all available deadkeys for US_INTERNATIONAL. All other layouts have an equal array. If a layout does not have deadkeys at all, this array is of [2][1] dimension and initialised with {0,0}. </div><div class="ttdef"><b>Definition:</b> <a href="keyboard_8c_source.html#l00065">keyboard.c:65</a></div></div>
+</div><!-- fragment -->
+<p>Array of pointers to a deadkey bits array for each locale. </p>
+<p>We are using offset 0 from the deadkey_XXX array, because it contains the bitmasks.</p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="keyboard_8c.html#a229e41acc78a3d889c7911f17e90e147" title="Defines the bits and deadkeys itself for all available deadkeys for US_INTERNATIONAL. All other layouts have an equal array. If a layout does not have deadkeys at all, this array is of [2][1] dimension and initialised with {0,0}. ">deadkey_USINT</a> (or any other language) </dd></dl>
+<dl class="section warning"><dt>Warning</dt><dd>Locale offset is different here, because there is no LAYOUT_US_ENGLISH (no deadkeys at all) </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="keyboard_8c_source.html#l00302">302</a> of file <a class="el" href="keyboard_8c_source.html">keyboard.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="keyboard_8c_source.html#l00343">343</a> of file <a class="el" href="keyboard_8c_source.html">keyboard.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="keyboard_8c_source.html#l01860">deadkey_to_keycode()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="keyboard_8c_source.html#l01952">deadkey_to_keycode()</a>.</p>
 
 </div>
 </div>
@@ -2584,11 +752,15 @@ Here is the caller graph for this function:</div>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>array of keycodes for ISO8859 code points. WARNING: locale offset is different, because there is no LAYOUT_US_ENGLISH! </p>
 
-<p class="definition">Definition at line <a class="el" href="keyboard_8c_source.html#l01117">1117</a> of file <a class="el" href="keyboard_8c_source.html">keyboard.c</a>.</p>
+<p>Array of all keycodes for ISO8859 (unicode) symbols/code points. </p>
+<p>The array offset is on the one hand the locale as it is defined in keyboard_layouts and on the other hand the unicode number - 0xA0. &ndash;&gt; unicode 0xA2 character is for US_INTERNATIONAL on position [0][2]</p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="keyboard_8h.html#a2a924c746739f7a895f76d13ef8e6e5f">keyboard_layouts</a> </dd></dl>
+<dl class="section warning"><dt>Warning</dt><dd>Locale offset is different to the ASCII array, we don't have LAYOUT_US_ENGLISH here. </dd></dl>
 
-<p class="reference">Referenced by <a class="el" href="keyboard_8c_source.html#l01816">unicode_to_keycode()</a>.</p>
+<p class="definition">Definition at line <a class="el" href="keyboard_8c_source.html#l01180">1180</a> of file <a class="el" href="keyboard_8c_source.html">keyboard.c</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="keyboard_8c_source.html#l01894">unicode_to_keycode()</a>.</p>
 
 </div>
 </div>
@@ -2604,9 +776,11 @@ Here is the caller graph for this function:</div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="keyboard_8c_source.html#l00192">192</a> of file <a class="el" href="keyboard_8c_source.html">keyboard.c</a>.</p>
+<p>Defines all masks necessary for either getting modifiers or the keycode. </p>
 
-<p class="reference">Referenced by <a class="el" href="keyboard_8c_source.html#l01860">deadkey_to_keycode()</a>, <a class="el" href="keyboard_8c_source.html#l01886">keycode_to_modifier()</a>, and <a class="el" href="keyboard_8c_source.html#l01816">unicode_to_keycode()</a>.</p>
+<p class="definition">Definition at line <a class="el" href="keyboard_8c_source.html#l00228">228</a> of file <a class="el" href="keyboard_8c_source.html">keyboard.c</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="keyboard_8c_source.html#l01952">deadkey_to_keycode()</a>, <a class="el" href="keyboard_8c_source.html#l01993">keycode_to_modifier()</a>, and <a class="el" href="keyboard_8c_source.html#l01894">unicode_to_keycode()</a>.</p>
 
 </div>
 </div>

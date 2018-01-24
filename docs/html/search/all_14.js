@@ -1,25 +1,5 @@
 var searchData=
 [
-  ['vb_5fdown',['VB_DOWN',['../common_8h.html#ae632adac4c2cbf494b5e27503aeb10e6',1,'common.h']]],
-  ['vb_5fexternal1',['VB_EXTERNAL1',['../common_8h.html#a60dd10a4dea05105f297d604f1d7ba4e',1,'common.h']]],
-  ['vb_5fexternal2',['VB_EXTERNAL2',['../common_8h.html#a998d2a4a3ffc3ae563e85e4e80dd9d9e',1,'common.h']]],
-  ['vb_5fflag_5fboth',['VB_FLAG_BOTH',['../task__debouncer_8c.html#ab931a2ce02e62a4d87b8af6ccfe31914',1,'task_debouncer.c']]],
-  ['vb_5fflag_5fpress',['VB_FLAG_PRESS',['../task__debouncer_8c.html#ab0629629d96183851a7379e43431008e',1,'task_debouncer.c']]],
-  ['vb_5fflag_5frelease',['VB_FLAG_RELEASE',['../task__debouncer_8c.html#a4221f8292d1ec2f1fd1fb135c5e2f72b',1,'task_debouncer.c']]],
-  ['vb_5finternal1',['VB_INTERNAL1',['../common_8h.html#a76213073cf3d4277fe0ca38949b3f0f3',1,'common.h']]],
-  ['vb_5finternal2',['VB_INTERNAL2',['../common_8h.html#aed1abf062a8b94cfb0c408689f2ee2a6',1,'common.h']]],
-  ['vb_5fiter',['VB_ITER',['../task__debouncer_8c.html#a274ad32193e2608242327c2b59d5e8a0',1,'task_debouncer.c']]],
-  ['vb_5fleft',['VB_LEFT',['../common_8h.html#a82bea7068827b5b40ca104e615578b24',1,'common.h']]],
-  ['vb_5fpuff',['VB_PUFF',['../common_8h.html#a8be493846a35453a1d30a4900e737a1f',1,'common.h']]],
-  ['vb_5fright',['VB_RIGHT',['../common_8h.html#a33efec87d8225b3d5090249066e1afd1',1,'common.h']]],
-  ['vb_5fsingleshot',['VB_SINGLESHOT',['../common_8h.html#a784ceb4b2d4c4fb77baa99646c6e5035',1,'common.h']]],
-  ['vb_5fsip',['VB_SIP',['../common_8h.html#a3d4762ae367acc310d3d9fa8bd5d44fc',1,'common.h']]],
-  ['vb_5fstrongpuff',['VB_STRONGPUFF',['../common_8h.html#aed369f77fa5db4fc8621cea240f04436',1,'common.h']]],
-  ['vb_5fstrongsip',['VB_STRONGSIP',['../common_8h.html#a037f0b6cdbcd806152d1e5b6f71b555c',1,'common.h']]],
-  ['vb_5fup',['VB_UP',['../common_8h.html#ac9e5139cb56568693244c234d156f76b',1,'common.h']]],
-  ['virtualbutton',['virtualButton',['../structtaskConfigSwitcherConfig.html#acf206e3d16ac612266677ae74fb39b92',1,'taskConfigSwitcherConfig::virtualButton()'],['../structtaskNoParameterConfig.html#ae7e56968b4aa5b8b0f0a4e8b9eb5c645',1,'taskNoParameterConfig::virtualButton()'],['../structtaskKeyboardConfig.html#aae706eddea395cbff84ab46814bcc9ae',1,'taskKeyboardConfig::virtualButton()'],['../structtaskMouseConfig.html#a3bb6fa49c72ff534b4178abf12b213f6',1,'taskMouseConfig::virtualButton()']]],
-  ['virtualbuttoncommand',['virtualButtonCommand',['../structgeneralConfig.html#a98d9a4aa6f20d96934a99e63f280e429',1,'generalConfig']]],
-  ['virtualbuttonconfig',['virtualButtonConfig',['../structgeneralConfig.html#ad54324c99dcd927be3cd155a0ee64dfa',1,'generalConfig']]],
-  ['virtualbuttonsin',['virtualButtonsIn',['../flipmouse__fabi__esp32__kbdmouse__main_8c.html#a591ffaa399081915a0eab951f83f93e2',1,'virtualButtonsIn():&#160;flipmouse_fabi_esp32_kbdmouse_main.c'],['../common_8h.html#a591ffaa399081915a0eab951f83f93e2',1,'virtualButtonsIn():&#160;flipmouse_fabi_esp32_kbdmouse_main.c']]],
-  ['virtualbuttonsout',['virtualButtonsOut',['../flipmouse__fabi__esp32__kbdmouse__main_8c.html#a3633668cff0a27ea52ca662673978667',1,'virtualButtonsOut():&#160;flipmouse_fabi_esp32_kbdmouse_main.c'],['../common_8h.html#a3633668cff0a27ea52ca662673978667',1,'virtualButtonsOut():&#160;flipmouse_fabi_esp32_kbdmouse_main.c']]]
+  ['wheel',['wheel',['../structmouse__command.html#a813db5c3e3e2d7f013972f54b8257464',1,'mouse_command::wheel()'],['../task__mouse_8h.html#ad99a95527afeac61cb05911c7695d942ac7b6c6728ce2073ebab56d038205e7b3',1,'WHEEL():&#160;task_mouse.h']]],
+  ['write',['WRITE',['../task__kbd_8h.html#aff3bf982a86299e69b007b0d16a45227a61aa7ff70b76bff0fda378cf61d6afbc',1,'task_kbd.h']]]
 ];

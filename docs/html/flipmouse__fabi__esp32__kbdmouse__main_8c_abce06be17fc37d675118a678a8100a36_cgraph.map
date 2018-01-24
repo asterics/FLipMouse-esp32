@@ -1,20 +1,20 @@
 <map id="app_main" name="app_main">
-<area shape="rect" id="node2" href="$task__debouncer_8c.html#a79d88e490be7198b9cc37556c66b837b" title="Function task for debouncing virtual buttons. " alt="" coords="141,81,255,108"/>
-<area shape="rect" id="node7" href="$hal__adc_8c.html#a6f0d302f35e5b7f7a1144f0ddace35d2" title="halAdcInit" alt="" coords="341,157,421,184"/>
+<area shape="rect" id="node2" href="$task__debouncer_8c.html#a79d88e490be7198b9cc37556c66b837b" title="Debouncing main task. " alt="" coords="141,81,255,108"/>
+<area shape="rect" id="node7" href="$hal__adc_8c.html#a6f0d302f35e5b7f7a1144f0ddace35d2" title="Init the ADC driver module. " alt="" coords="341,157,421,184"/>
 <area shape="rect" id="node12" href="$hal__io_8c.html#aa5ee74913a09cba6dca62bfdc9f8342b" title="halIOInit" alt="" coords="163,208,233,235"/>
-<area shape="rect" id="node13" href="$config__switcher_8c.html#a86cf5463fd33be463736adad4ee9d7ca" title="configSwitcherInit" alt="" coords="135,259,261,285"/>
+<area shape="rect" id="node13" href="$config__switcher_8c.html#aafed047c8d04b814a85239e031cbad7b" title="Initializing the config switching functionality. " alt="" coords="135,259,261,285"/>
 <area shape="rect" id="node34" href="$hal__ble_8c.html#a8ad6c50e81bae3e24e2f86a2797384c2" title="halBLEInit" alt="" coords="157,309,239,336"/>
 <area shape="rect" id="node35" href="$hal__serial_8c.html#a2d03c06463b09e33d87d90eb273819b0" title="halSerialInit" alt="" coords="153,360,243,387"/>
-<area shape="rect" id="node36" href="$task__commands_8c.html#aedb896e40753227f80768e09d3748419" title="taskCommandsInit" alt="" coords="132,411,264,437"/>
-<area shape="rect" id="node3" href="$task__debouncer_8c.html#a308ec03f3a777bacc9507657f285159a" title="isDebouncerActive" alt="" coords="745,5,877,32"/>
-<area shape="rect" id="node4" href="$task__debouncer_8c.html#a2d41ed2a246a1b8d4ee5510262001e50" title="startTimer" alt="" coords="340,56,421,83"/>
-<area shape="rect" id="node6" href="$task__debouncer_8c.html#ad6a8419e00b94feeb5177a3570efe6ba" title="cancelTimer" alt="" coords="765,56,858,83"/>
-<area shape="rect" id="node5" href="$task__debouncer_8c.html#a4a76abdbb849aa0bbc66aa001c6f4af9" title="debouncerCallback" alt="" coords="524,56,657,83"/>
-<area shape="rect" id="node8" href="$hal__adc_8c.html#a4135bb73c2271b4a27db8d8d81884de7" title="halAdcUpdateConfig" alt="" coords="519,157,662,184"/>
-<area shape="rect" id="node9" href="$hal__adc_8c.html#aadc294c08df0386572ffdc8e7228f6b4" title="halAdcTaskMouse" alt="" coords="746,107,877,133"/>
-<area shape="rect" id="node10" href="$hal__adc_8c.html#a452077aaa6a576304708d00d4ec439f1" title="halAdcTaskJoystick" alt="" coords="741,157,881,184"/>
-<area shape="rect" id="node11" href="$hal__adc_8c.html#aee719704e643d27c1faab768cf4bc22e" title="halAdcTaskThreshold" alt="" coords="737,208,885,235"/>
-<area shape="rect" id="node14" href="$config__switcher_8c.html#af5af5079d1982d42e165039e6de7e40a" title="configSwitcherTask" alt="" coords="312,360,449,387"/>
+<area shape="rect" id="node36" href="$task__commands_8c.html#aedb896e40753227f80768e09d3748419" title="Init the command parser. " alt="" coords="132,411,264,437"/>
+<area shape="rect" id="node3" href="$task__debouncer_8c.html#a308ec03f3a777bacc9507657f285159a" title="Look for a possibly running debouncing timer. " alt="" coords="745,5,877,32"/>
+<area shape="rect" id="node4" href="$task__debouncer_8c.html#a2d41ed2a246a1b8d4ee5510262001e50" title="Start a debouncing timer with given debounce time and VB number. " alt="" coords="340,56,421,83"/>
+<area shape="rect" id="node6" href="$task__debouncer_8c.html#ad6a8419e00b94feeb5177a3570efe6ba" title="Cancel a possibly running debouncing timer. " alt="" coords="765,56,858,83"/>
+<area shape="rect" id="node5" href="$task__debouncer_8c.html#a4a76abdbb849aa0bbc66aa001c6f4af9" title="Timer callback for debouncing. " alt="" coords="524,56,657,83"/>
+<area shape="rect" id="node8" href="$hal__adc_8c.html#a4135bb73c2271b4a27db8d8d81884de7" title="Reload ADC config. " alt="" coords="519,157,662,184"/>
+<area shape="rect" id="node9" href="$hal__adc_8c.html#aadc294c08df0386572ffdc8e7228f6b4" title="HAL TASK &#45; Mouse task for ADC. " alt="" coords="746,107,877,133"/>
+<area shape="rect" id="node10" href="$hal__adc_8c.html#a452077aaa6a576304708d00d4ec439f1" title="HAL TASK &#45; Joystick task for ADC. " alt="" coords="741,157,881,184"/>
+<area shape="rect" id="node11" href="$hal__adc_8c.html#aee719704e643d27c1faab768cf4bc22e" title="HAL TASK &#45; Threshold task for ADC. " alt="" coords="737,208,885,235"/>
+<area shape="rect" id="node14" href="$config__switcher_8c.html#af5af5079d1982d42e165039e6de7e40a" title="CONTINOUS TASK &#45; Config switcher task, internal config reloading. " alt="" coords="312,360,449,387"/>
 <area shape="rect" id="node15" href="$hal__storage_8c.html#ac67aaf5a3af4140bff3d7c134b9d771f" title="halStorageStartTransaction" alt="" coords="501,208,681,235"/>
 <area shape="rect" id="node16" href="$hal__storage_8c.html#aad5b764e7c611ff24dbcdd872dc9ae76" title="halStorageLoad" alt="" coords="535,259,647,285"/>
 <area shape="rect" id="node19" href="$hal__storage_8c.html#a75596c64adaa2b8d9104530acc94b094" title="halStorageLoadName" alt="" coords="517,309,664,336"/>
@@ -22,8 +22,8 @@
 <area shape="rect" id="node26" href="$hal__ble_8c.html#accf307974a0046bce38582d0260bf841" title="halBLEReset" alt="" coords="541,411,640,437"/>
 <area shape="rect" id="node27" href="$task__mouse_8c.html#aa8f5c0436e569589e735c419fc3d0ed8" title="task_mouse" alt="" coords="544,461,637,488"/>
 <area shape="rect" id="node28" href="$task__kbd_8c.html#a8ff4618047a049178bfb1d60abfefb5d" title="task_keyboard" alt="" coords="537,512,644,539"/>
-<area shape="rect" id="node30" href="$config__switcher_8c.html#a083adf41746c3380dcc6dbc099047f2e" title="task_configswitcher" alt="" coords="521,563,660,589"/>
-<area shape="rect" id="node31" href="$hal__adc_8c.html#a3217185bc86562dee8617ded3872022f" title="task_calibration" alt="" coords="534,613,647,640"/>
+<area shape="rect" id="node30" href="$config__switcher_8c.html#a083adf41746c3380dcc6dbc099047f2e" title="FUNCTIONAL TASK &#45; Load another slot. " alt="" coords="521,563,660,589"/>
+<area shape="rect" id="node31" href="$hal__adc_8c.html#a3217185bc86562dee8617ded3872022f" title="FUNCTIONAL TASK &#45; Trigger zero&#45;point calibration of mouthpiece. " alt="" coords="534,613,647,640"/>
 <area shape="rect" id="node33" href="$hal__storage_8c.html#abc699ff3996d12d3e6bcc9e372b277e0" title="halStorageLoadGetVBConfigs" alt="" coords="1193,588,1389,615"/>
 <area shape="rect" id="node17" href="$hal__storage_8c.html#a7e0a934f829b47e2445189dd95e962d6" title="halStorageGetNumberOfSlots" alt="" coords="944,259,1139,285"/>
 <area shape="rect" id="node18" href="$hal__storage_8c.html#a4b6566ef5b69c85d422df52435c95d36" title="halStorageChecks" alt="" coords="1439,385,1568,412"/>
@@ -33,6 +33,6 @@
 <area shape="rect" id="node23" href="$hal__storage_8c.html#aadf9ff06990d0f0af2eea2e6f2b8082a" title="halStorageStore" alt="" coords="1234,411,1349,437"/>
 <area shape="rect" id="node24" href="$hal__storage_8c.html#a1503debb336ea2d708e4e0884c7aa6a3" title="halStorageStoreSetVBConfigs" alt="" coords="1192,461,1391,488"/>
 <area shape="rect" id="node29" href="$task__kbd_8c.html#aad4ceb3ea958b99d596870013982d96e" title="sendToQueue" alt="" coords="760,512,863,539"/>
-<area shape="rect" id="node32" href="$hal__adc_8c.html#ae549c157d94729e8b06cb391f0f2c97b" title="halAdcCalibrate" alt="" coords="754,613,869,640"/>
+<area shape="rect" id="node32" href="$hal__adc_8c.html#ae549c157d94729e8b06cb391f0f2c97b" title="Calibration function. " alt="" coords="754,613,869,640"/>
 <area shape="rect" id="node37" href="$task__commands_8c.html#a7b36c39275d773aaedcb327ef4e1516f" title="task_commands" alt="" coords="321,411,440,437"/>
 </map>

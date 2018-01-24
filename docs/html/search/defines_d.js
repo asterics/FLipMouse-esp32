@@ -1,9 +1,20 @@
 var searchData=
 [
-  ['rctrl_5fmask',['RCTRL_MASK',['../keyboard_8c.html#a98ba1464421b839f920a865df4ddffab',1,'RCTRL_MASK():&#160;keyboard.c'],['../keyboard_8c.html#a98ba1464421b839f920a865df4ddffab',1,'RCTRL_MASK():&#160;keyboard.c'],['../keyboard_8c.html#a98ba1464421b839f920a865df4ddffab',1,'RCTRL_MASK():&#160;keyboard.c'],['../keyboard_8c.html#a98ba1464421b839f920a865df4ddffab',1,'RCTRL_MASK():&#160;keyboard.c']]],
-  ['right_5falt_5fkey_5fmask',['RIGHT_ALT_KEY_MASK',['../esp__hidd__prf__api_8h.html#a122fc4a09870e4f0c3e730ebcc7d58b8',1,'esp_hidd_prf_api.h']]],
-  ['right_5fcontrol_5fkey_5fmask',['RIGHT_CONTROL_KEY_MASK',['../esp__hidd__prf__api_8h.html#aa450725c0be6dc9d40c80d69b0a6aa69',1,'esp_hidd_prf_api.h']]],
-  ['right_5fgui_5fkey_5fmask',['RIGHT_GUI_KEY_MASK',['../esp__hidd__prf__api_8h.html#a5fceff1ced3de13f7e0a3d13750b47d9',1,'esp_hidd_prf_api.h']]],
-  ['right_5fshift_5fkey_5fmask',['RIGHT_SHIFT_KEY_MASK',['../esp__hidd__prf__api_8h.html#aa5cf8b6093b8111e14600bc334ceaf72',1,'esp_hidd_prf_api.h']]],
-  ['ring_5fabove_5fbits',['RING_ABOVE_BITS',['../keyboard_8c.html#adfb07cf02f49b11547b154304b262a69',1,'RING_ABOVE_BITS():&#160;keyboard.c'],['../keyboard_8c.html#adfb07cf02f49b11547b154304b262a69',1,'RING_ABOVE_BITS():&#160;keyboard.c'],['../keyboard_8c.html#adfb07cf02f49b11547b154304b262a69',1,'RING_ABOVE_BITS():&#160;keyboard.c'],['../keyboard_8c.html#adfb07cf02f49b11547b154304b262a69',1,'RING_ABOVE_BITS():&#160;keyboard.c'],['../keyboard_8c.html#adfb07cf02f49b11547b154304b262a69',1,'RING_ABOVE_BITS():&#160;keyboard.c'],['../keyboard_8c.html#adfb07cf02f49b11547b154304b262a69',1,'RING_ABOVE_BITS():&#160;keyboard.c'],['../keyboard_8c.html#adfb07cf02f49b11547b154304b262a69',1,'RING_ABOVE_BITS():&#160;keyboard.c'],['../keyboard_8c.html#adfb07cf02f49b11547b154304b262a69',1,'RING_ABOVE_BITS():&#160;keyboard.c']]]
+  ['vb_5fdown',['VB_DOWN',['../common_8h.html#ae632adac4c2cbf494b5e27503aeb10e6',1,'common.h']]],
+  ['vb_5fexternal1',['VB_EXTERNAL1',['../common_8h.html#a60dd10a4dea05105f297d604f1d7ba4e',1,'common.h']]],
+  ['vb_5fexternal2',['VB_EXTERNAL2',['../common_8h.html#a998d2a4a3ffc3ae563e85e4e80dd9d9e',1,'common.h']]],
+  ['vb_5fflag_5fboth',['VB_FLAG_BOTH',['../task__debouncer_8c.html#ab931a2ce02e62a4d87b8af6ccfe31914',1,'task_debouncer.c']]],
+  ['vb_5fflag_5fpress',['VB_FLAG_PRESS',['../task__debouncer_8c.html#ab0629629d96183851a7379e43431008e',1,'task_debouncer.c']]],
+  ['vb_5fflag_5frelease',['VB_FLAG_RELEASE',['../task__debouncer_8c.html#a4221f8292d1ec2f1fd1fb135c5e2f72b',1,'task_debouncer.c']]],
+  ['vb_5finternal1',['VB_INTERNAL1',['../common_8h.html#a76213073cf3d4277fe0ca38949b3f0f3',1,'common.h']]],
+  ['vb_5finternal2',['VB_INTERNAL2',['../common_8h.html#aed1abf062a8b94cfb0c408689f2ee2a6',1,'common.h']]],
+  ['vb_5fiter',['VB_ITER',['../task__debouncer_8c.html#a274ad32193e2608242327c2b59d5e8a0',1,'task_debouncer.c']]],
+  ['vb_5fleft',['VB_LEFT',['../common_8h.html#a82bea7068827b5b40ca104e615578b24',1,'common.h']]],
+  ['vb_5fpuff',['VB_PUFF',['../common_8h.html#a8be493846a35453a1d30a4900e737a1f',1,'common.h']]],
+  ['vb_5fright',['VB_RIGHT',['../common_8h.html#a33efec87d8225b3d5090249066e1afd1',1,'common.h']]],
+  ['vb_5fsingleshot',['VB_SINGLESHOT',['../common_8h.html#a784ceb4b2d4c4fb77baa99646c6e5035',1,'common.h']]],
+  ['vb_5fsip',['VB_SIP',['../common_8h.html#a3d4762ae367acc310d3d9fa8bd5d44fc',1,'common.h']]],
+  ['vb_5fstrongpuff',['VB_STRONGPUFF',['../common_8h.html#aed369f77fa5db4fc8621cea240f04436',1,'common.h']]],
+  ['vb_5fstrongsip',['VB_STRONGSIP',['../common_8h.html#a037f0b6cdbcd806152d1e5b6f71b555c',1,'common.h']]],
+  ['vb_5fup',['VB_UP',['../common_8h.html#ac9e5139cb56568693244c234d156f76b',1,'common.h']]]
 ];

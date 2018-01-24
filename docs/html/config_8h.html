@@ -69,16 +69,25 @@ $(function() {
 </div><!--header-->
 <div class="contents">
 
+<p>This module contains configuration variables/defines.  
+<a href="#details">More...</a></p>
+
 <p><a href="config_8h_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="define-members"></a>
 Macros</h2></td></tr>
 <tr class="memitem:aa407a75a23bf77b26269d3932ec0ff5f"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="config_8h.html#aa407a75a23bf77b26269d3932ec0ff5f">MODULE_ID</a>&#160;&#160;&#160;&quot;ESP32BT_v0.1&quot;</td></tr>
+<tr class="memdesc:aa407a75a23bf77b26269d3932ec0ff5f"><td class="mdescLeft">&#160;</td><td class="mdescRight">module firmware version  <a href="#aa407a75a23bf77b26269d3932ec0ff5f">More...</a><br /></td></tr>
 <tr class="separator:aa407a75a23bf77b26269d3932ec0ff5f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2249aa3172bdba6b2ba301dff2f13e6f"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="config_8h.html#a2249aa3172bdba6b2ba301dff2f13e6f">EX_UART_NUM</a>&#160;&#160;&#160;UART_NUM_0</td></tr>
+<tr class="memdesc:a2249aa3172bdba6b2ba301dff2f13e6f"><td class="mdescLeft">&#160;</td><td class="mdescRight">UART interface for command parsing &amp; sending USB HID.  <a href="#a2249aa3172bdba6b2ba301dff2f13e6f">More...</a><br /></td></tr>
 <tr class="separator:a2249aa3172bdba6b2ba301dff2f13e6f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Macro Definition Documentation</h2>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>This module contains configuration variables/defines. </p>
+
+<p class="definition">Definition in file <a class="el" href="config_8h_source.html">config.h</a>.</p>
+</div><h2 class="groupheader">Macro Definition Documentation</h2>
 <a id="a2249aa3172bdba6b2ba301dff2f13e6f"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a2249aa3172bdba6b2ba301dff2f13e6f">&#9670;&nbsp;</a></span>EX_UART_NUM</h2>
 
@@ -91,7 +100,10 @@ Macros</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="config_8h_source.html#l00004">4</a> of file <a class="el" href="config_8h_source.html">config.h</a>.</p>
+<p>UART interface for command parsing &amp; sending USB HID. </p>
+<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000001">Todo:</a></b></dt><dd>Change to external UART; currently set to serial port of monitor for debugging </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="config_8h_source.html#l00034">34</a> of file <a class="el" href="config_8h_source.html">config.h</a>.</p>
 
 </div>
 </div>
@@ -107,7 +119,10 @@ Macros</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="config_8h_source.html#l00001">1</a> of file <a class="el" href="config_8h_source.html">config.h</a>.</p>
+<p>module firmware version </p>
+<p>This string is used to determine the running firmware version. It is printed on the "AT FW" command. </p>
+
+<p class="definition">Definition at line <a class="el" href="config_8h_source.html#l00030">30</a> of file <a class="el" href="config_8h_source.html">config.h</a>.</p>
 
 </div>
 </div>

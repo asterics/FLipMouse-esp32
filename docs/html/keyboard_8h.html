@@ -117,16 +117,21 @@ Enumerations</h2></td></tr>
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
 <tr class="memitem:aaa2d4d5bce20b87c88be1a9a33aa85a4"><td class="memItemLeft" align="right" valign="top">uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="keyboard_8h.html#aaa2d4d5bce20b87c88be1a9a33aa85a4">parse_for_keycode</a> (uint8_t inputdata, uint8_t locale, uint8_t *keycode_modifier, uint8_t *deadkey_first_keycode)</td></tr>
+<tr class="memdesc:aaa2d4d5bce20b87c88be1a9a33aa85a4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Parse an incoming byte for a keycode, step 1.  <a href="#aaa2d4d5bce20b87c88be1a9a33aa85a4">More...</a><br /></td></tr>
 <tr class="separator:aaa2d4d5bce20b87c88be1a9a33aa85a4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a999cf21107da9c1a7e3797e72d95045b"><td class="memItemLeft" align="right" valign="top">uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="keyboard_8h.html#a999cf21107da9c1a7e3797e72d95045b">remove_keycode</a> (uint8_t keycode, uint8_t *keycode_arr)</td></tr>
+<tr class="memdesc:a999cf21107da9c1a7e3797e72d95045b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Remove a keycode from the given HID keycode array.  <a href="#a999cf21107da9c1a7e3797e72d95045b">More...</a><br /></td></tr>
 <tr class="separator:a999cf21107da9c1a7e3797e72d95045b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5aebbf68f68f1d3212fb187ff156e5c1"><td class="memItemLeft" align="right" valign="top">uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="keyboard_8h.html#a5aebbf68f68f1d3212fb187ff156e5c1">add_keycode</a> (uint8_t keycode, uint8_t *keycode_arr)</td></tr>
+<tr class="memdesc:a5aebbf68f68f1d3212fb187ff156e5c1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Add a keycode to the given HID keycode array.  <a href="#a5aebbf68f68f1d3212fb187ff156e5c1">More...</a><br /></td></tr>
 <tr class="separator:a5aebbf68f68f1d3212fb187ff156e5c1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af0f4540ba277012b977691ac7416ba96"><td class="memItemLeft" align="right" valign="top">uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="keyboard_8h.html#af0f4540ba277012b977691ac7416ba96">get_keycode</a> (uint16_t cpoint, uint8_t locale, uint8_t *keycode_modifier, uint8_t *deadkey_first_keystroke)</td></tr>
+<tr class="memdesc:af0f4540ba277012b977691ac7416ba96"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get a keycode for 16bit input, step 0 (if necessary)  <a href="#af0f4540ba277012b977691ac7416ba96">More...</a><br /></td></tr>
 <tr class="separator:af0f4540ba277012b977691ac7416ba96"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a10d2ca514d4bfa2fb6585d18a1dadc52"><td class="memItemLeft" align="right" valign="top">uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="keyboard_8h.html#a10d2ca514d4bfa2fb6585d18a1dadc52">get_cpoint</a> (uint16_t cpoint, uint8_t locale_src, uint8_t locale_dst)</td></tr>
 <tr class="separator:a10d2ca514d4bfa2fb6585d18a1dadc52"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5d5bd056cc1731c96de8522b7040f5f1"><td class="memItemLeft" align="right" valign="top">uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="keyboard_8h.html#a5d5bd056cc1731c96de8522b7040f5f1">get_hid_country_code</a> (uint8_t locale)</td></tr>
+<tr class="memdesc:a5d5bd056cc1731c96de8522b7040f5f1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Getting the HID country code for a given locale.  <a href="#a5d5bd056cc1731c96de8522b7040f5f1">More...</a><br /></td></tr>
 <tr class="separator:a5d5bd056cc1731c96de8522b7040f5f1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Enumeration Type Documentation</h2>
@@ -200,14 +205,16 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Add a keycode to the given HID keycode array. </p>
 <p>add a keycode to the given HID keycode array.</p>
 <dl class="section note"><dt>Note</dt><dd>The size of the keycode_arr parameter MUST be 6 </dd></dl>
 <dl class="section return"><dt>Returns</dt><dd>0 if the keycode was added, 1 if the keycode was already in the array, 2 if there was no space</dd></dl>
-<p>add a keycode to the given HID keycode array.</p>
+<p>This is a helper function for managing a 6 byte keycode array for HID reports.</p>
 <dl class="section note"><dt>Note</dt><dd>The size of the keycode_arr parameter MUST be 6 </dd></dl>
 <dl class="section return"><dt>Returns</dt><dd>0 if the keycode was added, 1 if the keycode was already in the array and 2 if there was no space </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="keyboard_8c_source.html#l01985">1985</a> of file <a class="el" href="keyboard_8c_source.html">keyboard.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="keyboard_8c_source.html#l02098">2098</a> of file <a class="el" href="keyboard_8c_source.html">keyboard.c</a>.</p>
 
 </div>
 </div>
@@ -264,6 +271,8 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Getting the HID country code for a given locale. </p>
 <p>getting the HID country code for a given locale</p>
 <dl class="section see"><dt>See also</dt><dd><a class="el" href="keyboard_8h.html#a2a924c746739f7a895f76d13ef8e6e5f">keyboard_layouts</a> </dd></dl>
 <dl class="section return"><dt>Returns</dt><dd>bCountryCode value for HID info </dd></dl>
@@ -273,7 +282,6 @@ Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
-<p>getting the HID country code for a given locale</p>
 <p>Source: USB Device class definition for HID, page 33</p>
 <dl class="section see"><dt>See also</dt><dd><a class="el" href="keyboard_8h.html#a2a924c746739f7a895f76d13ef8e6e5f">keyboard_layouts</a> </dd></dl>
 <dl class="section return"><dt>Returns</dt><dd>bCountryCode value for HID info </dd></dl>
@@ -284,7 +292,7 @@ Functions</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="keyboard_8c_source.html#l02042">2042</a> of file <a class="el" href="keyboard_8c_source.html">keyboard.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="keyboard_8c_source.html#l02160">2160</a> of file <a class="el" href="keyboard_8c_source.html">keyboard.c</a>.</p>
 
 </div>
 </div>
@@ -325,12 +333,25 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Get a keycode for 16bit input, step 0 (if necessary) </p>
 <p>get a keycode for the given UTF codepoint</p>
 <p>This method parses a 16bit unicode character to a keycode. If a modifier is needed the given modifier byte is updated.</p>
 <dl class="section see"><dt>See also</dt><dd><a class="el" href="keyboard_8h.html#a2a924c746739f7a895f76d13ef8e6e5f">keyboard_layouts</a> </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>0 if no keycode is found; the keycode otherwise</dd></dl>
+<p>This method parses a 16bit unicode character to a keycode by simply invoking parse_for_keycode two times. Some parameter in the FLipMouse/FABI configuration might be using 16bits for characters, so in this case this function is used.</p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="keyboard_8c.html#aaa2d4d5bce20b87c88be1a9a33aa85a4" title="Parse an incoming byte for a keycode, step 1. ">parse_for_keycode</a> </dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">cpoint</td><td>Codepoint to be parsed (16bit!!!) </td></tr>
+    <tr><td class="paramname">keycode_modifier</td><td>Modifier byte which will be changed to reflect this cpoint </td></tr>
+    <tr><td class="paramname">deadkey_first_keystroke</td><td>If a deadkey needs to be pressed first, this will be the keycode </td></tr>
+  </table>
+  </dd>
+</dl>
 <dl class="section return"><dt>Returns</dt><dd>0 if no keycode is found; the keycode otherwise </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="keyboard_8c_source.html#l02019">2019</a> of file <a class="el" href="keyboard_8c_source.html">keyboard.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="keyboard_8c_source.html#l02137">2137</a> of file <a class="el" href="keyboard_8c_source.html">keyboard.c</a>.</p>
 
 </div>
 </div>
@@ -371,17 +392,18 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Parse an incoming byte for a keycode, step 1. </p>
 <p>parse an incoming byte for a keycode</p>
 <p>This method parses one incoming byte for the given locale. It returns 0 if there is no keycode or another byte is needed (Unicode input). If a modifier is needed the given modifier byte is updated.</p>
 <dl class="section see"><dt>See also</dt><dd><a class="el" href="keyboard_8h.html#a2a924c746739f7a895f76d13ef8e6e5f">keyboard_layouts</a> </dd></dl>
 <dl class="section return"><dt>Returns</dt><dd>0 if another byte is needed or no keycode is found; the keycode otherwise</dd></dl>
-<p>parse an incoming byte for a keycode</p>
 <p>This method parses one incoming byte for the given locale. It returns 0 if there is no keycode or another byte is needed (Unicode input). If a modifier is needed the given modifier byte is updated.</p>
-<p>In the case of a necessary deadkey sequence, the second keystroke is returned and the first keystroke is written to the given parameter</p>
+<p>In the case of a necessary deadkey sequence, the second keystroke is returned and the first keystroke is written to the given parameter.</p>
 <dl class="section see"><dt>See also</dt><dd><a class="el" href="keyboard_8h.html#a2a924c746739f7a895f76d13ef8e6e5f">keyboard_layouts</a> </dd></dl>
 <dl class="section return"><dt>Returns</dt><dd>0 if another byte is needed or no keycode is found; the keycode otherwise </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="keyboard_8c_source.html#l01909">1909</a> of file <a class="el" href="keyboard_8c_source.html">keyboard.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="keyboard_8c_source.html#l02016">2016</a> of file <a class="el" href="keyboard_8c_source.html">keyboard.c</a>.</p>
 
 <p class="reference">Referenced by <a class="el" href="hal__serial_8c_source.html#l00092">halSerialTaskKeyboardPress()</a>, and <a class="el" href="hal__serial_8c_source.html#l00167">halSerialTaskKeyboardRelease()</a>.</p>
 <div class="dynheader">
@@ -421,11 +443,16 @@ Here is the caller graph for this function:</div>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Remove a keycode from the given HID keycode array. </p>
 <p>remove a keycode from the given HID keycode array.</p>
+<dl class="section note"><dt>Note</dt><dd>The size of the keycode_arr parameter MUST be 6 </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>0 if the keycode was removed, 1 if the keycode was not in the array</dd></dl>
+<p>This is a helper function for managing a 6 byte keycode array for HID reports.</p>
 <dl class="section note"><dt>Note</dt><dd>The size of the keycode_arr parameter MUST be 6 </dd></dl>
 <dl class="section return"><dt>Returns</dt><dd>0 if the keycode was removed, 1 if the keycode was not in the array </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="keyboard_8c_source.html#l01965">1965</a> of file <a class="el" href="keyboard_8c_source.html">keyboard.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="keyboard_8c_source.html#l02075">2075</a> of file <a class="el" href="keyboard_8c_source.html">keyboard.c</a>.</p>
 
 </div>
 </div>

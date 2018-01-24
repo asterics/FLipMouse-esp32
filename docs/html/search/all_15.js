@@ -1,5 +1,9 @@
 var searchData=
 [
-  ['wheel',['wheel',['../structmouse__command.html#a813db5c3e3e2d7f013972f54b8257464',1,'mouse_command::wheel()'],['../task__mouse_8h.html#ad99a95527afeac61cb05911c7695d942ac7b6c6728ce2073ebab56d038205e7b3',1,'WHEEL():&#160;task_mouse.h']]],
-  ['write',['WRITE',['../task__kbd_8h.html#aff3bf982a86299e69b007b0d16a45227a61aa7ff70b76bff0fda378cf61d6afbc',1,'task_kbd.h']]]
+  ['x',['x',['../structmouse__command.html#a2f4038a527180df9bd55555dc5e1a9c0',1,'mouse_command::x()'],['../structjoystick__data.html#ab634210498256fb469fdbbacb8e24aa4',1,'joystick_data::X()'],['../task__mouse_8h.html#ad99a95527afeac61cb05911c7695d942a58833a3110c570fb05130d40c365d1e4',1,'X():&#160;task_mouse.h']]],
+  ['xtimedebouncedeadtime',['xTimeDebounceDeadtime',['../task__debouncer_8c.html#a9e0faa645162aaacbb72971a070ed65c',1,'task_debouncer.c']]],
+  ['xtimedebouncepress',['xTimeDebouncePress',['../task__debouncer_8c.html#add6df857c2a4b9e88d36f0497b4e647e',1,'task_debouncer.c']]],
+  ['xtimedebouncerelease',['xTimeDebounceRelease',['../task__debouncer_8c.html#a6e0f2a105ef774d2e61a7c8fbecc2716',1,'task_debouncer.c']]],
+  ['xtimerdirection',['xTimerDirection',['../task__debouncer_8c.html#a9ccc9e17849266659f211b03861ae038',1,'task_debouncer.c']]],
+  ['xtimers',['xTimers',['../task__debouncer_8c.html#ac7c8d1bdf42262a7331008e325845e37',1,'task_debouncer.c']]]
 ];

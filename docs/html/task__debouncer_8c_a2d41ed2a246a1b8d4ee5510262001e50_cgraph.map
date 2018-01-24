@@ -1,5 +1,5 @@
 <map id="startTimer" name="startTimer">
-<area shape="rect" id="node2" href="$task__debouncer_8c.html#a4a76abdbb849aa0bbc66aa001c6f4af9" title="debouncerCallback" alt="" coords="135,31,268,57"/>
-<area shape="rect" id="node3" href="$task__debouncer_8c.html#a308ec03f3a777bacc9507657f285159a" title="isDebouncerActive" alt="" coords="316,5,448,32"/>
-<area shape="rect" id="node4" href="$task__debouncer_8c.html#ad6a8419e00b94feeb5177a3570efe6ba" title="cancelTimer" alt="" coords="335,56,429,83"/>
+<area shape="rect" id="node2" href="$task__debouncer_8c.html#a4a76abdbb849aa0bbc66aa001c6f4af9" title="Timer callback for debouncing. " alt="" coords="135,31,268,57"/>
+<area shape="rect" id="node3" href="$task__debouncer_8c.html#a308ec03f3a777bacc9507657f285159a" title="Look for a possibly running debouncing timer. " alt="" coords="316,5,448,32"/>
+<area shape="rect" id="node4" href="$task__debouncer_8c.html#ad6a8419e00b94feeb5177a3570efe6ba" title="Cancel a possibly running debouncing timer. " alt="" coords="335,56,429,83"/>
 </map>

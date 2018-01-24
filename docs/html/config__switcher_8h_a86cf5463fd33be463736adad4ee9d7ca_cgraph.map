@@ -8,7 +8,7 @@
 <area shape="rect" id="node18" href="$hal__ble_8c.html#accf307974a0046bce38582d0260bf841" title="halBLEReset" alt="" coords="409,259,508,285"/>
 <area shape="rect" id="node19" href="$task__mouse_8c.html#aa8f5c0436e569589e735c419fc3d0ed8" title="task_mouse" alt="" coords="412,309,505,336"/>
 <area shape="rect" id="node20" href="$task__kbd_8c.html#a8ff4618047a049178bfb1d60abfefb5d" title="task_keyboard" alt="" coords="405,360,512,387"/>
-<area shape="rect" id="node22" href="$config__switcher_8c.html#a083adf41746c3380dcc6dbc099047f2e" title="task_configswitcher" alt="" coords="389,411,528,437"/>
+<area shape="rect" id="node22" href="$config__switcher_8c.html#a083adf41746c3380dcc6dbc099047f2e" title="FUNCTIONAL TASK &#45; Load another slot. " alt="" coords="389,411,528,437"/>
 <area shape="rect" id="node23" href="$hal__adc_8c.html#a3217185bc86562dee8617ded3872022f" title="task_calibration" alt="" coords="402,461,515,488"/>
 <area shape="rect" id="node25" href="$hal__storage_8c.html#abc699ff3996d12d3e6bcc9e372b277e0" title="halStorageLoadGetVBConfigs" alt="" coords="1061,411,1257,437"/>
 <area shape="rect" id="node5" href="$hal__storage_8c.html#a7e0a934f829b47e2445189dd95e962d6" title="halStorageGetNumberOfSlots" alt="" coords="812,56,1007,83"/>

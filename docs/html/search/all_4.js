@@ -28,6 +28,6 @@ var searchData=
   ['esp_5fhidd_5fsta_5fconn_5ffail',['ESP_HIDD_STA_CONN_FAIL',['../esp__hidd__prf__api_8h.html#a586b8e50bea5f04b30a557a556264ed4a53bc94d7c4481a76d703fa15b5a0928d',1,'esp_hidd_prf_api.h']]],
   ['esp_5fhidd_5fsta_5fconn_5fstate_5ft',['esp_hidd_sta_conn_state_t',['../esp__hidd__prf__api_8h.html#a586b8e50bea5f04b30a557a556264ed4',1,'esp_hidd_prf_api.h']]],
   ['esp_5fhidd_5fsta_5fconn_5fsuccess',['ESP_HIDD_STA_CONN_SUCCESS',['../esp__hidd__prf__api_8h.html#a586b8e50bea5f04b30a557a556264ed4a7fcd7d664c626bb5096c466ad536c07e',1,'esp_hidd_prf_api.h']]],
-  ['ex_5fuart_5fnum',['EX_UART_NUM',['../config_8h.html#a2249aa3172bdba6b2ba301dff2f13e6f',1,'config.h']]],
+  ['ex_5fuart_5fnum',['EX_UART_NUM',['../common_8h.html#a2249aa3172bdba6b2ba301dff2f13e6f',1,'common.h']]],
   ['exponent',['exponent',['../structprf__char__pres__fmt.html#a99917c87ee0b06949bafa19db51df997',1,'prf_char_pres_fmt']]]
 ];

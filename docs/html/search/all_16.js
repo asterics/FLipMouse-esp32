@@ -1,9 +1,4 @@
 var searchData=
 [
-  ['x',['x',['../structmouse__command.html#a2f4038a527180df9bd55555dc5e1a9c0',1,'mouse_command::x()'],['../structjoystick__data.html#ab634210498256fb469fdbbacb8e24aa4',1,'joystick_data::X()'],['../task__mouse_8h.html#ad99a95527afeac61cb05911c7695d942a58833a3110c570fb05130d40c365d1e4',1,'X():&#160;task_mouse.h']]],
-  ['xtimedebouncedeadtime',['xTimeDebounceDeadtime',['../task__debouncer_8c.html#a9e0faa645162aaacbb72971a070ed65c',1,'task_debouncer.c']]],
-  ['xtimedebouncepress',['xTimeDebouncePress',['../task__debouncer_8c.html#add6df857c2a4b9e88d36f0497b4e647e',1,'task_debouncer.c']]],
-  ['xtimedebouncerelease',['xTimeDebounceRelease',['../task__debouncer_8c.html#a6e0f2a105ef774d2e61a7c8fbecc2716',1,'task_debouncer.c']]],
-  ['xtimerdirection',['xTimerDirection',['../task__debouncer_8c.html#a9ccc9e17849266659f211b03861ae038',1,'task_debouncer.c']]],
-  ['xtimers',['xTimers',['../task__debouncer_8c.html#ac7c8d1bdf42262a7331008e325845e37',1,'task_debouncer.c']]]
+  ['y',['Y',['../structjoystick__data.html#a36b738e01d4e8767c7170df18f7e48b8',1,'joystick_data::Y()'],['../structmouse__command.html#afd982356713c00311d2c5f7ce0915220',1,'mouse_command::y()'],['../task__mouse_8h.html#ad99a95527afeac61cb05911c7695d942a5596231eabd6cf29050967d5ac83ad84',1,'Y():&#160;task_mouse.h']]]
 ];

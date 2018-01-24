@@ -69,6 +69,9 @@ $(function() {
 <div class="title">task_debouncer.h File Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
+
+<p>This file contains the task implementation for the virtual button debouncer.  
+<a href="#details">More...</a></p>
 <div class="textblock"><code>#include &lt;freertos/FreeRTOS.h&gt;</code><br />
 <code>#include &lt;freertos/event_groups.h&gt;</code><br />
 <code>#include &lt;esp_log.h&gt;</code><br />
@@ -90,10 +93,15 @@ Macros</h2></td></tr>
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
 <tr class="memitem:a79d88e490be7198b9cc37556c66b837b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="task__debouncer_8h.html#a79d88e490be7198b9cc37556c66b837b">task_debouncer</a> (void *param)</td></tr>
-<tr class="memdesc:a79d88e490be7198b9cc37556c66b837b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function task for debouncing virtual buttons.  <a href="#a79d88e490be7198b9cc37556c66b837b">More...</a><br /></td></tr>
+<tr class="memdesc:a79d88e490be7198b9cc37556c66b837b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Debouncing main task.  <a href="#a79d88e490be7198b9cc37556c66b837b">More...</a><br /></td></tr>
 <tr class="separator:a79d88e490be7198b9cc37556c66b837b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Macro Definition Documentation</h2>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>This file contains the task implementation for the virtual button debouncer. </p>
+<p>Uses the event flags of virtualButtonsIn and if a flag is set there, the debouncer waits for a defined debouncing time and maps the flags to virtualButtonsOut. </p>
+
+<p class="definition">Definition in file <a class="el" href="task__debouncer_8h_source.html">task_debouncer.h</a>.</p>
+</div><h2 class="groupheader">Macro Definition Documentation</h2>
 <a id="a8a03a5acbeb4c00d3fdc4d84f237f1ed"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a8a03a5acbeb4c00d3fdc4d84f237f1ed">&#9670;&nbsp;</a></span>DEBOUNCE_RESOLUTION_MS</h2>
 
@@ -105,11 +113,14 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>time between each flag is checked and timers are started if a debounce value less than this is selected, flags are mapped immediately </p>
+<p>Time between each flag is checked and timers are started if a debounce value less than this is selected, flags are mapped immediately </p><dl class="section note"><dt>Note</dt><dd>Please use a value &gt;10ms, otherwise it might be less than a systick </dd>
+<dd>
+Adjust according to DEBOUNCETIME_MS </dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="task__debouncer_8h.html#adb027d7ba5fa2f4d411182ff9bbe735a">DEBOUNCETIME_MS</a> </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="task__debouncer_8h_source.html#l00044">44</a> of file <a class="el" href="task__debouncer_8h_source.html">task_debouncer.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="task__debouncer_8h_source.html#l00057">57</a> of file <a class="el" href="task__debouncer_8h_source.html">task_debouncer.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="task__debouncer_8c_source.html#l00144">task_debouncer()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="task__debouncer_8c_source.html#l00273">task_debouncer()</a>.</p>
 
 </div>
 </div>
@@ -124,11 +135,11 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>number of concurrent debouncing channels, each channel represents one software timer handle </p>
+<p>Number of concurrent debouncing channels, each channel represents one software timer handle </p>
 
-<p class="definition">Definition at line <a class="el" href="task__debouncer_8h_source.html#l00047">47</a> of file <a class="el" href="task__debouncer_8h_source.html">task_debouncer.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="task__debouncer_8h_source.html#l00060">60</a> of file <a class="el" href="task__debouncer_8h_source.html">task_debouncer.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="task__debouncer_8c_source.html#l00065">cancelTimer()</a>, <a class="el" href="task__debouncer_8c_source.html#l00053">isDebouncerActive()</a>, and <a class="el" href="task__debouncer_8c_source.html#l00121">startTimer()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="task__debouncer_8c_source.html#l00148">cancelTimer()</a>, <a class="el" href="task__debouncer_8c_source.html#l00128">isDebouncerActive()</a>, and <a class="el" href="task__debouncer_8c_source.html#l00227">startTimer()</a>.</p>
 
 </div>
 </div>
@@ -143,11 +154,15 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>default time before debounce kicks in and flag is mapped </p>
+<p>Default time before debounce kicks in and flag is mapped from virtualButtonsIn to virtualButtonsOut. </p><dl class="section see"><dt>See also</dt><dd><a class="el" href="common_8h.html#a591ffaa399081915a0eab951f83f93e2" title="Event group array for all virtual buttons, used by functional tasks to send a signal to the debouncer...">virtualButtonsIn</a> </dd>
+<dd>
+<a class="el" href="common_8h.html#a3633668cff0a27ea52ca662673978667" title="Event group array for all virtual buttons, used by functional tasks to be triggered. ">virtualButtonsOut</a> </dd></dl>
+<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000010">Todo:</a></b></dt><dd>Change this value from testing (500ms) to production (~50-100ms) </dd></dl>
+<dl class="section note"><dt>Note</dt><dd>Should be a factor of DEBOUNCE_RESOLUTION_MS, to avoid float divisions </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="task__debouncer_8h_source.html#l00040">40</a> of file <a class="el" href="task__debouncer_8h_source.html">task_debouncer.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="task__debouncer_8h_source.html#l00048">48</a> of file <a class="el" href="task__debouncer_8h_source.html">task_debouncer.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="task__debouncer_8c_source.html#l00144">task_debouncer()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="task__debouncer_8c_source.html#l00273">task_debouncer()</a>.</p>
 
 </div>
 </div>
@@ -162,10 +177,11 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Stack size for debouncer task </p>
 
-<p class="definition">Definition at line <a class="el" href="task__debouncer_8h_source.html#l00049">49</a> of file <a class="el" href="task__debouncer_8h_source.html">task_debouncer.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="task__debouncer_8h_source.html#l00063">63</a> of file <a class="el" href="task__debouncer_8h_source.html">task_debouncer.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c_source.html#l00410">app_main()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c_source.html#l00071">app_main()</a>.</p>
 
 </div>
 </div>
@@ -186,28 +202,66 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Function task for debouncing virtual buttons. </p>
-<dl class="section note"><dt>Note</dt><dd>Single shot is not supported here, this task is running persistently </dd></dl>
-<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000001">Todo:</a></b></dt><dd>Add anti-tremor functions</dd></dl>
+<p>Debouncing main task. </p>
+<p>This task is periodically testing the virtualButtonsIn flags for changes (DEBOUNCE_RESOLUTION_MS is used as delay between task wakeups). If a change is detected (either press or release flag for a virtualbutton is set), a timer is started.<br />
+ Either the timer expires and the flag is mapped to virtualButtonsOut by debouncerCallback.<br />
+ Or the input flag is cleared again by the responsible task and the debouncer cancels the timer as well (input was too short).</p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="task__debouncer_8h.html#ae55924cae00606d43fce524c9ddfa62e">DEBOUNCERCHANNELS</a> </dd>
+<dd>
+<a class="el" href="task__debouncer_8h.html#a8a03a5acbeb4c00d3fdc4d84f237f1ed">DEBOUNCE_RESOLUTION_MS</a> </dd>
+<dd>
+<a class="el" href="task__debouncer_8c.html#ac7c8d1bdf42262a7331008e325845e37" title="Array of timer handles. ">xTimers</a> </dd>
+<dd>
+<a class="el" href="task__debouncer_8c.html#a4a76abdbb849aa0bbc66aa001c6f4af9" title="Timer callback for debouncing. ">debouncerCallback</a> </dd>
+<dd>
+<a class="el" href="common_8h.html#a591ffaa399081915a0eab951f83f93e2" title="Event group array for all virtual buttons, used by functional tasks to send a signal to the debouncer...">virtualButtonsIn</a> </dd>
+<dd>
+<a class="el" href="common_8h.html#a3633668cff0a27ea52ca662673978667" title="Event group array for all virtual buttons, used by functional tasks to be triggered. ">virtualButtonsOut</a> </dd></dl>
+<dl class="section note"><dt>Note</dt><dd>This task is persistently running </dd></dl>
+<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000011">Todo:</a></b></dt><dd>Add anti-tremor &amp; deadtime functionality </dd></dl>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">param</td><td>No parameter needed, provide NULL </td></tr>
+    <tr><td class="paramname">virtualButton</td><td>Number of VB to start a new timer for </td></tr>
   </table>
   </dd>
 </dl>
+<dl class="section return"><dt>Returns</dt><dd>-1 if no free timer slot was found (DEBOUNCERCHANNELS), the timer array index otherwise</dd></dl>
+<p>This task is periodically testing the virtualButtonsIn flags for changes (DEBOUNCE_RESOLUTION_MS is used as delay between task wakeups). If a change is detected (either press or release flag for a virtualbutton is set), a timer is started.<br />
+ Either the timer expires and the flag is mapped to virtualButtonsOut by debouncerCallback.<br />
+ Or the input flag is cleared again by the responsible task and the debouncer cancels the timer as well (input was too short).</p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="task__debouncer_8h.html#ae55924cae00606d43fce524c9ddfa62e">DEBOUNCERCHANNELS</a> </dd>
+<dd>
+<a class="el" href="task__debouncer_8h.html#a8a03a5acbeb4c00d3fdc4d84f237f1ed">DEBOUNCE_RESOLUTION_MS</a> </dd>
+<dd>
+<a class="el" href="task__debouncer_8c.html#ac7c8d1bdf42262a7331008e325845e37" title="Array of timer handles. ">xTimers</a> </dd>
+<dd>
+<a class="el" href="task__debouncer_8c.html#a4a76abdbb849aa0bbc66aa001c6f4af9" title="Timer callback for debouncing. ">debouncerCallback</a> </dd>
+<dd>
+<a class="el" href="common_8h.html#a591ffaa399081915a0eab951f83f93e2" title="Event group array for all virtual buttons, used by functional tasks to send a signal to the debouncer...">virtualButtonsIn</a> </dd>
+<dd>
+<a class="el" href="common_8h.html#a3633668cff0a27ea52ca662673978667" title="Event group array for all virtual buttons, used by functional tasks to be triggered. ">virtualButtonsOut</a> </dd></dl>
+<dl class="section note"><dt>Note</dt><dd>This task is persistently running </dd></dl>
+<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000009">Todo:</a></b></dt><dd>Add anti-tremor &amp; deadtime functionality </dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">virtualButton</td><td>Number of VB to start a new timer for </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>-1 if no free timer slot was found (DEBOUNCERCHANNELS), the timer array index otherwise </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="task__debouncer_8c_source.html#l00144">144</a> of file <a class="el" href="task__debouncer_8c_source.html">task_debouncer.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="task__debouncer_8c_source.html#l00273">273</a> of file <a class="el" href="task__debouncer_8c_source.html">task_debouncer.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c_source.html#l00410">app_main()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c_source.html#l00071">app_main()</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="task__debouncer_8h_a79d88e490be7198b9cc37556c66b837b_cgraph.png" border="0" usemap="#task__debouncer_8h_a79d88e490be7198b9cc37556c66b837b_cgraph" alt=""/></div>
 <map name="task__debouncer_8h_a79d88e490be7198b9cc37556c66b837b_cgraph" id="task__debouncer_8h_a79d88e490be7198b9cc37556c66b837b_cgraph">
-<area shape="rect" id="node2" href="task__debouncer_8c.html#a308ec03f3a777bacc9507657f285159a" title="isDebouncerActive" alt="" coords="479,5,611,32"/>
-<area shape="rect" id="node3" href="task__debouncer_8c.html#a2d41ed2a246a1b8d4ee5510262001e50" title="startTimer" alt="" coords="168,31,249,57"/>
-<area shape="rect" id="node5" href="task__debouncer_8c.html#ad6a8419e00b94feeb5177a3570efe6ba" title="cancelTimer" alt="" coords="498,56,591,83"/>
-<area shape="rect" id="node4" href="task__debouncer_8c.html#a4a76abdbb849aa0bbc66aa001c6f4af9" title="debouncerCallback" alt="" coords="297,31,431,57"/>
+<area shape="rect" id="node2" href="task__debouncer_8c.html#a308ec03f3a777bacc9507657f285159a" title="Look for a possibly running debouncing timer. " alt="" coords="479,5,611,32"/>
+<area shape="rect" id="node3" href="task__debouncer_8c.html#a2d41ed2a246a1b8d4ee5510262001e50" title="Start a debouncing timer with given debounce time and VB number. " alt="" coords="168,31,249,57"/>
+<area shape="rect" id="node5" href="task__debouncer_8c.html#ad6a8419e00b94feeb5177a3570efe6ba" title="Cancel a possibly running debouncing timer. " alt="" coords="498,56,591,83"/>
+<area shape="rect" id="node4" href="task__debouncer_8c.html#a4a76abdbb849aa0bbc66aa001c6f4af9" title="Timer callback for debouncing. " alt="" coords="297,31,431,57"/>
 </map>
 </div>
 <div class="dynheader">
@@ -215,7 +269,7 @@ Here is the caller graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="task__debouncer_8h_a79d88e490be7198b9cc37556c66b837b_icgraph.png" border="0" usemap="#task__debouncer_8h_a79d88e490be7198b9cc37556c66b837b_icgraph" alt=""/></div>
 <map name="task__debouncer_8h_a79d88e490be7198b9cc37556c66b837b_icgraph" id="task__debouncer_8h_a79d88e490be7198b9cc37556c66b837b_icgraph">
-<area shape="rect" id="node2" href="flipmouse__fabi__esp32__kbdmouse__main_8c.html#abce06be17fc37d675118a678a8100a36" title="app_main" alt="" coords="168,5,247,32"/>
+<area shape="rect" id="node2" href="flipmouse__fabi__esp32__kbdmouse__main_8c.html#abce06be17fc37d675118a678a8100a36" title="Main task, created by esp&#45;idf. " alt="" coords="168,5,247,32"/>
 </map>
 </div>
 

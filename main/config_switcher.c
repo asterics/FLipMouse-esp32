@@ -17,19 +17,6 @@
  * 
  * Copyright 2017 Benjamin Aigner <aignerb@technikum-wien.at,
  * beni@asterics-foundation.org>
- * 
- * This file contains the definitions for the config switcher task.
- * It controls all tasks assigned to virtual buttons.
- * If a new configuration should be loaded from the storage, all
- * previously loaded tasks are deleted and new tasks are loaded.
- * 
- * A slot configuration is provided by the config_storage, which is
- * controlled by this module. The config_switcher itself triggers the
- * slot switch if a new slotname is posted to the incoming queue.
- * 
- * The config switcher also provides a task which is used to trigger
- * a slot switch on a virtual button action.
- * 
  */
 /** @file
  * @brief CONTINOUS TASK + FUNCTIONAL TASK - This module takes care of

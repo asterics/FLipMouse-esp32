@@ -87,7 +87,7 @@ typedef struct taskConfigSwitcherConfig {
  * @see taskConfigSwitcherConfig_t*/
 void task_configswitcher(taskConfigSwitcherConfig_t *param);
 
-/** Initializing the config switching functionality.
+/** @brief Initializing the config switching functionality.
  * 
  * The CONTINOUS task will be loaded to enable slot switches via the
  * task_configswitcher FUNCTIONAL task. 

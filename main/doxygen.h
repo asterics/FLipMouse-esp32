@@ -29,6 +29,17 @@
  * Each time either "press" or "release" flag of this bound virtual button
  * is set, a bound task is waking up and triggering different actions.
  * 
+ * Each of these functional tasks has a parameter, which contains at least
+ * the virtual button number.
+ * 
+ * If you want to trigger a single action without binding the task to a
+ * virtual button, please pass the parameter as usual (depending on
+ * the task and the configuration) and <b>set the virtualbutton to
+ * VB_SINGLESHOT</b> to force the function to return after the action is
+ * triggered.
+ * 
+ * It is not necessary to create these functions as tasks in single shot mode!
+ * 
  * The debouncer task is taking care of debouncing flags from
  * virtualButtonsIn (set by input sensor) to virtualButtonsOut
  * (function tasks are pending on bits there).
@@ -44,6 +55,12 @@
  * The loading/unloading is done by the config switcher task
  * @see configSwitcherTask
  *
+ * Virtual Button number for single shot triggering:
+ * @see VB_SINGLESHOT
+ * 
+ * @warning Do not create a task in single shot mode, just call the function
+ * @warning Do not call the function if in FUNCTIONAL mode, the task function will block
+ * @warning As long as the function or the task is active, the parameter pointer MUST be valid
  */
 
  

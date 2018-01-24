@@ -19,6 +19,9 @@
  * This file contains extra information & documentation for doxygen
  */
  
+ /** @file
+  * @brief Contains extra information/documentation for doxygen only*/
+ 
  /** @defgroup FunctionTasks
  *
  * All these listed functions are so called "FunctionTasks".

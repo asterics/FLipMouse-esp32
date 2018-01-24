@@ -18,26 +18,35 @@
  * Copyright 2017 Benjamin Aigner <aignerb@technikum-wien.at,
  * beni@asterics-foundation.org>
  * 
- * This file contains the definitions for the config switcher task.
- * It controls all tasks assigned to virtual buttons.
+ */
+/** @file
+ * @brief CONTINOUS TASK + FUNCTIONAL TASK - This module takes care of
+ * configuration loading.
+ * 
+ * The config_switcher module is used to control all tasks assigned to 
+ * virtual buttons (called FUNCTIONAL TASKS).
  * If a new configuration should be loaded from the storage, all
  * previously loaded tasks are deleted and new tasks are loaded.
  * 
  * A slot configuration is provided by the config_storage, which is
- * controlled by this module. The config_switcher itself triggers the
- * slot switch if a new slotname is posted to the incoming queue.
+ * controlled by this module. 
  * 
- * The config switcher also provides a task which is used to trigger
- * a slot switch on a virtual button action.
+ * task_configswitcher is the FUNCTIONAL TASK for triggering a slot switch.
+ * configSwitcherTask is the CONTINOUS TASK which monitors the queue for
+ * any config switching action.
  * 
- */
-
+ * @note If you want to add a new FUNCTIONAL TASK, please include headers here
+ * & add loading functionality to configSwitcherTask. 
+ * 
+ * @todo Create getter/setter for current config (including fkt tasks & possibly the reloading)
+ * @todo Add update config here, enabling updating configs (general & VB) from other parts
+ * @todo Add save slot here
+ * */
 
 #ifndef _CONFIG_SWITCHER_H
 #define _CONFIG_SWITCHER_H
 
 #include "esp_log.h"
-
 #include "common.h"
 
 
@@ -53,46 +62,36 @@
 #include "task_debouncer.h"
 
 
-
+/** Stacksize for functional task task_configswitcher.
+ * @see task_configswitcher */
 #define TASK_CONFIGSWITCHER_STACKSIZE 2048
 
-//TODO: FOR ALL MODULES/TASKS: make a loop for waiting til all queues/flags are initialized (reduces dependency problems)
-//TODO: create getter/setter for current config (including fkt tasks & possibly the reloading)
-
-/** type of config switcher action which should be triggered by this task:
- * NAME: load a slot by given name
- * NEXT: load next slot
- * PREV: load previous slot
- * */
-/*typedef enum {
-  NAME,
-  NEXT,
-  PREV,
-  DEFAULT
-}config_switcher_action;*/
-
-/** default config, is used if no config is available 
- * or default is requested. Populated in configSwitcherInit() */
-generalConfig_t defaultConfig;
-
-
+/** @brief Parameter for functional task task_configswitcher.
+ * @see task_configswitcher */
 typedef struct taskConfigSwitcherConfig {
-  //name of the slot to be loaded
+  /** Name of the slot to be loaded
+   * @note If you want to switch to next, default or previous please use <b>"__NEXT",
+   * "__PREV" or "__DEFAULT" as slotName.</b> **/
   char slotName[SLOTNAME_LENGTH];
-  //number of virtual button which this instance will be attached to
+  /** Number of virtual button which this instance will be attached to.
+   * @see VB_SINGLESHOT */
   uint8_t virtualButton;
 } taskConfigSwitcherConfig_t;
 
+/** @brief FUNCTIONAL TASK - Load another slot
+ * 
+ * This task is used to switch the configuration to another slot.
+ * It is possible to load a slot by name or a previous/next/default slot.
+ * 
+ * @param param Task configuration
+ * @see taskConfigSwitcherConfig_t*/
 void task_configswitcher(taskConfigSwitcherConfig_t *param);
 
-/** initializing the config switching functionality.
+/** Initializing the config switching functionality.
  * 
- * The task will be loaded and initializes the configuration with
- * a default value.*/
-esp_err_t configSwitcherInit();
-
-//TODO: add update config here, enabling updating configs (general & VB) from other parts
-//TODO: add save slot here
-
+ * The CONTINOUS task will be loaded to enable slot switches via the
+ * task_configswitcher FUNCTIONAL task. 
+ * @return ESP_OK if everything is fined, ESP_FAIL otherwise */
+esp_err_t configSwitcherInit(void);
 
 #endif

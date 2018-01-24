@@ -31,26 +31,68 @@
  * a slot switch on a virtual button action.
  * 
  */
- 
+/** @file
+ * @brief CONTINOUS TASK + FUNCTIONAL TASK - This module takes care of
+ * configuration loading.
+ * 
+ * The config_switcher module is used to control all tasks assigned to 
+ * virtual buttons (called FUNCTIONAL TASKS).
+ * If a new configuration should be loaded from the storage, all
+ * previously loaded tasks are deleted and new tasks are loaded.
+ * 
+ * A slot configuration is provided by the config_storage, which is
+ * controlled by this module. 
+ * 
+ * task_configswitcher is the FUNCTIONAL TASK for triggering a slot switch.
+ * configSwitcherTask is the CONTINOUS TASK which monitors the queue for
+ * any config switching action.
+ * 
+ * @note If you want to add a new FUNCTIONAL TASK, please include headers here
+ * & add loading functionality to configSwitcherTask. 
+ * 
+ * @todo Create getter/setter for current config (including fkt tasks & possibly the reloading)
+ * @todo Add update config here, enabling updating configs (general & VB) from other parts
+ * @todo Add save slot here
+ * */
 #include "config_switcher.h"
 
+/** Tag for ESP_LOG logging */
 #define LOG_TAG "cfgsw"
+
+/** Stacksize for continous task configSwitcherTask.
+ * @see configSwitcherTask */
 #define CONFIGSWITCHERTASK_PERMANENT_STACKSIZE 4096
 
-
+/** @brief Array containing all currently running FUNCTIONAL task handles
+ * 
+ * This array contains task handles, one for each virtual button.
+ * NULL if there is no task loaded, the task handle otherwise.
+ * Is used to delete running tasks on a config switch */
 TaskHandle_t currentTasks[NUMBER_VIRTUALBUTTONS*4];
-void * currentTaskParameters[NUMBER_VIRTUALBUTTONS*4];
-TaskHandle_t configswitcher_handle;
-char defaultConfigText[] = "__DEFAULT";
 
+/** @brief Array of pointers to FUNCTIONAL task parameters
+ * 
+ * This array contains pointers to memory, which is allocated here.
+ * Each time a task switch is triggered, the parameters are loaded from
+ * hal_storage and saved to an allocated memory area. These pointers are
+ * used to pass the parameters to the functional tasks and free this memory
+ * after unloading/deleting functional tasks. */
+void * currentTaskParameters[NUMBER_VIRTUALBUTTONS*4];
+
+/** Task handle for the CONTINOUS task responsible for config switching */
+TaskHandle_t configswitcher_handle;
+
+/** Currently loaded configuration.*/
 generalConfig_t currentConfig;
 
-/** Config switcher task, internal config reloading
+/** @brief CONTINOUS TASK - Config switcher task, internal config reloading
  * 
  * This task is used to change the full configuration of this device
  * After sending a request to the config_switcher queue, this
  * task is used to unload all virtual buttons tasks and initializing
  * the virtualbutton tasks with the new functionality.
+ * @see config_switcher
+ * @param params Not used, pass NULL.
  **/
 void configSwitcherTask(void * params)
 {
@@ -229,12 +271,13 @@ void configSwitcherTask(void * params)
   }
 }
 
-/** Config switcher task, assigned to virtual buttons
+/** @brief FUNCTIONAL TASK - Load another slot
  * 
- * This task is used to hook on a virtual button.
- * The actual configuration reload is done in this file by 
- * configSwitcherTask.
- **/
+ * This task is used to switch the configuration to another slot.
+ * It is possible to load a slot by name or a previous/next/default slot.
+ * 
+ * @param param Task configuration
+ * @see taskConfigSwitcherConfig_t*/
 void task_configswitcher(taskConfigSwitcherConfig_t *param)
 {
   EventBits_t uxBits;
@@ -285,13 +328,14 @@ void task_configswitcher(taskConfigSwitcherConfig_t *param)
   }
 }
 
-
-/** initializing the config switching functionality.
+/** Initializing the config switching functionality.
  * 
- * The task will be loaded and initializes the configuration with
- * a default value.*/
-esp_err_t configSwitcherInit()
+ * The CONTINOUS task will be loaded to enable slot switches via the
+ * task_configswitcher FUNCTIONAL task. 
+ * @return ESP_OK if everything is fined, ESP_FAIL otherwise */
+esp_err_t configSwitcherInit(void)
 {
+  //test if the config_switcher queue is initialized...
   if(config_switcher == NULL)
   {
     ESP_LOGE(LOG_TAG,"Error init config switcher, please create \
@@ -308,6 +352,8 @@ esp_err_t configSwitcherInit()
     ESP_LOGD(LOG_TAG,"configSwitcherTask created");
   }
   
+  //load the default slot by sending "__DEFAULT" to 
+  // the config_switcher queue
   char commandname[SLOTNAME_LENGTH];
   strcpy(commandname,"__DEFAULT");
   if(xQueueSend(config_switcher,commandname,10) == pdPASS)

@@ -1,0 +1,107 @@
+menu "Flipmouse GUI configuration"
+
+config WIFI_SSID
+    string "Wifi SSID"
+	default "mywifi"
+
+config WIFI_PASSWORD
+    string "Wifi password"
+	default "mypassword"
+
+config TIMEZONE
+    string "Local timezone"
+	default "CET-1CEST-2,M3.5.0/02:00:00,M10.5.0/03:00:00"
+
+config RELAY_PIN
+    int "Number of the PIN connected to the RELAY"
+	range 0 34
+	default 0
+
+config AP_SSID
+	string "AccessPoint SSID"
+	default "esp32-ap"
+	help
+		SSID for the ESP32 AccessPoint (max 31 chars)
+
+config AP_PASSWORD
+	string "AccessPoint password"
+	help
+		Password for the ESP32 AccessPoint
+
+config AP_CHANNEL
+	int "Wifi channel"
+	default 0
+	help
+		Channel for the Wifi network
+
+choice
+	prompt "Authentication mode"
+	default WIFI_AUTH_WPA2_PSK
+	help
+		Authentication mode for the Wifi network
+	config WIFI_AUTH_OPEN
+		bool "Open"
+	config WIFI_AUTH_WEP
+		bool "WEP"
+	config WIFI_AUTH_WPA_PSK
+		bool "WPA-PSK"
+	config WIFI_AUTH_WPA2_PSK
+		bool "WPA2-PSK"
+	config WIFI_AUTH_WPA_WPA2_PSK
+		bool "WPA-PSK or WPA2-PSK"
+	config WIFI_AUTH_WPA2_ENTERPRISE
+		bool "WPA2 Enterprise"			
+endchoice
+
+config AP_HIDE_SSID
+	bool "Hide SSID"
+	default 0
+	help
+		Hide SSID
+
+config AP_MAX_CONNECTIONS
+	int "Maximum concurrent connections"
+	range 1 4
+	default 4
+	help
+		Maximum number of concurrent connections (1-4)
+
+config AP_BEACON_INTERVAL	
+	int "Beacon interval (ms)"
+	range 100 60000
+	default 100
+	help
+		Beacon interval in ms (100-60000)
+
+endmenu
+
+	
+menu "SPIFFS configuration"	
+	
+config SPIFFS_BASE_ADDR
+    hex "SPIFFS Base address"
+    range 0x100000 0x1FFE000
+    default 0x180000
+    help
+	Starting address of the SPIFFS area in ESP32 Flash
+	Write the address in hex format, 0x180000
+
+config SPIFFS_SIZE
+    int "SPIFFS Size in bytes"
+    range 262144 2097152
+    default 1048576
+
+config SPIFFS_LOG_BLOCK_SIZE
+    int "SPIFFS Logical block size"
+    range 4098 65536
+    default 8192
+
+config SPIFFS_LOG_PAGE_SIZE
+    int "SPIFFS Logical page size"
+    range 256 2048
+    default 256
+    help
+	Set it to the phisycal page size og the used SPI Flash chip.
+	
+endmenu
+

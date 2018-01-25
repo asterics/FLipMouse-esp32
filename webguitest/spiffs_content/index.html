@@ -1,0 +1,182 @@
+<html>
+<head>
+    <title>FlipMouse WebGUI</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="jquery.mobile.custom.structure.min.css">
+    <link rel="stylesheet" href="jquery.mobile.custom.theme.min.css">
+	<link rel="stylesheet" href="esp32.css">
+    <script src="jq.js"></script>
+    <script src="jquery.mobile.custom.min.js"></script>
+	<script>
+	
+	function refreshPressureLevel() {
+	
+		$.getJSON('getPressure', function(data) {
+			$.each(data, function(key, val) {
+				if(key == 'pressureValue') $('#actual-pressure-level').val(val);
+			});
+		});
+	};
+	
+	function refreshConfig() {
+	
+		$.getJSON('getConfig', function(data) {
+			$.each(data, function(key, val) {
+				
+				if(key == 'mode') $("#actual-mode").text("Actual mode: " + val);
+				
+				if(key == 'relais') {
+				
+					if(val == 'on') {
+						$("#set-relais").prop('checked', true);
+						$("#actual-mode").text($("#actual-mode").text() + ", relay ON");
+					}
+					if(val == 'off') {
+						$("#set-relais").prop('checked', false);
+						$("#actual-mode").text($("#actual-mode").text() + ", relay OFF");
+					}
+					$("#set-relais").flipswitch("refresh");
+				}	
+				
+				if(key == 'command') {
+					$("#selectaction").val(val);
+				}
+				if(key == 'parameter') {
+					$("#actionparameter").val(val);
+				}
+
+				if(key == 'pressureValue') {
+					$("#set-pressure-level").val(val);
+					$("#set-pressure-level").slider("refresh");
+				}
+			});
+		});
+	};
+	
+	$(document).ready(function() {
+	
+		//refreshConfig();
+		
+		$("#set-relais").change(function() {
+
+			var data = {'mode':'relais','status':$("#set-relais").is(':checked') ? "on" : "off"};
+			$.ajax({
+			url: 'setConfig',
+			type: 'POST',
+			contentType:'application/json',
+			data: JSON.stringify(data),
+			dataType:'json'
+			});
+		});
+
+		$("#basic-button").click(function() {
+
+			var data = {'mode':'basic','sensitivityX':$("#sensitivityX").val(),'sensitivityY':$("#sensitivityY").val(),'deadzoneX':$("#deadzoneX").val(),'deadzoneY':$("#deadzoneY").val()};
+			$.ajax({
+			url: 'setConfig',
+			type: 'POST',
+			contentType:'application/json',
+			data: JSON.stringify(data),
+			dataType:'json'
+			});
+		});
+						
+		$("#pressure-button").click(function() {
+		
+			var data = {'mode':'pressure','pressureValue':$("#set-pressure-level").val()};
+			$.ajax({
+			url: 'setConfig',
+			type: 'POST',
+			contentType:'application/json',
+			data: JSON.stringify(data),
+			dataType:'json'
+			});
+		});
+		
+		$("#action-button").click(function() {
+			var selected = $("#selectaction").val();
+			console.log("selected action=" + selected + ", parameter=" + $("#actionparameter").val());
+			var data = {'mode':'action','command':selected,'parameter':$("#actionparameter").val()};
+			$.ajax({
+			url: 'setConfig',
+			type: 'POST',
+			contentType:'application/json',
+			data: JSON.stringify(data),
+			dataType:'json'
+			});
+		});
+
+		
+		//setInterval("refreshPressureLevel()", 5000);
+	});
+	</script>
+</head>
+<body>
+    <div data-role="page">
+ 
+        <div data-role="header">
+            <h1>FlipMouse WebGUI</h1>
+        </div><!-- /header -->
+ 
+        <div role="main" class="ui-content">
+			<div data-role="tabs" id="tabs">
+				<div data-role="navbar">
+					<ul>
+					<li><a href="#basic" data-ajax="false" class="ui-btn-active">Basic Setup</a></li>
+					<li><a href="#sippuff" data-ajax="false">Sip and Puff</a></li>
+					<li><a href="#actions" data-ajax="false">Learn Actions</a></li>
+					</ul>
+				</div>
+				<div id="basic" class="ui-body-d ui-content">
+					<div class="empty-separator"></div>
+					<label for="basic-1">Horizontal Sensitivity:</label>
+					<input type="range" data-clear-btn="true" name="sensitivityX" id="sensitivityX" min="0" max="100">
+					<label for="basic-2">Vertical Sensitivity:</label>
+					<input type="range" data-clear-btn="true" name="sensitivityY" id="sensitivityY" min="0" max="100">
+					<div class="empty-separator"></div>
+					<label for="basic-3">Horizontal Deadzone:</label>
+					<input type="range" data-clear-btn="true" name="deadzoneX" id="deadzoneX" min="0" max="100">
+					<label for="basic-4">Vertical Deadzone:</label>
+					<input type="range" data-clear-btn="true" name="deadzoneY" id="deadzoneY" min="0" max="100">
+					<div class="empty-separator"></div>
+					<input type="button" id="basic-button" value="Apply">
+					<div><input type="checkbox" id="set-relais" data-role="flipswitch"></div>
+				</div>
+				<div id="sippuff" class="ui-body-d ui-content">
+					<div class="empty-separator"></div>
+					<label for="pressure-1">Pressure level for puff:</label>
+					<input type="range" data-clear-btn="true" name="set-pressure-level" id="set-pressure-level" min="0" max="1200">
+					<label for="pressure-2">Actual pressure level:</label>
+					<input type="number" name="actual-pressure-level" id="actual-pressure-level" value="" data-disabled="true">
+					<div class="empty-separator"></div>
+					<input type="button" id="pressure-button" value="Apply">
+					
+				</div>
+				<div id="actions" class="ui-body-d ui-content">
+					<div class="empty-separator"></div>
+
+					<label for="action-1">Select an action for gesture xyz:</label>
+					 <select id="selectaction">
+					  <option value="CL">Click Left</option>
+					  <option value="CR">Click Right</option>
+					  <option value="PL">Press (Hold) Left</option>
+					  <option value="KW">Write Keyboard</option>
+					</select> 
+					<label for="action-2">additional paramters (text or value):</label>
+					<input type="text" data-clear-btn="true" name="actionparameter" id="actionparameter" value="">
+					<div class="empty-separator"></div>
+					<input type="button" id="action-button" value="Apply">
+				</div>
+			</div>
+        </div><!-- /content -->
+ 
+        <div data-role="footer" data-position="fixed">
+            <h4 id="actual-mode"></h4>
+        </div><!-- /footer -->
+ 
+    </div><!-- /page -->
+
+
+	
+	</body>
+</html>

@@ -20,11 +20,6 @@
  * @note Change this depending on FABI/FLipMouse build. */
 #define IDSTRING "FLipMouse V3.0"
 
-/** @brief UART interface for command parsing & sending USB HID
- * @todo Change to external UART; currently set to serial port of monitor for debugging */
-#define EX_UART_NUM UART_NUM_0
-
-
 // which device is using this firmware?
 //#define DEVICE_FABI
 #define DEVICE_FLIPMOUSE

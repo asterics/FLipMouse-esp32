@@ -50,7 +50,7 @@
 #include "task_mouse.h"
 #include "task_kbd.h"
 
-#define TASK_COMMANDS_STACKSIZE 2048
+#define TASK_COMMANDS_STACKSIZE 4096
 
 /** @brief Init the command parser
  * 

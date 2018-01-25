@@ -268,21 +268,24 @@ void task_commands(void *params)
     if(queuesready)
     {
       //wait 30ms ticks, in case a long UART frame is transmitted
-      vTaskDelay(30/portTICK_PERIOD_MS);
+      //vTaskDelay(30/portTICK_PERIOD_MS);
       
-      //wait for incoming data, 100ticks maximum
-      received = halSerialReceiveUSBSerial(commandBuffer,ATCMD_LENGTH,100);
+      //wait for incoming data
+      received = halSerialReceiveUSBSerial(commandBuffer,ATCMD_LENGTH);
       //check received data at least for length
       if(received < 5)
       {
         //special command "AT" without further command:
         if(received >= 2 && memcmp(commandBuffer,"AT",2) == 0)
         {
-          halSerialSendUSBSerial(HAL_SERIAL_TX_TO_CDC,"OK",3,100);
+          halSerialSendUSBSerial(HAL_SERIAL_TX_TO_CDC,"OK\r\n",3,100);
           continue;
         }
-        ESP_LOGW(LOG_TAG,"Invalid AT commandlength %d",received);
-        if(received > 0) ESP_LOG_BUFFER_HEXDUMP(LOG_TAG,commandBuffer,received,ESP_LOG_DEBUG);
+        if(received > 0) 
+        {
+          ESP_LOGW(LOG_TAG,"Invalid AT commandlength %d",received);
+          ESP_LOG_BUFFER_HEXDUMP(LOG_TAG,commandBuffer,received,ESP_LOG_DEBUG);
+        }
         continue;
       }
       
@@ -295,6 +298,12 @@ void task_commands(void *params)
       if(doGeneralCmdParsing(commandBuffer)) continue;
       if(doInfraredParsing(commandBuffer)) continue;
       if(doMouthpieceSettingsParsing(commandBuffer)) continue;
+      
+      //if we are here, no parser was finding commands
+      ESP_LOGW(LOG_TAG,"Invalid AT cmd (%d characters), flushing:",received);
+      halSerialFlushRX();
+      //ESP_LOG_BUFFER_HEXDUMP(LOG_TAG,commandBuffer,received,ESP_LOG_DEBUG);
+      halSerialSendUSBSerial(HAL_SERIAL_TX_TO_CDC,"?\r\n",2,100);
 
     } else {
       //check again for initialized queues

@@ -43,7 +43,20 @@
 
 #define LOG_TAG "hal_serial"
 #define HAL_SERIAL_TASK_STACKSIZE 512
-#define HAL_SERIAL_RECEIVE_TASK_STACKSIZE 1024
+//#define HAL_SERIAL_RECEIVE_TASK_STACKSIZE 1024
+
+/** @brief Ticks until the UART receive function has a timeout and gives back received data.*
+ * 
+ * This value should be adjusted, either if the maximum length of a transmitted command
+ * OR the baudrate is changed.
+ * If you adjust the
+ * 
+ * Currently, the value 30ms reflects 115k2 baud and 256 bytes for one AT command:
+ * -) ~87us are necessary for 1 byte (115k2 baud + 10 bit times) <br>
+ * -) ~22ms are necessary for maximum command length
+ * -> next bigger value reflectable in ticks is 30ms.
+ */
+#define HAL_SERIAL_UART_TIMEOUT_MS 30
 
 static const int BUF_SIZE_RX = 512;
 static const int BUF_SIZE_TX = 512;
@@ -75,7 +88,7 @@ SemaphoreHandle_t serialsendingsem;
 esp_err_t halSerialSwitchTXChannel(uint8_t target_level, TickType_t ticks_to_wait)
 {
     //check if we are currently on target channel/level
-    if(gpio_get_level(HAL_SERIAL_SWITCHPIN) == target_level)
+    if(gpio_get_level(HAL_SERIAL_SWITCHPIN) != target_level)
     {
       //wait for any previously sent transmission to finish
       if(uart_wait_tx_done(HAL_SERIAL_UART, ticks_to_wait) != ESP_OK)
@@ -87,6 +100,13 @@ esp_err_t halSerialSwitchTXChannel(uint8_t target_level, TickType_t ticks_to_wai
       gpio_set_level(HAL_SERIAL_SWITCHPIN, target_level);
     }
     return ESP_OK;
+}
+
+
+/** @brief Flush Serial RX input buffer */
+void halSerialFlushRX(void)
+{
+  uart_flush(HAL_SERIAL_UART);
 }
 
 void halSerialTaskKeyboardPress(void *param)
@@ -293,11 +313,11 @@ void halSerialTaskJoystick(void *param)
  * @return -1 on error, number of read bytes otherwise
  * @param data Data to be sent
  * @param length Number of maximum bytes to read
- * @param ticks_to_wait Maximum time to wait for given data amount
+ * @see HAL_SERIAL_UART_TIMEOUT
  * */
-int halSerialReceiveUSBSerial(uint8_t *data, uint32_t length, TickType_t ticks_to_wait)
+int halSerialReceiveUSBSerial(uint8_t *data, uint32_t length)
 {
-  return uart_read_bytes(HAL_SERIAL_UART, data, length, ticks_to_wait);    
+  return uart_read_bytes(HAL_SERIAL_UART, data, length, HAL_SERIAL_UART_TIMEOUT_MS / portTICK_PERIOD_MS);    
 }
 
 /** Send serial bytes to USB-Serial (USB-CDC)
@@ -353,24 +373,48 @@ esp_err_t halSerialInit(void)
     .stop_bits = UART_STOP_BITS_1,
     .flow_ctrl = UART_HW_FLOWCTRL_DISABLE
   };
+  
   //update UART config
   ret = uart_param_config(HAL_SERIAL_UART, &uart_config);
-  if(ret != ESP_OK) ESP_LOGE(LOG_TAG,"UART param config failed"); return ret;
+  if(ret != ESP_OK) 
+  {
+    ESP_LOGE(LOG_TAG,"UART param config failed"); 
+    return ret;
+  }
+  
   //set IO pins
   ret = uart_set_pin(HAL_SERIAL_UART, HAL_SERIAL_TXPIN, HAL_SERIAL_RXPIN, UART_PIN_NO_CHANGE, UART_PIN_NO_CHANGE);
-  if(ret != ESP_OK) ESP_LOGE(LOG_TAG,"UART set pin failed"); return ret;
+  if(ret != ESP_OK)
+  {
+    ESP_LOGE(LOG_TAG,"UART set pin failed"); 
+    return ret;
+  }
+  
   //Install UART driver with RX and TX buffers
   ret = uart_driver_install(HAL_SERIAL_UART, BUF_SIZE_RX, BUF_SIZE_TX, 0, NULL, 0);
-  if(ret != ESP_OK) ESP_LOGE(LOG_TAG,"UART driver install failed"); return ret;
+  if(ret != ESP_OK) 
+  {
+    ESP_LOGE(LOG_TAG,"UART driver install failed"); 
+    return ret;
+  }
+  
   //Setup GPIO for UART sending direction (either use UART data to drive
   //USB HID or send UART data USB-serial)
   ret = gpio_set_direction(HAL_SERIAL_SWITCHPIN,GPIO_MODE_OUTPUT);
-  if(ret != ESP_OK) ESP_LOGE(LOG_TAG,"UART GPIO signal set direction failed"); return ret;
+  if(ret != ESP_OK) 
+  {
+    ESP_LOGE(LOG_TAG,"UART GPIO signal set direction failed"); 
+    return ret;
+  }
 
   //create mutex for all tasks sending to serial TX queue.
   //avoids splitting of different packets due to preemption
   serialsendingsem = xSemaphoreCreateMutex();
-  if(serialsendingsem == NULL) ESP_LOGE(LOG_TAG,"Cannot create semaphore"); return ESP_FAIL;
+  if(serialsendingsem == NULL) 
+  {
+    ESP_LOGE(LOG_TAG,"Cannot create semaphore"); 
+    return ESP_FAIL;
+  }
   
   //install serial tasks (4x -> keyboard press/release; mouse; joystick)
   xTaskCreate(halSerialTaskKeyboardPress, "serialKbdPress", HAL_SERIAL_TASK_STACKSIZE, NULL, configMAX_PRIORITIES-1, NULL);

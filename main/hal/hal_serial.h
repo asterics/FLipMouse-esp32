@@ -62,7 +62,7 @@
 #define HAL_SERIAL_TXPIN      (GPIO_NUM_17)
 #define HAL_SERIAL_RXPIN      (GPIO_NUM_16)
 #define HAL_SERIAL_SWITCHPIN  (GPIO_NUM_18)
-#define HAL_SERIAL_UART       (UART_NUM_1)
+#define HAL_SERIAL_UART       (UART_NUM_2)
 
 #define HAL_SERIAL_TX_TO_HID  0
 #define HAL_SERIAL_TX_TO_CDC  1
@@ -93,6 +93,9 @@ esp_err_t halSerialInit(void);
  * */
 int halSerialSendUSBSerial(uint8_t channel, char *data, uint32_t length, TickType_t ticks_to_wait);
 
+/** @brief Flush Serial RX input buffer */
+void halSerialFlushRX(void);
+
 
 /** Read serial bytes from USB-Serial (USB-CDC)
  * 
@@ -102,7 +105,7 @@ int halSerialSendUSBSerial(uint8_t channel, char *data, uint32_t length, TickTyp
  * @return -1 on error, number of read bytes otherwise
  * @param data Data to be sent
  * @param length Number of maximum bytes to read
- * @param ticks_to_wait Maximum time to wait for given data amount
+ * @see HAL_SERIAL_UART_TIMEOUT
  * */
-int halSerialReceiveUSBSerial(uint8_t *data, uint32_t length, TickType_t ticks_to_wait);
+int halSerialReceiveUSBSerial(uint8_t *data, uint32_t length);
 #endif /* HAL_SERIAL_H */

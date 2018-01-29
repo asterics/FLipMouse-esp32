@@ -23,16 +23,28 @@
  * done via the hal_adc task.
  * 
  */
-
+/** @file FUNCTIONAL TASK - mouse handling
+ * 
+ * This module is used as functional task for mouse control.
+ * It supports right/left/middle clicks (clicking, press&hold, release),
+ * left double clicks, mouse wheel and mouse X/Y actions.
+ */
 
 #include "task_mouse.h"
 
 
 #define LOG_TAG "task_mouse"
 
+/** @brief Global button mask */
 static uint8_t globalButtonMask = 0;
+/** @brief Currently set wheel steps for mouse wheel up/down */
 static uint8_t globalWheelSteps = 3;
 
+/** @brief Set current mouse wheel step size
+ * 
+ * This method is used to set the current step size for the mouse wheel
+ * @param steps Amount of wheel steps, range: 0-126
+ * @return 0 if everything was fine, 1 if stepsize is out of range */
 uint8_t mouse_set_wheel(uint8_t steps)
 {
   if(globalWheelSteps < 127) 
@@ -45,8 +57,22 @@ uint8_t mouse_set_wheel(uint8_t steps)
   }
 }
 
+/** @brief Get the current mouse wheel step size
+ * 
+ * @return Current step size */
 uint8_t mouse_get_wheel(void) { return globalWheelSteps; }
 
+
+/** @brief FUNCTIONAL TASK - Trigger mouse action
+ * 
+ * This task is used to trigger a mouse action, possible actions
+ * are defined in taskMouseConfig_t.
+ * Can be used as singleshot method by using VB_SINGLESHOT as virtual
+ * button configuration.
+ * 
+ * @param param Task configuration
+ * @see VB_SINGLESHOT
+ * @see taskMouseConfig_t*/
 void task_mouse(taskMouseConfig_t *param)
 {
   //check for param struct
@@ -72,10 +98,18 @@ void task_mouse(taskMouseConfig_t *param)
   mouse_command_t press;
   mouse_command_t release;
   mouse_command_t empty;
+  //empty them
+  memset(&press,0,sizeof(mouse_command_t));
+  memset(&release,0,sizeof(mouse_command_t));
+  memset(&empty,0,sizeof(mouse_command_t));
 
+  //button mask to be used by this task
   uint8_t buttonmask = 0;
+  //how much clicks are triggered by this task on an action
   uint8_t clickcount = 1;
+  //should we use the release flag as well (drag action)?
   uint8_t userelease = 0;
+  //do we need to send the release action (empty report) as well?
   uint8_t autorelease = 0;
   
   //do all the eventgroup checking only if this is a persistent task
@@ -103,9 +137,11 @@ void task_mouse(taskMouseConfig_t *param)
   //init the mouse command structure for this instance
   switch(param->type)
   {
+    //right/left/middle are using the button mask
     case RIGHT: buttonmask = MOUSE_BUTTON_RIGHT; break;
     case LEFT: buttonmask = MOUSE_BUTTON_LEFT; break;
     case MIDDLE: buttonmask = MOUSE_BUTTON_MIDDLE; break;
+    //wheel action
     case WHEEL: 
     {
       buttonmask = 0;
@@ -113,6 +149,7 @@ void task_mouse(taskMouseConfig_t *param)
       param->actionparam = M_UNUSED;
       break;
     }
+    //move mouse in X direction
     case X:
     {
       buttonmask = 0;
@@ -120,6 +157,7 @@ void task_mouse(taskMouseConfig_t *param)
       param->actionparam = M_UNUSED;
       break;
     }
+    //move mouse in Y direction
     case Y:
     {
       buttonmask = 0;
@@ -127,25 +165,32 @@ void task_mouse(taskMouseConfig_t *param)
       param->actionparam = M_UNUSED;
       break;
     }
+    //unknown/unsupported action...
     default:
       ESP_LOGE(LOG_TAG,"unkown mouse type %d, exiting",param->type);
       vTaskDelete(NULL);
       break;
   }
   
+  //depending on parameter of click, set buttonmask accordingly
+  //in addition set the amount of mouse clicks
+  //as well as release&autorelease flags
   switch(param->actionparam)
   {
     case M_CLICK:
       press.buttons = buttonmask;
       autorelease = 1;
+      break;
     case M_HOLD:
       press.buttons = buttonmask;
       release.buttons = 0;
       userelease = 1;
+      break;
     case M_DOUBLE:
       press.buttons = buttonmask;
       clickcount = 2;
       autorelease = 1;
+      break;
     case M_UNUSED: break;
     default:
       ESP_LOGE(LOG_TAG,"unkown mouse action param %d, exiting",param->actionparam);

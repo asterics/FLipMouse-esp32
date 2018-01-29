@@ -18,34 +18,36 @@
  * 
  * Copyright 2017 Benjamin Aigner <aignerb@technikum-wien.at,
  * beni@asterics-foundation.org>
- * 
- * This header file contains the hardware abstraction for the serial
+ */
+ 
+/** @brief This module contains the hardware abstraction for the serial
  * interface to the USB support chip.
+ * 
+ * 
  * Attention: this module does NOT use UART0 (terminal & program interface)
  * 
- * The hardware abstraction takes care of:
- * -) sending USB-HID commands
- * -) sending USB-serial responses
- * -) receiving USB-serial AT commands
- * -) sending/receiving CIM data (done via USB serial interface)
+ * The hardware abstraction takes care of: <br>
+ * -) sending USB-HID commands <br>
+ * -) sending USB-serial responses <br>
+ * -) sending/receiving serial data (to/from USB-serial) <br>
  * 
- * The interaction to other parts of the firmware consists of:
- * -) pending on queues for USB commands:
- *    * keyboard_usb_press
- *    * keyboard_usb_release
- *    * mouse_movement_usb
- *    * joystick_movement_usb
- * -) receiving ADC data via queue <TBA>
- * -) sending/receiving Serial Data to command parser via queues:
- *    * <TBA recv>
- *    * <TBA send>
+ * The interaction to other parts of the firmware consists of:<br>
+ * -) pending on queues for USB commands:<br>
+ *    * keyboard_usb_press<br>
+ *    * keyboard_usb_release<br>
+ *    * mouse_movement_usb<br>
+ *    * joystick_movement_usb<br>
+ * -) halSerialSendUSBSerial / halSerialReceiveUSBSerial for direct sending/receiving<br>
  * 
- * The received serial data is forwarded to 2 different modules,
- * depending on received magic bytes <TODO: described AT & CIM data switching>:
- *  * task_cim For CIM data
- *  * task_commands For AT commands
+ * The received serial data can be used by different modules, currently
+ * the task_commands_cim is used to fetch & parse serial data.
+ * 
+ * @note In this firmware, there are 3 pins routed to the USB support chip (RX,TX,signal).
+ * Depending on the level of the signal line, data sent to the USB chip are either
+ * interpreted as USB-HID commands (keyboard, mouse or joystick reports) or
+ * the data is forwarded to the USB-CDC interface, which is used to send data 
+ * to the host (config GUI, terminal, AsTeRICS,...).
  */ 
- 
  
 #include <freertos/FreeRTOS.h>
 #include <freertos/event_groups.h>

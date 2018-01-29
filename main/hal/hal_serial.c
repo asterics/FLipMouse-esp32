@@ -16,34 +16,42 @@
  * 
  * Copyright 2017 Benjamin Aigner <aignerb@technikum-wien.at,
  * beni@asterics-foundation.org>
- * 
- * This header file contains the hardware abstraction for the serial
+ */
+
+/** @brief This module contains the hardware abstraction for the serial
  * interface to the USB support chip.
+ * 
+ * 
  * Attention: this module does NOT use UART0 (terminal & program interface)
  * 
- * The hardware abstraction takes care of:
- * -) sending USB-HID commands
- * -) sending USB-serial responses
- * -) sending/receiving serial data (to/from USB-serial)
+ * The hardware abstraction takes care of: <br>
+ * -) sending USB-HID commands <br>
+ * -) sending USB-serial responses <br>
+ * -) sending/receiving serial data (to/from USB-serial) <br>
  * 
- * The interaction to other parts of the firmware consists of:
- * -) pending on queues for USB commands:
- *    * keyboard_usb_press
- *    * keyboard_usb_release
- *    * mouse_movement_usb
- *    * joystick_movement_usb
- * -) halSerialSendUSBSerial / halSerialReceiveUSBSerial for direct sending/receiving
+ * The interaction to other parts of the firmware consists of:<br>
+ * -) pending on queues for USB commands:<br>
+ *    * keyboard_usb_press<br>
+ *    * keyboard_usb_release<br>
+ *    * mouse_movement_usb<br>
+ *    * joystick_movement_usb<br>
+ * -) halSerialSendUSBSerial / halSerialReceiveUSBSerial for direct sending/receiving<br>
  * 
  * The received serial data can be used by different modules, currently
- * the task_commands_cim is used to fetch & parse serial data
+ * the task_commands_cim is used to fetch & parse serial data.
+ * 
+ * @note In this firmware, there are 3 pins routed to the USB support chip (RX,TX,signal).
+ * Depending on the level of the signal line, data sent to the USB chip are either
+ * interpreted as USB-HID commands (keyboard, mouse or joystick reports) or
+ * the data is forwarded to the USB-CDC interface, which is used to send data 
+ * to the host (config GUI, terminal, AsTeRICS,...).
  */ 
  
  
 #include "hal_serial.h"
 
 #define LOG_TAG "hal_serial"
-#define HAL_SERIAL_TASK_STACKSIZE 512
-//#define HAL_SERIAL_RECEIVE_TASK_STACKSIZE 1024
+#define HAL_SERIAL_TASK_STACKSIZE 2048
 
 /** @brief Ticks until the UART receive function has a timeout and gives back received data.*
  * 
@@ -55,8 +63,11 @@
  * -) ~87us are necessary for 1 byte (115k2 baud + 10 bit times) <br>
  * -) ~22ms are necessary for maximum command length
  * -> next bigger value reflectable in ticks is 30ms.
+ * 
+ * @see ATCMD_LENGTH
+ * @todo Documentation updates, this define is now used differently...
  */
-#define HAL_SERIAL_UART_TIMEOUT_MS 30
+#define HAL_SERIAL_UART_TIMEOUT_MS 5000
 
 static const int BUF_SIZE_RX = 512;
 static const int BUF_SIZE_TX = 512;
@@ -67,7 +78,21 @@ static uint8_t keycode_arr[8] = {'K',0,0,0,0,0,0,0};
 /** mutex for sending to serial port. Used to avoid wrong set signal pin
  * on different UART sent bytes (either USB-HID or USB-Serial)
  * */
-SemaphoreHandle_t serialsendingsem;
+static SemaphoreHandle_t serialsendingsem;
+
+/** @brief Pattern detected semaphore
+ * Each time the "\n" character is received, this semaphore will
+ * release any pending halSerialReceiveUSBSerial call.
+ * @see halSerialReceiveUSBSerial*/
+static SemaphoreHandle_t serialpatternsem;
+
+/** @brief Event queue for UART events (by esp-idf UART driver)
+ * 
+ * This queue is used by uart_driver_install to create a queue where
+ * UART events are sent to.
+ * In this case, this queue is used to detect the \n character by the
+ * pattern detection interrupt. */
+static QueueHandle_t uarteventsqueue;
 
 /** Utility function, changing UART TX channel (HID or Serial)
  * 
@@ -87,8 +112,9 @@ SemaphoreHandle_t serialsendingsem;
  * */
 esp_err_t halSerialSwitchTXChannel(uint8_t target_level, TickType_t ticks_to_wait)
 {
+  static uint8_t current_level = 0;
     //check if we are currently on target channel/level
-    if(gpio_get_level(HAL_SERIAL_SWITCHPIN) != target_level)
+    if(current_level != target_level)
     {
       //wait for any previously sent transmission to finish
       if(uart_wait_tx_done(HAL_SERIAL_UART, ticks_to_wait) != ESP_OK)
@@ -96,8 +122,11 @@ esp_err_t halSerialSwitchTXChannel(uint8_t target_level, TickType_t ticks_to_wai
         ESP_LOGE(LOG_TAG,"tx_done not finished on time");
         return ESP_FAIL;
       }
+      ESP_LOGI(LOG_TAG,"Switching USB chip from %d to %d (0 HID, 1 CDC)", \
+        current_level,target_level);
       //set GPIO to route data to USB-Serial
       gpio_set_level(HAL_SERIAL_SWITCHPIN, target_level);
+      current_level = target_level;
     }
     return ESP_OK;
 }
@@ -107,6 +136,52 @@ esp_err_t halSerialSwitchTXChannel(uint8_t target_level, TickType_t ticks_to_wai
 void halSerialFlushRX(void)
 {
   uart_flush(HAL_SERIAL_UART);
+}
+
+/** @brief Event task for pattern (\n) detection
+ * 
+ * This task is used to detect any pattern detection interrupts, which
+ * are configured to be triggered on '\n' characters.
+ * 
+ * On a pattern detection event, the pattern semaphore is given, so
+ * any pending task will be able to read the data.
+ * Pending on this semaphore is done by halSerialReceiveUSBSerial.
+ * 
+ * @see serialpatternsem
+ * @see halSerialReceiveUSBSerial
+ * @see uarteventsqueue
+ * */
+static void halSerialEventTask(void *pvParameters)
+{
+    uart_event_t event;
+    for(;;) {
+        //Waiting for UART event.
+        if(xQueueReceive(uarteventsqueue, (void * )&event, (portTickType)portMAX_DELAY)) {
+            switch(event.type) {
+                //Event of UART receving data. Not used here, data is read
+                //by halSerialReceiveUSBSerial
+                case UART_DATA:
+                break;
+                
+                //Event of UART ring buffer full
+                // & FIFO overflow: reset queue & flush uart
+                case UART_FIFO_OVF:
+                case UART_BUFFER_FULL:
+                    ESP_LOGW(LOG_TAG,"FIFO/buffer full, maybe missing UART consumer?");
+                    uart_flush_input(HAL_SERIAL_UART);
+                    xQueueReset(uarteventsqueue);
+                    break;
+                //UART_PATTERN_DET, give semaphore to unblock pending
+                //UART readers...
+                case UART_PATTERN_DET:
+                    xSemaphoreGive(serialpatternsem);
+                    break;
+                //Others, do nothing....
+                default: break;
+            }
+        }
+    }
+    vTaskDelete(NULL);
 }
 
 void halSerialTaskKeyboardPress(void *param)
@@ -237,7 +312,8 @@ void halSerialTaskMouse(void *param)
   mouse_command_t rxM;
   static uint8_t emptySent = 0;
   mouse_command_t emptyReport = {0,0,0,0};
-  uint8_t hidreport[5] = {'M',0,0,0,0};
+  uint32_t hidreport[5] = {'M',0,0,0,0};
+  memset(&emptyReport,0,sizeof(mouse_command_t));
   
   while(1)
   {
@@ -250,29 +326,47 @@ void halSerialTaskMouse(void *param)
         //send report always if not empty
         if(memcmp(&rxM,&emptyReport,sizeof(mouse_command_t)) != 0)
         {
-          //copy mouse command to hid report
-          memcpy(&hidreport[1],&rxM,4);
-          if(halSerialSendUSBSerial(HAL_SERIAL_TX_TO_HID,(char *)hidreport,sizeof(hidreport),30) != ESP_OK)
+          uint8_t sent = 0;
+          char m = 'M';
+          sent += halSerialSendUSBSerial(HAL_SERIAL_TX_TO_HID,&m,1,30); 
+          sent += halSerialSendUSBSerial(HAL_SERIAL_TX_TO_HID,(char *)&rxM.buttons,1,30); 
+          sent += halSerialSendUSBSerial(HAL_SERIAL_TX_TO_HID,(char *)&rxM.x,1,30); 
+          sent += halSerialSendUSBSerial(HAL_SERIAL_TX_TO_HID,(char *)&rxM.y,1,30); 
+          sent += halSerialSendUSBSerial(HAL_SERIAL_TX_TO_HID,(char *)&rxM.wheel,1,30); 
+          
+          if(sent != 5)
           {
-            ESP_LOGE(LOG_TAG,"Error sending mouse report");
+            ESP_LOGE(LOG_TAG,"Error sending report:");
           }
           ESP_LOGD(LOG_TAG,"Mouse: %d,%d,%d,%d",rxM.buttons, \
               rxM.x, rxM.y, rxM.wheel);
           //after one non-empty report, we can resend an empty one
           emptySent = 0;
+          //delay for 1 tick, allowing the USB chip to parse the cmd
+          vTaskDelay(2);
         } else {
           //if empty, check if it was sent once, if not: send empty
           if(emptySent == 0)
           {
-            memcpy(&hidreport[1],&rxM,4);
-            if(halSerialSendUSBSerial(HAL_SERIAL_TX_TO_HID,(char *)hidreport,sizeof(hidreport),30) != ESP_OK)
+            uint8_t sent = 0;
+            char m = 'M';
+            sent += halSerialSendUSBSerial(HAL_SERIAL_TX_TO_HID,&m,1,30); 
+            sent += halSerialSendUSBSerial(HAL_SERIAL_TX_TO_HID,(char *)&rxM.buttons,1,30); 
+            sent += halSerialSendUSBSerial(HAL_SERIAL_TX_TO_HID,(char *)&rxM.x,1,30); 
+            sent += halSerialSendUSBSerial(HAL_SERIAL_TX_TO_HID,(char *)&rxM.y,1,30); 
+            sent += halSerialSendUSBSerial(HAL_SERIAL_TX_TO_HID,(char *)&rxM.wheel,1,30); 
+            
+            if(sent != 5)
             {
-              ESP_LOGE(LOG_TAG,"Error sending mouse report");
+              ESP_LOGE(LOG_TAG,"Error sending report:");
             }
+
             ESP_LOGD(LOG_TAG,"Mouse: %d,%d,%d,%d",rxM.buttons, \
                 rxM.x, rxM.y, rxM.wheel);
             //remember we sent an empty report
             emptySent = 1;
+            //delay for 1 tick, allowing the USB chip to parse the cmd
+            vTaskDelay(2);
           }
         }
       }
@@ -313,11 +407,29 @@ void halSerialTaskJoystick(void *param)
  * @return -1 on error, number of read bytes otherwise
  * @param data Data to be sent
  * @param length Number of maximum bytes to read
- * @see HAL_SERIAL_UART_TIMEOUT
+ * @todo Maybe remove parameter length, not needed here?
+ * @see HAL_SERIAL_UART_TIMEOUT_MS
  * */
 int halSerialReceiveUSBSerial(uint8_t *data, uint32_t length)
 {
-  return uart_read_bytes(HAL_SERIAL_UART, data, length, HAL_SERIAL_UART_TIMEOUT_MS / portTICK_PERIOD_MS);    
+  if(xSemaphoreTake(serialpatternsem,HAL_SERIAL_UART_TIMEOUT_MS / portTICK_PERIOD_MS) == pdTRUE)
+  {
+    //got this semaphore on time, return data & length
+    size_t buffered_size;
+    uart_get_buffered_data_len(HAL_SERIAL_UART, &buffered_size);
+    if(buffered_size < length)
+    {
+      int pos = uart_pattern_pop_pos(HAL_SERIAL_UART);
+      ESP_LOGI(LOG_TAG, "pos: %d, buffered size: %d", pos, buffered_size);
+      return uart_read_bytes(HAL_SERIAL_UART, data, buffered_size, HAL_SERIAL_UART_TIMEOUT_MS / portTICK_PERIOD_MS);
+    } else {
+      ESP_LOGE(LOG_TAG,"Provide bigger buffer for UART receive (buffer size %d, buffered %d)",length,buffered_size);
+      return -1;
+    }
+  } else {
+    //no pattern detected on time...
+    return -1;
+  }
 }
 
 /** Send serial bytes to USB-Serial (USB-CDC)
@@ -391,11 +503,17 @@ esp_err_t halSerialInit(void)
   }
   
   //Install UART driver with RX and TX buffers
-  ret = uart_driver_install(HAL_SERIAL_UART, BUF_SIZE_RX, BUF_SIZE_TX, 0, NULL, 0);
+  ret = uart_driver_install(HAL_SERIAL_UART, BUF_SIZE_RX, BUF_SIZE_TX, 10, &uarteventsqueue, 0);
   if(ret != ESP_OK) 
   {
     ESP_LOGE(LOG_TAG,"UART driver install failed"); 
     return ret;
+  }
+  
+  if(uarteventsqueue == NULL)
+  {
+    ESP_LOGE(LOG_TAG,"Cannot create queue for UART events");
+    return ESP_FAIL;
   }
   
   //Setup GPIO for UART sending direction (either use UART data to drive
@@ -412,15 +530,32 @@ esp_err_t halSerialInit(void)
   serialsendingsem = xSemaphoreCreateMutex();
   if(serialsendingsem == NULL) 
   {
-    ESP_LOGE(LOG_TAG,"Cannot create semaphore"); 
+    ESP_LOGE(LOG_TAG,"Cannot create semaphore for TX"); 
     return ESP_FAIL;
   }
+  
+  //create mutex for all tasks sending to serial TX queue.
+  //avoids splitting of different packets due to preemption
+  serialpatternsem = xSemaphoreCreateMutex();
+  if(serialpatternsem == NULL) 
+  {
+    ESP_LOGE(LOG_TAG,"Cannot create semaphore for pattern detection"); 
+    return ESP_FAIL;
+  }
+  
+  //Set uart pattern detect function.
+  uart_enable_pattern_det_intr(HAL_SERIAL_UART, '\n', 1, 10000, 10, 10);
+  //Reset the pattern queue length to record at most 10 pattern positions.
+  uart_pattern_queue_reset(HAL_SERIAL_UART, 10);
   
   //install serial tasks (4x -> keyboard press/release; mouse; joystick)
   xTaskCreate(halSerialTaskKeyboardPress, "serialKbdPress", HAL_SERIAL_TASK_STACKSIZE, NULL, configMAX_PRIORITIES-1, NULL);
   xTaskCreate(halSerialTaskKeyboardRelease, "serialKbdRelease", HAL_SERIAL_TASK_STACKSIZE, NULL, configMAX_PRIORITIES-1, NULL);
   xTaskCreate(halSerialTaskMouse, "serialMouse", HAL_SERIAL_TASK_STACKSIZE, NULL, configMAX_PRIORITIES-1, NULL);
   xTaskCreate(halSerialTaskJoystick, "serialJoystick", HAL_SERIAL_TASK_STACKSIZE, NULL, configMAX_PRIORITIES-1, NULL);
+  
+  //Create a task to handler UART event from ISR
+  xTaskCreate(halSerialEventTask, "serialeventT", HAL_SERIAL_TASK_STACKSIZE, NULL, configMAX_PRIORITIES-1, NULL);
   
   //set GPIO to route data to USB-HID
   gpio_set_level(HAL_SERIAL_SWITCHPIN, 0);

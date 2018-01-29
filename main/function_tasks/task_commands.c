@@ -115,8 +115,12 @@ uint8_t doGeneralCmdParsing(uint8_t *cmdBuffer)
   
   /*++++ AT ID ++++*/
   if(memcmp(cmdBuffer,"AT ID",5) == 0) {
-    if(halSerialSendUSBSerial(HAL_SERIAL_TX_TO_CDC,IDSTRING,sizeof(IDSTRING),20) == -1) {
-      ESP_LOGE(LOG_TAG,"Error sending response of AT ID"); }}
+    uint32_t sent = halSerialSendUSBSerial(HAL_SERIAL_TX_TO_CDC,IDSTRING,sizeof(IDSTRING),20);
+    if(sent != sizeof(IDSTRING)) 
+    {
+      ESP_LOGE(LOG_TAG,"Error sending response of AT ID"); 
+    } else return 1;
+  }
   /*++++ AT BT ++++*/
   if(memcmp(cmdBuffer,"AT BT",5) == 0) {
     param = strtol((char*)&(cmdBuffer[6]),NULL,10);
@@ -125,15 +129,18 @@ uint8_t doGeneralCmdParsing(uint8_t *cmdBuffer)
       case 1: 
         xEventGroupClearBits(connectionRoutingStatus,DATATO_BLE); 
         xEventGroupSetBits(connectionRoutingStatus,DATATO_USB); 
+        return 1;
         break;
       case 2: 
         xEventGroupClearBits(connectionRoutingStatus,DATATO_USB); 
         xEventGroupSetBits(connectionRoutingStatus,DATATO_BLE); 
+        return 1;
         break;
       case 3: 
         xEventGroupSetBits(connectionRoutingStatus,DATATO_USB|DATATO_BLE); 
+        return 1;
         break;
-      default: sendErrorBack("AT BT param");
+      default: sendErrorBack("AT BT param"); return 0;
     }
   }
       
@@ -228,11 +235,14 @@ uint8_t doMouseParsing(uint8_t *cmdBuffer, taskMouseConfig_t *mouseinstance)
     mouseinstance->actionparam = M_UNUSED;
     //mouseinstance->actionvalue = atoi((char*)&(cmdBuffer[6]));
     //mouseinstance->actionvalue = strtoimax((char*)&(cmdBuffer[6]),&endBuf,10);
-    mouseinstance->actionvalue = strtol((char*)&(cmdBuffer[6]),NULL,10);
-    if(mouseinstance->actionvalue > 127 || mouseinstance->actionvalue < 217)
+    int param = strtol((char*)&(cmdBuffer[5]),NULL,10);
+    ESP_LOGI(LOG_TAG,"Mouse move %c, %d",cmdBuffer[4],mouseinstance->actionvalue);
+    if(param > 127 && param < -127)
     {
-      ESP_LOGW(LOG_TAG,"Cannot send mouse command, param unknown");
+      ESP_LOGW(LOG_TAG,"AT MX parameter limit -127 - 127");
       return 0;
+    } else {
+      mouseinstance->actionvalue = param;
     }
     switch(cmdBuffer[4])
     {
@@ -267,8 +277,8 @@ void task_commands(void *params)
   {
     if(queuesready)
     {
-      //wait 30ms ticks, in case a long UART frame is transmitted
-      //vTaskDelay(30/portTICK_PERIOD_MS);
+      //wait 30ms, to be nice to other tasks
+      vTaskDelay(30/portTICK_PERIOD_MS);
       
       //wait for incoming data
       received = halSerialReceiveUSBSerial(commandBuffer,ATCMD_LENGTH);
@@ -278,7 +288,8 @@ void task_commands(void *params)
         //special command "AT" without further command:
         if(received >= 2 && memcmp(commandBuffer,"AT",2) == 0)
         {
-          halSerialSendUSBSerial(HAL_SERIAL_TX_TO_CDC,"OK\r\n",3,100);
+          halSerialSendUSBSerial(HAL_SERIAL_TX_TO_CDC,"OK\r\n",5,100);
+          halSerialFlushRX();
           continue;
         }
         if(received > 0) 
@@ -286,6 +297,7 @@ void task_commands(void *params)
           ESP_LOGW(LOG_TAG,"Invalid AT commandlength %d",received);
           ESP_LOG_BUFFER_HEXDUMP(LOG_TAG,commandBuffer,received,ESP_LOG_DEBUG);
         }
+        halSerialFlushRX();
         continue;
       }
       
@@ -299,8 +311,28 @@ void task_commands(void *params)
       if(doInfraredParsing(commandBuffer)) continue;
       if(doMouthpieceSettingsParsing(commandBuffer)) continue;
       
+      //check reply by LPC USB chip:
+      if(memcmp(commandBuffer,"__OK__",6) == 0) continue;
+      
+      if(memcmp(commandBuffer,"_parameter error",16) == 0)
+      {
+        ESP_LOGE(LOG_TAG,"USB reply: parameter error");
+        continue;
+      }
+      if(memcmp(commandBuffer,"_unknown command",16) == 0)
+      {
+        ESP_LOGE(LOG_TAG,"USB reply: unknown cmd");
+        continue;
+      }
+      if(memcmp(commandBuffer,"_unknown error code",19) == 0)
+      {
+        ESP_LOGE(LOG_TAG,"USB reply: unknown error code");
+        continue;
+      }
+      
       //if we are here, no parser was finding commands
       ESP_LOGW(LOG_TAG,"Invalid AT cmd (%d characters), flushing:",received);
+      ESP_LOG_BUFFER_CHAR_LEVEL(LOG_TAG,commandBuffer,received, ESP_LOG_WARN);
       halSerialFlushRX();
       //ESP_LOG_BUFFER_HEXDUMP(LOG_TAG,commandBuffer,received,ESP_LOG_DEBUG);
       halSerialSendUSBSerial(HAL_SERIAL_TX_TO_CDC,"?\r\n",2,100);

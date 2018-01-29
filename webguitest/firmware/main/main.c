@@ -33,15 +33,11 @@
 #include "cJSON.h"
 #include "captdns.h"
 
+#define CONFIG_LED_PIN 5
 
-// working modes
-#define MODE_BASIC		1
-#define MODE_ACTION		2
-#define MODE_PRESSURE	3
-
-// relay status
-#define RELAY_ON		0
-#define RELAY_OFF		1
+// LED status
+#define LED_OFF		0
+#define LED_ON		1
 
 // static headers for HTTP responses
 const static char http_html_hdr[] = "HTTP/1.1 200 OK\nContent-type: text/html\n\n";
@@ -81,18 +77,20 @@ const int STA_DISCONNECTED_BIT = BIT2;
 
 
 
-// actual relay status
-bool relay_status;
+// actual led status
+bool led_status;
 
 // nvs handler
 nvs_handle my_handle;
 
 // running configuration
-int working_mode;
 char command[6]="";
 char parameter[100]="";
 int pressure=10;
-
+int sensitivityX =50;
+int sensitivityY =60;
+int deadzoneX =20;
+int deadzoneY =30;
 
 
 // print the list of connected stations
@@ -234,7 +232,7 @@ static void http_server_netconn_serve(struct netconn *conn) {
 		netbuf_data(inbuf, (void**)&buf, &buflen);
 		buf[buflen] = '\0';
 
-		printf("http_serv request: %s\n",buf);
+		// printf("http_serv request: %s\n",buf);
 
 		
 		// get the request body and the first line
@@ -249,38 +247,47 @@ static void http_server_netconn_serve(struct netconn *conn) {
 				cJSON *root = cJSON_Parse(body);
 				cJSON *mode_item = cJSON_GetObjectItemCaseSensitive(root, "mode");
 				
-				if(strstr(mode_item->valuestring, "relais")) {
+				if(strstr(mode_item->valuestring, "led")) {
 					
 					cJSON *status_item = cJSON_GetObjectItemCaseSensitive(root, "status");
 					if(strstr(status_item->valuestring, "on")) {
-						printf("! Turning the relay ON\n");
-						gpio_set_level(CONFIG_RELAY_PIN, RELAY_ON);
-						relay_status = true;	
+						printf("! Turning the led ON\n");
+						gpio_set_level(CONFIG_LED_PIN, LED_ON);
+						led_status = true;	
 					}
 					else {
-						printf("! Turning the relay OFF\n");
-						gpio_set_level(CONFIG_RELAY_PIN, RELAY_OFF);
-						relay_status = false;	
+						printf("! Turning the led OFF\n");
+						gpio_set_level(CONFIG_LED_PIN, LED_OFF);
+						led_status = false;	
 					}
 				}
 				else if(strstr(mode_item->valuestring, "basic")) {
-					
-					working_mode = MODE_BASIC;
-					
+										
 					cJSON *status_item = cJSON_GetObjectItemCaseSensitive(root, "sensitivityX");
-					if (status_item) printf("! Got SensitivityX:%s\n",status_item->valuestring);
+					if (status_item) { 
+						printf("! Got SensitivityX:%s\n",status_item->valuestring); 
+						sensitivityX=atoi(status_item->valuestring); 
+					}
 					status_item = cJSON_GetObjectItemCaseSensitive(root, "sensitivityY");
-					if (status_item) printf("! Got SensitivityY:%s\n",status_item->valuestring);
+					if (status_item) { 
+						printf("! Got SensitivityY:%s\n",status_item->valuestring); 
+						sensitivityY=atoi(status_item->valuestring); 
+					}
 					status_item = cJSON_GetObjectItemCaseSensitive(root, "deadzoneX");
-					if (status_item) printf("! Got DeadzoneX:%s\n",status_item->valuestring);
+					if (status_item) { 
+						printf("! Got DeadzoneX:%s\n",status_item->valuestring); 
+						deadzoneX=atoi(status_item->valuestring); 
+					}
 					status_item = cJSON_GetObjectItemCaseSensitive(root, "deadzoneY");
-					if (status_item) printf("! Got DeadzoneY:%s\n",status_item->valuestring);
+					if (status_item) { 
+						printf("! Got DeadzoneY:%s\n",status_item->valuestring); 
+						deadzoneY=atoi(status_item->valuestring); 
+					}
 					
 				}
 				
 				else if(strstr(mode_item->valuestring, "action")) {
 				
-					working_mode = MODE_ACTION;
 					cJSON *status_item = cJSON_GetObjectItemCaseSensitive(root, "command");
 					if (status_item) { 
 						printf("! Got action command:%s\n",status_item->valuestring);
@@ -294,9 +301,7 @@ static void http_server_netconn_serve(struct netconn *conn) {
 				}
 				
 				else if(strstr(mode_item->valuestring, "pressure")) {
-					
-					working_mode = MODE_PRESSURE;
-					
+										
 					cJSON *pressure_item = cJSON_GetObjectItemCaseSensitive(root, "pressureValue");
 					pressure = atoi(pressure_item->valuestring);
 				}
@@ -306,16 +311,17 @@ static void http_server_netconn_serve(struct netconn *conn) {
 			else if(strstr(request_line, "GET /getConfig")) {
 			
 				cJSON *root = cJSON_CreateObject();
-				if(working_mode == MODE_BASIC)	cJSON_AddStringToObject(root, "mode", "basic");
-				else if(working_mode == MODE_ACTION) cJSON_AddStringToObject(root, "mode", "action");
-				else if(working_mode == MODE_PRESSURE) cJSON_AddStringToObject(root, "mode", "pressure");
 				
-				if(relay_status == true) cJSON_AddStringToObject(root, "relais", "on");
-				else cJSON_AddStringToObject(root, "relais", "off");
+				if(led_status == true) cJSON_AddStringToObject(root, "led", "on");
+				else cJSON_AddStringToObject(root, "led", "off");
 				
 				cJSON_AddStringToObject(root, "command", command);
 				cJSON_AddStringToObject(root, "parameter", parameter);
 				cJSON_AddNumberToObject(root, "pressureValue", pressure);
+				cJSON_AddNumberToObject(root, "sensitivityX", sensitivityX);
+				cJSON_AddNumberToObject(root, "sensitivityY", sensitivityY);
+				cJSON_AddNumberToObject(root, "deadzoneX", deadzoneX);
+				cJSON_AddNumberToObject(root, "deadzoneY", deadzoneY);
 				
 				char *rendered = cJSON_Print(root);
 				netconn_write(conn, http_html_hdr, sizeof(http_html_hdr) - 1, NETCONN_NOCOPY);
@@ -385,12 +391,12 @@ static void monitoring_task(void *pvParameters) {
 		time_t now = 0;
 		time(&now);
 		char actual_time[6];
-		strftime(actual_time, 6, "%H:%M", localtime(&now));
+		strftime(actual_time, 6, "%M:%S", localtime(&now));
 		
 		
 		static int i=0;
 		if (((i++) % 5)==0) {
-			printf("Actual time (%s), working mode: %d \n", actual_time, working_mode);
+			printf("ESP32 heartbeat. Actual time: %s\n", actual_time);
 			// printStationList();
 		}
 		
@@ -502,15 +508,15 @@ void wifi_setup() {
 // configure the output PIN
 void gpio_setup() {
 	
-	// configure the relay pin as GPIO, output
-	gpio_pad_select_gpio(CONFIG_RELAY_PIN);
-    gpio_set_direction(CONFIG_RELAY_PIN, GPIO_MODE_OUTPUT);
+	// configure the led pin as GPIO, output
+	gpio_pad_select_gpio(CONFIG_LED_PIN);
+    gpio_set_direction(CONFIG_LED_PIN, GPIO_MODE_OUTPUT);
 	
 	// set initial status = OFF
-	gpio_set_level(CONFIG_RELAY_PIN, RELAY_OFF);
-	relay_status = false;
+	gpio_set_level(CONFIG_LED_PIN, LED_OFF);
+	led_status = false;
 	
-	printf("* Relay PIN configured\n");
+	printf("* LED PIN configured\n");
 }
 
 

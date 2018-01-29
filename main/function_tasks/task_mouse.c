@@ -184,13 +184,20 @@ void task_mouse(taskMouseConfig_t *param)
     case M_HOLD:
       press.buttons = buttonmask;
       release.buttons = 0;
-      userelease = 1;
+      if(param->virtualButton == VB_SINGLESHOT)
+      {
+        userelease = 0;
+      } else {
+        userelease = 1;
+      }
       break;
     case M_DOUBLE:
       press.buttons = buttonmask;
       clickcount = 2;
       autorelease = 1;
       break;
+    case M_RELEASE:
+      press.buttons = 0;
     case M_UNUSED: break;
     default:
       ESP_LOGE(LOG_TAG,"unkown mouse action param %d, exiting",param->actionparam);
@@ -212,17 +219,17 @@ void task_mouse(taskMouseConfig_t *param)
         {
           //if press is set
           if(xEventGroupGetBits(connectionRoutingStatus) & DATATO_USB) 
-            xQueueSend(mouse_movement_usb,&press,TIMEOUT);
+          { xQueueSend(mouse_movement_usb,&press,TIMEOUT); }
           if(xEventGroupGetBits(connectionRoutingStatus) & DATATO_BLE) 
-            xQueueSend(mouse_movement_ble,&press,TIMEOUT);
+          { xQueueSend(mouse_movement_ble,&press,TIMEOUT); }
           
           //send second command if set
           if(autorelease)
           {
             if(xEventGroupGetBits(connectionRoutingStatus) & DATATO_USB) 
-              xQueueSend(mouse_movement_usb,&empty,TIMEOUT);
+            { xQueueSend(mouse_movement_usb,&empty,TIMEOUT); }
             if(xEventGroupGetBits(connectionRoutingStatus) & DATATO_BLE) 
-              xQueueSend(mouse_movement_ble,&empty,TIMEOUT);
+            { xQueueSend(mouse_movement_ble,&empty,TIMEOUT); }
           }
         }
       }
@@ -232,10 +239,10 @@ void task_mouse(taskMouseConfig_t *param)
         //if release flag is used
         if(userelease)
         {
-          if(xEventGroupGetBits(connectionRoutingStatus) & DATATO_USB) 
-            xQueueSend(mouse_movement_usb,&release,TIMEOUT);
+          if(xEventGroupGetBits(connectionRoutingStatus) & DATATO_USB)
+          { xQueueSend(mouse_movement_usb,&release,TIMEOUT); }
           if(xEventGroupGetBits(connectionRoutingStatus) & DATATO_BLE) 
-            xQueueSend(mouse_movement_ble,&release,TIMEOUT);
+          { xQueueSend(mouse_movement_ble,&release,TIMEOUT); }
         }
       }
       

@@ -15,36 +15,36 @@ Following commands are currently available:
 **General Commands**
 | Command | Parameter | Description | Available since | Implemented in v3 |
 |:--------|:----------|:------------|:--------------|:--------------------|
-| AT    | --  | returns OK   | v2 | untested |
-| AT ID | --  | returns the current version string  | v2 | untested |
+| AT    | --  | returns OK   | v2 | yes |
+| AT ID | --  | returns the current version string  | v2 | yes |
 | AT BM | number (1-11)  | set the button, which corresponds to the next command. The button assignments are described on the bottom | v2 | no |
 | AT BL | -- | request the next active virtual button which will be set by the next AT command (similar than AT BM) | v3 | no |
 | AT MA | string | execute macro (space separated list of commands, see [Macros](https://github.com/asterics/FLipMouse/wiki/macros)) | v2 | no |
 | AT WA | number | wait/delay (ms); useful for macros | v2 | no |
 | AT RO | number (0,90,180,270) | orientation (0 => LEDs on top) | v2 | no |
-| AT BT | number (0,1,2) | Bluetooth mode, 1=USB only, 2=BT only, 3=both(default) | v2 | untested |
+| AT BT | number (0,1,2) | Bluetooth mode, 1=USB only, 2=BT only, 3=both(default) | v2 | Working for USB, untested for BLE |
 **USB HID Commands**
 | Command | Parameter | Description | Available since | Implemented in v3 |
 |:--------|:----------|:------------|:--------------|:--------------------|
-| AT CL | --  | Click left mouse button | v2 | untested |
-| AT CR | --  | Click right mouse button  | v2 | untested |
-| AT CM | --  | Click middle mouse button  | v2 | untested |
-| AT CD | --  | Doubleclick left mouse button  | v2 | untested |
+| AT CL | --  | Click left mouse button | v2 | yes |
+| AT CR | --  | Click right mouse button  | v2 | yes |
+| AT CM | --  | Click middle mouse button  | v2 | yes |
+| AT CD | --  | Doubleclick left mouse button  | v2 | yes |
 |       |   |   |||
-| AT PL | --  | Press+hold left mouse button  | v2 | untested |
-| AT PR | --  | Press+hold right mouse button  | v2 | untested |
-| AT PM | --  | Press+hold middle mouse button  | v2 | untested |
+| AT PL | --  | Press+hold left mouse button  | v2 | yes |
+| AT PR | --  | Press+hold right mouse button  | v2 | yes |
+| AT PM | --  | Press+hold middle mouse button  | v2 | yes |
 |       |   |   |||
-| AT RL | --  | Release left mouse button  | v2 | untested |
-| AT RR | --  | Release right mouse button  | v2 | untested |
-| AT RM | --  | Release middle mouse button  | v2 | untested |
+| AT RL | --  | Release left mouse button  | v2 | yes |
+| AT RR | --  | Release right mouse button  | v2 | yes |
+| AT RM | --  | Release middle mouse button  | v2 | yes |
 |       |   |   |||
-| AT WU | --  | Move mouse wheel up  | v2 | untested |
-| AT WD | --  | Move mouse wheel down  | v2 | untested |
-| AT WS | number (1-)  | Set mousewheel stepsize (e.g.: "AT WS 3" sets the stepsize to 3 rows)| v2 | untested |
+| AT WU | --  | Move mouse wheel up  | v2 | yes |
+| AT WD | --  | Move mouse wheel down  | v2 | yes |
+| AT WS | number (1-)  | Set mousewheel stepsize (e.g.: "AT WS 3" sets the stepsize to 3 rows)| v2 | yes |
 |       |   |   |||
-| AT MX | number  | Move mouse (X direction), e.g. AT MX -25  | v2 | untested |
-| AT MY | number  | Move mouse (Y direction), e.g. AT MY 10  | v2 | untested |
+| AT MX | number  | Move mouse (X direction), e.g. AT MX -25  | v2 | yes |
+| AT MY | number  | Move mouse (Y direction), e.g. AT MY 10  | v2 | yes |
 |       |   |   |||
 | AT KW | string  | Keyboard write (e.g. "AT KW Hi" types "Hi"  | v2 | no |
 | AT KP | string  | Key press (e.g. "AT KP KEY_UP" presses the up arrow key), a full list of supported key identifiers is provided on the bottom  | v2 | no |

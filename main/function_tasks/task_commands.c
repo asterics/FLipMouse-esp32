@@ -129,15 +129,18 @@ uint8_t doGeneralCmdParsing(uint8_t *cmdBuffer)
       case 1: 
         xEventGroupClearBits(connectionRoutingStatus,DATATO_BLE); 
         xEventGroupSetBits(connectionRoutingStatus,DATATO_USB); 
+        ESP_LOGI(LOG_TAG,"Switched routing to USB only");
         return 1;
         break;
       case 2: 
         xEventGroupClearBits(connectionRoutingStatus,DATATO_USB); 
         xEventGroupSetBits(connectionRoutingStatus,DATATO_BLE); 
+        ESP_LOGI(LOG_TAG,"Switched routing to BLE only");
         return 1;
         break;
       case 3: 
         xEventGroupSetBits(connectionRoutingStatus,DATATO_USB|DATATO_BLE); 
+        ESP_LOGI(LOG_TAG,"Switched routing to USB & BLE");
         return 1;
         break;
       default: sendErrorBack("AT BT param"); return 0;
@@ -194,8 +197,17 @@ uint8_t doMouseParsing(uint8_t *cmdBuffer, taskMouseConfig_t *mouseinstance)
       case 'U': mouseinstance->actionvalue = mouse_get_wheel(); task_mouse(mouseinstance); return 1;
       case 'D': mouseinstance->actionvalue = -mouse_get_wheel(); task_mouse(mouseinstance); return 1;
       //set mouse wheel stepsize. If unsuccessful, default will return 0
-      case 'S': 
-        if(mouse_set_wheel(strtol((char*)&(cmdBuffer[6]),NULL,10)) == 0) return 1;
+      case 'S':
+        int steps = strtol((char*)&(cmdBuffer[6]),NULL,10);
+        if(steps > 127 || steps < 127)
+        {
+          sendErrorBack("Wheel size out of range! (-127 to 127)");
+          return 0;
+        } else { 
+          mouse_set_wheel(steps);
+          ESP_LOGI(LOG_TAG,"Setting mouse wheel steps: %d",steps);
+          return 1;
+        }
       default: return 0;
     }
   }
@@ -251,15 +263,7 @@ uint8_t doMouseParsing(uint8_t *cmdBuffer, taskMouseConfig_t *mouseinstance)
       default: return 0;
     }
   }
-  
-  
-  /*++++ Click left ++++*/
-  if(memcmp(cmdBuffer,"AT CL",5) == 0) {
-    mouseinstance->type = LEFT;
-    mouseinstance->actionparam = M_CLICK;
-    task_mouse(mouseinstance);
-    return 1;
-  }
+
   return 0;
 }
  

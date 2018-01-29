@@ -20,7 +20,8 @@
  * beni@asterics-foundation.org>
  */
  
-/** @brief This module contains the hardware abstraction for the serial
+/** @file 
+ * @brief This module contains the hardware abstraction for the serial
  * interface to the USB support chip.
  * 
  * 

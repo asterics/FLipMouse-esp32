@@ -18,7 +18,8 @@
  * beni@asterics-foundation.org>
  */
 
-/** @brief This module contains the hardware abstraction for the serial
+/** @file
+ * @brief This module contains the hardware abstraction for the serial
  * interface to the USB support chip.
  * 
  * 
@@ -250,7 +251,10 @@ void halSerialTaskKeyboardPress(void *param)
           default: ESP_LOGE(LOG_TAG,"add_keycode return unknown code..."); break;
         }
         
-        keycode = 0;
+        keycode = 0;Go to the source code of this file.
+Macros
+#define 	LOG_TAG   "hal_serial"
+ 	This module contains the hardware abstraction for the serial interface to the USB support chip. More...
       }
     } else {
       ESP_LOGE(LOG_TAG,"keyboard_usb_press queue not initialized, retry in 1s");

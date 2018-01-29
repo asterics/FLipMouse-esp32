@@ -1,5 +1,6 @@
 <map id="halSerialSendUSBSerial" name="halSerialSendUSBSerial">
-<area shape="rect" id="node2" href="$task__commands_8c.html#ad105bde7fe8d6d94d079bd3e5d2851e6" title="doGeneralCmdParsing" alt="" coords="404,22,557,49"/>
-<area shape="rect" id="node3" href="$hal__serial_8c.html#a4135f4381e4995152515091845c50c8f" title="halSerialTaskMouse" alt="" coords="216,22,356,49"/>
-<area shape="rect" id="node4" href="$task__commands_8c.html#acea81ba8a182ae78feb2db6418fc1806" title="sendErrorBack" alt="" coords="232,73,340,99"/>
+<area shape="rect" id="node2" href="$task__commands_8c.html#ad105bde7fe8d6d94d079bd3e5d2851e6" title="doGeneralCmdParsing" alt="" coords="404,5,557,32"/>
+<area shape="rect" id="node3" href="$hal__serial_8c.html#a4135f4381e4995152515091845c50c8f" title="halSerialTaskMouse" alt="" coords="216,31,356,57"/>
+<area shape="rect" id="node4" href="$task__commands_8c.html#acea81ba8a182ae78feb2db6418fc1806" title="sendErrorBack" alt="" coords="232,81,340,108"/>
+<area shape="rect" id="node5" href="$task__commands_8c.html#a67e18f3921bbb80116577096dd7fccac" title="doMouseParsing" alt="" coords="421,81,540,108"/>
 </map>

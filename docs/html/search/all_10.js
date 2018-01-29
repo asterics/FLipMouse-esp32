@@ -4,7 +4,6 @@ var searchData=
   ['sendtoqueue',['sendToQueue',['../task__kbd_8c.html#aad4ceb3ea958b99d596870013982d96e',1,'task_kbd.c']]],
   ['sensitivity_5fx',['sensitivity_x',['../structadc__config.html#a81465c39748fa52d1b773f34ad4ee435',1,'adc_config']]],
   ['sensitivity_5fy',['sensitivity_y',['../structadc__config.html#adbfe1bd3388e5274fd37ffb27c6a719a',1,'adc_config']]],
-  ['serialsendingsem',['serialsendingsem',['../hal__serial_8c.html#af8aa2305d1905c876a30e25bf34cc480',1,'hal_serial.c']]],
   ['slider_5fleft',['slider_left',['../structjoystick__data.html#a4a807700ce03cf13b94cf8b97c744653',1,'joystick_data']]],
   ['slider_5fright',['slider_right',['../structjoystick__data.html#a218ba3d9aee6cd81fa8321ba0754fadb',1,'joystick_data']]],
   ['slotname',['slotName',['../structtaskConfigSwitcherConfig.html#a28b1ab4ccf1aa8814a9b81d58d5c7bd5',1,'taskConfigSwitcherConfig']]],

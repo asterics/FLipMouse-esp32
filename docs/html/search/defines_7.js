@@ -1,11 +1,9 @@
 var searchData=
 [
-  ['layout_5fus_5fenglish',['LAYOUT_US_ENGLISH',['../keyboard_8c.html#abdc0bad07026dc79af21786f20351716',1,'LAYOUT_US_ENGLISH():&#160;keyboard.c'],['../keyboard_8c.html#abdc0bad07026dc79af21786f20351716',1,'LAYOUT_US_ENGLISH():&#160;keyboard.c']]],
-  ['layout_5fus_5finternational',['LAYOUT_US_INTERNATIONAL',['../keyboard_8c.html#a1638d6d17cf44a63e695eedae81b455d',1,'LAYOUT_US_INTERNATIONAL():&#160;keyboard.c'],['../keyboard_8c.html#a1638d6d17cf44a63e695eedae81b455d',1,'LAYOUT_US_INTERNATIONAL():&#160;keyboard.c'],['../keyboard_8c.html#a1638d6d17cf44a63e695eedae81b455d',1,'LAYOUT_US_INTERNATIONAL():&#160;keyboard.c'],['../keyboard_8c.html#a1638d6d17cf44a63e695eedae81b455d',1,'LAYOUT_US_INTERNATIONAL():&#160;keyboard.c']]],
-  ['left_5falt_5fkey_5fmask',['LEFT_ALT_KEY_MASK',['../esp__hidd__prf__api_8h.html#a3a1d1ae6062a434ab2801d1a4f72dbd1',1,'esp_hidd_prf_api.h']]],
-  ['left_5fcontrol_5fkey_5fmask',['LEFT_CONTROL_KEY_MASK',['../esp__hidd__prf__api_8h.html#a70368bbcf693dc041bafe8abd368f5b3',1,'esp_hidd_prf_api.h']]],
-  ['left_5fgui_5fkey_5fmask',['LEFT_GUI_KEY_MASK',['../esp__hidd__prf__api_8h.html#ab5e9ea24553786e0b50c74b3d972efd2',1,'esp_hidd_prf_api.h']]],
-  ['left_5fshift_5fkey_5fmask',['LEFT_SHIFT_KEY_MASK',['../esp__hidd__prf__api_8h.html#acd24fc8f9edc03c1faa4018e757373d5',1,'esp_hidd_prf_api.h']]],
-  ['lo_5fuint16',['LO_UINT16',['../hid__device__le__prf_8c.html#ab2b94e11f455d94fd743666d4f1364d7',1,'hid_device_le_prf.c']]],
-  ['log_5ftag',['LOG_TAG',['../config__switcher_8c.html#a7ce0df38eb467e59f209470c8f5ac4e6',1,'LOG_TAG():&#160;config_switcher.c'],['../flipmouse__fabi__esp32__kbdmouse__main_8c.html#a7ce0df38eb467e59f209470c8f5ac4e6',1,'LOG_TAG():&#160;flipmouse_fabi_esp32_kbdmouse_main.c'],['../task__commands_8c.html#a7ce0df38eb467e59f209470c8f5ac4e6',1,'LOG_TAG():&#160;task_commands.c'],['../task__debouncer_8c.html#a7ce0df38eb467e59f209470c8f5ac4e6',1,'LOG_TAG():&#160;task_debouncer.c'],['../task__kbd_8c.html#a7ce0df38eb467e59f209470c8f5ac4e6',1,'LOG_TAG():&#160;task_kbd.c'],['../task__mouse_8c.html#a7ce0df38eb467e59f209470c8f5ac4e6',1,'LOG_TAG():&#160;task_mouse.c'],['../hal__adc_8c.html#a7ce0df38eb467e59f209470c8f5ac4e6',1,'LOG_TAG():&#160;hal_adc.c'],['../hal__ble_8c.html#a7ce0df38eb467e59f209470c8f5ac4e6',1,'LOG_TAG():&#160;hal_ble.c'],['../hal__serial_8c.html#a7ce0df38eb467e59f209470c8f5ac4e6',1,'LOG_TAG():&#160;hal_serial.c'],['../hal__storage_8c.html#a7ce0df38eb467e59f209470c8f5ac4e6',1,'LOG_TAG():&#160;hal_storage.c'],['../keyboard_8c.html#a7ce0df38eb467e59f209470c8f5ac4e6',1,'LOG_TAG():&#160;keyboard.c']]]
+  ['m',['M',['../hid__dev_8c.html#ae5c30dc4497ee36bd90bf416cc8ac289',1,'hid_dev.c']]],
+  ['module_5fid',['MODULE_ID',['../common_8h.html#aa407a75a23bf77b26269d3932ec0ff5f',1,'common.h']]],
+  ['mouse_5fbutton_5fleft',['MOUSE_BUTTON_LEFT',['../task__mouse_8h.html#a67d41b5dcdb6d241343bf97e15304079',1,'task_mouse.h']]],
+  ['mouse_5fbutton_5fmiddle',['MOUSE_BUTTON_MIDDLE',['../task__mouse_8h.html#ad3379a48b44213dfa6b756488082902a',1,'task_mouse.h']]],
+  ['mouse_5fbutton_5fright',['MOUSE_BUTTON_RIGHT',['../task__mouse_8h.html#ae62804387f4df3c1b2ab28e4ad8a7fa3',1,'task_mouse.h']]],
+  ['mouse_5fdefault_5fwheelsteps',['MOUSE_DEFAULT_WHEELSTEPS',['../task__mouse_8h.html#a48048c2c24428d1c5383dcb11e8f6692',1,'task_mouse.h']]]
 ];

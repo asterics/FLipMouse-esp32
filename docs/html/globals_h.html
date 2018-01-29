@@ -127,9 +127,6 @@ $(function() {
 <li>HAL_IO_PIN_BUTTON_INT2
 : <a class="el" href="hal__io_8h.html#a0328d682efe73f89b15ee217077388b5">hal_io.h</a>
 </li>
-<li>HAL_SERIAL_RECEIVE_TASK_STACKSIZE
-: <a class="el" href="hal__serial_8c.html#aa0d0e9b53065ba3ff2431e4f7f65ab7a">hal_serial.c</a>
-</li>
 <li>HAL_SERIAL_RXPIN
 : <a class="el" href="hal__serial_8h.html#a45f62b4622856ce7c40997e870b85895">hal_serial.h</a>
 </li>
@@ -150,6 +147,9 @@ $(function() {
 </li>
 <li>HAL_SERIAL_UART
 : <a class="el" href="hal__serial_8h.html#ac5db2b7c58f5cf3c9417b43b25166963">hal_serial.h</a>
+</li>
+<li>HAL_SERIAL_UART_TIMEOUT_MS
+: <a class="el" href="hal__serial_8c.html#a8ed6a618f134d6b923ba216de84253f6">hal_serial.c</a>
 </li>
 <li>hal_storage_load_action
 : <a class="el" href="hal__storage_8h.html#a8a4828abe0b7cd309fba5c2e5e228b95">hal_storage.h</a>
@@ -216,13 +216,17 @@ $(function() {
 : <a class="el" href="hal__io_8c.html#aa5ee74913a09cba6dca62bfdc9f8342b">hal_io.c</a>
 , <a class="el" href="hal__io_8h.html#aa5ee74913a09cba6dca62bfdc9f8342b">hal_io.h</a>
 </li>
+<li>halSerialFlushRX()
+: <a class="el" href="hal__serial_8c.html#a995c536b9e0d279066d893c6a3dfce4e">hal_serial.c</a>
+, <a class="el" href="hal__serial_8h.html#a995c536b9e0d279066d893c6a3dfce4e">hal_serial.h</a>
+</li>
 <li>halSerialInit()
 : <a class="el" href="hal__serial_8c.html#a2d03c06463b09e33d87d90eb273819b0">hal_serial.c</a>
 , <a class="el" href="hal__serial_8h.html#a2d03c06463b09e33d87d90eb273819b0">hal_serial.h</a>
 </li>
 <li>halSerialReceiveUSBSerial()
-: <a class="el" href="hal__serial_8c.html#abedf7f5fb21a238ccd2c6bef5da0afe7">hal_serial.c</a>
-, <a class="el" href="hal__serial_8h.html#abedf7f5fb21a238ccd2c6bef5da0afe7">hal_serial.h</a>
+: <a class="el" href="hal__serial_8c.html#a131377105453d5b94f02f977ff454613">hal_serial.c</a>
+, <a class="el" href="hal__serial_8h.html#a131377105453d5b94f02f977ff454613">hal_serial.h</a>
 </li>
 <li>halSerialSendUSBSerial()
 : <a class="el" href="hal__serial_8c.html#a8f987ba001c2a39c959a551a94b5df43">hal_serial.c</a>
@@ -402,8 +406,8 @@ $(function() {
 : <a class="el" href="hid__desc_8h.html#aba06125b83232cd2dc1d4b1230db1257">hid_desc.h</a>
 </li>
 <li>hid_dev_register_reports()
-: <a class="el" href="hid__dev_8h.html#a6df72a6bb64d5c8cd7490eb11617b7ab">hid_dev.h</a>
-, <a class="el" href="hid__dev_8c.html#a6df72a6bb64d5c8cd7490eb11617b7ab">hid_dev.c</a>
+: <a class="el" href="hid__dev_8c.html#a6df72a6bb64d5c8cd7490eb11617b7ab">hid_dev.c</a>
+, <a class="el" href="hid__dev_8h.html#a6df72a6bb64d5c8cd7490eb11617b7ab">hid_dev.h</a>
 </li>
 <li>hid_dev_send_report()
 : <a class="el" href="hid__dev_8c.html#a8ae7c69dfd4b740534df123a303a8832">hid_dev.c</a>
@@ -629,8 +633,8 @@ $(function() {
 : <a class="el" href="hidd__le__prf__int_8h.html#a7907956e9e9ae0f0d5e6a928c9e1f143">hidd_le_prf_int.h</a>
 </li>
 <li>hidd_le_create_service()
-: <a class="el" href="hidd__le__prf__int_8h.html#a479cfaafdbd41501ccd953c0abfc8ca6">hidd_le_prf_int.h</a>
-, <a class="el" href="hid__device__le__prf_8c.html#a479cfaafdbd41501ccd953c0abfc8ca6">hid_device_le_prf.c</a>
+: <a class="el" href="hid__device__le__prf_8c.html#a479cfaafdbd41501ccd953c0abfc8ca6">hid_device_le_prf.c</a>
+, <a class="el" href="hidd__le__prf__int_8h.html#a479cfaafdbd41501ccd953c0abfc8ca6">hidd_le_prf_int.h</a>
 </li>
 <li>HIDD_LE_CTNL_PT_CHAR
 : <a class="el" href="hidd__le__prf__int_8h.html#a99fb83031ce9923c84392b4e92f956b5a95cd26e74422592c250244b0b0fc1ec1">hidd_le_prf_int.h</a>

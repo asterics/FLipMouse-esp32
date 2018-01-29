@@ -75,11 +75,13 @@ $(function() {
 <tr>
 <th align="left">Command </th><th align="left">Parameter </th><th align="left">Description </th><th align="left">Available since </th><th align="left">Implemented in v3  </th></tr>
 <tr>
-<td align="left">AT </td><td align="left">&ndash; </td><td align="left">returns OK </td><td align="left">v2 </td><td align="left">untested </td></tr>
+<td align="left">AT </td><td align="left">&ndash; </td><td align="left">returns OK </td><td align="left">v2 </td><td align="left">yes </td></tr>
 <tr>
-<td align="left">AT ID </td><td align="left">&ndash; </td><td align="left">returns the current version string </td><td align="left">v2 </td><td align="left">untested </td></tr>
+<td align="left">AT ID </td><td align="left">&ndash; </td><td align="left">returns the current version string </td><td align="left">v2 </td><td align="left">yes </td></tr>
 <tr>
 <td align="left">AT BM </td><td align="left">number (1-11) </td><td align="left">set the button, which corresponds to the next command. The button assignments are described on the bottom </td><td align="left">v2 </td><td align="left">no </td></tr>
+<tr>
+<td align="left">AT BL </td><td align="left">&ndash; </td><td align="left">request the next active virtual button which will be set by the next AT command (similar than AT BM) </td><td align="left">v3 </td><td align="left">no </td></tr>
 <tr>
 <td align="left">AT MA </td><td align="left">string </td><td align="left">execute macro (space separated list of commands, see <a href="https://github.com/asterics/FLipMouse/wiki/macros">Macros</a>) </td><td align="left">v2 </td><td align="left">no </td></tr>
 <tr>
@@ -87,49 +89,49 @@ $(function() {
 <tr>
 <td align="left">AT RO </td><td align="left">number (0,90,180,270) </td><td align="left">orientation (0 =&gt; LEDs on top) </td><td align="left">v2 </td><td align="left">no </td></tr>
 <tr>
-<td align="left">AT BT </td><td align="left">number (0,1,2) </td><td align="left">Bluetooth mode, 1=USB only, 2=BT only, 3=both(default) </td><td align="left">v2 </td><td align="left">untested </td></tr>
+<td align="left">AT BT </td><td align="left">number (0,1,2) </td><td align="left">Bluetooth mode, 1=USB only, 2=BT only, 3=both(default) </td><td align="left">v2 </td><td align="left">Working for USB, untested for BLE </td></tr>
 </table>
 <p><b>USB HID Commands</b> </p><table class="doxtable">
 <tr>
 <th align="left">Command </th><th align="left">Parameter </th><th align="left">Description </th><th align="left">Available since </th><th align="left">Implemented in v3  </th></tr>
 <tr>
-<td align="left">AT CL </td><td align="left">&ndash; </td><td align="left">Click left mouse button </td><td align="left">v2 </td><td align="left">untested </td></tr>
+<td align="left">AT CL </td><td align="left">&ndash; </td><td align="left">Click left mouse button </td><td align="left">v2 </td><td align="left">yes </td></tr>
 <tr>
-<td align="left">AT CR </td><td align="left">&ndash; </td><td align="left">Click right mouse button </td><td align="left">v2 </td><td align="left">untested </td></tr>
+<td align="left">AT CR </td><td align="left">&ndash; </td><td align="left">Click right mouse button </td><td align="left">v2 </td><td align="left">yes </td></tr>
 <tr>
-<td align="left">AT CM </td><td align="left">&ndash; </td><td align="left">Click middle mouse button </td><td align="left">v2 </td><td align="left">untested </td></tr>
+<td align="left">AT CM </td><td align="left">&ndash; </td><td align="left">Click middle mouse button </td><td align="left">v2 </td><td align="left">yes </td></tr>
 <tr>
-<td align="left">AT CD </td><td align="left">&ndash; </td><td align="left">Doubleclick left mouse button </td><td align="left">v2 </td><td align="left">untested </td></tr>
-<tr>
-<td align="left"></td><td align="left"></td><td align="left"></td><td align="left"></td></tr>
-<tr>
-<td align="left">AT PL </td><td align="left">&ndash; </td><td align="left">Press+hold left mouse button </td><td align="left">v2 </td><td align="left">untested </td></tr>
-<tr>
-<td align="left">AT PR </td><td align="left">&ndash; </td><td align="left">Press+hold right mouse button </td><td align="left">v2 </td><td align="left">untested </td></tr>
-<tr>
-<td align="left">AT PM </td><td align="left">&ndash; </td><td align="left">Press+hold middle mouse button </td><td align="left">v2 </td><td align="left">untested </td></tr>
+<td align="left">AT CD </td><td align="left">&ndash; </td><td align="left">Doubleclick left mouse button </td><td align="left">v2 </td><td align="left">yes </td></tr>
 <tr>
 <td align="left"></td><td align="left"></td><td align="left"></td><td align="left"></td></tr>
 <tr>
-<td align="left">AT RL </td><td align="left">&ndash; </td><td align="left">Release left mouse button </td><td align="left">v2 </td><td align="left">untested </td></tr>
+<td align="left">AT PL </td><td align="left">&ndash; </td><td align="left">Press+hold left mouse button </td><td align="left">v2 </td><td align="left">yes </td></tr>
 <tr>
-<td align="left">AT RR </td><td align="left">&ndash; </td><td align="left">Release right mouse button </td><td align="left">v2 </td><td align="left">untested </td></tr>
+<td align="left">AT PR </td><td align="left">&ndash; </td><td align="left">Press+hold right mouse button </td><td align="left">v2 </td><td align="left">yes </td></tr>
 <tr>
-<td align="left">AT RM </td><td align="left">&ndash; </td><td align="left">Release middle mouse button </td><td align="left">v2 </td><td align="left">untested </td></tr>
-<tr>
-<td align="left"></td><td align="left"></td><td align="left"></td><td align="left"></td></tr>
-<tr>
-<td align="left">AT WU </td><td align="left">&ndash; </td><td align="left">Move mouse wheel up </td><td align="left">v2 </td><td align="left">untested </td></tr>
-<tr>
-<td align="left">AT WD </td><td align="left">&ndash; </td><td align="left">Move mouse wheel down </td><td align="left">v2 </td><td align="left">untested </td></tr>
-<tr>
-<td align="left">AT WS </td><td align="left">number (1-) </td><td align="left">Set mousewheel stepsize (e.g.: "AT WS 3" sets the stepsize to 3 rows)</td><td align="left">v2 </td><td align="left">untested </td></tr>
+<td align="left">AT PM </td><td align="left">&ndash; </td><td align="left">Press+hold middle mouse button </td><td align="left">v2 </td><td align="left">yes </td></tr>
 <tr>
 <td align="left"></td><td align="left"></td><td align="left"></td><td align="left"></td></tr>
 <tr>
-<td align="left">AT MX </td><td align="left">number </td><td align="left">Move mouse (X direction), e.g. AT MX -25 </td><td align="left">v2 </td><td align="left">untested </td></tr>
+<td align="left">AT RL </td><td align="left">&ndash; </td><td align="left">Release left mouse button </td><td align="left">v2 </td><td align="left">yes </td></tr>
 <tr>
-<td align="left">AT MY </td><td align="left">number </td><td align="left">Move mouse (Y direction), e.g. AT MY 10 </td><td align="left">v2 </td><td align="left">untested </td></tr>
+<td align="left">AT RR </td><td align="left">&ndash; </td><td align="left">Release right mouse button </td><td align="left">v2 </td><td align="left">yes </td></tr>
+<tr>
+<td align="left">AT RM </td><td align="left">&ndash; </td><td align="left">Release middle mouse button </td><td align="left">v2 </td><td align="left">yes </td></tr>
+<tr>
+<td align="left"></td><td align="left"></td><td align="left"></td><td align="left"></td></tr>
+<tr>
+<td align="left">AT WU </td><td align="left">&ndash; </td><td align="left">Move mouse wheel up </td><td align="left">v2 </td><td align="left">yes </td></tr>
+<tr>
+<td align="left">AT WD </td><td align="left">&ndash; </td><td align="left">Move mouse wheel down </td><td align="left">v2 </td><td align="left">yes </td></tr>
+<tr>
+<td align="left">AT WS </td><td align="left">number (1-) </td><td align="left">Set mousewheel stepsize (e.g.: "AT WS 3" sets the stepsize to 3 rows)</td><td align="left">v2 </td><td align="left">yes </td></tr>
+<tr>
+<td align="left"></td><td align="left"></td><td align="left"></td><td align="left"></td></tr>
+<tr>
+<td align="left">AT MX </td><td align="left">number </td><td align="left">Move mouse (X direction), e.g. AT MX -25 </td><td align="left">v2 </td><td align="left">yes </td></tr>
+<tr>
+<td align="left">AT MY </td><td align="left">number </td><td align="left">Move mouse (Y direction), e.g. AT MY 10 </td><td align="left">v2 </td><td align="left">yes </td></tr>
 <tr>
 <td align="left"></td><td align="left"></td><td align="left"></td><td align="left"></td></tr>
 <tr>

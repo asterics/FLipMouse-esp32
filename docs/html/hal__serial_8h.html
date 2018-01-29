@@ -69,6 +69,9 @@ $(function() {
 <div class="title">hal_serial.h File Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
+
+<p>This module contains the hardware abstraction for the serial interface to the USB support chip.  
+<a href="#details">More...</a></p>
 <div class="textblock"><code>#include &lt;freertos/FreeRTOS.h&gt;</code><br />
 <code>#include &lt;freertos/event_groups.h&gt;</code><br />
 <code>#include &lt;freertos/semphr.h&gt;</code><br />
@@ -89,7 +92,7 @@ Macros</h2></td></tr>
 <tr class="separator:a45f62b4622856ce7c40997e870b85895"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8262773282e83f78fb119496d90de114"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="hal__serial_8h.html#a8262773282e83f78fb119496d90de114">HAL_SERIAL_SWITCHPIN</a>&#160;&#160;&#160;(GPIO_NUM_18)</td></tr>
 <tr class="separator:a8262773282e83f78fb119496d90de114"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac5db2b7c58f5cf3c9417b43b25166963"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="hal__serial_8h.html#ac5db2b7c58f5cf3c9417b43b25166963">HAL_SERIAL_UART</a>&#160;&#160;&#160;(UART_NUM_1)</td></tr>
+<tr class="memitem:ac5db2b7c58f5cf3c9417b43b25166963"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="hal__serial_8h.html#ac5db2b7c58f5cf3c9417b43b25166963">HAL_SERIAL_UART</a>&#160;&#160;&#160;(UART_NUM_2)</td></tr>
 <tr class="separator:ac5db2b7c58f5cf3c9417b43b25166963"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1ec38cc5390e27771aa234b71c688ae5"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="hal__serial_8h.html#a1ec38cc5390e27771aa234b71c688ae5">HAL_SERIAL_TX_TO_HID</a>&#160;&#160;&#160;0</td></tr>
 <tr class="separator:a1ec38cc5390e27771aa234b71c688ae5"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -102,10 +105,38 @@ Functions</h2></td></tr>
 <tr class="separator:a2d03c06463b09e33d87d90eb273819b0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8f987ba001c2a39c959a551a94b5df43"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="hal__serial_8h.html#a8f987ba001c2a39c959a551a94b5df43">halSerialSendUSBSerial</a> (uint8_t channel, char *data, uint32_t length, TickType_t ticks_to_wait)</td></tr>
 <tr class="separator:a8f987ba001c2a39c959a551a94b5df43"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abedf7f5fb21a238ccd2c6bef5da0afe7"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="hal__serial_8h.html#abedf7f5fb21a238ccd2c6bef5da0afe7">halSerialReceiveUSBSerial</a> (uint8_t *data, uint32_t length, TickType_t ticks_to_wait)</td></tr>
-<tr class="separator:abedf7f5fb21a238ccd2c6bef5da0afe7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a995c536b9e0d279066d893c6a3dfce4e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="hal__serial_8h.html#a995c536b9e0d279066d893c6a3dfce4e">halSerialFlushRX</a> (void)</td></tr>
+<tr class="memdesc:a995c536b9e0d279066d893c6a3dfce4e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Flush Serial RX input buffer.  <a href="#a995c536b9e0d279066d893c6a3dfce4e">More...</a><br /></td></tr>
+<tr class="separator:a995c536b9e0d279066d893c6a3dfce4e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a131377105453d5b94f02f977ff454613"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="hal__serial_8h.html#a131377105453d5b94f02f977ff454613">halSerialReceiveUSBSerial</a> (uint8_t *data, uint32_t length)</td></tr>
+<tr class="separator:a131377105453d5b94f02f977ff454613"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Macro Definition Documentation</h2>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>This module contains the hardware abstraction for the serial interface to the USB support chip. </p>
+<p>Attention: this module does NOT use UART0 (terminal &amp; program interface)</p>
+<p>The hardware abstraction takes care of: <br />
+ -) sending USB-HID commands <br />
+ -) sending USB-serial responses <br />
+ -) sending/receiving serial data (to/from USB-serial) <br />
+</p>
+<p>The interaction to other parts of the firmware consists of:<br />
+ -) pending on queues for USB commands:<br />
+</p><ul>
+<li>keyboard_usb_press<br />
+</li>
+<li>keyboard_usb_release<br />
+</li>
+<li>mouse_movement_usb<br />
+</li>
+<li>joystick_movement_usb<br />
+ -) halSerialSendUSBSerial / halSerialReceiveUSBSerial for direct sending/receiving<br />
+</li>
+</ul>
+<p>The received serial data can be used by different modules, currently the task_commands_cim is used to fetch &amp; parse serial data.</p>
+<dl class="section note"><dt>Note</dt><dd>In this firmware, there are 3 pins routed to the USB support chip (RX,TX,signal). Depending on the level of the signal line, data sent to the USB chip are either interpreted as USB-HID commands (keyboard, mouse or joystick reports) or the data is forwarded to the USB-CDC interface, which is used to send data to the host (config GUI, terminal, AsTeRICS,...). </dd></dl>
+
+<p class="definition">Definition in file <a class="el" href="hal__serial_8h_source.html">hal_serial.h</a>.</p>
+</div><h2 class="groupheader">Macro Definition Documentation</h2>
 <a id="a45f62b4622856ce7c40997e870b85895"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a45f62b4622856ce7c40997e870b85895">&#9670;&nbsp;</a></span>HAL_SERIAL_RXPIN</h2>
 
@@ -118,9 +149,9 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="hal__serial_8h_source.html#l00063">63</a> of file <a class="el" href="hal__serial_8h_source.html">hal_serial.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="hal__serial_8h_source.html#l00066">66</a> of file <a class="el" href="hal__serial_8h_source.html">hal_serial.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="hal__serial_8c_source.html#l00346">halSerialInit()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="hal__serial_8c_source.html#l00479">halSerialInit()</a>.</p>
 
 </div>
 </div>
@@ -136,9 +167,9 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="hal__serial_8h_source.html#l00064">64</a> of file <a class="el" href="hal__serial_8h_source.html">hal_serial.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="hal__serial_8h_source.html#l00067">67</a> of file <a class="el" href="hal__serial_8h_source.html">hal_serial.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="hal__serial_8c_source.html#l00075">halSerialSwitchTXChannel()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="hal__serial_8c_source.html#l00114">halSerialSwitchTXChannel()</a>.</p>
 
 </div>
 </div>
@@ -154,7 +185,7 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="hal__serial_8h_source.html#l00068">68</a> of file <a class="el" href="hal__serial_8h_source.html">hal_serial.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="hal__serial_8h_source.html#l00071">71</a> of file <a class="el" href="hal__serial_8h_source.html">hal_serial.h</a>.</p>
 
 <p class="reference">Referenced by <a class="el" href="task__commands_8c_source.html#l00112">doGeneralCmdParsing()</a>, and <a class="el" href="task__commands_8c_source.html#l00053">sendErrorBack()</a>.</p>
 
@@ -172,9 +203,9 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="hal__serial_8h_source.html#l00067">67</a> of file <a class="el" href="hal__serial_8h_source.html">hal_serial.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="hal__serial_8h_source.html#l00070">70</a> of file <a class="el" href="hal__serial_8h_source.html">hal_serial.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="hal__serial_8c_source.html#l00215">halSerialTaskMouse()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="hal__serial_8c_source.html#l00311">halSerialTaskMouse()</a>.</p>
 
 </div>
 </div>
@@ -190,9 +221,9 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="hal__serial_8h_source.html#l00062">62</a> of file <a class="el" href="hal__serial_8h_source.html">hal_serial.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="hal__serial_8h_source.html#l00065">65</a> of file <a class="el" href="hal__serial_8h_source.html">hal_serial.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="hal__serial_8c_source.html#l00346">halSerialInit()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="hal__serial_8c_source.html#l00479">halSerialInit()</a>.</p>
 
 </div>
 </div>
@@ -203,18 +234,40 @@ Functions</h2></td></tr>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">#define HAL_SERIAL_UART&#160;&#160;&#160;(UART_NUM_1)</td>
+          <td class="memname">#define HAL_SERIAL_UART&#160;&#160;&#160;(UART_NUM_2)</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="hal__serial_8h_source.html#l00065">65</a> of file <a class="el" href="hal__serial_8h_source.html">hal_serial.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="hal__serial_8h_source.html#l00068">68</a> of file <a class="el" href="hal__serial_8h_source.html">hal_serial.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="hal__serial_8c_source.html#l00346">halSerialInit()</a>, <a class="el" href="hal__serial_8c_source.html#l00298">halSerialReceiveUSBSerial()</a>, <a class="el" href="hal__serial_8c_source.html#l00319">halSerialSendUSBSerial()</a>, and <a class="el" href="hal__serial_8c_source.html#l00075">halSerialSwitchTXChannel()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="hal__serial_8c_source.html#l00137">halSerialFlushRX()</a>, <a class="el" href="hal__serial_8c_source.html#l00479">halSerialInit()</a>, and <a class="el" href="hal__serial_8c_source.html#l00114">halSerialSwitchTXChannel()</a>.</p>
 
 </div>
 </div>
 <h2 class="groupheader">Function Documentation</h2>
+<a id="a995c536b9e0d279066d893c6a3dfce4e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a995c536b9e0d279066d893c6a3dfce4e">&#9670;&nbsp;</a></span>halSerialFlushRX()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void halSerialFlushRX </td>
+          <td>(</td>
+          <td class="paramtype">void&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Flush Serial RX input buffer. </p>
+
+<p class="definition">Definition at line <a class="el" href="hal__serial_8c_source.html#l00137">137</a> of file <a class="el" href="hal__serial_8c_source.html">hal_serial.c</a>.</p>
+
+</div>
+</div>
 <a id="a2d03c06463b09e33d87d90eb273819b0"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a2d03c06463b09e33d87d90eb273819b0">&#9670;&nbsp;</a></span>halSerialInit()</h2>
 
@@ -233,7 +286,7 @@ Functions</h2></td></tr>
 <p>Initialize the serial HAL</p>
 <p>This method initializes the serial interface &amp; creates all necessary tasks </p>
 
-<p class="definition">Definition at line <a class="el" href="hal__serial_8c_source.html#l00346">346</a> of file <a class="el" href="hal__serial_8c_source.html">hal_serial.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="hal__serial_8c_source.html#l00479">479</a> of file <a class="el" href="hal__serial_8c_source.html">hal_serial.c</a>.</p>
 
 <p class="reference">Referenced by <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c_source.html#l00071">app_main()</a>.</p>
 <div class="dynheader">
@@ -247,8 +300,8 @@ Here is the caller graph for this function:</div>
 
 </div>
 </div>
-<a id="abedf7f5fb21a238ccd2c6bef5da0afe7"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#abedf7f5fb21a238ccd2c6bef5da0afe7">&#9670;&nbsp;</a></span>halSerialReceiveUSBSerial()</h2>
+<a id="a131377105453d5b94f02f977ff454613"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a131377105453d5b94f02f977ff454613">&#9670;&nbsp;</a></span>halSerialReceiveUSBSerial()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -263,13 +316,7 @@ Here is the caller graph for this function:</div>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">uint32_t&#160;</td>
-          <td class="paramname"><em>length</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">TickType_t&#160;</td>
-          <td class="paramname"><em>ticks_to_wait</em>&#160;</td>
+          <td class="paramname"><em>length</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -285,12 +332,24 @@ Here is the caller graph for this function:</div>
   <table class="params">
     <tr><td class="paramname">data</td><td>Data to be sent </td></tr>
     <tr><td class="paramname">length</td><td>Number of maximum bytes to read </td></tr>
-    <tr><td class="paramname">ticks_to_wait</td><td>Maximum time to wait for given data amount </td></tr>
   </table>
   </dd>
 </dl>
+<dl class="section see"><dt>See also</dt><dd>HAL_SERIAL_UART_TIMEOUT</dd></dl>
+<p>Read serial bytes from USB-Serial (USB-CDC)</p>
+<p>This method reads bytes from the UART, which receives all data from USB-CDC.</p>
+<dl class="section return"><dt>Returns</dt><dd>-1 on error, number of read bytes otherwise </dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">data</td><td>Data to be sent </td></tr>
+    <tr><td class="paramname">length</td><td>Number of maximum bytes to read </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000018">Todo:</a></b></dt><dd>Maybe remove parameter length, not needed here? </dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="hal__serial_8c.html#a8ed6a618f134d6b923ba216de84253f6" title="Ticks until the UART receive function has a timeout and gives back received data.*. ">HAL_SERIAL_UART_TIMEOUT_MS</a> </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="hal__serial_8c_source.html#l00298">298</a> of file <a class="el" href="hal__serial_8c_source.html">hal_serial.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="hal__serial_8c_source.html#l00414">414</a> of file <a class="el" href="hal__serial_8c_source.html">hal_serial.c</a>.</p>
 
 </div>
 </div>
@@ -347,25 +406,18 @@ Here is the caller graph for this function:</div>
 <dd>
 <a class="el" href="hal__serial_8h.html#a0e1b67327e40ee6b1c3870be9b842546">HAL_SERIAL_TX_TO_CDC</a> </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="hal__serial_8c_source.html#l00319">319</a> of file <a class="el" href="hal__serial_8c_source.html">hal_serial.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="hal__serial_8c_source.html#l00452">452</a> of file <a class="el" href="hal__serial_8c_source.html">hal_serial.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="task__commands_8c_source.html#l00112">doGeneralCmdParsing()</a>, <a class="el" href="hal__serial_8c_source.html#l00215">halSerialTaskMouse()</a>, and <a class="el" href="task__commands_8c_source.html#l00053">sendErrorBack()</a>.</p>
-<div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="hal__serial_8h_a8f987ba001c2a39c959a551a94b5df43_cgraph.png" border="0" usemap="#hal__serial_8h_a8f987ba001c2a39c959a551a94b5df43_cgraph" alt=""/></div>
-<map name="hal__serial_8h_a8f987ba001c2a39c959a551a94b5df43_cgraph" id="hal__serial_8h_a8f987ba001c2a39c959a551a94b5df43_cgraph">
-<area shape="rect" id="node2" href="hal__serial_8c.html#a132de0978f07044a393cc1f3b5276ced" title="halSerialSwitchTXChannel" alt="" coords="216,5,393,32"/>
-</map>
-</div>
+<p class="reference">Referenced by <a class="el" href="task__commands_8c_source.html#l00112">doGeneralCmdParsing()</a>, <a class="el" href="hal__serial_8c_source.html#l00311">halSerialTaskMouse()</a>, and <a class="el" href="task__commands_8c_source.html#l00053">sendErrorBack()</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="hal__serial_8h_a8f987ba001c2a39c959a551a94b5df43_icgraph.png" border="0" usemap="#hal__serial_8h_a8f987ba001c2a39c959a551a94b5df43_icgraph" alt=""/></div>
 <map name="hal__serial_8h_a8f987ba001c2a39c959a551a94b5df43_icgraph" id="hal__serial_8h_a8f987ba001c2a39c959a551a94b5df43_icgraph">
-<area shape="rect" id="node2" href="task__commands_8c.html#ad105bde7fe8d6d94d079bd3e5d2851e6" title="doGeneralCmdParsing" alt="" coords="404,22,557,49"/>
-<area shape="rect" id="node3" href="hal__serial_8c.html#a4135f4381e4995152515091845c50c8f" title="halSerialTaskMouse" alt="" coords="216,22,356,49"/>
-<area shape="rect" id="node4" href="task__commands_8c.html#acea81ba8a182ae78feb2db6418fc1806" title="sendErrorBack" alt="" coords="232,73,340,99"/>
+<area shape="rect" id="node2" href="task__commands_8c.html#ad105bde7fe8d6d94d079bd3e5d2851e6" title="doGeneralCmdParsing" alt="" coords="404,5,557,32"/>
+<area shape="rect" id="node3" href="hal__serial_8c.html#a4135f4381e4995152515091845c50c8f" title="halSerialTaskMouse" alt="" coords="216,31,356,57"/>
+<area shape="rect" id="node4" href="task__commands_8c.html#acea81ba8a182ae78feb2db6418fc1806" title="sendErrorBack" alt="" coords="232,81,340,108"/>
+<area shape="rect" id="node5" href="task__commands_8c.html#a67e18f3921bbb80116577096dd7fccac" title="doMouseParsing" alt="" coords="421,81,540,108"/>
 </map>
 </div>
 

@@ -5,7 +5,7 @@
 <area shape="rect" id="node12" href="$hal__storage_8c.html#a00b5db14e24d7ada8a42aa6b3f1a1cb7" title="halStorageFinishTransaction" alt="" coords="191,157,377,184"/>
 <area shape="rect" id="node13" href="$hal__adc_8c.html#a4135bb73c2271b4a27db8d8d81884de7" title="Reload ADC config. " alt="" coords="213,208,355,235"/>
 <area shape="rect" id="node17" href="$hal__ble_8c.html#accf307974a0046bce38582d0260bf841" title="halBLEReset" alt="" coords="235,259,333,285"/>
-<area shape="rect" id="node18" href="$task__mouse_8c.html#aa8f5c0436e569589e735c419fc3d0ed8" title="task_mouse" alt="" coords="237,309,331,336"/>
+<area shape="rect" id="node18" href="$task__mouse_8c.html#aa8f5c0436e569589e735c419fc3d0ed8" title="FUNCTIONAL TASK &#45; Trigger mouse action. " alt="" coords="237,309,331,336"/>
 <area shape="rect" id="node19" href="$task__kbd_8c.html#a8ff4618047a049178bfb1d60abfefb5d" title="task_keyboard" alt="" coords="231,360,337,387"/>
 <area shape="rect" id="node21" href="$config__switcher_8c.html#a083adf41746c3380dcc6dbc099047f2e" title="FUNCTIONAL TASK &#45; Load another slot. " alt="" coords="215,411,353,437"/>
 <area shape="rect" id="node22" href="$hal__adc_8c.html#a3217185bc86562dee8617ded3872022f" title="FUNCTIONAL TASK &#45; Trigger zero&#45;point calibration of mouthpiece. " alt="" coords="227,461,341,488"/>

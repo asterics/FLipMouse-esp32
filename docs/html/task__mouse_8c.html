@@ -81,10 +81,13 @@ Macros</h2></td></tr>
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
 <tr class="memitem:ac5aaa616044b7bef9f75347719181dbe"><td class="memItemLeft" align="right" valign="top">uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="task__mouse_8c.html#ac5aaa616044b7bef9f75347719181dbe">mouse_set_wheel</a> (uint8_t steps)</td></tr>
+<tr class="memdesc:ac5aaa616044b7bef9f75347719181dbe"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set current mouse wheel step size.  <a href="#ac5aaa616044b7bef9f75347719181dbe">More...</a><br /></td></tr>
 <tr class="separator:ac5aaa616044b7bef9f75347719181dbe"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab5cfaaac2cd4ec6fc79546f847db96de"><td class="memItemLeft" align="right" valign="top">uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="task__mouse_8c.html#ab5cfaaac2cd4ec6fc79546f847db96de">mouse_get_wheel</a> (void)</td></tr>
+<tr class="memdesc:ab5cfaaac2cd4ec6fc79546f847db96de"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the current mouse wheel step size.  <a href="#ab5cfaaac2cd4ec6fc79546f847db96de">More...</a><br /></td></tr>
 <tr class="separator:ab5cfaaac2cd4ec6fc79546f847db96de"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa8f5c0436e569589e735c419fc3d0ed8"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="task__mouse_8c.html#aa8f5c0436e569589e735c419fc3d0ed8">task_mouse</a> (<a class="el" href="task__mouse_8h.html#aa8af5afb3b111ccabb1e207ae4cabcaa">taskMouseConfig_t</a> *param)</td></tr>
+<tr class="memdesc:aa8f5c0436e569589e735c419fc3d0ed8"><td class="mdescLeft">&#160;</td><td class="mdescRight">FUNCTIONAL TASK - Trigger mouse action.  <a href="#aa8f5c0436e569589e735c419fc3d0ed8">More...</a><br /></td></tr>
 <tr class="separator:aa8f5c0436e569589e735c419fc3d0ed8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Macro Definition Documentation</h2>
@@ -100,9 +103,9 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="task__mouse_8c_source.html#l00031">31</a> of file <a class="el" href="task__mouse_8c_source.html">task_mouse.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="task__mouse_8c_source.html#l00036">36</a> of file <a class="el" href="task__mouse_8c_source.html">task_mouse.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="task__mouse_8c_source.html#l00050">task_mouse()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="task__mouse_8c_source.html#l00076">task_mouse()</a>.</p>
 
 </div>
 </div>
@@ -123,9 +126,12 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="task__mouse_8c_source.html#l00048">48</a> of file <a class="el" href="task__mouse_8c_source.html">task_mouse.c</a>.</p>
+<p>Get the current mouse wheel step size. </p>
+<dl class="section return"><dt>Returns</dt><dd>Current step size </dd></dl>
 
-<p class="reference">Referenced by <a class="el" href="task__commands_8c_source.html#l00151">doMouseParsing()</a>.</p>
+<p class="definition">Definition at line <a class="el" href="task__mouse_8c_source.html#l00063">63</a> of file <a class="el" href="task__mouse_8c_source.html">task_mouse.c</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="task__commands_8c_source.html#l00161">doMouseParsing()</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
@@ -152,11 +158,19 @@ Here is the caller graph for this function:</div>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>return 0 on success, 1 otherwise </p>
 
-<p class="definition">Definition at line <a class="el" href="task__mouse_8c_source.html#l00036">36</a> of file <a class="el" href="task__mouse_8c_source.html">task_mouse.c</a>.</p>
+<p>Set current mouse wheel step size. </p>
+<p>This method is used to set the current step size for the mouse wheel </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">steps</td><td>Amount of wheel steps, range: 0-126 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>0 if everything was fine, 1 if stepsize is out of range </dd></dl>
 
-<p class="reference">Referenced by <a class="el" href="task__commands_8c_source.html#l00151">doMouseParsing()</a>.</p>
+<p class="definition">Definition at line <a class="el" href="task__mouse_8c_source.html#l00048">48</a> of file <a class="el" href="task__mouse_8c_source.html">task_mouse.c</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="task__commands_8c_source.html#l00161">doMouseParsing()</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
@@ -184,9 +198,21 @@ Here is the caller graph for this function:</div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="task__mouse_8c_source.html#l00050">50</a> of file <a class="el" href="task__mouse_8c_source.html">task_mouse.c</a>.</p>
+<p>FUNCTIONAL TASK - Trigger mouse action. </p>
+<p>This task is used to trigger a mouse action, possible actions are defined in taskMouseConfig_t. Can be used as singleshot method by using VB_SINGLESHOT as virtual button configuration.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">param</td><td>Task configuration </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="common_8h.html#a784ceb4b2d4c4fb77baa99646c6e5035">VB_SINGLESHOT</a> </dd>
+<dd>
+<a class="el" href="task__mouse_8h.html#aa8af5afb3b111ccabb1e207ae4cabcaa">taskMouseConfig_t</a> </dd></dl>
 
-<p class="reference">Referenced by <a class="el" href="config__switcher_8c_source.html#l00084">configSwitcherTask()</a>, and <a class="el" href="task__commands_8c_source.html#l00151">doMouseParsing()</a>.</p>
+<p class="definition">Definition at line <a class="el" href="task__mouse_8c_source.html#l00076">76</a> of file <a class="el" href="task__mouse_8c_source.html">task_mouse.c</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="config__switcher_8c_source.html#l00084">configSwitcherTask()</a>, and <a class="el" href="task__commands_8c_source.html#l00161">doMouseParsing()</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">

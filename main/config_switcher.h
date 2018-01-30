@@ -38,9 +38,7 @@
  * @note If you want to add a new FUNCTIONAL TASK, please include headers here
  * & add loading functionality to configSwitcherTask. 
  * 
- * @todo Create getter/setter for current config (including fkt tasks & possibly the reloading)
- * @todo Add update config here, enabling updating configs (general & VB) from other parts
- * @todo Add save slot here
+ * @todo How to do the reverse parsing of config to AT commands?
  * */
 
 #ifndef _CONFIG_SWITCHER_H
@@ -67,11 +65,12 @@
 #define TASK_CONFIGSWITCHER_STACKSIZE 2048
 
 /** @brief Parameter for functional task task_configswitcher.
- * @see task_configswitcher */
+ * @see task_configswitcher
+ * @see config_switcher */
 typedef struct taskConfigSwitcherConfig {
   /** Name of the slot to be loaded
-   * @note If you want to switch to next, default or previous please use <b>"__NEXT",
-   * "__PREV" or "__DEFAULT" as slotName.</b> **/
+   * @note See config_switcher for special mode description (next, previous, ...)
+   * @see config_switcher **/
   char slotName[SLOTNAME_LENGTH];
   /** Number of virtual button which this instance will be attached to.
    * @see VB_SINGLESHOT */
@@ -93,5 +92,48 @@ void task_configswitcher(taskConfigSwitcherConfig_t *param);
  * task_configswitcher FUNCTIONAL task. 
  * @return ESP_OK if everything is fined, ESP_FAIL otherwise */
 esp_err_t configSwitcherInit(void);
+
+/** @brief Get the current config struct
+ * 
+ * This method is used to get a reference to the current config struct.
+ * The caller can use this reference to change the configuration and
+ * update the config afterwards (via the config_switcher queue).
+ * 
+ * @see config_switcher
+ * @see currentConfig
+ * @return Pointer to the current config struct
+ * @todo Do we need locking here (mutex)?
+ * */
+generalConfig_t* configGetCurrent(void);
+
+
+/** @brief Update one virtual button.
+ * 
+ * This function is used to update one virtual button config.
+ * For example it is triggered by "AT BM xx" and the following 
+ * AT command.
+ * It saves the param pointer to the update param array and calls
+ * configUpdate to trigger the reload.
+ * @see configUpdate
+ * @see currentTaskParametersUpdate
+ * @param param FUNCTIONAL task parameter memory
+ * @param type Type of new VB command
+ * @param vb Number of virtualbutton to update
+ * @return ESP_OK on success, ESP_FAIL otherwise
+ * */
+esp_err_t configUpdateVB(void *param, command_type_t type, uint8_t vb);
+
+
+/** @brief Trigger a config update
+ * 
+ * This method is simply sending an "__UPDATE" command to the
+ * config_switcher queue to trigger an update by re-loading the
+ * currentConfig.
+ * 
+ * @see config_switcher
+ * @see currentConfig
+ * @return ESP_OK on success, ESP_FAIL otherwise
+ * */
+esp_err_t configUpdate(void);
 
 #endif

@@ -66,11 +66,108 @@ TaskHandle_t currentTasks[NUMBER_VIRTUALBUTTONS*4];
  * after unloading/deleting functional tasks. */
 void * currentTaskParameters[NUMBER_VIRTUALBUTTONS*4];
 
+/** @brief Array of pointers to FUNCTIONAL task parameters (for updating current config)
+ * 
+ * This array contains pointers to memory, which is allocated externally.
+ * Pointers here have the same function as in currentTaskParameters, except
+ * they are used ONLY during config <b>UPDATE</b>.
+ * 
+ * If an external module wants to update a virtual button config without
+ * loading a full slot, following steps are necessary:<br<
+ * * Allocate memory for the FUNCTIONAL task parameters
+ * * Save this pointer to this array here & fill parameter with data
+ * * Set currentConfigLoaded.virtualButtonCommand[vb] accordingly
+ * * Request slot update via config_switcher queue
+ * 
+ * @todo Maybe this information should be moved to the corresponding function.
+ *  */
+void * currentTaskParametersUpdate[NUMBER_VIRTUALBUTTONS*4];
+
 /** Task handle for the CONTINOUS task responsible for config switching */
 TaskHandle_t configswitcher_handle;
 
 /** Currently loaded configuration.*/
-generalConfig_t currentConfig;
+generalConfig_t currentConfigLoaded;
+
+/** @brief Get the current config struct
+ * 
+ * This method is used to get a reference to the current config struct.
+ * The caller can use this reference to change the configuration and
+ * update the config afterwards (via the config_switcher queue).
+ * 
+ * @see config_switcher
+ * @see currentConfigLoaded
+ * @return Pointer to the current config struct
+ * @todo Do we need locking here (mutex)?
+ * */
+generalConfig_t* configGetCurrent(void)
+{
+  return &currentConfigLoaded;
+}
+
+/** @brief Trigger a config update
+ * 
+ * This method is simply sending an "__UPDATE" command to the
+ * config_switcher queue to trigger an update by re-loading the
+ * currentConfig.
+ * 
+ * @see config_switcher
+ * @see currentConfig
+ * @return ESP_OK on success, ESP_FAIL otherwise
+ * */
+esp_err_t configUpdate(void)
+{
+  //reload the slot by sending "__UPDATE" to 
+  // the config_switcher queue
+  char commandname[SLOTNAME_LENGTH];
+  strcpy(commandname,"__UPDATE");
+  if(config_switcher == NULL) return ESP_FAIL;
+  
+  if(xQueueSend(config_switcher,commandname,10) == pdPASS)
+  {
+    ESP_LOGD(LOG_TAG,"requesting config update");
+    return ESP_OK;
+  } else {
+    ESP_LOGE(LOG_TAG,"Error requesting slot update");
+    return ESP_FAIL;
+  }
+}
+
+/** @brief Update one virtual button.
+ * 
+ * This function is used to update one virtual button config.
+ * For example it is triggered by "AT BM xx" and the following 
+ * AT command.
+ * It saves the param pointer to the update param array and calls
+ * configUpdate to trigger the reload.
+ * @see configUpdate
+ * @see currentTaskParametersUpdate
+ * @param param FUNCTIONAL task parameter memory
+ * @param type Type of new VB command
+ * @param vb Number of virtualbutton to update
+ * @return ESP_OK on success, ESP_FAIL otherwise
+ * */
+esp_err_t configUpdateVB(void *param, command_type_t type, uint8_t vb)
+{
+  if(vb >= (NUMBER_VIRTUALBUTTONS*4))
+  {
+    ESP_LOGE(LOG_TAG,"Cannot update VB%d, vb number out of range",vb);
+    return ESP_FAIL;
+  }
+  
+  if(vb == VB_SINGLESHOT)
+  {
+    ESP_LOGE(LOG_TAG,"Cannot use singleshot task as VB FUNCTIONAL task!");
+    return ESP_FAIL;
+  }
+  
+  //save pointer to update list
+  currentTaskParametersUpdate[vb] = param;
+  //set new command type
+  currentConfigLoaded.virtualButtonCommand[vb] = type;
+  //trigger config update
+  return configUpdate();
+}
 
 /** @brief CONTINOUS TASK - Config switcher task, internal config reloading
  * 
@@ -80,11 +177,18 @@ generalConfig_t currentConfig;
  * the virtualbutton tasks with the new functionality.
  * @see config_switcher
  * @param params Not used, pass NULL.
+ * 
+ * @warning On a factory reset, it is necessary to load the default slot again!
+ * 
+ * @todo Add __UPDATE functionality. Maybe necessary to load VB settings not only from FAT, also via another channel?
+ * @todo Add __RESTOREFACTORY...
+ * @todo Maybe add an array of function pointers to do the reverse parsing from config to AT commands?!?
  **/
 void configSwitcherTask(void * params)
 {
   char command[SLOTNAME_LENGTH];
   char tasksignature[8];
+  generalConfig_t currentConfig;
   
   uint32_t tid = 0;
   size_t vbparametersize = 0;
@@ -118,7 +222,7 @@ void configSwitcherTask(void * params)
       }
       
       //command received, load new slot:
-      //__NEXT, __PREV, __DEFAULT
+      //__NEXT, __PREV, __DEFAULT, __UPDATE, __RESTOREFACTORY
       if(strcmp(command,"__NEXT") == 0)
       {
         ESP_LOGD(LOG_TAG,"Load next slot");
@@ -132,7 +236,25 @@ void configSwitcherTask(void * params)
         //fresh default config
         if(ret != ESP_OK) ret = halStorageLoad(DEFAULT,&currentConfig,tid);
         ESP_LOGD(LOG_TAG,"loading default");
-      } else {
+      } else if(strcmp(command,"__RESTOREFACTORY") == 0) {
+        ret = halStorageDeleteSlot(0,tid);
+        
+        halStorageCreateDefault(tid);
+        halStorageFinishTransaction(tid);
+        if(ret != ESP_OK)
+        {
+          ESP_LOGE(LOG_TAG,"Error deleting all slots");
+        } else {
+          ESP_LOGW(LOG_TAG,"Deleted all slots");
+        }
+        continue;
+      } else if(strcmp(command,"__UPDATE") == 0) {
+        ESP_LOGD(LOG_TAG,"config update");
+        //on config updates, use the currentConfigLoaded,
+        //it is possible the currentConfigLoaded was changed by external parts
+        memcpy(&currentConfig,&currentConfigLoaded,sizeof(generalConfig_t));
+        ret = ESP_OK;
+      } else  {
         ret = halStorageLoadName(command,&currentConfig,tid);
         ESP_LOGD(LOG_TAG,"Load by name: %s",command);
       }
@@ -182,7 +304,6 @@ void configSwitcherTask(void * params)
             newTaskCode = (TaskFunction_t)task_keyboard; 
             currentTaskParameters[i] = malloc(sizeof(taskKeyboardConfig_t));
             vbparametersize = sizeof(taskKeyboardConfig_t);
-            //TODO: add additional memory for keyboard memory...
             stacksize = TASK_KEYBOARD_STACKSIZE; 
             ESP_LOGD(LOG_TAG,"creating new keyboard task on VB %d",i);
             break;
@@ -226,7 +347,17 @@ void configSwitcherTask(void * params)
           //load VB config to memory
           if(vbparametersize > 0)
           {
-            halStorageLoadGetVBConfigs(i,currentConfig.virtualButtonConfig[i], vbparametersize, tid);
+            //is there a pointer available for update?
+            if(currentTaskParametersUpdate[i] == NULL)
+            {
+              //if no, load VB config from storage
+              halStorageLoadGetVBConfigs(i,currentConfig.virtualButtonConfig[i], vbparametersize, tid);
+            } else {
+              //if yes, use this pointer for task parameter
+              currentTaskParameters[i] = currentTaskParametersUpdate[i];
+              //and reset the update pointer
+              currentTaskParametersUpdate[i] = NULL;
+            }
           }
         } else {
           ESP_LOGE(LOG_TAG,"error allocating memory for VB%u config",i);
@@ -252,6 +383,8 @@ void configSwitcherTask(void * params)
       
       //clean up
       halStorageFinishTransaction(tid);
+      //save newly loaded cfg
+      memcpy(&currentConfigLoaded,&currentConfig,sizeof(generalConfig_t));
       tid = 0;
       ESP_LOGD(LOG_TAG,"----------Config Switch Complete----------");
     }
@@ -315,7 +448,7 @@ void task_configswitcher(taskConfigSwitcherConfig_t *param)
   }
 }
 
-/** Initializing the config switching functionality.
+/** @brief Initializing the config switching functionality.
  * 
  * The CONTINOUS task will be loaded to enable slot switches via the
  * task_configswitcher FUNCTIONAL task. 
@@ -328,6 +461,13 @@ esp_err_t configSwitcherInit(void)
     ESP_LOGE(LOG_TAG,"Error init config switcher, please create \
       config_switcher queue before calling configSwitcherInit()!");
     return ESP_FAIL;
+  }
+  
+  //reset parameters memory
+  for(uint8_t i = 0; i < NUMBER_VIRTUALBUTTONS*4; i++)
+  {
+    currentTaskParameters[i] = NULL;
+    currentTaskParametersUpdate[i] = NULL;
   }
   
   //start configSwitcherTask

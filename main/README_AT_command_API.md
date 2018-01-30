@@ -18,7 +18,7 @@ Following commands are currently available:
 | AT    | --  | returns OK   | v2 | yes |
 | AT ID | --  | returns the current version string  | v2 | yes |
 | AT BM | number (1-11)  | set the button, which corresponds to the next command. The button assignments are described on the bottom | v2 | no |
-| AT BL | -- | request the next active virtual button which will be set by the next AT command (similar than AT BM) | v3 | no |
+| AT BL | -- | enable/disable output of triggered virtual buttons. Is used with AT BM for command learning | v3 | no |
 | AT MA | string | execute macro (space separated list of commands, see [Macros](https://github.com/asterics/FLipMouse/wiki/macros)) | v2 | no |
 | AT WA | number | wait/delay (ms); useful for macros | v2 | no |
 | AT RO | number (0,90,180,270) | orientation (0 => LEDs on top) | v2 | no |
@@ -59,11 +59,12 @@ Following commands are currently available:
 | AT LA | --  | load all slots and print the configuration   | v2 | no |
 | AT LI | --  | list all available slots   | v2 | no |
 | AT NE | --  | load next slot (wrap around after the last slot)  | v2 | no |
-| AT DE | --  | delete all EEPROM slots  | v2 | no |
+| AT DE | --  | delete all slots  | v2 | untested |
+| AT DL | number (1-) | delete one slot.  | v3 | untested |
 | AT NC | --  | do nothing  | v2 | no |
-| AT E0 | --  | disable debug output  | v2 | no |
-| AT E1 | --  | enable debug output  | v2 | no |
-| AT E2 | --  | enable debug output (extended) | v2 | no |
+| AT E0 | --  | disable debug output  | v2 | never, use make monitor |
+| AT E1 | --  | enable debug output  | v2 | never, use make monitor |
+| AT E2 | --  | enable debug output (extended) | v2 | never, use make monitor |
 **Mouthpiece settings** 
 | Command | Parameter | Description | Available since | Implemented in v3 |
 |:--------|:----------|:------------|:--------------|:--------------------|

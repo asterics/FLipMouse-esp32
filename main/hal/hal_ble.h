@@ -33,6 +33,9 @@
 
 #include "esp_system.h"
 #include "common.h"
+//used to get current locale information
+#include "../config_switcher.h"
+
 
 #define TASK_HALBLE_STACKSIZE 2048
 

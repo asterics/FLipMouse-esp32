@@ -19,7 +19,7 @@
  */
 
 /** @file
- * @brief This module contains the hardware abstraction for the serial
+ * @brief CONTINOUS TASK - This module contains the hardware abstraction for the serial
  * interface to the USB support chip.
  * 
  * 
@@ -190,6 +190,7 @@ void halSerialTaskKeyboardPress(void *param)
   uint16_t rxK = 0;
   uint8_t keycode;
   uint8_t keycodesLocal[8] = {'K',0,0,0,0,0,0,0};
+  generalConfig_t* currentConfig = configGetCurrent();
     
   while(1)
   {
@@ -204,7 +205,7 @@ void halSerialTaskKeyboardPress(void *param)
         if((rxK & 0xFF00) == 0)
         {
           //single bytes are ascii or unicode bytes, sent to keycode parser
-          keycode = parse_for_keycode((uint8_t) rxK, currentConfig.locale, &keycode_modifier, &keycode_deadkey_first);
+          keycode = parse_for_keycode((uint8_t) rxK, currentConfig->locale, &keycode_modifier, &keycode_deadkey_first);
           if(keycode != 0)
           {
             //if a deadkey is issued (no release necessary), we send the deadkey before:
@@ -264,6 +265,7 @@ void halSerialTaskKeyboardRelease(void *param)
 {
   uint16_t rxK = 0;
   uint8_t keycode;
+  generalConfig_t* currentConfig = configGetCurrent();
     
   while(1)
   {
@@ -277,7 +279,7 @@ void halSerialTaskKeyboardRelease(void *param)
         if((rxK & 0xFF00) == 0)
         {
           //single bytes are ascii or unicode bytes, sent to keycode parser
-          keycode = parse_for_keycode((uint8_t) rxK, currentConfig.locale, &keycode_modifier, &keycode_deadkey_first);                   
+          keycode = parse_for_keycode((uint8_t) rxK, currentConfig->locale, &keycode_modifier, &keycode_deadkey_first);                   
         } else {
           keycode = rxK & 0x00FF;
         }
@@ -313,7 +315,6 @@ void halSerialTaskMouse(void *param)
   mouse_command_t rxM;
   static uint8_t emptySent = 0;
   mouse_command_t emptyReport = {0,0,0,0};
-  uint32_t hidreport[5] = {'M',0,0,0,0};
   memset(&emptyReport,0,sizeof(mouse_command_t));
   
   while(1)

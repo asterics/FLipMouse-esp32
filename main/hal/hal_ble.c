@@ -184,6 +184,7 @@ void halBleTaskKeyboardPress(void *param)
     uint8_t keycode;
     uint8_t keycodesLocal[6] = {0,0,0,0,0,0};
     static uint8_t unconnectedWarning = 0;
+    generalConfig_t* currentConfig = configGetCurrent();
     
     if(keyboard_ble_press == NULL)
     {
@@ -207,7 +208,7 @@ void halBleTaskKeyboardPress(void *param)
             if((rxK & 0xFF00) == 0)
             {
                 //single bytes are ascii or unicode bytes, sent to keycode parser
-                keycode = parse_for_keycode((uint8_t) rxK, currentConfig.locale, &keycode_modifier, &keycode_deadkey_first);
+                keycode = parse_for_keycode((uint8_t) rxK, currentConfig->locale, &keycode_modifier, &keycode_deadkey_first);
                 if(keycode != 0)
                 {
                     //if a deadkey is issued (no release necessary), we send the deadkey before:
@@ -254,6 +255,7 @@ void halBleTaskKeyboardRelease(void *param)
     uint16_t rxK;
     uint8_t keycode;
     static uint8_t unconnectedWarning = 0;
+    generalConfig_t* currentConfig = configGetCurrent();
     
     if(keyboard_ble_release == NULL)
     {
@@ -277,7 +279,7 @@ void halBleTaskKeyboardRelease(void *param)
             if((rxK & 0xFF00) == 0)
             {
                 //single bytes are ascii or unicode bytes, sent to keycode parser
-                keycode = parse_for_keycode((uint8_t) rxK, currentConfig.locale, &keycode_modifier, &keycode_deadkey_first);                   
+                keycode = parse_for_keycode((uint8_t) rxK, currentConfig->locale, &keycode_modifier, &keycode_deadkey_first);                   
             } else {
                 keycode = rxK & 0x00FF;
             }
@@ -424,6 +426,7 @@ void halBLEReset(uint8_t exceptDevice)
  * */
 esp_err_t halBLEInit(uint8_t deviceIdentifier)
 {
+    generalConfig_t* currentConfig = configGetCurrent();
     // Initialize NVS.
     esp_err_t ret = nvs_flash_init();
     if (ret == ESP_ERR_NVS_NO_FREE_PAGES) {
@@ -438,10 +441,10 @@ esp_err_t halBLEInit(uint8_t deviceIdentifier)
         deviceIdentifier = 1;
     }
     
-    if(currentConfig.locale >= LAYOUT_MAX)
+    if(currentConfig->locale >= LAYOUT_MAX)
     {
-        ESP_LOGE(LOG_TAG,"locale is invalid: %d, using US_INTERNATIONAL",currentConfig.locale);
-        currentConfig.locale = LAYOUT_US_INTERNATIONAL;
+        ESP_LOGE(LOG_TAG,"locale is invalid: %d, using US_INTERNATIONAL",currentConfig->locale);
+        currentConfig->locale = LAYOUT_US_INTERNATIONAL;
     }
 
     esp_bt_controller_config_t bt_cfg = BT_CONTROLLER_INIT_CONFIG_DEFAULT();
@@ -470,7 +473,7 @@ esp_err_t halBLEInit(uint8_t deviceIdentifier)
     }
     
     //load HID country code for locale before initialising HID
-    hidd_set_countrycode(get_hid_country_code(currentConfig.locale));
+    hidd_set_countrycode(get_hid_country_code(currentConfig->locale));
 
     if((ret = esp_hidd_profile_init()) != ESP_OK) {
         ESP_LOGE(LOG_TAG,"init bluedroid failed\n");

@@ -21,7 +21,7 @@
  */
  
 /** @file 
- * @brief This module contains the hardware abstraction for the serial
+ * @brief CONTINOUS TASK - This module contains the hardware abstraction for the serial
  * interface to the USB support chip.
  * 
  * 
@@ -61,6 +61,8 @@
 #include "common.h"
 //used for add/remove keycodes from a HID report
 #include "keyboard.h"
+//used to get current locale information
+#include "../config_switcher.h"
 
 #define HAL_SERIAL_TXPIN      (GPIO_NUM_17)
 #define HAL_SERIAL_RXPIN      (GPIO_NUM_16)

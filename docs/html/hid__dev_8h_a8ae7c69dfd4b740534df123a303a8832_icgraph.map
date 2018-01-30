@@ -1,5 +1,0 @@
-<map id="hid_dev_send_report" name="hid_dev_send_report">
-<area shape="rect" id="node2" href="$esp__hidd__prf__api_8h.html#ac18cf225b99b4f39545ca562ac85fa97" title="esp_hidd_send_consumer\l_value" alt="" coords="196,5,369,47"/>
-<area shape="rect" id="node3" href="$esp__hidd__prf__api_8h.html#a694ff6418e79f3372b3feba7483e3222" title="esp_hidd_send_keyboard\l_value" alt="" coords="198,71,367,112"/>
-<area shape="rect" id="node4" href="$esp__hidd__prf__api_8h.html#a0e953976c5ad30d8508ac11bc61cb6b2" title="esp_hidd_send_mouse\l_value" alt="" coords="205,136,360,177"/>
-</map>

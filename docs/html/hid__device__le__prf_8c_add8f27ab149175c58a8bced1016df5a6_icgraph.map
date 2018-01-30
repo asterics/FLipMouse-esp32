@@ -1,4 +1,0 @@
-<map id="esp_hidd_prf_cb_hdl" name="esp_hidd_prf_cb_hdl">
-<area shape="rect" id="node2" href="$hidd__le__prf__int_8h.html#acb0d2b8e95e7bbabf1e3bdab379d18d5" title="hidd_register_cb" alt="" coords="195,5,312,32"/>
-<area shape="rect" id="node3" href="$esp__hidd__prf__api_8h.html#a5256c1f0eb079f624ce5e09a47d5b89c" title="This function is called to receive hid device callback event. " alt="" coords="360,5,547,32"/>
-</map>

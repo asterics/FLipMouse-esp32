@@ -1,8 +1,0 @@
-<map id="halStorageStoreSetVBConfigs" name="halStorageStoreSetVBConfigs">
-<area shape="rect" id="node2" href="$hal__storage_8c.html#aed4beb2e1bd8cd78a201fbcb49958cba" title="halStorageCreateDefault" alt="" coords="252,5,417,32"/>
-<area shape="rect" id="node3" href="$hal__storage_8h.html#a3b1b266074bd493fe43dcf980852a422" title="halStorageLoadNumber" alt="" coords="465,5,624,32"/>
-<area shape="rect" id="node4" href="$hal__storage_8h.html#a75596c64adaa2b8d9104530acc94b094" title="halStorageLoadName" alt="" coords="672,5,819,32"/>
-<area shape="rect" id="node5" href="$config__switcher_8c.html#af5af5079d1982d42e165039e6de7e40a" title="CONTINOUS TASK &#45; Config switcher task, internal config reloading. " alt="" coords="867,5,1004,32"/>
-<area shape="rect" id="node6" href="$config__switcher_8h.html#aafed047c8d04b814a85239e031cbad7b" title="Initializing the config switching functionality. " alt="" coords="1052,5,1179,32"/>
-<area shape="rect" id="node7" href="$flipmouse__fabi__esp32__kbdmouse__main_8c.html#abce06be17fc37d675118a678a8100a36" title="Main task, created by esp&#45;idf. " alt="" coords="1227,5,1305,32"/>
-</map>

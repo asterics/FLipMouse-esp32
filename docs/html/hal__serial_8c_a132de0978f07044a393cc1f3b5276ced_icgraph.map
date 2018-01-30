@@ -1,6 +1,0 @@
-<map id="halSerialSwitchTXChannel" name="halSerialSwitchTXChannel">
-<area shape="rect" id="node2" href="$hal__serial_8h.html#a8f987ba001c2a39c959a551a94b5df43" title="halSerialSendUSBSerial" alt="" coords="231,56,393,83"/>
-<area shape="rect" id="node3" href="$task__commands_8c.html#acea81ba8a182ae78feb2db6418fc1806" title="sendErrorBack" alt="" coords="457,5,565,32"/>
-<area shape="rect" id="node4" href="$task__commands_8c.html#ad105bde7fe8d6d94d079bd3e5d2851e6" title="doGeneralCmdParsing" alt="" coords="629,31,783,57"/>
-<area shape="rect" id="node5" href="$hal__serial_8c.html#a4135f4381e4995152515091845c50c8f" title="halSerialTaskMouse" alt="" coords="441,107,581,133"/>
-</map>

@@ -1,5 +1,0 @@
-<map id="hidd_le_create_service" name="hidd_le_create_service">
-<area shape="rect" id="node2" href="$hid__device__le__prf_8c.html#add8f27ab149175c58a8bced1016df5a6" title="esp_hidd_prf_cb_hdl" alt="" coords="208,5,349,32"/>
-<area shape="rect" id="node3" href="$hidd__le__prf__int_8h.html#acb0d2b8e95e7bbabf1e3bdab379d18d5" title="hidd_register_cb" alt="" coords="397,5,515,32"/>
-<area shape="rect" id="node4" href="$esp__hidd__prf__api_8h.html#a5256c1f0eb079f624ce5e09a47d5b89c" title="This function is called to receive hid device callback event. " alt="" coords="563,5,749,32"/>
-</map>

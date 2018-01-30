@@ -1,6 +1,0 @@
-<map id="halAdcInit" name="halAdcInit">
-<area shape="rect" id="node2" href="$hal__adc_8c.html#a4135bb73c2271b4a27db8d8d81884de7" title="Reload ADC config. " alt="" coords="133,56,276,83"/>
-<area shape="rect" id="node3" href="$hal__adc_8c.html#aadc294c08df0386572ffdc8e7228f6b4" title="HAL TASK &#45; Mouse task for ADC. " alt="" coords="333,5,463,32"/>
-<area shape="rect" id="node4" href="$hal__adc_8c.html#a452077aaa6a576304708d00d4ec439f1" title="HAL TASK &#45; Joystick task for ADC. " alt="" coords="328,56,468,83"/>
-<area shape="rect" id="node5" href="$hal__adc_8c.html#aee719704e643d27c1faab768cf4bc22e" title="HAL TASK &#45; Threshold task for ADC. " alt="" coords="324,107,472,133"/>
-</map>

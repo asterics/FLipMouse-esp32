@@ -1,6 +1,0 @@
-<map id="hidd_register_cb" name="hidd_register_cb">
-<area shape="rect" id="node2" href="$hid__device__le__prf_8c.html#add8f27ab149175c58a8bced1016df5a6" title="esp_hidd_prf_cb_hdl" alt="" coords="171,56,312,83"/>
-<area shape="rect" id="node3" href="$hid__device__le__prf_8c.html#a479cfaafdbd41501ccd953c0abfc8ca6" title="hidd_le_create_service" alt="" coords="360,5,515,32"/>
-<area shape="rect" id="node4" href="$hid__device__le__prf_8c.html#a4e7096230eedcf2dbc89351ea636677d" title="hidd_clcb_alloc" alt="" coords="382,56,493,83"/>
-<area shape="rect" id="node5" href="$hid__device__le__prf_8c.html#a74aa695557816b038ff9847860291fa2" title="hidd_clcb_dealloc" alt="" coords="375,107,500,133"/>
-</map>

@@ -1,4 +1,0 @@
-<map id="parse_for_keycode" name="parse_for_keycode">
-<area shape="rect" id="node2" href="$hal__serial_8c.html#ad5198af46e2ca012d539fba22094f581" title="halSerialTaskKeyboardPress" alt="" coords="192,5,383,32"/>
-<area shape="rect" id="node3" href="$hal__serial_8c.html#ac5c6fb8edd37d249a19e6150e16c0239" title="halSerialTaskKeyboardRelease" alt="" coords="185,56,389,83"/>
-</map>

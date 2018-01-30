@@ -49,6 +49,7 @@
 #include "hal_serial.h"
 #include "task_mouse.h"
 #include "task_kbd.h"
+#include "../config_switcher.h"
 
 #define TASK_COMMANDS_STACKSIZE 4096
 

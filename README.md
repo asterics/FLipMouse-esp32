@@ -7,5 +7,5 @@ If you want to have a look at the FLipMouse, follow [this](https://github.com/as
 
 The BLE-HID stuff is based on the other [repository](https://github.com/asterics/esp32_mouse_keyboard), where we use the ESP32 as BLE module replacement (EZKey modules are really buggy and expensive).
 
-## WARNING: THIS EARLY WORK IN PROGRESS
+## WARNING: THIS IS EARLY WORK IN PROGRESS
 

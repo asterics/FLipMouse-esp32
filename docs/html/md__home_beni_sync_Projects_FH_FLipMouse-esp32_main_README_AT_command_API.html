@@ -81,7 +81,7 @@ $(function() {
 <tr>
 <td align="left">AT BM </td><td align="left">number (1-11) </td><td align="left">set the button, which corresponds to the next command. The button assignments are described on the bottom </td><td align="left">v2 </td><td align="left">no </td></tr>
 <tr>
-<td align="left">AT BL </td><td align="left">&ndash; </td><td align="left">request the next active virtual button which will be set by the next AT command (similar than AT BM) </td><td align="left">v3 </td><td align="left">no </td></tr>
+<td align="left">AT BL </td><td align="left">&ndash; </td><td align="left">enable/disable output of triggered virtual buttons. Is used with AT BM for command learning </td><td align="left">v3 </td><td align="left">no </td></tr>
 <tr>
 <td align="left">AT MA </td><td align="left">string </td><td align="left">execute macro (space separated list of commands, see <a href="https://github.com/asterics/FLipMouse/wiki/macros">Macros</a>) </td><td align="left">v2 </td><td align="left">no </td></tr>
 <tr>
@@ -159,15 +159,17 @@ $(function() {
 <tr>
 <td align="left">AT NE </td><td align="left">&ndash; </td><td align="left">load next slot (wrap around after the last slot) </td><td align="left">v2 </td><td align="left">no </td></tr>
 <tr>
-<td align="left">AT DE </td><td align="left">&ndash; </td><td align="left">delete all EEPROM slots </td><td align="left">v2 </td><td align="left">no </td></tr>
+<td align="left">AT DE </td><td align="left">&ndash; </td><td align="left">delete all slots </td><td align="left">v2 </td><td align="left">untested </td></tr>
+<tr>
+<td align="left">AT DL </td><td align="left">number (1-) </td><td align="left">delete one slot. </td><td align="left">v3 </td><td align="left">untested </td></tr>
 <tr>
 <td align="left">AT NC </td><td align="left">&ndash; </td><td align="left">do nothing </td><td align="left">v2 </td><td align="left">no </td></tr>
 <tr>
-<td align="left">AT E0 </td><td align="left">&ndash; </td><td align="left">disable debug output </td><td align="left">v2 </td><td align="left">no </td></tr>
+<td align="left">AT E0 </td><td align="left">&ndash; </td><td align="left">disable debug output </td><td align="left">v2 </td><td align="left">never, use make monitor </td></tr>
 <tr>
-<td align="left">AT E1 </td><td align="left">&ndash; </td><td align="left">enable debug output </td><td align="left">v2 </td><td align="left">no </td></tr>
+<td align="left">AT E1 </td><td align="left">&ndash; </td><td align="left">enable debug output </td><td align="left">v2 </td><td align="left">never, use make monitor </td></tr>
 <tr>
-<td align="left">AT E2 </td><td align="left">&ndash; </td><td align="left">enable debug output (extended) </td><td align="left">v2 </td><td align="left">no </td></tr>
+<td align="left">AT E2 </td><td align="left">&ndash; </td><td align="left">enable debug output (extended) </td><td align="left">v2 </td><td align="left">never, use make monitor </td></tr>
 </table>
 <p><b>Mouthpiece settings</b> </p><table class="doxtable">
 <tr>

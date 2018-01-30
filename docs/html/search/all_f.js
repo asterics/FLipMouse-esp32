@@ -9,6 +9,8 @@ var searchData=
   ['report_5fid',['report_id',['../structhids__report__ref__t.html#a746996be83455c34c48bf26487a0f525',1,'hids_report_ref_t']]],
   ['report_5fnb',['report_nb',['../structhidd__feature__t.html#aa9495c3e6f7cbf29a400245a6047a617',1,'hidd_feature_t']]],
   ['report_5ftype',['report_type',['../structhids__report__ref__t.html#a19de2c91f00b797996ec2cc47c0ff87b',1,'hids_report_ref_t']]],
+  ['requestupdate',['requestUpdate',['../task__commands_8c.html#a598fa24559f0c3a64692abf7764545d9',1,'task_commands.c']]],
+  ['requestvbupdate',['requestVBUpdate',['../task__commands_8c.html#a92f6cea4b2f3b9af0abce6f8fcf3da97',1,'task_commands.c']]],
   ['restorefactorysettings',['RESTOREFACTORYSETTINGS',['../hal__storage_8h.html#a8a4828abe0b7cd309fba5c2e5e228b95a9e10e3a504fc1980c1866aad86e7f2b6',1,'hal_storage.h']]],
   ['right',['RIGHT',['../task__mouse_8h.html#ad99a95527afeac61cb05911c7695d942aec8379af7490bb9eaaf579cf17876f38',1,'task_mouse.h']]],
   ['right_5falt_5fkey_5fmask',['RIGHT_ALT_KEY_MASK',['../esp__hidd__prf__api_8h.html#a122fc4a09870e4f0c3e730ebcc7d58b8',1,'esp_hidd_prf_api.h']]],

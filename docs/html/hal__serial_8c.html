@@ -70,7 +70,7 @@ $(function() {
 </div><!--header-->
 <div class="contents">
 
-<p>This module contains the hardware abstraction for the serial interface to the USB support chip.  
+<p>CONTINOUS TASK - This module contains the hardware abstraction for the serial interface to the USB support chip.  
 <a href="#details">More...</a></p>
 <div class="textblock"><code>#include &quot;<a class="el" href="hal__serial_8h_source.html">hal_serial.h</a>&quot;</code><br />
 </div>
@@ -109,7 +109,7 @@ Functions</h2></td></tr>
 <tr class="separator:a2d03c06463b09e33d87d90eb273819b0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>This module contains the hardware abstraction for the serial interface to the USB support chip. </p>
+<div class="textblock"><p>CONTINOUS TASK - This module contains the hardware abstraction for the serial interface to the USB support chip. </p>
 <p>Attention: this module does NOT use UART0 (terminal &amp; program interface)</p>
 <p>The hardware abstraction takes care of: <br />
  -) sending USB-HID commands <br />
@@ -167,7 +167,7 @@ Functions</h2></td></tr>
 <p>Currently, the value 30ms reflects 115k2 baud and 256 bytes for one AT command: -) ~87us are necessary for 1 byte (115k2 baud + 10 bit times) <br />
  -) ~22ms are necessary for maximum command length -&gt; next bigger value reflectable in ticks is 30ms.</p>
 <dl class="section see"><dt>See also</dt><dd><a class="el" href="common_8h.html#a0a9fad923b344cf2efca72441a81817a">ATCMD_LENGTH</a> </dd></dl>
-<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000017">Todo:</a></b></dt><dd>Documentation updates, this define is now used differently... </dd></dl>
+<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000022">Todo:</a></b></dt><dd>Documentation updates, this define is now used differently... </dd></dl>
 
 <p class="definition">Definition at line <a class="el" href="hal__serial_8c_source.html#l00071">71</a> of file <a class="el" href="hal__serial_8c_source.html">hal_serial.c</a>.</p>
 
@@ -187,7 +187,7 @@ Functions</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="hal__serial_8c_source.html#l00054">54</a> of file <a class="el" href="hal__serial_8c_source.html">hal_serial.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="hal__serial_8c_source.html#l00479">halSerialInit()</a>, <a class="el" href="hal__serial_8c_source.html#l00114">halSerialSwitchTXChannel()</a>, <a class="el" href="hal__serial_8c_source.html#l00381">halSerialTaskJoystick()</a>, and <a class="el" href="hal__serial_8c_source.html#l00311">halSerialTaskMouse()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="hal__serial_8c_source.html#l00480">halSerialInit()</a>, <a class="el" href="hal__serial_8c_source.html#l00114">halSerialSwitchTXChannel()</a>, <a class="el" href="hal__serial_8c_source.html#l00382">halSerialTaskJoystick()</a>, and <a class="el" href="hal__serial_8c_source.html#l00313">halSerialTaskMouse()</a>.</p>
 
 </div>
 </div>
@@ -232,7 +232,7 @@ Functions</h2></td></tr>
 <p>Initialize the serial HAL</p>
 <p>This method initializes the serial interface &amp; creates all necessary tasks </p>
 
-<p class="definition">Definition at line <a class="el" href="hal__serial_8c_source.html#l00479">479</a> of file <a class="el" href="hal__serial_8c_source.html">hal_serial.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="hal__serial_8c_source.html#l00480">480</a> of file <a class="el" href="hal__serial_8c_source.html">hal_serial.c</a>.</p>
 
 <p class="reference">Referenced by <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c_source.html#l00071">app_main()</a>.</p>
 <div class="dynheader">
@@ -281,10 +281,10 @@ Here is the caller graph for this function:</div>
   </table>
   </dd>
 </dl>
-<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000018">Todo:</a></b></dt><dd>Maybe remove parameter length, not needed here? </dd></dl>
+<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000023">Todo:</a></b></dt><dd>Maybe remove parameter length, not needed here? </dd></dl>
 <dl class="section see"><dt>See also</dt><dd><a class="el" href="hal__serial_8c.html#a8ed6a618f134d6b923ba216de84253f6" title="Ticks until the UART receive function has a timeout and gives back received data.*. ">HAL_SERIAL_UART_TIMEOUT_MS</a> </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="hal__serial_8c_source.html#l00414">414</a> of file <a class="el" href="hal__serial_8c_source.html">hal_serial.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="hal__serial_8c_source.html#l00415">415</a> of file <a class="el" href="hal__serial_8c_source.html">hal_serial.c</a>.</p>
 
 </div>
 </div>
@@ -341,9 +341,9 @@ Here is the caller graph for this function:</div>
 <dd>
 <a class="el" href="hal__serial_8h.html#a0e1b67327e40ee6b1c3870be9b842546">HAL_SERIAL_TX_TO_CDC</a> </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="hal__serial_8c_source.html#l00452">452</a> of file <a class="el" href="hal__serial_8c_source.html">hal_serial.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="hal__serial_8c_source.html#l00453">453</a> of file <a class="el" href="hal__serial_8c_source.html">hal_serial.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="task__commands_8c_source.html#l00112">doGeneralCmdParsing()</a>, <a class="el" href="hal__serial_8c_source.html#l00311">halSerialTaskMouse()</a>, and <a class="el" href="task__commands_8c_source.html#l00053">sendErrorBack()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="task__commands_8c_source.html#l00127">doGeneralCmdParsing()</a>, <a class="el" href="hal__serial_8c_source.html#l00313">halSerialTaskMouse()</a>, and <a class="el" href="task__commands_8c_source.html#l00068">sendErrorBack()</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
@@ -415,7 +415,7 @@ Here is the caller graph for this function:</div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="hal__serial_8c_source.html#l00381">381</a> of file <a class="el" href="hal__serial_8c_source.html">hal_serial.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="hal__serial_8c_source.html#l00382">382</a> of file <a class="el" href="hal__serial_8c_source.html">hal_serial.c</a>.</p>
 
 </div>
 </div>
@@ -441,7 +441,8 @@ Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="hal__serial_8c_ad5198af46e2ca012d539fba22094f581_cgraph.png" border="0" usemap="#hal__serial_8c_ad5198af46e2ca012d539fba22094f581_cgraph" alt=""/></div>
 <map name="hal__serial_8c_ad5198af46e2ca012d539fba22094f581_cgraph" id="hal__serial_8c_ad5198af46e2ca012d539fba22094f581_cgraph">
-<area shape="rect" id="node2" href="keyboard_8c.html#aaa2d4d5bce20b87c88be1a9a33aa85a4" title="Parse an incoming byte for a keycode, step 1. " alt="" coords="244,5,376,32"/>
+<area shape="rect" id="node2" href="config__switcher_8c.html#a921538bec34d128a44a748fd5a2c391f" title="Get the current config struct. " alt="" coords="249,5,371,32"/>
+<area shape="rect" id="node3" href="keyboard_8c.html#aaa2d4d5bce20b87c88be1a9a33aa85a4" title="Parse an incoming byte for a keycode, step 1. " alt="" coords="244,56,376,83"/>
 </map>
 </div>
 
@@ -463,13 +464,14 @@ Here is the call graph for this function:</div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="hal__serial_8c_source.html#l00263">263</a> of file <a class="el" href="hal__serial_8c_source.html">hal_serial.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="hal__serial_8c_source.html#l00264">264</a> of file <a class="el" href="hal__serial_8c_source.html">hal_serial.c</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="hal__serial_8c_ac5c6fb8edd37d249a19e6150e16c0239_cgraph.png" border="0" usemap="#hal__serial_8c_ac5c6fb8edd37d249a19e6150e16c0239_cgraph" alt=""/></div>
 <map name="hal__serial_8c_ac5c6fb8edd37d249a19e6150e16c0239_cgraph" id="hal__serial_8c_ac5c6fb8edd37d249a19e6150e16c0239_cgraph">
-<area shape="rect" id="node2" href="keyboard_8c.html#aaa2d4d5bce20b87c88be1a9a33aa85a4" title="Parse an incoming byte for a keycode, step 1. " alt="" coords="257,5,389,32"/>
+<area shape="rect" id="node2" href="config__switcher_8c.html#a921538bec34d128a44a748fd5a2c391f" title="Get the current config struct. " alt="" coords="263,5,384,32"/>
+<area shape="rect" id="node3" href="keyboard_8c.html#aaa2d4d5bce20b87c88be1a9a33aa85a4" title="Parse an incoming byte for a keycode, step 1. " alt="" coords="257,56,389,83"/>
 </map>
 </div>
 
@@ -491,7 +493,7 @@ Here is the call graph for this function:</div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="hal__serial_8c_source.html#l00311">311</a> of file <a class="el" href="hal__serial_8c_source.html">hal_serial.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="hal__serial_8c_source.html#l00313">313</a> of file <a class="el" href="hal__serial_8c_source.html">hal_serial.c</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">

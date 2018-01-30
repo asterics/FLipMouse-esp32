@@ -111,6 +111,15 @@ Functions</h2></td></tr>
 <tr class="memitem:aafed047c8d04b814a85239e031cbad7b"><td class="memItemLeft" align="right" valign="top">esp_err_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="config__switcher_8h.html#aafed047c8d04b814a85239e031cbad7b">configSwitcherInit</a> (void)</td></tr>
 <tr class="memdesc:aafed047c8d04b814a85239e031cbad7b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initializing the config switching functionality.  <a href="#aafed047c8d04b814a85239e031cbad7b">More...</a><br /></td></tr>
 <tr class="separator:aafed047c8d04b814a85239e031cbad7b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a921538bec34d128a44a748fd5a2c391f"><td class="memItemLeft" align="right" valign="top"><a class="el" href="common_8h.html#a1d17932316265a53a6982a2526a4cada">generalConfig_t</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="config__switcher_8h.html#a921538bec34d128a44a748fd5a2c391f">configGetCurrent</a> (void)</td></tr>
+<tr class="memdesc:a921538bec34d128a44a748fd5a2c391f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the current config struct.  <a href="#a921538bec34d128a44a748fd5a2c391f">More...</a><br /></td></tr>
+<tr class="separator:a921538bec34d128a44a748fd5a2c391f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a20db6aabb98f5c9c7cea48e950bada5b"><td class="memItemLeft" align="right" valign="top">esp_err_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="config__switcher_8h.html#a20db6aabb98f5c9c7cea48e950bada5b">configUpdateVB</a> (void *param, <a class="el" href="common_8h.html#ac27b6f4710923c6689834e86aea228ac">command_type_t</a> type, uint8_t vb)</td></tr>
+<tr class="memdesc:a20db6aabb98f5c9c7cea48e950bada5b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Update one virtual button.  <a href="#a20db6aabb98f5c9c7cea48e950bada5b">More...</a><br /></td></tr>
+<tr class="separator:a20db6aabb98f5c9c7cea48e950bada5b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4c2e410d8032c65c0700c6ca07429074"><td class="memItemLeft" align="right" valign="top">esp_err_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="config__switcher_8h.html#a4c2e410d8032c65c0700c6ca07429074">configUpdate</a> (void)</td></tr>
+<tr class="memdesc:a4c2e410d8032c65c0700c6ca07429074"><td class="mdescLeft">&#160;</td><td class="mdescRight">Trigger a config update.  <a href="#a4c2e410d8032c65c0700c6ca07429074">More...</a><br /></td></tr>
+<tr class="separator:a4c2e410d8032c65c0700c6ca07429074"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>CONTINOUS TASK + FUNCTIONAL TASK - This module takes care of configuration loading. </p>
@@ -118,10 +127,7 @@ Functions</h2></td></tr>
 <p>A slot configuration is provided by the config_storage, which is controlled by this module.</p>
 <p>task_configswitcher is the FUNCTIONAL TASK for triggering a slot switch. configSwitcherTask is the CONTINOUS TASK which monitors the queue for any config switching action.</p>
 <dl class="section note"><dt>Note</dt><dd>If you want to add a new FUNCTIONAL TASK, please include headers here &amp; add loading functionality to configSwitcherTask.</dd></dl>
-<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000002">Todo:</a></b></dt><dd><p class="startdd">Create getter/setter for current config (including fkt tasks &amp; possibly the reloading) </p>
-<p>Add update config here, enabling updating configs (general &amp; VB) from other parts </p>
-<p class="enddd">Add save slot here </p>
-</dd></dl>
+<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000005">Todo:</a></b></dt><dd>How to do the reverse parsing of config to AT commands? </dd></dl>
 
 <p class="definition">Definition in file <a class="el" href="config__switcher_8h_source.html">config_switcher.h</a>.</p>
 </div><h2 class="groupheader">Macro Definition Documentation</h2>
@@ -138,9 +144,9 @@ Functions</h2></td></tr>
 </div><div class="memdoc">
 <p>Stacksize for functional task task_configswitcher. </p><dl class="section see"><dt>See also</dt><dd><a class="el" href="config__switcher_8h.html#a083adf41746c3380dcc6dbc099047f2e" title="FUNCTIONAL TASK - Load another slot. ">task_configswitcher</a> </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="config__switcher_8h_source.html#l00067">67</a> of file <a class="el" href="config__switcher_8h_source.html">config_switcher.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="config__switcher_8h_source.html#l00065">65</a> of file <a class="el" href="config__switcher_8h_source.html">config_switcher.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="config__switcher_8c_source.html#l00084">configSwitcherTask()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="config__switcher_8c_source.html#l00187">configSwitcherTask()</a>.</p>
 
 </div>
 </div>
@@ -158,11 +164,61 @@ Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Parameter for functional task task_configswitcher. </p>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="config__switcher_8h.html#a083adf41746c3380dcc6dbc099047f2e" title="FUNCTIONAL TASK - Load another slot. ">task_configswitcher</a> </dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="config__switcher_8h.html#a083adf41746c3380dcc6dbc099047f2e" title="FUNCTIONAL TASK - Load another slot. ">task_configswitcher</a> </dd>
+<dd>
+<a class="el" href="common_8h.html#a4701c432a28c389e4b8557f2fa3323d1" title="Queue to receive config changing commands. ">config_switcher</a> </dd></dl>
 
 </div>
 </div>
 <h2 class="groupheader">Function Documentation</h2>
+<a id="a921538bec34d128a44a748fd5a2c391f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a921538bec34d128a44a748fd5a2c391f">&#9670;&nbsp;</a></span>configGetCurrent()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="common_8h.html#a1d17932316265a53a6982a2526a4cada">generalConfig_t</a>* configGetCurrent </td>
+          <td>(</td>
+          <td class="paramtype">void&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Get the current config struct. </p>
+<p>This method is used to get a reference to the current config struct. The caller can use this reference to change the configuration and update the config afterwards (via the config_switcher queue).</p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="common_8h.html#a4701c432a28c389e4b8557f2fa3323d1" title="Queue to receive config changing commands. ">config_switcher</a> </dd>
+<dd>
+<a class="el" href="common_8h.html#a60df4f31fd46fe2bd4df6d0b6329b47a">currentConfig</a> </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>Pointer to the current config struct </dd></dl>
+<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000006">Todo:</a></b></dt><dd>Do we need locking here (mutex)? </dd></dl>
+<p>This method is used to get a reference to the current config struct. The caller can use this reference to change the configuration and update the config afterwards (via the config_switcher queue).</p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="common_8h.html#a4701c432a28c389e4b8557f2fa3323d1" title="Queue to receive config changing commands. ">config_switcher</a> </dd>
+<dd>
+<a class="el" href="config__switcher_8c.html#a73c577cdbcaa9439f9458a9e5d39c143">currentConfigLoaded</a> </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>Pointer to the current config struct </dd></dl>
+<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000003">Todo:</a></b></dt><dd>Do we need locking here (mutex)? </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="config__switcher_8c_source.html#l00103">103</a> of file <a class="el" href="config__switcher_8c_source.html">config_switcher.c</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="task__commands_8c_source.html#l00127">doGeneralCmdParsing()</a>, <a class="el" href="hal__ble_8c_source.html#l00181">halBleTaskKeyboardPress()</a>, <a class="el" href="hal__ble_8c_source.html#l00253">halBleTaskKeyboardRelease()</a>, <a class="el" href="hal__serial_8c_source.html#l00188">halSerialTaskKeyboardPress()</a>, and <a class="el" href="hal__serial_8c_source.html#l00264">halSerialTaskKeyboardRelease()</a>.</p>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="config__switcher_8h_a921538bec34d128a44a748fd5a2c391f_icgraph.png" border="0" usemap="#config__switcher_8h_a921538bec34d128a44a748fd5a2c391f_icgraph" alt=""/></div>
+<map name="config__switcher_8h_a921538bec34d128a44a748fd5a2c391f_icgraph" id="config__switcher_8h_a921538bec34d128a44a748fd5a2c391f_icgraph">
+<area shape="rect" id="node2" href="task__commands_8c.html#ad105bde7fe8d6d94d079bd3e5d2851e6" title="doGeneralCmdParsing" alt="" coords="200,5,353,32"/>
+<area shape="rect" id="node3" href="hal__ble_8c.html#af6a15e1396cb358cd7f1eb6a2a7045a9" title="halBleTaskKeyboardPress" alt="" coords="189,56,365,83"/>
+<area shape="rect" id="node4" href="hal__ble_8c.html#adbfa982381d6d09432d7ba1961846b32" title="halBleTaskKeyboardRelease" alt="" coords="181,107,372,133"/>
+<area shape="rect" id="node5" href="hal__serial_8c.html#ad5198af46e2ca012d539fba22094f581" title="halSerialTaskKeyboardPress" alt="" coords="181,157,372,184"/>
+<area shape="rect" id="node6" href="hal__serial_8c.html#ac5c6fb8edd37d249a19e6150e16c0239" title="halSerialTaskKeyboardRelease" alt="" coords="175,208,379,235"/>
+</map>
+</div>
+
+</div>
+</div>
 <a id="aafed047c8d04b814a85239e031cbad7b"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#aafed047c8d04b814a85239e031cbad7b">&#9670;&nbsp;</a></span>configSwitcherInit()</h2>
 
@@ -180,11 +236,9 @@ Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Initializing the config switching functionality. </p>
-<p>The CONTINOUS task will be loaded to enable slot switches via the task_configswitcher FUNCTIONAL task. </p><dl class="section return"><dt>Returns</dt><dd>ESP_OK if everything is fined, ESP_FAIL otherwise</dd></dl>
-<p>Initializing the config switching functionality.</p>
 <p>The CONTINOUS task will be loaded to enable slot switches via the task_configswitcher FUNCTIONAL task. </p><dl class="section return"><dt>Returns</dt><dd>ESP_OK if everything is fined, ESP_FAIL otherwise </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="config__switcher_8c_source.html#l00323">323</a> of file <a class="el" href="config__switcher_8c_source.html">config_switcher.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="config__switcher_8c_source.html#l00456">456</a> of file <a class="el" href="config__switcher_8c_source.html">config_switcher.c</a>.</p>
 
 <p class="reference">Referenced by <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c_source.html#l00071">app_main()</a>.</p>
 <div class="dynheader">
@@ -192,30 +246,31 @@ Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="config__switcher_8h_aafed047c8d04b814a85239e031cbad7b_cgraph.png" border="0" usemap="#config__switcher_8h_aafed047c8d04b814a85239e031cbad7b_cgraph" alt=""/></div>
 <map name="config__switcher_8h_aafed047c8d04b814a85239e031cbad7b_cgraph" id="config__switcher_8h_aafed047c8d04b814a85239e031cbad7b_cgraph">
-<area shape="rect" id="node2" href="config__switcher_8c.html#af5af5079d1982d42e165039e6de7e40a" title="CONTINOUS TASK &#45; Config switcher task, internal config reloading. " alt="" coords="180,259,317,285"/>
-<area shape="rect" id="node3" href="hal__storage_8c.html#ac67aaf5a3af4140bff3d7c134b9d771f" title="halStorageStartTransaction" alt="" coords="369,5,549,32"/>
-<area shape="rect" id="node4" href="hal__storage_8c.html#aad5b764e7c611ff24dbcdd872dc9ae76" title="halStorageLoad" alt="" coords="403,56,515,83"/>
-<area shape="rect" id="node7" href="hal__storage_8c.html#a75596c64adaa2b8d9104530acc94b094" title="halStorageLoadName" alt="" coords="385,107,532,133"/>
-<area shape="rect" id="node13" href="hal__storage_8c.html#a00b5db14e24d7ada8a42aa6b3f1a1cb7" title="halStorageFinishTransaction" alt="" coords="365,157,552,184"/>
-<area shape="rect" id="node14" href="hal__adc_8c.html#a4135bb73c2271b4a27db8d8d81884de7" title="Reload ADC config. " alt="" coords="387,208,530,235"/>
-<area shape="rect" id="node18" href="hal__ble_8c.html#accf307974a0046bce38582d0260bf841" title="halBLEReset" alt="" coords="409,259,508,285"/>
-<area shape="rect" id="node19" href="task__mouse_8c.html#aa8f5c0436e569589e735c419fc3d0ed8" title="FUNCTIONAL TASK &#45; Trigger mouse action. " alt="" coords="412,309,505,336"/>
-<area shape="rect" id="node20" href="task__kbd_8c.html#a8ff4618047a049178bfb1d60abfefb5d" title="task_keyboard" alt="" coords="405,360,512,387"/>
-<area shape="rect" id="node22" href="config__switcher_8c.html#a083adf41746c3380dcc6dbc099047f2e" title="FUNCTIONAL TASK &#45; Load another slot. " alt="" coords="389,411,528,437"/>
-<area shape="rect" id="node23" href="hal__adc_8c.html#a3217185bc86562dee8617ded3872022f" title="FUNCTIONAL TASK &#45; Trigger zero&#45;point calibration of mouthpiece. " alt="" coords="402,461,515,488"/>
-<area shape="rect" id="node25" href="hal__storage_8c.html#abc699ff3996d12d3e6bcc9e372b277e0" title="halStorageLoadGetVBConfigs" alt="" coords="1061,411,1257,437"/>
-<area shape="rect" id="node5" href="hal__storage_8c.html#a7e0a934f829b47e2445189dd95e962d6" title="halStorageGetNumberOfSlots" alt="" coords="812,56,1007,83"/>
-<area shape="rect" id="node6" href="hal__storage_8c.html#a4b6566ef5b69c85d422df52435c95d36" title="halStorageChecks" alt="" coords="1307,183,1436,209"/>
-<area shape="rect" id="node8" href="hal__storage_8c.html#aae19bcf97360ccd7af4ddf906ff85141" title="halStorageGetNumberForName" alt="" coords="807,107,1012,133"/>
-<area shape="rect" id="node9" href="hal__storage_8c.html#a3b1b266074bd493fe43dcf980852a422" title="halStorageLoadNumber" alt="" coords="600,157,759,184"/>
-<area shape="rect" id="node10" href="hal__storage_8c.html#aed4beb2e1bd8cd78a201fbcb49958cba" title="halStorageCreateDefault" alt="" coords="827,208,992,235"/>
-<area shape="rect" id="node11" href="hal__storage_8c.html#aadf9ff06990d0f0af2eea2e6f2b8082a" title="halStorageStore" alt="" coords="1102,208,1217,235"/>
-<area shape="rect" id="node12" href="hal__storage_8c.html#a1503debb336ea2d708e4e0884c7aa6a3" title="halStorageStoreSetVBConfigs" alt="" coords="1060,259,1259,285"/>
-<area shape="rect" id="node15" href="hal__adc_8c.html#aadc294c08df0386572ffdc8e7228f6b4" title="HAL TASK &#45; Mouse task for ADC. " alt="" coords="614,208,745,235"/>
-<area shape="rect" id="node16" href="hal__adc_8c.html#a452077aaa6a576304708d00d4ec439f1" title="HAL TASK &#45; Joystick task for ADC. " alt="" coords="609,259,749,285"/>
-<area shape="rect" id="node17" href="hal__adc_8c.html#aee719704e643d27c1faab768cf4bc22e" title="HAL TASK &#45; Threshold task for ADC. " alt="" coords="605,309,753,336"/>
-<area shape="rect" id="node21" href="task__kbd_8c.html#aad4ceb3ea958b99d596870013982d96e" title="sendToQueue" alt="" coords="628,360,731,387"/>
-<area shape="rect" id="node24" href="hal__adc_8c.html#ae549c157d94729e8b06cb391f0f2c97b" title="Calibration function. " alt="" coords="622,461,737,488"/>
+<area shape="rect" id="node2" href="config__switcher_8c.html#af5af5079d1982d42e165039e6de7e40a" title="CONTINOUS TASK &#45; Config switcher task, internal config reloading. " alt="" coords="180,337,317,364"/>
+<area shape="rect" id="node3" href="hal__storage_8c.html#ac67aaf5a3af4140bff3d7c134b9d771f" title="halStorageStartTransaction" alt="" coords="369,33,549,60"/>
+<area shape="rect" id="node4" href="hal__storage_8c.html#aad5b764e7c611ff24dbcdd872dc9ae76" title="halStorageLoad" alt="" coords="403,84,515,110"/>
+<area shape="rect" id="node7" href="hal__storage_8c.html#a5fe9e276fd05e50e4ab9d554ef6f58ca" title="Delete one or all slots. " alt="" coords="832,84,977,110"/>
+<area shape="rect" id="node8" href="hal__storage_8c.html#aed4beb2e1bd8cd78a201fbcb49958cba" title="Create a new default slot. " alt="" coords="822,185,987,212"/>
+<area shape="rect" id="node11" href="hal__storage_8c.html#a00b5db14e24d7ada8a42aa6b3f1a1cb7" title="halStorageFinishTransaction" alt="" coords="365,236,552,262"/>
+<area shape="rect" id="node12" href="hal__storage_8c.html#a75596c64adaa2b8d9104530acc94b094" title="halStorageLoadName" alt="" coords="385,286,532,313"/>
+<area shape="rect" id="node15" href="hal__adc_8c.html#a4135bb73c2271b4a27db8d8d81884de7" title="Reload ADC config. " alt="" coords="387,337,530,364"/>
+<area shape="rect" id="node19" href="hal__ble_8c.html#accf307974a0046bce38582d0260bf841" title="halBLEReset" alt="" coords="409,388,508,414"/>
+<area shape="rect" id="node20" href="task__mouse_8c.html#aa8f5c0436e569589e735c419fc3d0ed8" title="FUNCTIONAL TASK &#45; Trigger mouse action. " alt="" coords="412,438,505,465"/>
+<area shape="rect" id="node21" href="task__kbd_8c.html#a8ff4618047a049178bfb1d60abfefb5d" title="task_keyboard" alt="" coords="405,489,512,516"/>
+<area shape="rect" id="node23" href="config__switcher_8c.html#a083adf41746c3380dcc6dbc099047f2e" title="FUNCTIONAL TASK &#45; Load another slot. " alt="" coords="389,540,528,566"/>
+<area shape="rect" id="node24" href="hal__adc_8c.html#a3217185bc86562dee8617ded3872022f" title="FUNCTIONAL TASK &#45; Trigger zero&#45;point calibration of mouthpiece. " alt="" coords="402,590,515,617"/>
+<area shape="rect" id="node26" href="hal__storage_8c.html#abc699ff3996d12d3e6bcc9e372b277e0" title="Load one virtual button config for currently loaded slot. " alt="" coords="807,489,1003,516"/>
+<area shape="rect" id="node5" href="hal__storage_8c.html#a7e0a934f829b47e2445189dd95e962d6" title="halStorageGetNumberOfSlots" alt="" coords="807,8,1002,34"/>
+<area shape="rect" id="node6" href="hal__storage_8c.html#a4b6566ef5b69c85d422df52435c95d36" title="halStorageChecks" alt="" coords="1304,160,1433,186"/>
+<area shape="rect" id="node9" href="hal__storage_8c.html#aadf9ff06990d0f0af2eea2e6f2b8082a" title="Store a generalConfig_t struct. " alt="" coords="1096,84,1211,110"/>
+<area shape="rect" id="node10" href="hal__storage_8c.html#a1503debb336ea2d708e4e0884c7aa6a3" title="Store a virtual button config struct. " alt="" coords="1054,134,1253,161"/>
+<area shape="rect" id="node13" href="hal__storage_8c.html#aae19bcf97360ccd7af4ddf906ff85141" title="halStorageGetNumberForName" alt="" coords="1051,286,1256,313"/>
+<area shape="rect" id="node14" href="hal__storage_8c.html#a3b1b266074bd493fe43dcf980852a422" title="halStorageLoadNumber" alt="" coords="600,236,759,262"/>
+<area shape="rect" id="node16" href="hal__adc_8c.html#aadc294c08df0386572ffdc8e7228f6b4" title="HAL TASK &#45; Mouse task for ADC. " alt="" coords="614,438,745,465"/>
+<area shape="rect" id="node17" href="hal__adc_8c.html#a452077aaa6a576304708d00d4ec439f1" title="HAL TASK &#45; Joystick task for ADC. " alt="" coords="609,337,749,364"/>
+<area shape="rect" id="node18" href="hal__adc_8c.html#aee719704e643d27c1faab768cf4bc22e" title="HAL TASK &#45; Threshold task for ADC. " alt="" coords="605,388,753,414"/>
+<area shape="rect" id="node22" href="task__kbd_8c.html#aad4ceb3ea958b99d596870013982d96e" title="sendToQueue" alt="" coords="628,489,731,516"/>
+<area shape="rect" id="node25" href="hal__adc_8c.html#ae549c157d94729e8b06cb391f0f2c97b" title="Calibration function. " alt="" coords="622,590,737,617"/>
 </map>
 </div>
 <div class="dynheader">
@@ -224,6 +279,101 @@ Here is the caller graph for this function:</div>
 <div class="center"><img src="config__switcher_8h_aafed047c8d04b814a85239e031cbad7b_icgraph.png" border="0" usemap="#config__switcher_8h_aafed047c8d04b814a85239e031cbad7b_icgraph" alt=""/></div>
 <map name="config__switcher_8h_aafed047c8d04b814a85239e031cbad7b_icgraph" id="config__switcher_8h_aafed047c8d04b814a85239e031cbad7b_icgraph">
 <area shape="rect" id="node2" href="flipmouse__fabi__esp32__kbdmouse__main_8c.html#abce06be17fc37d675118a678a8100a36" title="Main task, created by esp&#45;idf. " alt="" coords="180,5,259,32"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="a4c2e410d8032c65c0700c6ca07429074"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4c2e410d8032c65c0700c6ca07429074">&#9670;&nbsp;</a></span>configUpdate()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">esp_err_t configUpdate </td>
+          <td>(</td>
+          <td class="paramtype">void&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Trigger a config update. </p>
+<p>This method is simply sending an "__UPDATE" command to the config_switcher queue to trigger an update by re-loading the currentConfig.</p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="common_8h.html#a4701c432a28c389e4b8557f2fa3323d1" title="Queue to receive config changing commands. ">config_switcher</a> </dd>
+<dd>
+<a class="el" href="common_8h.html#a60df4f31fd46fe2bd4df6d0b6329b47a">currentConfig</a> </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>ESP_OK on success, ESP_FAIL otherwise </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="config__switcher_8c_source.html#l00118">118</a> of file <a class="el" href="config__switcher_8c_source.html">config_switcher.c</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="config__switcher_8c_source.html#l00150">configUpdateVB()</a>.</p>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="config__switcher_8h_a4c2e410d8032c65c0700c6ca07429074_icgraph.png" border="0" usemap="#config__switcher_8h_a4c2e410d8032c65c0700c6ca07429074_icgraph" alt=""/></div>
+<map name="config__switcher_8h_a4c2e410d8032c65c0700c6ca07429074_icgraph" id="config__switcher_8h_a4c2e410d8032c65c0700c6ca07429074_icgraph">
+<area shape="rect" id="node2" href="config__switcher_8h.html#a20db6aabb98f5c9c7cea48e950bada5b" title="Update one virtual button. " alt="" coords="152,5,269,32"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="a20db6aabb98f5c9c7cea48e950bada5b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a20db6aabb98f5c9c7cea48e950bada5b">&#9670;&nbsp;</a></span>configUpdateVB()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">esp_err_t configUpdateVB </td>
+          <td>(</td>
+          <td class="paramtype">void *&#160;</td>
+          <td class="paramname"><em>param</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="common_8h.html#ac27b6f4710923c6689834e86aea228ac">command_type_t</a>&#160;</td>
+          <td class="paramname"><em>type</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint8_t&#160;</td>
+          <td class="paramname"><em>vb</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Update one virtual button. </p>
+<p>This function is used to update one virtual button config. For example it is triggered by "AT BM xx" and the following AT command. It saves the param pointer to the update param array and calls configUpdate to trigger the reload. </p><dl class="section see"><dt>See also</dt><dd><a class="el" href="config__switcher_8h.html#a4c2e410d8032c65c0700c6ca07429074" title="Trigger a config update. ">configUpdate</a> </dd>
+<dd>
+<a class="el" href="config__switcher_8c.html#aceb033b9bef9bb354a3b2c4734b4ec9d" title="Array of pointers to FUNCTIONAL task parameters (for updating current config) ">currentTaskParametersUpdate</a> </dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">param</td><td>FUNCTIONAL task parameter memory </td></tr>
+    <tr><td class="paramname">type</td><td>Type of new VB command </td></tr>
+    <tr><td class="paramname">vb</td><td>Number of virtualbutton to update </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>ESP_OK on success, ESP_FAIL otherwise </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="config__switcher_8c_source.html#l00150">150</a> of file <a class="el" href="config__switcher_8c_source.html">config_switcher.c</a>.</p>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="config__switcher_8h_a20db6aabb98f5c9c7cea48e950bada5b_cgraph.png" border="0" usemap="#config__switcher_8h_a20db6aabb98f5c9c7cea48e950bada5b_cgraph" alt=""/></div>
+<map name="config__switcher_8h_a20db6aabb98f5c9c7cea48e950bada5b_cgraph" id="config__switcher_8h_a20db6aabb98f5c9c7cea48e950bada5b_cgraph">
+<area shape="rect" id="node2" href="config__switcher_8c.html#a4c2e410d8032c65c0700c6ca07429074" title="Trigger a config update. " alt="" coords="171,5,269,32"/>
 </map>
 </div>
 
@@ -255,9 +405,9 @@ Here is the caller graph for this function:</div>
 </dl>
 <dl class="section see"><dt>See also</dt><dd><a class="el" href="config__switcher_8h.html#aa6d38946df351bfaec1994fdb081e7db" title="Parameter for functional task task_configswitcher. ">taskConfigSwitcherConfig_t</a> </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="config__switcher_8c_source.html#l00268">268</a> of file <a class="el" href="config__switcher_8c_source.html">config_switcher.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="config__switcher_8c_source.html#l00401">401</a> of file <a class="el" href="config__switcher_8c_source.html">config_switcher.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="config__switcher_8c_source.html#l00084">configSwitcherTask()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="config__switcher_8c_source.html#l00187">configSwitcherTask()</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">

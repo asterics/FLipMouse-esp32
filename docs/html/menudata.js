@@ -105,6 +105,7 @@ var menudata={children:[
 {text:"j",url:"globals_vars.html#index_j"},
 {text:"k",url:"globals_vars.html#index_k"},
 {text:"m",url:"globals_vars.html#index_m"},
+{text:"r",url:"globals_vars.html#index_r"},
 {text:"v",url:"globals_vars.html#index_v"},
 {text:"x",url:"globals_vars.html#index_x"}]},
 {text:"Typedefs",url:"globals_type.html"},

@@ -48,6 +48,21 @@ uint8_t doStorageParsing(uint8_t *cmdBuffer);
 uint8_t doInfraredParsing(uint8_t *cmdBuffer);
 uint8_t doGeneralCmdParsing(uint8_t *cmdBuffer);
 
+/** If any parsing part requests a general config update, this variable
+ * is set to 1. task_commands will reset it to 0 after the update */
+uint8_t requestUpdate = 0;
+
+/** @brief Currently used virtual button number.
+ * 
+ * If this variable is set to a value != VB_SINGLESHOT any following
+ * AT command will be set for this virtual button.
+ * task_commands will recognize this and triggers the VB update after
+ * command parsing.
+ * @see VB_SINGLESHOT
+ * @see requestVBParameterSize
+ * */
+uint8_t requestVBUpdate = VB_SINGLESHOT;
+
 /** simple helper function which sends back to the USB host "?"
  * and prints an error on the console with the given extra infos. */
 void sendErrorBack(const char* extrainfo)
@@ -112,6 +127,14 @@ uint8_t doInfraredParsing(uint8_t *cmdBuffer)
 uint8_t doGeneralCmdParsing(uint8_t *cmdBuffer)
 {
   uint16_t param = 0;
+  generalConfig_t *currentcfg;
+  
+  currentcfg = configGetCurrent();
+  if(currentcfg == NULL)
+  {
+    ESP_LOGE(LOG_TAG,"Current config is null, cannot update general cmd");
+    return 0;
+  }
   
   /*++++ AT ID ++++*/
   if(memcmp(cmdBuffer,"AT ID",5) == 0) {
@@ -121,27 +144,59 @@ uint8_t doGeneralCmdParsing(uint8_t *cmdBuffer)
       ESP_LOGE(LOG_TAG,"Error sending response of AT ID"); 
     } else return 1;
   }
+  /*++++ AT DE ++++*/
+  if(memcmp(cmdBuffer,"AT DE",5) == 0) {
+    uint32_t tid;
+    if(halStorageStartTransaction(&tid,20) != ESP_OK)
+    {
+      return 0;
+    } else {
+      if(halStorageDeleteSlot(0,tid) != ESP_OK)
+      {
+        sendErrorBack("Error deleting all slots");
+        return 0;
+      } else {
+        return 1;
+      }
+    }
+  }
+  /*++++ AT LE ++++*/
+  if(memcmp(cmdBuffer,"AT DL",5) == 0) {
+    uint32_t tid;
+    uint8_t slotnumber;
+    slotnumber = strtol((char*)&(cmdBuffer[6]),NULL,10);
+    if(halStorageStartTransaction(&tid,20) != ESP_OK)
+    {
+      return 0;
+    } else {
+      if(halStorageDeleteSlot(slotnumber,tid) != ESP_OK)
+      {
+        sendErrorBack("Error deleting slot");
+        return 0;
+      } else {
+        return 1;
+      }
+    }
+  }
   /*++++ AT BT ++++*/
   if(memcmp(cmdBuffer,"AT BT",5) == 0) {
     param = strtol((char*)&(cmdBuffer[6]),NULL,10);
     switch(param)
     {
       case 1: 
-        xEventGroupClearBits(connectionRoutingStatus,DATATO_BLE); 
-        xEventGroupSetBits(connectionRoutingStatus,DATATO_USB); 
-        ESP_LOGI(LOG_TAG,"Switched routing to USB only");
-        return 1;
+        currentcfg->ble_active = 0;
+        currentcfg->usb_active = 1;
+        requestUpdate = 1;
         break;
       case 2: 
-        xEventGroupClearBits(connectionRoutingStatus,DATATO_USB); 
-        xEventGroupSetBits(connectionRoutingStatus,DATATO_BLE); 
-        ESP_LOGI(LOG_TAG,"Switched routing to BLE only");
-        return 1;
+        currentcfg->ble_active = 1;
+        currentcfg->usb_active = 0;
+        requestUpdate = 1;
         break;
       case 3: 
-        xEventGroupSetBits(connectionRoutingStatus,DATATO_USB|DATATO_BLE); 
-        ESP_LOGI(LOG_TAG,"Switched routing to USB & BLE");
-        return 1;
+        currentcfg->ble_active = 1;
+        currentcfg->usb_active = 1;
+        requestUpdate = 1;
         break;
       default: sendErrorBack("AT BT param"); return 0;
     }
@@ -160,9 +215,13 @@ uint8_t doKeyboardParsing(uint8_t *cmdBuffer, taskKeyboardConfig_t *kbdinstance)
 
 uint8_t doMouseParsing(uint8_t *cmdBuffer, taskMouseConfig_t *mouseinstance)
 {
-  //we are doing AT command triggered action, so this mouse command
-  //is always a singleshot. Simply call the task function.
-  mouseinstance->virtualButton = VB_SINGLESHOT;
+  //clear any previous data
+  memset(mouseinstance,0,sizeof(taskMouseConfig_t));
+  
+  //use global virtual button (normally VB_SINGLESHOT,
+  //can be changed by "AT BM"
+  mouseinstance->virtualButton = requestVBUpdate;
+  int steps = 3;
   
   /*++++ mouse clicks ++++*/
   //AT CL, AT CR, AT CM, AT CD
@@ -172,14 +231,13 @@ uint8_t doMouseParsing(uint8_t *cmdBuffer, taskMouseConfig_t *mouseinstance)
     switch(cmdBuffer[4])
     {
       //do single clicks (left,right,middle)
-      case 'L': mouseinstance->type = LEFT; task_mouse(mouseinstance); return 1;
-      case 'R': mouseinstance->type = RIGHT; task_mouse(mouseinstance); return 1;
-      case 'M': mouseinstance->type = MIDDLE; task_mouse(mouseinstance); return 1;
+      case 'L': mouseinstance->type = LEFT; return 1;
+      case 'R': mouseinstance->type = RIGHT; return 1;
+      case 'M': mouseinstance->type = MIDDLE; return 1;
       //do left double click
       case 'D': 
         mouseinstance->type = LEFT;
         mouseinstance->actionparam = M_DOUBLE; 
-        task_mouse(mouseinstance); 
         return 1;
       //not an AT C? command for mouse, return 0 (not consumed)
       default: return 0;
@@ -194,11 +252,11 @@ uint8_t doMouseParsing(uint8_t *cmdBuffer, taskMouseConfig_t *mouseinstance)
     switch(cmdBuffer[4])
     {
       //move mouse wheel up/down
-      case 'U': mouseinstance->actionvalue = mouse_get_wheel(); task_mouse(mouseinstance); return 1;
-      case 'D': mouseinstance->actionvalue = -mouse_get_wheel(); task_mouse(mouseinstance); return 1;
+      case 'U': mouseinstance->actionvalue = mouse_get_wheel(); return 1;
+      case 'D': mouseinstance->actionvalue = -mouse_get_wheel(); return 1;
       //set mouse wheel stepsize. If unsuccessful, default will return 0
       case 'S':
-        int steps = strtol((char*)&(cmdBuffer[6]),NULL,10);
+        steps = strtol((char*)&(cmdBuffer[6]),NULL,10);
         if(steps > 127 || steps < 127)
         {
           sendErrorBack("Wheel size out of range! (-127 to 127)");
@@ -206,7 +264,7 @@ uint8_t doMouseParsing(uint8_t *cmdBuffer, taskMouseConfig_t *mouseinstance)
         } else { 
           mouse_set_wheel(steps);
           ESP_LOGI(LOG_TAG,"Setting mouse wheel steps: %d",steps);
-          return 1;
+          return 2;
         }
       default: return 0;
     }
@@ -219,9 +277,9 @@ uint8_t doMouseParsing(uint8_t *cmdBuffer, taskMouseConfig_t *mouseinstance)
     mouseinstance->actionparam = M_HOLD;
     switch(cmdBuffer[4])
     {
-      case 'L': mouseinstance->type = LEFT; task_mouse(mouseinstance); return 1;
-      case 'R': mouseinstance->type = RIGHT; task_mouse(mouseinstance); return 1;
-      case 'M': mouseinstance->type = MIDDLE; task_mouse(mouseinstance); return 1;
+      case 'L': mouseinstance->type = LEFT; return 1;
+      case 'R': mouseinstance->type = RIGHT; return 1;
+      case 'M': mouseinstance->type = MIDDLE; return 1;
       default: return 0;
     }
   }
@@ -233,9 +291,9 @@ uint8_t doMouseParsing(uint8_t *cmdBuffer, taskMouseConfig_t *mouseinstance)
     mouseinstance->actionparam = M_RELEASE;
     switch(cmdBuffer[4])
     {
-      case 'L': mouseinstance->type = LEFT; task_mouse(mouseinstance); return 1;
-      case 'R': mouseinstance->type = RIGHT; task_mouse(mouseinstance); return 1;
-      case 'M': mouseinstance->type = MIDDLE; task_mouse(mouseinstance); return 1;
+      case 'L': mouseinstance->type = LEFT; return 1;
+      case 'R': mouseinstance->type = RIGHT; return 1;
+      case 'M': mouseinstance->type = MIDDLE; return 1;
       default: return 0;
     }
   }  
@@ -258,8 +316,8 @@ uint8_t doMouseParsing(uint8_t *cmdBuffer, taskMouseConfig_t *mouseinstance)
     }
     switch(cmdBuffer[4])
     {
-      case 'X': mouseinstance->type = X; task_mouse(mouseinstance); return 1;
-      case 'Y': mouseinstance->type = Y; task_mouse(mouseinstance); return 1;
+      case 'X': mouseinstance->type = X; return 1;
+      case 'Y': mouseinstance->type = Y; return 1;
       default: return 0;
     }
   }
@@ -271,11 +329,36 @@ void task_commands(void *params)
 {
   uint8_t queuesready = checkqueues();
   int received;
+  //used for return values of doXXXParsing functions
+  uint8_t parserstate;
   uint8_t commandBuffer[ATCMD_LENGTH];
   
-  taskMouseConfig_t cmdMouse;
-  taskKeyboardConfig_t cmdKeyboard;
-  //taskJoystickConfig_t cmdJoystick;
+  //function pointer to the task function which will eventuall be called
+  //in singleshot mode
+  void (*requestVBTask)(void *) = NULL;
+  
+  // parameter size which needs to be allocated for a VB config update
+  size_t requestVBParameterSize = 0;
+  
+  //pointer to VB parameter struct for VB config udpate
+  void *requestVBParameter = NULL;
+  
+  //reload parameter
+  command_type_t requestVBType = T_NOFUNCTION;
+  
+    
+  //parameters for different tasks
+  taskMouseConfig_t *cmdMouse = malloc(sizeof(taskMouseConfig_t));
+  taskKeyboardConfig_t *cmdKeyboard = malloc(sizeof(taskKeyboardConfig_t));
+  //taskJoystickConfig_t *cmdJoystick = malloc(sizeof(taskJoystickConfig_t));
+  
+  //check if we have all our pointers
+  if(cmdMouse == NULL || cmdKeyboard == NULL /*|| cmdJoystick == NULL */)
+  {
+    ESP_LOGE(LOG_TAG,"Cannot malloc memory for command parsing, EXIT!");
+    vTaskDelete(NULL);
+    return;
+  }
 
   while(1)
   {
@@ -307,13 +390,97 @@ void task_commands(void *params)
       
       //do parsing :-)
       //simplified into smaller functions, to make reading easy.
-      if(doMouseParsing(commandBuffer,&cmdMouse)) continue;
-      if(doKeyboardParsing(commandBuffer,&cmdKeyboard)) continue;
-      //if(doJoystickParsing(commandBuffer,&cmdJoystick)) continue;
-      if(doStorageParsing(commandBuffer)) continue;
-      if(doGeneralCmdParsing(commandBuffer)) continue;
-      if(doInfraredParsing(commandBuffer)) continue;
-      if(doMouthpieceSettingsParsing(commandBuffer)) continue;
+      //each parser returns either:
+      //0 if the command was not consumed (not a valid command for this part)
+      //1 if the command was consumed and needs to be forwarded to a task (singleshot/VB reload)
+      //2 if the command was consumed but no further action is needed
+      
+      parserstate = doMouseParsing(commandBuffer,cmdMouse);
+      if(parserstate == 2) continue; //don't need further action
+      if(parserstate == 1) 
+      {
+        requestVBTask = task_mouse;
+        requestVBParameterSize = sizeof(taskMouseConfig_t);
+        requestVBParameter = cmdMouse;
+        requestVBType = T_MOUSE;
+      }
+      
+      //if not handled already
+      if(parserstate == 0) 
+      {
+        parserstate = doKeyboardParsing(commandBuffer,cmdKeyboard);
+        if(parserstate == 2) continue; //don't need further action
+        if(parserstate == 1)
+        {
+          requestVBTask = task_keyboard;
+          requestVBParameterSize = sizeof(taskKeyboardConfig_t);
+          requestVBParameter = cmdKeyboard;
+          requestVBType = T_KEYBOARD;
+        }
+      }
+      
+      //TODO: if necessary, add also the config/task stuff as above...
+      if(parserstate == 0) 
+      {
+        parserstate = doGeneralCmdParsing(commandBuffer);
+      }
+      if(parserstate == 0) 
+      {
+        parserstate = doInfraredParsing(commandBuffer);
+      }
+      if(parserstate == 0) 
+      {
+        parserstate = doMouthpieceSettingsParsing(commandBuffer);
+      }
+      
+      //call now the task function if in singleshot mode
+      if(parserstate == 1 && requestVBUpdate == VB_SINGLESHOT && \
+        requestVBTask != NULL && requestVBParameter != NULL)
+      {
+        //call in singleshot mode
+        requestVBTask(requestVBParameter);
+        //reset the VB task callback
+        requestVBTask = NULL;
+        continue;
+      }
+      
+      //if not in singleshot mode, do the config update (virtual buttons)
+      if(requestVBUpdate != VB_SINGLESHOT)
+      {
+        //allocate new memory (the parameter pointers might be differ each time)
+        void *vbconfigparam = malloc(requestVBParameterSize);
+        if(vbconfigparam != NULL)
+        {
+          //copy to new memory, which will be permanent after an config update
+          memcpy(vbconfigparam,requestVBParameter,requestVBParameterSize);
+        } else {
+          ESP_LOGE(LOG_TAG,"Error allocating VB config!");
+        }
+        //trigger VB config update (which loads the config and triggers the update in config_switcher.c)
+        if(configUpdateVB(vbconfigparam,requestVBType,requestVBUpdate) != ESP_OK)
+        {
+          ESP_LOGE(LOG_TAG,"Error updating VB config!");
+        }
+        //reset to singleshot mode
+        requestVBUpdate = VB_SINGLESHOT;
+        continue;
+      }
+      
+      //if a general config update is required
+      if(requestUpdate != 0)
+      {
+        if(configUpdate() != ESP_OK)
+        {
+          ESP_LOGE(LOG_TAG,"Error updating general config!");
+        }
+        requestUpdate = 0;
+        continue;
+      }
+      
+      //after all that parsing & config updates
+      //we either have a parserstate == 0 here -> no parser found
+      //or we consumed this command.
+      if(parserstate != 0) continue;
       
       //check reply by LPC USB chip:
       if(memcmp(commandBuffer,"__OK__",6) == 0) continue;

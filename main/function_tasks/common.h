@@ -126,11 +126,24 @@ extern QueueHandle_t joystick_movement_usb;
 /** queue which receives joystick commands, triggered via BLE */
 extern QueueHandle_t joystick_movement_ble;
 
-/** queue which receives config changing command. Pass either:
- * -) pointer to the name
- * -) 0 for next slot
- * -) 1 for previous slot
- * -) 2 for restoring factory empty slot (no slots are deleted)
+/** @brief Queue to receive config changing commands. 
+ * 
+ * A string is passed to this queue with a maximum length of SLOTNAME_LENGTH.
+ * 
+ * Either a special command is passed or the slotname which should be loaded.
+ * Possible strings to send to this queue:
+ * * Name of the slot to be loaded
+ * * "__NEXT" for next slot
+ * * "__PREVIOUS" for previous slot
+ * * "__DEFAULT" for default slot
+ * * "__RESTOREFACTORY" to delete all slots & reset default 
+ *    slot to factory defaults
+ * * "__UPDATE" to reload tasks based on currentConfig. Used to
+ *  update the configuration when changed by configuration software/GUI.
+ * 
+ * @see SLOTNAME_LENGTH
+ * @see configSwitcherTask
+ * @see currentConfig
  **/
 extern QueueHandle_t config_switcher;
 
@@ -177,20 +190,20 @@ extern QueueHandle_t config_switcher;
 /*++++ MAIN CONFIG STRUCT ++++*/
 
 /**
- * Mode of operation for the mouthpiece:
- * MOUSE      Mouthpiece controls mouse cursor.
- *            Used parameters:
+ * Mode of operation for the mouthpiece:<br>
+ * MOUSE      Mouthpiece controls mouse cursor <br>
+ *            Used parameters: <br>
  *              * max_speed
  *              * acceleration
  *              * deadzone_x/y
  *              * sensitivity_x/y
- * JOYSTICK   Mouthpiece controls two joystick axis
- *            Used parameters
+ * JOYSTICK   Mouthpiece controls two joystick axis <br>
+ *            Used parameters <br>
  *              * deadzone_x/y
  *              * sensitivity_x/y
  *              * axis
- * THRESHOLD  Mouthpiece triggers virtual buttons
- *            Used parameters
+ * THRESHOLD  Mouthpiece triggers virtual buttons <br>
+ *            Used parameters <br>
  *              * deadzone_x/y
  *              * threshold_x/y
  * @see VB_UP

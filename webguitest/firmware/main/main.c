@@ -12,6 +12,7 @@
 
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
+#include "freertos/queue.h"
 #include "freertos/event_groups.h"
 #include "esp_wifi.h"
 #include "esp_event_loop.h"
@@ -33,7 +34,15 @@
 #include "cJSON.h"
 #include "captdns.h"
 
+
+#define MAX_CMD_LEN 250                  // maximum length of AT commands
+#define MAX_COMMANDS_IN_QUEUE 20         // message queue size
+#define MAX_PARAM_LEN (MAX_CMD_LEN-3)    // maximum length of AT command parameters
+
 #define CONFIG_LED_PIN 5
+
+#define SPIFF_READ_BLOCKSIZE 1024
+
 
 // LED status
 #define LED_OFF		0
@@ -84,13 +93,18 @@ bool led_status;
 nvs_handle my_handle;
 
 // running configuration
-char command[6]="";
-char parameter[100]="";
+char command[MAX_CMD_LEN]="";
+char parameter[MAX_CMD_LEN]="";
+
 int pressure=10;
 int sensitivityX =50;
 int sensitivityY =60;
 int deadzoneX =20;
 int deadzoneY =30;
+
+
+// message queue for sending AT commands
+QueueHandle_t xCommandQueue;
 
 
 // print the list of connected stations
@@ -170,7 +184,7 @@ int get_pressure_value() {
 	return pressure;
 }
 
-#define SPIFF_READ_BLOCKSIZE 1024
+
 
 // serve static content from SPIFFS
 void spiffs_serve(char* resource, struct netconn *conn) {
@@ -216,6 +230,29 @@ void spiffs_serve(char* resource, struct netconn *conn) {
 		netconn_write(conn, http_404_hdr, sizeof(http_404_hdr) - 1, NETCONN_NOCOPY);
 	}
 }
+
+
+int submitATCommand (char * command, char * parameter) {
+	if (strlen(command)>0) {
+		char sendToQueue[MAX_CMD_LEN];
+		strcpy (sendToQueue, "AT ");
+		strcat (sendToQueue,command); 
+		if (strlen(parameter)>0) {
+			strcat (sendToQueue, " "); 
+			strcat (sendToQueue,parameter);
+		}
+
+		if( xQueueSend(xCommandQueue,( void * ) sendToQueue, 10 ) != pdPASS ) {
+			printf("! Full queue, cannot send AT command\n");
+		}
+		else { 
+			printf("! sent AT command to Quene\n");
+			return (1);
+		}
+	}
+	return (0);
+}
+
 	
 static void http_server_netconn_serve(struct netconn *conn) {
 
@@ -233,7 +270,6 @@ static void http_server_netconn_serve(struct netconn *conn) {
 		buf[buflen] = '\0';
 
 		// printf("http_serv request: %s\n",buf);
-
 		
 		// get the request body and the first line
 		char* body = strstr(buf, "\r\n\r\n");
@@ -244,67 +280,93 @@ static void http_server_netconn_serve(struct netconn *conn) {
 			// dynamic page: setConfig
 			if(strstr(request_line, "POST /setConfig")) {
 			
+				cJSON *status_item;
 				cJSON *root = cJSON_Parse(body);
 				cJSON *mode_item = cJSON_GetObjectItemCaseSensitive(root, "mode");
 				
 				if(strstr(mode_item->valuestring, "led")) {
 					
-					cJSON *status_item = cJSON_GetObjectItemCaseSensitive(root, "status");
-					if(strstr(status_item->valuestring, "on")) {
-						printf("! Turning the led ON\n");
-						gpio_set_level(CONFIG_LED_PIN, LED_ON);
-						led_status = true;	
-					}
-					else {
-						printf("! Turning the led OFF\n");
-						gpio_set_level(CONFIG_LED_PIN, LED_OFF);
-						led_status = false;	
+					status_item = cJSON_GetObjectItemCaseSensitive(root, "status");
+					if (status_item->valuestring) {
+						if(strstr(status_item->valuestring, "on")) {
+							printf("! Turning the led ON\n");
+							gpio_set_level(CONFIG_LED_PIN, LED_ON);
+							led_status = true;	
+						}
+						else {
+							printf("! Turning the led OFF\n");
+							gpio_set_level(CONFIG_LED_PIN, LED_OFF);
+							led_status = false;	
+						}
 					}
 				}
 				else if(strstr(mode_item->valuestring, "basic")) {
 										
-					cJSON *status_item = cJSON_GetObjectItemCaseSensitive(root, "sensitivityX");
+					status_item = cJSON_GetObjectItemCaseSensitive(root, "sensitivityX");
 					if (status_item) { 
-						printf("! Got SensitivityX:%s\n",status_item->valuestring); 
-						sensitivityX=atoi(status_item->valuestring); 
+						if (status_item->valuestring) {
+							printf("! Got SensitivityX:%s\n",status_item->valuestring); 
+							sensitivityX=atoi(status_item->valuestring); 
+							submitATCommand ("AX", status_item->valuestring);
+
+						}
 					}
 					status_item = cJSON_GetObjectItemCaseSensitive(root, "sensitivityY");
 					if (status_item) { 
-						printf("! Got SensitivityY:%s\n",status_item->valuestring); 
-						sensitivityY=atoi(status_item->valuestring); 
+						if (status_item->valuestring) {
+							printf("! Got SensitivityY:%s\n",status_item->valuestring); 
+							sensitivityY=atoi(status_item->valuestring); 
+							submitATCommand ("AY", status_item->valuestring);
+						}
 					}
 					status_item = cJSON_GetObjectItemCaseSensitive(root, "deadzoneX");
 					if (status_item) { 
-						printf("! Got DeadzoneX:%s\n",status_item->valuestring); 
-						deadzoneX=atoi(status_item->valuestring); 
+						if (status_item->valuestring) {
+							printf("! Got DeadzoneX:%s\n",status_item->valuestring); 
+							deadzoneX=atoi(status_item->valuestring); 
+							submitATCommand ("DX", status_item->valuestring);
+						}
 					}
 					status_item = cJSON_GetObjectItemCaseSensitive(root, "deadzoneY");
 					if (status_item) { 
-						printf("! Got DeadzoneY:%s\n",status_item->valuestring); 
-						deadzoneY=atoi(status_item->valuestring); 
+						if (status_item->valuestring) {
+							printf("! Got DeadzoneY:%s\n",status_item->valuestring); 
+							deadzoneY=atoi(status_item->valuestring); 
+							submitATCommand ("DY", status_item->valuestring);
+						}
 					}
-					
-				}
-				
-				else if(strstr(mode_item->valuestring, "action")) {
-				
-					cJSON *status_item = cJSON_GetObjectItemCaseSensitive(root, "command");
+										
+				}				
+				else if(strstr(mode_item->valuestring, "pressure")) {
+										
+					status_item = cJSON_GetObjectItemCaseSensitive(root, "pressureValue");
 					if (status_item) { 
-						printf("! Got action command:%s\n",status_item->valuestring);
-						strcpy (command, status_item->valuestring);
+						if (status_item->valuestring) {
+							printf("! Got Pressure:%s\n",status_item->valuestring); 
+							pressure=atoi(status_item->valuestring); 
+							submitATCommand ("TP", status_item->valuestring);
+						}
+					}
+				}
+				else if(strstr(mode_item->valuestring, "action")) {
+					status_item = cJSON_GetObjectItemCaseSensitive(root, "command");
+					if (status_item) { 
+						if (status_item->valuestring) {
+							printf("! Got action command:%s\n",status_item->valuestring);
+							strcpy (command, status_item->valuestring);
+						} else strcpy (command, "");
 					}
 					status_item = cJSON_GetObjectItemCaseSensitive(root, "parameter");
 					if (status_item) {
-						printf("! Got action parameter:%s\n",status_item->valuestring);
-						strcpy (parameter, status_item->valuestring);
+						if (status_item->valuestring) {
+							printf("! Got action parameter:%s\n",status_item->valuestring);
+							strcpy (parameter, status_item->valuestring);
+						} else strcpy (parameter,"");
 					}
+					
+					submitATCommand (command,parameter);
 				}
 				
-				else if(strstr(mode_item->valuestring, "pressure")) {
-										
-					cJSON *pressure_item = cJSON_GetObjectItemCaseSensitive(root, "pressureValue");
-					pressure = atoi(pressure_item->valuestring);
-				}
 			}
 			
 			// dynamic page: getConfig
@@ -380,24 +442,30 @@ static void http_server(void *pvParameters) {
 }
 
 static void monitoring_task(void *pvParameters) {
+	time_t now = 0;
+	char actual_time[6];
+	char rxCommand[MAX_CMD_LEN];
 	
 	printf("* Monitoring task started\n");
 	
 	while(1) {
 	
-		// run every 1000ms
-		vTaskDelay(1000 / portTICK_PERIOD_MS);
+		// run every 100ms
+		vTaskDelay(100 / portTICK_PERIOD_MS);
 
-		time_t now = 0;
 		time(&now);
-		char actual_time[6];
 		strftime(actual_time, 6, "%M:%S", localtime(&now));
 		
 		
 		static int i=0;
-		if (((i++) % 5)==0) {
+		if (((i++) % 50)==0) {
 			printf("ESP32 heartbeat. Actual time: %s\n", actual_time);
 			// printStationList();
+		}
+		
+		if(xQueueReceive(xCommandQueue, &rxCommand, (TickType_t)0) == pdTRUE)
+		{
+			printf("! Received AT command from queue: %s\n",rxCommand);
 		}
 		
 	}
@@ -524,16 +592,20 @@ void gpio_setup() {
 // Main application
 void app_main()
 {
-	// log only errors
-	esp_log_level_set("*", ESP_LOG_VERBOSE);
-	event_group = xEventGroupCreate();
-	
 	printf("FlipMouse WebGUI v0.1\n\n");
+
+	// log all we can
+	esp_log_level_set("*", ESP_LOG_VERBOSE);
+
+	// create IPC resources
+    xCommandQueue = xQueueCreate( MAX_COMMANDS_IN_QUEUE, MAX_CMD_LEN);
+	event_group = xEventGroupCreate();
 
 	// initialize the different modules and components
 	vfs_spiffs_register();
 	gpio_setup();
 	nvs_setup();
+
 	// open the partition in R/W mode
 	esp_err_t err = nvs_open("storage", NVS_READWRITE, &my_handle);
 	if (err != ESP_OK) {
@@ -541,10 +613,10 @@ void app_main()
 		while(1) vTaskDelay(10 / portTICK_PERIOD_MS);
 	}
 	
-	
+
+	// initialize WiFi (AP-mode)
 	wifi_setup();
 	// captdnsInit();
-	
 	
 	// print the local IP address
 	tcpip_adapter_ip_info_t ip_info;
@@ -562,5 +634,5 @@ void app_main()
 	// start the monitoring task
 	xTaskCreate(&monitoring_task, "monitoring_task", 2048, NULL, 5, NULL);
 	
-	printf("\n");
+	printf("Initialisation done. \n\n");
 }

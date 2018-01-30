@@ -67,7 +67,7 @@
 	};
 	
 	$(document).ready(function() {
-	
+		$('#actioncommand').val('CL');
 		refreshConfig();
 		
 		$("#set-led").change(function() {
@@ -172,7 +172,7 @@
 
 					<label for="action-1">Select an action:</label>
 					 <select id="actioncommand">
-					  <option value="CL">Click Left</option>
+					  <option selected="selected" value="CL">Click Left</option>
 					  <option value="CR">Click Right</option>
 					  <option value="PL">Press (Hold) Left</option>
 					  <option value="KW">Write Keyboard</option>

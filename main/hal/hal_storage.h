@@ -184,7 +184,7 @@ esp_err_t halStorageLoadNumber(uint8_t slotnumber, generalConfig_t *cfg, uint32_
  * */
 esp_err_t halStorageLoadName(char *slotname, generalConfig_t *cfg, uint32_t tid);
 
-/** load one virtual button config for currently loaded slot
+/** @brief Load one virtual button config for currently loaded slot
  * 
  * This function is used to load one virtual button config after the
  * slot was loaded (either by name, number or action).
@@ -196,7 +196,7 @@ esp_err_t halStorageLoadName(char *slotname, generalConfig_t *cfg, uint32_t tid)
  * @see halStorageLoad
  * @see halStorageLoadName
  * @see halStorageLoadNumber
- * @param vb Number of virtual button config to be loaded
+ * @param vb_nr Number of virtual button config to be loaded
  * @param vb_config Pointer to config struct which holds the VB config data
  * @param vb_config_size Size of config which will be loaded (differs between functions)
  * @param tid Transaction ID, which must match the one given by halStorageStartTransaction
@@ -277,11 +277,26 @@ esp_err_t halStorageStore(uint32_t tid,generalConfig_t *cfg, char *slotname, uin
  * */
 esp_err_t halStorageStoreSetVBConfigs(uint8_t slotnumber, uint8_t vb, void *config, size_t configsize, uint32_t tid);
 
-//ich glaub der JSON parser ist besser iwo anders aufgehoben oder?!?
-//TODO: IR speichern....
- // TODO: general: determine if taskNoParameterConfig is used, then just create on demand in config_switcher... (don't need to store...)
-//esp_err_t halStorageToJson(void);
-//esp_err_t halStorageFromJson(void);
 
+/** @brief Create a new default slot
+ * 
+ * Create a new default slot in memory.
+ * The default settings are hardcoded here to provide a fallback
+ * solution.
+ * 
+ * @param tid Valid transaction ID
+ * */
+void halStorageCreateDefault(uint32_t tid);
+
+/** @brief Delete one or all slots
+ * 
+ * This function is used to delete one slot or all slots (depending on
+ * parameter slotnumber)
+ * 
+ * @param slotnr Number of slot to be deleted. Use 0 to delete all slots
+ * @param tid Transaction id
+ * @return ESP_OK if everything is fine, ESP_FAIL otherwise
+ * */
+esp_err_t halStorageDeleteSlot(uint8_t slotnr, uint32_t tid);
 
 #endif /*_HAL_STORAGE_H*/

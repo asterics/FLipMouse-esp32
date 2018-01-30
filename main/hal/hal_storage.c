@@ -103,11 +103,22 @@ esp_err_t halStorageChecks(uint32_t tid)
   return ESP_OK;
 }
 
-/** internal function to create a default slot if not available */
+/** @brief Create a new default slot
+ * 
+ * Create a new default slot in memory.
+ * The default settings are hardcoded here to provide a fallback
+ * solution.
+ * 
+ * @param tid Valid transaction ID
+ * */
 void halStorageCreateDefault(uint32_t tid)
 {
-  //as this function is called internally, we don't check the tid
-  //and consider a valid transaction (tid is checked before)
+  //check tid
+  if(halStorageChecks(tid) != ESP_OK)
+  {
+    ESP_LOGE(LOG_TAG,"Cannot create default config, checks failed");
+    return;
+  }
   
   //get storage from heap
   generalConfig_t *defaultCfg = (generalConfig_t *)malloc(sizeof(generalConfig_t));
@@ -721,7 +732,50 @@ esp_err_t halStorageLoadName(char *slotname, generalConfig_t *cfg, uint32_t tid)
   return halStorageLoadNumber(slotnumber,cfg,tid);
 }
 
-/** load one virtual button config for currently loaded slot
+/** @brief Delete one or all slots
+ * 
+ * This function is used to delete one slot or all slots (depending on
+ * parameter slotnumber)
+ * 
+ * @param slotnr Number of slot to be deleted. Use 0 to delete all slots
+ * @param tid Transaction id
+ * @return ESP_OK if everything is fine, ESP_FAIL otherwise
+ * */
+esp_err_t halStorageDeleteSlot(uint8_t slotnr, uint32_t tid)
+{
+  char file[sizeof(base_path)+32];
+  //delete by starting & ending at given slotnumber 
+  uint8_t from = slotnr;
+  uint8_t to = slotnr;
+  
+  //in case of deleting all slots, start at 1 and delete until 250
+  if(slotnr == 0)
+  {
+    from = 1;
+    to = 250;
+  }
+  
+  //check for valid storage handle
+  if(halStorageChecks(tid) != ESP_OK) return ESP_FAIL;
+  
+  //delete one or all slots
+  for(uint8_t i = from; i<=to; i++)
+  {
+    sprintf(file,"%s/%03d.fms",base_path,i); 
+    remove(file);
+    //delete VB configs as well
+    for(uint8_t j = 1; i< (NUMBER_VIRTUALBUTTONS*4); j++)
+    {
+      sprintf(file,"%s/%03d_%03d.fms",base_path,i,j);
+      remove(file);
+    }
+  }
+  
+  ESP_LOGW(LOG_TAG,"Deleted slot %d (0 means delete all)",slotnr);
+  return ESP_OK;
+}
+
+/** @brief Load one virtual button config for currently loaded slot
  * 
  * This function is used to load one virtual button config after the
  * slot was loaded (either by name, number or action).
@@ -745,7 +799,7 @@ esp_err_t halStorageLoadGetVBConfigs(uint8_t vb, void * vb_config, size_t vb_con
   
   if(halStorageChecks(tid) != ESP_OK) return ESP_FAIL;
   
-  if(vb > (NUMBER_VIRTUALBUTTONS*4)) 
+  if(vb >= (NUMBER_VIRTUALBUTTONS*4)) 
   {
     ESP_LOGE(LOG_TAG,"VB number too high: %u, maximum %u",vb,(NUMBER_VIRTUALBUTTONS*4));
     return ESP_FAIL;
@@ -784,10 +838,10 @@ esp_err_t halStorageLoadGetVBConfigs(uint8_t vb, void * vb_config, size_t vb_con
   return ESP_OK;
 }
 
-/** Store a generalConfig_t struct
+/** @brief Store a generalConfig_t struct
  * 
  * This method stores the general config for the given slotnumber.
- * A slot contains:
+ * A slot contains: <br>
  * -) General Config
  * -) Slotname
  * -) Slotnumber (used for the filename)
@@ -806,7 +860,7 @@ esp_err_t halStorageLoadGetVBConfigs(uint8_t vb, void * vb_config, size_t vb_con
  * @return ESP_OK on success, ESP_FAIL otherwise
  * @see halStorageStoreSetVBConfigs
  * */
-esp_err_t halStorageStore(uint32_t tid,generalConfig_t *cfg, char *slotname, uint8_t slotnumber)
+esp_err_t halStorageStore(uint32_t tid, generalConfig_t *cfg, char *slotname, uint8_t slotnumber)
 {
   char file[sizeof(base_path)+12];
   char nullterm = '\0';
@@ -887,7 +941,7 @@ esp_err_t halStorageStore(uint32_t tid,generalConfig_t *cfg, char *slotname, uin
   return ESP_OK;
 }
 
-/** Store a virtual button config struct
+/** @brief Store a virtual button config struct
  * 
  * This method stores the config struct for the given virtual button
  * If there is already a config with this given VB, it is overwritten!
@@ -920,7 +974,7 @@ esp_err_t halStorageStoreSetVBConfigs(uint8_t slotnumber, uint8_t vb, void *conf
     return ESP_FAIL;
   }
   
-  if(vb > (NUMBER_VIRTUALBUTTONS*4)) 
+  if(vb >= (NUMBER_VIRTUALBUTTONS*4)) 
   {
     ESP_LOGE(LOG_TAG,"VB number too high: %u, maximum %u",slotnumber,(NUMBER_VIRTUALBUTTONS*4));
     return ESP_FAIL;

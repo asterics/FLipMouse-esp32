@@ -134,14 +134,14 @@ Following number mapping is used for the __AT BM__ command:
 | 9    | Puff     |
 | 10   | Strong Sip |
 | 11   | Strong Puff |
-| 12   |          |
-| 13   |          |
-| 14   |          |
-| 15   |          |
-| 16   |          |
-| 17   |          |
-| 18   |          |
-| 19   |          |
+| 12   | Strong Sip + Up |
+| 13   | Strong Sip + Down |
+| 14   | Strong Sip + Left |
+| 15   | Strong Sip + Right |
+| 16   | Strong Puff + Up |
+| 17   | Strong Puff + Down |
+| 18   | Strong Puff + Left |
+| 19   | Strong Puff + Right |
 | 21   |          |
 | 22   |          |
 | 23   |          |

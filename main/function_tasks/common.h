@@ -171,7 +171,15 @@ extern QueueHandle_t config_switcher;
 #define VB_PUFF         9
 #define VB_STRONGSIP    10
 #define VB_STRONGPUFF   11
-#define VB_MAX          12
+#define VB_STRONGSIP_UP     12
+#define VB_STRONGSIP_DOWN   13
+#define VB_STRONGSIP_LEFT   14
+#define VB_STRONGSIP_RIGHT  15
+#define VB_STRONGPUFF_UP    16
+#define VB_STRONGPUFF_DOWN  17
+#define VB_STRONGPUFF_LEFT  18
+#define VB_STRONGPUFF_RIGHT 19
+#define VB_MAX          20
 
 /** special virtual button, which is used to trigger a task immediately.
  * After this single action, each function body of functional tasks

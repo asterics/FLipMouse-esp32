@@ -621,7 +621,7 @@ void task_commands(void *params)
       if(parserstate == 2) continue; //don't need further action
       if(parserstate == 1) 
       {
-        requestVBTask = task_mouse;
+        requestVBTask = (void (*)(void *))&task_mouse;
         requestVBParameterSize = sizeof(taskMouseConfig_t);
         requestVBParameter = cmdMouse;
         requestVBType = T_MOUSE;
@@ -634,7 +634,7 @@ void task_commands(void *params)
         if(parserstate == 2) continue; //don't need further action
         if(parserstate == 1)
         {
-          requestVBTask = task_keyboard;
+          requestVBTask = (void (*)(void *))&task_keyboard;
           requestVBParameterSize = sizeof(taskKeyboardConfig_t);
           requestVBParameter = cmdKeyboard;
           requestVBType = T_KEYBOARD;

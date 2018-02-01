@@ -75,7 +75,6 @@
 static const int BUF_SIZE_RX = 512;
 static const int BUF_SIZE_TX = 512;
 static uint8_t keycode_modifier;
-static uint8_t keycode_deadkey_first;
 static uint8_t keycode_arr[8] = {'K',0,0,0,0,0,0,0};
 
 /** mutex for sending to serial port. Used to avoid wrong set signal pin
@@ -242,7 +241,6 @@ void halSerialTaskKeyboardRelease(void *param)
   uint16_t rxK = 0;
   uint8_t keycode;
   uint8_t modifier;
-  uint8_t ret = 0;
     
   while(1)
   {

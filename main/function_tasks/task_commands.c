@@ -24,6 +24,11 @@
  * If a valid command is detected, the corresponding action is triggered
  * (mostly by invoking a FUNCTIONAL task in singleshot mode).
  * 
+ * By issueing an <b>AT BM</b> command, the next issued AT command
+ * will be assigned to a virtual button. This is done via setting
+ * the requestVBUpdate variable to the VB number. One time only commands
+ * (without AT BM) are defined as VB==VB_SINGLESHOT
+ * 
  * In addition, this parser also takes care of switching to CIM mode if
  * requested.
  * The other way from CIM to AT mode is done by the task_cim module by
@@ -33,15 +38,26 @@
  * @see task_cim
  * @see hal_serial
  * @see atcmd_api
+ * 
+ * @todo CIM switching
+ * 
+ * @note Currently we are using unicode_to_keycode, because terminal programs use it this way.
+ * For supporting unicode keystreams (UTF-8), the method parse_for_keycode needs to be used
  * */
 #include "task_commands.h"
 
 /** Tag for ESP_LOG logging */
 #define LOG_TAG "cmdparser"
+
+/** Simple macro to short the command comparison (full AT cmd with 5 chars) */
+#define CMD(x) (memcmp(cmdBuffer,x,5) == 0)
+
+/** Simple macro to short the command comparison (part of AT cmd with 4 chars) */
+#define CMD4(x) (memcmp(cmdBuffer,x,4) == 0)
  
 static TaskHandle_t currentCommandTask = NULL;
 uint8_t doMouseParsing(uint8_t *cmdBuffer, taskMouseConfig_t *mouseinstance);
-uint8_t doKeyboardParsing(uint8_t *cmdBuffer, taskKeyboardConfig_t *kbdinstance);
+uint8_t doKeyboardParsing(uint8_t *cmdBuffer, taskKeyboardConfig_t *kbdinstance, int length);
 //uint8_t doJoystickParsing(uint8_t *cmdBuffer, taskJoystickConfig_t *instance);
 uint8_t doMouthpieceSettingsParsing(uint8_t *cmdBuffer);
 uint8_t doStorageParsing(uint8_t *cmdBuffer);
@@ -68,7 +84,7 @@ uint8_t requestVBUpdate = VB_SINGLESHOT;
 void sendErrorBack(const char* extrainfo)
 {
   ESP_LOGE(LOG_TAG,"Error parsing cmd: %s",extrainfo);
-  halSerialSendUSBSerial(HAL_SERIAL_TX_TO_CDC,"?",sizeof("?"),20);
+  halSerialSendUSBSerial(HAL_SERIAL_TX_TO_CDC,"?\r\n",sizeof("?\r\n"),20);
 }
 
 /** just check all queues if they are initialized
@@ -127,6 +143,7 @@ uint8_t doInfraredParsing(uint8_t *cmdBuffer)
 uint8_t doGeneralCmdParsing(uint8_t *cmdBuffer)
 {
   uint16_t param = 0;
+  uint8_t param8 = 0;
   generalConfig_t *currentcfg;
   
   currentcfg = configGetCurrent();
@@ -136,8 +153,31 @@ uint8_t doGeneralCmdParsing(uint8_t *cmdBuffer)
     return 0;
   }
   
+    
+  /*++++ AT RA ++++*/
+  if(CMD("AT RA")) {
+    //reset the reports (keyboard only, excepting all other parts)
+    halBLEReset(0xFE);
+    halSerialReset(0xFE);
+    return 1;
+  }
+    
+  /*++++ AT KL ++++*/
+  if(CMD("AT KL")) {
+    param8 = strtol((char*)&(cmdBuffer[6]),NULL,10);
+    if(param8 < LAYOUT_MAX)
+    {
+      ESP_LOGI(LOG_TAG,"Changed locale from %d to %d",currentcfg->locale,param8);
+      currentcfg->locale = param8;
+      return 1;
+    } else {
+      sendErrorBack("Locale out of range");
+      return 0;
+    }
+  }
+  
   /*++++ AT ID ++++*/
-  if(memcmp(cmdBuffer,"AT ID",5) == 0) {
+  if(CMD("AT ID")) {
     uint32_t sent = halSerialSendUSBSerial(HAL_SERIAL_TX_TO_CDC,IDSTRING,sizeof(IDSTRING),20);
     if(sent != sizeof(IDSTRING)) 
     {
@@ -145,7 +185,7 @@ uint8_t doGeneralCmdParsing(uint8_t *cmdBuffer)
     } else return 1;
   }
   /*++++ AT DE ++++*/
-  if(memcmp(cmdBuffer,"AT DE",5) == 0) {
+  if(CMD("AT DE")) {
     uint32_t tid;
     if(halStorageStartTransaction(&tid,20) != ESP_OK)
     {
@@ -160,8 +200,20 @@ uint8_t doGeneralCmdParsing(uint8_t *cmdBuffer)
       }
     }
   }
-  /*++++ AT LE ++++*/
-  if(memcmp(cmdBuffer,"AT DL",5) == 0) {
+  /*++++ AT BM ++++*/
+  if(CMD("AT BM")) {
+    param = strtol((char*)&(cmdBuffer[6]),NULL,10);
+    if(param >= VB_MAX)
+    {
+      sendErrorBack("VB nr too high");
+      return 0;
+    } else {
+      requestVBUpdate = param;
+    }
+  }
+  
+  /*++++ AT DL ++++*/
+  if(CMD("AT DL")) {
     uint32_t tid;
     uint8_t slotnumber;
     slotnumber = strtol((char*)&(cmdBuffer[6]),NULL,10);
@@ -179,7 +231,7 @@ uint8_t doGeneralCmdParsing(uint8_t *cmdBuffer)
     }
   }
   /*++++ AT BT ++++*/
-  if(memcmp(cmdBuffer,"AT BT",5) == 0) {
+  if(CMD("AT BT")) {
     param = strtol((char*)&(cmdBuffer[6]),NULL,10);
     switch(param)
     {
@@ -206,8 +258,174 @@ uint8_t doGeneralCmdParsing(uint8_t *cmdBuffer)
   return 0;
 }
 
-uint8_t doKeyboardParsing(uint8_t *cmdBuffer, taskKeyboardConfig_t *kbdinstance)
+uint8_t doKeyboardParsing(uint8_t *cmdBuffer, taskKeyboardConfig_t *kbdinstance, int length)
 {
+  //clear any previous data
+  memset(kbdinstance,0,sizeof(taskKeyboardConfig_t));
+  
+  //use global virtual button (normally VB_SINGLESHOT,
+  //can be changed by "AT BM"
+  kbdinstance->virtualButton = requestVBUpdate;
+  int offset = 0;
+  int offsetOut = 0;
+  uint8_t deadkeyfirst = 0;
+  uint8_t modifier = 0;
+  uint8_t keycode = 0;
+  
+  //get general config (used to get the locale)
+  generalConfig_t *currentcfg;
+  currentcfg = configGetCurrent();
+  
+  if(currentcfg == NULL)
+  {
+    ESP_LOGE(LOG_TAG,"Major error, general config is NULL");
+    return 0;
+  }
+  
+  /*++++ AT KW ++++*/
+  if(CMD("AT KW")) {
+    //set keyboard to write
+    kbdinstance->type = WRITE;
+    //remove \r & \n
+    //cmdBuffer[length-2] = 0;
+    //cmdBuffer[length-1] = 0;
+    
+    //save each byte from KW string to keyboard instance
+    //offset must be less then buffer length - 6 bytes for "AT KW "
+    while(offset <= (length - 5))
+    {
+      
+      
+      //terminate...
+      if(cmdBuffer[offset+6] == '\r' || cmdBuffer[offset+6] == '\n' || \
+        cmdBuffer[offset+6] == 0) break;
+      
+      //parse ASCII/unicode to keycode sequence
+      keycode = unicode_to_keycode(cmdBuffer[offset+6], currentcfg->locale);
+      deadkeyfirst = deadkey_to_keycode(keycode,currentcfg->locale);
+      if(deadkeyfirst != 0) deadkeyfirst = keycode_to_key(deadkeyfirst);
+      modifier = keycode_to_modifier(keycode, currentcfg->locale);
+      keycode = keycode_to_key(keycode);
+      
+      //if a keycode is found
+      if(keycode != 0)
+      {
+        //is a deadkey necessary?
+        if(deadkeyfirst != 0)
+        {
+          kbdinstance->keycodes_text[offsetOut] = deadkeyfirst;
+          offsetOut++;
+          ESP_LOGD(LOG_TAG, "Deadkey 0x%X@%d",deadkeyfirst,offsetOut);
+        }
+        
+        //save keycode + modifier
+        kbdinstance->keycodes_text[offsetOut] = keycode | (modifier << 8);
+        ESP_LOGD(LOG_TAG, "Keycode 0x%X@%d, modifier: 0x%X",keycode,offsetOut,modifier);
+        offsetOut++;
+      } else {
+        ESP_LOGD(LOG_TAG, "Need another byte (unicode)");
+      }
+      offset++;
+      
+      if(offset == (TASK_KEYBOARD_PARAMETERLENGTH - 1))
+      {
+        sendErrorBack("AT KW parameter too long");
+        return 0;
+      }
+    }
+    //terminate keycode array with 0
+    ESP_LOGD(LOG_TAG,"Terminating @%d with 0",offsetOut);
+    kbdinstance->keycodes_text[offsetOut] = 0;
+    return 1;
+  }
+  
+  /*++++ AT KP + KH + KR ++++*/
+  // (all commands with key identifiers)
+  if(CMD4("AT K")) {
+    //set keyboard instance accordingly
+    switch(cmdBuffer[4])
+    {
+      //KP: press with VB press flag, release with VB release flag
+      case 'P': kbdinstance->type = PRESS_RELEASE_BUTTON; break;
+      //KR: just release
+      case 'R': kbdinstance->type = RELEASE; break;
+      //KH: just press (hold)
+      case 'H': kbdinstance->type = PRESS; break;
+      default: return 0; break;
+    }
+    
+    //remove \r & \n
+    cmdBuffer[length-2] = ' ';
+    cmdBuffer[length-1] = ' ';
+
+    char *pch;
+    uint8_t cnt = 0;
+    uint16_t keycode = 0;
+    pch = strpbrk((char *)&cmdBuffer[5]," ");
+    while (pch != NULL)
+    {
+      ESP_LOGD(LOG_TAG,"Token: %s",pch+1);
+      
+      //check if token seems to be a KEY_*
+      if(memcmp(pch+1,"KEY_",4) != 0)
+      {
+        ESP_LOGW(LOG_TAG,"Not a valid KEY_* identifier");
+      } else {
+        //parse identifier to keycode
+        keycode = parseIdentifierToKeycode(pch+1);
+
+        if(keycode != 0)
+        {
+          //if found, save...
+          ESP_LOGD(LOG_TAG,"Keycode: %d",keycode);
+          
+          //get deadkeys
+          uint16_t deadk = 0;
+          deadk = deadkey_to_keycode(keycode, currentcfg->locale);
+          //found a deadkey
+          if(deadk != 0)
+          {
+            //save deadkey's keycode & modifier
+            kbdinstance->keycodes_text[cnt] = keycode_to_key(deadk) | \
+              (keycode_to_modifier(deadk, currentcfg->locale) << 8);
+            ESP_LOGI(LOG_TAG,"Deadkey (keycode + modifier): %4X @%d",kbdinstance->keycodes_text[cnt], cnt);
+            cnt++;
+          }
+          
+          //KEY_ * identifiers are either a key or a modifier
+          //determine which type and save accordingly:
+          if(keycode_is_modifier(keycode))
+          {
+            kbdinstance->keycodes_text[cnt] = keycode_to_key(keycode) << 8;
+          } else {
+            kbdinstance->keycodes_text[cnt] = keycode_to_key(keycode);
+          }
+          ESP_LOGI(LOG_TAG,"Keycode + modifier: %4X @ %d",kbdinstance->keycodes_text[cnt], cnt);
+          cnt++;
+          if(cnt == (TASK_KEYBOARD_PARAMETERLENGTH - 1))
+          {
+            sendErrorBack("AT KP/KH/KR parameter too long");
+            return 0;
+          }
+        } else {
+          ESP_LOGW(LOG_TAG,"No keycode found for this token.");
+        }
+      }
+      //split into tokens
+      pch = strpbrk(pch+1, " ");
+    }
+    //check if any key identifiers were found
+    if(cnt == 0)
+    {
+      sendErrorBack("No KEY_ identifiers found");
+      return 0;
+    } else {
+      //terminate keycode array with 0
+      ESP_LOGD(LOG_TAG,"Terminating @%d with 0",cnt);
+      kbdinstance->keycodes_text[cnt] = 0;
+      return 1;
+    }
+  }
   
   //not consumed, no command found for keyboard
   return 0;
@@ -225,7 +443,7 @@ uint8_t doMouseParsing(uint8_t *cmdBuffer, taskMouseConfig_t *mouseinstance)
   
   /*++++ mouse clicks ++++*/
   //AT CL, AT CR, AT CM, AT CD
-  if(memcmp(cmdBuffer,"AT C",4) == 0)
+  if(CMD4("AT C"))
   {
     mouseinstance->actionparam = M_CLICK;
     switch(cmdBuffer[4])
@@ -245,7 +463,7 @@ uint8_t doMouseParsing(uint8_t *cmdBuffer, taskMouseConfig_t *mouseinstance)
   }
   
   /*++++ mouse wheel up/down; set stepsize ++++*/
-  if(memcmp(cmdBuffer,"AT W",4) == 0)
+  if(CMD4("AT W"))
   {
     mouseinstance->type = WHEEL;
     mouseinstance->actionparam = M_UNUSED;
@@ -272,7 +490,7 @@ uint8_t doMouseParsing(uint8_t *cmdBuffer, taskMouseConfig_t *mouseinstance)
   
   /*++++ mouse button press ++++*/
   //AT PL, AT PR, AT PM
-  if(memcmp(cmdBuffer,"AT P",4) == 0)
+  if(CMD4("AT P"))
   {
     mouseinstance->actionparam = M_HOLD;
     switch(cmdBuffer[4])
@@ -286,7 +504,7 @@ uint8_t doMouseParsing(uint8_t *cmdBuffer, taskMouseConfig_t *mouseinstance)
   
   /*++++ mouse button release ++++*/
   //AT RL, AT RR, AT RM
-  if(memcmp(cmdBuffer,"AT R",4) == 0)
+  if(CMD4("AT R"))
   {
     mouseinstance->actionparam = M_RELEASE;
     switch(cmdBuffer[4])
@@ -300,7 +518,7 @@ uint8_t doMouseParsing(uint8_t *cmdBuffer, taskMouseConfig_t *mouseinstance)
   
   /*++++ mouse move ++++*/
   //AT RL, AT RR, AT RM
-  if(memcmp(cmdBuffer,"AT M",4) == 0)
+  if(CMD4("AT M"))
   {
     mouseinstance->actionparam = M_UNUSED;
     //mouseinstance->actionvalue = atoi((char*)&(cmdBuffer[6]));
@@ -395,6 +613,10 @@ void task_commands(void *params)
       //1 if the command was consumed and needs to be forwarded to a task (singleshot/VB reload)
       //2 if the command was consumed but no further action is needed
       
+      //the variable requestVBUpdate which is used to determine if an
+      //AT command should be triggered as singleshot (== VB_SINGLESHOT)
+      //or should be assigned to a VB.
+      
       parserstate = doMouseParsing(commandBuffer,cmdMouse);
       if(parserstate == 2) continue; //don't need further action
       if(parserstate == 1) 
@@ -408,7 +630,7 @@ void task_commands(void *params)
       //if not handled already
       if(parserstate == 0) 
       {
-        parserstate = doKeyboardParsing(commandBuffer,cmdKeyboard);
+        parserstate = doKeyboardParsing(commandBuffer,cmdKeyboard,received);
         if(parserstate == 2) continue; //don't need further action
         if(parserstate == 1)
         {

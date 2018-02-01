@@ -171,6 +171,7 @@ extern QueueHandle_t config_switcher;
 #define VB_PUFF         9
 #define VB_STRONGSIP    10
 #define VB_STRONGPUFF   11
+#define VB_MAX          12
 
 /** special virtual button, which is used to trigger a task immediately.
  * After this single action, each function body of functional tasks
@@ -274,10 +275,6 @@ typedef struct generalConfig {
   command_type_t virtualButtonCommand[NUMBER_VIRTUALBUTTONS*4];
   void* virtualButtonConfig[NUMBER_VIRTUALBUTTONS*4];
 } generalConfig_t;
-
-/** this is the currently loaded config. Located in config_switcher.c */
-extern generalConfig_t currentConfig;
-
 
 /**++++ TODO: move to task_mouse.h ++++*/
 typedef struct mouse_command {

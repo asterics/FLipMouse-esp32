@@ -46,6 +46,8 @@
  * interpreted as USB-HID commands (keyboard, mouse or joystick reports) or
  * the data is forwarded to the USB-CDC interface, which is used to send data 
  * to the host (config GUI, terminal, AsTeRICS,...).
+ * 
+ * @todo Implement halSerialReset, similar to halBLEReset (resetting the HID reports)
  */ 
  
  
@@ -189,8 +191,7 @@ void halSerialTaskKeyboardPress(void *param)
 {
   uint16_t rxK = 0;
   uint8_t keycode;
-  uint8_t keycodesLocal[8] = {'K',0,0,0,0,0,0,0};
-  generalConfig_t* currentConfig = configGetCurrent();
+  uint8_t modifier;
     
   while(1)
   {
@@ -200,39 +201,12 @@ void halSerialTaskKeyboardPress(void *param)
       //pend on MQ, if timeout triggers, just wait again.
       if(xQueueReceive(keyboard_usb_press,&rxK,300))
       {
-        //data here, parse keyboard press command
-        //check if this is a unicode/ascii byte or a keycode
-        if((rxK & 0xFF00) == 0)
-        {
-          //single bytes are ascii or unicode bytes, sent to keycode parser
-          keycode = parse_for_keycode((uint8_t) rxK, currentConfig->locale, &keycode_modifier, &keycode_deadkey_first);
-          if(keycode != 0)
-          {
-            //if a deadkey is issued (no release necessary), we send the deadkey before:
-            if(keycode_deadkey_first != 0)
-            {
-              ESP_LOGD(LOG_TAG,"Sending deadkey first: %d",keycode_deadkey_first);
-              memset(&keycodesLocal[1],0,7);
-              keycodesLocal[2] = keycode_deadkey_first;
-              //send to device (wait maximum of 30 ticks)
-              if(halSerialSendUSBSerial(HAL_SERIAL_TX_TO_HID,(char *)keycodesLocal, sizeof(keycodesLocal), 30) != ESP_OK)
-              {
-                ESP_LOGE(LOG_TAG,"Error sending keyboard deadkey press report");
-              }
-              //wait 1 tick to release key
-              vTaskDelay(1); //suspend for 1 tick
-              keycodesLocal[2] = 0;
-              //send to device
-              if(halSerialSendUSBSerial(HAL_SERIAL_TX_TO_HID,(char *)keycodesLocal, sizeof(keycodesLocal), 30) != ESP_OK)
-              {
-                ESP_LOGE(LOG_TAG,"Error sending keyboard deadkey release report");
-              }
-            }
-          } //we need another byte to calculate keycode...
-              
-        } else {
-          keycode = rxK & 0x00FF;
-        }
+        //data here, split into modifier & keycode
+        keycode = rxK & 0x00FF;
+        modifier = (rxK & 0xFF00)>>8;
+        
+        //add modifier to global mask
+        keycode_modifier |= modifier;
         
         //keycodes, add directly to the keycode array
         switch(add_keycode(keycode,&(keycode_arr[2])))
@@ -240,10 +214,10 @@ void halSerialTaskKeyboardPress(void *param)
           case 0:
             keycode_arr[0] = 'K';
             keycode_arr[1] = keycode_modifier;
-            if(halSerialSendUSBSerial(HAL_SERIAL_TX_TO_HID,(char *)keycode_arr, sizeof(keycode_arr), 30) != ESP_OK)
-            {
-              ESP_LOGE(LOG_TAG,"Error sending keyboard HID report");
-            }
+            uint8_t sent = 0;
+            for(uint8_t i = 0; i<8; i++) { sent+= halSerialSendUSBSerial(HAL_SERIAL_TX_TO_HID,(char *)&keycode_arr[i], 1, 30); }
+            if(sent != 8) ESP_LOGE(LOG_TAG,"Error sending keyboard HID report");
+              
             ESP_LOGD(LOG_TAG,"HID report (on press):");
             esp_log_buffer_hex(LOG_TAG,keycode_arr,8);
             break;
@@ -252,7 +226,9 @@ void halSerialTaskKeyboardPress(void *param)
           default: ESP_LOGE(LOG_TAG,"add_keycode return unknown code..."); break;
         }
         
+        modifier = 0;
         keycode = 0;
+        rxK = 0;
       }
     } else {
       ESP_LOGE(LOG_TAG,"keyboard_usb_press queue not initialized, retry in 1s");
@@ -265,7 +241,8 @@ void halSerialTaskKeyboardRelease(void *param)
 {
   uint16_t rxK = 0;
   uint8_t keycode;
-  generalConfig_t* currentConfig = configGetCurrent();
+  uint8_t modifier;
+  uint8_t ret = 0;
     
   while(1)
   {
@@ -275,25 +252,23 @@ void halSerialTaskKeyboardRelease(void *param)
       //pend on MQ, if timeout triggers, just wait again.
       if(xQueueReceive(keyboard_usb_release,&rxK,300))
       {
-        //check if this is a unicode/ascii byte or a keycode
-        if((rxK & 0xFF00) == 0)
-        {
-          //single bytes are ascii or unicode bytes, sent to keycode parser
-          keycode = parse_for_keycode((uint8_t) rxK, currentConfig->locale, &keycode_modifier, &keycode_deadkey_first);                   
-        } else {
-          keycode = rxK & 0x00FF;
-        }
+        //data here, split into modifier & keycode
+        keycode = rxK & 0x00FF;
+        modifier = (rxK & 0xFF00)>>8;
+        
+        //remove modifier from global mask
+        keycode_modifier &= ~modifier;
         
         //keycodes, remove directly from the keycode array
         switch(remove_keycode(keycode,&(keycode_arr[2])))
         {
           case 0:
             keycode_arr[0] = 'K';
+            //use global modifier but mask out this released modifier...
             keycode_arr[1] = keycode_modifier;
-            if(halSerialSendUSBSerial(HAL_SERIAL_TX_TO_HID,(char *)keycode_arr, sizeof(keycode_arr), 30) != ESP_OK)
-            {
-              ESP_LOGE(LOG_TAG,"Error sending keyboard HID report");
-            }
+            uint8_t sent = 0;
+            for(uint8_t i = 0; i<8; i++) { sent+= halSerialSendUSBSerial(HAL_SERIAL_TX_TO_HID,(char *)&keycode_arr[i], 1, 30); }
+            if(sent != 8) ESP_LOGE(LOG_TAG,"Error sending keyboard HID report");
             ESP_LOGD(LOG_TAG,"HID report (on release):");
             esp_log_buffer_hex(LOG_TAG,keycode_arr,8);
             break;
@@ -301,7 +276,9 @@ void halSerialTaskKeyboardRelease(void *param)
           default: ESP_LOGE(LOG_TAG,"remove_keycode return unknown code..."); break;
         }
         
+        modifier = 0;
         keycode = 0;
+        rxK = 0;
       }
     } else {
       ESP_LOGE(LOG_TAG,"keyboard_usb_release queue not initialized, retry in 1s");
@@ -470,6 +447,53 @@ int halSerialSendUSBSerial(uint8_t channel, char *data, uint32_t length, TickTyp
     
     return txBytes;
   } else return -1;
+}
+
+/** @brief Reset the serial HID report data
+ * 
+ * Used for slot/config switchers.
+ * It resets the keycode array and sets all HID reports to 0
+ * (release all keys, avoiding sticky keys on a config change) 
+ * @param exceptDevice if you want to reset only a part of the devices, set flags
+ * accordingly:
+ * 
+ * (1<<0) excepts keyboard
+ * (1<<1) excepts joystick
+ * (1<<2) excepts mouse
+ * If nothing is set (exceptDevice = 0) all are reset
+ * */
+void halSerialReset(uint8_t exceptDevice)
+{
+  ESP_LOGD(LOG_TAG,"BLE reset reports");
+  //reset mouse
+  if(!(exceptDevice & (1<<2))) 
+  {
+    uint8_t sent = 0;
+    char m = 'M';
+    uint8_t zero = 0;
+    int8_t zeroint = 0;
+    sent += halSerialSendUSBSerial(HAL_SERIAL_TX_TO_HID,&m,1,30); 
+    sent += halSerialSendUSBSerial(HAL_SERIAL_TX_TO_HID,(char *)&zero,1,30); 
+    sent += halSerialSendUSBSerial(HAL_SERIAL_TX_TO_HID,(char *)&zeroint,1,30); 
+    sent += halSerialSendUSBSerial(HAL_SERIAL_TX_TO_HID,(char *)&zeroint,1,30); 
+    sent += halSerialSendUSBSerial(HAL_SERIAL_TX_TO_HID,(char *)&zeroint,1,30); 
+    
+    if(sent != 5)
+    {
+      ESP_LOGE(LOG_TAG,"Error resetting mouse HID report");
+    }
+  }
+  //reset keyboard
+  if(!(exceptDevice & (1<<0)))
+  {
+    for(uint8_t i=0;i<8;i++) keycode_arr[i] = 0;
+    keycode_modifier = 0;
+    keycode_arr[0] = 'K';
+    if(halSerialSendUSBSerial(HAL_SERIAL_TX_TO_HID,(char *)keycode_arr, 8, 30) != ESP_OK)
+    {
+      ESP_LOGE(LOG_TAG,"Error resetting keyboard HID report");
+    }
+  }
 }
 
 /** Initialize the serial HAL

@@ -1,6 +1,8 @@
 var searchData=
 [
   ['parse_5ffor_5fkeycode',['parse_for_keycode',['../keyboard_8c.html#aaa2d4d5bce20b87c88be1a9a33aa85a4',1,'parse_for_keycode(uint8_t inputdata, uint8_t locale, uint8_t *keycode_modifier, uint8_t *deadkey_first_keycode):&#160;keyboard.c'],['../keyboard_8h.html#aaa2d4d5bce20b87c88be1a9a33aa85a4',1,'parse_for_keycode(uint8_t inputdata, uint8_t locale, uint8_t *keycode_modifier, uint8_t *deadkey_first_keycode):&#160;keyboard.c']]],
+  ['parseidentifiertokeycode',['parseIdentifierToKeycode',['../keyboard_8c.html#a74d92b54cde636cae76575e8b0cad378',1,'parseIdentifierToKeycode(char *keyidentifier):&#160;keyboard.c'],['../keyboard_8h.html#a74d92b54cde636cae76575e8b0cad378',1,'parseIdentifierToKeycode(char *keyidentifier):&#160;keyboard.c']]],
+  ['parsekeycodetoidentifier',['parseKeycodeToIdentifier',['../keyboard_8c.html#a027266c03329f00b7bbfefd0e828463c',1,'parseKeycodeToIdentifier(uint16_t keycode, char *buffer, uint8_t buf_len):&#160;keyboard.c'],['../keyboard_8h.html#a027266c03329f00b7bbfefd0e828463c',1,'parseKeycodeToIdentifier(uint16_t keycode, char *buffer, uint8_t buf_len):&#160;keyboard.c']]],
   ['pending_5fevt',['pending_evt',['../structhidd__inst__t.html#a919407be158d871681708a6986837618',1,'hidd_inst_t']]],
   ['pending_5fhal',['pending_hal',['../structhidd__inst__t.html#a1309de066f9180311cb21532b6fe81ce',1,'hidd_inst_t']]],
   ['press',['PRESS',['../task__kbd_8h.html#aff3bf982a86299e69b007b0d16a45227a6e70a672c8edfbcdf18c8204913e285d',1,'task_kbd.h']]],

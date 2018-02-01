@@ -70,183 +70,189 @@ $(function() {
 </ul>
 <p>All configuration is done via the serial interface, which provides the persistent configuration of all functionalities and in addition a live mode (e.g. write "mouse move" to the serial port and the firmware moves the mouse cursor).</p>
 <p>The serial port configuration is <b>115200 8N1</b> (even these settings are not necessary due to the USB encapsulation).</p>
+<p><b>Note:</b> Please note that all following commands, which do NOT have a FUNCTIONAL task, cannot be assigned to a virtual button (via AT BM). These commands can be used to configure the FLipMouse/FABI, in a macro or for slot management.</p>
 <p>Following commands are currently available:</p>
 <p><b>General Commands</b> </p><table class="doxtable">
 <tr>
-<th align="left">Command </th><th align="left">Parameter </th><th align="left">Description </th><th align="left">Available since </th><th align="left">Implemented in v3  </th></tr>
+<th align="left">Command </th><th align="left">Parameter </th><th align="left">Description </th><th align="left">Available since </th><th align="left">Implemented in v3 </th><th align="left">FUNCTIONAL task  </th></tr>
 <tr>
-<td align="left">AT </td><td align="left">&ndash; </td><td align="left">returns OK </td><td align="left">v2 </td><td align="left">yes </td></tr>
+<td align="left">AT </td><td align="left">&ndash; </td><td align="left">returns OK </td><td align="left">v2 </td><td align="left">yes </td><td align="left">no </td></tr>
 <tr>
-<td align="left">AT ID </td><td align="left">&ndash; </td><td align="left">returns the current version string </td><td align="left">v2 </td><td align="left">yes </td></tr>
+<td align="left">AT ID </td><td align="left">&ndash; </td><td align="left">returns the current version string </td><td align="left">v2 </td><td align="left">yes </td><td align="left">no </td></tr>
 <tr>
-<td align="left">AT BM </td><td align="left">number (1-11) </td><td align="left">set the button, which corresponds to the next command. The button assignments are described on the bottom </td><td align="left">v2 </td><td align="left">no </td></tr>
+<td align="left">AT BM </td><td align="left">number (1-11) </td><td align="left">set the button, which corresponds to the next command. The button assignments are described on the bottom </td><td align="left">v2 </td><td align="left">untested </td><td align="left">no </td></tr>
 <tr>
-<td align="left">AT BL </td><td align="left">&ndash; </td><td align="left">enable/disable output of triggered virtual buttons. Is used with AT BM for command learning </td><td align="left">v3 </td><td align="left">no </td></tr>
+<td align="left">AT BL </td><td align="left">&ndash; </td><td align="left">enable/disable output of triggered virtual buttons. Is used with AT BM for command learning </td><td align="left">v3 </td><td align="left">no </td><td align="left">? </td></tr>
 <tr>
-<td align="left">AT MA </td><td align="left">string </td><td align="left">execute macro (space separated list of commands, see <a href="https://github.com/asterics/FLipMouse/wiki/macros">Macros</a>) </td><td align="left">v2 </td><td align="left">no </td></tr>
+<td align="left">AT MA </td><td align="left">string </td><td align="left">execute macro (space separated list of commands, see <a href="https://github.com/asterics/FLipMouse/wiki/macros">Macros</a>) </td><td align="left">v2 </td><td align="left">no </td><td align="left">yes (task_macro) </td></tr>
 <tr>
-<td align="left">AT WA </td><td align="left">number </td><td align="left">wait/delay (ms); useful for macros </td><td align="left">v2 </td><td align="left">no </td></tr>
+<td align="left">AT WA </td><td align="left">number </td><td align="left">wait/delay (ms); useful for macros </td><td align="left">v2 </td><td align="left">no </td><td align="left">no </td></tr>
 <tr>
-<td align="left">AT RO </td><td align="left">number (0,90,180,270) </td><td align="left">orientation (0 =&gt; LEDs on top) </td><td align="left">v2 </td><td align="left">no </td></tr>
+<td align="left">AT RO </td><td align="left">number (0,90,180,270) </td><td align="left">orientation (0 =&gt; LEDs on top) </td><td align="left">v2 </td><td align="left">no </td><td align="left">no </td></tr>
 <tr>
-<td align="left">AT BT </td><td align="left">number (0,1,2) </td><td align="left">Bluetooth mode, 1=USB only, 2=BT only, 3=both(default) </td><td align="left">v2 </td><td align="left">Working for USB, untested for BLE </td></tr>
+<td align="left">AT KL </td><td align="left">number </td><td align="left">Set keyboard locale (locale defines are listed below) </td><td align="left">v3 </td><td align="left">no </td><td align="left">no </td></tr>
+<tr>
+<td align="left">AT BT </td><td align="left">number (0,1,2) </td><td align="left">Bluetooth mode, 1=USB only, 2=BT only, 3=both(default) </td><td align="left">v2 </td><td align="left">Working for USB, untested for BLE </td><td align="left">no </td></tr>
 </table>
 <p><b>USB HID Commands</b> </p><table class="doxtable">
 <tr>
-<th align="left">Command </th><th align="left">Parameter </th><th align="left">Description </th><th align="left">Available since </th><th align="left">Implemented in v3  </th></tr>
+<th align="left">Command </th><th align="left">Parameter </th><th align="left">Description </th><th align="left">Available since </th><th align="left">Implemented in v3 </th><th align="left">FUNCTIONAL task  </th></tr>
 <tr>
-<td align="left">AT CL </td><td align="left">&ndash; </td><td align="left">Click left mouse button </td><td align="left">v2 </td><td align="left">yes </td></tr>
+<td align="left">AT CL </td><td align="left">&ndash; </td><td align="left">Click left mouse button </td><td align="left">v2 </td><td align="left">yes </td><td align="left">yes (task_mouse) </td></tr>
 <tr>
-<td align="left">AT CR </td><td align="left">&ndash; </td><td align="left">Click right mouse button </td><td align="left">v2 </td><td align="left">yes </td></tr>
+<td align="left">AT CR </td><td align="left">&ndash; </td><td align="left">Click right mouse button </td><td align="left">v2 </td><td align="left">yes </td><td align="left">yes (task_mouse) </td></tr>
 <tr>
-<td align="left">AT CM </td><td align="left">&ndash; </td><td align="left">Click middle mouse button </td><td align="left">v2 </td><td align="left">yes </td></tr>
+<td align="left">AT CM </td><td align="left">&ndash; </td><td align="left">Click middle mouse button </td><td align="left">v2 </td><td align="left">yes </td><td align="left">yes (task_mouse) </td></tr>
 <tr>
-<td align="left">AT CD </td><td align="left">&ndash; </td><td align="left">Doubleclick left mouse button </td><td align="left">v2 </td><td align="left">yes </td></tr>
+<td align="left">AT CD </td><td align="left">&ndash; </td><td align="left">Doubleclick left mouse button </td><td align="left">v2 </td><td align="left">yes </td><td align="left">yes (task_mouse) </td></tr>
 <tr>
-<td align="left"></td><td align="left"></td><td align="left"></td><td align="left"></td></tr>
+<td align="left"></td><td align="left"></td><td align="left"></td><td align="left"></td><td align="left"></td><td align="left"></td></tr>
 <tr>
-<td align="left">AT PL </td><td align="left">&ndash; </td><td align="left">Press+hold left mouse button </td><td align="left">v2 </td><td align="left">yes </td></tr>
+<td align="left">AT PL </td><td align="left">&ndash; </td><td align="left">Press+hold left mouse button </td><td align="left">v2 </td><td align="left">yes </td><td align="left">yes (task_mouse) </td></tr>
 <tr>
-<td align="left">AT PR </td><td align="left">&ndash; </td><td align="left">Press+hold right mouse button </td><td align="left">v2 </td><td align="left">yes </td></tr>
+<td align="left">AT PR </td><td align="left">&ndash; </td><td align="left">Press+hold right mouse button </td><td align="left">v2 </td><td align="left">yes </td><td align="left">yes (task_mouse) </td></tr>
 <tr>
-<td align="left">AT PM </td><td align="left">&ndash; </td><td align="left">Press+hold middle mouse button </td><td align="left">v2 </td><td align="left">yes </td></tr>
+<td align="left">AT PM </td><td align="left">&ndash; </td><td align="left">Press+hold middle mouse button </td><td align="left">v2 </td><td align="left">yes </td><td align="left">yes (task_mouse) </td></tr>
 <tr>
-<td align="left"></td><td align="left"></td><td align="left"></td><td align="left"></td></tr>
+<td align="left"></td><td align="left"></td><td align="left"></td><td align="left"></td><td align="left"></td><td align="left"></td></tr>
 <tr>
-<td align="left">AT RL </td><td align="left">&ndash; </td><td align="left">Release left mouse button </td><td align="left">v2 </td><td align="left">yes </td></tr>
+<td align="left">AT RL </td><td align="left">&ndash; </td><td align="left">Release left mouse button </td><td align="left">v2 </td><td align="left">yes </td><td align="left">yes (task_mouse) </td></tr>
 <tr>
-<td align="left">AT RR </td><td align="left">&ndash; </td><td align="left">Release right mouse button </td><td align="left">v2 </td><td align="left">yes </td></tr>
+<td align="left">AT RR </td><td align="left">&ndash; </td><td align="left">Release right mouse button </td><td align="left">v2 </td><td align="left">yes </td><td align="left">yes (task_mouse) </td></tr>
 <tr>
-<td align="left">AT RM </td><td align="left">&ndash; </td><td align="left">Release middle mouse button </td><td align="left">v2 </td><td align="left">yes </td></tr>
+<td align="left">AT RM </td><td align="left">&ndash; </td><td align="left">Release middle mouse button </td><td align="left">v2 </td><td align="left">yes </td><td align="left">yes (task_mouse) </td></tr>
 <tr>
-<td align="left"></td><td align="left"></td><td align="left"></td><td align="left"></td></tr>
+<td align="left"></td><td align="left"></td><td align="left"></td><td align="left"></td><td align="left"></td><td align="left"></td></tr>
 <tr>
-<td align="left">AT WU </td><td align="left">&ndash; </td><td align="left">Move mouse wheel up </td><td align="left">v2 </td><td align="left">yes </td></tr>
+<td align="left">AT WU </td><td align="left">&ndash; </td><td align="left">Move mouse wheel up </td><td align="left">v2 </td><td align="left">yes </td><td align="left">yes (task_mouse) </td></tr>
 <tr>
-<td align="left">AT WD </td><td align="left">&ndash; </td><td align="left">Move mouse wheel down </td><td align="left">v2 </td><td align="left">yes </td></tr>
+<td align="left">AT WD </td><td align="left">&ndash; </td><td align="left">Move mouse wheel down </td><td align="left">v2 </td><td align="left">yes </td><td align="left">yes (task_mouse) </td></tr>
 <tr>
-<td align="left">AT WS </td><td align="left">number (1-) </td><td align="left">Set mousewheel stepsize (e.g.: "AT WS 3" sets the stepsize to 3 rows)</td><td align="left">v2 </td><td align="left">yes </td></tr>
+<td align="left">AT WS </td><td align="left">number (1-) </td><td align="left">Set mousewheel stepsize (e.g.: "AT WS 3" sets the stepsize to 3 rows)</td><td align="left">v2 </td><td align="left">yes </td><td align="left">no </td></tr>
 <tr>
-<td align="left"></td><td align="left"></td><td align="left"></td><td align="left"></td></tr>
+<td align="left"></td><td align="left"></td><td align="left"></td><td align="left"></td><td align="left"></td><td align="left"></td></tr>
 <tr>
-<td align="left">AT MX </td><td align="left">number </td><td align="left">Move mouse (X direction), e.g. AT MX -25 </td><td align="left">v2 </td><td align="left">yes </td></tr>
+<td align="left">AT MX </td><td align="left">number </td><td align="left">Move mouse (X direction), e.g. AT MX -25 </td><td align="left">v2 </td><td align="left">yes </td><td align="left">yes (task_mouse) </td></tr>
 <tr>
-<td align="left">AT MY </td><td align="left">number </td><td align="left">Move mouse (Y direction), e.g. AT MY 10 </td><td align="left">v2 </td><td align="left">yes </td></tr>
+<td align="left">AT MY </td><td align="left">number </td><td align="left">Move mouse (Y direction), e.g. AT MY 10 </td><td align="left">v2 </td><td align="left">yes </td><td align="left">yes (task_mouse) </td></tr>
 <tr>
-<td align="left"></td><td align="left"></td><td align="left"></td><td align="left"></td></tr>
+<td align="left"></td><td align="left"></td><td align="left"></td><td align="left"></td><td align="left"></td><td align="left"></td></tr>
 <tr>
-<td align="left">AT KW </td><td align="left">string </td><td align="left">Keyboard write (e.g. "AT KW Hi" types "Hi" </td><td align="left">v2 </td><td align="left">no </td></tr>
+<td align="left">AT KW </td><td align="left">string </td><td align="left">Keyboard write (e.g. "AT KW Hi" types "Hi") </td><td align="left">v2 </td><td align="left">untested </td><td align="left">yes (task_keyboard) </td></tr>
 <tr>
-<td align="left">AT KP </td><td align="left">string </td><td align="left">Key press (e.g. "AT KP KEY_UP" presses the up arrow key), a full list of supported key identifiers is provided on the bottom </td><td align="left">v2 </td><td align="left">no </td></tr>
+<td align="left">AT KP </td><td align="left">string </td><td align="left">Key press (e.g. "AT KP KEY_UP" presses &amp; releases the up arrow key), a full list of supported key identifiers is provided on the bottom </td><td align="left">v2 </td><td align="left">untested </td><td align="left">yes (task_keyboard) </td></tr>
 <tr>
-<td align="left">AT KH </td><td align="left">string </td><td align="left">Key hold (e.g. "AT KP KEY_UP" presses the up arrow key), a full list of supported key identifiers is provided on the bottom </td><td align="left">v2 </td><td align="left">no </td></tr>
+<td align="left">AT KH </td><td align="left">string </td><td align="left">Key hold (e.g. "AT KH KEY_UP" presses &amp; holds the up arrow key), a full list of supported key identifiers is provided on the bottom </td><td align="left">v2 </td><td align="left">untested </td><td align="left">yes (task_keyboard) </td></tr>
 <tr>
-<td align="left">AT KR </td><td align="left">string </td><td align="left">Key release (e.g. "AT KR KEY_UP" releases the up arrow key) </td><td align="left">v2 </td><td align="left">no </td></tr>
+<td align="left">AT KR </td><td align="left">string </td><td align="left">Key release (e.g. "AT KR KEY_UP" releases the up arrow key) </td><td align="left">v2 </td><td align="left">untested </td><td align="left">yes (task_keyboard) </td></tr>
 <tr>
-<td align="left">AT RA </td><td align="left">&ndash; </td><td align="left">Release all keys </td><td align="left">v2 </td><td align="left">no </td></tr>
+<td align="left">AT RA </td><td align="left">&ndash; </td><td align="left">Release all keys </td><td align="left">v2 </td><td align="left">untested </td><td align="left">no </td></tr>
 </table>
 <p><b>Storage commands</b> </p><table class="doxtable">
 <tr>
-<th align="left">Command </th><th align="left">Parameter </th><th align="left">Description </th><th align="left">Available since </th><th align="left">Implemented in v3  </th></tr>
+<th align="left">Command </th><th align="left">Parameter </th><th align="left">Description </th><th align="left">Available since </th><th align="left">Implemented in v3 </th><th align="left">FUNCTIONAL task  </th></tr>
 <tr>
-<td align="left">AT SA </td><td align="left">string </td><td align="left">save current configuration at the next free EEPROM slot under the give name (e.g. "AT SA mouse" stores a slot with the name "mouse" </td><td align="left">v2 </td><td align="left">no </td></tr>
+<td align="left">AT SA </td><td align="left">string </td><td align="left">save current configuration at the next free EEPROM slot under the give name (e.g. "AT SA mouse" stores a slot with the name "mouse" </td><td align="left">v2 </td><td align="left">no </td><td align="left">no </td></tr>
 <tr>
-<td align="left">AT LO </td><td align="left">string </td><td align="left">load a configuration from the EEPROM (e.g. "AT LO mouse") </td><td align="left">v2 </td><td align="left">no </td></tr>
+<td align="left">AT LO </td><td align="left">string </td><td align="left">load a configuration from the EEPROM (e.g. "AT LO mouse") </td><td align="left">v2 </td><td align="left">no </td><td align="left">yes (task_configswitcher) </td></tr>
 <tr>
-<td align="left">AT LA </td><td align="left">&ndash; </td><td align="left">load all slots and print the configuration </td><td align="left">v2 </td><td align="left">no </td></tr>
+<td align="left">AT LA </td><td align="left">&ndash; </td><td align="left">load all slots and print the configuration </td><td align="left">v2 </td><td align="left">no </td><td align="left">no </td></tr>
 <tr>
-<td align="left">AT LI </td><td align="left">&ndash; </td><td align="left">list all available slots </td><td align="left">v2 </td><td align="left">no </td></tr>
+<td align="left">AT LI </td><td align="left">&ndash; </td><td align="left">list all available slots </td><td align="left">v2 </td><td align="left">no </td><td align="left">no </td></tr>
 <tr>
-<td align="left">AT NE </td><td align="left">&ndash; </td><td align="left">load next slot (wrap around after the last slot) </td><td align="left">v2 </td><td align="left">no </td></tr>
+<td align="left">AT NE </td><td align="left">&ndash; </td><td align="left">load next slot (wrap around after the last slot) </td><td align="left">v2 </td><td align="left">no </td><td align="left">yes (task_configswitcher) </td></tr>
 <tr>
-<td align="left">AT DE </td><td align="left">&ndash; </td><td align="left">delete all slots </td><td align="left">v2 </td><td align="left">untested </td></tr>
+<td align="left">AT DE </td><td align="left">&ndash; </td><td align="left">delete all slots </td><td align="left">v2 </td><td align="left">untested </td><td align="left">no </td></tr>
 <tr>
-<td align="left">AT DL </td><td align="left">number (1-) </td><td align="left">delete one slot. </td><td align="left">v3 </td><td align="left">untested </td></tr>
+<td align="left">AT DL </td><td align="left">number (1-) </td><td align="left">delete one slot. </td><td align="left">v3 </td><td align="left">untested </td><td align="left">no </td></tr>
 <tr>
-<td align="left">AT NC </td><td align="left">&ndash; </td><td align="left">do nothing </td><td align="left">v2 </td><td align="left">no </td></tr>
+<td align="left">AT DN </td><td align="left">string </td><td align="left">delete one slot by name </td><td align="left">v3 </td><td align="left">no </td><td align="left">no </td></tr>
 <tr>
-<td align="left">AT E0 </td><td align="left">&ndash; </td><td align="left">disable debug output </td><td align="left">v2 </td><td align="left">never, use make monitor </td></tr>
+<td align="left">AT NC </td><td align="left">&ndash; </td><td align="left">do nothing </td><td align="left">v2 </td><td align="left">no </td><td align="left">no </td></tr>
 <tr>
-<td align="left">AT E1 </td><td align="left">&ndash; </td><td align="left">enable debug output </td><td align="left">v2 </td><td align="left">never, use make monitor </td></tr>
+<td align="left">AT E0 </td><td align="left">&ndash; </td><td align="left">disable debug output </td><td align="left">v2 </td><td align="left">never, use make monitor </td><td align="left">- </td></tr>
 <tr>
-<td align="left">AT E2 </td><td align="left">&ndash; </td><td align="left">enable debug output (extended) </td><td align="left">v2 </td><td align="left">never, use make monitor </td></tr>
+<td align="left">AT E1 </td><td align="left">&ndash; </td><td align="left">enable debug output </td><td align="left">v2 </td><td align="left">never, use make monitor </td><td align="left">- </td></tr>
+<tr>
+<td align="left">AT E2 </td><td align="left">&ndash; </td><td align="left">enable debug output (extended) </td><td align="left">v2 </td><td align="left">never, use make monitor </td><td align="left">- </td></tr>
 </table>
 <p><b>Mouthpiece settings</b> </p><table class="doxtable">
 <tr>
-<th align="left">Command </th><th align="left">Parameter </th><th align="left">Description </th><th align="left">Available since </th><th align="left">Implemented in v3  </th></tr>
+<th align="left">Command </th><th align="left">Parameter </th><th align="left">Description </th><th align="left">Available since </th><th align="left">Implemented in v3 </th><th align="left">FUNCTIONAL task  </th></tr>
 <tr>
-<td align="left">AT MM </td><td align="left">number (0,1,2) </td><td align="left">use the mouthpiece either as mouse cursor (AT MM 1), alternative function (AT MM 0) or joystick (AT MM 2) </td><td align="left">v2 </td><td align="left">no </td></tr>
+<td align="left">AT MM </td><td align="left">number (0,1,2) </td><td align="left">use the mouthpiece either as mouse cursor (AT MM 1), alternative function (AT MM 0) or joystick (AT MM 2) </td><td align="left">v2 </td><td align="left">no </td><td align="left">no </td></tr>
 <tr>
-<td align="left">AT SW </td><td align="left">&ndash; </td><td align="left">switch between cursor and alternative mode </td><td align="left">v2 </td><td align="left">no </td></tr>
+<td align="left">AT SW </td><td align="left">&ndash; </td><td align="left">switch between cursor and alternative mode </td><td align="left">v2 </td><td align="left">no </td><td align="left">no </td></tr>
 <tr>
-<td align="left">AT SR </td><td align="left">&ndash; </td><td align="left">start reporting out the raw sensor values </td><td align="left">v2 </td><td align="left">no </td></tr>
+<td align="left">AT SR </td><td align="left">&ndash; </td><td align="left">start reporting out the raw sensor values </td><td align="left">v2 </td><td align="left">no </td><td align="left">no </td></tr>
 <tr>
-<td align="left">AT ER </td><td align="left">&ndash; </td><td align="left">stop reporting the sensor values </td><td align="left">v2 </td><td align="left">no </td></tr>
+<td align="left">AT ER </td><td align="left">&ndash; </td><td align="left">stop reporting the sensor values </td><td align="left">v2 </td><td align="left">no </td><td align="left">no </td></tr>
 <tr>
-<td align="left">AT CA </td><td align="left">&ndash; </td><td align="left">trigger zeropoint calibration </td><td align="left">v2 </td><td align="left">no </td></tr>
+<td align="left">AT CA </td><td align="left">&ndash; </td><td align="left">trigger zeropoint calibration </td><td align="left">v2 </td><td align="left">no </td><td align="left">yes (task_calibration) </td></tr>
 <tr>
-<td align="left">AT AX </td><td align="left">number (0-100) </td><td align="left">sensitivity x-axis </td><td align="left">v2 </td><td align="left">no </td></tr>
+<td align="left">AT AX </td><td align="left">number (0-100) </td><td align="left">sensitivity x-axis </td><td align="left">v2 </td><td align="left">no </td><td align="left">no </td></tr>
 <tr>
-<td align="left">AT AY </td><td align="left">number (0-100) </td><td align="left">sensitivity y-axis </td><td align="left">v2 </td><td align="left">no </td></tr>
+<td align="left">AT AY </td><td align="left">number (0-100) </td><td align="left">sensitivity y-axis </td><td align="left">v2 </td><td align="left">no </td><td align="left">no </td></tr>
 <tr>
-<td align="left">AT AC </td><td align="left">number (0-100) </td><td align="left">acceleration </td><td align="left">v2 </td><td align="left">no </td></tr>
+<td align="left">AT AC </td><td align="left">number (0-100) </td><td align="left">acceleration </td><td align="left">v2 </td><td align="left">no </td><td align="left">no </td></tr>
 <tr>
-<td align="left">AT MS </td><td align="left">number (0-100) </td><td align="left">maximum speed </td><td align="left">v2 </td><td align="left">no </td></tr>
+<td align="left">AT MS </td><td align="left">number (0-100) </td><td align="left">maximum speed </td><td align="left">v2 </td><td align="left">no </td><td align="left">no </td></tr>
 <tr>
-<td align="left">AT DX </td><td align="left">number (0-10000) </td><td align="left">deadzone x-axis </td><td align="left">v2 </td><td align="left">no </td></tr>
+<td align="left">AT DX </td><td align="left">number (0-10000) </td><td align="left">deadzone x-axis </td><td align="left">v2 </td><td align="left">no </td><td align="left">no </td></tr>
 <tr>
-<td align="left">AT DY </td><td align="left">number (0-10000) </td><td align="left">deadzone y-axis </td><td align="left">v2 </td><td align="left">no </td></tr>
+<td align="left">AT DY </td><td align="left">number (0-10000) </td><td align="left">deadzone y-axis </td><td align="left">v2 </td><td align="left">no </td><td align="left">no </td></tr>
 <tr>
-<td align="left">AT TS </td><td align="left">number (0-512) </td><td align="left">sip action threshold </td><td align="left">v2 </td><td align="left">no </td></tr>
+<td align="left">AT TS </td><td align="left">number (0-512) </td><td align="left">sip action threshold </td><td align="left">v2 </td><td align="left">no </td><td align="left">no </td></tr>
 <tr>
-<td align="left">AT SS </td><td align="left">number (0-512) </td><td align="left">strong-sip action threshold </td><td align="left">v2 </td><td align="left">no </td></tr>
+<td align="left">AT SS </td><td align="left">number (0-512) </td><td align="left">strong-sip action threshold </td><td align="left">v2 </td><td align="left">no </td><td align="left">no </td></tr>
 <tr>
-<td align="left">AT TP </td><td align="left">number (512-1023) </td><td align="left">puff action threshold </td><td align="left">v2 </td><td align="left">no </td></tr>
+<td align="left">AT TP </td><td align="left">number (512-1023) </td><td align="left">puff action threshold </td><td align="left">v2 </td><td align="left">no </td><td align="left">no </td></tr>
 <tr>
-<td align="left">AT SP </td><td align="left">number (512-1023) </td><td align="left">strong-puff action threshold </td><td align="left">v2 </td><td align="left">no </td></tr>
+<td align="left">AT SP </td><td align="left">number (512-1023) </td><td align="left">strong-puff action threshold </td><td align="left">v2 </td><td align="left">no </td><td align="left">no </td></tr>
 <tr>
-<td align="left">AT GU </td><td align="left">number (0-100) </td><td align="left">"up" sensor gain </td><td align="left">v2 </td><td align="left">no </td></tr>
+<td align="left">AT GU </td><td align="left">number (0-100) </td><td align="left">"up" sensor gain </td><td align="left">v2 </td><td align="left">no </td><td align="left">no </td></tr>
 <tr>
-<td align="left">AT GD </td><td align="left">number (0-100) </td><td align="left">"down sensor gain  &lt;td align="left"&gt; v2 &lt;td align="left"&gt; no 
-&lt;tr&gt;&lt;td align="left"&gt; AT GL &lt;td align="left"&gt; number (0-100)  &lt;td align="left"&gt; "left sensor gain </td><td align="left">v2 </td><td align="left">no </td></tr>
+<td align="left">AT GD </td><td align="left">number (0-100) </td><td align="left">"down" sensor gain </td><td align="left">v2 </td><td align="left">no </td><td align="left">no </td></tr>
 <tr>
-<td align="left">AT GR </td><td align="left">number (0-100) </td><td align="left">"right" sensor gain </td><td align="left">v2 </td><td align="left">no </td></tr>
+<td align="left">AT GL </td><td align="left">number (0-100) </td><td align="left">"left" sensor gain </td><td align="left">v2 </td><td align="left">no </td><td align="left">no </td></tr>
+<tr>
+<td align="left">AT GR </td><td align="left">number (0-100) </td><td align="left">"right" sensor gain </td><td align="left">v2 </td><td align="left">no </td><td align="left">no </td></tr>
 </table>
 <p><b>Joystick settings</b> </p><table class="doxtable">
 <tr>
-<th align="left">Command </th><th align="left">Parameter </th><th align="left">Description </th><th align="left">Available since </th><th align="left">Implemented in v3  </th></tr>
+<th align="left">Command </th><th align="left">Parameter </th><th align="left">Description </th><th align="left">Available since </th><th align="left">Implemented in v3 </th><th align="left">FUNCTIONAL task  </th></tr>
 <tr>
-<td align="left">AT JX </td><td align="left">number (0-1023) </td><td align="left">Joystick X-axis </td><td align="left">v2 </td><td align="left">no </td></tr>
+<td align="left">AT JX </td><td align="left">number (0-1023) </td><td align="left">Joystick X-axis </td><td align="left">v2 </td><td align="left">no </td><td align="left">yes (task_joystick) </td></tr>
 <tr>
-<td align="left">AT JY </td><td align="left">number (0-1023) </td><td align="left">Joystick Y-axis </td><td align="left">v2 </td><td align="left">no </td></tr>
+<td align="left">AT JY </td><td align="left">number (0-1023) </td><td align="left">Joystick Y-axis </td><td align="left">v2 </td><td align="left">no </td><td align="left">yes (task_joystick) </td></tr>
 <tr>
-<td align="left">AT JZ </td><td align="left">number (0-1023) </td><td align="left">Joystick Z-axis </td><td align="left">v2 </td><td align="left">no </td></tr>
+<td align="left">AT JZ </td><td align="left">number (0-1023) </td><td align="left">Joystick Z-axis </td><td align="left">v2 </td><td align="left">no </td><td align="left">yes (task_joystick) </td></tr>
 <tr>
-<td align="left">AT JT </td><td align="left">number (0-1023) </td><td align="left">Joystick Z-rotate </td><td align="left">v2 </td><td align="left">no </td></tr>
+<td align="left">AT JT </td><td align="left">number (0-1023) </td><td align="left">Joystick Z-rotate </td><td align="left">v2 </td><td align="left">no </td><td align="left">yes (task_joystick) </td></tr>
 <tr>
-<td align="left">AT JS </td><td align="left">number (0-1023) </td><td align="left">Joystick Slider left </td><td align="left">v2 </td><td align="left">no </td></tr>
+<td align="left">AT JS </td><td align="left">number (0-1023) </td><td align="left">Joystick Slider left </td><td align="left">v2 </td><td align="left">no </td><td align="left">yes (task_joystick) </td></tr>
 <tr>
-<td align="left">AT JP </td><td align="left">number (1-32) </td><td align="left">Button press </td><td align="left">v2 </td><td align="left">no </td></tr>
+<td align="left">AT JP </td><td align="left">number (1-32) </td><td align="left">Button press </td><td align="left">v2 </td><td align="left">no </td><td align="left">yes (task_joystick) </td></tr>
 <tr>
-<td align="left">AT JR </td><td align="left">number (1-32) </td><td align="left">Button release </td><td align="left">v2 </td><td align="left">no </td></tr>
+<td align="left">AT JR </td><td align="left">number (1-32) </td><td align="left">Button release </td><td align="left">v2 </td><td align="left">no </td><td align="left">yes (task_joystick) </td></tr>
 <tr>
-<td align="left">AT JH </td><td align="left">number (-1, 0-315) </td><td align="left">Joystick hat (rest position: -1, 0-315 in 45° steps) </td><td align="left">v2 </td><td align="left">no </td></tr>
+<td align="left">AT JH </td><td align="left">number (-1, 0-315) </td><td align="left">Joystick hat (rest position: -1, 0-315 in 45° steps) </td><td align="left">v2 </td><td align="left">no </td><td align="left">yes (task_joystick) </td></tr>
 </table>
 <p><b>Infrared commands</b> </p><table class="doxtable">
 <tr>
-<th align="left">Command </th><th align="left">Parameter </th><th align="left">Description </th><th align="left">Available since </th><th align="left">Implemented in v3  </th></tr>
+<th align="left">Command </th><th align="left">Parameter </th><th align="left">Description </th><th align="left">Available since </th><th align="left">Implemented in v3 </th><th align="left">FUNCTIONAL task  </th></tr>
 <tr>
-<td align="left">AT IR </td><td align="left">string </td><td align="left">record a new infrared command, store it with the given name </td><td align="left">v2 </td><td align="left">no </td></tr>
+<td align="left">AT IR </td><td align="left">string </td><td align="left">record a new infrared command, store it with the given name </td><td align="left">v2 </td><td align="left">no </td><td align="left">yes/no? (task_infrared) </td></tr>
 <tr>
-<td align="left">AT IP </td><td align="left">string </td><td align="left">replay a recorded IR command, stored with the given name </td><td align="left">v2 </td><td align="left">no </td></tr>
+<td align="left">AT IP </td><td align="left">string </td><td align="left">replay a recorded IR command, stored with the given name </td><td align="left">v2 </td><td align="left">no </td><td align="left">yes (task_infrared) </td></tr>
 <tr>
-<td align="left">AT IC </td><td align="left">string </td><td align="left">clear an IR command, defined by the name </td><td align="left">v2 </td><td align="left">no </td></tr>
+<td align="left">AT IC </td><td align="left">string </td><td align="left">clear an IR command, defined by the name </td><td align="left">v2 </td><td align="left">no </td><td align="left">no </td></tr>
 <tr>
-<td align="left">AT IW </td><td align="left">&ndash; </td><td align="left">wipe all IR commands </td><td align="left">v2 </td><td align="left">no </td></tr>
+<td align="left">AT IW </td><td align="left">&ndash; </td><td align="left">wipe all IR commands </td><td align="left">v2 </td><td align="left">no </td><td align="left">no </td></tr>
 <tr>
-<td align="left">AT IT </td><td align="left">number (2-100) </td><td align="left">timeout for recording IR commands (time[ms] between 2 edges) </td><td align="left">v2 </td><td align="left">no </td></tr>
+<td align="left">AT IT </td><td align="left">number (2-100) </td><td align="left">timeout for recording IR commands (time[ms] between 2 edges) </td><td align="left">v2 </td><td align="left">no </td><td align="left">no </td></tr>
 <tr>
-<td align="left">AT IL </td><td align="left"></td><td align="left">list all available stored IR commands </td><td align="left">v2 </td><td align="left">no </td></tr>
+<td align="left">AT IL </td><td align="left"></td><td align="left">list all available stored IR commands </td><td align="left">v2 </td><td align="left">no </td><td align="left">no </td></tr>
 </table>
 <h2>Button assignments</h2>
 <p>The FLipMouse has 1 internal push-button and 2 jack plugs for external buttons. In addition other functions are mapped to virtual buttons, so they can be configured the same. Following number mapping is used for the <b>AT BM</b> command:</p>
@@ -321,13 +327,43 @@ $(function() {
 <p>The key identifiers are necessary to determine which key should be pressed or released by either the <b>AT KP</b> or the <b>AT KR</b> command. Following keys are possible: </p><pre class="fragment">KEY_A   KEY_B   KEY_C   KEY_D    KEY_E   KEY_F   KEY_G   KEY_H   KEY_I   KEY_J    KEY_K    KEY_L
 KEY_M   KEY_N   KEY_O   KEY_P    KEY_Q   KEY_R   KEY_S   KEY_T   KEY_U   KEY_V    KEY_W    KEY_X 
 KEY_Y   KEY_Z   KEY_1   KEY_2    KEY_3   KEY_4   KEY_5   KEY_6   KEY_7   KEY_8    KEY_9    KEY_0
-KEY_F1  KEY_F2  KEY_F3  KEY_F4   KEY_F5  KEY_F6  KEY_F7  KEY_F8  KEY_F9  KEY_F10  KEY_F11  KEY_F12  
+KEY_F1  KEY_F2  KEY_F3  KEY_F4   KEY_F5  KEY_F6  KEY_F7  KEY_F8  KEY_F9  KEY_F10  KEY_F11  KEY_F12
 
 KEY_RIGHT   KEY_LEFT       KEY_DOWN        KEY_UP      KEY_ENTER    KEY_ESC   KEY_BACKSPACE   KEY_TAB   
 KEY_HOME    KEY_PAGE_UP    KEY_PAGE_DOWN   KEY_DELETE  KEY_INSERT   KEY_END   KEY_NUM_LOCK    KEY_SCROLL_LOCK
 KEY_SPACE   KEY_CAPS_LOCK  KEY_PAUSE       KEY_SHIFT   KEY_CTRL     KEY_ALT   KEY_RIGHT_ALT   KEY_GUI 
 KEY_RIGHT_GUI 
-</pre><p>All possible key identifiers are defined in keylayouts.h (no doxygen available, please use the source). </p>
+</pre><p>New in version 3: </p><pre class="fragment">KEY_F13     KEY_F14     KEY_F15     KEY_F16     KEY_F17     KEY_F18     
+KEY_F19     KEY_F20     KEY_F21     KEY_F22     KEY_F23     KEY_F24
+KEY_MEDIA_POWER         KEY_MEDIA_RESET         KEY_MEDIA_SLEEP
+KEY_MEDIA_MENU          KEY_MEDIA_SELECTION     KEY_MEDIA_ASSIGN_SEL
+KEY_MEDIA_MODE_STEP     KEY_MEDIA_RECALL_LAST   KEY_MEDIA_QUIT
+KEY_MEDIA_HELP          KEY_MEDIA_CHANNEL_UP    KEY_MEDIA_CHANNEL_DOWN
+KEY_MEDIA_SELECT_DISC   KEY_MEDIA_ENTER_DISC    KEY_MEDIA_REPEAT
+KEY_MEDIA_VOLUME        KEY_MEDIA_BALANCE       KEY_MEDIA_BASS
+
+KEY_MEDIA_PLAY          KEY_MEDIA_PAUSE         KEY_MEDIA_RECORD
+KEY_MEDIA_FAST_FORWARD  KEY_MEDIA_REWIND        KEY_MEDIA_NEXT_TRACK
+KEY_MEDIA_PREV_TRACK    KEY_MEDIA_STOP          KEY_MEDIA_EJECT
+KEY_MEDIA_RANDOM_PLAY   KEY_MEDIA_STOP_EJECT    KEY_MEDIA_PLAY_PAUSE
+KEY_MEDIA_PLAY_SKIP     KEY_MEDIA_MUTE          KEY_MEDIA_VOLUME_INC
+KEY_MEDIA_VOLUME_DEC
+
+KEY_SYSTEM_POWER_DOWN   KEY_SYSTEM_SLEEP        KEY_SYSTEM_WAKE_UP
+KEY_MINUS               KEY_EQUAL               KEY_LEFT_BRACE
+KEY_RIGHT_BRACE         KEY_BACKSLASH           KEY_SEMICOLON
+KEY_QUOTE               KEY_TILDE               KEY_COMMA
+KEY_PERIOD              KEY_SLASH               KEY_PRINTSCREEN
+KEY_MENU
+
+KEYPAD_SLASH            KEYPAD_ASTERIX          KEYPAD_MINUS
+KEYPAD_PLUS             KEYPAD_ENTER            KEYPAD_1
+KEYPAD_2                KEYPAD_3                KEYPAD_4
+KEYPAD_5                KEYPAD_6                KEYPAD_7
+KEYPAD_8                KEYPAD_9                KEYPAD_0
+</pre><p>All possible key identifiers are defined in keylayouts.h (no doxygen available, please use the source).</p>
+<h2>Keyboard locales</h2>
+<p>TBA... (see <a class="el" href="keyboard_8h.html">keyboard.h</a>) </p>
 </div></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>

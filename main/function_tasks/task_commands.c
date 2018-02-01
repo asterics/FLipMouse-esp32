@@ -121,7 +121,123 @@ uint8_t doJoystickParsing(uint8_t *cmdBuffer, taskJoystickConfig_t *instance)
 
 uint8_t doMouthpieceSettingsParsing(uint8_t *cmdBuffer)
 {
+  generalConfig_t *currentcfg = configGetCurrent();
   
+  /*++++ mouthpiece gain ++++*/
+  //AT GU, GD, GL, GR
+  if(CMD4("AT G"))
+  {
+    unsigned int param = strtol((char*)&(cmdBuffer[5]),NULL,10);
+    ESP_LOGI(LOG_TAG,"Gain %c, %d",cmdBuffer[4],param);
+    if(param > 100)
+    {
+      sendErrorBack("Gain is 0-100");
+      return 0;
+    } else {
+      //assign to gain value
+      switch(cmdBuffer[4])
+      {
+        case 'U': currentcfg->adc.gain[0] = param; requestUpdate = 1; return 1;
+        case 'D': currentcfg->adc.gain[1] = param; requestUpdate = 1; return 1;
+        case 'L': currentcfg->adc.gain[2] = param; requestUpdate = 1; return 1;
+        case 'R': currentcfg->adc.gain[3] = param; requestUpdate = 1; return 1;
+        default: return 0;
+      }
+    }
+  }
+  
+  /*++++ mouthpiece sensitivity/acceleration ++++*/
+  //AT AX, AY, AC
+  if(CMD4("AT A"))
+  {
+    unsigned int param = strtol((char*)&(cmdBuffer[5]),NULL,10);
+    ESP_LOGI(LOG_TAG,"Sensitivity/accel %c, %d",cmdBuffer[4],param);
+    if(param > 100)
+    {
+      sendErrorBack("Sensitivity/accel is 0-100");
+      return 0;
+    } else {
+      //assign to sensitivity/acceleration value
+      switch(cmdBuffer[4])
+      {
+        case 'X': currentcfg->adc.sensitivity_x = param; requestUpdate = 1; return 1;
+        case 'Y': currentcfg->adc.sensitivity_x = param; requestUpdate = 1; return 1;
+        case 'C': currentcfg->adc.acceleration = param; requestUpdate = 1; return 1;
+        default: return 0;
+      }
+    }
+  }
+  
+  /*++++ threshold sip/puff++++*/
+  //AT TS/TP
+  if(CMD4("AT T"))
+  {
+    unsigned int param = strtol((char*)&(cmdBuffer[5]),NULL,10);
+    ESP_LOGI(LOG_TAG,"Threshold %c, %d",cmdBuffer[4],param);
+    switch(cmdBuffer[4])
+    {
+      case 'S':
+        if(param > 512)
+        {
+          sendErrorBack("Threshold sip is 0-512");
+          return 0;
+        } else {
+          currentcfg->adc.threshold_sip = param;
+          requestUpdate = 1;
+          return 1;
+        }
+      break;
+      
+      case 'T':
+        if(param < 512 || param > 1023)
+        {
+          sendErrorBack("Threshold puff is 512-1023");
+          return 0;
+        } else {
+          currentcfg->adc.threshold_puff = param;
+          requestUpdate = 1;
+          return 1;
+        }
+      break;
+      default: return 0;
+    }
+  }
+  
+  /*++++ threshold strong sip/puff++++*/
+  //AT TS/TP
+  if(CMD4("AT S"))
+  {
+    unsigned int param = strtol((char*)&(cmdBuffer[5]),NULL,10);
+    ESP_LOGI(LOG_TAG,"Threshold strong %c, %d",cmdBuffer[4],param);
+    switch(cmdBuffer[4])
+    {
+      case 'S':
+        if(param > 512)
+        {
+          sendErrorBack("Threshold strong sip is 0-512");
+          return 0;
+        } else {
+          currentcfg->adc.threshold_strongsip = param;
+          requestUpdate = 1;
+          return 1;
+        }
+      break;
+      
+      case 'T':
+        if(param < 512 || param > 1023)
+        {
+          sendErrorBack("Threshold strong puff is 512-1023");
+          return 0;
+        } else {
+          currentcfg->adc.threshold_strongpuff = param;
+          requestUpdate = 1;
+          return 1;
+        }
+      break;
+      default: return 0;
+    }
+  }
+
   //not consumed, no command found for mouthpiece settings
   return 0;
 }
@@ -169,6 +285,7 @@ uint8_t doGeneralCmdParsing(uint8_t *cmdBuffer)
     {
       ESP_LOGI(LOG_TAG,"Changed locale from %d to %d",currentcfg->locale,param8);
       currentcfg->locale = param8;
+      requestUpdate = 1;
       return 1;
     } else {
       sendErrorBack("Locale out of range");
@@ -642,14 +759,18 @@ void task_commands(void *params)
       }
       
       //TODO: if necessary, add also the config/task stuff as above...
+      
+      //we don't need any task stuff here
       if(parserstate == 0) 
       {
         parserstate = doGeneralCmdParsing(commandBuffer);
       }
+      //we will need task stuff here (in future)
       if(parserstate == 0) 
       {
         parserstate = doInfraredParsing(commandBuffer);
       }
+      //we don't need any task stuff here
       if(parserstate == 0) 
       {
         parserstate = doMouthpieceSettingsParsing(commandBuffer);

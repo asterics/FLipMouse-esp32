@@ -79,20 +79,20 @@ Following commands are currently available:
 | AT SR | --  | start reporting out the raw sensor values | v2 | no | no |
 | AT ER | --  | stop reporting the sensor values  | v2 | no | no |
 | AT CA | --  | trigger zeropoint calibration  | v2 | no | yes (task_calibration) |
-| AT AX | number (0-100)  | sensitivity x-axis  | v2 | no | no |
-| AT AY | number (0-100)  | sensitivity y-axis  | v2 | no | no |
-| AT AC | number (0-100)  | acceleration  | v2 | no | no |
+| AT AX | number (0-100)  | sensitivity x-axis  | v2 | untested | no |
+| AT AY | number (0-100)  | sensitivity y-axis  | v2 | untested | no |
+| AT AC | number (0-100)  | acceleration  | v2 | untested | no |
 | AT MS | number (0-100)  | maximum speed  | v2 | no | no |
 | AT DX | number (0-10000)  | deadzone x-axis  | v2 | no | no |
 | AT DY | number (0-10000)   | deadzone y-axis  | v2 | no | no |
-| AT TS | number (0-512)  | sip action threshold  | v2 | no | no |
-| AT SS | number (0-512)  | strong-sip action threshold  | v2 | no | no |
-| AT TP | number (512-1023)  | puff action threshold  | v2 | no | no |
-| AT SP | number (512-1023)  | strong-puff action threshold  | v2 | no | no |
-| AT GU | number (0-100)  | "up" sensor gain  | v2 | no | no |
-| AT GD | number (0-100)  | "down" sensor gain  | v2 | no | no |
-| AT GL | number (0-100)  | "left" sensor gain  | v2 | no | no |
-| AT GR | number (0-100)  | "right" sensor gain  | v2 | no | no |
+| AT TS | number (0-512)  | sip action threshold  | v2 | untested | no |
+| AT SS | number (0-512)  | strong-sip action threshold  | v2 | untested | no |
+| AT TP | number (512-1023)  | puff action threshold  | v2 | untested | no |
+| AT SP | number (512-1023)  | strong-puff action threshold  | v2 | untested | no |
+| AT GU | number (0-100)  | "up" sensor gain  | v2 | untested | no |
+| AT GD | number (0-100)  | "down" sensor gain  | v2 | untested | no |
+| AT GL | number (0-100)  | "left" sensor gain  | v2 | untested | no |
+| AT GR | number (0-100)  | "right" sensor gain  | v2 | untested | no |
 **Joystick settings**
 | Command | Parameter | Description | Available since | Implemented in v3 | FUNCTIONAL task |
 |:--------|:----------|:------------|:--------------|:--------------------|:----------------|

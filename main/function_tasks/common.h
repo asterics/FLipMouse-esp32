@@ -254,6 +254,9 @@ typedef struct adc_config {
   uint16_t threshold_strongsip;
   /** pressure sensor, strongpuff threshold */
   uint16_t threshold_strongpuff;
+  /** gain of each sensor (0-100), 50 means factor 1.
+   * array assignment: [0] = up, [1] = down, [2] = left, [3] = right*/
+  uint8_t gain[4];
   /** joystick axis assignment TBD: assign axis to numbers*/
   uint8_t axis;
 } adc_config_t;

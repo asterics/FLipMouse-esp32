@@ -49,6 +49,8 @@
 
 #include "config.h"
 
+#define LOG_TAG "app_main"
+
 EventGroupHandle_t virtualButtonsOut[NUMBER_VIRTUALBUTTONS];
 EventGroupHandle_t virtualButtonsIn[NUMBER_VIRTUALBUTTONS];
 EventGroupHandle_t connectionRoutingStatus;
@@ -70,10 +72,6 @@ QueueHandle_t config_switcher;
  * */    
 void app_main()
 {
-    esp_err_t ret;
-    #define LOG_TAG "app_main"
-    char commandname[SLOTNAME_LENGTH];
-
     //enter critical section & suspend all tasks for initialising
     vTaskSuspendAll();
         //init all remaining rtos stuff

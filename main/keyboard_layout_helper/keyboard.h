@@ -59,6 +59,100 @@ enum keyboard_layouts{
   LAYOUT_MAX
 };
 
+
+/** @brief Parse a decoded code point to a keycode, step 2
+ * 
+ * This method parses a fully assembled code point to a
+ * keycode. To get a fully assembled cpoint, use the method parse_for_keycode.
+ * 
+ * @see parse_for_keycode
+ * @see keycodes_masks
+ * @see keycodes_ascii
+ * @see keycodes_iso_8859_1
+ * @param cpoint Fully assembled ASCII or ISO8859-1 code point
+ * @param locale Currently used keyboard layout
+ * @return 0 if no keycode was found (invalid cpoint), the keycode otherwise
+ */
+uint16_t unicode_to_keycode(uint16_t cpoint, uint8_t locale);
+
+/** @brief Mask the keycode to get the HID keycode, step 4
+ * 
+ * This method masks out all modifier bits and returns the direct
+ * HID keycode, which can be used in HID reports.
+ * 
+ * @param keycode Keycode from other parsing methods
+ * @return 8-bit keycode for HID
+ **/
+uint8_t keycode_to_key(uint16_t keycode);
+
+/** @brief Mask the keycode to get the modifiers, step 5
+ * 
+ * This method masks out all keycode bits and returns the direct
+ * HID modifier byte, which can be used in HID reports.
+ * 
+ * @param keycode Keycode from other parsing methods
+ * @param locale Currently used keyboard layout
+ * @return 8-bit keycode for HID
+ **/
+uint8_t keycode_to_modifier(uint16_t keycode, uint8_t locale);
+
+/** @brief Is this keycode a modifier?
+ * 
+ * This method is used to determine if a keycode is a modifier key
+ * (without any other keys)
+ * @param keycode Keycode to be tested
+ * @return 0 if a normal keycode, 1 if a modifier key
+ * */
+uint8_t keycode_is_modifier(uint16_t keycode);
+
+
+/** @brief Parse a keycode for deadkey input, step 3
+ * 
+ * This method parses a keycode for a possible deadkey
+ * sequence. If the parsed keycode needs a deadkey press, the 
+ * corresponding keycode is returned. If no deadkey is required, 0 is returned.
+ * To get a keycode, use the method unicode_to_keycode.
+ * 
+ * @see unicode_to_keycode
+ * @see keycodes_masks
+ * @param keycode Keycode which might need a deadkey pressed
+ * @param locale Currently used keyboard layout
+ * @return 0 if no deadkey needs to be pressed, the deadkey keycode otherwise
+ */
+uint16_t deadkey_to_keycode(uint16_t keycode, uint8_t locale);
+
+/** @brief Parse a key identifier to a keycode
+ * 
+ * This method is used to parse a key identifier (e.g., KEY_A)
+ * to a keycode which is used for a task_keyboard config.
+ * 
+ * @warning If you use key identifiers, no keyboard locale is taken into
+ * account!
+ * 
+ * @param keyidentifier Key identifier string
+ * @return Keycode if found, 0 otherwise
+ * 
+ * @see parseKeycodeToIdentifier
+ * */
+uint16_t parseIdentifierToKeycode(char* keyidentifier);
+
+/** @brief Parse a keycode to a key identifier
+ * 
+ * This method is used to parse a key code to a key identifier which
+ * can be used for sending back the task_keyboard config.
+ * 
+ * @warning If you use key identifiers, no keyboard locale is taken into
+ * account!
+ * 
+ * @param keycode Keycode to be parsed to a key identifier
+ * @param buffer Char buffer where the key identifier is saved to
+ * @param buf_len Length of buffer
+ * @return 1 if found, 0 otherwise
+ * 
+ * @see parseKeycodeToIdentifier
+ * */
+uint16_t parseKeycodeToIdentifier(uint16_t keycode, char* buffer, uint8_t buf_len);
+
 /** parse an incoming byte for a keycode
  * 
  * This method parses one incoming byte for the given locale.

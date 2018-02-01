@@ -52,6 +52,7 @@
 #include "hal_adc.h"
 #include "hal_io.h"
 #include "hal_ble.h"
+#include "hal_serial.h"
 #include "hal_storage.h"
 
 //include all functional tasks, making config structs available

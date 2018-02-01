@@ -34,13 +34,8 @@
 
 void sendToQueue(QueueHandle_t queue, uint16_t *data)
 {
-  size_t offset = 0;
   //loop until either \0 termination or length of parameter is reached
-  while(data[offset] != 0 && offset < TASK_KEYBOARD_PARAMETERLENGTH)
-  {
-    xQueueSend(queue,&data[offset],TIMEOUT);
-    offset++;
-  }
+  xQueueSend(queue,data,TIMEOUT);
 }
 
 void task_keyboard(taskKeyboardConfig_t *param)
@@ -64,11 +59,10 @@ void task_keyboard(taskKeyboardConfig_t *param)
   EventGroupHandle_t *evGroup = NULL;
   //ticks between task timeouts
   const TickType_t xTicksToWait = 2000 / portTICK_PERIOD_MS;
-  //local keystring
-  uint16_t keys[TASK_KEYBOARD_PARAMETERLENGTH];
-  memcpy(keys,param->keycodes_text,sizeof(keys[TASK_KEYBOARD_PARAMETERLENGTH]));
   //local virtual button
   uint8_t vb = param->virtualButton;
+  //local key array offset for each trigger
+  uint8_t keycodeoffset = 0;
   
   if(vb != VB_SINGLESHOT)
   {
@@ -98,6 +92,27 @@ void task_keyboard(taskKeyboardConfig_t *param)
     return;
   }
   
+  //local keystring (size is determined by input keystring)
+  uint8_t keylength = 0;
+  while(param->keycodes_text[keylength] != 0 && keylength < TASK_KEYBOARD_PARAMETERLENGTH) keylength++;
+  
+  //if count of keycode is 0, nothing to do here...
+  if(keylength == 0)
+  {
+    ESP_LOGI(LOG_TAG,"Empty kbd instance, quit");
+    if(vb == VB_SINGLESHOT) return; else vTaskDelete(NULL);
+  }
+
+  uint16_t *keys = malloc(sizeof(uint16_t)*keylength);
+  memcpy(keys,param->keycodes_text,sizeof(uint16_t)*keylength);
+  if(keys != NULL)
+  {
+    ESP_LOGI(LOG_TAG,"allocated %d keycodes",keylength);
+  } else {
+    ESP_LOGE(LOG_TAG,"cannot allocate %d bytes for keyarray",keylength);
+    if(vb == VB_SINGLESHOT) return; else vTaskDelete(NULL);
+  }
+  
   while(1)
   {
       switch(keyboardType)
@@ -112,38 +127,57 @@ void task_keyboard(taskKeyboardConfig_t *param)
           {
             uxBits = xEventGroupWaitBits(evGroup,(1<<evGroupShift),pdTRUE,pdFALSE,xTicksToWait);
           }
-          //test for a valid set flag (else branch would be timeout)
-          if((uxBits & (1<<evGroupShift)) || vb == VB_SINGLESHOT)
+          //reset offset
+          keycodeoffset = 0;
+          
+          while(keycodeoffset < keylength)
           {
-            if(keyboardType == PRESS)
+            //test for a valid set flag (else branch would be timeout)
+            if((uxBits & (1<<evGroupShift)) || vb == VB_SINGLESHOT)
             {
-              if(xEventGroupGetBits(connectionRoutingStatus) & DATATO_USB) 
-                sendToQueue(keyboard_usb_press,keys);
-              if(xEventGroupGetBits(connectionRoutingStatus) & DATATO_BLE) 
-                sendToQueue(keyboard_ble_press,keys);
-            }
-            if(keyboardType == RELEASE)
-            {
-              if(xEventGroupGetBits(connectionRoutingStatus) & DATATO_USB) 
-                sendToQueue(keyboard_usb_release,keys);
-              if(xEventGroupGetBits(connectionRoutingStatus) & DATATO_BLE) 
-                sendToQueue(keyboard_ble_release,keys);
-            }
-            if(keyboardType == PRESS_RELEASE || keyboardType == WRITE)
-            {
-              if(xEventGroupGetBits(connectionRoutingStatus) & DATATO_USB)
+              if(keyboardType == PRESS)
               {
-                sendToQueue(keyboard_usb_press,keys);
-                vTaskDelay(2);
-                sendToQueue(keyboard_usb_release,keys);
+                ESP_LOGD(LOG_TAG,"press: 0x%x",keys[keycodeoffset]);
+                if(xEventGroupGetBits(connectionRoutingStatus) & DATATO_USB)
+                {
+                  sendToQueue(keyboard_usb_press,&keys[keycodeoffset]);
+                }
+                if(xEventGroupGetBits(connectionRoutingStatus) & DATATO_BLE) 
+                {
+                  sendToQueue(keyboard_ble_press,&keys[keycodeoffset]);
+                }
               }
-              if(xEventGroupGetBits(connectionRoutingStatus) & DATATO_BLE) 
+              if(keyboardType == RELEASE)
               {
-                sendToQueue(keyboard_ble_press,keys);
-                vTaskDelay(2);
-                sendToQueue(keyboard_ble_release,keys);
+                ESP_LOGD(LOG_TAG,"release: 0x%x",keys[keycodeoffset]);
+                if(xEventGroupGetBits(connectionRoutingStatus) & DATATO_USB) 
+                {
+                  sendToQueue(keyboard_usb_release,&keys[keycodeoffset]);
+                }
+                if(xEventGroupGetBits(connectionRoutingStatus) & DATATO_BLE) 
+                {
+                  sendToQueue(keyboard_ble_release,&keys[keycodeoffset]);
+                }
+              }
+              if(keyboardType == PRESS_RELEASE || keyboardType == WRITE)
+              {
+                ESP_LOGD(LOG_TAG,"press&release 1: 0x%x",keys[keycodeoffset]);
+                if(xEventGroupGetBits(connectionRoutingStatus) & DATATO_USB)
+                {
+                  sendToQueue(keyboard_usb_press,&keys[keycodeoffset]);
+                  vTaskDelay(2);
+                  sendToQueue(keyboard_usb_release,&keys[keycodeoffset]);
+                }
+                ESP_LOGD(LOG_TAG,"press&release 2: 0x%x",keys[keycodeoffset]);
+                if(xEventGroupGetBits(connectionRoutingStatus) & DATATO_BLE) 
+                {
+                  sendToQueue(keyboard_ble_press,&keys[keycodeoffset]);
+                  vTaskDelay(2);
+                  sendToQueue(keyboard_ble_release,&keys[keycodeoffset]);
+                }
               }
             }
+            keycodeoffset++;
           }
         break;
         
@@ -155,22 +189,29 @@ void task_keyboard(taskKeyboardConfig_t *param)
             uxBits = xEventGroupWaitBits(evGroup,(1<<evGroupShift)| \
               (1<<(evGroupShift+4)),pdTRUE,pdFALSE,xTicksToWait);
           }
-          //test for a valid set flag
-          if((uxBits & (1<<evGroupShift)) || vb == VB_SINGLESHOT)
+          //reset key array offset
+          keycodeoffset = 0;
+          while(keycodeoffset < keylength)
           {
-            if(xEventGroupGetBits(connectionRoutingStatus) & DATATO_USB) 
-                sendToQueue(keyboard_usb_press,keys);
-            if(xEventGroupGetBits(connectionRoutingStatus) & DATATO_BLE) 
-                sendToQueue(keyboard_ble_press,keys);
+            //test for a valid set flag
+            if((uxBits & (1<<evGroupShift)) || vb == VB_SINGLESHOT)
+            {
+              ESP_LOGD(LOG_TAG,"press&release button 1: 0x%x",keys[keycodeoffset]);
+              if(xEventGroupGetBits(connectionRoutingStatus) & DATATO_USB) 
+                  sendToQueue(keyboard_usb_press,&keys[keycodeoffset]);
+              if(xEventGroupGetBits(connectionRoutingStatus) & DATATO_BLE) 
+                  sendToQueue(keyboard_ble_press,&keys[keycodeoffset]);
+            }
+            if((uxBits & (1<<(evGroupShift+4))) || vb == VB_SINGLESHOT)
+            {
+              ESP_LOGD(LOG_TAG,"press&release button 2: 0x%x",keys[keycodeoffset]);
+              if(xEventGroupGetBits(connectionRoutingStatus) & DATATO_USB) 
+                  sendToQueue(keyboard_usb_release,&keys[keycodeoffset]);
+              if(xEventGroupGetBits(connectionRoutingStatus) & DATATO_BLE) 
+                  sendToQueue(keyboard_ble_release,&keys[keycodeoffset]);
+            }
+            keycodeoffset++;
           }
-          if((uxBits & (1<<(evGroupShift+4))) || vb == VB_SINGLESHOT)
-          {
-            if(xEventGroupGetBits(connectionRoutingStatus) & DATATO_USB) 
-                sendToQueue(keyboard_usb_release,keys);
-            if(xEventGroupGetBits(connectionRoutingStatus) & DATATO_BLE) 
-                sendToQueue(keyboard_ble_release,keys);
-          }
-          
         break;
         
         
@@ -179,10 +220,15 @@ void task_keyboard(taskKeyboardConfig_t *param)
         default:
           ESP_LOGE(LOG_TAG,"unknown keyboard action type,quit...");
           vTaskDelete(NULL);
+          free(keys);
           return;
       }
       
       //function tasks in singleshot must return
-      if(vb == VB_SINGLESHOT) return;
+      if(vb == VB_SINGLESHOT) 
+      {
+        free(keys);
+        return;
+      }
   }
 }

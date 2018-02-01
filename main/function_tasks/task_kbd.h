@@ -67,10 +67,9 @@ typedef struct taskKeyboardConfig {
   keyboard_action type;
   //number of virtual button which this instance will be attached to
   uint virtualButton;
-  //link to all keycodes which should be pressed or the text to be written
-  //terminated with a \0 character!
-  //it is possible to set each value to a direct keycode (as defined in keylayouts.h with KEY_*)
-  //or use unicode characters (use one value for each byte!)
+  /** list of keycodes+modfiers to be pressed/released.
+   * @note Low byte contains the keycode, high byte any modifiers
+   * */
   uint16_t keycodes_text[TASK_KEYBOARD_PARAMETERLENGTH];
 } taskKeyboardConfig_t;
 

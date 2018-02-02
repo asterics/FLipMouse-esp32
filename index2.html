@@ -1,4 +1,4 @@
-<html>
+﻿<html>
 <head>
     <title>FlipMouse WebGUI</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -23,12 +23,12 @@
     </div>
     <div data-tabs-content>
         <div data-tabs-pane class="tabs-pane" id="tabBasic">
-            <label for="SENSITIVITY_X">Horizontal Sensitivity:</label>
+            <label for="SENSITIVITY_X" data-translatable>Horizontal Sensitivity: // Sensitivität horizontal:</label>
             <div class="row">
                 <span id="SENSITIVITY_X_VAL" class="text-center one column">0</span>
                 <input type="range" oninput="sliderChanged(event)" onchange="sliderChanged(event)" id="SENSITIVITY_X" min="0" max="100" class="eleven columns">
             </div>
-            <label for="SENSITIVITY_Y">Vertical Sensitivity:</label>
+            <label for="SENSITIVITY_Y" data-translatable>Vertical Sensitivity: // Sensitivität vertikal:</label>
             <div class="row">
                 <span id="SENSITIVITY_Y_VAL" class="text-center one column">0</span>
                 <input type="range" oninput="sliderChanged(event)" onchange="sliderChanged(event)" id="SENSITIVITY_Y" min="0" max="100" class="eleven columns">
@@ -47,10 +47,39 @@
             </div>
 
             <br/>
+            <label for="SIP_THRESHOLD" data-translatable>Sip Threshold: // Schwellenwert Saugen:</label>
+            <div class="row">
+                <span id="SIP_THRESHOLD_VAL" class="text-center one column">0</span>
+                <input type="range" oninput="sliderChanged(event)" onchange="sliderChanged(event)" id="SIP_THRESHOLD" min="0" max="512" class="eleven columns">
+            </div>
+            <label for="SIP_STRONG_THRESHOLD" data-translatable>Strong Sip Threshold: // Schwellenwert Saugen stark:</label>
+            <div class="row">
+                <span id="SIP_STRONG_THRESHOLD_VAL" class="text-center one column">0</span>
+                <input type="range" oninput="sliderChanged(event)" onchange="sliderChanged(event)" id="SIP_STRONG_THRESHOLD" min="0" max="512" class="eleven columns">
+            </div>
+			
+			<br/>
+            <label for="PUFF_THRESHOLD" data-translatable>Puff Threshold: // Schwellenwert Blasen:</label>
+            <div class="row">
+                <span id="PUFF_THRESHOLD_VAL" class="text-center one column">0</span>
+                <input type="range" oninput="sliderChanged(event)" onchange="sliderChanged(event)" id="PUFF_THRESHOLD" min="512" max="1023" class="eleven columns">
+            </div>
+            <label for="PUFF_STRONG_THRESHOLD" data-translatable>Strong Puff Threshold: // Schwellenwert Blasen stark:</label>
+            <div class="row">
+                <span id="PUFF_STRONG_THRESHOLD_VAL" class="text-center one column">0</span>
+                <input type="range" oninput="sliderChanged(event)" onchange="sliderChanged(event)" id="PUFF_STRONG_THRESHOLD" min="512" max="1023" class="eleven columns">
+            </div>
+            <label for="currentValue" data-translatable>Current value: // Aktueller Wert:</label>
+            <span id="currentValue" class="text-center one column">0</span>
+            <br/>
+            <label for="maxValue" data-translatable>Max value: // Maximaler Wert:</label>
+            <span id="maxValue" class="text-center one column">0</span>
+
+            <br/>
             <br/>
             <div class="row">
                 <button id="basic-button" onclick="save()" class="one-third">
-                    <span id="basic-button-normal" data-translatable>Apply // Speichern</span>
+                    <span id="basic-button-normal" data-translatable>Save // Speichern</span>
                     <span id="basic-button-saving" style="display: none" data-translatable>Saving... // Wird gespeichert...</span>
                 </button>
             </div>
@@ -92,9 +121,21 @@
             setSliderValue(flip.SENSITIVITY_Y, config[flip.SENSITIVITY_Y]);
             setSliderValue(flip.DEADZONE_X, config[flip.DEADZONE_X]);
             setSliderValue(flip.DEADZONE_Y, config[flip.DEADZONE_Y]);
+            setSliderValue(flip.SIP_THRESHOLD, config[flip.SIP_THRESHOLD]);
+            setSliderValue(flip.SIP_STRONG_THRESHOLD, config[flip.SIP_STRONG_THRESHOLD]);
+            setSliderValue(flip.PUFF_THRESHOLD, config[flip.PUFF_THRESHOLD]);
+            setSliderValue(flip.PUFF_STRONG_THRESHOLD, config[flip.PUFF_STRONG_THRESHOLD]);
             console.log(config);
         });
         window.flip = flip;
+        flip.setValueHandler(function (data) {
+            var value = parseInt(data.substring(7,10));
+            L('#currentValue').innerHTML = value;
+            var currentMax = parseInt(L('#maxValue').innerHTML);
+            if(currentMax < value) {
+                L('#maxValue').innerHTML = value;
+            }
+        });
     };
 
     function sliderChanged(evt) {

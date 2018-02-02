@@ -24,9 +24,9 @@ Following commands are currently available:
 | AT BM | number (1-11)  | set the button, which corresponds to the next command. The button assignments are described on the bottom | v2 | untested | no |
 | AT BL | -- | enable/disable output of triggered virtual buttons. Is used with AT BM for command learning | v3 | no | ? |
 | AT MA | string | execute macro (space separated list of commands, see [Macros](https://github.com/asterics/FLipMouse/wiki/macros)) | v2 | no | yes (task_macro) |
-| AT WA | number | wait/delay (ms); useful for macros | v2 | no | no |
+| AT WA | number | wait/delay (ms); useful for macros. Does nothing if not used in macros. | v2 | no | no |
 | AT RO | number (0,90,180,270) | orientation (0 => LEDs on top) | v2 | no | no |
-| AT KL | number | Set keyboard locale (locale defines are listed below) | v3 | no | no |
+| AT KL | number | Set keyboard locale (locale defines are listed below) | v3 | yes | no |
 | AT BT | number (0,1,2) | Bluetooth mode, 1=USB only, 2=BT only, 3=both(default) | v2 | Working for USB, untested for BLE | no |
 **USB HID Commands**
 | Command | Parameter | Description | Available since | Implemented in v3 | FUNCTIONAL task |
@@ -74,11 +74,11 @@ Following commands are currently available:
 **Mouthpiece settings** 
 | Command | Parameter | Description | Available since | Implemented in v3 | FUNCTIONAL task |
 |:--------|:----------|:------------|:--------------|:--------------------|:----------------|
-| AT MM | number (0,1,2)  | use the mouthpiece either as mouse cursor (AT MM 1), alternative function (AT MM 0) or joystick (AT MM 2)  | v2 | no | no |
-| AT SW | --  | switch between cursor and alternative mode  | v2 | no | no |
-| AT SR | --  | start reporting out the raw sensor values | v2 | no | no |
-| AT ER | --  | stop reporting the sensor values  | v2 | no | no |
-| AT CA | --  | trigger zeropoint calibration  | v2 | no | yes (task_calibration) |
+| AT MM | number (0,1,2)  | use the mouthpiece either as mouse cursor (AT MM 1), alternative function (AT MM 0) or joystick (AT MM 2)  | v2 | untested | no |
+| AT SW | --  | switch between cursor and alternative mode  | v2 | untested | no |
+| AT SR | --  | start reporting out the raw sensor values | v2 | untested | no |
+| AT ER | --  | stop reporting the sensor values  | v2 | untested | no |
+| AT CA | --  | trigger zeropoint calibration  | v2 | untested | yes (task_calibration) |
 | AT AX | number (0-100)  | sensitivity x-axis  | v2 | untested | no |
 | AT AY | number (0-100)  | sensitivity y-axis  | v2 | untested | no |
 | AT AC | number (0-100)  | acceleration  | v2 | untested | no |

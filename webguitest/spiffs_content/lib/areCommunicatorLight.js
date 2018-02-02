@@ -1,9 +1,11 @@
 function ARECommunicator() {
     //The base URI that ARE runs at
     //var _baseURI = "http://" + window.location.host + "/rest/";
+    var VALUE_CONSTANT = 'VALUES:';
     var _baseURI = "http://localhost:8091/rest/";
     var _websocketUrl = "ws://localhost:8092/ws/astericsData";
     var _websocket = null;
+    var _valueHandler = null;
 
     //encodes PathParametes
     function encodeParam(text) {
@@ -13,6 +15,10 @@ function ARECommunicator() {
         }
         return encoded;
     }
+
+    this.setValueHandler = function (handler) {
+        _valueHandler = handler;
+    };
 
     this.sendDataToInputPort = function (componentId, portId, value) {
         if (!componentId || !portId || !value) return;
@@ -27,8 +33,14 @@ function ARECommunicator() {
                 var result = '';
                 var timeoutHandler = setTimeout(function () {
                     resolve(result)
-                }, 1000);
+                }, 3000);
                 _websocket.onmessage = function (evt) {
+                    if(evt.data && evt.data.indexOf(VALUE_CONSTANT) > -1) {
+                        if(L.isFunction(_valueHandler)) {
+                            _valueHandler(evt.data);
+                        }
+                        return;
+                    }
                     clearTimeout(timeoutHandler);
                     result += evt.data + '\n';
                     timeoutHandler = setTimeout(function () {

@@ -28,15 +28,29 @@ function FlipMouse(initFinished) {
     AT_CMD_MAPPING[thiz.PUFF_THRESHOLD] = 'AT TP';
     AT_CMD_MAPPING[thiz.PUFF_STRONG_THRESHOLD] = 'AT SP';
     var VALUE_AT_CMDS = Object.values(AT_CMD_MAPPING);
+    var debounce = null;
 
     thiz.sendATCmd = function (atCmd) {
         console.log("sending to FlipMouse: " + atCmd);
         return are.sendDataToInputPort('LipMouse.1', 'send', atCmd);
     };
 
+    thiz.testConnection = function () {
+        return new Promise((resolve, reject) => {
+            thiz.sendATCmd('AT').then(function () {
+                resolve(true);
+            }, function () {
+                resolve(false);
+            });
+        });
+    };
+
     thiz.setValue = function (valueConstant, value) {
-        var atCmd = AT_CMD_MAPPING[valueConstant];
-        thiz.sendATCmd(atCmd + ' ' + value);
+        clearInterval(debounce);
+        debounce = setTimeout(function () {
+            var atCmd = AT_CMD_MAPPING[valueConstant];
+            sendAtCmdNoResultHandling(atCmd + ' ' + value);
+        }, 300);
     };
 
     thiz.refreshConfig = function () {
@@ -45,24 +59,36 @@ function FlipMouse(initFinished) {
                 _config = parseConfig(response);
                 resolve();
             }, function () {
+                console.log("could not get config!");
                 reject();
             });
         });
     };
 
     thiz.save = function () {
-        thiz.sendATCmd('AT DE');
-        thiz.sendATCmd('AT SA mouse');
+        sendAtCmdNoResultHandling('AT DE');
+        sendAtCmdNoResultHandling('AT SA mouse');
+        return thiz.testConnection();
+    };
+
+    thiz.setValueHandler = function (handler) {
+        are.setValueHandler(handler);
     };
 
     init();
 
     function init() {
         thiz.refreshConfig().then(function () {
-            if (isFunction(initFinished)) {
+            if (L.isFunction(initFinished)) {
                 initFinished(_config);
+                sendAtCmdNoResultHandling('AT SR');
             }
+        }, function () {
         });
+    }
+
+    function sendAtCmdNoResultHandling(atCmd) {
+        thiz.sendATCmd(atCmd).then(function () {}, function () {});
     }
 
     function parseConfig(atCmdsString) {
@@ -80,22 +106,8 @@ function FlipMouse(initFinished) {
         var nextElement = remainingList[1];
         var currentAtCmd = currentElement.substring(0, AT_CMD_LENGTH);
         if (VALUE_AT_CMDS.includes(currentAtCmd)) {
-            config[val2key(currentAtCmd, AT_CMD_MAPPING)] = parseInt(currentElement.substring(5));
+            config[L.val2key(currentAtCmd, AT_CMD_MAPPING)] = parseInt(currentElement.substring(5));
         }
         return parseConfigElement(remainingList.slice(1), config);
-    }
-
-    function val2key(val, array) {
-        for (var key in array) {
-            if (array[key] == val) {
-                return key;
-            }
-        }
-        return false;
-    }
-
-    function isFunction(functionToCheck) {
-        var getType = {};
-        return functionToCheck && getType.toString.call(functionToCheck) === '[object Function]';
     }
 }

@@ -1,0 +1,25 @@
+#content{
+    margin: 2em;
+}
+
+div[data-tabs] {
+    margin-bottom: 3em;
+}
+
+a[data-tab] {
+    width: 100%;
+    font-size: 1em;
+}
+
+button {
+    font-size: 1em;
+    width: 100%;
+}
+
+br {
+    line-height: 250%;
+}
+
+.text-center{
+    text-align: center;
+}

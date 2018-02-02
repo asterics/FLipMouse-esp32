@@ -154,6 +154,12 @@ void halStorageCreateDefault(uint32_t tid)
   defaultCfg->adc.threshold_sip = 500;
   defaultCfg->adc.threshold_strongpuff = 700;
   defaultCfg->adc.threshold_strongsip = 300;
+  defaultCfg->adc.reportraw = 0;
+  defaultCfg->adc.gain[0] = 50;
+  defaultCfg->adc.gain[1] = 50;
+  defaultCfg->adc.gain[2] = 50;
+  defaultCfg->adc.gain[3] = 50;
+  
   
   //initialise all VBs as unused
   for(uint8_t i = 1; i<(NUMBER_VIRTUALBUTTONS*4); i++)

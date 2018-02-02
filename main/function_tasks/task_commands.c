@@ -123,6 +123,56 @@ uint8_t doMouthpieceSettingsParsing(uint8_t *cmdBuffer)
 {
   generalConfig_t *currentcfg = configGetCurrent();
   
+  /*++++ calibrate mouthpiece ++++*/
+  if(CMD("AT CA"))
+  {
+    ESP_LOGI(LOG_TAG,"Calibrate");
+    return 1;
+  }
+  
+  /*++++ stop report raw values ++++*/
+  if(CMD("AT ER"))
+  {
+    currentcfg->adc.reportraw = 0;
+    requestUpdate = 1;
+    ESP_LOGI(LOG_TAG,"Stop reporting raw values");
+    return 2;
+  }
+  /*++++ start report raw values to serial ++++*/
+  if(CMD("AT SR"))
+  {
+    currentcfg->adc.reportraw = 1;
+    requestUpdate = 1;
+    ESP_LOGI(LOG_TAG,"Start reporting raw values");
+    return 2;
+  }
+  
+  /*++++ mouthpiece mode ++++*/
+  if(CMD("AT MM"))
+  {
+    //assign to gain value
+    switch(cmdBuffer[6])
+    {
+      case '0': currentcfg->adc.mode = THRESHOLD; requestUpdate = 1; return 2;
+      case '1': currentcfg->adc.mode = MOUSE; requestUpdate = 1; return 2;
+      case '2': currentcfg->adc.mode = JOYSTICK; requestUpdate = 1; return 2;
+      default: sendErrorBack("Mode is 0,1 or 2"); return 2;
+    }
+  }
+  
+  /*++++ mouthpiece mode - switch ++++*/
+  if(CMD("AT SW"))
+  {
+    switch(currentcfg->adc.mode)
+    {
+      case MOUSE: currentcfg->adc.mode = THRESHOLD; break;
+      case THRESHOLD: currentcfg->adc.mode = MOUSE; break;
+      case JOYSTICK: sendErrorBack("AT SW switches between mouse and threshold only"); break;
+    }
+    requestUpdate = 1;
+    return 2;
+  }
+  
   /*++++ mouthpiece gain ++++*/
   //AT GU, GD, GL, GR
   if(CMD4("AT G"))
@@ -137,10 +187,10 @@ uint8_t doMouthpieceSettingsParsing(uint8_t *cmdBuffer)
       //assign to gain value
       switch(cmdBuffer[4])
       {
-        case 'U': currentcfg->adc.gain[0] = param; requestUpdate = 1; return 1;
-        case 'D': currentcfg->adc.gain[1] = param; requestUpdate = 1; return 1;
-        case 'L': currentcfg->adc.gain[2] = param; requestUpdate = 1; return 1;
-        case 'R': currentcfg->adc.gain[3] = param; requestUpdate = 1; return 1;
+        case 'U': currentcfg->adc.gain[0] = param; requestUpdate = 1; return 2;
+        case 'D': currentcfg->adc.gain[1] = param; requestUpdate = 1; return 2;
+        case 'L': currentcfg->adc.gain[2] = param; requestUpdate = 1; return 2;
+        case 'R': currentcfg->adc.gain[3] = param; requestUpdate = 1; return 2;
         default: return 0;
       }
     }
@@ -160,9 +210,9 @@ uint8_t doMouthpieceSettingsParsing(uint8_t *cmdBuffer)
       //assign to sensitivity/acceleration value
       switch(cmdBuffer[4])
       {
-        case 'X': currentcfg->adc.sensitivity_x = param; requestUpdate = 1; return 1;
-        case 'Y': currentcfg->adc.sensitivity_x = param; requestUpdate = 1; return 1;
-        case 'C': currentcfg->adc.acceleration = param; requestUpdate = 1; return 1;
+        case 'X': currentcfg->adc.sensitivity_x = param; requestUpdate = 1; return 2;
+        case 'Y': currentcfg->adc.sensitivity_x = param; requestUpdate = 1; return 2;
+        case 'C': currentcfg->adc.acceleration = param; requestUpdate = 1; return 2;
         default: return 0;
       }
     }
@@ -184,7 +234,7 @@ uint8_t doMouthpieceSettingsParsing(uint8_t *cmdBuffer)
         } else {
           currentcfg->adc.threshold_sip = param;
           requestUpdate = 1;
-          return 1;
+          return 2;
         }
       break;
       
@@ -196,7 +246,7 @@ uint8_t doMouthpieceSettingsParsing(uint8_t *cmdBuffer)
         } else {
           currentcfg->adc.threshold_puff = param;
           requestUpdate = 1;
-          return 1;
+          return 2;
         }
       break;
       default: return 0;
@@ -219,7 +269,7 @@ uint8_t doMouthpieceSettingsParsing(uint8_t *cmdBuffer)
         } else {
           currentcfg->adc.threshold_strongsip = param;
           requestUpdate = 1;
-          return 1;
+          return 2;
         }
       break;
       
@@ -231,7 +281,7 @@ uint8_t doMouthpieceSettingsParsing(uint8_t *cmdBuffer)
         } else {
           currentcfg->adc.threshold_strongpuff = param;
           requestUpdate = 1;
-          return 1;
+          return 2;
         }
       break;
       default: return 0;
@@ -685,6 +735,7 @@ void task_commands(void *params)
   //parameters for different tasks
   taskMouseConfig_t *cmdMouse = malloc(sizeof(taskMouseConfig_t));
   taskKeyboardConfig_t *cmdKeyboard = malloc(sizeof(taskKeyboardConfig_t));
+  taskNoParameterConfig_t *cmdNoConfig = malloc(sizeof(taskNoParameterConfig_t));
   //taskJoystickConfig_t *cmdJoystick = malloc(sizeof(taskJoystickConfig_t));
   
   //check if we have all our pointers
@@ -770,10 +821,19 @@ void task_commands(void *params)
       {
         parserstate = doInfraredParsing(commandBuffer);
       }
-      //we don't need any task stuff here
+      //do calibration task if necessary
       if(parserstate == 0) 
       {
         parserstate = doMouthpieceSettingsParsing(commandBuffer);
+        if(parserstate == 2) continue; //don't need further action
+        if(parserstate == 1)
+        {
+          requestVBTask = (void (*)(void *))&task_calibration;
+          requestVBParameterSize = sizeof(taskNoParameterConfig_t);
+          cmdNoConfig->virtualButton = requestVBUpdate;
+          requestVBParameter = cmdNoConfig;
+          requestVBType = T_CALIBRATE;
+        }
       }
       
       //call now the task function if in singleshot mode

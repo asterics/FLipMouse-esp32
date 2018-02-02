@@ -11,56 +11,49 @@
     <script src="lib/flipMouseCommunicator.js"></script>
     <script src="lib/tabby.min.js"></script>
     <script src="lib/dom-i18n.min.js"></script>
-    <script>
-        window.onload = function () {
-            var flip = new FlipMouse(function (config) {
-                L("#SENSITIVITY_X").value = config[flip.SENSITIVITY_X];
-                L("#SENSITIVITY_Y").value = config[flip.SENSITIVITY_Y];
-                L("#DEADZONE_X").value = config[flip.DEADZONE_X];
-                L("#DEADZONE_Y").value = config[flip.DEADZONE_Y];
-
-                console.log(config);
-            });
-            window.flip = flip;
-        };
-
-        function sliderChanged(evt) {
-            window.flip.setValue(evt.currentTarget.id, evt.currentTarget.value);
-        }
-
-        function save() {
-            window.flip.save();
-        }
-    </script>
 </head>
 <body>
-<div data-role="page">
+<div id="content">
     <h1 data-translatable>FLipMouse Web Configuration // FLipMouse Webkonfiguration</h1>
 
-    <ul data-tabs class="tabs">
-        <li><a data-tab href="#tabBasic" class="ui-btn-active" data-translatable>Basic Setup // Basiskonfiguration</a></li>
-        <li><a href="#tabPuff">Sip and Puff</a></li>
-        <li><a href="#tabActions">Learn Actions</a></li>
-    </ul>
+    <div data-tabs class="row">
+        <div class="four columns"><a class="button button-primary" data-tab href="#tabBasic" class="ui-btn-active" data-translatable>Basic Setup // Basiskonfiguration</a></div>
+        <div class="four columns"><a class="button button-primary" data-tab href="#tabPuff">Sip and Puff</a></div>
+        <div class="four columns"><a class="button button-primary" data-tab href="#tabActions">Learn Actions</a></div>
+    </div>
     <div data-tabs-content>
-        <div data-tabs-pane class="tabs-pane active" id="tabBasic">
-            <div class="empty-separator"></div>
-            <label for="basic-1">Horizontal Sensitivity:</label>
-            <input type="range" data-clear-btn="true" onchange="sliderChanged(event)" name="sensitivityX"
-                   id="SENSITIVITY_X" min="0" max="100">
-            <label for="basic-2">Vertical Sensitivity:</label>
-            <input type="range" data-clear-btn="true" name="sensitivityY" onchange="sliderChanged(event)"
-                   id="SENSITIVITY_Y" min="0" max="100">
-            <div class="empty-separator"></div>
-            <label for="basic-3">Horizontal Deadzone:</label>
-            <input type="range" data-clear-btn="true" name="DEADZONE_X" id="DEADZONE_X"
-                   onchange="sliderChanged(event)" min="0" max="100">
-            <label for="basic-4">Vertical Deadzone:</label>
-            <input type="range" data-clear-btn="true" name="DEADZONE_Y" id="DEADZONE_Y"
-                   onchange="sliderChanged(event)" min="0" max="100">
-            <div class="empty-separator"></div>
-            <input type="button" id="basic-button" onclick="save()" value="Apply">
-            <div><input type="checkbox" id="set-led" data-role="flipswitch"></div>
+        <div data-tabs-pane class="tabs-pane" id="tabBasic">
+            <label for="SENSITIVITY_X">Horizontal Sensitivity:</label>
+            <div class="row">
+                <span id="SENSITIVITY_X_VAL" class="text-center one column">0</span>
+                <input type="range" oninput="sliderChanged(event)" onchange="sliderChanged(event)" id="SENSITIVITY_X" min="0" max="100" class="eleven columns">
+            </div>
+            <label for="SENSITIVITY_Y">Vertical Sensitivity:</label>
+            <div class="row">
+                <span id="SENSITIVITY_Y_VAL" class="text-center one column">0</span>
+                <input type="range" oninput="sliderChanged(event)" onchange="sliderChanged(event)" id="SENSITIVITY_Y" min="0" max="100" class="eleven columns">
+            </div>
+
+            <br/>
+            <label for="DEADZONE_X">Horizontal Deadzone:</label>
+            <div class="row">
+                <span id="DEADZONE_X_VAL" class="text-center one column">0</span>
+                <input type="range" oninput="sliderChanged(event)" onchange="sliderChanged(event)" id="DEADZONE_X" min="0" max="100" class="eleven columns">
+            </div>
+            <label for="DEADZONE_Y">Vertical Deadzone:</label>
+            <div class="row">
+                <span id="DEADZONE_Y_VAL" class="text-center one column">0</span>
+                <input type="range" oninput="sliderChanged(event)" onchange="sliderChanged(event)" id="DEADZONE_Y" min="0" max="100" class="eleven columns">
+            </div>
+
+            <br/>
+            <br/>
+            <div class="row">
+                <button id="basic-button" onclick="save()" class="one-third">
+                    <span id="basic-button-normal" data-translatable>Apply // Speichern</span>
+                    <span id="basic-button-saving" style="display: none" data-translatable>Saving... // Wird gespeichert...</span>
+                </button>
+            </div>
         </div>
         <div data-tabs-pane class="tabs-pane" id="tabPuff">
             <div class="empty-separator"></div>
@@ -90,9 +83,42 @@
             <input type="button" id="action-button" value="Learn Gesture">
         </div>
     </div>
+</div>
 
-</div><!-- /page -->
+<script>
+    window.onload = function () {
+        var flip = new FlipMouse(function (config) {
+            setSliderValue(flip.SENSITIVITY_X, config[flip.SENSITIVITY_X]);
+            setSliderValue(flip.SENSITIVITY_Y, config[flip.SENSITIVITY_Y]);
+            setSliderValue(flip.DEADZONE_X, config[flip.DEADZONE_X]);
+            setSliderValue(flip.DEADZONE_Y, config[flip.DEADZONE_Y]);
+            console.log(config);
+        });
+        window.flip = flip;
+    };
 
+    function sliderChanged(evt) {
+        setSliderValue(evt.currentTarget.id, evt.currentTarget.value, true);
+        window.flip.setValue(evt.currentTarget.id, evt.currentTarget.value);
+    }
+
+    function setSliderValue(constant, value, dontSetSlider) {
+        L('#' + constant + '_VAL').innerHTML = value;
+        if(!dontSetSlider) {
+            L('#' + constant).value = value;
+        }
+    }
+
+    function save() {
+        L.toggle('#basic-button-normal', '#basic-button-saving');
+        window.flip.save().then(function (success) {
+            if(success) {
+                L.toggle('#basic-button-normal', '#basic-button-saving');
+                console.log('!!!!!!!!!!!!');
+            }
+        });
+    }
+</script>
 <script>
     tabby.init();
     domI18n({

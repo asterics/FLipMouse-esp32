@@ -50,6 +50,7 @@
 #include "esp_adc_cal.h"
 //common definitions & data for all of these functional tasks
 #include "common.h"
+#include "hal_serial.h"
 
 /** ADC input pin for "up" channel of FSR */
 #define HAL_IO_PIN_ADC_UP       36

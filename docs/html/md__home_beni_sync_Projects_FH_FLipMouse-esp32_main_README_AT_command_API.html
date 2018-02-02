@@ -86,11 +86,11 @@ $(function() {
 <tr>
 <td align="left">AT MA </td><td align="left">string </td><td align="left">execute macro (space separated list of commands, see <a href="https://github.com/asterics/FLipMouse/wiki/macros">Macros</a>) </td><td align="left">v2 </td><td align="left">no </td><td align="left">yes (task_macro) </td></tr>
 <tr>
-<td align="left">AT WA </td><td align="left">number </td><td align="left">wait/delay (ms); useful for macros </td><td align="left">v2 </td><td align="left">no </td><td align="left">no </td></tr>
+<td align="left">AT WA </td><td align="left">number </td><td align="left">wait/delay (ms); useful for macros. Does nothing if not used in macros. </td><td align="left">v2 </td><td align="left">no </td><td align="left">no </td></tr>
 <tr>
 <td align="left">AT RO </td><td align="left">number (0,90,180,270) </td><td align="left">orientation (0 =&gt; LEDs on top) </td><td align="left">v2 </td><td align="left">no </td><td align="left">no </td></tr>
 <tr>
-<td align="left">AT KL </td><td align="left">number </td><td align="left">Set keyboard locale (locale defines are listed below) </td><td align="left">v3 </td><td align="left">no </td><td align="left">no </td></tr>
+<td align="left">AT KL </td><td align="left">number </td><td align="left">Set keyboard locale (locale defines are listed below) </td><td align="left">v3 </td><td align="left">yes </td><td align="left">no </td></tr>
 <tr>
 <td align="left">AT BT </td><td align="left">number (0,1,2) </td><td align="left">Bluetooth mode, 1=USB only, 2=BT only, 3=both(default) </td><td align="left">v2 </td><td align="left">Working for USB, untested for BLE </td><td align="left">no </td></tr>
 </table>
@@ -180,15 +180,15 @@ $(function() {
 <tr>
 <th align="left">Command </th><th align="left">Parameter </th><th align="left">Description </th><th align="left">Available since </th><th align="left">Implemented in v3 </th><th align="left">FUNCTIONAL task  </th></tr>
 <tr>
-<td align="left">AT MM </td><td align="left">number (0,1,2) </td><td align="left">use the mouthpiece either as mouse cursor (AT MM 1), alternative function (AT MM 0) or joystick (AT MM 2) </td><td align="left">v2 </td><td align="left">no </td><td align="left">no </td></tr>
+<td align="left">AT MM </td><td align="left">number (0,1,2) </td><td align="left">use the mouthpiece either as mouse cursor (AT MM 1), alternative function (AT MM 0) or joystick (AT MM 2) </td><td align="left">v2 </td><td align="left">untested </td><td align="left">no </td></tr>
 <tr>
-<td align="left">AT SW </td><td align="left">&ndash; </td><td align="left">switch between cursor and alternative mode </td><td align="left">v2 </td><td align="left">no </td><td align="left">no </td></tr>
+<td align="left">AT SW </td><td align="left">&ndash; </td><td align="left">switch between cursor and alternative mode </td><td align="left">v2 </td><td align="left">untested </td><td align="left">no </td></tr>
 <tr>
-<td align="left">AT SR </td><td align="left">&ndash; </td><td align="left">start reporting out the raw sensor values </td><td align="left">v2 </td><td align="left">no </td><td align="left">no </td></tr>
+<td align="left">AT SR </td><td align="left">&ndash; </td><td align="left">start reporting out the raw sensor values </td><td align="left">v2 </td><td align="left">untested </td><td align="left">no </td></tr>
 <tr>
-<td align="left">AT ER </td><td align="left">&ndash; </td><td align="left">stop reporting the sensor values </td><td align="left">v2 </td><td align="left">no </td><td align="left">no </td></tr>
+<td align="left">AT ER </td><td align="left">&ndash; </td><td align="left">stop reporting the sensor values </td><td align="left">v2 </td><td align="left">untested </td><td align="left">no </td></tr>
 <tr>
-<td align="left">AT CA </td><td align="left">&ndash; </td><td align="left">trigger zeropoint calibration </td><td align="left">v2 </td><td align="left">no </td><td align="left">yes (task_calibration) </td></tr>
+<td align="left">AT CA </td><td align="left">&ndash; </td><td align="left">trigger zeropoint calibration </td><td align="left">v2 </td><td align="left">untested </td><td align="left">yes (task_calibration) </td></tr>
 <tr>
 <td align="left">AT AX </td><td align="left">number (0-100) </td><td align="left">sensitivity x-axis </td><td align="left">v2 </td><td align="left">untested </td><td align="left">no </td></tr>
 <tr>

@@ -5,6 +5,7 @@ var searchData=
   ['report_5fid',['report_id',['../structhids__report__ref__t.html#a746996be83455c34c48bf26487a0f525',1,'hids_report_ref_t']]],
   ['report_5fnb',['report_nb',['../structhidd__feature__t.html#aa9495c3e6f7cbf29a400245a6047a617',1,'hidd_feature_t']]],
   ['report_5ftype',['report_type',['../structhids__report__ref__t.html#a19de2c91f00b797996ec2cc47c0ff87b',1,'hids_report_ref_t']]],
+  ['reportraw',['reportraw',['../structadc__config.html#a6f3ea052a4b3edf28c0939286e6c4ef4',1,'adc_config']]],
   ['requestupdate',['requestUpdate',['../task__commands_8c.html#a598fa24559f0c3a64692abf7764545d9',1,'task_commands.c']]],
   ['requestvbupdate',['requestVBUpdate',['../task__commands_8c.html#a92f6cea4b2f3b9af0abce6f8fcf3da97',1,'task_commands.c']]]
 ];

@@ -81,6 +81,8 @@ $(function() {
 Macros</h2></td></tr>
 <tr class="memitem:a7ce0df38eb467e59f209470c8f5ac4e6"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="hal__adc_8c.html#a7ce0df38eb467e59f209470c8f5ac4e6">LOG_TAG</a>&#160;&#160;&#160;&quot;hal_adc&quot;</td></tr>
 <tr class="separator:a7ce0df38eb467e59f209470c8f5ac4e6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a59c166c6297dc9ed1529cba08ec2ece8"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="hal__adc_8c.html#a59c166c6297dc9ed1529cba08ec2ece8">REPORT_RAW_COUNT</a>&#160;&#160;&#160;32</td></tr>
+<tr class="separator:a59c166c6297dc9ed1529cba08ec2ece8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
@@ -93,6 +95,9 @@ Functions</h2></td></tr>
 <tr class="memitem:aee719704e643d27c1faab768cf4bc22e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="hal__adc_8c.html#aee719704e643d27c1faab768cf4bc22e">halAdcTaskThreshold</a> (void *pvParameters)</td></tr>
 <tr class="memdesc:aee719704e643d27c1faab768cf4bc22e"><td class="mdescLeft">&#160;</td><td class="mdescRight">HAL TASK - Threshold task for ADC.  <a href="#aee719704e643d27c1faab768cf4bc22e">More...</a><br /></td></tr>
 <tr class="separator:aee719704e643d27c1faab768cf4bc22e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8743abcde6f190545c429f072c16106d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="hal__adc_8c.html#a8743abcde6f190545c429f072c16106d">halAdcReportRaw</a> (uint32_t up, uint32_t down, uint32_t left, uint32_t right, uint32_t pressure, int32_t x, int32_t y)</td></tr>
+<tr class="memdesc:a8743abcde6f190545c429f072c16106d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Report raw values via serial interface.  <a href="#a8743abcde6f190545c429f072c16106d">More...</a><br /></td></tr>
+<tr class="separator:a8743abcde6f190545c429f072c16106d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4135bb73c2271b4a27db8d8d81884de7"><td class="memItemLeft" align="right" valign="top">esp_err_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="hal__adc_8c.html#a4135bb73c2271b4a27db8d8d81884de7">halAdcUpdateConfig</a> (<a class="el" href="common_8h.html#a08f9b338fac73a54ad3d0810c270614f">adc_config_t</a> *params)</td></tr>
 <tr class="memdesc:a4135bb73c2271b4a27db8d8d81884de7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reload ADC config.  <a href="#a4135bb73c2271b4a27db8d8d81884de7">More...</a><br /></td></tr>
 <tr class="separator:a4135bb73c2271b4a27db8d8d81884de7"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -145,7 +150,23 @@ Variables</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="hal__adc_8c_source.html#l00045">45</a> of file <a class="el" href="hal__adc_8c_source.html">hal_adc.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="hal__adc_8c_source.html#l00080">halAdcUpdateConfig()</a>, and <a class="el" href="hal__adc_8c_source.html#l00332">task_calibration()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="hal__adc_8c_source.html#l00111">halAdcUpdateConfig()</a>, and <a class="el" href="hal__adc_8c_source.html#l00374">task_calibration()</a>.</p>
+
+</div>
+</div>
+<a id="a59c166c6297dc9ed1529cba08ec2ece8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a59c166c6297dc9ed1529cba08ec2ece8">&#9670;&nbsp;</a></span>REPORT_RAW_COUNT</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define REPORT_RAW_COUNT&#160;&#160;&#160;32</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="reference">Referenced by <a class="el" href="hal__adc_8c_source.html#l00082">halAdcReportRaw()</a>.</p>
 
 </div>
 </div>
@@ -170,9 +191,9 @@ Variables</h2></td></tr>
 <p>This method is called to calibrate the offset value for x and y axis of the mouthpiece. Either triggered by the functional task task_calibration or on a config change.</p>
 <dl class="todo"><dt><b><a class="el" href="todo.html#_todo000021">Todo:</a></b></dt><dd>Implement everything... </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="hal__adc_8c_source.html#l00317">317</a> of file <a class="el" href="hal__adc_8c_source.html">hal_adc.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="hal__adc_8c_source.html#l00351">351</a> of file <a class="el" href="hal__adc_8c_source.html">hal_adc.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="hal__adc_8c_source.html#l00332">task_calibration()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="hal__adc_8c_source.html#l00374">task_calibration()</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
@@ -212,7 +233,7 @@ Here is the caller graph for this function:</div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>ESP_OK on success, ESP_FAIL otherwise (wrong config, no memory, already initialized) </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="hal__adc_8c_source.html#l00482">482</a> of file <a class="el" href="hal__adc_8c_source.html">hal_adc.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="hal__adc_8c_source.html#l00525">525</a> of file <a class="el" href="hal__adc_8c_source.html">hal_adc.c</a>.</p>
 
 <p class="reference">Referenced by <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c_source.html#l00073">app_main()</a>.</p>
 <div class="dynheader">
@@ -262,7 +283,91 @@ Here is the caller graph for this function:</div>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="hal__adc_8c_source.html#l00138">138</a> of file <a class="el" href="hal__adc_8c_source.html">hal_adc.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="hal__adc_8c_source.html#l00169">169</a> of file <a class="el" href="hal__adc_8c_source.html">hal_adc.c</a>.</p>
+
+</div>
+</div>
+<a id="a8743abcde6f190545c429f072c16106d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8743abcde6f190545c429f072c16106d">&#9670;&nbsp;</a></span>halAdcReportRaw()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void halAdcReportRaw </td>
+          <td>(</td>
+          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>up</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>down</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>left</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>right</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>pressure</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int32_t&#160;</td>
+          <td class="paramname"><em>x</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int32_t&#160;</td>
+          <td class="paramname"><em>y</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Report raw values via serial interface. </p>
+<p>All values are sent in predefined string: <br />
+ VALUES:&lt;pressure&gt;,&lt;up&gt;,&lt;down&gt;,&lt;left&gt;,&lt;right&gt;,&lt;x&gt;,&lt;y&gt;<br />
+ </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">up</td><td>Up value </td></tr>
+    <tr><td class="paramname">down</td><td>Down value </td></tr>
+    <tr><td class="paramname">left</td><td>Left value </td></tr>
+    <tr><td class="paramname">right</td><td>Right value </td></tr>
+    <tr><td class="paramname">x</td><td>X value </td></tr>
+    <tr><td class="paramname">y</td><td>Y value </td></tr>
+    <tr><td class="paramname">pressure</td><td>Pressure value </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="hal__adc_8c_source.html#l00082">82</a> of file <a class="el" href="hal__adc_8c_source.html">hal_adc.c</a>.</p>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="hal__adc_8c_a8743abcde6f190545c429f072c16106d_cgraph.png" border="0" usemap="#hal__adc_8c_a8743abcde6f190545c429f072c16106d_cgraph" alt=""/></div>
+<map name="hal__adc_8c_a8743abcde6f190545c429f072c16106d_cgraph" id="hal__adc_8c_a8743abcde6f190545c429f072c16106d_cgraph">
+<area shape="rect" id="node2" href="hal__serial_8c.html#a8f987ba001c2a39c959a551a94b5df43" title="halSerialSendUSBSerial" alt="" coords="181,5,344,32"/>
+</map>
+</div>
 
 </div>
 </div>
@@ -287,9 +392,9 @@ Here is the caller graph for this function:</div>
 <p>The calculated joystick movements are sent to the corresponding joystick command queues (either BLE, USB or BOTH).</p>
 <dl class="todo"><dt><b><a class="el" href="todo.html#_todo000020">Todo:</a></b></dt><dd>Implement the full joystick interface. Currently completely unimplemented.</dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="hal__adc_8c_source.html#l00265">265</a> of file <a class="el" href="hal__adc_8c_source.html">hal_adc.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="hal__adc_8c_source.html#l00298">298</a> of file <a class="el" href="hal__adc_8c_source.html">hal_adc.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="hal__adc_8c_source.html#l00080">halAdcUpdateConfig()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="hal__adc_8c_source.html#l00111">halAdcUpdateConfig()</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
@@ -325,9 +430,9 @@ Here is the caller graph for this function:</div>
 <p>This task is used for the mouse moving mode of the moutpiece. It is invoked on config changes and reads out all 4 sensors, calculates x and y values for processing with acceleration and maximum speed.</p>
 <p>The calculated mouse movements are sent to the corresponding mouse movement queues (either BLE, USB or BOTH). </p>
 
-<p class="definition">Definition at line <a class="el" href="hal__adc_8c_source.html#l00154">154</a> of file <a class="el" href="hal__adc_8c_source.html">hal_adc.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="hal__adc_8c_source.html#l00185">185</a> of file <a class="el" href="hal__adc_8c_source.html">hal_adc.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="hal__adc_8c_source.html#l00080">halAdcUpdateConfig()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="hal__adc_8c_source.html#l00111">halAdcUpdateConfig()</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
@@ -363,9 +468,9 @@ Here is the caller graph for this function:</div>
 <p>This task is used for threshold mode of the moutpiece. It is invoked on config changes and reads out all 4 sensors, calculates x and y values and compares it to thresholds.</p>
 <p>If one value exceeds the threshold, the corresponding virtual button flags are set or cleared. </p>
 
-<p class="definition">Definition at line <a class="el" href="hal__adc_8c_source.html#l00401">401</a> of file <a class="el" href="hal__adc_8c_source.html">hal_adc.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="hal__adc_8c_source.html#l00443">443</a> of file <a class="el" href="hal__adc_8c_source.html">hal_adc.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="hal__adc_8c_source.html#l00080">halAdcUpdateConfig()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="hal__adc_8c_source.html#l00111">halAdcUpdateConfig()</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
@@ -407,9 +512,9 @@ Here is the caller graph for this function:</div>
 <dl class="todo"><dt><b><a class="el" href="todo.html#_todo000018">Todo:</a></b></dt><dd>Clear pending VB flags on a config switch </dd></dl>
 <dl class="section return"><dt>Returns</dt><dd>ESP_OK on success, ESP_FAIL otherwise (wrong config, out of memory) </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="hal__adc_8c_source.html#l00080">80</a> of file <a class="el" href="hal__adc_8c_source.html">hal_adc.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="hal__adc_8c_source.html#l00111">111</a> of file <a class="el" href="hal__adc_8c_source.html">hal_adc.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="config__switcher_8c_source.html#l00187">configSwitcherTask()</a>, and <a class="el" href="hal__adc_8c_source.html#l00482">halAdcInit()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="config__switcher_8c_source.html#l00187">configSwitcherTask()</a>, and <a class="el" href="hal__adc_8c_source.html#l00525">halAdcInit()</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -462,7 +567,7 @@ Here is the caller graph for this function:</div>
 <dd>
 <a class="el" href="common_8h.html#a735049d5abb65dcaa7ba76917158a3b3">taskNoParameterConfig_t</a> </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="hal__adc_8c_source.html#l00332">332</a> of file <a class="el" href="hal__adc_8c_source.html">hal_adc.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="hal__adc_8c_source.html#l00374">374</a> of file <a class="el" href="hal__adc_8c_source.html">hal_adc.c</a>.</p>
 
 <p class="reference">Referenced by <a class="el" href="config__switcher_8c_source.html#l00187">configSwitcherTask()</a>.</p>
 <div class="dynheader">
@@ -523,7 +628,7 @@ Here is the caller graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="hal__adc_8c_source.html#l00051">51</a> of file <a class="el" href="hal__adc_8c_source.html">hal_adc.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="hal__adc_8c_source.html#l00080">halAdcUpdateConfig()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="hal__adc_8c_source.html#l00111">halAdcUpdateConfig()</a>.</p>
 
 </div>
 </div>
@@ -542,7 +647,7 @@ Here is the caller graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="hal__adc_8c_source.html#l00059">59</a> of file <a class="el" href="hal__adc_8c_source.html">hal_adc.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="hal__adc_8c_source.html#l00482">halAdcInit()</a>, <a class="el" href="hal__adc_8c_source.html#l00265">halAdcTaskJoystick()</a>, <a class="el" href="hal__adc_8c_source.html#l00154">halAdcTaskMouse()</a>, and <a class="el" href="hal__adc_8c_source.html#l00401">halAdcTaskThreshold()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="hal__adc_8c_source.html#l00525">halAdcInit()</a>, <a class="el" href="hal__adc_8c_source.html#l00298">halAdcTaskJoystick()</a>, <a class="el" href="hal__adc_8c_source.html#l00185">halAdcTaskMouse()</a>, and <a class="el" href="hal__adc_8c_source.html#l00443">halAdcTaskThreshold()</a>.</p>
 
 </div>
 </div>

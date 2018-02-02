@@ -45,6 +45,7 @@ var searchData=
   ['haladccalibrate',['halAdcCalibrate',['../hal__adc_8c.html#ae549c157d94729e8b06cb391f0f2c97b',1,'hal_adc.c']]],
   ['haladcinit',['halAdcInit',['../hal__adc_8c.html#a6f0d302f35e5b7f7a1144f0ddace35d2',1,'halAdcInit(adc_config_t *params):&#160;hal_adc.c'],['../hal__adc_8h.html#a6f0d302f35e5b7f7a1144f0ddace35d2',1,'halAdcInit(adc_config_t *params):&#160;hal_adc.c']]],
   ['haladcprocesspressure',['halAdcProcessPressure',['../hal__adc_8c.html#acd8f9f6194ebeaa854a791879382b515',1,'hal_adc.c']]],
+  ['haladcreportraw',['halAdcReportRaw',['../hal__adc_8c.html#a8743abcde6f190545c429f072c16106d',1,'hal_adc.c']]],
   ['haladctaskjoystick',['halAdcTaskJoystick',['../hal__adc_8c.html#a452077aaa6a576304708d00d4ec439f1',1,'hal_adc.c']]],
   ['haladctaskmouse',['halAdcTaskMouse',['../hal__adc_8c.html#aadc294c08df0386572ffdc8e7228f6b4',1,'hal_adc.c']]],
   ['haladctaskthreshold',['halAdcTaskThreshold',['../hal__adc_8c.html#aee719704e643d27c1faab768cf4bc22e',1,'hal_adc.c']]],

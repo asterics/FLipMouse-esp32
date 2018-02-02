@@ -47,7 +47,6 @@
  * the data is forwarded to the USB-CDC interface, which is used to send data 
  * to the host (config GUI, terminal, AsTeRICS,...).
  * 
- * @todo Implement halSerialReset, similar to halBLEReset (resetting the HID reports)
  */ 
  
  

@@ -281,6 +281,7 @@ void configSwitcherTask(void * params)
       
       //reset HID channels (USB&BLE)
       halBLEReset(0);
+      halSerialReset(0);
       
       //perform task switching...
       for(uint8_t i = 0; i<(NUMBER_VIRTUALBUTTONS*4); i++)

@@ -63,4 +63,10 @@
  * @warning As long as the function or the task is active, the parameter pointer MUST be valid
  */
 
+//All global todos, roadmap, ...
+/**
+ @todo Test AT BM for updating slot
+ @todo Implement learning mode
+ @todo Investigate modifier problem (might be related to USB chip firmware)
  
+*/

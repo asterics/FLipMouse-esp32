@@ -11,7 +11,6 @@ var searchData=
   ['connectionroutingstatus',['connectionRoutingStatus',['../flipmouse__fabi__esp32__kbdmouse__main_8c.html#ae2b183880be8976139d636a3a714e315',1,'connectionRoutingStatus():&#160;flipmouse_fabi_esp32_kbdmouse_main.c'],['../common_8h.html#ae2b183880be8976139d636a3a714e315',1,'connectionRoutingStatus():&#160;flipmouse_fabi_esp32_kbdmouse_main.c']]],
   ['countrycode',['countryCode',['../structgeneralConfig.html#a7894347d712056056521db904a444a30',1,'generalConfig']]],
   ['cur_5fsrvc_5fid',['cur_srvc_id',['../structhidd__clcb__t.html#a753dbdb0ac0971d06092328aa80cbb68',1,'hidd_clcb_t']]],
-  ['currentconfig',['currentConfig',['../common_8h.html#a60df4f31fd46fe2bd4df6d0b6329b47a',1,'common.h']]],
   ['currentconfigloaded',['currentConfigLoaded',['../config__switcher_8c.html#a73c577cdbcaa9439f9458a9e5d39c143',1,'config_switcher.c']]],
   ['currenttaskparameters',['currentTaskParameters',['../config__switcher_8c.html#a04ff31fa74901c29c54c862980d47823',1,'config_switcher.c']]],
   ['currenttaskparametersupdate',['currentTaskParametersUpdate',['../config__switcher_8c.html#aceb033b9bef9bb354a3b2c4734b4ec9d',1,'config_switcher.c']]],

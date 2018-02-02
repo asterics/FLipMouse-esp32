@@ -80,6 +80,21 @@
 esp_err_t halSerialInit(void);
 
 
+/** @brief Reset the serial HID report data
+ * 
+ * Used for slot/config switchers.
+ * It resets the keycode array and sets all HID reports to 0
+ * (release all keys, avoiding sticky keys on a config change) 
+ * @param exceptDevice if you want to reset only a part of the devices, set flags
+ * accordingly:
+ * 
+ * (1<<0) excepts keyboard
+ * (1<<1) excepts joystick
+ * (1<<2) excepts mouse
+ * If nothing is set (exceptDevice = 0) all are reset
+ * */
+void halSerialReset(uint8_t exceptDevice);
+
 /** Send serial bytes to USB-Serial (USB-CDC)
  * 
  * This method sends bytes to the UART.

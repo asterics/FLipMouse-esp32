@@ -57,6 +57,13 @@
 #include "esp_log.h"
 #define LOG_TAG "KB"
 
+/** Helper macro to compare key identifiers, y must be of fixed size! */
+#define COMP(x,y) (memcmp(x,y,sizeof(y)-1) == 0)
+/** Helper macro to save key identifier, x must be a static string! */
+#define SAVE(x) if(buf_len > sizeof(x)) { memcpy(buffer,x,sizeof(x)); } else { return 2; } break
+
+
+
 /** 
  * @brief Defines the bits and deadkeys itself for all available deadkeys
  * for US_INTERNATIONAL. All other layouts have an equal array.
@@ -329,6 +336,24 @@ const uint16_t keycodes_masks[][5] = {
   { SHIFT_MASK, ALTGR_MASK, DEADKEYS_MASK, KEYCODE_MASK, 0}
   ///@endcond
 };
+
+
+/** @brief Is this keycode a modifier?
+ * 
+ * This method is used to determine if a keycode is a modifier key
+ * (without any other keys)
+ * @param keycode Keycode to be tested
+ * @return 0 if a normal keycode, 1 if a modifier key
+ * */
+uint8_t keycode_is_modifier(uint16_t keycode)
+{
+  if((keycode & 0xFF00) == 0xE000)
+  {
+    return 1;
+  } else {
+    return 0;
+  }
+}
 
 /**
  * @brief  Array of pointers to a deadkey bits array for each locale.
@@ -1989,6 +2014,8 @@ uint8_t keycode_to_key(uint16_t keycode)
  * @param keycode Keycode from other parsing methods
  * @param locale Currently used keyboard layout
  * @return 8-bit keycode for HID
+ * 
+ * @todo Add remaining modifier keys (according to keylayouts.h, for example KEY_GUI)
  **/
 uint8_t keycode_to_modifier(uint16_t keycode, uint8_t locale)
 {
@@ -2075,7 +2102,7 @@ uint8_t parse_for_keycode(uint8_t inputdata, uint8_t locale, uint8_t *keycode_mo
 uint8_t remove_keycode(uint8_t keycode,uint8_t *keycode_arr)
 {
   uint8_t ret = 1;
-  if(keycode == 0) return 1;
+  if(keycode == 0) return 0;
   //source: Arduino core Keyboard.cpp
   for (uint8_t i=0; i<6; i++) {
 		if (keycode_arr[i] == keycode) 
@@ -2117,6 +2144,368 @@ uint8_t add_keycode(uint8_t keycode,uint8_t *keycode_arr)
 			return 2;
 		}	
 	}
+  return 1;
+}
+
+/** @brief Parse a key identifier to a keycode
+ * 
+ * This method is used to parse a key identifier (e.g., KEY_A)
+ * to a keycode which is used for a task_keyboard config.
+ * 
+ * @warning If you use key identifiers, no keyboard locale is taken into
+ * account!
+ * 
+ * @param keyidentifier Key identifier string
+ * @return Keycode if found, 0 otherwise
+ * 
+ * @see parseKeycodeToIdentifier
+ * */
+uint16_t parseIdentifierToKeycode(char* keyidentifier)
+{  
+  if(COMP(keyidentifier, "KEY_A ")) return KEY_A;
+  if(COMP(keyidentifier, "KEY_B ")) return KEY_B;
+  if(COMP(keyidentifier, "KEY_C ")) return KEY_C;
+  if(COMP(keyidentifier, "KEY_D ")) return KEY_D;
+  if(COMP(keyidentifier, "KEY_E ")) return KEY_E;
+  if(COMP(keyidentifier, "KEY_F ")) return KEY_F;
+  if(COMP(keyidentifier, "KEY_G ")) return KEY_G;
+  if(COMP(keyidentifier, "KEY_H ")) return KEY_H;
+  if(COMP(keyidentifier, "KEY_I ")) return KEY_I;
+  if(COMP(keyidentifier, "KEY_J ")) return KEY_J;
+  if(COMP(keyidentifier, "KEY_K ")) return KEY_K;
+  if(COMP(keyidentifier, "KEY_L ")) return KEY_L;
+  if(COMP(keyidentifier, "KEY_M ")) return KEY_M;
+  if(COMP(keyidentifier, "KEY_N ")) return KEY_N;
+  if(COMP(keyidentifier, "KEY_O ")) return KEY_O;
+  if(COMP(keyidentifier, "KEY_P ")) return KEY_P;
+  if(COMP(keyidentifier, "KEY_Q ")) return KEY_Q;
+  if(COMP(keyidentifier, "KEY_R ")) return KEY_R;
+  if(COMP(keyidentifier, "KEY_S ")) return KEY_S;
+  if(COMP(keyidentifier, "KEY_T ")) return KEY_T;
+  if(COMP(keyidentifier, "KEY_U ")) return KEY_U;
+  if(COMP(keyidentifier, "KEY_V ")) return KEY_V;
+  if(COMP(keyidentifier, "KEY_W ")) return KEY_W;
+  if(COMP(keyidentifier, "KEY_X ")) return KEY_X;
+  if(COMP(keyidentifier, "KEY_Y ")) return KEY_Y;
+  if(COMP(keyidentifier, "KEY_Z ")) return KEY_Z;
+  
+  if(COMP(keyidentifier, "KEY_1 ")) return KEY_1;
+  if(COMP(keyidentifier, "KEY_2 ")) return KEY_2;
+  if(COMP(keyidentifier, "KEY_3 ")) return KEY_3;
+  if(COMP(keyidentifier, "KEY_4 ")) return KEY_4;
+  if(COMP(keyidentifier, "KEY_5 ")) return KEY_5;
+  if(COMP(keyidentifier, "KEY_6 ")) return KEY_6;
+  if(COMP(keyidentifier, "KEY_7 ")) return KEY_7;
+  if(COMP(keyidentifier, "KEY_8 ")) return KEY_8;
+  if(COMP(keyidentifier, "KEY_9 ")) return KEY_9;
+  if(COMP(keyidentifier, "KEY_0 ")) return KEY_0;
+  
+  if(COMP(keyidentifier, "KEY_F1 ")) return KEY_F1;
+  if(COMP(keyidentifier, "KEY_F2 ")) return KEY_F2;
+  if(COMP(keyidentifier, "KEY_F3 ")) return KEY_F3;
+  if(COMP(keyidentifier, "KEY_F4 ")) return KEY_F4;
+  if(COMP(keyidentifier, "KEY_F5 ")) return KEY_F5;
+  if(COMP(keyidentifier, "KEY_F6 ")) return KEY_F6;
+  if(COMP(keyidentifier, "KEY_F7 ")) return KEY_F7;
+  if(COMP(keyidentifier, "KEY_F8 ")) return KEY_F8;
+  if(COMP(keyidentifier, "KEY_F9 ")) return KEY_F9;
+  if(COMP(keyidentifier, "KEY_F10 ")) return KEY_F10;
+  if(COMP(keyidentifier, "KEY_F11 ")) return KEY_F11;
+  if(COMP(keyidentifier, "KEY_F12 ")) return KEY_F12;
+  if(COMP(keyidentifier, "KEY_F13 ")) return KEY_F13;
+  if(COMP(keyidentifier, "KEY_F14 ")) return KEY_F14;
+  if(COMP(keyidentifier, "KEY_F15 ")) return KEY_F15;
+  if(COMP(keyidentifier, "KEY_F16 ")) return KEY_F16;
+  if(COMP(keyidentifier, "KEY_F17 ")) return KEY_F17;
+  if(COMP(keyidentifier, "KEY_F18 ")) return KEY_F18;
+  if(COMP(keyidentifier, "KEY_F19 ")) return KEY_F19;
+  if(COMP(keyidentifier, "KEY_F20 ")) return KEY_F20;
+  if(COMP(keyidentifier, "KEY_F21 ")) return KEY_F21;
+  if(COMP(keyidentifier, "KEY_F22 ")) return KEY_F22;
+  if(COMP(keyidentifier, "KEY_F23 ")) return KEY_F23;
+  if(COMP(keyidentifier, "KEY_F24 ")) return KEY_F24;
+  
+  if(COMP(keyidentifier, "KEY_RIGHT ")) return KEY_RIGHT;
+  if(COMP(keyidentifier, "KEY_LEFT ")) return KEY_LEFT;
+  if(COMP(keyidentifier, "KEY_DOWN ")) return KEY_DOWN;
+  if(COMP(keyidentifier, "KEY_UP ")) return KEY_UP;
+  
+  if(COMP(keyidentifier, "KEY_ENTER ")) return KEY_ENTER;
+  if(COMP(keyidentifier, "KEY_ESC ")) return KEY_ESC;
+  if(COMP(keyidentifier, "KEY_BACKSPACE ")) return KEY_BACKSPACE;
+  if(COMP(keyidentifier, "KEY_TAB ")) return KEY_TAB;
+  if(COMP(keyidentifier, "KEY_HOME ")) return KEY_HOME;
+  if(COMP(keyidentifier, "KEY_PAGE_UP ")) return KEY_PAGE_UP;
+  if(COMP(keyidentifier, "KEY_PAGE_DOWN ")) return KEY_PAGE_DOWN;
+  if(COMP(keyidentifier, "KEY_DELETE ")) return KEY_DELETE;
+  if(COMP(keyidentifier, "KEY_INSERT ")) return KEY_INSERT;
+  if(COMP(keyidentifier, "KEY_END ")) return KEY_END;
+  if(COMP(keyidentifier, "KEY_NUM_LOCK ")) return KEY_NUM_LOCK;
+  if(COMP(keyidentifier, "KEY_SCROLL_LOCK ")) return KEY_SCROLL_LOCK;
+  if(COMP(keyidentifier, "KEY_SPACE ")) return KEY_SPACE;
+  if(COMP(keyidentifier, "KEY_CAPS_LOCK ")) return KEY_CAPS_LOCK;
+  if(COMP(keyidentifier, "KEY_PAUSE ")) return KEY_PAUSE;
+  if(COMP(keyidentifier, "KEY_SHIFT ")) return MODIFIERKEY_SHIFT;
+  if(COMP(keyidentifier, "KEY_CTRL ")) return MODIFIERKEY_CTRL;
+  if(COMP(keyidentifier, "KEY_ALT ")) return MODIFIERKEY_ALT;
+  if(COMP(keyidentifier, "KEY_RIGHT_ALT ")) return KEY_RIGHT_ALT;
+  if(COMP(keyidentifier, "KEY_GUI ")) return MODIFIERKEY_GUI;
+  if(COMP(keyidentifier, "KEY_RIGHT_GUI ")) return KEY_RIGHT_GUI;
+  
+  if(COMP(keyidentifier, "KEY_MEDIA_POWER ")) return KEY_MEDIA_POWER;
+  if(COMP(keyidentifier, "KEY_MEDIA_RESET ")) return KEY_MEDIA_RESET;
+  if(COMP(keyidentifier, "KEY_MEDIA_SLEEP ")) return KEY_MEDIA_SLEEP;
+  if(COMP(keyidentifier, "KEY_MEDIA_MENU ")) return KEY_MEDIA_MENU;
+  if(COMP(keyidentifier, "KEY_MEDIA_SELECTION ")) return KEY_MEDIA_SELECTION;
+  if(COMP(keyidentifier, "KEY_MEDIA_ASSIGN_SEL ")) return KEY_MEDIA_ASSIGN_SEL;
+  if(COMP(keyidentifier, "KEY_MEDIA_MODE_STEP ")) return KEY_MEDIA_MODE_STEP;
+  if(COMP(keyidentifier, "KEY_MEDIA_RECALL_LAST ")) return KEY_MEDIA_RECALL_LAST;
+  if(COMP(keyidentifier, "KEY_MEDIA_QUIT ")) return KEY_MEDIA_QUIT;
+  if(COMP(keyidentifier, "KEY_MEDIA_HELP ")) return KEY_MEDIA_HELP;
+  if(COMP(keyidentifier, "KEY_MEDIA_CHANNEL_UP ")) return KEY_MEDIA_CHANNEL_UP;
+  if(COMP(keyidentifier, "KEY_MEDIA_CHANNEL_DOWN ")) return KEY_MEDIA_CHANNEL_DOWN;
+  if(COMP(keyidentifier, "KEY_MEDIA_SELECT_DISC ")) return KEY_MEDIA_SELECT_DISC;
+  if(COMP(keyidentifier, "KEY_MEDIA_ENTER_DISC ")) return KEY_MEDIA_ENTER_DISC;
+  if(COMP(keyidentifier, "KEY_MEDIA_REPEAT ")) return KEY_MEDIA_REPEAT;
+  if(COMP(keyidentifier, "KEY_MEDIA_VOLUME ")) return KEY_MEDIA_VOLUME;
+  if(COMP(keyidentifier, "KEY_MEDIA_BALANCE ")) return KEY_MEDIA_BALANCE;
+  if(COMP(keyidentifier, "KEY_MEDIA_BASS ")) return KEY_MEDIA_BASS;
+  
+  if(COMP(keyidentifier, "KEY_MEDIA_PLAY ")) return KEY_MEDIA_PLAY;
+  if(COMP(keyidentifier, "KEY_MEDIA_PAUSE ")) return KEY_MEDIA_PAUSE;
+  if(COMP(keyidentifier, "KEY_MEDIA_RECORD ")) return KEY_MEDIA_RECORD;
+  if(COMP(keyidentifier, "KEY_MEDIA_FAST_FORWARD ")) return KEY_MEDIA_FAST_FORWARD;
+  if(COMP(keyidentifier, "KEY_MEDIA_REWIND ")) return KEY_MEDIA_REWIND;
+  if(COMP(keyidentifier, "KEY_MEDIA_NEXT_TRACK ")) return KEY_MEDIA_NEXT_TRACK;
+  if(COMP(keyidentifier, "KEY_MEDIA_PREV_TRACK ")) return KEY_MEDIA_PREV_TRACK;
+  if(COMP(keyidentifier, "KEY_MEDIA_STOP ")) return KEY_MEDIA_STOP;
+  if(COMP(keyidentifier, "KEY_MEDIA_EJECT ")) return KEY_MEDIA_EJECT;
+  if(COMP(keyidentifier, "KEY_MEDIA_RANDOM_PLAY ")) return KEY_MEDIA_RANDOM_PLAY;
+  if(COMP(keyidentifier, "KEY_MEDIA_STOP_EJECT ")) return KEY_MEDIA_STOP_EJECT;
+  if(COMP(keyidentifier, "KEY_MEDIA_PLAY_PAUSE ")) return KEY_MEDIA_PLAY_PAUSE;
+  if(COMP(keyidentifier, "KEY_MEDIA_PLAY_SKIP ")) return KEY_MEDIA_PLAY_SKIP;
+  if(COMP(keyidentifier, "KEY_MEDIA_MUTE ")) return KEY_MEDIA_MUTE;
+  if(COMP(keyidentifier, "KEY_MEDIA_VOLUME_INC ")) return KEY_MEDIA_VOLUME_INC;
+  if(COMP(keyidentifier, "KEY_MEDIA_VOLUME_DEC ")) return KEY_MEDIA_VOLUME_DEC;
+  
+  if(COMP(keyidentifier, "KEY_SYSTEM_POWER_DOWN ")) return KEY_SYSTEM_POWER_DOWN;
+  if(COMP(keyidentifier, "KEY_SYSTEM_SLEEP ")) return KEY_SYSTEM_SLEEP;
+  if(COMP(keyidentifier, "KEY_SYSTEM_WAKE_UP ")) return KEY_SYSTEM_WAKE_UP;
+  if(COMP(keyidentifier, "KEY_MINUS ")) return KEY_MINUS;
+  if(COMP(keyidentifier, "KEY_EQUAL ")) return KEY_EQUAL;
+  if(COMP(keyidentifier, "KEY_LEFT_BRACE ")) return KEY_LEFT_BRACE;
+  if(COMP(keyidentifier, "KEY_RIGHT_BRACE ")) return KEY_RIGHT_BRACE;
+  if(COMP(keyidentifier, "KEY_BACKSLASH ")) return KEY_BACKSLASH;
+  if(COMP(keyidentifier, "KEY_SEMICOLON ")) return KEY_SEMICOLON;
+  if(COMP(keyidentifier, "KEY_QUOTE ")) return KEY_QUOTE;
+  if(COMP(keyidentifier, "KEY_TILDE ")) return KEY_TILDE;
+  if(COMP(keyidentifier, "KEY_COMMA ")) return KEY_COMMA;
+  if(COMP(keyidentifier, "KEY_PERIOD ")) return KEY_PERIOD;
+  if(COMP(keyidentifier, "KEY_SLASH ")) return KEY_SLASH;
+  if(COMP(keyidentifier, "KEY_PRINTSCREEN ")) return KEY_PRINTSCREEN;
+  if(COMP(keyidentifier, "KEY_MENU ")) return KEY_MENU;
+  
+  
+  if(COMP(keyidentifier, "KEYPAD_SLASH ")) return KEYPAD_SLASH;
+  if(COMP(keyidentifier, "KEYPAD_ASTERIX ")) return KEYPAD_ASTERIX;
+  if(COMP(keyidentifier, "KEYPAD_MINUS ")) return KEYPAD_MINUS;
+  if(COMP(keyidentifier, "KEYPAD_PLUS ")) return KEYPAD_PLUS;
+  if(COMP(keyidentifier, "KEYPAD_ENTER ")) return KEYPAD_ENTER;
+  if(COMP(keyidentifier, "KEYPAD_1 ")) return KEYPAD_1;
+  if(COMP(keyidentifier, "KEYPAD_2 ")) return KEYPAD_2;
+  if(COMP(keyidentifier, "KEYPAD_3 ")) return KEYPAD_3;
+  if(COMP(keyidentifier, "KEYPAD_4 ")) return KEYPAD_4;
+  if(COMP(keyidentifier, "KEYPAD_5 ")) return KEYPAD_5;
+  if(COMP(keyidentifier, "KEYPAD_6 ")) return KEYPAD_6;
+  if(COMP(keyidentifier, "KEYPAD_7 ")) return KEYPAD_7;
+  if(COMP(keyidentifier, "KEYPAD_8 ")) return KEYPAD_8;
+  if(COMP(keyidentifier, "KEYPAD_9 ")) return KEYPAD_9;
+  if(COMP(keyidentifier, "KEYPAD_0 ")) return KEYPAD_0;
+  
+  return 0;
+}
+
+/** @brief Parse a keycode to a key identifier
+ * 
+ * This method is used to parse a key code to a key identifier which
+ * can be used for sending back the task_keyboard config.
+ * 
+ * @warning If you use key identifiers, no keyboard locale is taken into
+ * account!
+ * 
+ * @param keycode Keycode to be parsed to a key identifier
+ * @param buffer Char buffer where the key identifier is saved to
+ * @param buf_len Length of buffer
+ * @return 1 if found, 2 if buffer is too small, 0 if no key identifier was found
+ * 
+ * @see parseIdentifierToKeycode
+ * */
+uint16_t parseKeycodeToIdentifier(uint16_t keycode, char* buffer, uint8_t buf_len)
+{
+  switch(keycode)
+  {
+    case KEY_A: SAVE("KEY_A");
+    case KEY_B: SAVE("KEY_B");
+    case KEY_C: SAVE("KEY_C");
+    case KEY_D: SAVE("KEY_D");
+    case KEY_E: SAVE("KEY_E");
+    case KEY_F: SAVE("KEY_F");
+    case KEY_G: SAVE("KEY_G");
+    case KEY_H: SAVE("KEY_H");
+    case KEY_I: SAVE("KEY_I");
+    case KEY_J: SAVE("KEY_J");
+    case KEY_K: SAVE("KEY_K");
+    case KEY_L: SAVE("KEY_L");
+    case KEY_M: SAVE("KEY_M");
+    case KEY_N: SAVE("KEY_N");
+    case KEY_O: SAVE("KEY_O");
+    case KEY_P: SAVE("KEY_P");
+    case KEY_Q: SAVE("KEY_Q");
+    case KEY_R: SAVE("KEY_R");
+    case KEY_S: SAVE("KEY_S");
+    case KEY_T: SAVE("KEY_T");
+    case KEY_U: SAVE("KEY_U");
+    case KEY_V: SAVE("KEY_V");
+    case KEY_W: SAVE("KEY_W");
+    case KEY_X: SAVE("KEY_X");
+    case KEY_Y: SAVE("KEY_Y");
+    case KEY_Z: SAVE("KEY_Z");
+    
+    case KEY_1: SAVE("KEY_1");
+    case KEY_2: SAVE("KEY_2");
+    case KEY_3: SAVE("KEY_3");
+    case KEY_4: SAVE("KEY_4");
+    case KEY_5: SAVE("KEY_5");
+    case KEY_6: SAVE("KEY_6");
+    case KEY_7: SAVE("KEY_7");
+    case KEY_8: SAVE("KEY_8");
+    case KEY_9: SAVE("KEY_9");
+    case KEY_0: SAVE("KEY_0");
+    
+    case KEY_F1: SAVE("KEY_F1");
+    case KEY_F2: SAVE("KEY_F2");
+    case KEY_F3: SAVE("KEY_F3");
+    case KEY_F4: SAVE("KEY_F4");
+    case KEY_F5: SAVE("KEY_F5");
+    case KEY_F6: SAVE("KEY_F6");
+    case KEY_F7: SAVE("KEY_F7");
+    case KEY_F8: SAVE("KEY_F8");
+    case KEY_F9: SAVE("KEY_F9");
+    case KEY_F10: SAVE("KEY_F10");
+    case KEY_F11: SAVE("KEY_F11");
+    case KEY_F12: SAVE("KEY_F12");
+    case KEY_F13: SAVE("KEY_F13");
+    case KEY_F14: SAVE("KEY_F14");
+    case KEY_F15: SAVE("KEY_F15");
+    case KEY_F16: SAVE("KEY_F16");
+    case KEY_F17: SAVE("KEY_F17");
+    case KEY_F18: SAVE("KEY_F18");
+    case KEY_F19: SAVE("KEY_F19");
+    case KEY_F20: SAVE("KEY_F20");
+    case KEY_F21: SAVE("KEY_F21");
+    case KEY_F22: SAVE("KEY_F22");
+    case KEY_F23: SAVE("KEY_F23");
+    case KEY_F24: SAVE("KEY_F24");
+    
+    case KEY_RIGHT: SAVE("KEY_RIGHT");
+    case KEY_LEFT: SAVE("KEY_LEFT");
+    case KEY_DOWN: SAVE("KEY_DOWN");
+    case KEY_UP: SAVE("KEY_UP");
+    
+    case KEY_ENTER: SAVE("KEY_ENTER");
+    case KEY_ESC: SAVE("KEY_ESC");
+    case KEY_BACKSPACE: SAVE("KEY_BACKSPACE");
+    case KEY_TAB: SAVE("KEY_TAB");
+    case KEY_HOME: SAVE("KEY_HOME");
+    case KEY_PAGE_UP: SAVE("KEY_PAGE_UP");
+    case KEY_PAGE_DOWN: SAVE("KEY_PAGE_DOWN");
+    case KEY_DELETE: SAVE("KEY_DELETE");
+    case KEY_INSERT: SAVE("KEY_INSERT");
+    case KEY_END: SAVE("KEY_END");
+    
+    case KEY_NUM_LOCK: SAVE("KEY_NUM_LOCK");
+    case KEY_SCROLL_LOCK: SAVE("KEY_SCROLL_LOCK");
+    case KEY_SPACE: SAVE("KEY_SPACE");
+    case KEY_CAPS_LOCK: SAVE("KEY_CAPS_LOCK");
+    case KEY_PAUSE: SAVE("KEY_PAUSE");
+    case MODIFIERKEY_SHIFT: SAVE("KEY_SHIFT");
+    case MODIFIERKEY_CTRL: SAVE("KEY_CTRL");
+    case MODIFIERKEY_ALT: SAVE("KEY_ALT");
+    case KEY_RIGHT_ALT: SAVE("KEY_RIGHT_ALT");
+    case MODIFIERKEY_GUI: SAVE("KEY_GUI");
+    case KEY_RIGHT_GUI: SAVE("KEY_RIGHT_GUI");
+    
+    case KEY_MEDIA_POWER: SAVE("KEY_MEDIA_POWER");
+    case KEY_MEDIA_RESET: SAVE("KEY_MEDIA_RESET");
+    case KEY_MEDIA_SLEEP: SAVE("KEY_MEDIA_SLEEP");
+    case KEY_MEDIA_MENU: SAVE("KEY_MEDIA_MENU");
+    case KEY_MEDIA_SELECTION: SAVE("KEY_MEDIA_SELECTION");
+    case KEY_MEDIA_ASSIGN_SEL: SAVE("KEY_MEDIA_ASSIGN_SEL");
+    case KEY_MEDIA_MODE_STEP: SAVE("KEY_MEDIA_MODE_STEP");
+    case KEY_MEDIA_RECALL_LAST: SAVE("KEY_MEDIA_RECALL_LAST");
+    case KEY_MEDIA_QUIT: SAVE("KEY_MEDIA_QUIT");
+    case KEY_MEDIA_HELP: SAVE("KEY_MEDIA_HELP");
+    case KEY_MEDIA_CHANNEL_UP: SAVE("KEY_MEDIA_CHANNEL_UP");
+    case KEY_MEDIA_CHANNEL_DOWN: SAVE("KEY_MEDIA_CHANNEL_DOWN");
+    case KEY_MEDIA_SELECT_DISC: SAVE("KEY_MEDIA_SELECT_DISC");
+    case KEY_MEDIA_ENTER_DISC: SAVE("KEY_MEDIA_ENTER_DISC");
+    case KEY_MEDIA_REPEAT: SAVE("KEY_MEDIA_REPEAT");
+    case KEY_MEDIA_VOLUME: SAVE("KEY_MEDIA_VOLUME");
+    case KEY_MEDIA_BALANCE: SAVE("KEY_MEDIA_BALANCE");
+    case KEY_MEDIA_BASS: SAVE("KEY_MEDIA_BASS");
+    
+    case KEY_MEDIA_PLAY: SAVE("KEY_MEDIA_PLAY");
+    case KEY_MEDIA_PAUSE: SAVE("KEY_MEDIA_PAUSE");
+    case KEY_MEDIA_RECORD: SAVE("KEY_MEDIA_RECORD");
+    case KEY_MEDIA_FAST_FORWARD: SAVE("KEY_MEDIA_FAST_FORWARD");
+    case KEY_MEDIA_REWIND: SAVE("KEY_MEDIA_REWIND");
+    case KEY_MEDIA_NEXT_TRACK: SAVE("KEY_MEDIA_NEXT_TRACK");
+    case KEY_MEDIA_PREV_TRACK: SAVE("KEY_MEDIA_PREV_TRACK");
+    case KEY_MEDIA_STOP: SAVE("KEY_MEDIA_STOP");
+    case KEY_MEDIA_EJECT: SAVE("KEY_MEDIA_EJECT");
+    case KEY_MEDIA_RANDOM_PLAY: SAVE("KEY_MEDIA_RANDOM_PLAY");
+    case KEY_MEDIA_STOP_EJECT: SAVE("KEY_MEDIA_STOP_EJECT");
+    case KEY_MEDIA_PLAY_PAUSE: SAVE("KEY_MEDIA_PLAY_PAUSE");
+    case KEY_MEDIA_PLAY_SKIP: SAVE("KEY_MEDIA_PLAY_SKIP");
+    case KEY_MEDIA_MUTE: SAVE("KEY_MEDIA_MUTE");
+    case KEY_MEDIA_VOLUME_INC: SAVE("KEY_MEDIA_VOLUME_INC");
+    case KEY_MEDIA_VOLUME_DEC: SAVE("KEY_MEDIA_VOLUME_DEC");
+    
+    case KEY_SYSTEM_POWER_DOWN: SAVE("KEY_SYSTEM_POWER_DOWN");
+    case KEY_SYSTEM_SLEEP: SAVE("KEY_SYSTEM_SLEEP");
+    case KEY_SYSTEM_WAKE_UP: SAVE("KEY_SYSTEM_WAKE_UP");
+    case KEY_MINUS: SAVE("KEY_MINUS");
+    case KEY_EQUAL: SAVE("KEY_EQUAL");
+    case KEY_LEFT_BRACE: SAVE("KEY_LEFT_BRACE");
+    case KEY_RIGHT_BRACE: SAVE("KEY_RIGHT_BRACE");
+    case KEY_BACKSLASH: SAVE("KEY_BACKSLASH");
+    case KEY_SEMICOLON: SAVE("KEY_SEMICOLON");
+    case KEY_QUOTE: SAVE("KEY_QUOTE");
+    case KEY_TILDE: SAVE("KEY_TILDE");
+    case KEY_COMMA: SAVE("KEY_COMMA");
+    case KEY_PERIOD: SAVE("KEY_PERIOD");
+    case KEY_SLASH: SAVE("KEY_SLASH");
+    case KEY_PRINTSCREEN: SAVE("KEY_PRINTSCREEN");
+    case KEY_MENU: SAVE("KEY_MENU");
+    
+    case KEYPAD_SLASH: SAVE("KEYPAD_SLASH");
+    case KEYPAD_ASTERIX: SAVE("KEYPAD_ASTERIX");
+    case KEYPAD_MINUS: SAVE("KEYPAD_MINUS");
+    case KEYPAD_PLUS: SAVE("KEYPAD_PLUS");
+    case KEYPAD_ENTER: SAVE("KEYPAD_ENTER");
+    case KEYPAD_1: SAVE("KEYPAD_1");
+    case KEYPAD_2: SAVE("KEYPAD_2");
+    case KEYPAD_3: SAVE("KEYPAD_3");
+    case KEYPAD_4: SAVE("KEYPAD_4");
+    case KEYPAD_5: SAVE("KEYPAD_5");
+    case KEYPAD_6: SAVE("KEYPAD_6");
+    case KEYPAD_7: SAVE("KEYPAD_7");
+    case KEYPAD_8: SAVE("KEYPAD_8");
+    case KEYPAD_9: SAVE("KEYPAD_9");
+    case KEYPAD_0: SAVE("KEYPAD_0");
+    //no keycode found
+    default: return 0;
+  }
   return 1;
 }
 

@@ -60,7 +60,7 @@ uint8_t doMouseParsing(uint8_t *cmdBuffer, taskMouseConfig_t *mouseinstance);
 uint8_t doKeyboardParsing(uint8_t *cmdBuffer, taskKeyboardConfig_t *kbdinstance, int length);
 //uint8_t doJoystickParsing(uint8_t *cmdBuffer, taskJoystickConfig_t *instance);
 uint8_t doMouthpieceSettingsParsing(uint8_t *cmdBuffer);
-uint8_t doStorageParsing(uint8_t *cmdBuffer);
+uint8_t doStorageParsing(uint8_t *cmdBuffer, taskConfigSwitcherConfig_t *instance);
 uint8_t doInfraredParsing(uint8_t *cmdBuffer);
 uint8_t doGeneralCmdParsing(uint8_t *cmdBuffer);
 
@@ -292,12 +292,14 @@ uint8_t doMouthpieceSettingsParsing(uint8_t *cmdBuffer)
   return 0;
 }
 
-uint8_t doStorageParsing(uint8_t *cmdBuffer)
+uint8_t doStorageParsing(uint8_t *cmdBuffer, taskConfigSwitcherConfig_t *instance)
 {
   char slotname[SLOTNAME_LENGTH];
   uint32_t tid = 0;
   uint8_t slotnumber = 0;
   generalConfig_t * currentcfg = configGetCurrent();
+  //clear any previous data
+  memset(instance,0,sizeof(taskConfigSwitcherConfig_t));
   
   /*++++ save slot ++++*/
   if(CMD("AT SA"))
@@ -319,6 +321,7 @@ uint8_t doStorageParsing(uint8_t *cmdBuffer)
     if(halStorageStore(tid,currentcfg,slotname,slotnumber+1) != ESP_OK)
     {
       ESP_LOGE(LOG_TAG,"Cannot store general cfg");
+      halStorageFinishTransaction(tid);
       return 0;
     }
     //store each virtual button
@@ -341,9 +344,38 @@ uint8_t doStorageParsing(uint8_t *cmdBuffer)
         sizevb,tid) != ESP_OK)
       {
         ESP_LOGE(LOG_TAG,"Cannot store VB %d",i);
+        halStorageFinishTransaction(tid);
         return 0;
       }
     }
+    halStorageFinishTransaction(tid);
+    return 2;
+  }
+  
+  /*++++ AT NE (load next) +++*/
+  if(CMD("AT NE"))
+  {
+    //save to config
+    instance->virtualButton = requestVBUpdate;
+    strcpy(instance->slotName,"__NEXT");
+    ESP_LOGI(LOG_TAG,"Load next, by parameter: %s",instance->slotName);
+    //we want to have the config sent to the task
+    return 1;
+  }
+  
+  /*++++ AT LO (load) ++++*/
+  if(CMD("AT LO"))
+  {
+    //find end of slotname
+    char *pch = strpbrk((char *)&cmdBuffer[6],"\r\n");
+    //set 0 terminator
+    *pch = '\0';
+    //save to config
+    instance->virtualButton = requestVBUpdate;
+    strcpy(instance->slotName,(char*)&cmdBuffer[6]);
+    ESP_LOGI(LOG_TAG,"Load slot name: %s",instance->slotName);
+    //we want to have the config sent to the task
+    return 1;
   }
   //not consumed, no command found for storage
   return 0;
@@ -411,12 +443,15 @@ uint8_t doGeneralCmdParsing(uint8_t *cmdBuffer)
       if(halStorageDeleteSlot(0,tid) != ESP_OK)
       {
         sendErrorBack("Error deleting all slots");
+        halStorageFinishTransaction(tid);
         return 0;
       } else {
+        halStorageFinishTransaction(tid);
         return 1;
       }
     }
   }
+  
   /*++++ AT BM ++++*/
   if(CMD("AT BM")) {
     param = strtol((char*)&(cmdBuffer[6]),NULL,10);
@@ -430,23 +465,42 @@ uint8_t doGeneralCmdParsing(uint8_t *cmdBuffer)
   }
   
   /*++++ AT DL ++++*/
-  if(CMD("AT DL")) {
+  if(CMD4("AT DL")) {
     uint32_t tid;
     uint8_t slotnumber;
-    slotnumber = strtol((char*)&(cmdBuffer[6]),NULL,10);
+    char *pch;
+    
     if(halStorageStartTransaction(&tid,20) != ESP_OK)
     {
       return 0;
+    }
+    
+    switch(cmdBuffer[4])
+    {
+      //delete by given number
+      case 'L': slotnumber = strtol((char*)&(cmdBuffer[6]),NULL,10); break;
+      //delete by given name
+      case 'N': 
+        //find end of slotname
+        pch = strpbrk((char *)&cmdBuffer[6],"\r\n");
+        //set 0 terminator
+        *pch = '\0';
+        halStorageGetNumberForName(tid,&slotnumber,(char *)&cmdBuffer[6]); 
+        break;
+      default: return 0;
+    }
+    
+    if(halStorageDeleteSlot(slotnumber,tid) != ESP_OK)
+    {
+      sendErrorBack("Error deleting slot");
+      halStorageFinishTransaction(tid);
+      return 0;
     } else {
-      if(halStorageDeleteSlot(slotnumber,tid) != ESP_OK)
-      {
-        sendErrorBack("Error deleting slot");
-        return 0;
-      } else {
-        return 1;
-      }
+      halStorageFinishTransaction(tid);
+      return 1;
     }
   }
+
   /*++++ AT BT ++++*/
   if(CMD("AT BT")) {
     param = strtol((char*)&(cmdBuffer[6]),NULL,10);
@@ -786,6 +840,7 @@ void task_commands(void *params)
   taskMouseConfig_t *cmdMouse = malloc(sizeof(taskMouseConfig_t));
   taskKeyboardConfig_t *cmdKeyboard = malloc(sizeof(taskKeyboardConfig_t));
   taskNoParameterConfig_t *cmdNoConfig = malloc(sizeof(taskNoParameterConfig_t));
+  taskConfigSwitcherConfig_t *cmdCfgSwitcher = malloc(sizeof(taskConfigSwitcherConfig_t));
   //taskJoystickConfig_t *cmdJoystick = malloc(sizeof(taskJoystickConfig_t));
   
   //check if we have all our pointers
@@ -843,6 +898,17 @@ void task_commands(void *params)
         requestVBParameterSize = sizeof(taskMouseConfig_t);
         requestVBParameter = cmdMouse;
         requestVBType = T_MOUSE;
+      }
+      
+      //storage parsing
+      parserstate = doStorageParsing(commandBuffer,cmdCfgSwitcher);
+      if(parserstate == 2) continue; //don't need further action
+      if(parserstate == 1) 
+      {
+        requestVBTask = (void (*)(void *))&task_configswitcher;
+        requestVBParameterSize = sizeof(taskConfigSwitcherConfig_t);
+        requestVBParameter = cmdCfgSwitcher;
+        requestVBType = T_CONFIGCHANGE;
       }
       
       //if not handled already

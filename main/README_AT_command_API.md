@@ -28,6 +28,10 @@ Following commands are currently available:
 | AT RO | number (0,90,180,270) | orientation (0 => LEDs on top) | v2 | no | no |
 | AT KL | number | Set keyboard locale (locale defines are listed below) | v3 | yes | no |
 | AT BT | number (0,1,2) | Bluetooth mode, 1=USB only, 2=BT only, 3=both(default) | v2 | Working for USB, untested for BLE | no |
+| AT TT | number (100-5000) | Threshold time ([ms]) between short and long press actions. Set to 5000 to disable. | v3 | no | no |
+| AT AP | number (1-500) | Antitremor delay for button press ([ms]) | v3 | no | no |
+| AT AR | number (1-500) | Antitremor delay for button release ([ms]) | v3 | no | no |
+| AT AI | number (1-500) | Antitremor delay for button idle ([ms]) | v3 | no | no |
 **USB HID Commands**
 | Command | Parameter | Description | Available since | Implemented in v3 | FUNCTIONAL task |
 |:--------|:----------|:------------|:--------------|:--------------------|:----------------|
@@ -115,7 +119,7 @@ Following commands are currently available:
 | AT IL |   | list all available stored IR commands  | v2 | no | no |
 
 
-## Button assignments
+## Button assignments - FLipMouse
 
 The FLipMouse has 1 internal push-button and 2 jack plugs for external buttons. In addition other functions are mapped to virtual buttons, so they can be configured the same.
 Following number mapping is used for the __AT BM__ command:
@@ -142,6 +146,51 @@ Following number mapping is used for the __AT BM__ command:
 | 17   | Strong Puff + Down |
 | 18   | Strong Puff + Left |
 | 19   | Strong Puff + Right |
+| 21   |          |
+| 22   |          |
+| 23   |          |
+| 24   |          |
+| 25   |          |
+| 26   |          |
+| 27   |          |
+| 28   |          |
+| 29   |          |
+| 30   |          |
+| 31   |          |
+
+These assignments are declared in file common.h.
+
+
+
+## Button assignments - FABI
+
+The FABI supports up to 9 buttons (normally external, but they can be hardwired like internal buttons).
+In addition, one analog channel is support for sip/puff functionality.
+Following number mapping is used for the __AT BM__ command:
+
+|VB nr | Function |
+|:-----|:---------|
+| 0    | Button 1|
+| 1    | Button 2|
+| 2    | Button 3|
+| 3    | Button 4|
+| 4    | Button 5|
+| 5    | Button 6|
+| 6    | Button 7|
+| 7    | Button 8|
+| 8    | Button 9|
+| 9    | Sip      |
+| 10   | Puff     |
+| 11   | Long Press Button 1 |
+| 12   | Long Press Button 2 |
+| 13   | Long Press Button 3 |
+| 14   | Long Press Button 4 |
+| 15   | Long Press Button 5 |
+| 16   | Long Press Button 6 |
+| 17   | Long Press Button 7 |
+| 18   | Long Press Button 8 |
+| 19   | Long Press Button 9 |
+| 20   |          |
 | 21   |          |
 | 22   |          |
 | 23   |          |

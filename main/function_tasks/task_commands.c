@@ -294,7 +294,57 @@ uint8_t doMouthpieceSettingsParsing(uint8_t *cmdBuffer)
 
 uint8_t doStorageParsing(uint8_t *cmdBuffer)
 {
+  char slotname[SLOTNAME_LENGTH];
+  uint32_t tid = 0;
+  uint8_t slotnumber = 0;
+  generalConfig_t * currentcfg = configGetCurrent();
   
+  /*++++ save slot ++++*/
+  if(CMD("AT SA"))
+  {
+    if(halStorageStartTransaction(&tid,10) != ESP_OK)
+    {
+      ESP_LOGE(LOG_TAG,"Cannot start storage transaction");
+      return 0;
+    }
+    char *pch;
+    //find end of slotname
+    pch = strpbrk((char *)&cmdBuffer[6],"\r\n");
+    //set 0 terminator
+    *pch = '\0';
+    strcpy(slotname,(char*)&cmdBuffer[6]);
+    ESP_LOGI(LOG_TAG,"Save slot under name: %s",slotname);
+    halStorageGetNumberOfSlots(tid, &slotnumber);
+    //store general config
+    if(halStorageStore(tid,currentcfg,slotname,slotnumber+1) != ESP_OK)
+    {
+      ESP_LOGE(LOG_TAG,"Cannot store general cfg");
+      return 0;
+    }
+    //store each virtual button
+    for(uint8_t i = 0; i<(NUMBER_VIRTUALBUTTONS*4); i++)
+    {
+      size_t sizevb = 0;
+      
+      switch(currentcfg->virtualButtonCommand[i])
+      {
+        case T_MOUSE: sizevb = sizeof(taskMouseConfig_t); break;
+        case T_KEYBOARD: sizevb = sizeof(taskKeyboardConfig_t); break;
+        case T_CONFIGCHANGE: sizevb = sizeof(taskConfigSwitcherConfig_t); break;
+        case T_CALIBRATE: sizevb = sizeof(taskNoParameterConfig_t); break;
+        //case T_SENDIR: sizevb = sizeof(taskKeyboardConfig_t); break;
+        /** @todo Activate T_SENDIR here when IR task is finished */
+        case T_NOFUNCTION: sizevb = sizeof(taskNoParameterConfig_t); break;
+        default: break;
+      }
+      if(halStorageStoreSetVBConfigs(slotnumber+1,i,currentcfg->virtualButtonConfig[i], \
+        sizevb,tid) != ESP_OK)
+      {
+        ESP_LOGE(LOG_TAG,"Cannot store VB %d",i);
+        return 0;
+      }
+    }
+  }
   //not consumed, no command found for storage
   return 0;
 }

@@ -313,16 +313,6 @@ void halStorageCreateDefault(uint32_t tid)
   /*++++ END is not the default slot, just for testing END ++++*/
   
   ESP_LOGI(LOG_TAG,"Created new default slot");
-  /**
-   * 
-W (1571) vfs_fat_spiflash: f_mount failed (13)
-I (1571) vfs_fat_spiflash: Formatting FATFS partition
-Task watchdog got triggered. The following tasks did not reset the watchdog in time:
- - IDLE (CPU 0)
-Tasks currently running:
-CPU 0: configswitcher
-I (6381) vfs_fat_spiflash: Mounting again
-*/
 }
 
 /** Get the number of stored slots

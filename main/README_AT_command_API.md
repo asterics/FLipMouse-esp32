@@ -205,4 +205,40 @@ All possible key identifiers are defined in keylayouts.h (no doxygen available, 
 
 ## Keyboard locales
 
-TBA... (see keyboard.h)
+With firmware version 3 it is possible to change the keyboard layout of FLipMouse/FABI by the **AT KL** command.
+Please note that the keyboard layout is only relevant for the **AT KW** command, where an ASCII/Unicode text is written by
+the FLipMouse/FABI. AT commands controlled by key identifiers (e.g., KEY_Y, KEY_Z) are mapped to an american layout.
+
+It is recommended to use the __AT KW__ command as much as possible when typing text. For keyboard shortcuts, press&release actuated
+programs __AT KP/KH/KR__ is recommended.
+
+Following keyboard locales are currently available:
+
+
+| Keyboard locale | Number (parameter for **AT KL** ) |
+|:----------------|:----------------------------------|
+| LAYOUT_US_ENGLISH | 0 |
+| LAYOUT_US_INTERNATIONAL | 1 |
+| LAYOUT_GERMAN | 2 |
+| LAYOUT_GERMAN_MAC | 3 |
+| LAYOUT_CANADIAN_FRENCH | 4 |
+| LAYOUT_CANADIAN_MULTILINGUAL | 5 |
+| LAYOUT_UNITED_KINGDOM | 6 |
+| LAYOUT_FINNISH | 7 |
+| LAYOUT_FRENCH | 8 |
+| LAYOUT_DANISH | 9 |
+| LAYOUT_NORWEGIAN | 10 |
+| LAYOUT_SWEDISH | 11 |
+| LAYOUT_SPANISH | 12 |
+| LAYOUT_PORTUGUESE | 13 |
+| LAYOUT_ITALIAN | 14 |
+| LAYOUT_PORTUGUESE_BRAZILIAN | 15 |
+| LAYOUT_FRENCH_BELGIAN | 16 |
+| LAYOUT_GERMAN_SWISS | 17 |
+| LAYOUT_FRENCH_SWISS | 18 |
+| LAYOUT_SPANISH_LATIN_AMERICA | 19 |
+| LAYOUT_IRISH | 20 |
+| LAYOUT_ICELANDIC | 21 |
+| LAYOUT_TURKISH | 22 |
+| LAYOUT_CZECH | 23 |
+| LAYOUT_SERBIAN_LATIN_ONLY | 24 |

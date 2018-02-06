@@ -50,48 +50,74 @@
             <br/>
             <div class="row">
                 <button id="basic-button" onclick="save()" class="one-third">
-                    <span id="basic-button-normal" data-translatable>Save // Speichern</span>
-                    <span id="basic-button-saving" style="display: none" data-translatable>Saving... // Wird gespeichert...</span>
+                    <div id="basic-button-normal" data-translatable>Save // Speichern</div>
+                    <div id="basic-button-saving" style="display: none;" data-translatable>Saving... // Wird gespeichert...</div>
                 </button>
             </div>
         </div>
         <div data-tabs-pane class="tabs-pane" id="tabPuff">
-            <br/>
-            <label for="SIP_THRESHOLD" data-translatable>Sip Threshold: // Schwellenwert Saugen:</label>
-            <div class="row">
-                <span id="SIP_THRESHOLD_VAL" class="text-center one column">0</span>
-                <input type="range" oninput="sliderChanged(event)" onchange="sliderChanged(event)" id="SIP_THRESHOLD" min="0" max="512" class="eleven columns">
-            </div>
-            <label for="SIP_STRONG_THRESHOLD" data-translatable>Strong Sip Threshold: // Schwellenwert Saugen stark:</label>
-            <div class="row">
-                <span id="SIP_STRONG_THRESHOLD_VAL" class="text-center one column">0</span>
-                <input type="range" oninput="sliderChanged(event)" onchange="sliderChanged(event)" id="SIP_STRONG_THRESHOLD" min="0" max="512" class="eleven columns">
+
+            <div id="tab-puff-container" class="relative">
+
+                <div class="row back-layer full-height full-width">
+                    <div class="two columns"><span style="font-size: 1px; color: transparent">_</span></div>
+                    <div class="ten columns full-height relative">
+                        <div id="guide-max" class="back-layer full-height border-right-red" style="width: 50%;"></div>
+                        <div id="guide-min" class="back-layer full-height border-right-blue" style="width: 50%;"></div>
+                        <div id="guide-current" class="back-layer full-height border-right-gray" style="width: 50%;"></div>
+                    </div>
+                </div>
+
+                <br/>
+                <label for="SIP_THRESHOLD" data-translatable>Sip Threshold: // Schwellenwert Saugen:</label>
+                <div class="row">
+                    <span id="SIP_THRESHOLD_VAL" class="text-center two columns">0</span>
+                    <input type="range" oninput="sliderChanged(event)" onchange="sliderChanged(event)" id="SIP_THRESHOLD" min="0" max="1023" class="ten columns"/>
+                </div>
+                <label for="SIP_STRONG_THRESHOLD" data-translatable>Strong Sip Threshold: // Schwellenwert Saugen stark:</label>
+                <div class="row">
+                    <span id="SIP_STRONG_THRESHOLD_VAL" class="text-center two columns">0</span>
+                    <input type="range" oninput="sliderChanged(event)" onchange="sliderChanged(event)" id="SIP_STRONG_THRESHOLD" min="0" max="1023" class="ten columns"/>
+                </div>
+
+                <br/>
+                <label for="value-bar-wrapper" data-translatable>Live values: // Aktuelle Werte:</label>
+                <div class="row">
+                    <div id="value-bar-wrapper" class="text-center two columns">
+                        <span data-translatable>current: // aktuell:</span>
+                        <span id="currentValue">0</span>
+                        <span>max:</span>
+                        <span id="maxValue">0</span>
+                        <span>min:</span>
+                        <span id="minValue">-1</span></div>
+                    <div class="ten columns" style="border-style: solid; border-width: thin; background-color: transparent">
+                        <div id="value-bar" style="width: 50%;"></div>
+                    </div>
+                </div>
+
+                <br/>
+                <br/>
+                <label for="PUFF_THRESHOLD" data-translatable>Puff Threshold: // Schwellenwert Blasen:</label>
+                <div class="row">
+                    <span id="PUFF_THRESHOLD_VAL" class="text-center two columns">0</span>
+                    <input type="range" oninput="sliderChanged(event)" onchange="sliderChanged(event)" id="PUFF_THRESHOLD" min="0" max="1023" class="ten columns">
+                </div>
+                <label for="PUFF_STRONG_THRESHOLD" data-translatable>Strong Puff Threshold: // Schwellenwert Blasen stark:</label>
+                <div class="row">
+                    <span id="PUFF_STRONG_THRESHOLD_VAL" class="text-center two columns">0</span>
+                    <input type="range" oninput="sliderChanged(event)" onchange="sliderChanged(event)" id="PUFF_STRONG_THRESHOLD" min="0" max="1023" class="ten columns">
+                </div>
             </div>
 
             <br/>
-            <label for="PUFF_THRESHOLD" data-translatable>Puff Threshold: // Schwellenwert Blasen:</label>
-            <div class="row">
-                <span id="PUFF_THRESHOLD_VAL" class="text-center one column">0</span>
-                <input type="range" oninput="sliderChanged(event)" onchange="sliderChanged(event)" id="PUFF_THRESHOLD" min="512" max="1023" class="eleven columns">
-            </div>
-            <label for="PUFF_STRONG_THRESHOLD" data-translatable>Strong Puff Threshold: // Schwellenwert Blasen stark:</label>
-            <div class="row">
-                <span id="PUFF_STRONG_THRESHOLD_VAL" class="text-center one column">0</span>
-                <input type="range" oninput="sliderChanged(event)" onchange="sliderChanged(event)" id="PUFF_STRONG_THRESHOLD" min="512" max="1023" class="eleven columns">
-            </div>
-            <label for="currentValue" data-translatable>Current value: // Aktueller Wert:</label>
-            <span id="currentValue" class="text-center one column">0</span>
             <br/>
-            <label for="maxValue" data-translatable>Max value: // Maximaler Wert:</label>
-            <span id="maxValue" class="text-center one column">0</span>
-
-            <br/>
-            <br/>
-            <div class="row">
-                <button id="sip-puff-button" onclick="save()" class="one-third">
-                    <span id="sip-puff-button-normal" data-translatable>Save // Speichern</span>
-                    <span id="sip-puff-button-saving" style="display: none" data-translatable>Saving... // Wird gespeichert...</span>
-                </button>
+            <div id="button-container">
+                <div class="row1">
+                    <button id="sip-puff-button" onclick="save()" class="">
+                        <div id="sip-puff-button-normal" data-translatable>Save // Speichern</div>
+                        <div id="sip-puff-button-saving" style="display: none" data-translatable>Saving... // Wird gespeichert...</div>
+                    </button>
+                </div>
             </div>
         </div>
         <div data-tabs-pane class="tabs-pane" id="tabActions">
@@ -128,10 +154,19 @@
         window.flip = flip;
         flip.setValueHandler(function (data) {
             var value = parseInt(data.substring(7,10));
+            var percent = Math.round(value * 1000) / 1000 *  1023 / 100;
             L('#currentValue').innerHTML = value;
+            L('#value-bar').style = 'width: ' + percent + '%;';
+            L('#guide-current').style = 'width: ' + percent + '%;';
             var currentMax = parseInt(L('#maxValue').innerHTML);
+            var currentMin = parseInt(L('#minValue').innerHTML);
             if(currentMax < value) {
                 L('#maxValue').innerHTML = value;
+                L('#guide-max').style = 'width: ' + percent + '%;';
+            }
+            if(currentMin == -1 || currentMin > value) {
+                L('#minValue').innerHTML = value;
+                L('#guide-min').style = 'width: ' + percent + '%;';
             }
         });
     };

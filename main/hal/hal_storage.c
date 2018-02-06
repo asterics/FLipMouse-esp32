@@ -134,6 +134,8 @@ void halStorageCreateDefault(uint32_t tid)
   defaultCfg->slotversion = STORAGE_ID;
   defaultCfg->locale = LAYOUT_GERMAN;
   
+  strcpy(defaultCfg->slotName,"__DEFAULT");
+  
   #ifdef DEVICE_FABI
     defaultCfg->deviceIdentifier = 1;
   #endif

@@ -27,11 +27,12 @@
  * sensors and 1 pressure sensor).
  * In addition, depending on the configuration, different ADC tasks are
  * loaded.
- * One of these tasks is loaded:
- * halAdcMouse - Use the ADC values as mouse input <br>
- * halAdcThreshold - Use the ADC values to trigger virtual buttons 
+ * One of these tasks is loaded:<br>
+ * * halAdcMouse - Use the ADC values as mouse input <br>
+ * * halAdcThreshold - Use the ADC values to trigger virtual buttons 
  * (keyboard actions for example) <br>
- * halAdcJoystick - Use the ADC input to control the HID joystick <br>
+ * * halAdcJoystick - Use the ADC input to control the HID joystick <br>
+ * 
  * These tasks are HAL tasks, which means they might be reloaded/changed,
  * but they are not managed outside this module.<br>
  * In addition, the FUNCTIONAL task task_calibration can be used to

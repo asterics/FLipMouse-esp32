@@ -23,3 +23,47 @@ br {
 .text-center{
     text-align: center;
 }
+
+#value-bar {
+    background-color: #9be7ff;
+    height: 2em;
+    position: relative;
+    z-index: -10;
+}
+
+.back-layer {
+    position: absolute;
+    z-index: -1;
+}
+
+.full-height {
+     height: 100%;
+ }
+
+.full-width {
+    width: 100%;
+}
+
+.relative {
+    position: relative;
+}
+
+.border-right-blue {
+    border-right-style: dotted;
+    border-right-color: blue;
+}
+
+.border-right-red {
+    border-right-style: dotted;
+    border-right-color: red;
+}
+
+.border-right-gray {
+    border-right-style: dotted;
+    border-right-width: medium;
+    border-right-color: darkgray;
+}
+
+span {
+    background-color: white;
+}

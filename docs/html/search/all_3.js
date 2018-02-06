@@ -18,12 +18,12 @@ var searchData=
   ['device_5fflipmouse',['DEVICE_FLIPMOUSE',['../common_8h.html#ac9a214fe0920b60586b7cd204ad0ce0a',1,'common.h']]],
   ['deviceidentifier',['deviceIdentifier',['../structgeneralConfig.html#a40cad6af386ec12784926fcc16e0ba24',1,'generalConfig']]],
   ['disconnect',['disconnect',['../unionesp__hidd__cb__param__t.html#a814b1955e8b23567a0fcf6b6e164b30b',1,'esp_hidd_cb_param_t']]],
-  ['dogeneralcmdparsing',['doGeneralCmdParsing',['../task__commands_8c.html#ad105bde7fe8d6d94d079bd3e5d2851e6',1,'task_commands.c']]],
-  ['doinfraredparsing',['doInfraredParsing',['../task__commands_8c.html#a21ddb8693663bee7d11104dec08272d6',1,'task_commands.c']]],
-  ['dokeyboardparsing',['doKeyboardParsing',['../task__commands_8c.html#a9c2c2534851b17120566b9935dddd3ad',1,'task_commands.c']]],
-  ['domouseparsing',['doMouseParsing',['../task__commands_8c.html#a67e18f3921bbb80116577096dd7fccac',1,'task_commands.c']]],
-  ['domouthpiecesettingsparsing',['doMouthpieceSettingsParsing',['../task__commands_8c.html#a9b1c8742af67b0bb373493f215e98a0c',1,'task_commands.c']]],
-  ['dostorageparsing',['doStorageParsing',['../task__commands_8c.html#a1dae0050b84acac33aae21926695c8c7',1,'task_commands.c']]],
+  ['dogeneralcmdparsing',['doGeneralCmdParsing',['../task__commands_8c.html#a7f6500be563a3dce7f0854fceed02fab',1,'task_commands.c']]],
+  ['doinfraredparsing',['doInfraredParsing',['../task__commands_8c.html#a69b696a381aec817e617d2b33da045f5',1,'task_commands.c']]],
+  ['dokeyboardparsing',['doKeyboardParsing',['../task__commands_8c.html#ac3c72c089d32dea93c45f4f9f8d1f244',1,'task_commands.c']]],
+  ['domouseparsing',['doMouseParsing',['../task__commands_8c.html#a580d9f6a840975525358033a35f761d0',1,'task_commands.c']]],
+  ['domouthpiecesettingsparsing',['doMouthpieceSettingsParsing',['../task__commands_8c.html#a2ad28759e53bb5082853d8d004767115',1,'task_commands.c']]],
+  ['dostorageparsing',['doStorageParsing',['../task__commands_8c.html#a69b0c55558b32caa21407de8e2277be9',1,'task_commands.c']]],
   ['doxygen_2eh',['doxygen.h',['../doxygen_8h.html',1,'']]],
   ['duration',['duration',['../structhalIOBuzzer.html#a6fee679bc63857c97b18a867a8905b61',1,'halIOBuzzer']]]
 ];

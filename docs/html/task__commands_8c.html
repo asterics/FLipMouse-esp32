@@ -64,6 +64,8 @@ $(function() {
 <div class="header">
   <div class="summary">
 <a href="#define-members">Macros</a> &#124;
+<a href="#typedef-members">Typedefs</a> &#124;
+<a href="#enum-members">Enumerations</a> &#124;
 <a href="#func-members">Functions</a> &#124;
 <a href="#var-members">Variables</a>  </div>
   <div class="headertitle">
@@ -84,22 +86,38 @@ Macros</h2></td></tr>
 <tr class="memitem:a3857f5c8268c235bcaf6beb2cf5edfee"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="task__commands_8c.html#a3857f5c8268c235bcaf6beb2cf5edfee">CMD4</a>(x)&#160;&#160;&#160;(memcmp(cmdBuffer,x,4) == 0)</td></tr>
 <tr class="separator:a3857f5c8268c235bcaf6beb2cf5edfee"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="typedef-members"></a>
+Typedefs</h2></td></tr>
+<tr class="memitem:a9d6dfce3cb5edf05065b6dc2b175776d"><td class="memItemLeft" align="right" valign="top">typedef enum <a class="el" href="task__commands_8c.html#a7860b6904b2ba2dd906d189ada5f1e17">pstate</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="task__commands_8c.html#a9d6dfce3cb5edf05065b6dc2b175776d">parserstate_t</a></td></tr>
+<tr class="memdesc:a9d6dfce3cb5edf05065b6dc2b175776d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Current state of parser.  <a href="#a9d6dfce3cb5edf05065b6dc2b175776d">More...</a><br /></td></tr>
+<tr class="separator:a9d6dfce3cb5edf05065b6dc2b175776d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="enum-members"></a>
+Enumerations</h2></td></tr>
+<tr class="memitem:a7860b6904b2ba2dd906d189ada5f1e17"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="task__commands_8c.html#a7860b6904b2ba2dd906d189ada5f1e17">pstate</a> { <a class="el" href="task__commands_8c.html#a7860b6904b2ba2dd906d189ada5f1e17a8bb584db01e5ebc3a3d4d84157cebc3d">NOACTION</a>, 
+<a class="el" href="task__commands_8c.html#a7860b6904b2ba2dd906d189ada5f1e17a8430aa1deedfa38beb0b766f5f2ab411">WAITFORNEWATCMD</a>, 
+<a class="el" href="task__commands_8c.html#a7860b6904b2ba2dd906d189ada5f1e17a88d52d035be8cb7e2c0c9c3acc76dc6d">UNKNOWNCMD</a>, 
+<a class="el" href="task__commands_8c.html#a7860b6904b2ba2dd906d189ada5f1e17a50c64ae796b6cf92c249f1a90f98a992">TRIGGERTASK</a>
+ }<tr class="memdesc:a7860b6904b2ba2dd906d189ada5f1e17"><td class="mdescLeft">&#160;</td><td class="mdescRight">Current state of parser.  <a href="task__commands_8c.html#a7860b6904b2ba2dd906d189ada5f1e17">More...</a><br /></td></tr>
+</td></tr>
+<tr class="separator:a7860b6904b2ba2dd906d189ada5f1e17"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:a67e18f3921bbb80116577096dd7fccac"><td class="memItemLeft" align="right" valign="top">uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="task__commands_8c.html#a67e18f3921bbb80116577096dd7fccac">doMouseParsing</a> (uint8_t *cmdBuffer, <a class="el" href="task__mouse_8h.html#aa8af5afb3b111ccabb1e207ae4cabcaa">taskMouseConfig_t</a> *mouseinstance)</td></tr>
-<tr class="separator:a67e18f3921bbb80116577096dd7fccac"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9c2c2534851b17120566b9935dddd3ad"><td class="memItemLeft" align="right" valign="top">uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="task__commands_8c.html#a9c2c2534851b17120566b9935dddd3ad">doKeyboardParsing</a> (uint8_t *cmdBuffer, <a class="el" href="task__kbd_8h.html#a1ea00a7b13dc2b804f53e6f79cb89f2c">taskKeyboardConfig_t</a> *kbdinstance, int length)</td></tr>
-<tr class="separator:a9c2c2534851b17120566b9935dddd3ad"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9b1c8742af67b0bb373493f215e98a0c"><td class="memItemLeft" align="right" valign="top">uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="task__commands_8c.html#a9b1c8742af67b0bb373493f215e98a0c">doMouthpieceSettingsParsing</a> (uint8_t *cmdBuffer)</td></tr>
-<tr class="separator:a9b1c8742af67b0bb373493f215e98a0c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1dae0050b84acac33aae21926695c8c7"><td class="memItemLeft" align="right" valign="top">uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="task__commands_8c.html#a1dae0050b84acac33aae21926695c8c7">doStorageParsing</a> (uint8_t *cmdBuffer, <a class="el" href="config__switcher_8h.html#aa6d38946df351bfaec1994fdb081e7db">taskConfigSwitcherConfig_t</a> *instance)</td></tr>
-<tr class="separator:a1dae0050b84acac33aae21926695c8c7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a21ddb8693663bee7d11104dec08272d6"><td class="memItemLeft" align="right" valign="top">uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="task__commands_8c.html#a21ddb8693663bee7d11104dec08272d6">doInfraredParsing</a> (uint8_t *cmdBuffer)</td></tr>
-<tr class="separator:a21ddb8693663bee7d11104dec08272d6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad105bde7fe8d6d94d079bd3e5d2851e6"><td class="memItemLeft" align="right" valign="top">uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="task__commands_8c.html#ad105bde7fe8d6d94d079bd3e5d2851e6">doGeneralCmdParsing</a> (uint8_t *cmdBuffer)</td></tr>
-<tr class="separator:ad105bde7fe8d6d94d079bd3e5d2851e6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:acea81ba8a182ae78feb2db6418fc1806"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="task__commands_8c.html#acea81ba8a182ae78feb2db6418fc1806">sendErrorBack</a> (const char *extrainfo)</td></tr>
 <tr class="separator:acea81ba8a182ae78feb2db6418fc1806"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2ad28759e53bb5082853d8d004767115"><td class="memItemLeft" align="right" valign="top"><a class="el" href="task__commands_8c.html#a9d6dfce3cb5edf05065b6dc2b175776d">parserstate_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="task__commands_8c.html#a2ad28759e53bb5082853d8d004767115">doMouthpieceSettingsParsing</a> (uint8_t *cmdBuffer, <a class="el" href="common_8h.html#a735049d5abb65dcaa7ba76917158a3b3">taskNoParameterConfig_t</a> *instance)</td></tr>
+<tr class="separator:a2ad28759e53bb5082853d8d004767115"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a69b0c55558b32caa21407de8e2277be9"><td class="memItemLeft" align="right" valign="top"><a class="el" href="task__commands_8c.html#a9d6dfce3cb5edf05065b6dc2b175776d">parserstate_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="task__commands_8c.html#a69b0c55558b32caa21407de8e2277be9">doStorageParsing</a> (uint8_t *cmdBuffer, <a class="el" href="config__switcher_8h.html#aa6d38946df351bfaec1994fdb081e7db">taskConfigSwitcherConfig_t</a> *instance)</td></tr>
+<tr class="separator:a69b0c55558b32caa21407de8e2277be9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a69b696a381aec817e617d2b33da045f5"><td class="memItemLeft" align="right" valign="top"><a class="el" href="task__commands_8c.html#a9d6dfce3cb5edf05065b6dc2b175776d">parserstate_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="task__commands_8c.html#a69b696a381aec817e617d2b33da045f5">doInfraredParsing</a> (uint8_t *cmdBuffer)</td></tr>
+<tr class="separator:a69b696a381aec817e617d2b33da045f5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7f6500be563a3dce7f0854fceed02fab"><td class="memItemLeft" align="right" valign="top"><a class="el" href="task__commands_8c.html#a9d6dfce3cb5edf05065b6dc2b175776d">parserstate_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="task__commands_8c.html#a7f6500be563a3dce7f0854fceed02fab">doGeneralCmdParsing</a> (uint8_t *cmdBuffer)</td></tr>
+<tr class="separator:a7f6500be563a3dce7f0854fceed02fab"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac3c72c089d32dea93c45f4f9f8d1f244"><td class="memItemLeft" align="right" valign="top"><a class="el" href="task__commands_8c.html#a9d6dfce3cb5edf05065b6dc2b175776d">parserstate_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="task__commands_8c.html#ac3c72c089d32dea93c45f4f9f8d1f244">doKeyboardParsing</a> (uint8_t *cmdBuffer, <a class="el" href="task__kbd_8h.html#a1ea00a7b13dc2b804f53e6f79cb89f2c">taskKeyboardConfig_t</a> *kbdinstance, int length)</td></tr>
+<tr class="separator:ac3c72c089d32dea93c45f4f9f8d1f244"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a580d9f6a840975525358033a35f761d0"><td class="memItemLeft" align="right" valign="top"><a class="el" href="task__commands_8c.html#a9d6dfce3cb5edf05065b6dc2b175776d">parserstate_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="task__commands_8c.html#a580d9f6a840975525358033a35f761d0">doMouseParsing</a> (uint8_t *cmdBuffer, <a class="el" href="task__mouse_8h.html#aa8af5afb3b111ccabb1e207ae4cabcaa">taskMouseConfig_t</a> *mouseinstance)</td></tr>
+<tr class="separator:a580d9f6a840975525358033a35f761d0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7b36c39275d773aaedcb327ef4e1516f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="task__commands_8c.html#a7b36c39275d773aaedcb327ef4e1516f">task_commands</a> (void *params)</td></tr>
 <tr class="separator:a7b36c39275d773aaedcb327ef4e1516f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aedb896e40753227f80768e09d3748419"><td class="memItemLeft" align="right" valign="top">esp_err_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="task__commands_8c.html#aedb896e40753227f80768e09d3748419">taskCommandsInit</a> (void)</td></tr>
@@ -111,6 +129,14 @@ Functions</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="var-members"></a>
 Variables</h2></td></tr>
+<tr class="memitem:a9c73c48b3f99599795437a9a22ed98d5"><td class="memItemLeft" align="right" valign="top">void(*&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="task__commands_8c.html#a9c73c48b3f99599795437a9a22ed98d5">requestVBTask</a> )(void *) = NULL</td></tr>
+<tr class="separator:a9c73c48b3f99599795437a9a22ed98d5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a72a3465e14641646907f99794f88e6dc"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="task__commands_8c.html#a72a3465e14641646907f99794f88e6dc">requestVBParameterSize</a> = 0</td></tr>
+<tr class="separator:a72a3465e14641646907f99794f88e6dc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa2d17c65b4d8f49e32ffb6987bb33ac5"><td class="memItemLeft" align="right" valign="top">void *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="task__commands_8c.html#aa2d17c65b4d8f49e32ffb6987bb33ac5">requestVBParameter</a> = NULL</td></tr>
+<tr class="separator:aa2d17c65b4d8f49e32ffb6987bb33ac5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af2fcbc3f27a33e58b92d0b0a979a3b33"><td class="memItemLeft" align="right" valign="top"><a class="el" href="common_8h.html#ac27b6f4710923c6689834e86aea228ac">command_type_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="task__commands_8c.html#af2fcbc3f27a33e58b92d0b0a979a3b33">requestVBType</a> = <a class="el" href="common_8h.html#ac27b6f4710923c6689834e86aea228aca43adee93f5ac14f200b55ebb92de2cd4">T_NOFUNCTION</a></td></tr>
+<tr class="separator:af2fcbc3f27a33e58b92d0b0a979a3b33"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a598fa24559f0c3a64692abf7764545d9"><td class="memItemLeft" align="right" valign="top">uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="task__commands_8c.html#a598fa24559f0c3a64692abf7764545d9">requestUpdate</a> = 0</td></tr>
 <tr class="separator:a598fa24559f0c3a64692abf7764545d9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a92f6cea4b2f3b9af0abce6f8fcf3da97"><td class="memItemLeft" align="right" valign="top">uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="task__commands_8c.html#a92f6cea4b2f3b9af0abce6f8fcf3da97">requestVBUpdate</a> = <a class="el" href="common_8h.html#a784ceb4b2d4c4fb77baa99646c6e5035">VB_SINGLESHOT</a></td></tr>
@@ -137,7 +163,7 @@ Variables</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="task__commands_8c_source.html#l00053">53</a> of file <a class="el" href="task__commands_8c_source.html">task_commands.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="task__commands_8c_source.html#l00391">doGeneralCmdParsing()</a>, <a class="el" href="task__commands_8c_source.html#l00532">doKeyboardParsing()</a>, <a class="el" href="task__commands_8c_source.html#l00122">doMouthpieceSettingsParsing()</a>, and <a class="el" href="task__commands_8c_source.html#l00295">doStorageParsing()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="task__commands_8c_source.html#l00431">doGeneralCmdParsing()</a>, <a class="el" href="task__commands_8c_source.html#l00579">doKeyboardParsing()</a>, <a class="el" href="task__commands_8c_source.html#l00146">doMouthpieceSettingsParsing()</a>, and <a class="el" href="task__commands_8c_source.html#l00328">doStorageParsing()</a>.</p>
 
 </div>
 </div>
@@ -160,7 +186,7 @@ Variables</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="task__commands_8c_source.html#l00056">56</a> of file <a class="el" href="task__commands_8c_source.html">task_commands.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="task__commands_8c_source.html#l00391">doGeneralCmdParsing()</a>, <a class="el" href="task__commands_8c_source.html#l00532">doKeyboardParsing()</a>, <a class="el" href="task__commands_8c_source.html#l00705">doMouseParsing()</a>, and <a class="el" href="task__commands_8c_source.html#l00122">doMouthpieceSettingsParsing()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="task__commands_8c_source.html#l00431">doGeneralCmdParsing()</a>, <a class="el" href="task__commands_8c_source.html#l00579">doKeyboardParsing()</a>, <a class="el" href="task__commands_8c_source.html#l00758">doMouseParsing()</a>, and <a class="el" href="task__commands_8c_source.html#l00146">doMouthpieceSettingsParsing()</a>.</p>
 
 </div>
 </div>
@@ -192,19 +218,75 @@ atcmd_api</dd></dl>
 
 <p class="definition">Definition at line <a class="el" href="task__commands_8c_source.html#l00050">50</a> of file <a class="el" href="task__commands_8c_source.html">task_commands.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="task__commands_8c_source.html#l00391">doGeneralCmdParsing()</a>, <a class="el" href="task__commands_8c_source.html#l00532">doKeyboardParsing()</a>, <a class="el" href="task__commands_8c_source.html#l00705">doMouseParsing()</a>, <a class="el" href="task__commands_8c_source.html#l00122">doMouthpieceSettingsParsing()</a>, <a class="el" href="task__commands_8c_source.html#l00295">doStorageParsing()</a>, and <a class="el" href="task__commands_8c_source.html#l00084">sendErrorBack()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="task__commands_8c_source.html#l00431">doGeneralCmdParsing()</a>, <a class="el" href="task__commands_8c_source.html#l00579">doKeyboardParsing()</a>, <a class="el" href="task__commands_8c_source.html#l00758">doMouseParsing()</a>, <a class="el" href="task__commands_8c_source.html#l00146">doMouthpieceSettingsParsing()</a>, <a class="el" href="task__commands_8c_source.html#l00328">doStorageParsing()</a>, and <a class="el" href="task__commands_8c_source.html#l00108">sendErrorBack()</a>.</p>
 
 </div>
 </div>
-<h2 class="groupheader">Function Documentation</h2>
-<a id="ad105bde7fe8d6d94d079bd3e5d2851e6"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad105bde7fe8d6d94d079bd3e5d2851e6">&#9670;&nbsp;</a></span>doGeneralCmdParsing()</h2>
+<h2 class="groupheader">Typedef Documentation</h2>
+<a id="a9d6dfce3cb5edf05065b6dc2b175776d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9d6dfce3cb5edf05065b6dc2b175776d">&#9670;&nbsp;</a></span>parserstate_t</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">uint8_t doGeneralCmdParsing </td>
+          <td class="memname">typedef enum <a class="el" href="task__commands_8c.html#a7860b6904b2ba2dd906d189ada5f1e17">pstate</a>  <a class="el" href="task__commands_8c.html#a9d6dfce3cb5edf05065b6dc2b175776d">parserstate_t</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Current state of parser. </p>
+<p>Following states are possible for the parser here:<br />
+</p><ul>
+<li><b>NOACTION</b> An AT command was found, but no further action is taken afterwards. E.g, AT AX sets the accleration directly to the config and requests a general update via setting requestUpdate to 1.</li>
+<li><b>WAITFORNEWATCMD</b> In this case, AT BM was sent to set a new command for a virtual button. The next AT command will NOT be triggering anything. It will be used as new cmd. An error will be raised, if the following command cannot be used for VBs (e.g., AT AX).</li>
+<li><b>UNKNOWNCMD</b> No command was found (is returned for each subparser if no command is found)</li>
+<li><b>TRIGGERTASK</b> If this is returned by sub-parsers, the main task needs to trigger/process this command, either by assigning it to a VB or triggering it as singleshot task. </li>
+</ul>
+
+</div>
+</div>
+<h2 class="groupheader">Enumeration Type Documentation</h2>
+<a id="a7860b6904b2ba2dd906d189ada5f1e17"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7860b6904b2ba2dd906d189ada5f1e17">&#9670;&nbsp;</a></span>pstate</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum <a class="el" href="task__commands_8c.html#a7860b6904b2ba2dd906d189ada5f1e17">pstate</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Current state of parser. </p>
+<p>Following states are possible for the parser here:<br />
+</p><ul>
+<li><b>NOACTION</b> An AT command was found, but no further action is taken afterwards. E.g, AT AX sets the accleration directly to the config and requests a general update via setting requestUpdate to 1.</li>
+<li><b>WAITFORNEWATCMD</b> In this case, AT BM was sent to set a new command for a virtual button. The next AT command will NOT be triggering anything. It will be used as new cmd. An error will be raised, if the following command cannot be used for VBs (e.g., AT AX).</li>
+<li><b>UNKNOWNCMD</b> No command was found (is returned for each subparser if no command is found)</li>
+<li><b>TRIGGERTASK</b> If this is returned by sub-parsers, the main task needs to trigger/process this command, either by assigning it to a VB or triggering it as singleshot task. </li>
+</ul>
+<table class="fieldtable">
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="a7860b6904b2ba2dd906d189ada5f1e17a8bb584db01e5ebc3a3d4d84157cebc3d"></a>NOACTION&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a7860b6904b2ba2dd906d189ada5f1e17a8430aa1deedfa38beb0b766f5f2ab411"></a>WAITFORNEWATCMD&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a7860b6904b2ba2dd906d189ada5f1e17a88d52d035be8cb7e2c0c9c3acc76dc6d"></a>UNKNOWNCMD&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a7860b6904b2ba2dd906d189ada5f1e17a50c64ae796b6cf92c249f1a90f98a992"></a>TRIGGERTASK&#160;</td><td class="fielddoc"></td></tr>
+</table>
+
+<p class="definition">Definition at line <a class="el" href="task__commands_8c_source.html#l00104">104</a> of file <a class="el" href="task__commands_8c_source.html">task_commands.c</a>.</p>
+
+</div>
+</div>
+<h2 class="groupheader">Function Documentation</h2>
+<a id="a7f6500be563a3dce7f0854fceed02fab"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7f6500be563a3dce7f0854fceed02fab">&#9670;&nbsp;</a></span>doGeneralCmdParsing()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="task__commands_8c.html#a9d6dfce3cb5edf05065b6dc2b175776d">parserstate_t</a> doGeneralCmdParsing </td>
           <td>(</td>
           <td class="paramtype">uint8_t *&#160;</td>
           <td class="paramname"><em>cmdBuffer</em></td><td>)</td>
@@ -213,12 +295,12 @@ atcmd_api</dd></dl>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="task__commands_8c_source.html#l00391">391</a> of file <a class="el" href="task__commands_8c_source.html">task_commands.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="task__commands_8c_source.html#l00431">431</a> of file <a class="el" href="task__commands_8c_source.html">task_commands.c</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><img src="task__commands_8c_ad105bde7fe8d6d94d079bd3e5d2851e6_cgraph.png" border="0" usemap="#task__commands_8c_ad105bde7fe8d6d94d079bd3e5d2851e6_cgraph" alt=""/></div>
-<map name="task__commands_8c_ad105bde7fe8d6d94d079bd3e5d2851e6_cgraph" id="task__commands_8c_ad105bde7fe8d6d94d079bd3e5d2851e6_cgraph">
+<div class="center"><img src="task__commands_8c_a7f6500be563a3dce7f0854fceed02fab_cgraph.png" border="0" usemap="#task__commands_8c_a7f6500be563a3dce7f0854fceed02fab_cgraph" alt=""/></div>
+<map name="task__commands_8c_a7f6500be563a3dce7f0854fceed02fab_cgraph" id="task__commands_8c_a7f6500be563a3dce7f0854fceed02fab_cgraph">
 <area shape="rect" id="node2" href="config__switcher_8c.html#a921538bec34d128a44a748fd5a2c391f" title="Get the current config struct. " alt="" coords="249,5,370,32"/>
 <area shape="rect" id="node3" href="hal__ble_8c.html#accf307974a0046bce38582d0260bf841" title="halBLEReset" alt="" coords="260,56,359,83"/>
 <area shape="rect" id="node4" href="hal__serial_8c.html#ab2261f95747ee5806ebdec880d09ca89" title="Reset the serial HID report data. " alt="" coords="256,107,363,133"/>
@@ -234,14 +316,14 @@ Here is the call graph for this function:</div>
 
 </div>
 </div>
-<a id="a21ddb8693663bee7d11104dec08272d6"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a21ddb8693663bee7d11104dec08272d6">&#9670;&nbsp;</a></span>doInfraredParsing()</h2>
+<a id="a69b696a381aec817e617d2b33da045f5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a69b696a381aec817e617d2b33da045f5">&#9670;&nbsp;</a></span>doInfraredParsing()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">uint8_t doInfraredParsing </td>
+          <td class="memname"><a class="el" href="task__commands_8c.html#a9d6dfce3cb5edf05065b6dc2b175776d">parserstate_t</a> doInfraredParsing </td>
           <td>(</td>
           <td class="paramtype">uint8_t *&#160;</td>
           <td class="paramname"><em>cmdBuffer</em></td><td>)</td>
@@ -250,18 +332,18 @@ Here is the call graph for this function:</div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="task__commands_8c_source.html#l00384">384</a> of file <a class="el" href="task__commands_8c_source.html">task_commands.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="task__commands_8c_source.html#l00424">424</a> of file <a class="el" href="task__commands_8c_source.html">task_commands.c</a>.</p>
 
 </div>
 </div>
-<a id="a9c2c2534851b17120566b9935dddd3ad"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a9c2c2534851b17120566b9935dddd3ad">&#9670;&nbsp;</a></span>doKeyboardParsing()</h2>
+<a id="ac3c72c089d32dea93c45f4f9f8d1f244"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac3c72c089d32dea93c45f4f9f8d1f244">&#9670;&nbsp;</a></span>doKeyboardParsing()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">uint8_t doKeyboardParsing </td>
+          <td class="memname"><a class="el" href="task__commands_8c.html#a9d6dfce3cb5edf05065b6dc2b175776d">parserstate_t</a> doKeyboardParsing </td>
           <td>(</td>
           <td class="paramtype">uint8_t *&#160;</td>
           <td class="paramname"><em>cmdBuffer</em>, </td>
@@ -286,34 +368,36 @@ Here is the call graph for this function:</div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="task__commands_8c_source.html#l00532">532</a> of file <a class="el" href="task__commands_8c_source.html">task_commands.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="task__commands_8c_source.html#l00579">579</a> of file <a class="el" href="task__commands_8c_source.html">task_commands.c</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><img src="task__commands_8c_a9c2c2534851b17120566b9935dddd3ad_cgraph.png" border="0" usemap="#task__commands_8c_a9c2c2534851b17120566b9935dddd3ad_cgraph" alt=""/></div>
-<map name="task__commands_8c_a9c2c2534851b17120566b9935dddd3ad_cgraph" id="task__commands_8c_a9c2c2534851b17120566b9935dddd3ad_cgraph">
-<area shape="rect" id="node2" href="config__switcher_8c.html#a921538bec34d128a44a748fd5a2c391f" title="Get the current config struct. " alt="" coords="213,5,334,32"/>
-<area shape="rect" id="node3" href="keyboard_8c.html#add849eefda31316c7d22d45f49e261e2" title="Parse a decoded code point to a keycode, step 2. " alt="" coords="203,56,344,83"/>
-<area shape="rect" id="node4" href="keyboard_8c.html#a6b593fa493aea40be410640981b1c181" title="Parse a keycode for deadkey input, step 3. " alt="" coords="201,107,346,133"/>
-<area shape="rect" id="node5" href="keyboard_8c.html#a464318439ffe82e71e063a5c9582aa69" title="Mask the keycode to get the HID keycode, step 4. " alt="" coords="215,157,332,184"/>
-<area shape="rect" id="node6" href="keyboard_8c.html#acdbf297ed74d4534f035e0732c2f1081" title="Mask the keycode to get the modifiers, step 5. " alt="" coords="202,208,345,235"/>
-<area shape="rect" id="node7" href="task__commands_8c.html#acea81ba8a182ae78feb2db6418fc1806" title="sendErrorBack" alt="" coords="219,259,327,285"/>
-<area shape="rect" id="node9" href="keyboard_8c.html#a74d92b54cde636cae76575e8b0cad378" title="Parse a key identifier to a keycode. " alt="" coords="188,309,359,336"/>
-<area shape="rect" id="node10" href="keyboard_8c.html#aa5712a49152638257c16d39ea798a43e" title="Is this keycode a modifier? " alt="" coords="203,360,344,387"/>
-<area shape="rect" id="node8" href="hal__serial_8c.html#a8f987ba001c2a39c959a551a94b5df43" title="halSerialSendUSBSerial" alt="" coords="407,259,569,285"/>
+<div class="center"><img src="task__commands_8c_ac3c72c089d32dea93c45f4f9f8d1f244_cgraph.png" border="0" usemap="#task__commands_8c_ac3c72c089d32dea93c45f4f9f8d1f244_cgraph" alt=""/></div>
+<map name="task__commands_8c_ac3c72c089d32dea93c45f4f9f8d1f244_cgraph" id="task__commands_8c_ac3c72c089d32dea93c45f4f9f8d1f244_cgraph">
+<area shape="rect" id="node2" href="task__kbd_8c.html#a8ff4618047a049178bfb1d60abfefb5d" title="FUNCTIONAL TASK &#45; trigger keyboard actions. " alt="" coords="220,5,327,32"/>
+<area shape="rect" id="node4" href="config__switcher_8c.html#a921538bec34d128a44a748fd5a2c391f" title="Get the current config struct. " alt="" coords="213,56,334,83"/>
+<area shape="rect" id="node5" href="keyboard_8c.html#add849eefda31316c7d22d45f49e261e2" title="Parse a decoded code point to a keycode, step 2. " alt="" coords="203,107,344,133"/>
+<area shape="rect" id="node6" href="keyboard_8c.html#a6b593fa493aea40be410640981b1c181" title="Parse a keycode for deadkey input, step 3. " alt="" coords="201,157,346,184"/>
+<area shape="rect" id="node7" href="keyboard_8c.html#a464318439ffe82e71e063a5c9582aa69" title="Mask the keycode to get the HID keycode, step 4. " alt="" coords="215,208,332,235"/>
+<area shape="rect" id="node8" href="keyboard_8c.html#acdbf297ed74d4534f035e0732c2f1081" title="Mask the keycode to get the modifiers, step 5. " alt="" coords="202,259,345,285"/>
+<area shape="rect" id="node9" href="task__commands_8c.html#acea81ba8a182ae78feb2db6418fc1806" title="sendErrorBack" alt="" coords="219,309,327,336"/>
+<area shape="rect" id="node11" href="keyboard_8c.html#a74d92b54cde636cae76575e8b0cad378" title="Parse a key identifier to a keycode. " alt="" coords="188,360,359,387"/>
+<area shape="rect" id="node12" href="keyboard_8c.html#aa5712a49152638257c16d39ea798a43e" title="Is this keycode a modifier? " alt="" coords="203,411,344,437"/>
+<area shape="rect" id="node3" href="task__kbd_8c.html#a7d605cb2407a7a7309911c70e28a9884" title="Helper function sending to queues depending on connection type. " alt="" coords="451,5,525,32"/>
+<area shape="rect" id="node10" href="hal__serial_8c.html#a8f987ba001c2a39c959a551a94b5df43" title="halSerialSendUSBSerial" alt="" coords="407,309,569,336"/>
 </map>
 </div>
 
 </div>
 </div>
-<a id="a67e18f3921bbb80116577096dd7fccac"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a67e18f3921bbb80116577096dd7fccac">&#9670;&nbsp;</a></span>doMouseParsing()</h2>
+<a id="a580d9f6a840975525358033a35f761d0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a580d9f6a840975525358033a35f761d0">&#9670;&nbsp;</a></span>doMouseParsing()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">uint8_t doMouseParsing </td>
+          <td class="memname"><a class="el" href="task__commands_8c.html#a9d6dfce3cb5edf05065b6dc2b175776d">parserstate_t</a> doMouseParsing </td>
           <td>(</td>
           <td class="paramtype">uint8_t *&#160;</td>
           <td class="paramname"><em>cmdBuffer</em>, </td>
@@ -332,59 +416,72 @@ Here is the call graph for this function:</div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="task__commands_8c_source.html#l00705">705</a> of file <a class="el" href="task__commands_8c_source.html">task_commands.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="task__commands_8c_source.html#l00758">758</a> of file <a class="el" href="task__commands_8c_source.html">task_commands.c</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><img src="task__commands_8c_a67e18f3921bbb80116577096dd7fccac_cgraph.png" border="0" usemap="#task__commands_8c_a67e18f3921bbb80116577096dd7fccac_cgraph" alt=""/></div>
-<map name="task__commands_8c_a67e18f3921bbb80116577096dd7fccac_cgraph" id="task__commands_8c_a67e18f3921bbb80116577096dd7fccac_cgraph">
-<area shape="rect" id="node2" href="task__mouse_8c.html#ab5cfaaac2cd4ec6fc79546f847db96de" title="Get the current mouse wheel step size. " alt="" coords="172,5,299,32"/>
-<area shape="rect" id="node3" href="task__commands_8c.html#acea81ba8a182ae78feb2db6418fc1806" title="sendErrorBack" alt="" coords="181,56,289,83"/>
-<area shape="rect" id="node5" href="task__mouse_8c.html#ac5aaa616044b7bef9f75347719181dbe" title="Set current mouse wheel step size. " alt="" coords="172,107,299,133"/>
-<area shape="rect" id="node4" href="hal__serial_8c.html#a8f987ba001c2a39c959a551a94b5df43" title="halSerialSendUSBSerial" alt="" coords="347,56,509,83"/>
+<div class="center"><img src="task__commands_8c_a580d9f6a840975525358033a35f761d0_cgraph.png" border="0" usemap="#task__commands_8c_a580d9f6a840975525358033a35f761d0_cgraph" alt=""/></div>
+<map name="task__commands_8c_a580d9f6a840975525358033a35f761d0_cgraph" id="task__commands_8c_a580d9f6a840975525358033a35f761d0_cgraph">
+<area shape="rect" id="node2" href="task__mouse_8c.html#aa8f5c0436e569589e735c419fc3d0ed8" title="FUNCTIONAL TASK &#45; Trigger mouse action. " alt="" coords="189,5,282,32"/>
+<area shape="rect" id="node3" href="task__mouse_8c.html#ab5cfaaac2cd4ec6fc79546f847db96de" title="Get the current mouse wheel step size. " alt="" coords="172,56,299,83"/>
+<area shape="rect" id="node4" href="task__commands_8c.html#acea81ba8a182ae78feb2db6418fc1806" title="sendErrorBack" alt="" coords="181,107,289,133"/>
+<area shape="rect" id="node6" href="task__mouse_8c.html#ac5aaa616044b7bef9f75347719181dbe" title="Set current mouse wheel step size. " alt="" coords="172,157,299,184"/>
+<area shape="rect" id="node5" href="hal__serial_8c.html#a8f987ba001c2a39c959a551a94b5df43" title="halSerialSendUSBSerial" alt="" coords="347,107,509,133"/>
 </map>
 </div>
 
 </div>
 </div>
-<a id="a9b1c8742af67b0bb373493f215e98a0c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a9b1c8742af67b0bb373493f215e98a0c">&#9670;&nbsp;</a></span>doMouthpieceSettingsParsing()</h2>
+<a id="a2ad28759e53bb5082853d8d004767115"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2ad28759e53bb5082853d8d004767115">&#9670;&nbsp;</a></span>doMouthpieceSettingsParsing()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">uint8_t doMouthpieceSettingsParsing </td>
+          <td class="memname"><a class="el" href="task__commands_8c.html#a9d6dfce3cb5edf05065b6dc2b175776d">parserstate_t</a> doMouthpieceSettingsParsing </td>
           <td>(</td>
           <td class="paramtype">uint8_t *&#160;</td>
-          <td class="paramname"><em>cmdBuffer</em></td><td>)</td>
+          <td class="paramname"><em>cmdBuffer</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype"><a class="el" href="common_8h.html#a735049d5abb65dcaa7ba76917158a3b3">taskNoParameterConfig_t</a> *&#160;</td>
+          <td class="paramname"><em>instance</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="task__commands_8c_source.html#l00122">122</a> of file <a class="el" href="task__commands_8c_source.html">task_commands.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="task__commands_8c_source.html#l00146">146</a> of file <a class="el" href="task__commands_8c_source.html">task_commands.c</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><img src="task__commands_8c_a9b1c8742af67b0bb373493f215e98a0c_cgraph.png" border="0" usemap="#task__commands_8c_a9b1c8742af67b0bb373493f215e98a0c_cgraph" alt=""/></div>
-<map name="task__commands_8c_a9b1c8742af67b0bb373493f215e98a0c_cgraph" id="task__commands_8c_a9b1c8742af67b0bb373493f215e98a0c_cgraph">
+<div class="center"><img src="task__commands_8c_a2ad28759e53bb5082853d8d004767115_cgraph.png" border="0" usemap="#task__commands_8c_a2ad28759e53bb5082853d8d004767115_cgraph" alt=""/></div>
+<map name="task__commands_8c_a2ad28759e53bb5082853d8d004767115_cgraph" id="task__commands_8c_a2ad28759e53bb5082853d8d004767115_cgraph">
 <area shape="rect" id="node2" href="config__switcher_8c.html#a921538bec34d128a44a748fd5a2c391f" title="Get the current config struct. " alt="" coords="248,5,369,32"/>
-<area shape="rect" id="node3" href="task__commands_8c.html#acea81ba8a182ae78feb2db6418fc1806" title="sendErrorBack" alt="" coords="255,56,363,83"/>
-<area shape="rect" id="node4" href="hal__serial_8c.html#a8f987ba001c2a39c959a551a94b5df43" title="halSerialSendUSBSerial" alt="" coords="417,56,580,83"/>
+<area shape="rect" id="node3" href="hal__adc_8c.html#a3217185bc86562dee8617ded3872022f" title="FUNCTIONAL TASK &#45; Trigger zero&#45;point calibration of mouthpiece. " alt="" coords="252,56,365,83"/>
+<area shape="rect" id="node5" href="task__commands_8c.html#acea81ba8a182ae78feb2db6418fc1806" title="sendErrorBack" alt="" coords="255,107,363,133"/>
+<area shape="rect" id="node4" href="hal__adc_8c.html#ae549c157d94729e8b06cb391f0f2c97b" title="Calibration function. " alt="" coords="441,56,556,83"/>
+<area shape="rect" id="node6" href="hal__serial_8c.html#a8f987ba001c2a39c959a551a94b5df43" title="halSerialSendUSBSerial" alt="" coords="417,107,580,133"/>
 </map>
 </div>
 
 </div>
 </div>
-<a id="a1dae0050b84acac33aae21926695c8c7"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a1dae0050b84acac33aae21926695c8c7">&#9670;&nbsp;</a></span>doStorageParsing()</h2>
+<a id="a69b0c55558b32caa21407de8e2277be9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a69b0c55558b32caa21407de8e2277be9">&#9670;&nbsp;</a></span>doStorageParsing()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">uint8_t doStorageParsing </td>
+          <td class="memname"><a class="el" href="task__commands_8c.html#a9d6dfce3cb5edf05065b6dc2b175776d">parserstate_t</a> doStorageParsing </td>
           <td>(</td>
           <td class="paramtype">uint8_t *&#160;</td>
           <td class="paramname"><em>cmdBuffer</em>, </td>
@@ -402,21 +499,22 @@ Here is the call graph for this function:</div>
         </tr>
       </table>
 </div><div class="memdoc">
-<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000009">Todo:</a></b></dt><dd>Activate T_SENDIR here when IR task is finished </dd></dl>
+<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000010">Todo:</a></b></dt><dd>Activate T_SENDIR here when IR task is finished </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="task__commands_8c_source.html#l00295">295</a> of file <a class="el" href="task__commands_8c_source.html">task_commands.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="task__commands_8c_source.html#l00328">328</a> of file <a class="el" href="task__commands_8c_source.html">task_commands.c</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><img src="task__commands_8c_a1dae0050b84acac33aae21926695c8c7_cgraph.png" border="0" usemap="#task__commands_8c_a1dae0050b84acac33aae21926695c8c7_cgraph" alt=""/></div>
-<map name="task__commands_8c_a1dae0050b84acac33aae21926695c8c7_cgraph" id="task__commands_8c_a1dae0050b84acac33aae21926695c8c7_cgraph">
+<div class="center"><img src="task__commands_8c_a69b0c55558b32caa21407de8e2277be9_cgraph.png" border="0" usemap="#task__commands_8c_a69b0c55558b32caa21407de8e2277be9_cgraph" alt=""/></div>
+<map name="task__commands_8c_a69b0c55558b32caa21407de8e2277be9_cgraph" id="task__commands_8c_a69b0c55558b32caa21407de8e2277be9_cgraph">
 <area shape="rect" id="node2" href="config__switcher_8c.html#a921538bec34d128a44a748fd5a2c391f" title="Get the current config struct. " alt="" coords="217,5,339,32"/>
-<area shape="rect" id="node3" href="hal__storage_8c.html#ac67aaf5a3af4140bff3d7c134b9d771f" title="halStorageStartTransaction" alt="" coords="188,56,368,83"/>
-<area shape="rect" id="node4" href="hal__storage_8c.html#a7e0a934f829b47e2445189dd95e962d6" title="halStorageGetNumberOfSlots" alt="" coords="181,107,375,133"/>
-<area shape="rect" id="node6" href="hal__storage_8c.html#aadf9ff06990d0f0af2eea2e6f2b8082a" title="Store a generalConfig_t struct. " alt="" coords="221,157,335,184"/>
-<area shape="rect" id="node7" href="hal__storage_8c.html#a00b5db14e24d7ada8a42aa6b3f1a1cb7" title="halStorageFinishTransaction" alt="" coords="185,208,371,235"/>
-<area shape="rect" id="node8" href="hal__storage_8c.html#a1503debb336ea2d708e4e0884c7aa6a3" title="Store a virtual button config struct. " alt="" coords="179,259,377,285"/>
-<area shape="rect" id="node5" href="hal__storage_8c.html#a4b6566ef5b69c85d422df52435c95d36" title="halStorageChecks" alt="" coords="425,157,555,184"/>
+<area shape="rect" id="node3" href="config__switcher_8c.html#a083adf41746c3380dcc6dbc099047f2e" title="FUNCTIONAL TASK &#45; Load another slot. " alt="" coords="209,56,347,83"/>
+<area shape="rect" id="node4" href="hal__storage_8c.html#ac67aaf5a3af4140bff3d7c134b9d771f" title="halStorageStartTransaction" alt="" coords="188,107,368,133"/>
+<area shape="rect" id="node5" href="hal__storage_8c.html#a7e0a934f829b47e2445189dd95e962d6" title="halStorageGetNumberOfSlots" alt="" coords="181,157,375,184"/>
+<area shape="rect" id="node7" href="hal__storage_8c.html#aadf9ff06990d0f0af2eea2e6f2b8082a" title="Store a generalConfig_t struct. " alt="" coords="221,208,335,235"/>
+<area shape="rect" id="node8" href="hal__storage_8c.html#a00b5db14e24d7ada8a42aa6b3f1a1cb7" title="halStorageFinishTransaction" alt="" coords="185,259,371,285"/>
+<area shape="rect" id="node9" href="hal__storage_8c.html#a1503debb336ea2d708e4e0884c7aa6a3" title="Store a virtual button config struct. " alt="" coords="179,309,377,336"/>
+<area shape="rect" id="node6" href="hal__storage_8c.html#a4b6566ef5b69c85d422df52435c95d36" title="halStorageChecks" alt="" coords="425,208,555,235"/>
 </map>
 </div>
 
@@ -439,9 +537,9 @@ Here is the call graph for this function:</div>
 </div><div class="memdoc">
 <p>simple helper function which sends back to the USB host "?" and prints an error on the console with the given extra infos. </p>
 
-<p class="definition">Definition at line <a class="el" href="task__commands_8c_source.html#l00084">84</a> of file <a class="el" href="task__commands_8c_source.html">task_commands.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="task__commands_8c_source.html#l00108">108</a> of file <a class="el" href="task__commands_8c_source.html">task_commands.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="task__commands_8c_source.html#l00391">doGeneralCmdParsing()</a>, <a class="el" href="task__commands_8c_source.html#l00532">doKeyboardParsing()</a>, <a class="el" href="task__commands_8c_source.html#l00705">doMouseParsing()</a>, and <a class="el" href="task__commands_8c_source.html#l00122">doMouthpieceSettingsParsing()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="task__commands_8c_source.html#l00431">doGeneralCmdParsing()</a>, <a class="el" href="task__commands_8c_source.html#l00579">doKeyboardParsing()</a>, <a class="el" href="task__commands_8c_source.html#l00758">doMouseParsing()</a>, and <a class="el" href="task__commands_8c_source.html#l00146">doMouthpieceSettingsParsing()</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -455,10 +553,10 @@ Here is the caller graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="task__commands_8c_acea81ba8a182ae78feb2db6418fc1806_icgraph.png" border="0" usemap="#task__commands_8c_acea81ba8a182ae78feb2db6418fc1806_icgraph" alt=""/></div>
 <map name="task__commands_8c_acea81ba8a182ae78feb2db6418fc1806_icgraph" id="task__commands_8c_acea81ba8a182ae78feb2db6418fc1806_icgraph">
-<area shape="rect" id="node2" href="task__commands_8c.html#ad105bde7fe8d6d94d079bd3e5d2851e6" title="doGeneralCmdParsing" alt="" coords="182,5,335,32"/>
-<area shape="rect" id="node3" href="task__commands_8c.html#a9c2c2534851b17120566b9935dddd3ad" title="doKeyboardParsing" alt="" coords="191,56,326,83"/>
-<area shape="rect" id="node4" href="task__commands_8c.html#a67e18f3921bbb80116577096dd7fccac" title="doMouseParsing" alt="" coords="199,107,318,133"/>
-<area shape="rect" id="node5" href="task__commands_8c.html#a9b1c8742af67b0bb373493f215e98a0c" title="doMouthpieceSettingsParsing" alt="" coords="161,157,356,184"/>
+<area shape="rect" id="node2" href="task__commands_8c.html#a7f6500be563a3dce7f0854fceed02fab" title="doGeneralCmdParsing" alt="" coords="182,5,335,32"/>
+<area shape="rect" id="node3" href="task__commands_8c.html#ac3c72c089d32dea93c45f4f9f8d1f244" title="doKeyboardParsing" alt="" coords="191,56,326,83"/>
+<area shape="rect" id="node4" href="task__commands_8c.html#a580d9f6a840975525358033a35f761d0" title="doMouseParsing" alt="" coords="199,107,318,133"/>
+<area shape="rect" id="node5" href="task__commands_8c.html#a2ad28759e53bb5082853d8d004767115" title="doMouthpieceSettingsParsing" alt="" coords="161,157,356,184"/>
 </map>
 </div>
 
@@ -480,9 +578,9 @@ Here is the caller graph for this function:</div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="task__commands_8c_source.html#l00817">817</a> of file <a class="el" href="task__commands_8c_source.html">task_commands.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="task__commands_8c_source.html#l00877">877</a> of file <a class="el" href="task__commands_8c_source.html">task_commands.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="task__commands_8c_source.html#l01049">taskCommandsInit()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="task__commands_8c_source.html#l01069">taskCommandsInit()</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
@@ -516,7 +614,7 @@ Here is the caller graph for this function:</div>
 <p>This method starts the command parser task, which handles incoming UART bytes &amp; responses if necessary. If necessary, this task deletes itself &amp; starts a CIM task (it MUST be the other way as well to restart the AT command parser) </p><dl class="section see"><dt>See also</dt><dd><a class="el" href="task__commands_8c.html#a26091155b4d85093239033d689f363d0" title="Restart the command parser task. ">taskCommandsRestart</a> </dd></dl>
 <dl class="section return"><dt>Returns</dt><dd>ESP_OK on success, ESP_FAIL otherwise </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="task__commands_8c_source.html#l01049">1049</a> of file <a class="el" href="task__commands_8c_source.html">task_commands.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="task__commands_8c_source.html#l01069">1069</a> of file <a class="el" href="task__commands_8c_source.html">task_commands.c</a>.</p>
 
 <p class="reference">Referenced by <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c_source.html#l00073">app_main()</a>.</p>
 <div class="dynheader">
@@ -558,7 +656,7 @@ Here is the caller graph for this function:</div>
 <p>Restart the command parser task</p>
 <p>This method is used, if the CIM parser detects AT commands and stops itself, providing the AT command set again. </p><dl class="section return"><dt>Returns</dt><dd>ESP_OK on success, ESP_FAIL otherwise (cannot start task, task already running) </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="task__commands_8c_source.html#l01066">1066</a> of file <a class="el" href="task__commands_8c_source.html">task_commands.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="task__commands_8c_source.html#l01086">1086</a> of file <a class="el" href="task__commands_8c_source.html">task_commands.c</a>.</p>
 
 </div>
 </div>
@@ -576,9 +674,82 @@ Here is the caller graph for this function:</div>
 </div><div class="memdoc">
 <p>If any parsing part requests a general config update, this variable is set to 1. task_commands will reset it to 0 after the update </p>
 
+<p class="definition">Definition at line <a class="el" href="task__commands_8c_source.html#l00076">76</a> of file <a class="el" href="task__commands_8c_source.html">task_commands.c</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="task__commands_8c_source.html#l00431">doGeneralCmdParsing()</a>, and <a class="el" href="task__commands_8c_source.html#l00146">doMouthpieceSettingsParsing()</a>.</p>
+
+</div>
+</div>
+<a id="aa2d17c65b4d8f49e32ffb6987bb33ac5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa2d17c65b4d8f49e32ffb6987bb33ac5">&#9670;&nbsp;</a></span>requestVBParameter</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void* requestVBParameter = NULL</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
 <p class="definition">Definition at line <a class="el" href="task__commands_8c_source.html#l00069">69</a> of file <a class="el" href="task__commands_8c_source.html">task_commands.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="task__commands_8c_source.html#l00391">doGeneralCmdParsing()</a>, and <a class="el" href="task__commands_8c_source.html#l00122">doMouthpieceSettingsParsing()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="task__commands_8c_source.html#l00579">doKeyboardParsing()</a>, <a class="el" href="task__commands_8c_source.html#l00758">doMouseParsing()</a>, <a class="el" href="task__commands_8c_source.html#l00146">doMouthpieceSettingsParsing()</a>, and <a class="el" href="task__commands_8c_source.html#l00328">doStorageParsing()</a>.</p>
+
+</div>
+</div>
+<a id="a72a3465e14641646907f99794f88e6dc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a72a3465e14641646907f99794f88e6dc">&#9670;&nbsp;</a></span>requestVBParameterSize</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">size_t requestVBParameterSize = 0</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="task__commands_8c_source.html#l00066">66</a> of file <a class="el" href="task__commands_8c_source.html">task_commands.c</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="task__commands_8c_source.html#l00579">doKeyboardParsing()</a>, <a class="el" href="task__commands_8c_source.html#l00758">doMouseParsing()</a>, <a class="el" href="task__commands_8c_source.html#l00146">doMouthpieceSettingsParsing()</a>, and <a class="el" href="task__commands_8c_source.html#l00328">doStorageParsing()</a>.</p>
+
+</div>
+</div>
+<a id="a9c73c48b3f99599795437a9a22ed98d5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9c73c48b3f99599795437a9a22ed98d5">&#9670;&nbsp;</a></span>requestVBTask</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void(* requestVBTask) (void *) = NULL</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000009">Todo:</a></b></dt><dd>documentate this stuff </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="task__commands_8c_source.html#l00063">63</a> of file <a class="el" href="task__commands_8c_source.html">task_commands.c</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="task__commands_8c_source.html#l00579">doKeyboardParsing()</a>, <a class="el" href="task__commands_8c_source.html#l00758">doMouseParsing()</a>, <a class="el" href="task__commands_8c_source.html#l00146">doMouthpieceSettingsParsing()</a>, and <a class="el" href="task__commands_8c_source.html#l00328">doStorageParsing()</a>.</p>
+
+</div>
+</div>
+<a id="af2fcbc3f27a33e58b92d0b0a979a3b33"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af2fcbc3f27a33e58b92d0b0a979a3b33">&#9670;&nbsp;</a></span>requestVBType</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="common_8h.html#ac27b6f4710923c6689834e86aea228ac">command_type_t</a> requestVBType = <a class="el" href="common_8h.html#ac27b6f4710923c6689834e86aea228aca43adee93f5ac14f200b55ebb92de2cd4">T_NOFUNCTION</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="task__commands_8c_source.html#l00072">72</a> of file <a class="el" href="task__commands_8c_source.html">task_commands.c</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="task__commands_8c_source.html#l00579">doKeyboardParsing()</a>, <a class="el" href="task__commands_8c_source.html#l00758">doMouseParsing()</a>, <a class="el" href="task__commands_8c_source.html#l00146">doMouthpieceSettingsParsing()</a>, and <a class="el" href="task__commands_8c_source.html#l00328">doStorageParsing()</a>.</p>
 
 </div>
 </div>
@@ -597,11 +768,11 @@ Here is the caller graph for this function:</div>
 <p>Currently used virtual button number. </p>
 <p>If this variable is set to a value != VB_SINGLESHOT any following AT command will be set for this virtual button. task_commands will recognize this and triggers the VB update after command parsing. </p><dl class="section see"><dt>See also</dt><dd><a class="el" href="common_8h.html#a784ceb4b2d4c4fb77baa99646c6e5035">VB_SINGLESHOT</a> </dd>
 <dd>
-requestVBParameterSize </dd></dl>
+<a class="el" href="task__commands_8c.html#a72a3465e14641646907f99794f88e6dc">requestVBParameterSize</a> </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="task__commands_8c_source.html#l00080">80</a> of file <a class="el" href="task__commands_8c_source.html">task_commands.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="task__commands_8c_source.html#l00087">87</a> of file <a class="el" href="task__commands_8c_source.html">task_commands.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="task__commands_8c_source.html#l00391">doGeneralCmdParsing()</a>, <a class="el" href="task__commands_8c_source.html#l00532">doKeyboardParsing()</a>, <a class="el" href="task__commands_8c_source.html#l00705">doMouseParsing()</a>, and <a class="el" href="task__commands_8c_source.html#l00295">doStorageParsing()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="task__commands_8c_source.html#l00431">doGeneralCmdParsing()</a>, <a class="el" href="task__commands_8c_source.html#l00579">doKeyboardParsing()</a>, <a class="el" href="task__commands_8c_source.html#l00758">doMouseParsing()</a>, <a class="el" href="task__commands_8c_source.html#l00146">doMouthpieceSettingsParsing()</a>, and <a class="el" href="task__commands_8c_source.html#l00328">doStorageParsing()</a>.</p>
 
 </div>
 </div>

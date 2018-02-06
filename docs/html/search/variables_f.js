@@ -7,5 +7,9 @@ var searchData=
   ['report_5ftype',['report_type',['../structhids__report__ref__t.html#a19de2c91f00b797996ec2cc47c0ff87b',1,'hids_report_ref_t']]],
   ['reportraw',['reportraw',['../structadc__config.html#a6f3ea052a4b3edf28c0939286e6c4ef4',1,'adc_config']]],
   ['requestupdate',['requestUpdate',['../task__commands_8c.html#a598fa24559f0c3a64692abf7764545d9',1,'task_commands.c']]],
+  ['requestvbparameter',['requestVBParameter',['../task__commands_8c.html#aa2d17c65b4d8f49e32ffb6987bb33ac5',1,'task_commands.c']]],
+  ['requestvbparametersize',['requestVBParameterSize',['../task__commands_8c.html#a72a3465e14641646907f99794f88e6dc',1,'task_commands.c']]],
+  ['requestvbtask',['requestVBTask',['../task__commands_8c.html#a9c73c48b3f99599795437a9a22ed98d5',1,'task_commands.c']]],
+  ['requestvbtype',['requestVBType',['../task__commands_8c.html#af2fcbc3f27a33e58b92d0b0a979a3b33',1,'task_commands.c']]],
   ['requestvbupdate',['requestVBUpdate',['../task__commands_8c.html#a92f6cea4b2f3b9af0abce6f8fcf3da97',1,'task_commands.c']]]
 ];

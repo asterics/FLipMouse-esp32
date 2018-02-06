@@ -109,14 +109,10 @@ Typedefs</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="enum-members"></a>
 Enumerations</h2></td></tr>
-<tr class="memitem:aff3bf982a86299e69b007b0d16a45227"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="task__kbd_8h.html#aff3bf982a86299e69b007b0d16a45227">keyboard_action</a> { <br />
-&#160;&#160;<a class="el" href="task__kbd_8h.html#aff3bf982a86299e69b007b0d16a45227a6e70a672c8edfbcdf18c8204913e285d">PRESS</a>, 
+<tr class="memitem:aff3bf982a86299e69b007b0d16a45227"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="task__kbd_8h.html#aff3bf982a86299e69b007b0d16a45227">keyboard_action</a> { <a class="el" href="task__kbd_8h.html#aff3bf982a86299e69b007b0d16a45227a6e70a672c8edfbcdf18c8204913e285d">PRESS</a>, 
 <a class="el" href="task__kbd_8h.html#aff3bf982a86299e69b007b0d16a45227ad590443978dc58d64aed5001f56efcdf">RELEASE</a>, 
-<a class="el" href="task__kbd_8h.html#aff3bf982a86299e69b007b0d16a45227a8d4eabbc4bcabbbf8b7367850cd13f08">PRESS_RELEASE</a>, 
 <a class="el" href="task__kbd_8h.html#aff3bf982a86299e69b007b0d16a45227a64b216d07776d1f5df5f7ad88c73fcab">PRESS_RELEASE_BUTTON</a>, 
-<br />
-&#160;&#160;<a class="el" href="task__kbd_8h.html#aff3bf982a86299e69b007b0d16a45227a61aa7ff70b76bff0fda378cf61d6afbc">WRITE</a>
-<br />
+<a class="el" href="task__kbd_8h.html#aff3bf982a86299e69b007b0d16a45227a61aa7ff70b76bff0fda378cf61d6afbc">WRITE</a>
  }<tr class="memdesc:aff3bf982a86299e69b007b0d16a45227"><td class="mdescLeft">&#160;</td><td class="mdescRight">Type of keyboard action which should be triggered by this task.  <a href="task__kbd_8h.html#aff3bf982a86299e69b007b0d16a45227">More...</a><br /></td></tr>
 </td></tr>
 <tr class="separator:aff3bf982a86299e69b007b0d16a45227"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -155,7 +151,7 @@ Functions</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="task__kbd_8h_source.html#l00064">64</a> of file <a class="el" href="task__kbd_8h_source.html">task_kbd.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="task__commands_8c_source.html#l00532">doKeyboardParsing()</a>, and <a class="el" href="task__kbd_8c_source.html#l00077">task_keyboard()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="task__commands_8c_source.html#l00579">doKeyboardParsing()</a>, and <a class="el" href="task__kbd_8c_source.html#l00077">task_keyboard()</a>.</p>
 
 </div>
 </div>
@@ -235,19 +231,17 @@ Functions</h2></td></tr>
 </p><ul>
 <li><b>PRESS:</b> all of the given keycodes are pressed</li>
 <li><b>RELEASE:</b> all of the given keycodes are released</li>
-<li><b>PRESS_RELEASE:</b> all of the given keycodes are pressed and immediately released</li>
 <li><b>PRESS_RELEASE_BUTTON:</b> all of the given keycodes are pressed and released if the virtual button is released</li>
-<li><b>WRITE:</b> simply write the given string (can ASCII as well as unicode) by pressing &amp; releasing all necessary keys </li>
+<li><b>WRITE:</b> all of the given keycodes are pressed and immediately released </li>
 </ul>
 <table class="fieldtable">
 <tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="aff3bf982a86299e69b007b0d16a45227a6e70a672c8edfbcdf18c8204913e285d"></a>PRESS&#160;</td><td class="fielddoc"></td></tr>
 <tr><td class="fieldname"><a id="aff3bf982a86299e69b007b0d16a45227ad590443978dc58d64aed5001f56efcdf"></a>RELEASE&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="aff3bf982a86299e69b007b0d16a45227a8d4eabbc4bcabbbf8b7367850cd13f08"></a>PRESS_RELEASE&#160;</td><td class="fielddoc"></td></tr>
 <tr><td class="fieldname"><a id="aff3bf982a86299e69b007b0d16a45227a64b216d07776d1f5df5f7ad88c73fcab"></a>PRESS_RELEASE_BUTTON&#160;</td><td class="fielddoc"></td></tr>
 <tr><td class="fieldname"><a id="aff3bf982a86299e69b007b0d16a45227a61aa7ff70b76bff0fda378cf61d6afbc"></a>WRITE&#160;</td><td class="fielddoc"></td></tr>
 </table>
 
-<p class="definition">Definition at line <a class="el" href="task__kbd_8h_source.html#l00076">76</a> of file <a class="el" href="task__kbd_8h_source.html">task_kbd.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="task__kbd_8h_source.html#l00074">74</a> of file <a class="el" href="task__kbd_8h_source.html">task_kbd.h</a>.</p>
 
 </div>
 </div>
@@ -281,7 +275,7 @@ Functions</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="task__kbd_8c_source.html#l00077">77</a> of file <a class="el" href="task__kbd_8c_source.html">task_kbd.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="config__switcher_8c_source.html#l00187">configSwitcherTask()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="config__switcher_8c_source.html#l00187">configSwitcherTask()</a>, and <a class="el" href="task__commands_8c_source.html#l00579">doKeyboardParsing()</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -296,6 +290,7 @@ Here is the caller graph for this function:</div>
 <div class="center"><img src="task__kbd_8h_a8ff4618047a049178bfb1d60abfefb5d_icgraph.png" border="0" usemap="#task__kbd_8h_a8ff4618047a049178bfb1d60abfefb5d_icgraph" alt=""/></div>
 <map name="task__kbd_8h_a8ff4618047a049178bfb1d60abfefb5d_icgraph" id="task__kbd_8h_a8ff4618047a049178bfb1d60abfefb5d_icgraph">
 <area shape="rect" id="node2" href="config__switcher_8c.html#af5af5079d1982d42e165039e6de7e40a" title="CONTINOUS TASK &#45; Config switcher task, internal config reloading. " alt="" coords="160,5,297,32"/>
+<area shape="rect" id="node5" href="task__commands_8c.html#ac3c72c089d32dea93c45f4f9f8d1f244" title="doKeyboardParsing" alt="" coords="161,56,296,83"/>
 <area shape="rect" id="node3" href="config__switcher_8h.html#aafed047c8d04b814a85239e031cbad7b" title="Initializing the config switching functionality. " alt="" coords="345,5,472,32"/>
 <area shape="rect" id="node4" href="flipmouse__fabi__esp32__kbdmouse__main_8c.html#abce06be17fc37d675118a678a8100a36" title="Main task, created by esp&#45;idf. " alt="" coords="520,5,599,32"/>
 </map>

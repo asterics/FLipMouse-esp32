@@ -69,6 +69,9 @@ $(function() {
 <div class="title">task_kbd.c File Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
+
+<p>FUNCTIONAL TASK - trigger keyboard actions.  
+<a href="#details">More...</a></p>
 <div class="textblock"><code>#include &quot;<a class="el" href="task__kbd_8h_source.html">task_kbd.h</a>&quot;</code><br />
 </div>
 <p><a href="task__kbd_8c_source.html">Go to the source code of this file.</a></p>
@@ -76,16 +79,29 @@ $(function() {
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="define-members"></a>
 Macros</h2></td></tr>
 <tr class="memitem:a7ce0df38eb467e59f209470c8f5ac4e6"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="task__kbd_8c.html#a7ce0df38eb467e59f209470c8f5ac4e6">LOG_TAG</a>&#160;&#160;&#160;&quot;task_kbd&quot;</td></tr>
+<tr class="memdesc:a7ce0df38eb467e59f209470c8f5ac4e6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Logging tag for this module.  <a href="#a7ce0df38eb467e59f209470c8f5ac4e6">More...</a><br /></td></tr>
 <tr class="separator:a7ce0df38eb467e59f209470c8f5ac4e6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:aad4ceb3ea958b99d596870013982d96e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="task__kbd_8c.html#aad4ceb3ea958b99d596870013982d96e">sendToQueue</a> (QueueHandle_t queue, uint16_t *data)</td></tr>
-<tr class="separator:aad4ceb3ea958b99d596870013982d96e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7d605cb2407a7a7309911c70e28a9884"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="task__kbd_8c.html#a7d605cb2407a7a7309911c70e28a9884">sendKbd</a> (QueueHandle_t qUSB, QueueHandle_t qBLE, uint16_t *key)</td></tr>
+<tr class="memdesc:a7d605cb2407a7a7309911c70e28a9884"><td class="mdescLeft">&#160;</td><td class="mdescRight">Helper function sending to queues depending on connection type.  <a href="#a7d605cb2407a7a7309911c70e28a9884">More...</a><br /></td></tr>
+<tr class="separator:a7d605cb2407a7a7309911c70e28a9884"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8ff4618047a049178bfb1d60abfefb5d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="task__kbd_8c.html#a8ff4618047a049178bfb1d60abfefb5d">task_keyboard</a> (<a class="el" href="task__kbd_8h.html#a1ea00a7b13dc2b804f53e6f79cb89f2c">taskKeyboardConfig_t</a> *param)</td></tr>
+<tr class="memdesc:a8ff4618047a049178bfb1d60abfefb5d"><td class="mdescLeft">&#160;</td><td class="mdescRight">FUNCTIONAL TASK - trigger keyboard actions.  <a href="#a8ff4618047a049178bfb1d60abfefb5d">More...</a><br /></td></tr>
 <tr class="separator:a8ff4618047a049178bfb1d60abfefb5d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Macro Definition Documentation</h2>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>FUNCTIONAL TASK - trigger keyboard actions. </p>
+<p>This file contains the task implementation for keyboard key triggering. This task is started by the configuration task and it is assigned to one virtual button or triggered as single shot. As soon as this button is triggered, the configured keys are sent to either USB, BLE or both. This task can be deleted all the time to change the configuration of one button.</p>
+<p>Keycode configuration is set via taskKeyboardConfig_t.</p>
+<dl class="section warning"><dt>Warning</dt><dd>Parsing of key identifiers and text is NOT done here. Due to performance reasons, parsing is done prior to initialising/calling this task.</dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="task__kbd_8h.html#a1ea00a7b13dc2b804f53e6f79cb89f2c" title="Config for task_keyboard. ">taskKeyboardConfig_t</a> </dd>
+<dd>
+<a class="el" href="common_8h.html#a784ceb4b2d4c4fb77baa99646c6e5035">VB_SINGLESHOT</a> </dd></dl>
+
+<p class="definition">Definition in file <a class="el" href="task__kbd_8c_source.html">task_kbd.c</a>.</p>
+</div><h2 class="groupheader">Macro Definition Documentation</h2>
 <a id="a7ce0df38eb467e59f209470c8f5ac4e6"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a7ce0df38eb467e59f209470c8f5ac4e6">&#9670;&nbsp;</a></span>LOG_TAG</h2>
 
@@ -98,30 +114,38 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="task__kbd_8c_source.html#l00033">33</a> of file <a class="el" href="task__kbd_8c_source.html">task_kbd.c</a>.</p>
+<p>Logging tag for this module. </p>
 
-<p class="reference">Referenced by <a class="el" href="task__kbd_8c_source.html#l00041">task_keyboard()</a>.</p>
+<p class="definition">Definition at line <a class="el" href="task__kbd_8c_source.html#l00044">44</a> of file <a class="el" href="task__kbd_8c_source.html">task_kbd.c</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="task__kbd_8c_source.html#l00077">task_keyboard()</a>.</p>
 
 </div>
 </div>
 <h2 class="groupheader">Function Documentation</h2>
-<a id="aad4ceb3ea958b99d596870013982d96e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aad4ceb3ea958b99d596870013982d96e">&#9670;&nbsp;</a></span>sendToQueue()</h2>
+<a id="a7d605cb2407a7a7309911c70e28a9884"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7d605cb2407a7a7309911c70e28a9884">&#9670;&nbsp;</a></span>sendKbd()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void sendToQueue </td>
+          <td class="memname">void sendKbd </td>
           <td>(</td>
           <td class="paramtype">QueueHandle_t&#160;</td>
-          <td class="paramname"><em>queue</em>, </td>
+          <td class="paramname"><em>qUSB</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">QueueHandle_t&#160;</td>
+          <td class="paramname"><em>qBLE</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">uint16_t *&#160;</td>
-          <td class="paramname"><em>data</em>&#160;</td>
+          <td class="paramname"><em>key</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -131,18 +155,31 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="task__kbd_8c_source.html#l00035">35</a> of file <a class="el" href="task__kbd_8c_source.html">task_kbd.c</a>.</p>
+<p>Helper function sending to queues depending on connection type. </p>
+<p>This method is used to send data to USB/BLE queues, depending on the bits of connectionRoutingStatus. Either BLE or USB or both can be enabled. </p><dl class="section see"><dt>See also</dt><dd><a class="el" href="common_8h.html#a9f5db9a2d9f33eb7e1b8e82ca2dffe81">DATATO_USB</a> </dd>
+<dd>
+<a class="el" href="common_8h.html#a23e20bbc7b5cb196155927ffb1375bed">DATATO_BLE</a> </dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">qUSB</td><td>Queue for USB commands to send to </td></tr>
+    <tr><td class="paramname">qBLE</td><td>Queue for BLE commands to send to </td></tr>
+    <tr><td class="paramname">key</td><td>Pointer to keycode which is sent to these queues </td></tr>
+  </table>
+  </dd>
+</dl>
 
-<p class="reference">Referenced by <a class="el" href="task__kbd_8c_source.html#l00041">task_keyboard()</a>.</p>
+<p class="definition">Definition at line <a class="el" href="task__kbd_8c_source.html#l00057">57</a> of file <a class="el" href="task__kbd_8c_source.html">task_kbd.c</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="task__kbd_8c_source.html#l00077">task_keyboard()</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><img src="task__kbd_8c_aad4ceb3ea958b99d596870013982d96e_icgraph.png" border="0" usemap="#task__kbd_8c_aad4ceb3ea958b99d596870013982d96e_icgraph" alt=""/></div>
-<map name="task__kbd_8c_aad4ceb3ea958b99d596870013982d96e_icgraph" id="task__kbd_8c_aad4ceb3ea958b99d596870013982d96e_icgraph">
-<area shape="rect" id="node2" href="task__kbd_8h.html#a8ff4618047a049178bfb1d60abfefb5d" title="task_keyboard" alt="" coords="156,5,263,32"/>
-<area shape="rect" id="node3" href="config__switcher_8c.html#af5af5079d1982d42e165039e6de7e40a" title="CONTINOUS TASK &#45; Config switcher task, internal config reloading. " alt="" coords="311,5,448,32"/>
-<area shape="rect" id="node4" href="config__switcher_8h.html#aafed047c8d04b814a85239e031cbad7b" title="Initializing the config switching functionality. " alt="" coords="496,5,623,32"/>
-<area shape="rect" id="node5" href="flipmouse__fabi__esp32__kbdmouse__main_8c.html#abce06be17fc37d675118a678a8100a36" title="Main task, created by esp&#45;idf. " alt="" coords="671,5,749,32"/>
+<div class="center"><img src="task__kbd_8c_a7d605cb2407a7a7309911c70e28a9884_icgraph.png" border="0" usemap="#task__kbd_8c_a7d605cb2407a7a7309911c70e28a9884_icgraph" alt=""/></div>
+<map name="task__kbd_8c_a7d605cb2407a7a7309911c70e28a9884_icgraph" id="task__kbd_8c_a7d605cb2407a7a7309911c70e28a9884_icgraph">
+<area shape="rect" id="node2" href="task__kbd_8h.html#a8ff4618047a049178bfb1d60abfefb5d" title="FUNCTIONAL TASK &#45; trigger keyboard actions. " alt="" coords="127,5,233,32"/>
+<area shape="rect" id="node3" href="config__switcher_8c.html#af5af5079d1982d42e165039e6de7e40a" title="CONTINOUS TASK &#45; Config switcher task, internal config reloading. " alt="" coords="281,5,419,32"/>
+<area shape="rect" id="node4" href="config__switcher_8h.html#aafed047c8d04b814a85239e031cbad7b" title="Initializing the config switching functionality. " alt="" coords="467,5,593,32"/>
+<area shape="rect" id="node5" href="flipmouse__fabi__esp32__kbdmouse__main_8c.html#abce06be17fc37d675118a678a8100a36" title="Main task, created by esp&#45;idf. " alt="" coords="641,5,720,32"/>
 </map>
 </div>
 
@@ -164,7 +201,18 @@ Here is the caller graph for this function:</div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="task__kbd_8c_source.html#l00041">41</a> of file <a class="el" href="task__kbd_8c_source.html">task_kbd.c</a>.</p>
+<p>FUNCTIONAL TASK - trigger keyboard actions. </p>
+<p>This task is used to trigger keyboard actions, as it is defined in taskKeyboardConfig_t. Can be used as singleshot method by using VB_SINGLESHOT as virtual button configuration. </p><dl class="section see"><dt>See also</dt><dd><a class="el" href="common_8h.html#a784ceb4b2d4c4fb77baa99646c6e5035">VB_SINGLESHOT</a> </dd>
+<dd>
+<a class="el" href="task__kbd_8h.html#a1ea00a7b13dc2b804f53e6f79cb89f2c" title="Config for task_keyboard. ">taskKeyboardConfig_t</a> </dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">param</td><td>Task configuration </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="task__kbd_8c_source.html#l00077">77</a> of file <a class="el" href="task__kbd_8c_source.html">task_kbd.c</a>.</p>
 
 <p class="reference">Referenced by <a class="el" href="config__switcher_8c_source.html#l00187">configSwitcherTask()</a>.</p>
 <div class="dynheader">
@@ -172,7 +220,7 @@ Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="task__kbd_8c_a8ff4618047a049178bfb1d60abfefb5d_cgraph.png" border="0" usemap="#task__kbd_8c_a8ff4618047a049178bfb1d60abfefb5d_cgraph" alt=""/></div>
 <map name="task__kbd_8c_a8ff4618047a049178bfb1d60abfefb5d_cgraph" id="task__kbd_8c_a8ff4618047a049178bfb1d60abfefb5d_cgraph">
-<area shape="rect" id="node2" href="task__kbd_8c.html#aad4ceb3ea958b99d596870013982d96e" title="sendToQueue" alt="" coords="160,5,263,32"/>
+<area shape="rect" id="node2" href="task__kbd_8c.html#a7d605cb2407a7a7309911c70e28a9884" title="Helper function sending to queues depending on connection type. " alt="" coords="160,5,233,32"/>
 </map>
 </div>
 <div class="dynheader">

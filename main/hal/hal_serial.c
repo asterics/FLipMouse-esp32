@@ -486,7 +486,7 @@ void halSerialReset(uint8_t exceptDevice)
     for(uint8_t i=0;i<8;i++) keycode_arr[i] = 0;
     keycode_modifier = 0;
     keycode_arr[0] = 'K';
-    if(halSerialSendUSBSerial(HAL_SERIAL_TX_TO_HID,(char *)keycode_arr, 8, 30) != ESP_OK)
+    if(halSerialSendUSBSerial(HAL_SERIAL_TX_TO_HID,(char *)keycode_arr, 8, 30) != 8)
     {
       ESP_LOGE(LOG_TAG,"Error resetting keyboard HID report");
     }

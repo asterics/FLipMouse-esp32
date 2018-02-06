@@ -286,6 +286,7 @@ typedef struct generalConfig {
    * 0 => FLipMouse
    * 1 => FABI */
   uint8_t deviceIdentifier;
+  char slotName[SLOTNAME_LENGTH];
   command_type_t virtualButtonCommand[NUMBER_VIRTUALBUTTONS*4];
   void* virtualButtonConfig[NUMBER_VIRTUALBUTTONS*4];
 } generalConfig_t;

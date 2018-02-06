@@ -21,7 +21,7 @@ Following commands are currently available:
 |:--------|:----------|:------------|:--------------|:--------------------|:----------------|
 | AT    | --  | returns OK   | v2 | yes | no |
 | AT ID | --  | returns the current version string  | v2 | yes | no |
-| AT BM | number (1-11)  | set the button, which corresponds to the next command. The button assignments are described on the bottom | v2 | untested | no |
+| AT BM | number (1-11)  | set the button, which corresponds to the next command. The button assignments are described on the bottom | v2 | yes | no |
 | AT BL | -- | enable/disable output of triggered virtual buttons. Is used with AT BM for command learning | v3 | no | ? |
 | AT MA | string | execute macro (space separated list of commands, see [Macros](https://github.com/asterics/FLipMouse/wiki/macros)) | v2 | no | yes (task_macro) |
 | AT WA | number | wait/delay (ms); useful for macros. Does nothing if not used in macros. | v2 | no | no |
@@ -55,16 +55,16 @@ Following commands are currently available:
 | AT MX | number  | Move mouse (X direction), e.g. AT MX -25  | v2 | yes | yes (task_mouse) |
 | AT MY | number  | Move mouse (Y direction), e.g. AT MY 10  | v2 | yes | yes (task_mouse) |
 |       |   |   ||| |
-| AT KW | string  | Keyboard write (e.g. "AT KW Hi" types "Hi") | v2 | untested | yes (task_keyboard) |
-| AT KP | string  | Key press (e.g. "AT KP KEY_UP" presses & releases the up arrow key), a full list of supported key identifiers is provided on the bottom  | v2 | untested | yes (task_keyboard) |
+| AT KW | string  | Keyboard write (e.g. "AT KW Hi" types "Hi") | v2 | yes | yes (task_keyboard) |
+| AT KP | string  | Key press (e.g. "AT KP KEY_UP" presses & releases the up arrow key), a full list of supported key identifiers is provided on the bottom. | v2 | yes | yes (task_keyboard) |
 | AT KH | string  | Key hold (e.g. "AT KH KEY_UP" presses & holds the up arrow key), a full list of supported key identifiers is provided on the bottom  | v2 | untested | yes (task_keyboard) |
 | AT KR | string  | Key release (e.g. "AT KR KEY_UP" releases the up arrow key)  | v2 | untested | yes (task_keyboard) |
 | AT RA | --  | Release all keys  | v2 | untested | no |
 **Storage commands** 
 | Command | Parameter | Description | Available since | Implemented in v3 | FUNCTIONAL task |
 |:--------|:----------|:------------|:--------------|:--------------------|:----------------|
-| AT SA | string  | save current configuration at the next free EEPROM slot under the give name (e.g. "AT SA mouse" stores a slot with the name "mouse"  | v2 | untested | no |
-| AT LO | string  | load a configuration from the EEPROM (e.g. "AT LO mouse")  | v2 | untested | yes (task_configswitcher) |
+| AT SA | string  | save current configuration at the next free EEPROM slot under the give name (e.g. "AT SA mouse" stores a slot with the name "mouse"  | v2 | yes | no |
+| AT LO | string  | load a configuration from the EEPROM (e.g. "AT LO mouse")  | v2 | yes | yes (task_configswitcher) |
 | AT LA | --  | load all slots and print the configuration   | v2 | no | no |
 | AT LI | --  | list all available slots   | v2 | no | no |
 | AT NE | --  | load next slot (wrap around after the last slot)  | v2 | untested | yes (task_configswitcher) |

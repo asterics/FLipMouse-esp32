@@ -53,5 +53,6 @@ var searchData=
   ['timer_5frelease',['TIMER_RELEASE',['../task__debouncer_8c.html#a025a71347a9af5f07629d555c254262f',1,'task_debouncer.c']]],
   ['todo_20list',['Todo List',['../todo.html',1,'']]],
   ['trans_5fid',['trans_id',['../structhidd__clcb__t.html#afb84f454f4b4003af634bb8eca597834',1,'hidd_clcb_t']]],
+  ['triggertask',['TRIGGERTASK',['../task__commands_8c.html#a7860b6904b2ba2dd906d189ada5f1e17a50c64ae796b6cf92c249f1a90f98a992',1,'task_commands.c']]],
   ['type',['type',['../structhid__report__map__t.html#af18e90bd29fbc1e4c729604b320584f7',1,'hid_report_map_t::type()'],['../structhidRptMap__t.html#a42e8284ef1e7aa903a10c034e3aa716a',1,'hidRptMap_t::type()'],['../structtaskKeyboardConfig.html#adca07379749166ca12eb631f84a727dd',1,'taskKeyboardConfig::type()'],['../structtaskMouseConfig.html#a7f48393904d131e50914afdf637a76be',1,'taskMouseConfig::type()']]]
 ];

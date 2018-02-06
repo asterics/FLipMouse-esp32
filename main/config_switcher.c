@@ -194,6 +194,7 @@ void configSwitcherTask(void * params)
   size_t vbparametersize = 0;
   TaskFunction_t newTaskCode = NULL;
   short stacksize = 0;
+  uint8_t justupdate = 0;
   esp_err_t ret;
   
   if(config_switcher == 0)
@@ -211,7 +212,6 @@ void configSwitcherTask(void * params)
   while(1)
   {
     //wait for a command.
-    vTaskDelay(1000/portTICK_PERIOD_MS); 
     if(xQueueReceive(config_switcher,command,1000/portTICK_PERIOD_MS) == pdTRUE)
     {
       //request storage access
@@ -220,6 +220,8 @@ void configSwitcherTask(void * params)
         ESP_LOGE(LOG_TAG,"Cannot start storage transaction");
         continue;
       }
+      //just to be sure: normally we are not updating...
+      justupdate = 0;
       
       //command received, load new slot:
       //__NEXT, __PREV, __DEFAULT, __UPDATE, __RESTOREFACTORY
@@ -253,6 +255,7 @@ void configSwitcherTask(void * params)
         //on config updates, use the currentConfigLoaded,
         //it is possible the currentConfigLoaded was changed by external parts
         memcpy(&currentConfig,&currentConfigLoaded,sizeof(generalConfig_t));
+        justupdate = 1;
         ret = ESP_OK;
       } else  {
         ret = halStorageLoadName(command,&currentConfig,tid);
@@ -286,6 +289,10 @@ void configSwitcherTask(void * params)
       //perform task switching...
       for(uint8_t i = 0; i<(NUMBER_VIRTUALBUTTONS*4); i++)
       {
+        //if we are supposed to update VBs AND this one is not
+        //to be updated, skip all the unloading/loading...
+        if((justupdate == 1) && (currentTaskParametersUpdate[i] == NULL)) continue;
+        
         //unload
         if(currentTasks[i] != NULL) vTaskDelete(currentTasks[i]);
         //if memory was previously allocated, free now
@@ -344,7 +351,6 @@ void configSwitcherTask(void * params)
         //check if we allocated memory:
         if(currentTaskParameters[i] != NULL)
         {
-          currentConfig.virtualButtonConfig[i] = currentTaskParameters[i];
           //load VB config to memory
           if(vbparametersize > 0)
           {
@@ -352,14 +358,16 @@ void configSwitcherTask(void * params)
             if(currentTaskParametersUpdate[i] == NULL)
             {
               //if no, load VB config from storage
-              halStorageLoadGetVBConfigs(i,currentConfig.virtualButtonConfig[i], vbparametersize, tid);
+              halStorageLoadGetVBConfigs(i,currentTaskParameters[i], vbparametersize, tid);
             } else {
               //if yes, use this pointer for task parameter
-              currentTaskParameters[i] = currentTaskParametersUpdate[i];
+              memcpy(currentTaskParameters[i],currentTaskParametersUpdate[i],vbparametersize);
+              free(currentTaskParametersUpdate[i]);
               //and reset the update pointer
               currentTaskParametersUpdate[i] = NULL;
             }
           }
+          currentConfig.virtualButtonConfig[i] = currentTaskParameters[i];
         } else {
           ESP_LOGE(LOG_TAG,"error allocating memory for VB%u config",i);
         }
@@ -401,12 +409,12 @@ void configSwitcherTask(void * params)
  * @see taskConfigSwitcherConfig_t*/
 void task_configswitcher(taskConfigSwitcherConfig_t *param)
 {
-  EventBits_t uxBits;
+  EventBits_t uxBits = 0;
   //check for param struct
   if(param == NULL)
   {
     ESP_LOGE(LOG_TAG,"param is NULL ");
-    vTaskDelete(NULL);
+    while(1) vTaskDelay(100000/portTICK_PERIOD_MS);
     return;
   }
   //calculate array index of EventGroup array (each 4 VB have an own EventGroup)
@@ -414,38 +422,49 @@ void task_configswitcher(taskConfigSwitcherConfig_t *param)
   //calculate bitmask offset within the EventGroup
   uint8_t evGroupShift = param->virtualButton % 4;
   //final pointer to the EventGroup used by this task
-  EventGroupHandle_t *evGroup;
+  EventGroupHandle_t *evGroup = NULL;
   //ticks between task timeouts
   const TickType_t xTicksToWait = 2000 / portTICK_PERIOD_MS;
   
-  //check for valid parameter
-  if(evGroupIndex >= NUMBER_VIRTUALBUTTONS)
-  {
-    ESP_LOGE(LOG_TAG,"virtual button group unsupported: %d ",evGroupIndex);
-    vTaskDelete(NULL);
-    return;
-  }
   
-  //test if event groups are already initialized, otherwise exit immediately
-  if(virtualButtonsOut[evGroupIndex] == 0)
+  //if we are in singleshot mode, we do not need to test
+  //the virtual button groups (unused)
+  if(param->virtualButton != VB_SINGLESHOT)
   {
-    ESP_LOGE(LOG_TAG,"uninitialized event group for virtual buttons, quitting this task");
-    vTaskDelete(NULL);
-    return;
-  } else {
-    evGroup = virtualButtonsOut[evGroupIndex];
+    //check for valid parameter
+    if(evGroupIndex >= NUMBER_VIRTUALBUTTONS)
+    {
+      ESP_LOGE(LOG_TAG,"virtual button group unsupported: %d ",evGroupIndex);
+      while(1) vTaskDelay(100000/portTICK_PERIOD_MS);
+      return;
+    }
+    
+    //test if event groups are already initialized, otherwise exit immediately
+    if(virtualButtonsOut[evGroupIndex] == 0)
+    {
+      ESP_LOGE(LOG_TAG,"uninitialized event group for virtual buttons, quitting this task");
+      while(1) vTaskDelay(100000/portTICK_PERIOD_MS);
+      return;
+    } else {
+      evGroup = virtualButtonsOut[evGroupIndex];
+    }
   }
   
   while(1)
   {
-    //wait for the flag
-    uxBits = xEventGroupWaitBits(evGroup,(1<<evGroupShift),pdTRUE,pdFALSE,xTicksToWait);
-    if(uxBits & (1<<evGroupShift))
+    //wait for the flag or simply trigger on VB_SINGLESHOT
+    if(param->virtualButton != VB_SINGLESHOT)
+    {
+      uxBits = xEventGroupWaitBits(evGroup,(1<<evGroupShift),pdTRUE,pdFALSE,xTicksToWait);
+    }
+    //trigger either when the bits are set or we are in singleshot mode
+    if((uxBits & (1<<evGroupShift)) || param->virtualButton == VB_SINGLESHOT)
     {
       xQueueSend(config_switcher,&param->slotName,0);
       ESP_LOGD(LOG_TAG,"requesting slot switch by name: %s",param->slotName);
-      
     }
+    //FUNCTIONAL tasks in singleshot mode are required to return.
+    if(param->virtualButton == VB_SINGLESHOT) return;
   }
 }
 

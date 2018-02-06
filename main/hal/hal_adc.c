@@ -378,7 +378,7 @@ void task_calibration(taskNoParameterConfig_t *param)
     if(param == NULL)
     {
         ESP_LOGE(LOG_TAG,"parameter = NULL, cannot proceed");
-        vTaskDelete(NULL);
+        while(1) vTaskDelay(100000/portTICK_PERIOD_MS);
         return;
     }
     
@@ -399,7 +399,7 @@ void task_calibration(taskNoParameterConfig_t *param)
         if(evGroupIndex >= NUMBER_VIRTUALBUTTONS)
         {
             ESP_LOGE(LOG_TAG,"virtual button group unsupported: %d ",evGroupIndex);
-            vTaskDelete(NULL);
+            while(1) vTaskDelay(100000/portTICK_PERIOD_MS);
             return;
         }
         

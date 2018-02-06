@@ -175,8 +175,11 @@ static void halSerialEventTask(void *pvParameters)
                 //UART_PATTERN_DET, give semaphore to unblock pending
                 //UART readers...
                 case UART_PATTERN_DET:
-                    xSemaphoreGive(serialpatternsem);
+                    xSemaphoreGive(serialpatternsem); //maybe we try break?
                     break;
+                case UART_BREAK:
+                    //xSemaphoreGive(serialpatternsem); //maybe we try break?
+                    //break;
                 //Others, do nothing....
                 default: break;
             }
@@ -567,7 +570,7 @@ esp_err_t halSerialInit(void)
   }
   
   //Set uart pattern detect function.
-  uart_enable_pattern_det_intr(HAL_SERIAL_UART, '\n', 1, 10000, 10, 10);
+  uart_enable_pattern_det_intr(HAL_SERIAL_UART, '\r', 1, 10000, 10, 10);
   //Reset the pattern queue length to record at most 10 pattern positions.
   uart_pattern_queue_reset(HAL_SERIAL_UART, 10);
   

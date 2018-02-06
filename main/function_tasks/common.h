@@ -18,7 +18,8 @@
 
 /** ID String to be printed on "AT ID" command.
  * @note Change this depending on FABI/FLipMouse build. */
-#define IDSTRING "FLipMouse V3.0\r\n"
+//#define IDSTRING "FLipMouse V3.0\r\n"
+#define IDSTRING "Flipmouse v2.5\n"
 
 // which device is using this firmware?
 //#define DEVICE_FABI

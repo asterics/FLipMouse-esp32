@@ -80,7 +80,7 @@ void task_keyboard(taskKeyboardConfig_t *param)
   if(param == NULL)
   {
     ESP_LOGE(LOG_TAG,"param is NULL ");
-    vTaskDelete(NULL);
+    while(1) vTaskDelay(100000/portTICK_PERIOD_MS);
     return;
   }
   //event bits used for pending on debounced buttons
@@ -108,7 +108,7 @@ void task_keyboard(taskKeyboardConfig_t *param)
     if(evGroupIndex >= NUMBER_VIRTUALBUTTONS)
     {
       ESP_LOGE(LOG_TAG,"virtual button group unsupported: %d ",evGroupIndex);
-      vTaskDelete(NULL);
+      while(1) vTaskDelay(100000/portTICK_PERIOD_MS);
       return;
     }
     
@@ -126,8 +126,8 @@ void task_keyboard(taskKeyboardConfig_t *param)
   if(keyboardType != PRESS && keyboardType != RELEASE && \
     keyboardType != PRESS_RELEASE_BUTTON && keyboardType != WRITE)
   {
-    ESP_LOGE(LOG_TAG,"unknown keyboard action type,quit...");
-    vTaskDelete(NULL);
+    ESP_LOGE(LOG_TAG,"unknown keyboard action type,cannot continue...");
+    while(1) vTaskDelay(100000/portTICK_PERIOD_MS);
     return;
   }
   
@@ -139,7 +139,7 @@ void task_keyboard(taskKeyboardConfig_t *param)
   if(keylength == 0)
   {
     ESP_LOGI(LOG_TAG,"Empty kbd instance, quit");
-    if(vb == VB_SINGLESHOT) return; else vTaskDelete(NULL);
+    if(vb == VB_SINGLESHOT) return; else { while(1) vTaskDelay(100000/portTICK_PERIOD_MS); }
   }
   
   //copy keys to local buffer
@@ -151,7 +151,7 @@ void task_keyboard(taskKeyboardConfig_t *param)
     ESP_LOGI(LOG_TAG,"allocated %d keycodes",keylength);
   } else {
     ESP_LOGE(LOG_TAG,"cannot allocate %d bytes for keyarray",keylength);
-    if(vb == VB_SINGLESHOT) return; else vTaskDelete(NULL);
+    if(vb == VB_SINGLESHOT) return; else { while(1) vTaskDelay(100000/portTICK_PERIOD_MS); }
   }
   
   while(1)
@@ -229,8 +229,8 @@ void task_keyboard(taskKeyboardConfig_t *param)
 
         default:
           ESP_LOGE(LOG_TAG,"unknown keyboard action type,quit...");
-          vTaskDelete(NULL);
           free(keys);
+          while(1) vTaskDelay(100000/portTICK_PERIOD_MS);
           return;
       }
       

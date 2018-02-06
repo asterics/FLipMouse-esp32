@@ -65,8 +65,11 @@
 
 //All global todos, roadmap, ...
 /**
- @todo Test AT BM for updating slot
  @todo Implement learning mode
- @todo Investigate modifier problem (might be related to USB chip firmware)
- 
+ @todo Configswitcher NEXT increments slot number, even if not possible. Also check for turn-around. & missing slots.
+ @todo Clarify AT KP/KR/KH commands on original FlipMouse, to be compatible... (especially for press/release with buttons & with multiple key identifiers)
+ @todo Debouncer testing...
+ @todo Re-implement hal_serial's UART data reception: use own interrupt & discard UART driver.
+ @todo Maybe store VB configs not in individual files, is slow...
+ @todo Problem with AT MX/MY: not always stepping right, but always if it is negativ
 */

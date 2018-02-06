@@ -72,6 +72,7 @@
 #define HAL_SERIAL_UART_TIMEOUT_MS 5000
 
 static const int BUF_SIZE_RX = 512;
+static const int EVENTQUEUE_SIZE = 64;
 static const int BUF_SIZE_TX = 512;
 static uint8_t keycode_modifier;
 static uint8_t keycode_arr[8] = {'K',0,0,0,0,0,0,0};
@@ -429,6 +430,13 @@ int halSerialReceiveUSBSerial(uint8_t *data, uint32_t length)
  * */
 int halSerialSendUSBSerial(uint8_t channel, char *data, uint32_t length, TickType_t ticks_to_wait) 
 {
+  //check if sem is already initialized
+  if(serialsendingsem == NULL)
+  {
+    ESP_LOGW(LOG_TAG,"Sem not ready, waiting for 1s");
+    vTaskDelay(1000/portTICK_PERIOD_MS);
+  }
+  
   //acquire mutex to have TX permission on UART
   if(xSemaphoreTake(serialsendingsem, ticks_to_wait) == pdTRUE)
   {
@@ -529,7 +537,7 @@ esp_err_t halSerialInit(void)
   }
   
   //Install UART driver with RX and TX buffers
-  ret = uart_driver_install(HAL_SERIAL_UART, BUF_SIZE_RX, BUF_SIZE_TX, 10, &uarteventsqueue, 0);
+  ret = uart_driver_install(HAL_SERIAL_UART, BUF_SIZE_RX, BUF_SIZE_TX, EVENTQUEUE_SIZE, &uarteventsqueue, 0);
   if(ret != ESP_OK) 
   {
     ESP_LOGE(LOG_TAG,"UART driver install failed"); 
@@ -572,7 +580,7 @@ esp_err_t halSerialInit(void)
   //Set uart pattern detect function.
   uart_enable_pattern_det_intr(HAL_SERIAL_UART, '\r', 1, 10000, 10, 10);
   //Reset the pattern queue length to record at most 10 pattern positions.
-  uart_pattern_queue_reset(HAL_SERIAL_UART, 10);
+  uart_pattern_queue_reset(HAL_SERIAL_UART, EVENTQUEUE_SIZE);
   
   //install serial tasks (4x -> keyboard press/release; mouse; joystick)
   xTaskCreate(halSerialTaskKeyboardPress, "serialKbdPress", HAL_SERIAL_TASK_STACKSIZE, NULL, configMAX_PRIORITIES-1, NULL);

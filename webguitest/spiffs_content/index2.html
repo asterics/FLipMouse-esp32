@@ -47,6 +47,16 @@
             </div>
 
             <br/>
+            <br/>
+            <div class="row">
+                <button id="basic-button" onclick="save()" class="one-third">
+                    <span id="basic-button-normal" data-translatable>Save // Speichern</span>
+                    <span id="basic-button-saving" style="display: none" data-translatable>Saving... // Wird gespeichert...</span>
+                </button>
+            </div>
+        </div>
+        <div data-tabs-pane class="tabs-pane" id="tabPuff">
+            <br/>
             <label for="SIP_THRESHOLD" data-translatable>Sip Threshold: // Schwellenwert Saugen:</label>
             <div class="row">
                 <span id="SIP_THRESHOLD_VAL" class="text-center one column">0</span>
@@ -57,8 +67,8 @@
                 <span id="SIP_STRONG_THRESHOLD_VAL" class="text-center one column">0</span>
                 <input type="range" oninput="sliderChanged(event)" onchange="sliderChanged(event)" id="SIP_STRONG_THRESHOLD" min="0" max="512" class="eleven columns">
             </div>
-			
-			<br/>
+
+            <br/>
             <label for="PUFF_THRESHOLD" data-translatable>Puff Threshold: // Schwellenwert Blasen:</label>
             <div class="row">
                 <span id="PUFF_THRESHOLD_VAL" class="text-center one column">0</span>
@@ -78,23 +88,11 @@
             <br/>
             <br/>
             <div class="row">
-                <button id="basic-button" onclick="save()" class="one-third">
-                    <span id="basic-button-normal" data-translatable>Save // Speichern</span>
-                    <span id="basic-button-saving" style="display: none" data-translatable>Saving... // Wird gespeichert...</span>
+                <button id="sip-puff-button" onclick="save()" class="one-third">
+                    <span id="sip-puff-button-normal" data-translatable>Save // Speichern</span>
+                    <span id="sip-puff-button-saving" style="display: none" data-translatable>Saving... // Wird gespeichert...</span>
                 </button>
             </div>
-        </div>
-        <div data-tabs-pane class="tabs-pane" id="tabPuff">
-            <div class="empty-separator"></div>
-            <label for="pressure-1">Pressure level for puff:</label>
-            <input type="range" data-clear-btn="true" name="set-pressure-level" id="set-pressure-level" min="0"
-                   max="1200">
-            <label for="pressure-2">Actual pressure level:</label>
-            <input type="number" name="actual-pressure-level" id="actual-pressure-level" value=""
-                   data-disabled="true">
-            <div class="empty-separator"></div>
-            <input type="button" id="pressure-button" value="Apply">
-
         </div>
         <div data-tabs-pane class="tabs-pane" id="tabActions">
             <div class="empty-separator"></div>
@@ -151,11 +149,10 @@
     }
 
     function save() {
-        L.toggle('#basic-button-normal', '#basic-button-saving');
+        L.toggle('#basic-button-normal', '#basic-button-saving', '#sip-puff-button-normal', '#sip-puff-button-saving');
         window.flip.save().then(function (success) {
             if(success) {
-                L.toggle('#basic-button-normal', '#basic-button-saving');
-                console.log('!!!!!!!!!!!!');
+                L.toggle('#basic-button-normal', '#basic-button-saving', '#sip-puff-button-normal', '#sip-puff-button-saving');
             }
         });
     }

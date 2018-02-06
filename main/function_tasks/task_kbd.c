@@ -123,7 +123,7 @@ void task_keyboard(taskKeyboardConfig_t *param)
   }
   
   //test if parameter is correct
-  if(keyboardType != PRESS && keyboardType != RELEASE && keyboardType != PRESS_RELEASE && 
+  if(keyboardType != PRESS && keyboardType != RELEASE && \
     keyboardType != PRESS_RELEASE_BUTTON && keyboardType != WRITE)
   {
     ESP_LOGE(LOG_TAG,"unknown keyboard action type,quit...");
@@ -161,7 +161,6 @@ void task_keyboard(taskKeyboardConfig_t *param)
         //these action are only triggered by a button press
         case PRESS:
         case RELEASE:
-        case PRESS_RELEASE:
         case WRITE:
           //wait for the flag (only if not in singleshot mode)
           if(vb != VB_SINGLESHOT)
@@ -189,7 +188,7 @@ void task_keyboard(taskKeyboardConfig_t *param)
                 ESP_LOGD(LOG_TAG,"release: 0x%x",keys[keycodeoffset]);
                 sendKbd(keyboard_usb_release,keyboard_ble_release,&keys[keycodeoffset]);
               }
-              if(keyboardType == PRESS_RELEASE || keyboardType == WRITE)
+              if(keyboardType == WRITE)
               {
                 ESP_LOGD(LOG_TAG,"press&release 1: 0x%x",keys[keycodeoffset]);
                 sendKbd(keyboard_usb_press,keyboard_ble_press,&keys[keycodeoffset]);

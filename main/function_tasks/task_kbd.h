@@ -68,15 +68,12 @@
  * Following types of keyboard actions are possible: <br>
  * * <b>PRESS:</b> all of the given keycodes are pressed
  * * <b>RELEASE:</b> all of the given keycodes are released
- * * <b>PRESS_RELEASE:</b> all of the given keycodes are pressed and immediately released
  * * <b>PRESS_RELEASE_BUTTON:</b> all of the given keycodes are pressed and released if the virtual button is released
- * * <b>WRITE:</b> simply write the given string (can ASCII as well as unicode) by pressing
- *        & releasing all necessary keys
+ * * <b>WRITE:</b> all of the given keycodes are pressed and immediately released
  * */
 typedef enum {
   PRESS,
   RELEASE,
-  PRESS_RELEASE,
   PRESS_RELEASE_BUTTON,
   WRITE
 }keyboard_action;

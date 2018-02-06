@@ -85,9 +85,9 @@
                 <div class="row">
                     <div id="value-bar-wrapper" class="text-center two columns">
                         <span data-translatable>current: // aktuell:</span>
-                        <span id="currentValue">0</span>
+                        <span id="currentValue">0</span>,
                         <span>max:</span>
-                        <span id="maxValue">0</span>
+                        <span id="maxValue">0</span>,
                         <span>min:</span>
                         <span id="minValue">-1</span></div>
                     <div class="ten columns" style="border-style: solid; border-width: thin; background-color: transparent">
@@ -154,7 +154,7 @@
         window.flip = flip;
         flip.setValueHandler(function (data) {
             var value = parseInt(data.substring(7,10));
-            var percent = Math.round(value * 1000) / 1000 *  1023 / 100;
+            var percent = (Math.round((value / 1023 * 100) * 1000) / 1000);
             L('#currentValue').innerHTML = value;
             L('#value-bar').style = 'width: ' + percent + '%;';
             L('#guide-current').style = 'width: ' + percent + '%;';

@@ -105,6 +105,21 @@ esp_err_t halStorageGetNameForNumber(uint32_t tid, uint8_t slotnumber, char *slo
  * */
 esp_err_t halStorageGetNumberForName(uint32_t tid, uint8_t *slotnumber, char *slotname);
 
+
+/** Get the number of stored slots
+ * 
+ * This method returns the number of available slots (the default slot
+ * is not counted).
+ * An empty device will return 0
+ * 
+ * @param tid Transaction id
+ * @param slotsavailable Variable where the slot count will be stored
+ * @see halStorageStartTransaction
+ * @see halStorageFinishTransaction
+ * @return ESP_OK if tid is valid and slot count is valid, ESP_FAIL otherwise
+ * */
+esp_err_t halStorageGetNumberOfSlots(uint32_t tid, uint8_t *slotsavailable);
+
 /** load a slot by an action
  * 
  * This method loads a slot & saves the general config to the given

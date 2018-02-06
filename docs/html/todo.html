@@ -81,25 +81,25 @@ $(function() {
 </dd>
 <dt><a class="anchor" id="_todo000002"></a>Global <a class="el" href="config__switcher_8c.html#aceb033b9bef9bb354a3b2c4734b4ec9d">currentTaskParametersUpdate</a>  [NUMBER_VIRTUALBUTTONS *4]</dt>
 <dd>Maybe this information should be moved to the corresponding function.  </dd>
-<dt><a class="anchor" id="_todo000013"></a>Global <a class="el" href="task__debouncer_8c.html#a4a76abdbb849aa0bbc66aa001c6f4af9">debouncerCallback</a>  (TimerHandle_t xTimer)</dt>
+<dt><a class="anchor" id="_todo000014"></a>Global <a class="el" href="task__debouncer_8c.html#a4a76abdbb849aa0bbc66aa001c6f4af9">debouncerCallback</a>  (TimerHandle_t xTimer)</dt>
 <dd>Add the deadtime functionality here  </dd>
-<dt><a class="anchor" id="_todo000015"></a>Global <a class="el" href="task__debouncer_8h.html#adb027d7ba5fa2f4d411182ff9bbe735a">DEBOUNCETIME_MS</a>  </dt>
+<dt><a class="anchor" id="_todo000016"></a>Global <a class="el" href="task__debouncer_8h.html#adb027d7ba5fa2f4d411182ff9bbe735a">DEBOUNCETIME_MS</a>  </dt>
 <dd>Change this value from testing (500ms) to production (~50-100ms)  </dd>
-<dt><a class="anchor" id="_todo000017"></a>File <a class="el" href="hal__adc_8c.html">hal_adc.c</a>  </dt>
+<dt><a class="anchor" id="_todo000009"></a>Global <a class="el" href="task__commands_8c.html#a1dae0050b84acac33aae21926695c8c7">doStorageParsing</a>  (uint8_t *cmdBuffer, taskConfigSwitcherConfig_t *instance)</dt>
+<dd>Activate T_SENDIR here when IR task is finished  </dd>
+<dt><a class="anchor" id="_todo000018"></a>File <a class="el" href="hal__adc_8c.html">hal_adc.c</a>  </dt>
 <dd>Add raw value reporting for: CIM mode and serial interface  </dd>
-<dt><a class="anchor" id="_todo000022"></a>File <a class="el" href="hal__adc_8h.html">hal_adc.h</a>  </dt>
+<dt><a class="anchor" id="_todo000023"></a>File <a class="el" href="hal__adc_8h.html">hal_adc.h</a>  </dt>
 <dd>Add raw value reporting for: CIM mode and serial interface  </dd>
-<dt><a class="anchor" id="_todo000023"></a>File <a class="el" href="hal__serial_8c.html">hal_serial.c</a>  </dt>
-<dd>Implement halSerialReset, similar to halBLEReset (resetting the HID reports)  </dd>
 <dt><a class="anchor" id="_todo000024"></a>Global <a class="el" href="hal__serial_8c.html#a8ed6a618f134d6b923ba216de84253f6">HAL_SERIAL_UART_TIMEOUT_MS</a>  </dt>
 <dd>Documentation updates, this define is now used differently...  </dd>
-<dt><a class="anchor" id="_todo000021"></a>Global <a class="el" href="hal__adc_8c.html#ae549c157d94729e8b06cb391f0f2c97b">halAdcCalibrate</a>  (void)</dt>
+<dt><a class="anchor" id="_todo000022"></a>Global <a class="el" href="hal__adc_8c.html#ae549c157d94729e8b06cb391f0f2c97b">halAdcCalibrate</a>  (void)</dt>
 <dd>Implement everything...  </dd>
-<dt><a class="anchor" id="_todo000019"></a>Global <a class="el" href="hal__adc_8c.html#acd8f9f6194ebeaa854a791879382b515">halAdcProcessPressure</a>  (uint32_t pressurevalue)</dt>
+<dt><a class="anchor" id="_todo000020"></a>Global <a class="el" href="hal__adc_8c.html#acd8f9f6194ebeaa854a791879382b515">halAdcProcessPressure</a>  (uint32_t pressurevalue)</dt>
 <dd>Do everything here, no sip&amp;puff currently available.  </dd>
-<dt><a class="anchor" id="_todo000020"></a>Global <a class="el" href="hal__adc_8c.html#a452077aaa6a576304708d00d4ec439f1">halAdcTaskJoystick</a>  (void *pvParameters)</dt>
+<dt><a class="anchor" id="_todo000021"></a>Global <a class="el" href="hal__adc_8c.html#a452077aaa6a576304708d00d4ec439f1">halAdcTaskJoystick</a>  (void *pvParameters)</dt>
 <dd>Implement the full joystick interface. Currently completely unimplemented. </dd>
-<dt><a class="anchor" id="_todo000018"></a>Global <a class="el" href="hal__adc_8h.html#a4135bb73c2271b4a27db8d8d81884de7">halAdcUpdateConfig</a>  (adc_config_t *params)</dt>
+<dt><a class="anchor" id="_todo000019"></a>Global <a class="el" href="hal__adc_8h.html#a4135bb73c2271b4a27db8d8d81884de7">halAdcUpdateConfig</a>  (adc_config_t *params)</dt>
 <dd>Clear pending VB flags on a config switch  </dd>
 <dt><a class="anchor" id="_todo000025"></a>Global <a class="el" href="hal__serial_8h.html#a131377105453d5b94f02f977ff454613">halSerialReceiveUSBSerial</a>  (uint8_t *data, uint32_t length)</dt>
 <dd>Maybe remove parameter length, not needed here?  </dd>
@@ -107,17 +107,17 @@ $(function() {
 <dd>Add remaining modifier keys (according to keylayouts.h, for example KEY_GUI)  </dd>
 <dt><a class="anchor" id="_todo000008"></a>Global <a class="el" href="task__commands_8c.html#a7ce0df38eb467e59f209470c8f5ac4e6">LOG_TAG</a>  </dt>
 <dd>CIM switching </dd>
-<dt><a class="anchor" id="_todo000014"></a>Global <a class="el" href="task__debouncer_8c.html#a79d88e490be7198b9cc37556c66b837b">task_debouncer</a>  (void *param)</dt>
+<dt><a class="anchor" id="_todo000015"></a>Global <a class="el" href="task__debouncer_8c.html#a79d88e490be7198b9cc37556c66b837b">task_debouncer</a>  (void *param)</dt>
 <dd><p class="startdd">Add anti-tremor &amp; deadtime functionality </p>
 <p class="enddd">Add anti-tremor &amp; deadtime functionality  </p>
 </dd>
-<dt><a class="anchor" id="_todo000009"></a>Global <a class="el" href="task__debouncer_8c.html#a2136a894816ebf7179ed937f43d22fe2">TIMER_DEADTIME</a>  </dt>
+<dt><a class="anchor" id="_todo000010"></a>Global <a class="el" href="task__debouncer_8c.html#a2136a894816ebf7179ed937f43d22fe2">TIMER_DEADTIME</a>  </dt>
 <dd>Implement the deadtime &amp; anti-tremor functions  </dd>
-<dt><a class="anchor" id="_todo000010"></a>Global <a class="el" href="task__debouncer_8c.html#a9e0faa645162aaacbb72971a070ed65c">xTimeDebounceDeadtime</a>  [NUMBER_VIRTUALBUTTONS *4]</dt>
+<dt><a class="anchor" id="_todo000011"></a>Global <a class="el" href="task__debouncer_8c.html#a9e0faa645162aaacbb72971a070ed65c">xTimeDebounceDeadtime</a>  [NUMBER_VIRTUALBUTTONS *4]</dt>
 <dd>Implement deadtime &amp; use this array for the config switcher  </dd>
-<dt><a class="anchor" id="_todo000011"></a>Global <a class="el" href="task__debouncer_8c.html#add6df857c2a4b9e88d36f0497b4e647e">xTimeDebouncePress</a>  [NUMBER_VIRTUALBUTTONS *4]</dt>
+<dt><a class="anchor" id="_todo000012"></a>Global <a class="el" href="task__debouncer_8c.html#add6df857c2a4b9e88d36f0497b4e647e">xTimeDebouncePress</a>  [NUMBER_VIRTUALBUTTONS *4]</dt>
 <dd>Use this array for the config switcher &amp; control it externally  </dd>
-<dt><a class="anchor" id="_todo000012"></a>Global <a class="el" href="task__debouncer_8c.html#a6e0f2a105ef774d2e61a7c8fbecc2716">xTimeDebounceRelease</a>  [NUMBER_VIRTUALBUTTONS *4]</dt>
+<dt><a class="anchor" id="_todo000013"></a>Global <a class="el" href="task__debouncer_8c.html#a6e0f2a105ef774d2e61a7c8fbecc2716">xTimeDebounceRelease</a>  [NUMBER_VIRTUALBUTTONS *4]</dt>
 <dd>Use this array for the config switcher &amp; control it externally </dd>
 </dl>
 </div></div><!-- contents -->

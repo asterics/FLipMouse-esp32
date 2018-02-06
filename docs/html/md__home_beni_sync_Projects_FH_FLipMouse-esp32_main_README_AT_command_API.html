@@ -86,13 +86,21 @@ $(function() {
 <tr>
 <td align="left">AT MA </td><td align="left">string </td><td align="left">execute macro (space separated list of commands, see <a href="https://github.com/asterics/FLipMouse/wiki/macros">Macros</a>) </td><td align="left">v2 </td><td align="left">no </td><td align="left">yes (task_macro) </td></tr>
 <tr>
-<td align="left">AT WA </td><td align="left">number </td><td align="left">wait/delay (ms); useful for macros </td><td align="left">v2 </td><td align="left">no </td><td align="left">no </td></tr>
+<td align="left">AT WA </td><td align="left">number </td><td align="left">wait/delay (ms); useful for macros. Does nothing if not used in macros. </td><td align="left">v2 </td><td align="left">no </td><td align="left">no </td></tr>
 <tr>
 <td align="left">AT RO </td><td align="left">number (0,90,180,270) </td><td align="left">orientation (0 =&gt; LEDs on top) </td><td align="left">v2 </td><td align="left">no </td><td align="left">no </td></tr>
 <tr>
-<td align="left">AT KL </td><td align="left">number </td><td align="left">Set keyboard locale (locale defines are listed below) </td><td align="left">v3 </td><td align="left">no </td><td align="left">no </td></tr>
+<td align="left">AT KL </td><td align="left">number </td><td align="left">Set keyboard locale (locale defines are listed below) </td><td align="left">v3 </td><td align="left">yes </td><td align="left">no </td></tr>
 <tr>
 <td align="left">AT BT </td><td align="left">number (0,1,2) </td><td align="left">Bluetooth mode, 1=USB only, 2=BT only, 3=both(default) </td><td align="left">v2 </td><td align="left">Working for USB, untested for BLE </td><td align="left">no </td></tr>
+<tr>
+<td align="left">AT TT </td><td align="left">number (100-5000) </td><td align="left">Threshold time ([ms]) between short and long press actions. Set to 5000 to disable. </td><td align="left">v3 </td><td align="left">no </td><td align="left">no </td></tr>
+<tr>
+<td align="left">AT AP </td><td align="left">number (1-500) </td><td align="left">Antitremor delay for button press ([ms]) </td><td align="left">v3 </td><td align="left">no </td><td align="left">no </td></tr>
+<tr>
+<td align="left">AT AR </td><td align="left">number (1-500) </td><td align="left">Antitremor delay for button release ([ms]) </td><td align="left">v3 </td><td align="left">no </td><td align="left">no </td></tr>
+<tr>
+<td align="left">AT AI </td><td align="left">number (1-500) </td><td align="left">Antitremor delay for button idle ([ms]) </td><td align="left">v3 </td><td align="left">no </td><td align="left">no </td></tr>
 </table>
 <p><b>USB HID Commands</b> </p><table class="doxtable">
 <tr>
@@ -152,21 +160,21 @@ $(function() {
 <tr>
 <th align="left">Command </th><th align="left">Parameter </th><th align="left">Description </th><th align="left">Available since </th><th align="left">Implemented in v3 </th><th align="left">FUNCTIONAL task  </th></tr>
 <tr>
-<td align="left">AT SA </td><td align="left">string </td><td align="left">save current configuration at the next free EEPROM slot under the give name (e.g. "AT SA mouse" stores a slot with the name "mouse" </td><td align="left">v2 </td><td align="left">no </td><td align="left">no </td></tr>
+<td align="left">AT SA </td><td align="left">string </td><td align="left">save current configuration at the next free EEPROM slot under the give name (e.g. "AT SA mouse" stores a slot with the name "mouse" </td><td align="left">v2 </td><td align="left">untested </td><td align="left">no </td></tr>
 <tr>
-<td align="left">AT LO </td><td align="left">string </td><td align="left">load a configuration from the EEPROM (e.g. "AT LO mouse") </td><td align="left">v2 </td><td align="left">no </td><td align="left">yes (task_configswitcher) </td></tr>
+<td align="left">AT LO </td><td align="left">string </td><td align="left">load a configuration from the EEPROM (e.g. "AT LO mouse") </td><td align="left">v2 </td><td align="left">untested </td><td align="left">yes (task_configswitcher) </td></tr>
 <tr>
 <td align="left">AT LA </td><td align="left">&ndash; </td><td align="left">load all slots and print the configuration </td><td align="left">v2 </td><td align="left">no </td><td align="left">no </td></tr>
 <tr>
 <td align="left">AT LI </td><td align="left">&ndash; </td><td align="left">list all available slots </td><td align="left">v2 </td><td align="left">no </td><td align="left">no </td></tr>
 <tr>
-<td align="left">AT NE </td><td align="left">&ndash; </td><td align="left">load next slot (wrap around after the last slot) </td><td align="left">v2 </td><td align="left">no </td><td align="left">yes (task_configswitcher) </td></tr>
+<td align="left">AT NE </td><td align="left">&ndash; </td><td align="left">load next slot (wrap around after the last slot) </td><td align="left">v2 </td><td align="left">untested </td><td align="left">yes (task_configswitcher) </td></tr>
 <tr>
 <td align="left">AT DE </td><td align="left">&ndash; </td><td align="left">delete all slots </td><td align="left">v2 </td><td align="left">untested </td><td align="left">no </td></tr>
 <tr>
 <td align="left">AT DL </td><td align="left">number (1-) </td><td align="left">delete one slot. </td><td align="left">v3 </td><td align="left">untested </td><td align="left">no </td></tr>
 <tr>
-<td align="left">AT DN </td><td align="left">string </td><td align="left">delete one slot by name </td><td align="left">v3 </td><td align="left">no </td><td align="left">no </td></tr>
+<td align="left">AT DN </td><td align="left">string </td><td align="left">delete one slot by name </td><td align="left">v3 </td><td align="left">untested </td><td align="left">no </td></tr>
 <tr>
 <td align="left">AT NC </td><td align="left">&ndash; </td><td align="left">do nothing </td><td align="left">v2 </td><td align="left">no </td><td align="left">no </td></tr>
 <tr>
@@ -180,15 +188,15 @@ $(function() {
 <tr>
 <th align="left">Command </th><th align="left">Parameter </th><th align="left">Description </th><th align="left">Available since </th><th align="left">Implemented in v3 </th><th align="left">FUNCTIONAL task  </th></tr>
 <tr>
-<td align="left">AT MM </td><td align="left">number (0,1,2) </td><td align="left">use the mouthpiece either as mouse cursor (AT MM 1), alternative function (AT MM 0) or joystick (AT MM 2) </td><td align="left">v2 </td><td align="left">no </td><td align="left">no </td></tr>
+<td align="left">AT MM </td><td align="left">number (0,1,2) </td><td align="left">use the mouthpiece either as mouse cursor (AT MM 1), alternative function (AT MM 0) or joystick (AT MM 2) </td><td align="left">v2 </td><td align="left">untested </td><td align="left">no </td></tr>
 <tr>
-<td align="left">AT SW </td><td align="left">&ndash; </td><td align="left">switch between cursor and alternative mode </td><td align="left">v2 </td><td align="left">no </td><td align="left">no </td></tr>
+<td align="left">AT SW </td><td align="left">&ndash; </td><td align="left">switch between cursor and alternative mode </td><td align="left">v2 </td><td align="left">untested </td><td align="left">no </td></tr>
 <tr>
-<td align="left">AT SR </td><td align="left">&ndash; </td><td align="left">start reporting out the raw sensor values </td><td align="left">v2 </td><td align="left">no </td><td align="left">no </td></tr>
+<td align="left">AT SR </td><td align="left">&ndash; </td><td align="left">start reporting out the raw sensor values </td><td align="left">v2 </td><td align="left">untested </td><td align="left">no </td></tr>
 <tr>
-<td align="left">AT ER </td><td align="left">&ndash; </td><td align="left">stop reporting the sensor values </td><td align="left">v2 </td><td align="left">no </td><td align="left">no </td></tr>
+<td align="left">AT ER </td><td align="left">&ndash; </td><td align="left">stop reporting the sensor values </td><td align="left">v2 </td><td align="left">untested </td><td align="left">no </td></tr>
 <tr>
-<td align="left">AT CA </td><td align="left">&ndash; </td><td align="left">trigger zeropoint calibration </td><td align="left">v2 </td><td align="left">no </td><td align="left">yes (task_calibration) </td></tr>
+<td align="left">AT CA </td><td align="left">&ndash; </td><td align="left">trigger zeropoint calibration </td><td align="left">v2 </td><td align="left">untested </td><td align="left">yes (task_calibration) </td></tr>
 <tr>
 <td align="left">AT AX </td><td align="left">number (0-100) </td><td align="left">sensitivity x-axis </td><td align="left">v2 </td><td align="left">untested </td><td align="left">no </td></tr>
 <tr>
@@ -254,7 +262,7 @@ $(function() {
 <tr>
 <td align="left">AT IL </td><td align="left"></td><td align="left">list all available stored IR commands </td><td align="left">v2 </td><td align="left">no </td><td align="left">no </td></tr>
 </table>
-<h2>Button assignments</h2>
+<h2>Button assignments - FLipMouse</h2>
 <p>The FLipMouse has 1 internal push-button and 2 jack plugs for external buttons. In addition other functions are mapped to virtual buttons, so they can be configured the same. Following number mapping is used for the <b>AT BM</b> command:</p>
 <table class="doxtable">
 <tr>
@@ -323,6 +331,77 @@ $(function() {
 <td align="left">31 </td><td align="left"></td></tr>
 </table>
 <p>These assignments are declared in file <a class="el" href="common_8h.html">common.h</a>.</p>
+<h2>Button assignments - FABI</h2>
+<p>The FABI supports up to 9 buttons (normally external, but they can be hardwired like internal buttons). In addition, one analog channel is support for sip/puff functionality. Following number mapping is used for the <b>AT BM</b> command:</p>
+<table class="doxtable">
+<tr>
+<th align="left">VB nr </th><th align="left">Function  </th></tr>
+<tr>
+<td align="left">0 </td><td align="left">Button 1 </td></tr>
+<tr>
+<td align="left">1 </td><td align="left">Button 2 </td></tr>
+<tr>
+<td align="left">2 </td><td align="left">Button 3 </td></tr>
+<tr>
+<td align="left">3 </td><td align="left">Button 4 </td></tr>
+<tr>
+<td align="left">4 </td><td align="left">Button 5 </td></tr>
+<tr>
+<td align="left">5 </td><td align="left">Button 6 </td></tr>
+<tr>
+<td align="left">6 </td><td align="left">Button 7 </td></tr>
+<tr>
+<td align="left">7 </td><td align="left">Button 8 </td></tr>
+<tr>
+<td align="left">8 </td><td align="left">Button 9 </td></tr>
+<tr>
+<td align="left">9 </td><td align="left">Sip </td></tr>
+<tr>
+<td align="left">10 </td><td align="left">Puff </td></tr>
+<tr>
+<td align="left">11 </td><td align="left">Long Press Button 1 </td></tr>
+<tr>
+<td align="left">12 </td><td align="left">Long Press Button 2 </td></tr>
+<tr>
+<td align="left">13 </td><td align="left">Long Press Button 3 </td></tr>
+<tr>
+<td align="left">14 </td><td align="left">Long Press Button 4 </td></tr>
+<tr>
+<td align="left">15 </td><td align="left">Long Press Button 5 </td></tr>
+<tr>
+<td align="left">16 </td><td align="left">Long Press Button 6 </td></tr>
+<tr>
+<td align="left">17 </td><td align="left">Long Press Button 7 </td></tr>
+<tr>
+<td align="left">18 </td><td align="left">Long Press Button 8 </td></tr>
+<tr>
+<td align="left">19 </td><td align="left">Long Press Button 9 </td></tr>
+<tr>
+<td align="left">20 </td><td align="left"></td></tr>
+<tr>
+<td align="left">21 </td><td align="left"></td></tr>
+<tr>
+<td align="left">22 </td><td align="left"></td></tr>
+<tr>
+<td align="left">23 </td><td align="left"></td></tr>
+<tr>
+<td align="left">24 </td><td align="left"></td></tr>
+<tr>
+<td align="left">25 </td><td align="left"></td></tr>
+<tr>
+<td align="left">26 </td><td align="left"></td></tr>
+<tr>
+<td align="left">27 </td><td align="left"></td></tr>
+<tr>
+<td align="left">28 </td><td align="left"></td></tr>
+<tr>
+<td align="left">29 </td><td align="left"></td></tr>
+<tr>
+<td align="left">30 </td><td align="left"></td></tr>
+<tr>
+<td align="left">31 </td><td align="left"></td></tr>
+</table>
+<p>These assignments are declared in file <a class="el" href="common_8h.html">common.h</a>.</p>
 <h2>Key identifiers</h2>
 <p>The key identifiers are necessary to determine which key should be pressed or released by either the <b>AT KP</b> or the <b>AT KR</b> command. Following keys are possible: </p><pre class="fragment">KEY_A   KEY_B   KEY_C   KEY_D    KEY_E   KEY_F   KEY_G   KEY_H   KEY_I   KEY_J    KEY_K    KEY_L
 KEY_M   KEY_N   KEY_O   KEY_P    KEY_Q   KEY_R   KEY_S   KEY_T   KEY_U   KEY_V    KEY_W    KEY_X 
@@ -363,7 +442,63 @@ KEYPAD_5                KEYPAD_6                KEYPAD_7
 KEYPAD_8                KEYPAD_9                KEYPAD_0
 </pre><p>All possible key identifiers are defined in keylayouts.h (no doxygen available, please use the source).</p>
 <h2>Keyboard locales</h2>
-<p>TBA... (see <a class="el" href="keyboard_8h.html">keyboard.h</a>) </p>
+<p>With firmware version 3 it is possible to change the keyboard layout of FLipMouse/FABI by the <b>AT KL</b> command. Please note that the keyboard layout is only relevant for the <b>AT KW</b> command, where an ASCII/Unicode text is written by the FLipMouse/FABI. AT commands controlled by key identifiers (e.g., KEY_Y, KEY_Z) are mapped to an american layout.</p>
+<p>It is recommended to use the <b>AT KW</b> command as much as possible when typing text. For keyboard shortcuts, press&amp;release actuated programs <b>AT KP/KH/KR</b> is recommended.</p>
+<p>Following keyboard locales are currently available:</p>
+<table class="doxtable">
+<tr>
+<th align="left">Keyboard locale </th><th align="left">Number (parameter for <b>AT KL</b> )  </th></tr>
+<tr>
+<td align="left">LAYOUT_US_ENGLISH </td><td align="left">0 </td></tr>
+<tr>
+<td align="left">LAYOUT_US_INTERNATIONAL </td><td align="left">1 </td></tr>
+<tr>
+<td align="left">LAYOUT_GERMAN </td><td align="left">2 </td></tr>
+<tr>
+<td align="left">LAYOUT_GERMAN_MAC </td><td align="left">3 </td></tr>
+<tr>
+<td align="left">LAYOUT_CANADIAN_FRENCH </td><td align="left">4 </td></tr>
+<tr>
+<td align="left">LAYOUT_CANADIAN_MULTILINGUAL </td><td align="left">5 </td></tr>
+<tr>
+<td align="left">LAYOUT_UNITED_KINGDOM </td><td align="left">6 </td></tr>
+<tr>
+<td align="left">LAYOUT_FINNISH </td><td align="left">7 </td></tr>
+<tr>
+<td align="left">LAYOUT_FRENCH </td><td align="left">8 </td></tr>
+<tr>
+<td align="left">LAYOUT_DANISH </td><td align="left">9 </td></tr>
+<tr>
+<td align="left">LAYOUT_NORWEGIAN </td><td align="left">10 </td></tr>
+<tr>
+<td align="left">LAYOUT_SWEDISH </td><td align="left">11 </td></tr>
+<tr>
+<td align="left">LAYOUT_SPANISH </td><td align="left">12 </td></tr>
+<tr>
+<td align="left">LAYOUT_PORTUGUESE </td><td align="left">13 </td></tr>
+<tr>
+<td align="left">LAYOUT_ITALIAN </td><td align="left">14 </td></tr>
+<tr>
+<td align="left">LAYOUT_PORTUGUESE_BRAZILIAN </td><td align="left">15 </td></tr>
+<tr>
+<td align="left">LAYOUT_FRENCH_BELGIAN </td><td align="left">16 </td></tr>
+<tr>
+<td align="left">LAYOUT_GERMAN_SWISS </td><td align="left">17 </td></tr>
+<tr>
+<td align="left">LAYOUT_FRENCH_SWISS </td><td align="left">18 </td></tr>
+<tr>
+<td align="left">LAYOUT_SPANISH_LATIN_AMERICA </td><td align="left">19 </td></tr>
+<tr>
+<td align="left">LAYOUT_IRISH </td><td align="left">20 </td></tr>
+<tr>
+<td align="left">LAYOUT_ICELANDIC </td><td align="left">21 </td></tr>
+<tr>
+<td align="left">LAYOUT_TURKISH </td><td align="left">22 </td></tr>
+<tr>
+<td align="left">LAYOUT_CZECH </td><td align="left">23 </td></tr>
+<tr>
+<td align="left">LAYOUT_SERBIAN_LATIN_ONLY </td><td align="left">24 </td></tr>
+</table>
 </div></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>

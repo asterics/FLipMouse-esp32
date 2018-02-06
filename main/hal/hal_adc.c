@@ -25,11 +25,12 @@
  * sensors and 1 pressure sensor).
  * In addition, depending on the configuration, different ADC tasks are
  * loaded.
- * One of these tasks is loaded:
- * halAdcMouse - Use the ADC values as mouse input <br>
- * halAdcThreshold - Use the ADC values to trigger virtual buttons 
+ * One of these tasks is loaded:<br>
+ * * halAdcMouse - Use the ADC values as mouse input <br>
+ * * halAdcThreshold - Use the ADC values to trigger virtual buttons 
  * (keyboard actions for example) <br>
- * halAdcJoystick - Use the ADC input to control the HID joystick <br>
+ * * halAdcJoystick - Use the ADC input to control the HID joystick <br>
+ * 
  * These tasks are HAL tasks, which means they might be reloaded/changed,
  * but they are not managed outside this module.<br>
  * In addition, the FUNCTIONAL task task_calibration can be used to
@@ -65,6 +66,37 @@ static int32_t offsetx,offsety;
 void halAdcTaskMouse(void * pvParameters);
 void halAdcTaskJoystick(void * pvParameters);
 void halAdcTaskThreshold(void * pvParameters);
+
+/** @brief Report raw values via serial interface
+ * 
+ * All values are sent in predefined string: <br>
+ * VALUES:<pressure>,<up>,<down>,<left>,<right>,<x>,<y>\r\n
+ * 
+ * @param up Up value
+ * @param down Down value
+ * @param left Left value
+ * @param right Right value
+ * @param x X value
+ * @param y Y value
+ * @param pressure Pressure value
+ * */
+void halAdcReportRaw(uint32_t up, uint32_t down, uint32_t left, uint32_t right, uint32_t pressure, int32_t x, int32_t y)
+{
+    #define REPORT_RAW_COUNT 32
+    static int prescaler = 0;
+    
+    if(adc_conf.reportraw != 0)
+    {
+        if(prescaler % REPORT_RAW_COUNT == 0)
+        {
+            char data[40];
+            sprintf(data,"VALUES:%d,%d,%d,%d,%d,%d,%d\r\n",pressure,up,down,left,right,x,y);
+            halSerialSendUSBSerial(HAL_SERIAL_TX_TO_CDC,data, strlen(data), 10);
+            prescaler++;
+        }
+    }
+}
+
 
 
 /** @brief Reload ADC config
@@ -155,7 +187,7 @@ void halAdcTaskMouse(void * pvParameters)
 {
     //analog values
     uint32_t up, down, left, right, pressure;
-    int32_t x,y;
+    //int32_t x,y;
     static uint16_t accelTimeX=0,accelTimeY=0;
     float tempX,tempY,moveVal, accumXpos, accumYpos;
     //todo: use a define for the delay here... (currently used: value from vTaskDelay())
@@ -181,6 +213,7 @@ void halAdcTaskMouse(void * pvParameters)
         //subtract offsets
         tempX = (float)(left - right) - offsetx;
         tempY = (float)(up - down) - offsety;
+        halAdcReportRaw(up, down, left, right, pressure, (int)tempX, (int)tempY);
         
         //apply deadzone
         if (tempX<-adc_conf.deadzone_x) tempX+=adc_conf.deadzone_x;
@@ -213,6 +246,7 @@ void halAdcTaskMouse(void * pvParameters)
         //cast to int again
         int xMove = (int)accumXpos;
         int yMove = (int)accumYpos;
+        
         //limit to int8 values (to fit into mouse report)
         if(xMove > 127) xMove = 127;
         if(xMove < -127) xMove = -127;
@@ -281,6 +315,7 @@ void halAdcTaskJoystick(void * pvParameters)
         //if a value is outside threshold, activate debounce timer
         x = (int32_t)(left - right) - offsetx;
         y = (int32_t)(up - down) - offsety;
+        halAdcReportRaw(up, down, left, right, pressure, x, y);
         
         //TODO: acceleration & max speed calc
         
@@ -316,6 +351,14 @@ void halAdcTaskJoystick(void * pvParameters)
  **/
 void halAdcCalibrate(void)
 {
+    //TODO:
+    //suspend adcHandle
+    //get semaphore
+    //read values itself & accumulate
+    //divide
+    //set as offset values
+    //give semaphore
+    //resume adcHandle
     return;
 }
 
@@ -417,6 +460,7 @@ void halAdcTaskThreshold(void * pvParameters)
         //if a value is outside threshold, activate debounce timer
         x = (int32_t)(left - right) - offsetx;
         y = (int32_t)(up - down) - offsety;
+        halAdcReportRaw(up, down, left, right, pressure, x, y);
         
         //LEFT/RIGHT value exceeds threshold (deadzone) value?
         if(abs(x) > adc_conf.deadzone_x)

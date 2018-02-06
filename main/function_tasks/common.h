@@ -18,7 +18,8 @@
 
 /** ID String to be printed on "AT ID" command.
  * @note Change this depending on FABI/FLipMouse build. */
-#define IDSTRING "FLipMouse V3.0\r\n"
+//#define IDSTRING "FLipMouse V3.0\r\n"
+#define IDSTRING "Flipmouse v2.5\n"
 
 // which device is using this firmware?
 //#define DEVICE_FABI
@@ -254,6 +255,8 @@ typedef struct adc_config {
   uint16_t threshold_strongsip;
   /** pressure sensor, strongpuff threshold */
   uint16_t threshold_strongpuff;
+  /** Enable report RAW values (!=0), values are sent via halSerialSendUSBSerial */
+  uint8_t reportraw;
   /** gain of each sensor (0-100), 50 means factor 1.
    * array assignment: [0] = up, [1] = down, [2] = left, [3] = right*/
   uint8_t gain[4];

@@ -204,7 +204,7 @@ currentConfig </dd></dl>
 
 <p class="definition">Definition at line <a class="el" href="config__switcher_8c_source.html#l00103">103</a> of file <a class="el" href="config__switcher_8c_source.html">config_switcher.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="task__commands_8c_source.html#l00259">doGeneralCmdParsing()</a>, <a class="el" href="task__commands_8c_source.html#l00378">doKeyboardParsing()</a>, <a class="el" href="task__commands_8c_source.html#l00122">doMouthpieceSettingsParsing()</a>, <a class="el" href="hal__ble_8c_source.html#l00181">halBleTaskKeyboardPress()</a>, and <a class="el" href="hal__ble_8c_source.html#l00253">halBleTaskKeyboardRelease()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="task__commands_8c_source.html#l00391">doGeneralCmdParsing()</a>, <a class="el" href="task__commands_8c_source.html#l00532">doKeyboardParsing()</a>, <a class="el" href="task__commands_8c_source.html#l00122">doMouthpieceSettingsParsing()</a>, <a class="el" href="task__commands_8c_source.html#l00295">doStorageParsing()</a>, <a class="el" href="hal__ble_8c_source.html#l00181">halBleTaskKeyboardPress()</a>, and <a class="el" href="hal__ble_8c_source.html#l00253">halBleTaskKeyboardRelease()</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
@@ -213,8 +213,9 @@ Here is the caller graph for this function:</div>
 <area shape="rect" id="node2" href="task__commands_8c.html#ad105bde7fe8d6d94d079bd3e5d2851e6" title="doGeneralCmdParsing" alt="" coords="195,5,349,32"/>
 <area shape="rect" id="node3" href="task__commands_8c.html#a9c2c2534851b17120566b9935dddd3ad" title="doKeyboardParsing" alt="" coords="205,56,339,83"/>
 <area shape="rect" id="node4" href="task__commands_8c.html#a9b1c8742af67b0bb373493f215e98a0c" title="doMouthpieceSettingsParsing" alt="" coords="175,107,369,133"/>
-<area shape="rect" id="node5" href="hal__ble_8c.html#af6a15e1396cb358cd7f1eb6a2a7045a9" title="halBleTaskKeyboardPress" alt="" coords="184,157,360,184"/>
-<area shape="rect" id="node6" href="hal__ble_8c.html#adbfa982381d6d09432d7ba1961846b32" title="halBleTaskKeyboardRelease" alt="" coords="177,208,367,235"/>
+<area shape="rect" id="node5" href="task__commands_8c.html#a1dae0050b84acac33aae21926695c8c7" title="doStorageParsing" alt="" coords="209,157,335,184"/>
+<area shape="rect" id="node6" href="hal__ble_8c.html#af6a15e1396cb358cd7f1eb6a2a7045a9" title="halBleTaskKeyboardPress" alt="" coords="184,208,360,235"/>
+<area shape="rect" id="node7" href="hal__ble_8c.html#adbfa982381d6d09432d7ba1961846b32" title="halBleTaskKeyboardRelease" alt="" coords="177,259,367,285"/>
 </map>
 </div>
 
@@ -258,7 +259,7 @@ Here is the call graph for this function:</div>
 <area shape="rect" id="node19" href="hal__ble_8c.html#accf307974a0046bce38582d0260bf841" title="halBLEReset" alt="" coords="409,387,508,413"/>
 <area shape="rect" id="node20" href="hal__serial_8c.html#ab2261f95747ee5806ebdec880d09ca89" title="Reset the serial HID report data. " alt="" coords="405,437,512,464"/>
 <area shape="rect" id="node22" href="task__mouse_8c.html#aa8f5c0436e569589e735c419fc3d0ed8" title="FUNCTIONAL TASK &#45; Trigger mouse action. " alt="" coords="412,488,505,515"/>
-<area shape="rect" id="node23" href="task__kbd_8c.html#a8ff4618047a049178bfb1d60abfefb5d" title="task_keyboard" alt="" coords="405,539,512,565"/>
+<area shape="rect" id="node23" href="task__kbd_8c.html#a8ff4618047a049178bfb1d60abfefb5d" title="FUNCTIONAL TASK &#45; trigger keyboard actions. " alt="" coords="405,539,512,565"/>
 <area shape="rect" id="node25" href="config__switcher_8c.html#a083adf41746c3380dcc6dbc099047f2e" title="FUNCTIONAL TASK &#45; Load another slot. " alt="" coords="389,589,528,616"/>
 <area shape="rect" id="node26" href="hal__adc_8c.html#a3217185bc86562dee8617ded3872022f" title="FUNCTIONAL TASK &#45; Trigger zero&#45;point calibration of mouthpiece. " alt="" coords="402,640,515,667"/>
 <area shape="rect" id="node28" href="hal__storage_8c.html#abc699ff3996d12d3e6bcc9e372b277e0" title="Load one virtual button config for currently loaded slot. " alt="" coords="811,601,1007,628"/>
@@ -272,7 +273,7 @@ Here is the call graph for this function:</div>
 <area shape="rect" id="node17" href="hal__adc_8c.html#a452077aaa6a576304708d00d4ec439f1" title="HAL TASK &#45; Joystick task for ADC. " alt="" coords="611,387,751,413"/>
 <area shape="rect" id="node18" href="hal__adc_8c.html#aee719704e643d27c1faab768cf4bc22e" title="HAL TASK &#45; Threshold task for ADC. " alt="" coords="607,437,755,464"/>
 <area shape="rect" id="node21" href="hal__serial_8c.html#a8f987ba001c2a39c959a551a94b5df43" title="halSerialSendUSBSerial" alt="" coords="600,488,763,515"/>
-<area shape="rect" id="node24" href="task__kbd_8c.html#aad4ceb3ea958b99d596870013982d96e" title="sendToQueue" alt="" coords="630,539,733,565"/>
+<area shape="rect" id="node24" href="task__kbd_8c.html#a7d605cb2407a7a7309911c70e28a9884" title="Helper function sending to queues depending on connection type. " alt="" coords="645,539,718,565"/>
 <area shape="rect" id="node27" href="hal__adc_8c.html#ae549c157d94729e8b06cb391f0f2c97b" title="Calibration function. " alt="" coords="624,640,739,667"/>
 </map>
 </div>

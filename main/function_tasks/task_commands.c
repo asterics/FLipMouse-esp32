@@ -60,7 +60,7 @@ uint8_t doMouseParsing(uint8_t *cmdBuffer, taskMouseConfig_t *mouseinstance);
 uint8_t doKeyboardParsing(uint8_t *cmdBuffer, taskKeyboardConfig_t *kbdinstance, int length);
 //uint8_t doJoystickParsing(uint8_t *cmdBuffer, taskJoystickConfig_t *instance);
 uint8_t doMouthpieceSettingsParsing(uint8_t *cmdBuffer);
-uint8_t doStorageParsing(uint8_t *cmdBuffer);
+uint8_t doStorageParsing(uint8_t *cmdBuffer, taskConfigSwitcherConfig_t *instance);
 uint8_t doInfraredParsing(uint8_t *cmdBuffer);
 uint8_t doGeneralCmdParsing(uint8_t *cmdBuffer);
 
@@ -123,6 +123,56 @@ uint8_t doMouthpieceSettingsParsing(uint8_t *cmdBuffer)
 {
   generalConfig_t *currentcfg = configGetCurrent();
   
+  /*++++ calibrate mouthpiece ++++*/
+  if(CMD("AT CA"))
+  {
+    ESP_LOGI(LOG_TAG,"Calibrate");
+    return 1;
+  }
+  
+  /*++++ stop report raw values ++++*/
+  if(CMD("AT ER"))
+  {
+    currentcfg->adc.reportraw = 0;
+    requestUpdate = 1;
+    ESP_LOGI(LOG_TAG,"Stop reporting raw values");
+    return 2;
+  }
+  /*++++ start report raw values to serial ++++*/
+  if(CMD("AT SR"))
+  {
+    currentcfg->adc.reportraw = 1;
+    requestUpdate = 1;
+    ESP_LOGI(LOG_TAG,"Start reporting raw values");
+    return 2;
+  }
+  
+  /*++++ mouthpiece mode ++++*/
+  if(CMD("AT MM"))
+  {
+    //assign to gain value
+    switch(cmdBuffer[6])
+    {
+      case '0': currentcfg->adc.mode = THRESHOLD; requestUpdate = 1; return 2;
+      case '1': currentcfg->adc.mode = MOUSE; requestUpdate = 1; return 2;
+      case '2': currentcfg->adc.mode = JOYSTICK; requestUpdate = 1; return 2;
+      default: sendErrorBack("Mode is 0,1 or 2"); return 2;
+    }
+  }
+  
+  /*++++ mouthpiece mode - switch ++++*/
+  if(CMD("AT SW"))
+  {
+    switch(currentcfg->adc.mode)
+    {
+      case MOUSE: currentcfg->adc.mode = THRESHOLD; break;
+      case THRESHOLD: currentcfg->adc.mode = MOUSE; break;
+      case JOYSTICK: sendErrorBack("AT SW switches between mouse and threshold only"); break;
+    }
+    requestUpdate = 1;
+    return 2;
+  }
+  
   /*++++ mouthpiece gain ++++*/
   //AT GU, GD, GL, GR
   if(CMD4("AT G"))
@@ -137,10 +187,10 @@ uint8_t doMouthpieceSettingsParsing(uint8_t *cmdBuffer)
       //assign to gain value
       switch(cmdBuffer[4])
       {
-        case 'U': currentcfg->adc.gain[0] = param; requestUpdate = 1; return 1;
-        case 'D': currentcfg->adc.gain[1] = param; requestUpdate = 1; return 1;
-        case 'L': currentcfg->adc.gain[2] = param; requestUpdate = 1; return 1;
-        case 'R': currentcfg->adc.gain[3] = param; requestUpdate = 1; return 1;
+        case 'U': currentcfg->adc.gain[0] = param; requestUpdate = 1; return 2;
+        case 'D': currentcfg->adc.gain[1] = param; requestUpdate = 1; return 2;
+        case 'L': currentcfg->adc.gain[2] = param; requestUpdate = 1; return 2;
+        case 'R': currentcfg->adc.gain[3] = param; requestUpdate = 1; return 2;
         default: return 0;
       }
     }
@@ -160,9 +210,9 @@ uint8_t doMouthpieceSettingsParsing(uint8_t *cmdBuffer)
       //assign to sensitivity/acceleration value
       switch(cmdBuffer[4])
       {
-        case 'X': currentcfg->adc.sensitivity_x = param; requestUpdate = 1; return 1;
-        case 'Y': currentcfg->adc.sensitivity_x = param; requestUpdate = 1; return 1;
-        case 'C': currentcfg->adc.acceleration = param; requestUpdate = 1; return 1;
+        case 'X': currentcfg->adc.sensitivity_x = param; requestUpdate = 1; return 2;
+        case 'Y': currentcfg->adc.sensitivity_x = param; requestUpdate = 1; return 2;
+        case 'C': currentcfg->adc.acceleration = param; requestUpdate = 1; return 2;
         default: return 0;
       }
     }
@@ -184,7 +234,7 @@ uint8_t doMouthpieceSettingsParsing(uint8_t *cmdBuffer)
         } else {
           currentcfg->adc.threshold_sip = param;
           requestUpdate = 1;
-          return 1;
+          return 2;
         }
       break;
       
@@ -196,7 +246,7 @@ uint8_t doMouthpieceSettingsParsing(uint8_t *cmdBuffer)
         } else {
           currentcfg->adc.threshold_puff = param;
           requestUpdate = 1;
-          return 1;
+          return 2;
         }
       break;
       default: return 0;
@@ -219,7 +269,7 @@ uint8_t doMouthpieceSettingsParsing(uint8_t *cmdBuffer)
         } else {
           currentcfg->adc.threshold_strongsip = param;
           requestUpdate = 1;
-          return 1;
+          return 2;
         }
       break;
       
@@ -231,7 +281,7 @@ uint8_t doMouthpieceSettingsParsing(uint8_t *cmdBuffer)
         } else {
           currentcfg->adc.threshold_strongpuff = param;
           requestUpdate = 1;
-          return 1;
+          return 2;
         }
       break;
       default: return 0;
@@ -242,9 +292,91 @@ uint8_t doMouthpieceSettingsParsing(uint8_t *cmdBuffer)
   return 0;
 }
 
-uint8_t doStorageParsing(uint8_t *cmdBuffer)
+uint8_t doStorageParsing(uint8_t *cmdBuffer, taskConfigSwitcherConfig_t *instance)
 {
+  char slotname[SLOTNAME_LENGTH];
+  uint32_t tid = 0;
+  uint8_t slotnumber = 0;
+  generalConfig_t * currentcfg = configGetCurrent();
+  //clear any previous data
+  memset(instance,0,sizeof(taskConfigSwitcherConfig_t));
   
+  /*++++ save slot ++++*/
+  if(CMD("AT SA"))
+  {
+    if(halStorageStartTransaction(&tid,10) != ESP_OK)
+    {
+      ESP_LOGE(LOG_TAG,"Cannot start storage transaction");
+      return 0;
+    }
+    char *pch;
+    //find end of slotname
+    pch = strpbrk((char *)&cmdBuffer[6],"\r\n");
+    //set 0 terminator
+    *pch = '\0';
+    strcpy(slotname,(char*)&cmdBuffer[6]);
+    ESP_LOGI(LOG_TAG,"Save slot under name: %s",slotname);
+    halStorageGetNumberOfSlots(tid, &slotnumber);
+    //store general config
+    if(halStorageStore(tid,currentcfg,slotname,slotnumber+1) != ESP_OK)
+    {
+      ESP_LOGE(LOG_TAG,"Cannot store general cfg");
+      halStorageFinishTransaction(tid);
+      return 0;
+    }
+    //store each virtual button
+    for(uint8_t i = 0; i<(NUMBER_VIRTUALBUTTONS*4); i++)
+    {
+      size_t sizevb = 0;
+      
+      switch(currentcfg->virtualButtonCommand[i])
+      {
+        case T_MOUSE: sizevb = sizeof(taskMouseConfig_t); break;
+        case T_KEYBOARD: sizevb = sizeof(taskKeyboardConfig_t); break;
+        case T_CONFIGCHANGE: sizevb = sizeof(taskConfigSwitcherConfig_t); break;
+        case T_CALIBRATE: sizevb = sizeof(taskNoParameterConfig_t); break;
+        //case T_SENDIR: sizevb = sizeof(taskKeyboardConfig_t); break;
+        /** @todo Activate T_SENDIR here when IR task is finished */
+        case T_NOFUNCTION: sizevb = sizeof(taskNoParameterConfig_t); break;
+        default: break;
+      }
+      if(halStorageStoreSetVBConfigs(slotnumber+1,i,currentcfg->virtualButtonConfig[i], \
+        sizevb,tid) != ESP_OK)
+      {
+        ESP_LOGE(LOG_TAG,"Cannot store VB %d",i);
+        halStorageFinishTransaction(tid);
+        return 0;
+      }
+    }
+    halStorageFinishTransaction(tid);
+    return 2;
+  }
+  
+  /*++++ AT NE (load next) +++*/
+  if(CMD("AT NE"))
+  {
+    //save to config
+    instance->virtualButton = requestVBUpdate;
+    strcpy(instance->slotName,"__NEXT");
+    ESP_LOGI(LOG_TAG,"Load next, by parameter: %s",instance->slotName);
+    //we want to have the config sent to the task
+    return 1;
+  }
+  
+  /*++++ AT LO (load) ++++*/
+  if(CMD("AT LO"))
+  {
+    //find end of slotname
+    char *pch = strpbrk((char *)&cmdBuffer[6],"\r\n");
+    //set 0 terminator
+    *pch = '\0';
+    //save to config
+    instance->virtualButton = requestVBUpdate;
+    strcpy(instance->slotName,(char*)&cmdBuffer[6]);
+    ESP_LOGI(LOG_TAG,"Load slot name: %s",instance->slotName);
+    //we want to have the config sent to the task
+    return 1;
+  }
   //not consumed, no command found for storage
   return 0;
 }
@@ -311,12 +443,15 @@ uint8_t doGeneralCmdParsing(uint8_t *cmdBuffer)
       if(halStorageDeleteSlot(0,tid) != ESP_OK)
       {
         sendErrorBack("Error deleting all slots");
+        halStorageFinishTransaction(tid);
         return 0;
       } else {
+        halStorageFinishTransaction(tid);
         return 1;
       }
     }
   }
+  
   /*++++ AT BM ++++*/
   if(CMD("AT BM")) {
     param = strtol((char*)&(cmdBuffer[6]),NULL,10);
@@ -330,23 +465,42 @@ uint8_t doGeneralCmdParsing(uint8_t *cmdBuffer)
   }
   
   /*++++ AT DL ++++*/
-  if(CMD("AT DL")) {
+  if(CMD4("AT DL")) {
     uint32_t tid;
     uint8_t slotnumber;
-    slotnumber = strtol((char*)&(cmdBuffer[6]),NULL,10);
+    char *pch;
+    
     if(halStorageStartTransaction(&tid,20) != ESP_OK)
     {
       return 0;
+    }
+    
+    switch(cmdBuffer[4])
+    {
+      //delete by given number
+      case 'L': slotnumber = strtol((char*)&(cmdBuffer[6]),NULL,10); break;
+      //delete by given name
+      case 'N': 
+        //find end of slotname
+        pch = strpbrk((char *)&cmdBuffer[6],"\r\n");
+        //set 0 terminator
+        *pch = '\0';
+        halStorageGetNumberForName(tid,&slotnumber,(char *)&cmdBuffer[6]); 
+        break;
+      default: return 0;
+    }
+    
+    if(halStorageDeleteSlot(slotnumber,tid) != ESP_OK)
+    {
+      sendErrorBack("Error deleting slot");
+      halStorageFinishTransaction(tid);
+      return 0;
     } else {
-      if(halStorageDeleteSlot(slotnumber,tid) != ESP_OK)
-      {
-        sendErrorBack("Error deleting slot");
-        return 0;
-      } else {
-        return 1;
-      }
+      halStorageFinishTransaction(tid);
+      return 1;
     }
   }
+
   /*++++ AT BT ++++*/
   if(CMD("AT BT")) {
     param = strtol((char*)&(cmdBuffer[6]),NULL,10);
@@ -685,6 +839,8 @@ void task_commands(void *params)
   //parameters for different tasks
   taskMouseConfig_t *cmdMouse = malloc(sizeof(taskMouseConfig_t));
   taskKeyboardConfig_t *cmdKeyboard = malloc(sizeof(taskKeyboardConfig_t));
+  taskNoParameterConfig_t *cmdNoConfig = malloc(sizeof(taskNoParameterConfig_t));
+  taskConfigSwitcherConfig_t *cmdCfgSwitcher = malloc(sizeof(taskConfigSwitcherConfig_t));
   //taskJoystickConfig_t *cmdJoystick = malloc(sizeof(taskJoystickConfig_t));
   
   //check if we have all our pointers
@@ -744,6 +900,17 @@ void task_commands(void *params)
         requestVBType = T_MOUSE;
       }
       
+      //storage parsing
+      parserstate = doStorageParsing(commandBuffer,cmdCfgSwitcher);
+      if(parserstate == 2) continue; //don't need further action
+      if(parserstate == 1) 
+      {
+        requestVBTask = (void (*)(void *))&task_configswitcher;
+        requestVBParameterSize = sizeof(taskConfigSwitcherConfig_t);
+        requestVBParameter = cmdCfgSwitcher;
+        requestVBType = T_CONFIGCHANGE;
+      }
+      
       //if not handled already
       if(parserstate == 0) 
       {
@@ -770,10 +937,19 @@ void task_commands(void *params)
       {
         parserstate = doInfraredParsing(commandBuffer);
       }
-      //we don't need any task stuff here
+      //do calibration task if necessary
       if(parserstate == 0) 
       {
         parserstate = doMouthpieceSettingsParsing(commandBuffer);
+        if(parserstate == 2) continue; //don't need further action
+        if(parserstate == 1)
+        {
+          requestVBTask = (void (*)(void *))&task_calibration;
+          requestVBParameterSize = sizeof(taskNoParameterConfig_t);
+          cmdNoConfig->virtualButton = requestVBUpdate;
+          requestVBParameter = cmdNoConfig;
+          requestVBType = T_CALIBRATE;
+        }
       }
       
       //call now the task function if in singleshot mode

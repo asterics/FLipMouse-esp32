@@ -26,6 +26,24 @@
  * one button.
  */
 
+/** @file 
+ * @brief FUNCTIONAL TASK - trigger keyboard actions
+ * 
+ * This file contains the task implementation for keyboard key triggering.
+ * This task is started by the configuration task and it is assigned
+ * to one virtual button or triggered as single shot. As soon as this button is triggered, 
+ * the configured keys are sent to either USB, BLE or both.
+ * This task can be deleted all the time to change the configuration of
+ * one button.
+ * 
+ * Keycode configuration is set via taskKeyboardConfig_t.
+ * 
+ * @warning Parsing of key identifiers and text is NOT done here. Due to
+ * performance reasons, parsing is done prior to initialising/calling this task.
+ * 
+ * @see taskKeyboardConfig_t
+ * @see VB_SINGLESHOT
+ * */
 
 #ifndef _TASK_KBD_H
 #define _TASK_KBD_H
@@ -37,35 +55,38 @@
 //common definitions & data for all of these functional tasks
 #include "common.h"
 
+/** @brief Timeout for queue sending of keyboard commands [ticks] */
 #define TIMEOUT 10
+/** @brief Stacksize for this functional task */
 #define TASK_KEYBOARD_STACKSIZE 2048
+/** @brief Count of keycodes for parameter array for keycodes
+ * @see taskKeyboardConfig_t */
 #define TASK_KEYBOARD_PARAMETERLENGTH 45
 
-
-//TODO: setter/getter for static settings (keyboard layout?)
-//TODO: additional task parameter for doing one-shot (task deletes itself) controlling by at commands
-
-
-/** type of keyboard action which should be triggered by this task:
- * PRESS: all of the given keycodes are pressed
- * RELEASE: all of the given keycodes are released
- * PRESS_RELEASE: all of the given keycodes are pressed and immediately released
- * PRESS_RELEASE_BUTTON: all of the given keycodes are pressed and released if the virtual button is released
- * WRITE: simply write the given string (can ASCII as well as unicode) by pressing
- *        & releasing all necessary keys
+/** @brief Type of keyboard action which should be triggered by this task.
+ * 
+ * Following types of keyboard actions are possible: <br>
+ * * <b>PRESS:</b> all of the given keycodes are pressed
+ * * <b>RELEASE:</b> all of the given keycodes are released
+ * * <b>PRESS_RELEASE_BUTTON:</b> all of the given keycodes are pressed and released if the virtual button is released
+ * * <b>WRITE:</b> all of the given keycodes are pressed and immediately released
  * */
 typedef enum {
   PRESS,
   RELEASE,
-  PRESS_RELEASE,
   PRESS_RELEASE_BUTTON,
   WRITE
 }keyboard_action;
 
+/** @brief Config for task_keyboard
+ * @see task_keyboard
+ * */
 typedef struct taskKeyboardConfig {
-  //type of this keyboard action: press, release or 
+  /** @brief type of this keyboard action */
   keyboard_action type;
-  //number of virtual button which this instance will be attached to
+  /** @brief Number of virtual button which this instance will be attached to.
+   * Use VB_SINGLESHOT for one-time execution
+   * @see VB_SINGLESHOT */
   uint virtualButton;
   /** list of keycodes+modfiers to be pressed/released.
    * @note Low byte contains the keycode, high byte any modifiers
@@ -73,9 +94,15 @@ typedef struct taskKeyboardConfig {
   uint16_t keycodes_text[TASK_KEYBOARD_PARAMETERLENGTH];
 } taskKeyboardConfig_t;
 
+
+/** @brief FUNCTIONAL TASK - trigger keyboard actions
+ * 
+ * This task is used to trigger keyboard actions, as it is defined in
+ * taskKeyboardConfig_t. Can be used as singleshot method by using 
+ * VB_SINGLESHOT as virtual button configuration.
+ * @see VB_SINGLESHOT
+ * @see taskKeyboardConfig_t
+ * @param param Task configuration **/
 void task_keyboard(taskKeyboardConfig_t *param);
-
-void keyboard_direct(taskKeyboardConfig_t *param);
-
 
 #endif

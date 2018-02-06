@@ -24,10 +24,14 @@ Following commands are currently available:
 | AT BM | number (1-11)  | set the button, which corresponds to the next command. The button assignments are described on the bottom | v2 | untested | no |
 | AT BL | -- | enable/disable output of triggered virtual buttons. Is used with AT BM for command learning | v3 | no | ? |
 | AT MA | string | execute macro (space separated list of commands, see [Macros](https://github.com/asterics/FLipMouse/wiki/macros)) | v2 | no | yes (task_macro) |
-| AT WA | number | wait/delay (ms); useful for macros | v2 | no | no |
+| AT WA | number | wait/delay (ms); useful for macros. Does nothing if not used in macros. | v2 | no | no |
 | AT RO | number (0,90,180,270) | orientation (0 => LEDs on top) | v2 | no | no |
-| AT KL | number | Set keyboard locale (locale defines are listed below) | v3 | no | no |
+| AT KL | number | Set keyboard locale (locale defines are listed below) | v3 | yes | no |
 | AT BT | number (0,1,2) | Bluetooth mode, 1=USB only, 2=BT only, 3=both(default) | v2 | Working for USB, untested for BLE | no |
+| AT TT | number (100-5000) | Threshold time ([ms]) between short and long press actions. Set to 5000 to disable. | v3 | no | no |
+| AT AP | number (1-500) | Antitremor delay for button press ([ms]) | v3 | no | no |
+| AT AR | number (1-500) | Antitremor delay for button release ([ms]) | v3 | no | no |
+| AT AI | number (1-500) | Antitremor delay for button idle ([ms]) | v3 | no | no |
 **USB HID Commands**
 | Command | Parameter | Description | Available since | Implemented in v3 | FUNCTIONAL task |
 |:--------|:----------|:------------|:--------------|:--------------------|:----------------|
@@ -59,14 +63,14 @@ Following commands are currently available:
 **Storage commands** 
 | Command | Parameter | Description | Available since | Implemented in v3 | FUNCTIONAL task |
 |:--------|:----------|:------------|:--------------|:--------------------|:----------------|
-| AT SA | string  | save current configuration at the next free EEPROM slot under the give name (e.g. "AT SA mouse" stores a slot with the name "mouse"  | v2 | no | no |
-| AT LO | string  | load a configuration from the EEPROM (e.g. "AT LO mouse")  | v2 | no | yes (task_configswitcher) |
+| AT SA | string  | save current configuration at the next free EEPROM slot under the give name (e.g. "AT SA mouse" stores a slot with the name "mouse"  | v2 | untested | no |
+| AT LO | string  | load a configuration from the EEPROM (e.g. "AT LO mouse")  | v2 | untested | yes (task_configswitcher) |
 | AT LA | --  | load all slots and print the configuration   | v2 | no | no |
 | AT LI | --  | list all available slots   | v2 | no | no |
-| AT NE | --  | load next slot (wrap around after the last slot)  | v2 | no | yes (task_configswitcher) |
+| AT NE | --  | load next slot (wrap around after the last slot)  | v2 | untested | yes (task_configswitcher) |
 | AT DE | --  | delete all slots  | v2 | untested | no |
 | AT DL | number (1-) | delete one slot.  | v3 | untested | no |
-| AT DN | string | delete one slot by name  | v3 | no | no |
+| AT DN | string | delete one slot by name  | v3 | untested | no |
 | AT NC | --  | do nothing  | v2 | no | no |
 | AT E0 | --  | disable debug output  | v2 | never, use make monitor | - |
 | AT E1 | --  | enable debug output  | v2 | never, use make monitor | - |
@@ -74,11 +78,11 @@ Following commands are currently available:
 **Mouthpiece settings** 
 | Command | Parameter | Description | Available since | Implemented in v3 | FUNCTIONAL task |
 |:--------|:----------|:------------|:--------------|:--------------------|:----------------|
-| AT MM | number (0,1,2)  | use the mouthpiece either as mouse cursor (AT MM 1), alternative function (AT MM 0) or joystick (AT MM 2)  | v2 | no | no |
-| AT SW | --  | switch between cursor and alternative mode  | v2 | no | no |
-| AT SR | --  | start reporting out the raw sensor values | v2 | no | no |
-| AT ER | --  | stop reporting the sensor values  | v2 | no | no |
-| AT CA | --  | trigger zeropoint calibration  | v2 | no | yes (task_calibration) |
+| AT MM | number (0,1,2)  | use the mouthpiece either as mouse cursor (AT MM 1), alternative function (AT MM 0) or joystick (AT MM 2)  | v2 | untested | no |
+| AT SW | --  | switch between cursor and alternative mode  | v2 | untested | no |
+| AT SR | --  | start reporting out the raw sensor values | v2 | untested | no |
+| AT ER | --  | stop reporting the sensor values  | v2 | untested | no |
+| AT CA | --  | trigger zeropoint calibration  | v2 | untested | yes (task_calibration) |
 | AT AX | number (0-100)  | sensitivity x-axis  | v2 | untested | no |
 | AT AY | number (0-100)  | sensitivity y-axis  | v2 | untested | no |
 | AT AC | number (0-100)  | acceleration  | v2 | untested | no |
@@ -115,7 +119,7 @@ Following commands are currently available:
 | AT IL |   | list all available stored IR commands  | v2 | no | no |
 
 
-## Button assignments
+## Button assignments - FLipMouse
 
 The FLipMouse has 1 internal push-button and 2 jack plugs for external buttons. In addition other functions are mapped to virtual buttons, so they can be configured the same.
 Following number mapping is used for the __AT BM__ command:
@@ -142,6 +146,51 @@ Following number mapping is used for the __AT BM__ command:
 | 17   | Strong Puff + Down |
 | 18   | Strong Puff + Left |
 | 19   | Strong Puff + Right |
+| 21   |          |
+| 22   |          |
+| 23   |          |
+| 24   |          |
+| 25   |          |
+| 26   |          |
+| 27   |          |
+| 28   |          |
+| 29   |          |
+| 30   |          |
+| 31   |          |
+
+These assignments are declared in file common.h.
+
+
+
+## Button assignments - FABI
+
+The FABI supports up to 9 buttons (normally external, but they can be hardwired like internal buttons).
+In addition, one analog channel is support for sip/puff functionality.
+Following number mapping is used for the __AT BM__ command:
+
+|VB nr | Function |
+|:-----|:---------|
+| 0    | Button 1|
+| 1    | Button 2|
+| 2    | Button 3|
+| 3    | Button 4|
+| 4    | Button 5|
+| 5    | Button 6|
+| 6    | Button 7|
+| 7    | Button 8|
+| 8    | Button 9|
+| 9    | Sip      |
+| 10   | Puff     |
+| 11   | Long Press Button 1 |
+| 12   | Long Press Button 2 |
+| 13   | Long Press Button 3 |
+| 14   | Long Press Button 4 |
+| 15   | Long Press Button 5 |
+| 16   | Long Press Button 6 |
+| 17   | Long Press Button 7 |
+| 18   | Long Press Button 8 |
+| 19   | Long Press Button 9 |
+| 20   |          |
 | 21   |          |
 | 22   |          |
 | 23   |          |
@@ -205,4 +254,40 @@ All possible key identifiers are defined in keylayouts.h (no doxygen available, 
 
 ## Keyboard locales
 
-TBA... (see keyboard.h)
+With firmware version 3 it is possible to change the keyboard layout of FLipMouse/FABI by the **AT KL** command.
+Please note that the keyboard layout is only relevant for the **AT KW** command, where an ASCII/Unicode text is written by
+the FLipMouse/FABI. AT commands controlled by key identifiers (e.g., KEY_Y, KEY_Z) are mapped to an american layout.
+
+It is recommended to use the __AT KW__ command as much as possible when typing text. For keyboard shortcuts, press&release actuated
+programs __AT KP/KH/KR__ is recommended.
+
+Following keyboard locales are currently available:
+
+
+| Keyboard locale | Number (parameter for **AT KL** ) |
+|:----------------|:----------------------------------|
+| LAYOUT_US_ENGLISH | 0 |
+| LAYOUT_US_INTERNATIONAL | 1 |
+| LAYOUT_GERMAN | 2 |
+| LAYOUT_GERMAN_MAC | 3 |
+| LAYOUT_CANADIAN_FRENCH | 4 |
+| LAYOUT_CANADIAN_MULTILINGUAL | 5 |
+| LAYOUT_UNITED_KINGDOM | 6 |
+| LAYOUT_FINNISH | 7 |
+| LAYOUT_FRENCH | 8 |
+| LAYOUT_DANISH | 9 |
+| LAYOUT_NORWEGIAN | 10 |
+| LAYOUT_SWEDISH | 11 |
+| LAYOUT_SPANISH | 12 |
+| LAYOUT_PORTUGUESE | 13 |
+| LAYOUT_ITALIAN | 14 |
+| LAYOUT_PORTUGUESE_BRAZILIAN | 15 |
+| LAYOUT_FRENCH_BELGIAN | 16 |
+| LAYOUT_GERMAN_SWISS | 17 |
+| LAYOUT_FRENCH_SWISS | 18 |
+| LAYOUT_SPANISH_LATIN_AMERICA | 19 |
+| LAYOUT_IRISH | 20 |
+| LAYOUT_ICELANDIC | 21 |
+| LAYOUT_TURKISH | 22 |
+| LAYOUT_CZECH | 23 |
+| LAYOUT_SERBIAN_LATIN_ONLY | 24 |

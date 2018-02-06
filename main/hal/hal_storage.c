@@ -154,6 +154,12 @@ void halStorageCreateDefault(uint32_t tid)
   defaultCfg->adc.threshold_sip = 500;
   defaultCfg->adc.threshold_strongpuff = 700;
   defaultCfg->adc.threshold_strongsip = 300;
+  defaultCfg->adc.reportraw = 0;
+  defaultCfg->adc.gain[0] = 50;
+  defaultCfg->adc.gain[1] = 50;
+  defaultCfg->adc.gain[2] = 50;
+  defaultCfg->adc.gain[3] = 50;
+  
   
   //initialise all VBs as unused
   for(uint8_t i = 1; i<(NUMBER_VIRTUALBUTTONS*4); i++)
@@ -254,8 +260,11 @@ void halStorageCreateDefault(uint32_t tid)
   if(pConfig != NULL)
   {
     ((taskKeyboardConfig_t *)pConfig)->type = WRITE;
-    strcpy((char*)((taskKeyboardConfig_t *)pConfig)->keycodes_text,"Hello from ESP32");
+    //"Hello from ESP32"
+    uint16_t strarr[17] = {0x020b,0x08,0x0F,0x0F,0x12,0x2c,0x09,0x15,0x12,0x10,0x2C,0x0208,0x0216,0x0213,0x20,0x1F,0};
+    //strcpy((char*)((taskKeyboardConfig_t *)pConfig)->keycodes_text,"Hello from ESP32");
     //((taskKeyboardConfig_t *)pConfig)->keycodes_text = (uint16_t*)"Hello from ESP32";
+    memcpy(((taskKeyboardConfig_t *)pConfig)->keycodes_text,strarr,sizeof(strarr));
     ((taskKeyboardConfig_t *)pConfig)->virtualButton = VB_EXTERNAL1;
     ret = halStorageStoreSetVBConfigs(0,VB_EXTERNAL1,pConfig,sizeof(taskKeyboardConfig_t),tid);
     //wait for 10ticks, to feed the watchdog (file access seems to block the IDLE task)
@@ -307,16 +316,6 @@ void halStorageCreateDefault(uint32_t tid)
   /*++++ END is not the default slot, just for testing END ++++*/
   
   ESP_LOGI(LOG_TAG,"Created new default slot");
-  /**
-   * 
-W (1571) vfs_fat_spiflash: f_mount failed (13)
-I (1571) vfs_fat_spiflash: Formatting FATFS partition
-Task watchdog got triggered. The following tasks did not reset the watchdog in time:
- - IDLE (CPU 0)
-Tasks currently running:
-CPU 0: configswitcher
-I (6381) vfs_fat_spiflash: Mounting again
-*/
 }
 
 /** Get the number of stored slots

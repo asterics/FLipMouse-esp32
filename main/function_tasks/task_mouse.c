@@ -79,7 +79,7 @@ void task_mouse(taskMouseConfig_t *param)
   if(param == NULL)
   {
     ESP_LOGE(LOG_TAG,"param is NULL ");
-    vTaskDelete(NULL);
+    while(1) vTaskDelay(100000/portTICK_PERIOD_MS);
     return;
   }
   //event bits used for pending on debounced buttons
@@ -120,7 +120,7 @@ void task_mouse(taskMouseConfig_t *param)
     if(evGroupIndex >= NUMBER_VIRTUALBUTTONS)
     {
       ESP_LOGE(LOG_TAG,"virtual button group unsupported: %d ",evGroupIndex);
-      vTaskDelete(NULL);
+      while(1) vTaskDelay(100000/portTICK_PERIOD_MS);
       return;
     }
     
@@ -168,7 +168,7 @@ void task_mouse(taskMouseConfig_t *param)
     //unknown/unsupported action...
     default:
       ESP_LOGE(LOG_TAG,"unkown mouse type %d, exiting",param->type);
-      vTaskDelete(NULL);
+      while(1) vTaskDelay(100000/portTICK_PERIOD_MS);
       break;
   }
   
@@ -201,7 +201,7 @@ void task_mouse(taskMouseConfig_t *param)
     case M_UNUSED: break;
     default:
       ESP_LOGE(LOG_TAG,"unkown mouse action param %d, exiting",param->actionparam);
-      vTaskDelete(NULL);
+      while(1) vTaskDelay(100000/portTICK_PERIOD_MS);
       break;
   }
   

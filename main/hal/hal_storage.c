@@ -260,8 +260,11 @@ void halStorageCreateDefault(uint32_t tid)
   if(pConfig != NULL)
   {
     ((taskKeyboardConfig_t *)pConfig)->type = WRITE;
-    strcpy((char*)((taskKeyboardConfig_t *)pConfig)->keycodes_text,"Hello from ESP32");
+    //"Hello from ESP32"
+    uint16_t strarr[17] = {0x020b,0x08,0x0F,0x0F,0x12,0x2c,0x09,0x15,0x12,0x10,0x2C,0x0208,0x0216,0x0213,0x20,0x1F,0};
+    //strcpy((char*)((taskKeyboardConfig_t *)pConfig)->keycodes_text,"Hello from ESP32");
     //((taskKeyboardConfig_t *)pConfig)->keycodes_text = (uint16_t*)"Hello from ESP32";
+    memcpy(((taskKeyboardConfig_t *)pConfig)->keycodes_text,strarr,sizeof(strarr));
     ((taskKeyboardConfig_t *)pConfig)->virtualButton = VB_EXTERNAL1;
     ret = halStorageStoreSetVBConfigs(0,VB_EXTERNAL1,pConfig,sizeof(taskKeyboardConfig_t),tid);
     //wait for 10ticks, to feed the watchdog (file access seems to block the IDLE task)

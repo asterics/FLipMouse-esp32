@@ -278,6 +278,10 @@ typedef struct generalConfig {
   adc_config_t adc;
   uint8_t ble_active;
   uint8_t usb_active;
+  /** mouse wheel: stepsize */
+  uint8_t wheel_stepsize;
+  /** FLipMouse orientation, 0,90,180 or 270° */
+  uint16_t orientation;
   /** country code to be used by BLE&USB HID */
   uint8_t countryCode;
   /** keyboard locale to be used by BLE&USB(serial) HID */

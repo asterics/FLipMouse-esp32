@@ -17,28 +17,24 @@
  * 
  * Copyright 2017 Benjamin Aigner <aignerb@technikum-wien.at,
  * beni@asterics-foundation.org>
- * 
- * This file contains the task implementation for mouse control via
- * virtual buttons (triggered by flags). The analog mouse control is
- * done via the hal_adc task.
- * 
  */
-/** @file FUNCTIONAL TASK - mouse handling
+/** @file 
+ * @brief FUNCTIONAL TASK - mouse handling
  * 
  * This module is used as functional task for mouse control.
  * It supports right/left/middle clicks (clicking, press&hold, release),
  * left double clicks, mouse wheel and mouse X/Y actions.
+ * In addition, single shot is possible.
+ * @note Mouse control by mouthpiece is done in hal_adc!
+ * @see hal_adc
+ * @see task_mouse
+ * @see VB_SINGLESHOT
  */
 
 #include "task_mouse.h"
 
-
+/** @brief Logging tag for this module */
 #define LOG_TAG "task_mouse"
-
-/** @brief Global button mask */
-static uint8_t globalButtonMask = 0;
-/** @brief Currently set wheel steps for mouse wheel up/down */
-static uint8_t globalWheelSteps = 3;
 
 /** @brief Set current mouse wheel step size
  * 
@@ -47,9 +43,12 @@ static uint8_t globalWheelSteps = 3;
  * @return 0 if everything was fine, 1 if stepsize is out of range */
 uint8_t mouse_set_wheel(uint8_t steps)
 {
-  if(globalWheelSteps < 127) 
+  generalConfig_t *cfg = configGetCurrent();
+  if(cfg == NULL) return 1;
+  
+  if(steps < 127) 
   {
-    globalWheelSteps = steps;
+    cfg->wheel_stepsize = steps;
     return 0;
   } else {
     ESP_LOGE(LOG_TAG,"Cannot set wheel steps, too high: %u",steps);
@@ -60,8 +59,12 @@ uint8_t mouse_set_wheel(uint8_t steps)
 /** @brief Get the current mouse wheel step size
  * 
  * @return Current step size */
-uint8_t mouse_get_wheel(void) { return globalWheelSteps; }
-
+uint8_t mouse_get_wheel(void) 
+{ 
+  generalConfig_t *cfg = configGetCurrent();
+  if(cfg != NULL) return cfg->wheel_stepsize;
+  else return 0;
+}
 
 /** @brief FUNCTIONAL TASK - Trigger mouse action
  * 
@@ -249,4 +252,59 @@ void task_mouse(taskMouseConfig_t *param)
       //function tasks in single shot mode MUST return to its caller
       if(vb == VB_SINGLESHOT) return;
   }
+}
+
+/** @brief Reverse Parsing - get AT command for mouse VB
+ * 
+ * This function parses the current configuration of a virtual button
+ * to an AT command used to print the configuration.
+ * @param output Output string, where the full AT command will be stored
+ * @param cfg Pointer to current mouse configuration, used to parse.
+ * @return ESP_OK if everything went fine, ESP_FAIL otherwise
+ * */
+esp_err_t task_mouse_getAT(char* output, void* cfg)
+{
+  taskMouseConfig_t *conf = (taskMouseConfig_t *)cfg;
+  if(conf == NULL) return ESP_FAIL;
+  char button = 0;
+  
+  switch(conf->type)
+  {
+    case RIGHT: button = 'R'; break;
+    case LEFT: button = 'L'; break;
+    case MIDDLE: button = 'M'; break;
+    case WHEEL:
+      if(conf->actionvalue > 0)
+      {
+        sprintf(output,"AT WU\r\n"); break;
+      } else {
+        sprintf(output,"AT WD\r\n"); break;
+      }
+    case X: sprintf(output,"AT MX %d\r\n",conf->actionvalue); break;
+    case Y: sprintf(output,"AT MY %d\r\n",conf->actionvalue); break;
+    default: return ESP_FAIL;
+  }
+  
+  if(button != 0)
+  {
+    switch(conf->actionparam)
+    {
+      case M_CLICK:
+        sprintf(output,"AT C%c\r\n",button);
+        break;
+      case M_HOLD:
+        sprintf(output,"AT P%c\r\n",button);
+        break;
+      case M_RELEASE:
+        sprintf(output,"AT R%c\r\n",button);
+        break;
+      case M_DOUBLE:
+        sprintf(output,"AT CD\r\n");
+        break;
+      case M_UNUSED:
+        ESP_LOGW(LOG_TAG,"Unused actionparam, but type requires...");
+        return ESP_FAIL;
+    }
+  }
+  return ESP_OK;
 }

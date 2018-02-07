@@ -59,11 +59,11 @@ function FlipMouse(initFinished) {
     };
 
     thiz.setValue = function (valueConstant, value) {
+        _config[valueConstant] = parseInt(value);
         clearInterval(debounce);
         debounce = setTimeout(function () {
             var atCmd = AT_CMD_MAPPING[valueConstant];
             sendAtCmdNoResultHandling(atCmd + ' ' + value);
-            _config[valueConstant] = parseInt(value);
         }, 300);
     };
 
@@ -92,6 +92,10 @@ function FlipMouse(initFinished) {
 
     thiz.getConfig = function () {
         return _config;
+    };
+
+    thiz.getLiveData = function () {
+        return _liveData;
     };
 
     init();

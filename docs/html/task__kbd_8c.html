@@ -84,6 +84,9 @@ Macros</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
+<tr class="memitem:a43469aecbc3cd22a6ed1e6a73dc978bf"><td class="memItemLeft" align="right" valign="top">esp_err_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="task__kbd_8c.html#a43469aecbc3cd22a6ed1e6a73dc978bf">task_keyboard_getAT</a> (char *output, void *cfg)</td></tr>
+<tr class="memdesc:a43469aecbc3cd22a6ed1e6a73dc978bf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reverse Parsing - get AT command for keyboard VB.  <a href="#a43469aecbc3cd22a6ed1e6a73dc978bf">More...</a><br /></td></tr>
+<tr class="separator:a43469aecbc3cd22a6ed1e6a73dc978bf"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7d605cb2407a7a7309911c70e28a9884"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="task__kbd_8c.html#a7d605cb2407a7a7309911c70e28a9884">sendKbd</a> (QueueHandle_t qUSB, QueueHandle_t qBLE, uint16_t *key)</td></tr>
 <tr class="memdesc:a7d605cb2407a7a7309911c70e28a9884"><td class="mdescLeft">&#160;</td><td class="mdescRight">Helper function sending to queues depending on connection type.  <a href="#a7d605cb2407a7a7309911c70e28a9884">More...</a><br /></td></tr>
 <tr class="separator:a7d605cb2407a7a7309911c70e28a9884"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -118,7 +121,7 @@ Functions</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="task__kbd_8c_source.html#l00044">44</a> of file <a class="el" href="task__kbd_8c_source.html">task_kbd.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="task__kbd_8c_source.html#l00077">task_keyboard()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="task__kbd_8c_source.html#l00164">task_keyboard()</a>, and <a class="el" href="task__kbd_8c_source.html#l00055">task_keyboard_getAT()</a>.</p>
 
 </div>
 </div>
@@ -168,9 +171,9 @@ Functions</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="task__kbd_8c_source.html#l00057">57</a> of file <a class="el" href="task__kbd_8c_source.html">task_kbd.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="task__kbd_8c_source.html#l00144">144</a> of file <a class="el" href="task__kbd_8c_source.html">task_kbd.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="task__kbd_8c_source.html#l00077">task_keyboard()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="task__kbd_8c_source.html#l00164">task_keyboard()</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
@@ -213,9 +216,9 @@ Here is the caller graph for this function:</div>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="task__kbd_8c_source.html#l00077">77</a> of file <a class="el" href="task__kbd_8c_source.html">task_kbd.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="task__kbd_8c_source.html#l00164">164</a> of file <a class="el" href="task__kbd_8c_source.html">task_kbd.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="config__switcher_8c_source.html#l00187">configSwitcherTask()</a>, and <a class="el" href="task__commands_8c_source.html#l00579">doKeyboardParsing()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="config__switcher_8c_source.html#l00205">configSwitcherTask()</a>, and <a class="el" href="task__commands_8c_source.html#l00600">doKeyboardParsing()</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -233,6 +236,69 @@ Here is the caller graph for this function:</div>
 <area shape="rect" id="node5" href="task__commands_8c.html#ac3c72c089d32dea93c45f4f9f8d1f244" title="doKeyboardParsing" alt="" coords="161,56,296,83"/>
 <area shape="rect" id="node3" href="config__switcher_8h.html#aafed047c8d04b814a85239e031cbad7b" title="Initializing the config switching functionality. " alt="" coords="345,5,472,32"/>
 <area shape="rect" id="node4" href="flipmouse__fabi__esp32__kbdmouse__main_8c.html#abce06be17fc37d675118a678a8100a36" title="Main task, created by esp&#45;idf. " alt="" coords="520,5,599,32"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="a43469aecbc3cd22a6ed1e6a73dc978bf"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a43469aecbc3cd22a6ed1e6a73dc978bf">&#9670;&nbsp;</a></span>task_keyboard_getAT()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">esp_err_t task_keyboard_getAT </td>
+          <td>(</td>
+          <td class="paramtype">char *&#160;</td>
+          <td class="paramname"><em>output</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">void *&#160;</td>
+          <td class="paramname"><em>cfg</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Reverse Parsing - get AT command for keyboard VB. </p>
+<p>This function parses the current configuration of a virtual button to an AT command used to print the configuration. </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">output</td><td>Output string, where the full AT command will be stored </td></tr>
+    <tr><td class="paramname">cfg</td><td>Pointer to current keyboard configuration, used to parse. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>ESP_OK if everything went fine, ESP_FAIL otherwise </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="task__kbd_8c_source.html#l00055">55</a> of file <a class="el" href="task__kbd_8c_source.html">task_kbd.c</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="task__commands_8c_source.html#l01093">printAllSlots()</a>.</p>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="task__kbd_8c_a43469aecbc3cd22a6ed1e6a73dc978bf_cgraph.png" border="0" usemap="#task__kbd_8c_a43469aecbc3cd22a6ed1e6a73dc978bf_cgraph" alt=""/></div>
+<map name="task__kbd_8c_a43469aecbc3cd22a6ed1e6a73dc978bf_cgraph" id="task__kbd_8c_a43469aecbc3cd22a6ed1e6a73dc978bf_cgraph">
+<area shape="rect" id="node2" href="keyboard_8c.html#a027266c03329f00b7bbfefd0e828463c" title="Parse a keycode to a key identifier. " alt="" coords="203,5,373,32"/>
+</map>
+</div>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="task__kbd_8c_a43469aecbc3cd22a6ed1e6a73dc978bf_icgraph.png" border="0" usemap="#task__kbd_8c_a43469aecbc3cd22a6ed1e6a73dc978bf_icgraph" alt=""/></div>
+<map name="task__kbd_8c_a43469aecbc3cd22a6ed1e6a73dc978bf_icgraph" id="task__kbd_8c_a43469aecbc3cd22a6ed1e6a73dc978bf_icgraph">
+<area shape="rect" id="node2" href="task__commands_8c.html#ad59215648a26578c22baa7ceae099e0e" title="Print the current slot configurations (general settings + VBs) " alt="" coords="203,31,295,57"/>
+<area shape="rect" id="node3" href="task__commands_8c.html#a7f6500be563a3dce7f0854fceed02fab" title="doGeneralCmdParsing" alt="" coords="519,5,673,32"/>
+<area shape="rect" id="node4" href="task__commands_8c.html#acea81ba8a182ae78feb2db6418fc1806" title="sendErrorBack" alt="" coords="343,56,451,83"/>
+<area shape="rect" id="node5" href="task__commands_8c.html#ac3c72c089d32dea93c45f4f9f8d1f244" title="doKeyboardParsing" alt="" coords="529,56,663,83"/>
+<area shape="rect" id="node6" href="task__commands_8c.html#a580d9f6a840975525358033a35f761d0" title="doMouseParsing" alt="" coords="537,107,655,133"/>
+<area shape="rect" id="node7" href="task__commands_8c.html#a2ad28759e53bb5082853d8d004767115" title="doMouthpieceSettingsParsing" alt="" coords="499,157,693,184"/>
 </map>
 </div>
 

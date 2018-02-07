@@ -69,6 +69,9 @@ $(function() {
 <div class="title">task_mouse.c File Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
+
+<p>FUNCTIONAL TASK - mouse handling.  
+<a href="#details">More...</a></p>
 <div class="textblock"><code>#include &quot;<a class="el" href="task__mouse_8h_source.html">task_mouse.h</a>&quot;</code><br />
 </div>
 <p><a href="task__mouse_8c_source.html">Go to the source code of this file.</a></p>
@@ -76,6 +79,7 @@ $(function() {
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="define-members"></a>
 Macros</h2></td></tr>
 <tr class="memitem:a7ce0df38eb467e59f209470c8f5ac4e6"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="task__mouse_8c.html#a7ce0df38eb467e59f209470c8f5ac4e6">LOG_TAG</a>&#160;&#160;&#160;&quot;task_mouse&quot;</td></tr>
+<tr class="memdesc:a7ce0df38eb467e59f209470c8f5ac4e6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Logging tag for this module.  <a href="#a7ce0df38eb467e59f209470c8f5ac4e6">More...</a><br /></td></tr>
 <tr class="separator:a7ce0df38eb467e59f209470c8f5ac4e6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
@@ -89,8 +93,21 @@ Functions</h2></td></tr>
 <tr class="memitem:aa8f5c0436e569589e735c419fc3d0ed8"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="task__mouse_8c.html#aa8f5c0436e569589e735c419fc3d0ed8">task_mouse</a> (<a class="el" href="task__mouse_8h.html#aa8af5afb3b111ccabb1e207ae4cabcaa">taskMouseConfig_t</a> *param)</td></tr>
 <tr class="memdesc:aa8f5c0436e569589e735c419fc3d0ed8"><td class="mdescLeft">&#160;</td><td class="mdescRight">FUNCTIONAL TASK - Trigger mouse action.  <a href="#aa8f5c0436e569589e735c419fc3d0ed8">More...</a><br /></td></tr>
 <tr class="separator:aa8f5c0436e569589e735c419fc3d0ed8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a053f423dca1422f48f7ac0314cb94d8c"><td class="memItemLeft" align="right" valign="top">esp_err_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="task__mouse_8c.html#a053f423dca1422f48f7ac0314cb94d8c">task_mouse_getAT</a> (char *output, void *cfg)</td></tr>
+<tr class="memdesc:a053f423dca1422f48f7ac0314cb94d8c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reverse Parsing - get AT command for mouse VB.  <a href="#a053f423dca1422f48f7ac0314cb94d8c">More...</a><br /></td></tr>
+<tr class="separator:a053f423dca1422f48f7ac0314cb94d8c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Macro Definition Documentation</h2>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>FUNCTIONAL TASK - mouse handling. </p>
+<p>This module is used as functional task for mouse control. It supports right/left/middle clicks (clicking, press&amp;hold, release), left double clicks, mouse wheel and mouse X/Y actions. In addition, single shot is possible. </p><dl class="section note"><dt>Note</dt><dd>Mouse control by mouthpiece is done in hal_adc! </dd></dl>
+<dl class="section see"><dt>See also</dt><dd>hal_adc </dd>
+<dd>
+<a class="el" href="task__mouse_8c.html#aa8f5c0436e569589e735c419fc3d0ed8" title="FUNCTIONAL TASK - Trigger mouse action. ">task_mouse</a> </dd>
+<dd>
+<a class="el" href="common_8h.html#a784ceb4b2d4c4fb77baa99646c6e5035">VB_SINGLESHOT</a> </dd></dl>
+
+<p class="definition">Definition in file <a class="el" href="task__mouse_8c_source.html">task_mouse.c</a>.</p>
+</div><h2 class="groupheader">Macro Definition Documentation</h2>
 <a id="a7ce0df38eb467e59f209470c8f5ac4e6"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a7ce0df38eb467e59f209470c8f5ac4e6">&#9670;&nbsp;</a></span>LOG_TAG</h2>
 
@@ -103,9 +120,11 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="task__mouse_8c_source.html#l00036">36</a> of file <a class="el" href="task__mouse_8c_source.html">task_mouse.c</a>.</p>
+<p>Logging tag for this module. </p>
 
-<p class="reference">Referenced by <a class="el" href="task__mouse_8c_source.html#l00076">task_mouse()</a>.</p>
+<p class="definition">Definition at line <a class="el" href="task__mouse_8c_source.html#l00037">37</a> of file <a class="el" href="task__mouse_8c_source.html">task_mouse.c</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="task__mouse_8c_source.html#l00044">mouse_set_wheel()</a>, <a class="el" href="task__mouse_8c_source.html#l00079">task_mouse()</a>, and <a class="el" href="task__mouse_8c_source.html#l00265">task_mouse_getAT()</a>.</p>
 
 </div>
 </div>
@@ -129,9 +148,17 @@ Functions</h2></td></tr>
 <p>Get the current mouse wheel step size. </p>
 <dl class="section return"><dt>Returns</dt><dd>Current step size </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="task__mouse_8c_source.html#l00063">63</a> of file <a class="el" href="task__mouse_8c_source.html">task_mouse.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="task__mouse_8c_source.html#l00062">62</a> of file <a class="el" href="task__mouse_8c_source.html">task_mouse.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="task__commands_8c_source.html#l00758">doMouseParsing()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="task__commands_8c_source.html#l00784">doMouseParsing()</a>.</p>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="task__mouse_8c_ab5cfaaac2cd4ec6fc79546f847db96de_cgraph.png" border="0" usemap="#task__mouse_8c_ab5cfaaac2cd4ec6fc79546f847db96de_cgraph" alt=""/></div>
+<map name="task__mouse_8c_ab5cfaaac2cd4ec6fc79546f847db96de_cgraph" id="task__mouse_8c_ab5cfaaac2cd4ec6fc79546f847db96de_cgraph">
+<area shape="rect" id="node2" href="config__switcher_8c.html#a921538bec34d128a44a748fd5a2c391f" title="Get the current config struct. " alt="" coords="180,5,301,32"/>
+</map>
+</div>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
@@ -168,9 +195,17 @@ Here is the caller graph for this function:</div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>0 if everything was fine, 1 if stepsize is out of range </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="task__mouse_8c_source.html#l00048">48</a> of file <a class="el" href="task__mouse_8c_source.html">task_mouse.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="task__mouse_8c_source.html#l00044">44</a> of file <a class="el" href="task__mouse_8c_source.html">task_mouse.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="task__commands_8c_source.html#l00758">doMouseParsing()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="task__commands_8c_source.html#l00784">doMouseParsing()</a>.</p>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="task__mouse_8c_ac5aaa616044b7bef9f75347719181dbe_cgraph.png" border="0" usemap="#task__mouse_8c_ac5aaa616044b7bef9f75347719181dbe_cgraph" alt=""/></div>
+<map name="task__mouse_8c_ac5aaa616044b7bef9f75347719181dbe_cgraph" id="task__mouse_8c_ac5aaa616044b7bef9f75347719181dbe_cgraph">
+<area shape="rect" id="node2" href="config__switcher_8c.html#a921538bec34d128a44a748fd5a2c391f" title="Get the current config struct. " alt="" coords="180,5,301,32"/>
+</map>
+</div>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
@@ -210,9 +245,9 @@ Here is the caller graph for this function:</div>
 <dd>
 <a class="el" href="task__mouse_8h.html#aa8af5afb3b111ccabb1e207ae4cabcaa">taskMouseConfig_t</a> </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="task__mouse_8c_source.html#l00076">76</a> of file <a class="el" href="task__mouse_8c_source.html">task_mouse.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="task__mouse_8c_source.html#l00079">79</a> of file <a class="el" href="task__mouse_8c_source.html">task_mouse.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="config__switcher_8c_source.html#l00187">configSwitcherTask()</a>, and <a class="el" href="task__commands_8c_source.html#l00758">doMouseParsing()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="config__switcher_8c_source.html#l00205">configSwitcherTask()</a>, and <a class="el" href="task__commands_8c_source.html#l00784">doMouseParsing()</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
@@ -222,6 +257,61 @@ Here is the caller graph for this function:</div>
 <area shape="rect" id="node5" href="task__commands_8c.html#a580d9f6a840975525358033a35f761d0" title="doMouseParsing" alt="" coords="156,56,275,83"/>
 <area shape="rect" id="node3" href="config__switcher_8h.html#aafed047c8d04b814a85239e031cbad7b" title="Initializing the config switching functionality. " alt="" coords="332,5,459,32"/>
 <area shape="rect" id="node4" href="flipmouse__fabi__esp32__kbdmouse__main_8c.html#abce06be17fc37d675118a678a8100a36" title="Main task, created by esp&#45;idf. " alt="" coords="507,5,585,32"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="a053f423dca1422f48f7ac0314cb94d8c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a053f423dca1422f48f7ac0314cb94d8c">&#9670;&nbsp;</a></span>task_mouse_getAT()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">esp_err_t task_mouse_getAT </td>
+          <td>(</td>
+          <td class="paramtype">char *&#160;</td>
+          <td class="paramname"><em>output</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">void *&#160;</td>
+          <td class="paramname"><em>cfg</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Reverse Parsing - get AT command for mouse VB. </p>
+<p>This function parses the current configuration of a virtual button to an AT command used to print the configuration. </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">output</td><td>Output string, where the full AT command will be stored </td></tr>
+    <tr><td class="paramname">cfg</td><td>Pointer to current mouse configuration, used to parse. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>ESP_OK if everything went fine, ESP_FAIL otherwise </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="task__mouse_8c_source.html#l00265">265</a> of file <a class="el" href="task__mouse_8c_source.html">task_mouse.c</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="task__commands_8c_source.html#l01093">printAllSlots()</a>.</p>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="task__mouse_8c_a053f423dca1422f48f7ac0314cb94d8c_icgraph.png" border="0" usemap="#task__mouse_8c_a053f423dca1422f48f7ac0314cb94d8c_icgraph" alt=""/></div>
+<map name="task__mouse_8c_a053f423dca1422f48f7ac0314cb94d8c_icgraph" id="task__mouse_8c_a053f423dca1422f48f7ac0314cb94d8c_icgraph">
+<area shape="rect" id="node2" href="task__commands_8c.html#ad59215648a26578c22baa7ceae099e0e" title="Print the current slot configurations (general settings + VBs) " alt="" coords="188,31,280,57"/>
+<area shape="rect" id="node3" href="task__commands_8c.html#a7f6500be563a3dce7f0854fceed02fab" title="doGeneralCmdParsing" alt="" coords="505,5,658,32"/>
+<area shape="rect" id="node4" href="task__commands_8c.html#acea81ba8a182ae78feb2db6418fc1806" title="sendErrorBack" alt="" coords="328,56,436,83"/>
+<area shape="rect" id="node5" href="task__commands_8c.html#ac3c72c089d32dea93c45f4f9f8d1f244" title="doKeyboardParsing" alt="" coords="514,56,649,83"/>
+<area shape="rect" id="node6" href="task__commands_8c.html#a580d9f6a840975525358033a35f761d0" title="doMouseParsing" alt="" coords="522,107,641,133"/>
+<area shape="rect" id="node7" href="task__commands_8c.html#a2ad28759e53bb5082853d8d004767115" title="doMouthpieceSettingsParsing" alt="" coords="484,157,679,184"/>
 </map>
 </div>
 

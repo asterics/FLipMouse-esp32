@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['z',['Z',['../structjoystick__data.html#a41a29cd80ccb325fb3b3699d1d12a952',1,'joystick_data']]],
-  ['z_5frotate',['Z_rotate',['../structjoystick__data.html#a4b34e1186d40a0d1ac9b433bafe45fb6',1,'joystick_data']]]
+  ['y',['y',['../structmouse__command.html#afd982356713c00311d2c5f7ce0915220',1,'mouse_command::y()'],['../structjoystick__data.html#a36b738e01d4e8767c7170df18f7e48b8',1,'joystick_data::Y()']]]
 ];

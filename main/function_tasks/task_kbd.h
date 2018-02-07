@@ -90,6 +90,8 @@ typedef struct taskKeyboardConfig {
   uint virtualButton;
   /** list of keycodes+modfiers to be pressed/released.
    * @note Low byte contains the keycode, high byte any modifiers
+   * @note If set to WRITE, the original input bytes are saved at the end
+   * of this array!
    * */
   uint16_t keycodes_text[TASK_KEYBOARD_PARAMETERLENGTH];
 } taskKeyboardConfig_t;
@@ -104,5 +106,15 @@ typedef struct taskKeyboardConfig {
  * @see taskKeyboardConfig_t
  * @param param Task configuration **/
 void task_keyboard(taskKeyboardConfig_t *param);
+
+/** @brief Reverse Parsing - get AT command for keyboard VB
+ * 
+ * This function parses the current configuration of a virtual button
+ * to an AT command used to print the configuration.
+ * @param output Output string, where the full AT command will be stored
+ * @param cfg Pointer to current keyboard configuration, used to parse.
+ * @return ESP_OK if everything went fine, ESP_FAIL otherwise
+ * */
+esp_err_t task_keyboard_getAT(char* output, void* cfg);
 
 #endif

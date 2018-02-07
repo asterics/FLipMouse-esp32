@@ -125,6 +125,17 @@ generalConfig_t* configGetCurrent(void);
 esp_err_t configUpdateVB(void *param, command_type_t type, uint8_t vb);
 
 
+/** @brief Reverse Parsing - get AT command for configswitcher VB
+ * 
+ * This function parses the current configuration of a virtual button
+ * to an AT command used to print the configuration.
+ * @param output Output string, where the full AT command will be stored
+ * @param cfg Pointer to current cfgswitcher configuration, used to parse.
+ * @return ESP_OK if everything went fine, ESP_FAIL otherwise
+ * */
+esp_err_t task_configswitcher_getAT(char* output, void* cfg);
+
+
 /** @brief Trigger a config update
  * 
  * This method is simply sending an "__UPDATE" command to the

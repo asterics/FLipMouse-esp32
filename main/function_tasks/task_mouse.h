@@ -17,14 +17,19 @@
  * 
  * Copyright 2017 Benjamin Aigner <aignerb@technikum-wien.at,
  * beni@asterics-foundation.org>
- * 
- * 
- * This file contains the task declaration for mouse control via
- * virtual buttons (triggered by flags). The analog mouse control is
- * done via the hal_adc task.
- * 
  */
-
+/** @file 
+ * @brief FUNCTIONAL TASK - mouse handling
+ * 
+ * This module is used as functional task for mouse control.
+ * It supports right/left/middle clicks (clicking, press&hold, release),
+ * left double clicks, mouse wheel and mouse X/Y actions.
+ * In addition, single shot is possible.
+ * @note Mouse control by mouthpiece is done in hal_adc!
+ * @see hal_adc
+ * @see task_mouse
+ * @see VB_SINGLESHOT
+ */
 
 #ifndef _TASK_MOUSE_H
 #define _TASK_MOUSE_H
@@ -35,6 +40,7 @@
 #include <esp_log.h>
 //common definitions & data for all of these functional tasks
 #include "common.h"
+#include "../config_switcher.h"
 
 #define TIMEOUT 10
 #define TASK_MOUSE_STACKSIZE 2048
@@ -67,7 +73,8 @@ typedef enum {
 } mouse_action_param;
 
 typedef struct taskMouseConfig {
-  //type of this keyboard action: press, release or 
+  /** @brief type of this mouse action
+   * @see mouse_action **/
   mouse_action type;
   mouse_action_param actionparam;
   int actionvalue;
@@ -79,5 +86,16 @@ typedef struct taskMouseConfig {
 uint8_t mouse_set_wheel(uint8_t steps);
 uint8_t mouse_get_wheel(void);
 void task_mouse(taskMouseConfig_t *param);
+
+
+/** @brief Reverse Parsing - get AT command for mouse VB
+ * 
+ * This function parses the current configuration of a virtual button
+ * to an AT command used to print the configuration.
+ * @param output Output string, where the full AT command will be stored
+ * @param cfg Pointer to current mouse configuration, used to parse.
+ * @return ESP_OK if everything went fine, ESP_FAIL otherwise
+ * */
+esp_err_t task_mouse_getAT(char* output, void* cfg);
 
 #endif

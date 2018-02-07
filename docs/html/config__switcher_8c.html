@@ -89,6 +89,9 @@ Functions</h2></td></tr>
 <tr class="memitem:a921538bec34d128a44a748fd5a2c391f"><td class="memItemLeft" align="right" valign="top"><a class="el" href="common_8h.html#a1d17932316265a53a6982a2526a4cada">generalConfig_t</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="config__switcher_8c.html#a921538bec34d128a44a748fd5a2c391f">configGetCurrent</a> (void)</td></tr>
 <tr class="memdesc:a921538bec34d128a44a748fd5a2c391f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the current config struct.  <a href="#a921538bec34d128a44a748fd5a2c391f">More...</a><br /></td></tr>
 <tr class="separator:a921538bec34d128a44a748fd5a2c391f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a68e6ddb2557b0bf3e2d84952feb0b5a5"><td class="memItemLeft" align="right" valign="top">esp_err_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="config__switcher_8c.html#a68e6ddb2557b0bf3e2d84952feb0b5a5">task_configswitcher_getAT</a> (char *output, void *cfg)</td></tr>
+<tr class="memdesc:a68e6ddb2557b0bf3e2d84952feb0b5a5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reverse Parsing - get AT command for configswitcher VB.  <a href="#a68e6ddb2557b0bf3e2d84952feb0b5a5">More...</a><br /></td></tr>
+<tr class="separator:a68e6ddb2557b0bf3e2d84952feb0b5a5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4c2e410d8032c65c0700c6ca07429074"><td class="memItemLeft" align="right" valign="top">esp_err_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="config__switcher_8c.html#a4c2e410d8032c65c0700c6ca07429074">configUpdate</a> (void)</td></tr>
 <tr class="memdesc:a4c2e410d8032c65c0700c6ca07429074"><td class="mdescLeft">&#160;</td><td class="mdescRight">Trigger a config update.  <a href="#a4c2e410d8032c65c0700c6ca07429074">More...</a><br /></td></tr>
 <tr class="separator:a4c2e410d8032c65c0700c6ca07429074"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -149,7 +152,7 @@ Variables</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="config__switcher_8c_source.html#l00051">51</a> of file <a class="el" href="config__switcher_8c_source.html">config_switcher.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="config__switcher_8c_source.html#l00476">configSwitcherInit()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="config__switcher_8c_source.html#l00494">configSwitcherInit()</a>.</p>
 
 </div>
 </div>
@@ -168,7 +171,7 @@ Variables</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="config__switcher_8c_source.html#l00047">47</a> of file <a class="el" href="config__switcher_8c_source.html">config_switcher.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="config__switcher_8c_source.html#l00476">configSwitcherInit()</a>, <a class="el" href="config__switcher_8c_source.html#l00187">configSwitcherTask()</a>, <a class="el" href="config__switcher_8c_source.html#l00118">configUpdate()</a>, <a class="el" href="config__switcher_8c_source.html#l00150">configUpdateVB()</a>, and <a class="el" href="config__switcher_8c_source.html#l00410">task_configswitcher()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="config__switcher_8c_source.html#l00494">configSwitcherInit()</a>, <a class="el" href="config__switcher_8c_source.html#l00205">configSwitcherTask()</a>, <a class="el" href="config__switcher_8c_source.html#l00136">configUpdate()</a>, <a class="el" href="config__switcher_8c_source.html#l00168">configUpdateVB()</a>, and <a class="el" href="config__switcher_8c_source.html#l00428">task_configswitcher()</a>.</p>
 
 </div>
 </div>
@@ -199,18 +202,23 @@ Variables</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="config__switcher_8c_source.html#l00103">103</a> of file <a class="el" href="config__switcher_8c_source.html">config_switcher.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="task__commands_8c_source.html#l00431">doGeneralCmdParsing()</a>, <a class="el" href="task__commands_8c_source.html#l00579">doKeyboardParsing()</a>, <a class="el" href="task__commands_8c_source.html#l00146">doMouthpieceSettingsParsing()</a>, <a class="el" href="task__commands_8c_source.html#l00328">doStorageParsing()</a>, <a class="el" href="hal__ble_8c_source.html#l00181">halBleTaskKeyboardPress()</a>, and <a class="el" href="hal__ble_8c_source.html#l00253">halBleTaskKeyboardRelease()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="task__commands_8c_source.html#l00440">doGeneralCmdParsing()</a>, <a class="el" href="task__commands_8c_source.html#l00600">doKeyboardParsing()</a>, <a class="el" href="task__commands_8c_source.html#l00155">doMouthpieceSettingsParsing()</a>, <a class="el" href="task__commands_8c_source.html#l00337">doStorageParsing()</a>, <a class="el" href="hal__ble_8c_source.html#l00181">halBleTaskKeyboardPress()</a>, <a class="el" href="hal__ble_8c_source.html#l00253">halBleTaskKeyboardRelease()</a>, <a class="el" href="task__mouse_8c_source.html#l00062">mouse_get_wheel()</a>, <a class="el" href="task__mouse_8c_source.html#l00044">mouse_set_wheel()</a>, and <a class="el" href="task__commands_8c_source.html#l01093">printAllSlots()</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="config__switcher_8c_a921538bec34d128a44a748fd5a2c391f_icgraph.png" border="0" usemap="#config__switcher_8c_a921538bec34d128a44a748fd5a2c391f_icgraph" alt=""/></div>
 <map name="config__switcher_8c_a921538bec34d128a44a748fd5a2c391f_icgraph" id="config__switcher_8c_a921538bec34d128a44a748fd5a2c391f_icgraph">
-<area shape="rect" id="node2" href="task__commands_8c.html#a7f6500be563a3dce7f0854fceed02fab" title="doGeneralCmdParsing" alt="" coords="195,5,349,32"/>
-<area shape="rect" id="node3" href="task__commands_8c.html#ac3c72c089d32dea93c45f4f9f8d1f244" title="doKeyboardParsing" alt="" coords="205,56,339,83"/>
-<area shape="rect" id="node4" href="task__commands_8c.html#a2ad28759e53bb5082853d8d004767115" title="doMouthpieceSettingsParsing" alt="" coords="175,107,369,133"/>
-<area shape="rect" id="node5" href="task__commands_8c.html#a69b0c55558b32caa21407de8e2277be9" title="doStorageParsing" alt="" coords="209,157,335,184"/>
-<area shape="rect" id="node6" href="hal__ble_8c.html#af6a15e1396cb358cd7f1eb6a2a7045a9" title="halBleTaskKeyboardPress" alt="" coords="184,208,360,235"/>
-<area shape="rect" id="node7" href="hal__ble_8c.html#adbfa982381d6d09432d7ba1961846b32" title="halBleTaskKeyboardRelease" alt="" coords="177,259,367,285"/>
+<area shape="rect" id="node2" href="task__commands_8c.html#a7f6500be563a3dce7f0854fceed02fab" title="doGeneralCmdParsing" alt="" coords="609,47,762,74"/>
+<area shape="rect" id="node3" href="task__commands_8c.html#ac3c72c089d32dea93c45f4f9f8d1f244" title="doKeyboardParsing" alt="" coords="618,98,753,124"/>
+<area shape="rect" id="node4" href="task__commands_8c.html#a2ad28759e53bb5082853d8d004767115" title="doMouthpieceSettingsParsing" alt="" coords="588,148,783,175"/>
+<area shape="rect" id="node5" href="task__commands_8c.html#a69b0c55558b32caa21407de8e2277be9" title="doStorageParsing" alt="" coords="207,300,333,327"/>
+<area shape="rect" id="node6" href="hal__ble_8c.html#af6a15e1396cb358cd7f1eb6a2a7045a9" title="halBleTaskKeyboardPress" alt="" coords="182,351,358,378"/>
+<area shape="rect" id="node7" href="hal__ble_8c.html#adbfa982381d6d09432d7ba1961846b32" title="halBleTaskKeyboardRelease" alt="" coords="175,402,365,428"/>
+<area shape="rect" id="node8" href="task__mouse_8h.html#ab5cfaaac2cd4ec6fc79546f847db96de" title="Get the current mouse wheel step size. " alt="" coords="413,250,540,276"/>
+<area shape="rect" id="node10" href="task__mouse_8h.html#ac5aaa616044b7bef9f75347719181dbe" title="Set current mouse wheel step size. " alt="" coords="413,199,540,226"/>
+<area shape="rect" id="node11" href="task__commands_8c.html#ad59215648a26578c22baa7ceae099e0e" title="Print the current slot configurations (general settings + VBs) " alt="" coords="224,98,316,124"/>
+<area shape="rect" id="node9" href="task__commands_8c.html#a580d9f6a840975525358033a35f761d0" title="doMouseParsing" alt="" coords="626,199,745,226"/>
+<area shape="rect" id="node12" href="task__commands_8c.html#acea81ba8a182ae78feb2db6418fc1806" title="sendErrorBack" alt="" coords="423,98,531,124"/>
 </map>
 </div>
 
@@ -235,7 +243,7 @@ Here is the caller graph for this function:</div>
 <p>Initializing the config switching functionality. </p>
 <p>The CONTINOUS task will be loaded to enable slot switches via the task_configswitcher FUNCTIONAL task. </p><dl class="section return"><dt>Returns</dt><dd>ESP_OK if everything is fined, ESP_FAIL otherwise </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="config__switcher_8c_source.html#l00476">476</a> of file <a class="el" href="config__switcher_8c_source.html">config_switcher.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="config__switcher_8c_source.html#l00494">494</a> of file <a class="el" href="config__switcher_8c_source.html">config_switcher.c</a>.</p>
 
 <p class="reference">Referenced by <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c_source.html#l00073">app_main()</a>.</p>
 <div class="dynheader">
@@ -313,9 +321,9 @@ Here is the caller graph for this function:</div>
 <p class="enddd">Maybe add an array of function pointers to do the reverse parsing from config to AT commands?!? </p>
 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="config__switcher_8c_source.html#l00187">187</a> of file <a class="el" href="config__switcher_8c_source.html">config_switcher.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="config__switcher_8c_source.html#l00205">205</a> of file <a class="el" href="config__switcher_8c_source.html">config_switcher.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="config__switcher_8c_source.html#l00476">configSwitcherInit()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="config__switcher_8c_source.html#l00494">configSwitcherInit()</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -384,9 +392,9 @@ Here is the caller graph for this function:</div>
 currentConfig </dd></dl>
 <dl class="section return"><dt>Returns</dt><dd>ESP_OK on success, ESP_FAIL otherwise </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="config__switcher_8c_source.html#l00118">118</a> of file <a class="el" href="config__switcher_8c_source.html">config_switcher.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="config__switcher_8c_source.html#l00136">136</a> of file <a class="el" href="config__switcher_8c_source.html">config_switcher.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="config__switcher_8c_source.html#l00150">configUpdateVB()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="config__switcher_8c_source.html#l00168">configUpdateVB()</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
@@ -444,7 +452,7 @@ Here is the caller graph for this function:</div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>ESP_OK on success, ESP_FAIL otherwise </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="config__switcher_8c_source.html#l00150">150</a> of file <a class="el" href="config__switcher_8c_source.html">config_switcher.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="config__switcher_8c_source.html#l00168">168</a> of file <a class="el" href="config__switcher_8c_source.html">config_switcher.c</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -482,9 +490,9 @@ Here is the call graph for this function:</div>
 </dl>
 <dl class="section see"><dt>See also</dt><dd><a class="el" href="config__switcher_8h.html#aa6d38946df351bfaec1994fdb081e7db" title="Parameter for functional task task_configswitcher. ">taskConfigSwitcherConfig_t</a> </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="config__switcher_8c_source.html#l00410">410</a> of file <a class="el" href="config__switcher_8c_source.html">config_switcher.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="config__switcher_8c_source.html#l00428">428</a> of file <a class="el" href="config__switcher_8c_source.html">config_switcher.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="config__switcher_8c_source.html#l00187">configSwitcherTask()</a>, and <a class="el" href="task__commands_8c_source.html#l00328">doStorageParsing()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="config__switcher_8c_source.html#l00205">configSwitcherTask()</a>, and <a class="el" href="task__commands_8c_source.html#l00337">doStorageParsing()</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
@@ -494,6 +502,61 @@ Here is the caller graph for this function:</div>
 <area shape="rect" id="node5" href="task__commands_8c.html#a69b0c55558b32caa21407de8e2277be9" title="doStorageParsing" alt="" coords="198,56,323,83"/>
 <area shape="rect" id="node3" href="config__switcher_8h.html#aafed047c8d04b814a85239e031cbad7b" title="Initializing the config switching functionality. " alt="" coords="377,5,504,32"/>
 <area shape="rect" id="node4" href="flipmouse__fabi__esp32__kbdmouse__main_8c.html#abce06be17fc37d675118a678a8100a36" title="Main task, created by esp&#45;idf. " alt="" coords="552,5,631,32"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="a68e6ddb2557b0bf3e2d84952feb0b5a5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a68e6ddb2557b0bf3e2d84952feb0b5a5">&#9670;&nbsp;</a></span>task_configswitcher_getAT()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">esp_err_t task_configswitcher_getAT </td>
+          <td>(</td>
+          <td class="paramtype">char *&#160;</td>
+          <td class="paramname"><em>output</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">void *&#160;</td>
+          <td class="paramname"><em>cfg</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Reverse Parsing - get AT command for configswitcher VB. </p>
+<p>This function parses the current configuration of a virtual button to an AT command used to print the configuration. </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">output</td><td>Output string, where the full AT command will be stored </td></tr>
+    <tr><td class="paramname">cfg</td><td>Pointer to current cfgswitcher configuration, used to parse. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>ESP_OK if everything went fine, ESP_FAIL otherwise </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="config__switcher_8c_source.html#l00116">116</a> of file <a class="el" href="config__switcher_8c_source.html">config_switcher.c</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="task__commands_8c_source.html#l01093">printAllSlots()</a>.</p>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="config__switcher_8c_a68e6ddb2557b0bf3e2d84952feb0b5a5_icgraph.png" border="0" usemap="#config__switcher_8c_a68e6ddb2557b0bf3e2d84952feb0b5a5_icgraph" alt=""/></div>
+<map name="config__switcher_8c_a68e6ddb2557b0bf3e2d84952feb0b5a5_icgraph" id="config__switcher_8c_a68e6ddb2557b0bf3e2d84952feb0b5a5_icgraph">
+<area shape="rect" id="node2" href="task__commands_8c.html#ad59215648a26578c22baa7ceae099e0e" title="Print the current slot configurations (general settings + VBs) " alt="" coords="192,31,284,57"/>
+<area shape="rect" id="node3" href="task__commands_8c.html#acea81ba8a182ae78feb2db6418fc1806" title="sendErrorBack" alt="" coords="332,56,440,83"/>
+<area shape="rect" id="node5" href="task__commands_8c.html#a7f6500be563a3dce7f0854fceed02fab" title="doGeneralCmdParsing" alt="" coords="509,5,662,32"/>
+<area shape="rect" id="node4" href="task__commands_8c.html#a2ad28759e53bb5082853d8d004767115" title="doMouthpieceSettingsParsing" alt="" coords="488,56,683,83"/>
+<area shape="rect" id="node6" href="task__commands_8c.html#ac3c72c089d32dea93c45f4f9f8d1f244" title="doKeyboardParsing" alt="" coords="518,107,653,133"/>
+<area shape="rect" id="node7" href="task__commands_8c.html#a580d9f6a840975525358033a35f761d0" title="doMouseParsing" alt="" coords="526,157,645,184"/>
 </map>
 </div>
 
@@ -515,7 +578,7 @@ Here is the caller graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="config__switcher_8c_source.html#l00087">87</a> of file <a class="el" href="config__switcher_8c_source.html">config_switcher.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="config__switcher_8c_source.html#l00476">configSwitcherInit()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="config__switcher_8c_source.html#l00494">configSwitcherInit()</a>.</p>
 
 </div>
 </div>
@@ -555,7 +618,7 @@ Here is the caller graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="config__switcher_8c_source.html#l00067">67</a> of file <a class="el" href="config__switcher_8c_source.html">config_switcher.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="config__switcher_8c_source.html#l00476">configSwitcherInit()</a>, and <a class="el" href="config__switcher_8c_source.html#l00187">configSwitcherTask()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="config__switcher_8c_source.html#l00494">configSwitcherInit()</a>, and <a class="el" href="config__switcher_8c_source.html#l00205">configSwitcherTask()</a>.</p>
 
 </div>
 </div>
@@ -583,7 +646,7 @@ Here is the caller graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="config__switcher_8c_source.html#l00084">84</a> of file <a class="el" href="config__switcher_8c_source.html">config_switcher.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="config__switcher_8c_source.html#l00476">configSwitcherInit()</a>, <a class="el" href="config__switcher_8c_source.html#l00187">configSwitcherTask()</a>, and <a class="el" href="config__switcher_8c_source.html#l00150">configUpdateVB()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="config__switcher_8c_source.html#l00494">configSwitcherInit()</a>, <a class="el" href="config__switcher_8c_source.html#l00205">configSwitcherTask()</a>, and <a class="el" href="config__switcher_8c_source.html#l00168">configUpdateVB()</a>.</p>
 
 </div>
 </div>
@@ -604,7 +667,7 @@ Here is the caller graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="config__switcher_8c_source.html#l00058">58</a> of file <a class="el" href="config__switcher_8c_source.html">config_switcher.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="config__switcher_8c_source.html#l00187">configSwitcherTask()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="config__switcher_8c_source.html#l00205">configSwitcherTask()</a>.</p>
 
 </div>
 </div>

@@ -105,6 +105,24 @@ generalConfig_t* configGetCurrent(void)
   return &currentConfigLoaded;
 }
 
+/** @brief Reverse Parsing - get AT command for configswitcher VB
+ * 
+ * This function parses the current configuration of a virtual button
+ * to an AT command used to print the configuration.
+ * @param output Output string, where the full AT command will be stored
+ * @param cfg Pointer to current cfgswitcher configuration, used to parse.
+ * @return ESP_OK if everything went fine, ESP_FAIL otherwise
+ * */
+esp_err_t task_configswitcher_getAT(char* output, void* cfg)
+{
+  taskConfigSwitcherConfig_t *conf = (taskConfigSwitcherConfig_t *)cfg;
+  if(conf == NULL) return ESP_FAIL;
+  
+  if(strcmp(conf->slotName, "__NEXT") == 0) sprintf(output,"AT NE \r\n"); return ESP_OK;
+  
+  sprintf(output,"AT LO %s \r\n",conf->slotName);
+}
+
 /** @brief Trigger a config update
  * 
  * This method is simply sending an "__UPDATE" command to the
@@ -395,7 +413,7 @@ void configSwitcherTask(void * params)
       //save newly loaded cfg
       memcpy(&currentConfigLoaded,&currentConfig,sizeof(generalConfig_t));
       tid = 0;
-      ESP_LOGD(LOG_TAG,"----------Config Switch Complete----------");
+      ESP_LOGD(LOG_TAG,"----Config Switch Complete, loaded slot %s----",currentConfigLoaded.slotName);
     }
   }
 }

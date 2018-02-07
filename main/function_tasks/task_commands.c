@@ -111,6 +111,15 @@ void sendErrorBack(const char* extrainfo)
   halSerialSendUSBSerial(HAL_SERIAL_TX_TO_CDC,"?\r\n",sizeof("?\r\n"),20);
 }
 
+/** @brief Print the current slot configurations (general settings + VBs)
+ * 
+ * This method prints the current slot configurations to the serial
+ * interface. Used for "AT LA" and "AT LI" command, which lists all slots.
+ * @param printconfig If set != 0, the config is printed. If 0 only slotnames
+ * are printed.
+ **/
+void printAllSlots(uint8_t printconfig);
+
 /** just check all queues if they are initialized
  * @return 0 on uninitialized queues, 1 if all are initialized*/
 static int checkqueues(void)
@@ -450,6 +459,18 @@ parserstate_t doGeneralCmdParsing(uint8_t *cmdBuffer)
     return NOACTION;
   }
     
+  /*++++ AT LA + LI ++++*/
+  if(CMD4("AT L")) {
+    switch(cmdBuffer[4])
+    {
+      //print current slot configurations
+      case 'A': printAllSlots(1); return NOACTION;
+      //print slot names only
+      case 'I': printAllSlots(0); return NOACTION;
+      default: return UNKNOWNCMD;
+    }
+  }
+    
   /*++++ AT KL ++++*/
   if(CMD("AT KL")) {
     param8 = strtol((char*)&(cmdBuffer[6]),NULL,10);
@@ -592,6 +613,7 @@ parserstate_t doKeyboardParsing(uint8_t *cmdBuffer, taskKeyboardConfig_t *kbdins
   kbdinstance->virtualButton = requestVBUpdate;
   int offset = 0;
   int offsetOut = 0;
+  int offsetEnd = TASK_KEYBOARD_PARAMETERLENGTH-1;
   uint8_t deadkeyfirst = 0;
   uint8_t modifier = 0;
   uint8_t keycode = 0;
@@ -622,7 +644,11 @@ parserstate_t doKeyboardParsing(uint8_t *cmdBuffer, taskKeyboardConfig_t *kbdins
       
       //terminate...
       if(cmdBuffer[offset+6] == '\r' || cmdBuffer[offset+6] == '\n' || \
-        cmdBuffer[offset+6] == 0) break;
+        cmdBuffer[offset+6] == 0 || offsetOut == offsetEnd) break;
+      
+      //save original byte
+      kbdinstance->keycodes_text[offsetEnd] = cmdBuffer[offset+6];
+      offsetEnd--;
       
       //parse ASCII/unicode to keycode sequence
       keycode = unicode_to_keycode(cmdBuffer[offset+6], currentcfg->locale);
@@ -1057,7 +1083,158 @@ void task_commands(void *params)
   }
 }
 
-/** Init the command parser
+/** @brief Print the current slot configurations (general settings + VBs)
+ * 
+ * This method prints the current slot configurations to the serial
+ * interface. Used for "AT LA" and "AT LI" command, which lists all slots.
+ * @param printconfig If set != 0, the config is printed. If 0 only slotnames
+ * are printed.
+ **/
+void printAllSlots(uint8_t printconfig)
+{
+  uint8_t slotCount = 0;
+  uint32_t tid = 0;
+  //contains slotname + "Slot%d:<slotname>\r\n"
+  char slotName[SLOTNAME_LENGTH+1];
+  char outputstring[SLOTNAME_LENGTH+11];
+  char parameterNumber[16];
+  generalConfig_t *currentcfg = configGetCurrent();
+  
+  if(currentcfg == NULL)
+  {
+    ESP_LOGE(LOG_TAG,"Error, general config is NULL!!!");
+    return;
+  }
+  
+  if(halStorageStartTransaction(&tid, 10)!= ESP_OK)
+  {
+    ESP_LOGE(LOG_TAG,"Cannot print slot, unable to obtain storage");
+    return;
+  }
+  
+  if(halStorageGetNumberOfSlots(tid, &slotCount) != ESP_OK)
+  {
+    ESP_LOGE(LOG_TAG,"Cannot get slotcount");
+    return;
+  }
+  
+  //check every slot
+  for(uint8_t i = 1; i<=slotCount; i++)
+  {
+    if(halStorageGetNameForNumber(tid,i,slotName) != ESP_OK)
+    {
+      ESP_LOGE(LOG_TAG,"cannot get slotname");
+      continue;
+    }
+    
+    //print slot name (different for AT LA and AT LI :-( )
+    if(printconfig == 0)
+    {
+      sprintf(outputstring,"Slot%d:%s\r\n",i,slotName);
+      halSerialSendUSBSerial(HAL_SERIAL_TX_TO_CDC,outputstring,strlen(outputstring),10);
+    } else {
+      sprintf(outputstring,"Slot:%s\r\n",slotName);
+      halSerialSendUSBSerial(HAL_SERIAL_TX_TO_CDC,outputstring,strlen(outputstring),10);
+    }
+    
+    //only print slot config if requested 
+    if(printconfig != 0)
+    {
+      sprintf(parameterNumber,"AT AX %d\r\n",currentcfg->adc.sensitivity_x);
+      halSerialSendUSBSerial(HAL_SERIAL_TX_TO_CDC,parameterNumber,strlen(parameterNumber),10);
+      sprintf(parameterNumber,"AT AY %d\r\n",currentcfg->adc.sensitivity_y);
+      halSerialSendUSBSerial(HAL_SERIAL_TX_TO_CDC,parameterNumber,strlen(parameterNumber),10);
+      sprintf(parameterNumber,"AT DX %d\r\n",currentcfg->adc.deadzone_x);
+      halSerialSendUSBSerial(HAL_SERIAL_TX_TO_CDC,parameterNumber,strlen(parameterNumber),10);
+      sprintf(parameterNumber,"AT DY %d\r\n",currentcfg->adc.deadzone_y);
+      halSerialSendUSBSerial(HAL_SERIAL_TX_TO_CDC,parameterNumber,strlen(parameterNumber),10);
+      
+      sprintf(parameterNumber,"AT MS %d\r\n",currentcfg->adc.max_speed);
+      halSerialSendUSBSerial(HAL_SERIAL_TX_TO_CDC,parameterNumber,strlen(parameterNumber),10);
+      sprintf(parameterNumber,"AT AC %d\r\n",currentcfg->adc.acceleration);
+      halSerialSendUSBSerial(HAL_SERIAL_TX_TO_CDC,parameterNumber,strlen(parameterNumber),10);
+      sprintf(parameterNumber,"AT TS %d\r\n",currentcfg->adc.threshold_sip);
+      halSerialSendUSBSerial(HAL_SERIAL_TX_TO_CDC,parameterNumber,strlen(parameterNumber),10);
+      sprintf(parameterNumber,"AT TP %d\r\n",currentcfg->adc.threshold_puff);
+      halSerialSendUSBSerial(HAL_SERIAL_TX_TO_CDC,parameterNumber,strlen(parameterNumber),10);
+      sprintf(parameterNumber,"AT WS %d\r\n",currentcfg->wheel_stepsize);
+      halSerialSendUSBSerial(HAL_SERIAL_TX_TO_CDC,parameterNumber,strlen(parameterNumber),10);
+      sprintf(parameterNumber,"AT SP %d\r\n",currentcfg->adc.threshold_strongpuff);
+      halSerialSendUSBSerial(HAL_SERIAL_TX_TO_CDC,parameterNumber,strlen(parameterNumber),10);
+      sprintf(parameterNumber,"AT SS %d\r\n",currentcfg->adc.threshold_strongsip);
+      halSerialSendUSBSerial(HAL_SERIAL_TX_TO_CDC,parameterNumber,strlen(parameterNumber),10);
+      
+      switch(currentcfg->adc.mode)
+      {
+        case MOUSE: sprintf(parameterNumber,"AT MM 1\r\n"); break;
+        case JOYSTICK: sprintf(parameterNumber,"AT MM 2\r\n"); break;
+        case THRESHOLD: sprintf(parameterNumber,"AT MM 0\r\n"); break;
+      }
+      halSerialSendUSBSerial(HAL_SERIAL_TX_TO_CDC,parameterNumber,strlen(parameterNumber),10);
+      
+      
+      sprintf(parameterNumber,"AT GU %d\r\n",currentcfg->adc.gain[0]);
+      halSerialSendUSBSerial(HAL_SERIAL_TX_TO_CDC,parameterNumber,strlen(parameterNumber),10);
+      sprintf(parameterNumber,"AT GD %d\r\n",currentcfg->adc.gain[1]);
+      halSerialSendUSBSerial(HAL_SERIAL_TX_TO_CDC,parameterNumber,strlen(parameterNumber),10);
+      sprintf(parameterNumber,"AT GL %d\r\n",currentcfg->adc.gain[2]);
+      halSerialSendUSBSerial(HAL_SERIAL_TX_TO_CDC,parameterNumber,strlen(parameterNumber),10);
+      sprintf(parameterNumber,"AT GR %d\r\n",currentcfg->adc.gain[3]);
+      halSerialSendUSBSerial(HAL_SERIAL_TX_TO_CDC,parameterNumber,strlen(parameterNumber),10);
+      sprintf(parameterNumber,"AT RO %d\r\n",currentcfg->orientation);
+      halSerialSendUSBSerial(HAL_SERIAL_TX_TO_CDC,parameterNumber,strlen(parameterNumber),10);
+      
+      
+      //return: 0 if nothing is active, 1 for USB only, 2 for BLE only, 3 for both
+      uint8_t btret = 0;
+      if(currentcfg->ble_active != 0) btret+=2;
+      if(currentcfg->usb_active != 0) btret+=1;
+      sprintf(parameterNumber,"AT BT %d\r\n",btret);
+      halSerialSendUSBSerial(HAL_SERIAL_TX_TO_CDC,parameterNumber,strlen(parameterNumber),10);
+      
+      for(uint8_t j = 0; j<(NUMBER_VIRTUALBUTTONS*4); j++)
+      {
+        sprintf(outputstring,"AT BM %02d\r\n",j);
+        ESP_LOGD(LOG_TAG,"AT BM %d",j);
+        halSerialSendUSBSerial(HAL_SERIAL_TX_TO_CDC,outputstring,strlen(outputstring),10);
+        switch(currentcfg->virtualButtonCommand[j])
+        {
+          case T_MOUSE:
+            task_mouse_getAT(outputstring,currentcfg->virtualButtonConfig[j]);
+            halSerialSendUSBSerial(HAL_SERIAL_TX_TO_CDC,outputstring,strlen(outputstring),10);
+            break;
+          case T_KEYBOARD:
+            task_keyboard_getAT(outputstring,currentcfg->virtualButtonConfig[j]);
+            halSerialSendUSBSerial(HAL_SERIAL_TX_TO_CDC,outputstring,strlen(outputstring),10);
+            break;
+          case T_CONFIGCHANGE:
+            task_configswitcher_getAT(outputstring,currentcfg->virtualButtonConfig[j]);
+            halSerialSendUSBSerial(HAL_SERIAL_TX_TO_CDC,outputstring,strlen(outputstring),10);
+            break;
+          case T_CALIBRATE:
+            //no reverse parsing, no parameter...
+            sprintf(outputstring,"AT CA\r\n");
+            halSerialSendUSBSerial(HAL_SERIAL_TX_TO_CDC,outputstring,strlen(outputstring),10);
+            break;
+          case T_SENDIR:
+            ///@todo Ad reverse parser for IR
+            break;
+          case T_NOFUNCTION:
+          default:
+            sprintf(outputstring,"AT NC\r\n");
+            halSerialSendUSBSerial(HAL_SERIAL_TX_TO_CDC,outputstring,strlen(outputstring),10);
+            break;
+        }
+        ESP_LOGD(LOG_TAG,"%s",outputstring);
+      }
+    }
+  }
+  
+  //release storage
+  halStorageFinishTransaction(tid);
+}
+
+/** @brief Init the command parser
  * 
  * This method starts the command parser task,
  * which handles incoming UART bytes & responses if necessary.

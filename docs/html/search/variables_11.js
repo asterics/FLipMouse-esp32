@@ -1,9 +1,11 @@
 var searchData=
 [
-  ['threshold_5fpuff',['threshold_puff',['../structadc__config.html#ab2a5777fb85654dc54c30cf2f5709eee',1,'adc_config']]],
-  ['threshold_5fsip',['threshold_sip',['../structadc__config.html#af6c4e0d00401de68d93fd86168fd423b',1,'adc_config']]],
-  ['threshold_5fstrongpuff',['threshold_strongpuff',['../structadc__config.html#acdbc84647448c993d00662e69d838848',1,'adc_config']]],
-  ['threshold_5fstrongsip',['threshold_strongsip',['../structadc__config.html#af75e92c1536fb2354789bdaff799887d',1,'adc_config']]],
-  ['trans_5fid',['trans_id',['../structhidd__clcb__t.html#afb84f454f4b4003af634bb8eca597834',1,'hidd_clcb_t']]],
-  ['type',['type',['../structhid__report__map__t.html#af18e90bd29fbc1e4c729604b320584f7',1,'hid_report_map_t::type()'],['../structhidRptMap__t.html#a42e8284ef1e7aa903a10c034e3aa716a',1,'hidRptMap_t::type()'],['../structtaskKeyboardConfig.html#adca07379749166ca12eb631f84a727dd',1,'taskKeyboardConfig::type()'],['../structtaskMouseConfig.html#a7f48393904d131e50914afdf637a76be',1,'taskMouseConfig::type()']]]
+  ['sensitivity_5fx',['sensitivity_x',['../structadc__config.html#a81465c39748fa52d1b773f34ad4ee435',1,'adc_config']]],
+  ['sensitivity_5fy',['sensitivity_y',['../structadc__config.html#adbfe1bd3388e5274fd37ffb27c6a719a',1,'adc_config']]],
+  ['slider_5fleft',['slider_left',['../structjoystick__data.html#a4a807700ce03cf13b94cf8b97c744653',1,'joystick_data']]],
+  ['slider_5fright',['slider_right',['../structjoystick__data.html#a218ba3d9aee6cd81fa8321ba0754fadb',1,'joystick_data']]],
+  ['slotname',['slotName',['../structtaskConfigSwitcherConfig.html#a28b1ab4ccf1aa8814a9b81d58d5c7bd5',1,'taskConfigSwitcherConfig::slotName()'],['../structgeneralConfig.html#a1d383c1fdfd705732cac3a1d435078e0',1,'generalConfig::slotName()']]],
+  ['slotversion',['slotversion',['../structgeneralConfig.html#a346d50e48981b23684bd04c371212a08',1,'generalConfig']]],
+  ['state',['state',['../structesp__hidd__cb__param__t_1_1hidd__init__finish__evt__param.html#a33c7c87def3302bcaa923c620d31b1d9',1,'esp_hidd_cb_param_t::hidd_init_finish_evt_param::state()'],['../structesp__hidd__cb__param__t_1_1hidd__deinit__finish__evt__param.html#aead8cf8834062cfa90a418aeb7dd7a71',1,'esp_hidd_cb_param_t::hidd_deinit_finish_evt_param::state()']]],
+  ['svc_5ffeatures',['svc_features',['../structhidd__feature__t.html#a254c99f1e3115e399a088611e1e93123',1,'hidd_feature_t']]]
 ];

@@ -133,6 +133,8 @@ void halStorageCreateDefault(uint32_t tid)
   defaultCfg->usb_active = 1;
   defaultCfg->slotversion = STORAGE_ID;
   defaultCfg->locale = LAYOUT_GERMAN;
+  defaultCfg->wheel_stepsize = 3;
+  defaultCfg->orientation = 0;
   
   strcpy(defaultCfg->slotName,"__DEFAULT");
   
@@ -264,9 +266,15 @@ void halStorageCreateDefault(uint32_t tid)
     ((taskKeyboardConfig_t *)pConfig)->type = WRITE;
     //"Hello from ESP32"
     uint16_t strarr[17] = {0x020b,0x08,0x0F,0x0F,0x12,0x2c,0x09,0x15,0x12,0x10,0x2C,0x0208,0x0216,0x0213,0x20,0x1F,0};
+    uint16_t strorig[17] = {'H','e','l','l','o',' ','f','r','o','m',' ','E','S','P','3','2',0};
     //strcpy((char*)((taskKeyboardConfig_t *)pConfig)->keycodes_text,"Hello from ESP32");
     //((taskKeyboardConfig_t *)pConfig)->keycodes_text = (uint16_t*)"Hello from ESP32";
     memcpy(((taskKeyboardConfig_t *)pConfig)->keycodes_text,strarr,sizeof(strarr));
+    for(uint8_t i = 1; i<=TASK_KEYBOARD_PARAMETERLENGTH; i++)
+    {
+      ((taskKeyboardConfig_t *)pConfig)->keycodes_text[TASK_KEYBOARD_PARAMETERLENGTH-i] = strorig[i-1];
+      if(i== 17) break;
+    }
     ((taskKeyboardConfig_t *)pConfig)->virtualButton = VB_EXTERNAL1;
     ret = halStorageStoreSetVBConfigs(0,VB_EXTERNAL1,pConfig,sizeof(taskKeyboardConfig_t),tid);
     //wait for 10ticks, to feed the watchdog (file access seems to block the IDLE task)

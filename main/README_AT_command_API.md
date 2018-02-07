@@ -65,13 +65,13 @@ Following commands are currently available:
 |:--------|:----------|:------------|:--------------|:--------------------|:----------------|
 | AT SA | string  | save current configuration at the next free EEPROM slot under the give name (e.g. "AT SA mouse" stores a slot with the name "mouse"  | v2 | yes | no |
 | AT LO | string  | load a configuration from the EEPROM (e.g. "AT LO mouse")  | v2 | yes | yes (task_configswitcher) |
-| AT LA | --  | load all slots and print the configuration   | v2 | no | no |
-| AT LI | --  | list all available slots   | v2 | no | no |
+| AT LA | --  | load all slots and print the configuration   | v2 | yes | no |
+| AT LI | --  | list all available slots   | v2 | yes | no |
 | AT NE | --  | load next slot (wrap around after the last slot)  | v2 | untested | yes (task_configswitcher) |
-| AT DE | --  | delete all slots  | v2 | untested | no |
+| AT DE | --  | delete all slots  | v2 | yes | no |
 | AT DL | number (1-) | delete one slot.  | v3 | untested | no |
 | AT DN | string | delete one slot by name  | v3 | untested | no |
-| AT NC | --  | do nothing  | v2 | no | no |
+| AT NC | --  | do nothing  | v2 | yes | no |
 | AT E0 | --  | disable debug output  | v2 | never, use make monitor | - |
 | AT E1 | --  | enable debug output  | v2 | never, use make monitor | - |
 | AT E2 | --  | enable debug output (extended) | v2 | never, use make monitor | - |

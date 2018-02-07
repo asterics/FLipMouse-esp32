@@ -71,5 +71,7 @@
  @todo Debouncer testing...
  @todo Re-implement hal_serial's UART data reception: use own interrupt & discard UART driver.
  @todo Maybe store VB configs not in individual files, is slow...
- @todo Problem with AT MX/MY: not always stepping right, but always if it is negativ
+ @todo Problem with AT MX/MY: not always stepping correct
+ @todo Implement buzzer
+ @todo Implement IR
 */

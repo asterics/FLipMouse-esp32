@@ -37,6 +37,7 @@
 
             <div class="row">
                 <div class="relative" style="border-style: solid; border-width: medium; background-color: transparent; height: 200px; width: 200px;">
+                    <div id="deadZonePos" class="back-layer color-lightcyan" style="top: 40%; left: 40%; height: 20%; width: 20%;"></div>
                     <div class="back-layer" style="left: 50%; height: 100%; border-right-style: solid; border-right-width: thin;"></div>
                     <div class="back-layer" style="top: 50%; width: 100%; border-bottom-style: solid; border-bottom-width: thin;"></div>
                     <div id="cursorPosVal" class="back-layer" style="top: 40%;">100</div>
@@ -232,9 +233,12 @@
         var maxAbs = Math.max(maxX, maxY, Math.abs(minX), Math.abs(minY), 100);
         var percentageX = (L.getPercentage(x, -maxAbs, maxAbs));
         var percentageY = (L.getPercentage(y, -maxAbs, maxAbs));
+        var percentageDzX = (L.getPercentage(flip.getConfig(flip.DEADZONE_X), 0, maxAbs));
+        var percentageDzY = (L.getPercentage(flip.getConfig(flip.DEADZONE_Y), 0, maxAbs));
 
         L('#cursorPos').style = 'top: ' + percentageY + '%; left: ' + percentageX + '%;';
         L('#cursorPosVal').innerHTML = maxAbs;
+        L('#deadZonePos').style = 'top: ' + (100-percentageDzY)/2 + '%; left: ' + (100-percentageDzX)/2 + '%; height: ' + (percentageDzY) + '%; width: ' + (percentageDzX) + '%;';
     }
 
     function sipPuffValueHandler(data) {

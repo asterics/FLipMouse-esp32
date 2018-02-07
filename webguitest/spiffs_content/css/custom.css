@@ -71,3 +71,18 @@ span, label {
 label {
     display:inline-block;
 }
+
+#circle {
+    width: 10px;
+    height: 10px;
+    background: red;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    border-radius: 5px;
+    top: -5px;
+    left: -5px;
+}
+
+.color-lightcyan {
+    background-color: #9be7ff;
+}

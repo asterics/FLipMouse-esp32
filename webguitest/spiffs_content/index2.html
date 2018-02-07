@@ -34,6 +34,19 @@
                 <input type="range" oninput="basicSliderChanged(event)" onchange="basicSliderChanged(event)" id="SENSITIVITY_Y" min="0" max="100" class="eleven columns">
             </div>
 
+
+            <div class="row">
+                <div class="relative" style="border-style: solid; border-width: medium; background-color: transparent; height: 200px; width: 200px;">
+                    <div id="deadZonePos" class="back-layer color-lightcyan" style="top: 40%; left: 40%; height: 20%; width: 20%;"></div>
+                    <div class="back-layer" style="left: 50%; height: 100%; border-right-style: solid; border-right-width: thin;"></div>
+                    <div class="back-layer" style="top: 50%; width: 100%; border-bottom-style: solid; border-bottom-width: thin;"></div>
+                    <div id="cursorPosVal" class="back-layer" style="top: 40%;">100</div>
+                    <div id="cursorPos" class="back-layer" style="">
+                        <div class="back-layer" id="circle"></div>
+                    </div>
+                </div>
+            </div>
+
             <br/>
             <label for="DEADZONE_X">Horizontal Deadzone:</label>
             <div class="row">
@@ -62,9 +75,9 @@
                 <div class="row back-layer full-height full-width">
                     <div class="two columns"><span style="font-size: 1px; color: transparent">_</span></div>
                     <div class="ten columns full-height relative">
+                        <div id="guide-current" class="back-layer full-height border-right-gray" style="width: 50%;"></div>
                         <div id="guide-max" class="back-layer full-height border-right-red" style="width: 50%;"></div>
                         <div id="guide-min" class="back-layer full-height border-right-blue" style="width: 50%;"></div>
-                        <div id="guide-current" class="back-layer full-height border-right-gray" style="width: 50%;"></div>
                     </div>
                 </div>
 
@@ -199,7 +212,7 @@
     }
 
     function toBasic() {
-        flip.stopLiveValueListener();
+        flip.startLiveValueListener(cursorPosValueHandler);
     }
 
     function toSipPuff() {
@@ -208,6 +221,24 @@
 
     function toActionLearn() {
         flip.stopLiveValueListener();
+    }
+
+    function cursorPosValueHandler(data) {
+        var x = data[flip.LIVE_MOV_X];
+        var y = data[flip.LIVE_MOV_Y];
+        var maxX = data[flip.LIVE_MOV_X_MAX];
+        var maxY = data[flip.LIVE_MOV_Y_MAX];
+        var minX = data[flip.LIVE_MOV_X_MIN];
+        var minY = data[flip.LIVE_MOV_Y_MIN];
+        var maxAbs = Math.max(maxX, maxY, Math.abs(minX), Math.abs(minY), 100);
+        var percentageX = (L.getPercentage(x, -maxAbs, maxAbs));
+        var percentageY = (L.getPercentage(y, -maxAbs, maxAbs));
+        var percentageDzX = (L.getPercentage(flip.getConfig(flip.DEADZONE_X), 0, maxAbs));
+        var percentageDzY = (L.getPercentage(flip.getConfig(flip.DEADZONE_Y), 0, maxAbs));
+
+        L('#cursorPos').style = 'top: ' + percentageY + '%; left: ' + percentageX + '%;';
+        L('#cursorPosVal').innerHTML = maxAbs;
+        L('#deadZonePos').style = 'top: ' + (100-percentageDzY)/2 + '%; left: ' + (100-percentageDzX)/2 + '%; height: ' + (percentageDzY) + '%; width: ' + (percentageDzX) + '%;';
     }
 
     function sipPuffValueHandler(data) {

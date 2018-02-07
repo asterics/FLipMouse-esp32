@@ -181,7 +181,7 @@
 
     function sliderChanged(evt) {
         setSliderValue(evt.currentTarget.id, evt.currentTarget.value, true);
-        window.flip.setValue(evt.currentTarget.id, evt.currentTarget.value);
+        flip.setValue(evt.currentTarget.id, evt.currentTarget.value);
     }
 
     function setSliderValue(constant, value, dontSetSlider) {
@@ -193,7 +193,7 @@
 
     function save() {
         L.toggle('#basic-button-normal', '#basic-button-saving', '#sip-puff-button-normal', '#sip-puff-button-saving');
-        window.flip.save().then(function (success) {
+        flip.save().then(function (success) {
             if(success) {
                 L.toggle('#basic-button-normal', '#basic-button-saving', '#sip-puff-button-normal', '#sip-puff-button-saving');
             }

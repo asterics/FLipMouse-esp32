@@ -43,6 +43,93 @@
 /** @brief Logging tag for this module **/
 #define LOG_TAG "task_kbd"
 
+
+/** @brief Reverse Parsing - get AT command for keyboard VB
+ * 
+ * This function parses the current configuration of a virtual button
+ * to an AT command used to print the configuration.
+ * @param output Output string, where the full AT command will be stored
+ * @param cfg Pointer to current keyboard configuration, used to parse.
+ * @return ESP_OK if everything went fine, ESP_FAIL otherwise
+ * */
+esp_err_t task_keyboard_getAT(char* output, void* cfg)
+{
+  if(cfg == NULL) return ESP_FAIL;
+  taskKeyboardConfig_t *conf = (taskKeyboardConfig_t*)cfg;
+  uint8_t paramsoffset = 0;
+  char identifierarr[30];
+  sprintf(output,"AT ");
+  
+  //determine the AT command
+  switch(conf->type)
+  {
+    case PRESS:
+      strcat(output,"KH ");
+      break;
+    case RELEASE:
+      strcat(output,"KR ");
+      break;
+    case PRESS_RELEASE_BUTTON:
+      strcat(output,"KP ");
+      break;
+    case WRITE:
+      strcat(output,"KW ");
+      break;
+    default: return ESP_FAIL;
+  }
+  
+  if(conf->type != WRITE)
+  {
+    //add the parameter for KP/KR/KH
+    while(conf->keycodes_text[paramsoffset] != 0 && paramsoffset < TASK_KEYBOARD_PARAMETERLENGTH)
+    {
+      //0xE0, E2, E4 for modifiers, 0xF0 for keycodes
+      //append key identifiers
+      
+      //this is a normal keycode
+      if((conf->keycodes_text[paramsoffset] & 0x00FF) != 0)
+      {
+        if(parseKeycodeToIdentifier((conf->keycodes_text[paramsoffset] & 0x00FF) | 0xF000,identifierarr,30) == 1)
+        {
+          strcat(output, identifierarr);
+          strcat(output, " ");
+        } else {
+          ESP_LOGW(LOG_TAG,"Cannot find keycode identifier for 0x%04X @ %d",conf->keycodes_text[paramsoffset],paramsoffset);
+        }
+      }
+      //this is a modifier
+      if((conf->keycodes_text[paramsoffset] & 0xFF00) != 0)
+      {
+        if(parseKeycodeToIdentifier(((conf->keycodes_text[paramsoffset] & 0xFF00) >> 8) | 0xE000,identifierarr,30) == 1)
+        {
+          strcat(output, identifierarr);
+          strcat(output, " ");
+        } else if (parseKeycodeToIdentifier(((conf->keycodes_text[paramsoffset] & 0xFF00) >> 8) | 0xE200,identifierarr,30) == 1) {
+          strcat(output, identifierarr);
+          strcat(output, " ");
+        } else if (parseKeycodeToIdentifier(((conf->keycodes_text[paramsoffset] & 0xFF00) >> 8) | 0xE400,identifierarr,30) == 1) {
+          strcat(output, identifierarr);
+          strcat(output, " ");
+        } else {
+          ESP_LOGW(LOG_TAG,"Cannot find keycode identifier for 0x%04X @ %d",conf->keycodes_text[paramsoffset],paramsoffset);
+        }
+      }
+
+      paramsoffset++;
+    }
+  } else {
+    //for write we get the original bytes from back to front.
+    for(uint8_t i = 1; i<=TASK_KEYBOARD_PARAMETERLENGTH;i++)
+    {
+      if(conf->keycodes_text[TASK_KEYBOARD_PARAMETERLENGTH-i] == 0 && i>1) break;
+      output[i+5] = (char)conf->keycodes_text[TASK_KEYBOARD_PARAMETERLENGTH-i];
+    }
+  }
+  
+  strcat(output,"\r\n");
+  return ESP_OK;
+}
+
 /** @brief Helper function sending to queues depending on connection type
  * 
  * This method is used to send data to USB/BLE queues, depending

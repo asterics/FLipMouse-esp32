@@ -34,6 +34,18 @@
                 <input type="range" oninput="basicSliderChanged(event)" onchange="basicSliderChanged(event)" id="SENSITIVITY_Y" min="0" max="100" class="eleven columns">
             </div>
 
+
+            <div class="row">
+                <div class="relative" style="border-style: solid; border-width: medium; background-color: transparent; height: 200px; width: 200px;">
+                    <div class="back-layer" style="left: 50%; height: 100%; border-right-style: solid; border-right-width: thin;"></div>
+                    <div class="back-layer" style="top: 50%; width: 100%; border-bottom-style: solid; border-bottom-width: thin;"></div>
+                    <div id="cursorPosVal" class="back-layer" style="top: 40%;">100</div>
+                    <div id="cursorPos" class="back-layer" style="">
+                        <div class="back-layer" id="circle"></div>
+                    </div>
+                </div>
+            </div>
+
             <br/>
             <label for="DEADZONE_X">Horizontal Deadzone:</label>
             <div class="row">
@@ -199,7 +211,7 @@
     }
 
     function toBasic() {
-        flip.stopLiveValueListener();
+        flip.startLiveValueListener(cursorPosValueHandler);
     }
 
     function toSipPuff() {
@@ -208,6 +220,21 @@
 
     function toActionLearn() {
         flip.stopLiveValueListener();
+    }
+
+    function cursorPosValueHandler(data) {
+        var x = data[flip.LIVE_MOV_X];
+        var y = data[flip.LIVE_MOV_Y];
+        var maxX = data[flip.LIVE_MOV_X_MAX];
+        var maxY = data[flip.LIVE_MOV_Y_MAX];
+        var minX = data[flip.LIVE_MOV_X_MIN];
+        var minY = data[flip.LIVE_MOV_Y_MIN];
+        var maxAbs = Math.max(maxX, maxY, Math.abs(minX), Math.abs(minY), 100);
+        var percentageX = (L.getPercentage(x, -maxAbs, maxAbs));
+        var percentageY = (L.getPercentage(y, -maxAbs, maxAbs));
+
+        L('#cursorPos').style = 'top: ' + percentageY + '%; left: ' + percentageX + '%;';
+        L('#cursorPosVal').innerHTML = maxAbs;
     }
 
     function sipPuffValueHandler(data) {

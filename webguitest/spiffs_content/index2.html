@@ -17,9 +17,9 @@
     <h1 data-translatable>FLipMouse Web Configuration // FLipMouse Webkonfiguration</h1>
 
     <div data-tabs class="row">
-        <div class="four columns"><a class="button button-primary" data-tab href="#tabBasic" class="ui-btn-active" data-translatable>Basic Setup // Basiskonfiguration</a></div>
-        <div class="four columns"><a class="button button-primary" data-tab href="#tabPuff">Sip and Puff</a></div>
-        <div class="four columns"><a class="button button-primary" data-tab href="#tabActions">Learn Actions</a></div>
+        <div class="four columns"><a onclick="toBasic()" class="button button-primary" data-tab href="#tabBasic" class="ui-btn-active" data-translatable>Basic Setup // Basiskonfiguration</a></div>
+        <div class="four columns"><a onclick="toSipPuff()" class="button button-primary" data-tab href="#tabPuff">Sip and Puff</a></div>
+        <div class="four columns"><a onclick="toActionLearn()" class="button button-primary" data-tab href="#tabActions">Learn Actions</a></div>
     </div>
     <div data-tabs-content>
         <div data-tabs-pane class="tabs-pane" id="tabBasic">
@@ -147,34 +147,14 @@
             setSliderValue(flip.PUFF_STRONG_THRESHOLD, config[flip.PUFF_STRONG_THRESHOLD]);
             console.log(config);
 
-            flip.setLiveValueHandler(function (data) {
-                var min = data[flip.LIVE_PRESSURE_MIN];
-                var max = data[flip.LIVE_PRESSURE_MAX];
-                var val = data[flip.LIVE_PRESSURE];
-
-                var border = 10; // space that is left and right of the min/max values on the sliders
-                var currentMinRange = Math.max(Math.min(min - border, flip.getConfig()[flip.SIP_THRESHOLD] - border, flip.getConfig()[flip.SIP_STRONG_THRESHOLD] - border), 0);
-                var currentMaxRange = Math.min(Math.max(max + border, flip.getConfig()[flip.PUFF_THRESHOLD] + border, flip.getConfig()[flip.PUFF_STRONG_THRESHOLD] + border), 1023);
-                var percent = L.getPercentage(val, currentMinRange, currentMaxRange);
-                var percentMin = L.getPercentage(min, currentMinRange, currentMaxRange);
-                var percentMax = L.getPercentage(max, currentMinRange, currentMaxRange);
-
-                L('#maxValue').innerHTML = max;
-                L('#minValue').innerHTML = min;
-                L('#currentValue').innerHTML = val;
-
-                L('#guide-max').style = 'width: ' + percentMax + '%;';
-                L('#guide-min').style = 'width: ' + percentMin + '%;';
-
-                L('#value-bar').style = 'width: ' + percent + '%;';
-                L('#guide-current').style = 'width: ' + percent + '%;';
-
-                //set slider ranges
-                flip.SIP_PUFF_IDS.forEach(function (id) {
-                    L(id).min = currentMinRange;
-                    L(id).max = currentMaxRange;
-                });
-            });
+            var url = window.location.href;
+            if (url.indexOf('#tabBasic') > -1) {
+                toBasic();
+            } else if (url.indexOf('#tabPuff') > -1) {
+                toSipPuff();
+            } else if (url.indexOf('#tabActions') > -1) {
+                toActionLearn();
+            }
         });
         window.flip = flip;
     };
@@ -215,6 +195,47 @@
             if(success) {
                 L.toggle('#basic-button-normal', '#basic-button-saving', '#sip-puff-button-normal', '#sip-puff-button-saving');
             }
+        });
+    }
+
+    function toBasic() {
+        flip.stopLiveValueListener();
+    }
+
+    function toSipPuff() {
+        flip.startLiveValueListener(sipPuffValueHandler);
+    }
+
+    function toActionLearn() {
+        flip.stopLiveValueListener();
+    }
+
+    function sipPuffValueHandler(data) {
+        var min = data[flip.LIVE_PRESSURE_MIN];
+        var max = data[flip.LIVE_PRESSURE_MAX];
+        var val = data[flip.LIVE_PRESSURE];
+
+        var border = 10; // space that is left and right of the min/max values on the sliders
+        var currentMinRange = Math.max(Math.min(min - border, flip.getConfig()[flip.SIP_THRESHOLD] - border, flip.getConfig()[flip.SIP_STRONG_THRESHOLD] - border), 0);
+        var currentMaxRange = Math.min(Math.max(max + border, flip.getConfig()[flip.PUFF_THRESHOLD] + border, flip.getConfig()[flip.PUFF_STRONG_THRESHOLD] + border), 1023);
+        var percent = L.getPercentage(val, currentMinRange, currentMaxRange);
+        var percentMin = L.getPercentage(min, currentMinRange, currentMaxRange);
+        var percentMax = L.getPercentage(max, currentMinRange, currentMaxRange);
+
+        L('#maxValue').innerHTML = max;
+        L('#minValue').innerHTML = min;
+        L('#currentValue').innerHTML = val;
+
+        L('#guide-max').style = 'width: ' + percentMax + '%;';
+        L('#guide-min').style = 'width: ' + percentMin + '%;';
+
+        L('#value-bar').style = 'width: ' + percent + '%;';
+        L('#guide-current').style = 'width: ' + percent + '%;';
+
+        //set slider ranges
+        flip.SIP_PUFF_IDS.forEach(function (id) {
+            L(id).min = currentMinRange;
+            L(id).max = currentMaxRange;
         });
     }
 </script>

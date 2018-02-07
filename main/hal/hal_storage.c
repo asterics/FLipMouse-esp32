@@ -17,11 +17,14 @@
  * 
  * Copyright 2017 Benjamin Aigner <aignerb@technikum-wien.at,
  * beni@asterics-foundation.org>
+ */
+ /** @file
+ * @brief HAL TASK - This file contains the abstraction layer for storing FLipMouse/FABI configs
  * 
- * This file contains the abstraction layer for storing FLipMouse/FABI
- * slots to a storage system. In case of the ESP32 we use FAT
- * with wear leveling. 
- * PLEASE ADJUST THE MAKEFILE TO USE 512Byte SECTORS AND MODE SAFETY!
+ * This module stores general configs & virtual button configurations to
+ * a storage area. In case of the ESP32 we use FAT with wear leveling,
+ * which is provided by the esp-idf.
+ * <b>Warning:</b> Please adjust the esp-idf to us 512Byte sectors and <b>mode "safety"</b>!
  * We don't do any safe copying, just building a checksum to detect
  * faulty slots.
  * 
@@ -29,13 +32,13 @@
  * and the corresponding virtual button config structs to the storage.
  * 
  * Following commands are implemented here:
- * -) list all slot names
- * -) load default slot
- * -) load next or previous slot
- * -) load slot by name or number
- * -) store a given slot
- * -) delete one slot
- * -) delete all slots
+ * * list all slot names
+ * * load default slot
+ * * load next or previous slot
+ * * load slot by name or number
+ * * store a given slot
+ * * delete one slot
+ * * delete all slots
  * 
  * This module starts one task on its own for maintaining the storage
  * access.
@@ -46,9 +49,11 @@
  * general slot config:
  * xxx.fms (slot number, e.g., 001.fms for slot 1)
  * virtual button config for slot xxx
- * xxx_yyy.fms (slot & VB number, e.g., 001_000.fms for VB0 on slot 1)
+ * xxx_VB.fms
  * 
- * Maximum number of slots: 250! (e.g. 250.fms)
+ * @note Maximum number of slots: 250! (e.g. 250.fms)
+ * @warning Adjust the esp-idf (via "make menuconfig") to use 512B sectors
+ * and mode <b>safety</b>!
  * 
  * @see generalConfig_t
  */
@@ -57,20 +62,29 @@
 
 #define LOG_TAG "hal_storage"
 
-/** Mutex which is used to avoid multiple access to different loaded slots */
+/** @brief Mutex which is used to avoid multiple access to different loaded slots 
+ * @see storageCurrentTID*/
 SemaphoreHandle_t halStorageMutex = NULL;
-/** currently active transaction ID, 0 is invalid. */
+/** @brief Currently active transaction ID, 0 is invalid. */
 static uint32_t storageCurrentTID = 0;
+/** @brief Currently activated slot number */
 static uint8_t storageCurrentSlotNumber = 0;
+/** @brief Currently used VB number.
+ * 
+ * This number is used for halStorageStoreSetVBConfigs only.
+ * 
+ * @see halStorageStoreSetVBConfigs */
+static uint8_t storageCurrentVBNumber = 0;
 
-/** wear levelling handle */
+/** @brief Wear levelling handle */
 static wl_handle_t s_wl_handle = WL_INVALID_HANDLE;
 
-/** partition name (used to define different memory types) */
+/** @brief Partition name (used to define different memory types) */
 const char *base_path = "/spiflash";
 
 
-/** internal function to init the filesystem if handle is invalid */
+/** @brief internal function to init the filesystem if handle is invalid 
+ * @return ESP_OK on success, ESP_FAIL otherwise*/
 esp_err_t halStorageInit(void)
 {
   ESP_LOGD(LOG_TAG, "Mounting FATFS for storage");
@@ -83,7 +97,10 @@ esp_err_t halStorageInit(void)
   return esp_vfs_fat_spiflash_mount(base_path, "storage", &mount_config, &s_wl_handle);
 }
 
-/** internal helper to check for a valid WL handle and the correct tid */
+/** @brief Internal helper to check for a valid WL handle and the correct tid 
+ * @see storageCurrentTID
+ * @param tid Currently used TID
+ * @return ESP_OK if all checks are valid, ESP_FAIL otherwise*/
 esp_err_t halStorageChecks(uint32_t tid)
 {
   //check if caller is allowed to call this function
@@ -110,6 +127,7 @@ esp_err_t halStorageChecks(uint32_t tid)
  * solution.
  * 
  * @param tid Valid transaction ID
+ * @todo Change this default slot to usable settings
  * */
 void halStorageCreateDefault(uint32_t tid)
 {
@@ -195,6 +213,84 @@ void halStorageCreateDefault(uint32_t tid)
   }
   
   //create virtual button configs for each assigned VB
+  pConfig = malloc(sizeof(taskKeyboardConfig_t));
+  if(pConfig != NULL)
+  {
+    ((taskKeyboardConfig_t *)pConfig)->type = WRITE;
+    //"Hello from ESP32"
+    uint16_t strarr[17] = {0x020b,0x08,0x0F,0x0F,0x12,0x2c,0x09,0x15,0x12,0x10,0x2C,0x0208,0x0216,0x0213,0x20,0x1F,0};
+    uint16_t strorig[17] = {'H','e','l','l','o',' ','f','r','o','m',' ','E','S','P','3','2',0};
+    //strcpy((char*)((taskKeyboardConfig_t *)pConfig)->keycodes_text,"Hello from ESP32");
+    //((taskKeyboardConfig_t *)pConfig)->keycodes_text = (uint16_t*)"Hello from ESP32";
+    memcpy(((taskKeyboardConfig_t *)pConfig)->keycodes_text,strarr,sizeof(strarr));
+    for(uint8_t i = 1; i<=TASK_KEYBOARD_PARAMETERLENGTH; i++)
+    {
+      ((taskKeyboardConfig_t *)pConfig)->keycodes_text[TASK_KEYBOARD_PARAMETERLENGTH-i] = strorig[i-1];
+      if(i== 17) break;
+    }
+    ((taskKeyboardConfig_t *)pConfig)->virtualButton = VB_EXTERNAL1;
+    ret = halStorageStoreSetVBConfigs(0,VB_EXTERNAL1,pConfig,sizeof(taskKeyboardConfig_t),tid);
+    //wait for 10ticks, to feed the watchdog (file access seems to block the IDLE task)
+    vTaskDelay(10); 
+    free(pConfig);
+  } else { ESP_LOGE(LOG_TAG,"malloc error VB%u",VB_EXTERNAL1); return; }
+  if(ret != ESP_OK)
+  {
+    ESP_LOGE(LOG_TAG,"Error saving default VB%u config!",VB_EXTERNAL1);
+    return;
+  }
+  
+  /*++++ is not the default slot, just for testing ++++*/
+  pConfig = malloc(sizeof(taskMouseConfig_t));
+  if(pConfig != NULL)
+  {
+    ((taskMouseConfig_t *)pConfig)->type = X;
+    ((taskMouseConfig_t *)pConfig)->actionvalue = (int8_t) -10;
+    ((taskMouseConfig_t *)pConfig)->virtualButton = VB_EXTERNAL2;
+    ret = halStorageStoreSetVBConfigs(0,VB_EXTERNAL2,pConfig,sizeof(taskMouseConfig_t),tid);
+    //wait for 10ticks, to feed the watchdog (file access seems to block the IDLE task)
+    vTaskDelay(10); 
+    free(pConfig);
+  } else { ESP_LOGE(LOG_TAG,"malloc error VB%u",VB_EXTERNAL2); return; }
+  if(ret != ESP_OK)
+  {
+    ESP_LOGE(LOG_TAG,"Error saving default VB%u config!",VB_EXTERNAL2);
+    return;
+  }
+
+  pConfig = malloc(sizeof(taskConfigSwitcherConfig_t));
+  if(pConfig != NULL)
+  {
+    strcpy(((taskConfigSwitcherConfig_t *)pConfig)->slotName, "__NEXT");
+    ((taskConfigSwitcherConfig_t *)pConfig)->virtualButton = VB_INTERNAL1;
+    ret = halStorageStoreSetVBConfigs(0,VB_INTERNAL1,pConfig,sizeof(taskConfigSwitcherConfig_t),tid);
+    //wait for 10ticks, to feed the watchdog (file access seems to block the IDLE task)
+    vTaskDelay(10); 
+    free(pConfig);
+  } else { ESP_LOGE(LOG_TAG,"malloc error VB%u",VB_INTERNAL1); return; }
+  if(ret != ESP_OK)
+  {
+    ESP_LOGE(LOG_TAG,"Error saving default VB%u config!",VB_INTERNAL1);
+    return;
+  }
+  
+  pConfig = malloc(sizeof(taskMouseConfig_t));
+  if(pConfig != NULL)
+  {
+    ((taskMouseConfig_t *)pConfig)->type = Y;
+    ((taskMouseConfig_t *)pConfig)->actionvalue = (int8_t) 10;
+    ((taskMouseConfig_t *)pConfig)->virtualButton = VB_INTERNAL2;
+    ret = halStorageStoreSetVBConfigs(0,VB_INTERNAL2,pConfig,sizeof(taskMouseConfig_t),tid);
+    //wait for 10ticks, to feed the watchdog (file access seems to block the IDLE task)
+    vTaskDelay(10); 
+    free(pConfig);
+  } else { ESP_LOGE(LOG_TAG,"malloc error VB%u",VB_INTERNAL2); return; }
+  if(ret != ESP_OK)
+  {
+    ESP_LOGE(LOG_TAG,"Error saving default VB%u config!",VB_INTERNAL2);
+    return;
+  }
+  
   pConfig = malloc(sizeof(taskMouseConfig_t));
   if(pConfig != NULL)
   {
@@ -243,87 +339,6 @@ void halStorageCreateDefault(uint32_t tid)
     ESP_LOGE(LOG_TAG,"Error saving default VB%u config!",VB_STRONGPUFF);
     return;
   }
-   
-  pConfig = malloc(sizeof(taskConfigSwitcherConfig_t));
-  if(pConfig != NULL)
-  {
-    strcpy(((taskConfigSwitcherConfig_t *)pConfig)->slotName, "__NEXT");
-    ((taskConfigSwitcherConfig_t *)pConfig)->virtualButton = VB_INTERNAL1;
-    ret = halStorageStoreSetVBConfigs(0,VB_INTERNAL1,pConfig,sizeof(taskConfigSwitcherConfig_t),tid);
-    //wait for 10ticks, to feed the watchdog (file access seems to block the IDLE task)
-    vTaskDelay(10); 
-    free(pConfig);
-  } else { ESP_LOGE(LOG_TAG,"malloc error VB%u",VB_INTERNAL1); return; }
-  if(ret != ESP_OK)
-  {
-    ESP_LOGE(LOG_TAG,"Error saving default VB%u config!",VB_INTERNAL1);
-    return;
-  }
-  
-  pConfig = malloc(sizeof(taskKeyboardConfig_t));
-  if(pConfig != NULL)
-  {
-    ((taskKeyboardConfig_t *)pConfig)->type = WRITE;
-    //"Hello from ESP32"
-    uint16_t strarr[17] = {0x020b,0x08,0x0F,0x0F,0x12,0x2c,0x09,0x15,0x12,0x10,0x2C,0x0208,0x0216,0x0213,0x20,0x1F,0};
-    uint16_t strorig[17] = {'H','e','l','l','o',' ','f','r','o','m',' ','E','S','P','3','2',0};
-    //strcpy((char*)((taskKeyboardConfig_t *)pConfig)->keycodes_text,"Hello from ESP32");
-    //((taskKeyboardConfig_t *)pConfig)->keycodes_text = (uint16_t*)"Hello from ESP32";
-    memcpy(((taskKeyboardConfig_t *)pConfig)->keycodes_text,strarr,sizeof(strarr));
-    for(uint8_t i = 1; i<=TASK_KEYBOARD_PARAMETERLENGTH; i++)
-    {
-      ((taskKeyboardConfig_t *)pConfig)->keycodes_text[TASK_KEYBOARD_PARAMETERLENGTH-i] = strorig[i-1];
-      if(i== 17) break;
-    }
-    ((taskKeyboardConfig_t *)pConfig)->virtualButton = VB_EXTERNAL1;
-    ret = halStorageStoreSetVBConfigs(0,VB_EXTERNAL1,pConfig,sizeof(taskKeyboardConfig_t),tid);
-    //wait for 10ticks, to feed the watchdog (file access seems to block the IDLE task)
-    vTaskDelay(10); 
-    free(pConfig);
-  } else { ESP_LOGE(LOG_TAG,"malloc error VB%u",VB_EXTERNAL1); return; }
-  if(ret != ESP_OK)
-  {
-    ESP_LOGE(LOG_TAG,"Error saving default VB%u config!",VB_EXTERNAL1);
-    return;
-  }
-  
-  
-  
-  /*++++ is not the default slot, just for testing ++++*/
-  pConfig = malloc(sizeof(taskMouseConfig_t));
-  if(pConfig != NULL)
-  {
-    ((taskMouseConfig_t *)pConfig)->type = X;
-    ((taskMouseConfig_t *)pConfig)->actionvalue = (int8_t) -10;
-    ((taskMouseConfig_t *)pConfig)->virtualButton = VB_EXTERNAL2;
-    ret = halStorageStoreSetVBConfigs(0,VB_EXTERNAL2,pConfig,sizeof(taskMouseConfig_t),tid);
-    //wait for 10ticks, to feed the watchdog (file access seems to block the IDLE task)
-    vTaskDelay(10); 
-    free(pConfig);
-  } else { ESP_LOGE(LOG_TAG,"malloc error VB%u",VB_EXTERNAL2); return; }
-  if(ret != ESP_OK)
-  {
-    ESP_LOGE(LOG_TAG,"Error saving default VB%u config!",VB_EXTERNAL2);
-    return;
-  }
-
-  pConfig = malloc(sizeof(taskMouseConfig_t));
-  if(pConfig != NULL)
-  {
-    ((taskMouseConfig_t *)pConfig)->type = Y;
-    ((taskMouseConfig_t *)pConfig)->actionvalue = (int8_t) 10;
-    ((taskMouseConfig_t *)pConfig)->virtualButton = VB_INTERNAL2;
-    ret = halStorageStoreSetVBConfigs(0,VB_INTERNAL2,pConfig,sizeof(taskMouseConfig_t),tid);
-    //wait for 10ticks, to feed the watchdog (file access seems to block the IDLE task)
-    vTaskDelay(10); 
-    free(pConfig);
-  } else { ESP_LOGE(LOG_TAG,"malloc error VB%u",VB_INTERNAL2); return; }
-  if(ret != ESP_OK)
-  {
-    ESP_LOGE(LOG_TAG,"Error saving default VB%u config!",VB_EXTERNAL1);
-    return;
-  }
-  /*++++ END is not the default slot, just for testing END ++++*/
   
   ESP_LOGI(LOG_TAG,"Created new default slot");
 }
@@ -556,8 +571,14 @@ esp_err_t halStorageLoad(hal_storage_load_action navigate, generalConfig_t *cfg,
       return halStorageLoadNumber(storageCurrentSlotNumber,cfg,tid);      
     break;
     case DEFAULT:
-      //load default slot via number 0
-      return halStorageLoadNumber(0,cfg,tid);
+      if(slotCount == 0)
+      {
+        //load default slot via number 0
+        return halStorageLoadNumber(0,cfg,tid);
+      } else {
+        //default slot if not factory reset is nr 1
+        return halStorageLoadNumber(1,cfg,tid);
+      }
     break;
     case RESTOREFACTORYSETTINGS:
     break;
@@ -772,12 +793,9 @@ esp_err_t halStorageDeleteSlot(uint8_t slotnr, uint32_t tid)
   {
     sprintf(file,"%s/%03d.fms",base_path,i); 
     remove(file);
-    //delete VB configs as well
-    for(uint8_t j = 1; i< (NUMBER_VIRTUALBUTTONS*4); j++)
-    {
-      sprintf(file,"%s/%03d_%03d.fms",base_path,i,j);
-      remove(file);
-    }
+    sprintf(file,"%s/%03d_VB.fms",base_path,i); 
+    remove(file);
+    vTaskDelay(1);
   }
   
   ESP_LOGW(LOG_TAG,"Deleted slot %d (0 means delete all)",slotnr);
@@ -814,15 +832,13 @@ esp_err_t halStorageLoadGetVBConfigs(uint8_t vb, void * vb_config, size_t vb_con
     return ESP_FAIL;
   }
   
-  //file naming convention for general config: xxx_yyy.fms
-  //xxx is the slot number
-  //yyy is the virtual button number for this slot
-  //each VB config file contains a binary representation of the VB config
+  //file naming convention for general config: xxx.fms
+  //file naming convention for VB configs: xxx_VB.fms
   
   //create filename from slotnumber & vb number
-  sprintf(file,"%s/%03d_%03d.fms",base_path,storageCurrentSlotNumber,vb);
+  sprintf(file,"%s/%03d_VB.fms",base_path,storageCurrentSlotNumber);
   
-  //open file for writing
+  //open file for reading
   ESP_LOGD(LOG_TAG,"Opening file %s",file);
   FILE *f = fopen(file, "rb");
   if(f == NULL)
@@ -831,7 +847,7 @@ esp_err_t halStorageLoadGetVBConfigs(uint8_t vb, void * vb_config, size_t vb_con
     return ESP_FAIL;
   }
   
-  fseek(f,0,SEEK_SET);
+  fseek(f,vb*VB_MAXIMUM_PARAMETER_SIZE,SEEK_SET);
   
   //read vb config
   if(fread(vb_config, vb_config_size, 1, f) != 1)
@@ -966,6 +982,8 @@ esp_err_t halStorageStore(uint32_t tid, generalConfig_t *cfg, char *slotname, ui
  * @param vb VirtualButton number
  * @return ESP_OK on success, ESP_FAIL otherwise
  * @see halStorageStore
+ * @warning Storing VBs is only in possible consecutive numbers, starting with 0!
+ * Any other attempt to store a VB not starting with 0 will fail.
  * */
 esp_err_t halStorageStoreSetVBConfigs(uint8_t slotnumber, uint8_t vb, void *config, size_t configsize, uint32_t tid)
 {
@@ -989,25 +1007,29 @@ esp_err_t halStorageStoreSetVBConfigs(uint8_t slotnumber, uint8_t vb, void *conf
     return ESP_FAIL;
   }
   
-  //file naming convention for general config: xxx_yyy.fms
-  //xxx is the slot number
-  //yyy is the virtual button number for this slot
-  //each VB config file contains a binary representation of the VB config
+  if(vb < storageCurrentVBNumber)
+  {
+    ESP_LOGE(LOG_TAG,"VB store is only possible in consecutive calls!");
+    return ESP_FAIL;
+  }
   
-  //create filename from slotnumber & vb number
-  sprintf(file,"%s/%03d_%03d.fms",base_path,slotnumber,vb);
+  //create filename from slotnumber
+  sprintf(file,"%s/%03d_VB.fms",base_path,slotnumber);
+  
+  //VB_MAXIMUM_PARAMETER_SIZE
   
   //open file for writing
   ESP_LOGD(LOG_TAG,"Opening file %s",file);
-  FILE *f = fopen(file, "wb");
+  FILE *f = fopen(file, "ab");
   if(f == NULL)
   {
     ESP_LOGE(LOG_TAG,"cannot open file for writing: %s",file);
     return ESP_FAIL;
   }
   
-  fseek(f,0,SEEK_SET);
-  
+  //set to correct VB position
+  fseek(f,vb*VB_MAXIMUM_PARAMETER_SIZE,SEEK_SET);
+
   //write vb config
   if(fwrite(config, configsize, 1, f) != 1)
   {
@@ -1015,6 +1037,17 @@ esp_err_t halStorageStoreSetVBConfigs(uint8_t slotnumber, uint8_t vb, void *conf
     fclose(f);
     return ESP_FAIL;
   }
+  
+  //fill up until we reach VB_MAXIMUM_PARAMETER_SIZE
+  uint8_t fill = 0xAB;
+  if(fwrite(&fill, 1, VB_MAXIMUM_PARAMETER_SIZE-configsize, f) != VB_MAXIMUM_PARAMETER_SIZE-configsize)
+  {
+    ESP_LOGE(LOG_TAG,"Error writing VB fill-pattern on %s",file);
+    fclose(f);
+    return ESP_FAIL;
+  }
+  
+  storageCurrentVBNumber = vb;
   
   fclose(f);
   ESP_LOGD(LOG_TAG,"Successfully stored slotnumber %d, VB%d, payload: %d",slotnumber,vb,configsize);
@@ -1060,6 +1093,8 @@ esp_err_t halStorageStartTransaction(uint32_t *tid, TickType_t tickstowait)
       storageCurrentTID = rand();
     } while (storageCurrentTID == 0); //create random numbers until its not 0
     *tid = storageCurrentTID;
+    //reset current VB number to zero, detecting non-consecutive access in VB write.
+    storageCurrentVBNumber = 0;
     if(s_wl_handle == WL_INVALID_HANDLE)
     {
       if(halStorageInit() != ESP_OK)

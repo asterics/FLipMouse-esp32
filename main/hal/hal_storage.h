@@ -18,11 +18,14 @@
  * 
  * Copyright 2017 Benjamin Aigner <aignerb@technikum-wien.at,
  * beni@asterics-foundation.org>
+*/
+ /** @file
+ * @brief HAL TASK - This file contains the abstraction layer for storing FLipMouse/FABI configs
  * 
- * This file contains the abstraction layer for storing FLipMouse/FABI
- * slots to a storage system. In case of the ESP32 we use FAT
- * with wear leveling. 
- * PLEASE ADJUST THE MAKEFILE TO USE 512Byte SECTORS AND MODE SAFETY!
+ * This module stores general configs & virtual button configurations to
+ * a storage area. In case of the ESP32 we use FAT with wear leveling,
+ * which is provided by the esp-idf.
+ * <b>Warning:</b> Please adjust the esp-idf to us 512Byte sectors and <b>mode "safety"</b>!
  * We don't do any safe copying, just building a checksum to detect
  * faulty slots.
  * 
@@ -30,18 +33,28 @@
  * and the corresponding virtual button config structs to the storage.
  * 
  * Following commands are implemented here:
- * -) list all slot names
- * -) load default slot
- * -) load next or previous slot
- * -) load slot by name or number
- * -) store a given slot
- * -) delete one slot
- * -) delete all slots
+ * * list all slot names
+ * * load default slot
+ * * load next or previous slot
+ * * load slot by name or number
+ * * store a given slot
+ * * delete one slot
+ * * delete all slots
  * 
  * This module starts one task on its own for maintaining the storage
  * access.
  * All methods called from this module will block via a semaphore until
  * the requested operation is finished.
+ * 
+ * Slots are stored in following naming convention (8.3 rule applies here):
+ * general slot config:
+ * xxx.fms (slot number, e.g., 001.fms for slot 1)
+ * virtual button config for slot xxx
+ * xxx_VB.fms
+ * 
+ * @note Maximum number of slots: 250! (e.g. 250.fms)
+ * @warning Adjust the esp-idf (via "make menuconfig") to use 512B sectors
+ * and mode <b>safety</b>!
  * 
  * @see generalConfig_t
  */

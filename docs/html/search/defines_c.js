@@ -11,6 +11,7 @@ var searchData=
   ['vb_5fiter',['VB_ITER',['../task__debouncer_8c.html#a274ad32193e2608242327c2b59d5e8a0',1,'task_debouncer.c']]],
   ['vb_5fleft',['VB_LEFT',['../common_8h.html#a82bea7068827b5b40ca104e615578b24',1,'common.h']]],
   ['vb_5fmax',['VB_MAX',['../common_8h.html#ab5317f063728fccb634ed05f689185bf',1,'common.h']]],
+  ['vb_5fmaximum_5fparameter_5fsize',['VB_MAXIMUM_PARAMETER_SIZE',['../common_8h.html#ad90a29e5efbb041c63d38d10cf4a9d30',1,'common.h']]],
   ['vb_5fpuff',['VB_PUFF',['../common_8h.html#a8be493846a35453a1d30a4900e737a1f',1,'common.h']]],
   ['vb_5fright',['VB_RIGHT',['../common_8h.html#a33efec87d8225b3d5090249066e1afd1',1,'common.h']]],
   ['vb_5fsingleshot',['VB_SINGLESHOT',['../common_8h.html#a784ceb4b2d4c4fb77baa99646c6e5035',1,'common.h']]],

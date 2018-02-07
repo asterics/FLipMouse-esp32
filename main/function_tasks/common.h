@@ -32,6 +32,14 @@
 /** maximum length for a slot name */
 #define SLOTNAME_LENGTH   32
 
+/** @brief Maximum size of ANY virtual button config.
+ * @warning If this size is set to a value smaller than a VB config, this
+ * config will be truncated in flash memory!
+ * @note Currently the taskKeyboardConfig_t is the biggest struct with 100Bytes 
+ * @see halStorageStoreSetVBConfigs
+ * @see halStorageLoadGetVBConfigs*/
+#define VB_MAXIMUM_PARAMETER_SIZE 128
+
 /** maximum length for an AT command (including parameters, e.g., macro text) */
 #define ATCMD_LENGTH   256
 

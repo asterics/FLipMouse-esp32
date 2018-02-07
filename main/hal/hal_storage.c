@@ -814,7 +814,7 @@ esp_err_t halStorageDeleteSlot(uint8_t slotnr, uint32_t tid)
  * @see halStorageLoad
  * @see halStorageLoadName
  * @see halStorageLoadNumber
- * @param vb_nr Number of virtual button config to be loaded
+ * @param vb Number of virtual button config to be loaded
  * @param vb_config Pointer to config struct which holds the VB config data
  * @param vb_config_size Size of config which will be loaded (differs between functions)
  * @param tid Transaction ID, which must match the one given by halStorageStartTransaction
@@ -980,6 +980,7 @@ esp_err_t halStorageStore(uint32_t tid, generalConfig_t *cfg, char *slotname, ui
  * previous set slot number (by halStorageStore)
  * @param config Pointer to the VB config
  * @param vb VirtualButton number
+ * @param configsize Size of this configuration which is stored
  * @return ESP_OK on success, ESP_FAIL otherwise
  * @see halStorageStore
  * @warning Storing VBs is only in possible consecutive numbers, starting with 0!

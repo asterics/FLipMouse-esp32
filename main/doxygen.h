@@ -22,7 +22,7 @@
  /** @file
   * @brief Contains extra information/documentation for doxygen only*/
  
- /** @defgroup FunctionTasks
+ /** @defgroup fcttasks FunctionTasks
  *
  * All these listed functions are so called "FunctionTasks".
  * These are tasks, which are loaded and bound to a virtual button.

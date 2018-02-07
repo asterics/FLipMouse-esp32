@@ -70,7 +70,7 @@ void halAdcTaskThreshold(void * pvParameters);
 /** @brief Report raw values via serial interface
  * 
  * All values are sent in predefined string: <br>
- * VALUES:<pressure>,<up>,<down>,<left>,<right>,<x>,<y>\r\n
+ * VALUES:\<pressure\>,\<up\>,\<down\>,\<left\>,\<right\>,\<x\>,\<y\> \\r \\n
  * 
  * @param up Up value
  * @param down Down value

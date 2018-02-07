@@ -82,8 +82,6 @@
  * @see virtualButtonsOut
  * @note This task is persistently running
  * @todo Add anti-tremor & deadtime functionality
- * @param virtualButton Number of VB to start a new timer for
- * @return -1 if no free timer slot was found (DEBOUNCERCHANNELS), the timer array index otherwise
  * */
 void task_debouncer(void *param);
 

@@ -22,6 +22,38 @@
  * THANK YOU VERY MUCH FOR THIS EFFORT ON KEYBOARD + LAYOUTS!
  * 
  */
+/** @file
+ * @brief Keyboard layout/keycode helper functions
+ * 
+ * This module is basically a wrapper around Paul Stoffregen's
+ * <b>keylayouts.h</b> file, which contains all keycodes & locales.
+ * This file supports following tasks:<br>
+ * * Get a keycode for one or more ASCII/Unicode bytes
+ * * Get a HID country code for a locale
+ * * Get a keycode for a key identifier (e.g., KEY_A)
+ * * Get a key identifier for a keycode
+ * * Fill/empty a keycode array for HID reports
+ * 
+ * This file is mostly used by task_kbd and task_commands modules.
+ * 
+ * This file is built around keylayouts.h, a header file for all
+ * keyboard layouts from Paul Stoffregen.
+ * To avoid modifying the header file, this file is playing some tricks
+ * with preprocessor defines:
+ * 
+ * 1.) Include header "undefkeylayouts.h", which removes all previously set
+ *     keycodes and different bit sets <br>
+ * 
+ * 2.) Define the currently used keyboard layout <br>
+ * 
+ * 3.) Include the "keylayouts.h" header <br>
+ * 
+ * 4.) Use all the bits, masks and keycodes <br>
+ * 
+ * 5.) Redo steps 1-4 for all different arrays for all keyboard layouts
+ * 
+ * @note Once again: Thank you very much Paul for these layouts!
+ **/
  
 #ifndef _KEYBOARD_H_
 #define _KEYBOARD_H_
@@ -30,6 +62,7 @@
 #include <stdlib.h>
 #include <string.h>
 
+/** @brief Available keyboard layouts (locales) */
 enum keyboard_layouts{
   LAYOUT_US_ENGLISH,
   LAYOUT_US_INTERNATIONAL,
@@ -153,54 +186,72 @@ uint16_t parseIdentifierToKeycode(char* keyidentifier);
  * */
 uint16_t parseKeycodeToIdentifier(uint16_t keycode, char* buffer, uint8_t buf_len);
 
-/** parse an incoming byte for a keycode
+/** @brief Parse an incoming byte for a keycode
  * 
  * This method parses one incoming byte for the given locale.
  * It returns 0 if there is no keycode or another byte is needed (Unicode input).
  * If a modifier is needed the given modifier byte is updated.
  * 
  * @see keyboard_layouts
+ * @param inputdata Input byte to parse for a keycode
+ * @param locale Use this keyboard layout
+ * @param keycode_modifier If a modifier is needed, it will be written here
+ * @param deadkey_first_keycode If a deadkey stroke is needed, it will be written here
  * @return 0 if another byte is needed or no keycode is found; the keycode otherwise
  * 
  * */
 uint8_t parse_for_keycode(uint8_t inputdata, uint8_t locale, uint8_t *keycode_modifier, uint8_t *deadkey_first_keycode);
 
-/** remove a keycode from the given HID keycode array.
+/** @brief Remove a keycode from the given HID keycode array.
  * 
  * @note The size of the keycode_arr parameter MUST be 6
+ * @param keycode Keycode to be removed
+ * @param keycode_arr Keycode to remove this keycode from
  * @return 0 if the keycode was removed, 1 if the keycode was not in the array
  * */
 uint8_t remove_keycode(uint8_t keycode,uint8_t *keycode_arr);
 
-/** add a keycode to the given HID keycode array.
+/** @brief Add a keycode to the given HID keycode array.
  * 
  * @note The size of the keycode_arr parameter MUST be 6
+ * @param keycode Keycode to be added
+ * @param keycode_arr Keycode to add this keycode to
  * @return 0 if the keycode was added, 1 if the keycode was already in the array, 2 if there was no space
  * */
 uint8_t add_keycode(uint8_t keycode,uint8_t *keycode_arr);
 
 
-/** get a keycode for the given UTF codepoint
+/** @brief Get a keycode for the given UTF codepoint
  * 
  * This method parses a 16bit unicode character to a keycode.
  * If a modifier is needed the given modifier byte is updated.
  * 
  * @see keyboard_layouts
+ * @param cpoint 16bit Unicode-codepoint to parse
+ * @param locale Use this locale/layout to parse
+ * @param keycode_modifier If a modifier is needed, it will be written here
+ * @param deadkey_first_keystroke If a deadkey stroke is needed, it will be written here
  * @return 0 if no keycode is found; the keycode otherwise
  * */
 uint8_t get_keycode(uint16_t cpoint,uint8_t locale,uint8_t *keycode_modifier, uint8_t *deadkey_first_keystroke);
 
 
-/** translate Unicode characters between different locales
+/** @brief Translate Unicode characters between different locales
  * 
  * This method translates a 16bit Unicode cpoint from one locale to another one.
  * 
  * @see keyboard_layouts
+ * @param cpoint Cpoint to translate
+ * @param locale_src Locale for given cpoint
+ * @param locale_dst Locale for return cpoint
  * @return 0 if no cpoint is found; the cpoint otherwise
  * */
 uint16_t get_cpoint(uint16_t cpoint,uint8_t locale_src,uint8_t locale_dst);
 
-/** getting the HID country code for a given locale
+
+/** @brief Getting the HID country code for a given locale
+ * 
+ * Source: USB Device class definition for HID, page 33
  * 
  * @see keyboard_layouts
  * @return bCountryCode value for HID info

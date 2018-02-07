@@ -222,6 +222,7 @@ void debouncerCallback(TimerHandle_t xTimer) {
  * @see DEBOUNCERCHANNELS
  * @see xTimers
  * @param virtualButton Number of VB to start a new timer for
+ * @param debounceTime Time in [ms] for this timer to expire
  * @return -1 if no free timer slot was found (DEBOUNCERCHANNELS), the timer array index otherwise
  * */
 int8_t startTimer(uint32_t virtualButton, uint16_t debounceTime)
@@ -267,8 +268,6 @@ int8_t startTimer(uint32_t virtualButton, uint16_t debounceTime)
  * @see virtualButtonsOut
  * @note This task is persistently running
  * @todo Add anti-tremor & deadtime functionality
- * @param virtualButton Number of VB to start a new timer for
- * @return -1 if no free timer slot was found (DEBOUNCERCHANNELS), the timer array index otherwise
  * */
 void task_debouncer(void *param)
 {

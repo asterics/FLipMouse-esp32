@@ -64,6 +64,10 @@ br {
     border-right-color: darkgray;
 }
 
-span {
+span, label {
     background-color: white;
+}
+
+label {
+    display:inline-block;
 }

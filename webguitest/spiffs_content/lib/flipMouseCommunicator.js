@@ -12,8 +12,26 @@ function FlipMouse(initFinished) {
     thiz.PUFF_THRESHOLD = 'PUFF_THRESHOLD';
     thiz.PUFF_STRONG_THRESHOLD = 'PUFF_STRONG_THRESHOLD';
 
+    thiz.LIVE_PRESSURE = 'LIVE_PRESSURE';
+    thiz.LIVE_UP = 'LIVE_UP';
+    thiz.LIVE_DOWN = 'LIVE_DOWN';
+    thiz.LIVE_LEFT = 'LIVE_LEFT';
+    thiz.LIVE_RIGHT = 'LIVE_RIGHT';
+    thiz.LIVE_MOV_X = 'LIVE_MOV_X';
+    thiz.LIVE_MOV_Y = 'LIVE_MOV_Y';
+    thiz.LIVE_PRESSURE_MIN = 'LIVE_PRESSURE_MIN';
+    thiz.LIVE_PRESSURE_MAX = 'LIVE_PRESSURE_MAX';
+
+    thiz.SIP_PUFF_IDS = [
+        L.getIDSelector(thiz.SIP_THRESHOLD),
+        L.getIDSelector(thiz.SIP_STRONG_THRESHOLD),
+        L.getIDSelector(thiz.PUFF_THRESHOLD),
+        L.getIDSelector(thiz.PUFF_STRONG_THRESHOLD)
+    ];
+
     var are = new ARECommunicator();
     var _config = {};
+    var _liveData = {};
     var AT_CMD_LENGTH = 5;
 
     var AT_CMD_MAPPING = {};
@@ -29,6 +47,7 @@ function FlipMouse(initFinished) {
     AT_CMD_MAPPING[thiz.PUFF_STRONG_THRESHOLD] = 'AT SP';
     var VALUE_AT_CMDS = Object.values(AT_CMD_MAPPING);
     var debounce = null;
+    var _valueHandler = null;
 
     thiz.sendATCmd = function (atCmd) {
         console.log("sending to FlipMouse: " + atCmd);
@@ -46,6 +65,7 @@ function FlipMouse(initFinished) {
     };
 
     thiz.setValue = function (valueConstant, value) {
+        _config[valueConstant] = parseInt(value);
         clearInterval(debounce);
         debounce = setTimeout(function () {
             var atCmd = AT_CMD_MAPPING[valueConstant];
@@ -71,20 +91,74 @@ function FlipMouse(initFinished) {
         return thiz.testConnection();
     };
 
-    thiz.setValueHandler = function (handler) {
-        are.setValueHandler(handler);
+    thiz.startLiveValueListener = function (handler) {
+        console.log('starting listening to live values...');
+        setLiveValueHandler(handler);
+    };
+
+    thiz.stopLiveValueListener = function () {
+        setLiveValueHandler(null);
+        console.log('listening to live values stopped.');
+    };
+
+    thiz.getConfig = function (constant) {
+        if(constant) {
+            return _config[constant];
+        }
+        return _config;
+    };
+
+    thiz.getLiveData = function (constant) {
+        if(constant) {
+            return _liveData[constant];
+        }
+        return _liveData;
     };
 
     init();
-
     function init() {
+        _liveData[thiz.LIVE_PRESSURE_MIN] = 1024;
+        _liveData[thiz.LIVE_PRESSURE_MAX] = -1;
         thiz.refreshConfig().then(function () {
             if (L.isFunction(initFinished)) {
                 initFinished(_config);
-                sendAtCmdNoResultHandling('AT SR');
             }
         }, function () {
         });
+    }
+
+    function setLiveValueHandler (handler) {
+        _valueHandler = handler;
+        if(L.isFunction(_valueHandler)) {
+            sendAtCmdNoResultHandling('AT SR');
+            are.setValueHandler(parseLiveValues);
+        } else {
+            sendAtCmdNoResultHandling('AT ER');
+        }
+    }
+
+    function parseLiveValues(data) {
+        if(!L.isFunction(_valueHandler)) {
+            are.setValueHandler(null);
+            return;
+        }
+        if(!data || data.indexOf('VALUES') == -1) {
+            console.log('error parsing live data: ' + data);
+            return;
+        }
+
+        var valArray = data.split(':')[1].split(',');
+        _liveData[thiz.LIVE_PRESSURE] = parseInt(valArray[0]);
+        _liveData[thiz.LIVE_UP] = parseInt(valArray[1]);
+        _liveData[thiz.LIVE_DOWN] = parseInt(valArray[2]);
+        _liveData[thiz.LIVE_LEFT] = parseInt(valArray[3]);
+        _liveData[thiz.LIVE_RIGHT] = parseInt(valArray[4]);
+        _liveData[thiz.LIVE_MOV_X] = parseInt(valArray[5]);
+        _liveData[thiz.LIVE_MOV_Y] = parseInt(valArray[6]);
+        _liveData[thiz.LIVE_PRESSURE_MIN] = Math.min(_liveData[thiz.LIVE_PRESSURE_MIN], _liveData[thiz.LIVE_PRESSURE]);
+        _liveData[thiz.LIVE_PRESSURE_MAX] = Math.max(_liveData[thiz.LIVE_PRESSURE_MAX], _liveData[thiz.LIVE_PRESSURE]);
+
+        _valueHandler(_liveData);
     }
 
     function sendAtCmdNoResultHandling(atCmd) {

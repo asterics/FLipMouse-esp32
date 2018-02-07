@@ -26,24 +26,24 @@
             <label for="SENSITIVITY_X" data-translatable>Horizontal Sensitivity: // Sensitivität horizontal:</label>
             <div class="row">
                 <span id="SENSITIVITY_X_VAL" class="text-center one column">0</span>
-                <input type="range" oninput="sliderChanged(event)" onchange="sliderChanged(event)" id="SENSITIVITY_X" min="0" max="100" class="eleven columns">
+                <input type="range" oninput="basicSliderChanged(event)" onchange="basicSliderChanged(event)" id="SENSITIVITY_X" min="0" max="100" class="eleven columns">
             </div>
             <label for="SENSITIVITY_Y" data-translatable>Vertical Sensitivity: // Sensitivität vertikal:</label>
             <div class="row">
                 <span id="SENSITIVITY_Y_VAL" class="text-center one column">0</span>
-                <input type="range" oninput="sliderChanged(event)" onchange="sliderChanged(event)" id="SENSITIVITY_Y" min="0" max="100" class="eleven columns">
+                <input type="range" oninput="basicSliderChanged(event)" onchange="basicSliderChanged(event)" id="SENSITIVITY_Y" min="0" max="100" class="eleven columns">
             </div>
 
             <br/>
             <label for="DEADZONE_X">Horizontal Deadzone:</label>
             <div class="row">
                 <span id="DEADZONE_X_VAL" class="text-center one column">0</span>
-                <input type="range" oninput="sliderChanged(event)" onchange="sliderChanged(event)" id="DEADZONE_X" min="0" max="100" class="eleven columns">
+                <input type="range" oninput="basicSliderChanged(event)" onchange="basicSliderChanged(event)" id="DEADZONE_X" min="0" max="100" class="eleven columns">
             </div>
             <label for="DEADZONE_Y">Vertical Deadzone:</label>
             <div class="row">
                 <span id="DEADZONE_Y_VAL" class="text-center one column">0</span>
-                <input type="range" oninput="sliderChanged(event)" onchange="sliderChanged(event)" id="DEADZONE_Y" min="0" max="100" class="eleven columns">
+                <input type="range" oninput="basicSliderChanged(event)" onchange="basicSliderChanged(event)" id="DEADZONE_Y" min="0" max="100" class="eleven columns">
             </div>
 
             <br/>
@@ -72,12 +72,12 @@
                 <label for="SIP_THRESHOLD" data-translatable>Sip Threshold: // Schwellenwert Saugen:</label>
                 <div class="row">
                     <span id="SIP_THRESHOLD_VAL" class="text-center two columns">0</span>
-                    <input type="range" oninput="sliderChanged(event)" onchange="sliderChanged(event)" id="SIP_THRESHOLD" min="0" max="1023" class="ten columns"/>
+                    <input type="range" oninput="sipSliderChanged(this)" onchange="sipSliderChanged(this)" id="SIP_THRESHOLD" min="0" max="1023" class="ten columns"/>
                 </div>
                 <label for="SIP_STRONG_THRESHOLD" data-translatable>Strong Sip Threshold: // Schwellenwert Saugen stark:</label>
                 <div class="row">
                     <span id="SIP_STRONG_THRESHOLD_VAL" class="text-center two columns">0</span>
-                    <input type="range" oninput="sliderChanged(event)" onchange="sliderChanged(event)" id="SIP_STRONG_THRESHOLD" min="0" max="1023" class="ten columns"/>
+                    <input type="range" oninput="sipSliderChanged(this)" onchange="sipSliderChanged(this)" id="SIP_STRONG_THRESHOLD" min="0" max="1023" class="ten columns"/>
                 </div>
 
                 <br/>
@@ -100,12 +100,12 @@
                 <label for="PUFF_THRESHOLD" data-translatable>Puff Threshold: // Schwellenwert Blasen:</label>
                 <div class="row">
                     <span id="PUFF_THRESHOLD_VAL" class="text-center two columns">0</span>
-                    <input type="range" oninput="sliderChanged(event)" onchange="sliderChanged(event)" id="PUFF_THRESHOLD" min="0" max="1023" class="ten columns">
+                    <input type="range" oninput="sipSliderChanged(this)" onchange="sipSliderChanged(this)" id="PUFF_THRESHOLD" min="0" max="1023" class="ten columns">
                 </div>
                 <label for="PUFF_STRONG_THRESHOLD" data-translatable>Strong Puff Threshold: // Schwellenwert Blasen stark:</label>
                 <div class="row">
                     <span id="PUFF_STRONG_THRESHOLD_VAL" class="text-center two columns">0</span>
-                    <input type="range" oninput="sliderChanged(event)" onchange="sliderChanged(event)" id="PUFF_STRONG_THRESHOLD" min="0" max="1023" class="ten columns">
+                    <input type="range" oninput="sipSliderChanged(this)" onchange="sipSliderChanged(this)" id="PUFF_STRONG_THRESHOLD" min="0" max="1023" class="ten columns">
                 </div>
             </div>
 
@@ -179,9 +179,26 @@
         window.flip = flip;
     };
 
-    function sliderChanged(evt) {
+    function basicSliderChanged(evt) {
         setSliderValue(evt.currentTarget.id, evt.currentTarget.value, true);
         flip.setValue(evt.currentTarget.id, evt.currentTarget.value);
+    }
+
+    function sipSliderChanged(input) {
+        var old = flip.getConfig([input.id]);
+        var new1 = parseInt(input.value);
+        var cur = flip.getLiveData([flip.LIVE_PRESSURE]);
+
+        if ((input.id == flip.SIP_THRESHOLD && new1 < cur && new1 > flip.getConfig()[flip.SIP_STRONG_THRESHOLD]) ||
+            (input.id == flip.SIP_STRONG_THRESHOLD && new1 < cur && new1 < flip.getConfig()[flip.SIP_THRESHOLD]) ||
+            (input.id == flip.PUFF_THRESHOLD && new1 > cur && new1 < flip.getConfig()[flip.PUFF_STRONG_THRESHOLD]) ||
+            (input.id == flip.PUFF_STRONG_THRESHOLD && new1 > cur && new1 > flip.getConfig()[flip.PUFF_THRESHOLD])) {
+
+            setSliderValue(input.id, new1, true);
+            flip.setValue(input.id, new1);
+        } else {
+            setSliderValue(input.id, old);
+        }
     }
 
     function setSliderValue(constant, value, dontSetSlider) {

@@ -13,6 +13,12 @@ function FlipMouse(initFinished) {
     thiz.PUFF_STRONG_THRESHOLD = 'PUFF_STRONG_THRESHOLD';
 
     thiz.LIVE_PRESSURE = 'LIVE_PRESSURE';
+    thiz.LIVE_UP = 'LIVE_UP';
+    thiz.LIVE_DOWN = 'LIVE_DOWN';
+    thiz.LIVE_LEFT = 'LIVE_LEFT';
+    thiz.LIVE_RIGHT = 'LIVE_RIGHT';
+    thiz.LIVE_MOV_X = 'LIVE_MOV_X';
+    thiz.LIVE_MOV_Y = 'LIVE_MOV_Y';
     thiz.LIVE_PRESSURE_MIN = 'LIVE_PRESSURE_MIN';
     thiz.LIVE_PRESSURE_MAX = 'LIVE_PRESSURE_MAX';
 
@@ -118,7 +124,18 @@ function FlipMouse(initFinished) {
     }
 
     function parseLiveValues(data) {
-        _liveData[thiz.LIVE_PRESSURE] = parseInt(data.substring(7,10));
+        if(!data || data.indexOf('VALUES') == -1) {
+            console.log('error parsing live data: ' + data);
+            return;
+        }
+        var valArray = data.split(':')[1].split(',');
+        _liveData[thiz.LIVE_PRESSURE] = parseInt(valArray[0]);
+        _liveData[thiz.LIVE_UP] = parseInt(valArray[1]);
+        _liveData[thiz.LIVE_DOWN] = parseInt(valArray[2]);
+        _liveData[thiz.LIVE_LEFT] = parseInt(valArray[3]);
+        _liveData[thiz.LIVE_RIGHT] = parseInt(valArray[4]);
+        _liveData[thiz.LIVE_MOV_X] = parseInt(valArray[5]);
+        _liveData[thiz.LIVE_MOV_Y] = parseInt(valArray[6]);
         _liveData[thiz.LIVE_PRESSURE_MIN] = Math.min(_liveData[thiz.LIVE_PRESSURE_MIN], _liveData[thiz.LIVE_PRESSURE]);
         _liveData[thiz.LIVE_PRESSURE_MAX] = Math.max(_liveData[thiz.LIVE_PRESSURE_MAX], _liveData[thiz.LIVE_PRESSURE]);
         if(L.isFunction(_valueHandler)) {

@@ -39,3 +39,11 @@ window.L.isFunction = function (functionToCheck) {
     var getType = {};
     return functionToCheck && getType.toString.call(functionToCheck) === '[object Function]';
 };
+
+window.L.getIDSelector = function (id) {
+    return '#' + id;
+};
+
+window.L.getPercentage = function (value, minRange, maxRange) {
+    return (Math.round(((value - minRange) / (maxRange - minRange) * 100) * 1000) / 1000)
+};

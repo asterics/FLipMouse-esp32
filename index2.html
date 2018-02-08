@@ -17,46 +17,69 @@
     <h1 data-translatable>FLipMouse Web Configuration // FLipMouse Webkonfiguration</h1>
 
     <div data-tabs class="row">
-        <div class="four columns"><a onclick="toBasic()" class="button button-primary" data-tab href="#tabBasic" class="ui-btn-active" data-translatable>Basic Setup // Basiskonfiguration</a></div>
-        <div class="four columns"><a onclick="toSipPuff()" class="button button-primary" data-tab href="#tabPuff">Sip and Puff</a></div>
-        <div class="four columns"><a onclick="toActionLearn()" class="button button-primary" data-tab href="#tabActions">Learn Actions</a></div>
+        <div class="four columns"><a onclick="toBasic()" class="button button-primary" data-tab href="#tabBasic"
+                                     class="ui-btn-active" data-translatable>Basic Setup // Basis-Konfiguration</a></div>
+        <div class="four columns"><a onclick="toSipPuff()" class="button button-primary" data-tab href="#tabPuff">Sip
+            and Puff</a></div>
+        <div class="four columns"><a onclick="toActionLearn()" class="button button-primary" data-tab
+                                     href="#tabActions">Learn Actions</a></div>
     </div>
     <div data-tabs-content>
         <div data-tabs-pane class="tabs-pane" id="tabBasic">
             <label for="SENSITIVITY_X" data-translatable>Horizontal Sensitivity: // Sensitivität horizontal:</label>
             <div class="row">
                 <span id="SENSITIVITY_X_VAL" class="text-center one column">0</span>
-                <input type="range" oninput="basicSliderChanged(event)" onchange="basicSliderChanged(event)" id="SENSITIVITY_X" min="0" max="100" class="eleven columns">
+                <input type="range" oninput="basicSliderChanged(event)" onchange="basicSliderChanged(event)"
+                       id="SENSITIVITY_X" min="0" max="100" class="eleven columns">
             </div>
             <label for="SENSITIVITY_Y" data-translatable>Vertical Sensitivity: // Sensitivität vertikal:</label>
             <div class="row">
                 <span id="SENSITIVITY_Y_VAL" class="text-center one column">0</span>
-                <input type="range" oninput="basicSliderChanged(event)" onchange="basicSliderChanged(event)" id="SENSITIVITY_Y" min="0" max="100" class="eleven columns">
+                <input type="range" oninput="basicSliderChanged(event)" onchange="basicSliderChanged(event)"
+                       id="SENSITIVITY_Y" min="0" max="100" class="eleven columns">
             </div>
 
-
-                <div class="relative center-div" style="border-style: solid; border-width: medium; background-color: transparent; height: 200px; width: 200px;">
-                    <div id="deadZonePos" class="back-layer color-lightcyan" style="top: 40%; left: 40%; height: 20%; width: 20%;"></div>
-                    <div class="back-layer" style="left: 50%; height: 100%; border-right-style: solid; border-right-width: thin;"></div>
-                    <div class="back-layer" style="top: 50%; width: 100%; border-bottom-style: solid; border-bottom-width: thin;"></div>
-                    <button onclick="cursorPosZoomIn();" class="zoombutton" style="top: 25%;">+</button>
-                    <button onclick="cursorPosZoomOut();" class="zoombutton" style="top: 55%;">-</button>
-                    <div id="cursorPosVal" class="back-layer" style="top: 40%;">110</div>
-                    <div id="cursorPos" class="back-layer" style="top: 50%; left: 50%;">
-                        <div class="back-layer" id="circle"></div>
+            <br/>
+            <div class="row">
+                <div class="six columns">
+                    <div class="relative center-div" id="cursorPosWrapper" style="border-bottom-width: thick;">
+                        <div id="deadZonePos" class="back-layer color-lightcyan"
+                             style="top: 40%; left: 40%; height: 20%; width: 20%;"></div>
+                        <div class="back-layer"
+                             style="left: 50%; height: 100%; border-right-style: solid; border-right-width: thin;"></div>
+                        <div class="back-layer"
+                             style="top: 50%; width: 100%; border-bottom-style: solid; border-bottom-width: thin;"></div>
+                        <button onclick="cursorPosZoomReset();" class="zoombutton" style="top: 55%;" title="Reset Zoom">&#8634;</button>
+                        <div id="cursorPosVal" class="back-layer" style="top: 40%;">110</div>
+                        <div id="cursorPos" class="back-layer" style="top: 50%; left: 50%;">
+                            <div class="back-layer" id="circle"></div>
+                        </div>
                     </div>
                 </div>
+                <div class="five columns">
+                    <button onclick="calibrate()">
+                        <span data-translatable id="basic-button-calibrate">Calibrate middle position // Mittelposition kalibrieren</span>
+                        <span id="basic-button-calibrating" style="display: none;" data-translatable>Calibrating... // wird kalibriert...</span>
+                    </button>
+                    <button onclick="rotate()">
+                        <span data-translatable id="basic-button-rotate">&#x21bb; Rotate right // &#x21bb; Nach rechts drehen</span>
+                        <span id="basic-button-rotating" style="display: none;" data-translatable>Rotating... // wird gedreht...</span>
+                    </button>
+                </div>
+            </div>
 
             <br/>
             <label for="DEADZONE_X">Horizontal Deadzone:</label>
             <div class="row">
                 <span id="DEADZONE_X_VAL" class="text-center one column">0</span>
-                <input type="range" oninput="basicSliderChanged(event)" onchange="basicSliderChanged(event)" id="DEADZONE_X" min="0" max="100" class="eleven columns">
+                <input type="range" oninput="basicSliderChanged(event)" onchange="basicSliderChanged(event)"
+                       id="DEADZONE_X" min="0" max="100" class="eleven columns">
             </div>
             <label for="DEADZONE_Y">Vertical Deadzone:</label>
             <div class="row">
                 <span id="DEADZONE_Y_VAL" class="text-center one column">0</span>
-                <input type="range" oninput="basicSliderChanged(event)" onchange="basicSliderChanged(event)" id="DEADZONE_Y" min="0" max="100" class="eleven columns">
+                <input type="range" oninput="basicSliderChanged(event)" onchange="basicSliderChanged(event)"
+                       id="DEADZONE_Y" min="0" max="100" class="eleven columns">
             </div>
 
             <br/>
@@ -64,7 +87,9 @@
             <div class="row">
                 <button id="basic-button" onclick="save()" class="one-third">
                     <div id="basic-button-normal" data-translatable>Save // Speichern</div>
-                    <div id="basic-button-saving" style="display: none;" data-translatable>Saving... // Wird gespeichert...</div>
+                    <div id="basic-button-saving" style="display: none;" data-translatable>Saving... // Wird
+                        gespeichert...
+                    </div>
                 </button>
             </div>
         </div>
@@ -75,7 +100,8 @@
                 <div class="row back-layer full-height full-width">
                     <div class="two columns"><span style="font-size: 1px; color: transparent">_</span></div>
                     <div class="ten columns full-height relative">
-                        <div id="guide-current" class="back-layer full-height border-right-gray" style="width: 50%;"></div>
+                        <div id="guide-current" class="back-layer full-height border-right-gray"
+                             style="width: 50%;"></div>
                         <div id="guide-max" class="back-layer full-height border-right-red" style="width: 50%;"></div>
                         <div id="guide-min" class="back-layer full-height border-right-blue" style="width: 50%;"></div>
                     </div>
@@ -85,12 +111,15 @@
                 <label for="SIP_THRESHOLD" data-translatable>Sip Threshold: // Schwellenwert Saugen:</label>
                 <div class="row">
                     <span id="SIP_THRESHOLD_VAL" class="text-center two columns">0</span>
-                    <input type="range" oninput="sipSliderChanged(this)" onchange="sipSliderChanged(this)" id="SIP_THRESHOLD" min="0" max="1023" class="ten columns"/>
+                    <input type="range" oninput="sipSliderChanged(this)" onchange="sipSliderChanged(this)"
+                           id="SIP_THRESHOLD" min="0" max="1023" class="ten columns"/>
                 </div>
-                <label for="SIP_STRONG_THRESHOLD" data-translatable>Strong Sip Threshold: // Schwellenwert Saugen stark:</label>
+                <label for="SIP_STRONG_THRESHOLD" data-translatable>Strong Sip Threshold: // Schwellenwert Saugen
+                    stark:</label>
                 <div class="row">
                     <span id="SIP_STRONG_THRESHOLD_VAL" class="text-center two columns">0</span>
-                    <input type="range" oninput="sipSliderChanged(this)" onchange="sipSliderChanged(this)" id="SIP_STRONG_THRESHOLD" min="0" max="1023" class="ten columns"/>
+                    <input type="range" oninput="sipSliderChanged(this)" onchange="sipSliderChanged(this)"
+                           id="SIP_STRONG_THRESHOLD" min="0" max="1023" class="ten columns"/>
                 </div>
 
                 <br/>
@@ -103,7 +132,8 @@
                         <span id="maxValue">0</span>,
                         <span>min:</span>
                         <span id="minValue">-1</span></div>
-                    <div class="ten columns" style="border-style: solid; border-width: thin; background-color: transparent">
+                    <div class="ten columns"
+                         style="border-style: solid; border-width: thin; background-color: transparent">
                         <div id="value-bar" style="width: 50%;"></div>
                     </div>
                 </div>
@@ -113,12 +143,15 @@
                 <label for="PUFF_THRESHOLD" data-translatable>Puff Threshold: // Schwellenwert Blasen:</label>
                 <div class="row">
                     <span id="PUFF_THRESHOLD_VAL" class="text-center two columns">0</span>
-                    <input type="range" oninput="sipSliderChanged(this)" onchange="sipSliderChanged(this)" id="PUFF_THRESHOLD" min="0" max="1023" class="ten columns">
+                    <input type="range" oninput="sipSliderChanged(this)" onchange="sipSliderChanged(this)"
+                           id="PUFF_THRESHOLD" min="0" max="1023" class="ten columns">
                 </div>
-                <label for="PUFF_STRONG_THRESHOLD" data-translatable>Strong Puff Threshold: // Schwellenwert Blasen stark:</label>
+                <label for="PUFF_STRONG_THRESHOLD" data-translatable>Strong Puff Threshold: // Schwellenwert Blasen
+                    stark:</label>
                 <div class="row">
                     <span id="PUFF_STRONG_THRESHOLD_VAL" class="text-center two columns">0</span>
-                    <input type="range" oninput="sipSliderChanged(this)" onchange="sipSliderChanged(this)" id="PUFF_STRONG_THRESHOLD" min="0" max="1023" class="ten columns">
+                    <input type="range" oninput="sipSliderChanged(this)" onchange="sipSliderChanged(this)"
+                           id="PUFF_STRONG_THRESHOLD" min="0" max="1023" class="ten columns">
                 </div>
             </div>
 
@@ -126,7 +159,9 @@
             <br/>
             <button id="sip-puff-button" onclick="save()" class="u-full-width">
                 <div id="sip-puff-button-normal" data-translatable>Save // Speichern</div>
-                <div id="sip-puff-button-saving" style="display: none" data-translatable>Saving... // Wird gespeichert...</div>
+                <div id="sip-puff-button-saving" style="display: none" data-translatable>Saving... // Wird
+                    gespeichert...
+                </div>
             </button>
         </div>
         <div data-tabs-pane class="tabs-pane" id="tabActions">
@@ -200,17 +235,29 @@
 
     function setSliderValue(constant, value, dontSetSlider) {
         L('#' + constant + '_VAL').innerHTML = value;
-        if(!dontSetSlider) {
+        if (!dontSetSlider) {
             L('#' + constant).value = value;
         }
     }
 
     function save() {
         L.toggle('#basic-button-normal', '#basic-button-saving', '#sip-puff-button-normal', '#sip-puff-button-saving');
-        flip.save().then(function (success) {
-            if(success) {
-                L.toggle('#basic-button-normal', '#basic-button-saving', '#sip-puff-button-normal', '#sip-puff-button-saving');
-            }
+        flip.save().then(function () {
+            L.toggle('#basic-button-normal', '#basic-button-saving', '#sip-puff-button-normal', '#sip-puff-button-saving');
+        });
+    }
+
+    function calibrate() {
+        L.toggle('#basic-button-calibrate', '#basic-button-calibrating');
+        flip.calibrate().then(function () {
+            L.toggle('#basic-button-calibrate', '#basic-button-calibrating');
+        });
+    }
+
+    function rotate() {
+        L.toggle('#basic-button-rotate', '#basic-button-rotating');
+        flip.rotate().then(function () {
+            L.toggle('#basic-button-rotate', '#basic-button-rotating');
         });
     }
 
@@ -241,23 +288,19 @@
         var percentageDzY = (L.getPercentage(flip.getConfig(flip.DEADZONE_Y), 0, maxAbs));
         var inDeadzone = x < flip.getConfig(flip.DEADZONE_X) && x > -flip.getConfig(flip.DEADZONE_X) &&
             y < flip.getConfig(flip.DEADZONE_Y) && y > -flip.getConfig(flip.DEADZONE_Y);
+        var orientation = flip.getConfig(flip.ORIENTATION_ANGLE);
+        var orientationString = orientation == 0 ? 'left' : orientation == 90 ? 'top' : orientation == 180 ? 'right' : 'bottom';
 
         L('#cursorPos').style = 'top: ' + percentageY + '%; left: ' + percentageX + '%;';
         L('#cursorPosVal').innerHTML = maxAbs;
-        L('#deadZonePos').style = 'top: ' + (100-percentageDzY)/2 + '%; left: ' + (100-percentageDzX)/2 + '%; height: ' + (percentageDzY) + '%; width: ' + (percentageDzX) + '%;';
+        L('#deadZonePos').style = 'top: ' + (100 - percentageDzY) / 2 + '%; left: ' + (100 - percentageDzX) / 2 + '%; height: ' + (percentageDzY) + '%; width: ' + (percentageDzX) + '%;';
         L('#deadZonePos').className = 'back-layer color-' + (inDeadzone ? 'lightcyan' : 'lightercyan');
+        L('#cursorPosWrapper').style = 'border-' + orientationString + '-width: thick;';
     }
 
-    function cursorPosZoomIn() {
+    function cursorPosZoomReset() {
         flip.resetMinMaxLiveValues();
-        var cursorPosVal = parseInt(L('#cursorPosVal').innerHTML);
-        L('#cursorPosVal').innerHTML = Math.max(cursorPosVal - 50, 110);
-    }
-
-    function cursorPosZoomOut() {
-        flip.resetMinMaxLiveValues();
-        var cursorPosVal = parseInt(L('#cursorPosVal').innerHTML);
-        L('#cursorPosVal').innerHTML = Math.min(cursorPosVal + 50, 950);
+        L('#cursorPosVal').innerHTML = 110;
     }
 
     function sipPuffValueHandler(data) {

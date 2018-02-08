@@ -238,10 +238,13 @@
         var percentageY = (L.getPercentage(y, -maxAbs, maxAbs));
         var percentageDzX = (L.getPercentage(flip.getConfig(flip.DEADZONE_X), 0, maxAbs));
         var percentageDzY = (L.getPercentage(flip.getConfig(flip.DEADZONE_Y), 0, maxAbs));
+        var inDeadzone = x < flip.getConfig(flip.DEADZONE_X) && x > -flip.getConfig(flip.DEADZONE_X) &&
+            y < flip.getConfig(flip.DEADZONE_Y) && y > -flip.getConfig(flip.DEADZONE_Y);
 
         L('#cursorPos').style = 'top: ' + percentageY + '%; left: ' + percentageX + '%;';
         L('#cursorPosVal').innerHTML = maxAbs;
         L('#deadZonePos').style = 'top: ' + (100-percentageDzY)/2 + '%; left: ' + (100-percentageDzX)/2 + '%; height: ' + (percentageDzY) + '%; width: ' + (percentageDzX) + '%;';
+        L('#deadZonePos').className = 'back-layer color-' + (inDeadzone ? 'lightcyan' : 'lightercyan');
     }
 
     function cursorPosZoomIn() {

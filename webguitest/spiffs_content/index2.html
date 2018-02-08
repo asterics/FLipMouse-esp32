@@ -42,7 +42,7 @@
                     <div class="back-layer" style="top: 50%; width: 100%; border-bottom-style: solid; border-bottom-width: thin;"></div>
                     <button onclick="cursorPosZoomIn();" class="zoombutton" style="top: 25%;">+</button>
                     <button onclick="cursorPosZoomOut();" class="zoombutton" style="top: 55%;">-</button>
-                    <div id="cursorPosVal" class="back-layer" style="top: 40%;">100</div>
+                    <div id="cursorPosVal" class="back-layer" style="top: 40%;">110</div>
                     <div id="cursorPos" class="back-layer" style="top: 50%; left: 50%;">
                         <div class="back-layer" id="circle"></div>
                     </div>
@@ -247,7 +247,7 @@
     function cursorPosZoomIn() {
         flip.resetMinMaxLiveValues();
         var cursorPosVal = parseInt(L('#cursorPosVal').innerHTML);
-        L('#cursorPosVal').innerHTML = Math.max(cursorPosVal - 50, 100);
+        L('#cursorPosVal').innerHTML = Math.max(cursorPosVal - 50, 110);
     }
 
     function cursorPosZoomOut() {

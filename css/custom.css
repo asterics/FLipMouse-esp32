@@ -87,6 +87,10 @@ label {
     background-color: #9be7ff;
 }
 
+.color-lightercyan {
+    background-color: #cceff9;
+}
+
 .zoombutton {
     position: absolute;
     line-height: 0; !important;

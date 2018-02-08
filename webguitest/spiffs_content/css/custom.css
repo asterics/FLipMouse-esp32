@@ -101,5 +101,10 @@ label {
     width: 1.5em;
     text-align: center;
     padding: 0; !important;
+}
 
+.center-div
+{
+    width: 50%;
+    margin: 0 auto;
 }

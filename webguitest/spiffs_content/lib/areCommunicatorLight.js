@@ -2,8 +2,8 @@ function ARECommunicator() {
     //The base URI that ARE runs at
     //var _baseURI = "http://" + window.location.host + "/rest/";
     var VALUE_CONSTANT = 'VALUES:';
-    var _baseURI = "http://localhost:8091/rest/";
-    var _websocketUrl = "ws://localhost:8092/ws/astericsData";
+    var _baseURI = 'http://' + window.location.hostname + ':8091/rest/';
+    var _websocketUrl = 'ws://' + window.location.hostname + ':8092/ws/astericsData';
     var _websocket = null;
     var _valueHandler = null;
 

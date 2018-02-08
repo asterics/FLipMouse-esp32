@@ -13,10 +13,9 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
  * MA 02110-1301, USA.
+ *
  * Copyright 2017 Benjamin Aigner <aignerb@technikum-wien.at,
  * beni@asterics-foundation.org>
- * 
- * This file contains extra information & documentation for doxygen
  */
  
  /** @file
@@ -63,14 +62,14 @@
  * @warning As long as the function or the task is active, the parameter pointer MUST be valid
  */
 
-//All global todos, roadmap, ...
+/*++++ All global todos, roadmap, ... ++++*/
 /**
  @todo Implement learning mode
  @todo Configswitcher NEXT increments slot number, even if not possible. Also check for turn-around. & missing slots.
  @todo Clarify AT KP/KR/KH commands on original FlipMouse, to be compatible... (especially for press/release with buttons & with multiple key identifiers)
  @todo Debouncer testing...
  @todo Re-implement hal_serial's UART data reception: use own interrupt & discard UART driver.
- @todo Problem with AT MX/MY: not always stepping correct
  @todo Implement buzzer
  @todo Implement IR
+ @todo Configswitch with AT MM is triggering only the second/third time...
 */

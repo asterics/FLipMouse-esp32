@@ -53,7 +53,7 @@ function FlipMouse(initFinished) {
     AT_CMD_MAPPING[thiz.PUFF_STRONG_THRESHOLD] = 'AT SP';
     AT_CMD_MAPPING[thiz.ORIENTATION_ANGLE] = 'AT RO';
     var VALUE_AT_CMDS = Object.values(AT_CMD_MAPPING);
-    var debounce = null;
+    var debouncers = {};
     var _valueHandler = null;
 
     thiz.sendATCmd = function (atCmd) {
@@ -76,8 +76,8 @@ function FlipMouse(initFinished) {
             debounceTimeout = 300;
         }
         _config[valueConstant] = parseInt(value);
-        clearInterval(debounce);
-        debounce = setTimeout(function () {
+        clearInterval(debouncers[valueConstant]);
+        debouncers[valueConstant] = setTimeout(function () {
             var atCmd = AT_CMD_MAPPING[valueConstant];
             sendAtCmdNoResultHandling(atCmd + ' ' + value);
         }, debounceTimeout);

@@ -11,6 +11,7 @@ function FlipMouse(initFinished) {
     thiz.SIP_STRONG_THRESHOLD = 'SIP_STRONG_THRESHOLD';
     thiz.PUFF_THRESHOLD = 'PUFF_THRESHOLD';
     thiz.PUFF_STRONG_THRESHOLD = 'PUFF_STRONG_THRESHOLD';
+    thiz.ORIENTATION_ANGLE = 'ORIENTATION_ANGLE';
 
     thiz.LIVE_PRESSURE = 'LIVE_PRESSURE';
     thiz.LIVE_UP = 'LIVE_UP';
@@ -50,6 +51,7 @@ function FlipMouse(initFinished) {
     AT_CMD_MAPPING[thiz.SIP_STRONG_THRESHOLD] = 'AT SS';
     AT_CMD_MAPPING[thiz.PUFF_THRESHOLD] = 'AT TP';
     AT_CMD_MAPPING[thiz.PUFF_STRONG_THRESHOLD] = 'AT SP';
+    AT_CMD_MAPPING[thiz.ORIENTATION_ANGLE] = 'AT RO';
     var VALUE_AT_CMDS = Object.values(AT_CMD_MAPPING);
     var debounce = null;
     var _valueHandler = null;
@@ -69,13 +71,16 @@ function FlipMouse(initFinished) {
         });
     };
 
-    thiz.setValue = function (valueConstant, value) {
+    thiz.setValue = function (valueConstant, value, debounceTimeout) {
+        if(!debounceTimeout) {
+            debounceTimeout = 300;
+        }
         _config[valueConstant] = parseInt(value);
         clearInterval(debounce);
         debounce = setTimeout(function () {
             var atCmd = AT_CMD_MAPPING[valueConstant];
             sendAtCmdNoResultHandling(atCmd + ' ' + value);
-        }, 300);
+        }, debounceTimeout);
     };
 
     thiz.refreshConfig = function () {
@@ -93,6 +98,18 @@ function FlipMouse(initFinished) {
     thiz.save = function () {
         sendAtCmdNoResultHandling('AT DE');
         sendAtCmdNoResultHandling('AT SA mouse');
+        return thiz.testConnection();
+    };
+
+    thiz.calibrate = function () {
+        sendAtCmdNoResultHandling('AT CA');
+        return thiz.testConnection();
+    };
+
+    thiz.rotate = function () {
+        var currentOrientation = _config[thiz.ORIENTATION_ANGLE];
+        thiz.setValue(thiz.ORIENTATION_ANGLE, (currentOrientation + 90) % 360, 0);
+        sendAtCmdNoResultHandling('AT CA');
         return thiz.testConnection();
     };
 

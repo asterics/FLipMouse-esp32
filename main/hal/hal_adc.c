@@ -38,12 +38,21 @@
  * 
  * @see adc_config_t
  * @todo Add raw value reporting for: CIM mode and serial interface
+ * @todo Do Strong<Sip/puff>+<UP/DOWN/LEFT/RIGHT>
  * */
  
 #include "hal_adc.h"
 
 /** Tag for ESP_LOG logging */
 #define LOG_TAG "hal_adc"
+
+typedef struct adcData {
+    uint32_t up;
+    uint32_t down;
+    uint32_t left;
+    uint32_t right;
+    uint32_t pressure;
+} adcData_t;
 
 /** current loaded ADC task handle, used to delete & recreate an ADC task
  * @see halAdcTaskMouse
@@ -56,16 +65,24 @@ TaskHandle_t adcHandle = NULL;
  * */
 adc_config_t adc_conf;
 
+/** @brief Semaphore for ADC readings.
+ * 
+ * This semaphore is used to switch between halADCTask<Joystick,Mouse,Threshold>
+ * and calibration.
+ * In addition, it is used for strong sip&puff + up/down/left/right.
+ * */
+SemaphoreHandle_t adcSem = NULL;
+
 /** calibration characteristics, loaded by esp-idf provided methods*/
 esp_adc_cal_characteristics_t characteristics;
 
 /** offset values, calibrated via "Calibration middle position" */
 static int32_t offsetx,offsety;
 
-
+/*
 void halAdcTaskMouse(void * pvParameters);
 void halAdcTaskJoystick(void * pvParameters);
-void halAdcTaskThreshold(void * pvParameters);
+void halAdcTaskThreshold(void * pvParameters);*/
 
 /** @brief Report raw values via serial interface
  * 
@@ -82,7 +99,8 @@ void halAdcTaskThreshold(void * pvParameters);
  * */
 void halAdcReportRaw(uint32_t up, uint32_t down, uint32_t left, uint32_t right, uint32_t pressure, int32_t x, int32_t y)
 {
-    #define REPORT_RAW_COUNT 32
+    ///@todo change back to 32
+    #define REPORT_RAW_COUNT 2
     static int prescaler = 0;
     
     if(adc_conf.reportraw != 0)
@@ -92,75 +110,31 @@ void halAdcReportRaw(uint32_t up, uint32_t down, uint32_t left, uint32_t right, 
             char data[40];
             sprintf(data,"VALUES:%d,%d,%d,%d,%d,%d,%d\r\n",pressure,up,down,left,right,x,y);
             halSerialSendUSBSerial(HAL_SERIAL_TX_TO_CDC,data, strlen(data), 10);
-            prescaler++;
         }
+        prescaler++;
     }
 }
 
-
-
-/** @brief Reload ADC config
+/** @brief Read out analog voltages & apply sensor gain
  * 
- * This method reloads the ADC config.
- * Depending on the configuration, a task switch might be initiated
- * to switch the mouthpiece mode from e.g., Joystick to Mouse to 
- * Alternative Mode (Threshold operated).
- * @param params New ADC config
- * @todo Clear pending VB flags on a config switch
- * @return ESP_OK on success, ESP_FAIL otherwise (wrong config, out of memory)
- * */
-esp_err_t halAdcUpdateConfig(adc_config_t* params)
+ * Internally used function for sensor readings & applying the
+ * sensor gain
+ * @param values Pointer to struct of all analog values
+ */
+void halAdcReadData(adcData_t *values)
 {
-    //do some parameter validations. TBD!
-    if(params == NULL)
-    {
-        ESP_LOGE(LOG_TAG,"cannot update config, no parameter");
-        return ESP_FAIL;
-    }
-    
-    //if new mode is different, delete previous task
-    if(params->mode != adc_conf.mode)
-    {
-        if(adcHandle != NULL) 
-        {
-            ESP_LOGD(LOG_TAG, "mode change, deleting old task");
-            //vTaskDelete(adcHandle);
-            adcHandle = NULL;
-        } else ESP_LOGW(LOG_TAG, "no valid task handle, no task deleted");
-    }
+    //read all sensors
+    uint32_t up = adc1_to_voltage(HAL_IO_ADC_CHANNEL_UP, &characteristics);
+    uint32_t down = adc1_to_voltage(HAL_IO_ADC_CHANNEL_DOWN, &characteristics);
+    uint32_t left = adc1_to_voltage(HAL_IO_ADC_CHANNEL_LEFT, &characteristics);
+    uint32_t right = adc1_to_voltage(HAL_IO_ADC_CHANNEL_RIGHT, &characteristics);
+    values->pressure = adc1_to_voltage(HAL_IO_ADC_CHANNEL_PRESSURE, &characteristics);
         
-    
-    //clear pending button flags
-    //TBD...
-    
-    //Just copy content
-    memcpy(&adc_conf,params,sizeof(adc_config_t));
-    
-    //start task according to mode
-    if(adcHandle == NULL)
-    {
-        switch(adc_conf.mode)
-        {
-            case MOUSE:
-                xTaskCreate(halAdcTaskMouse,"ADC_TASK",4096,NULL,HAL_ADC_TASK_PRIORITY,&adcHandle);
-                ESP_LOGD("hal_adc","created ADC task for mouse, handle %d",(uint32_t)adcHandle);
-                break;
-            case JOYSTICK:
-                xTaskCreate(halAdcTaskJoystick,"ADC_TASK",4096,NULL,HAL_ADC_TASK_PRIORITY,&adcHandle);
-                ESP_LOGD("hal_adc","created ADC task for mouse, handle %d",(uint32_t)adcHandle);
-                break;
-            case THRESHOLD:
-                xTaskCreate(halAdcTaskThreshold,"ADC_TASK",4096,NULL,HAL_ADC_TASK_PRIORITY,&adcHandle);
-                ESP_LOGD("hal_adc","created ADC task for mouse, handle %d",(uint32_t)adcHandle);
-                break;
-            
-            default:
-               ESP_LOGE("hal_adc","unknown mode (unconfigured), cannot startup task.");
-               return ESP_FAIL;
-        }
-    }
-    
-    return ESP_OK;
+    //apply individual sensor gain
+    values->up = up * adc_conf.gain[0] / 50;
+    values->down = down * adc_conf.gain[1] / 50;
+    values->left = left * adc_conf.gain[2] / 50;
+    values->right = right * adc_conf.gain[3] / 50;
 }
 
 /** @brief Process pressure sensor (sip & puff)
@@ -169,7 +143,33 @@ esp_err_t halAdcUpdateConfig(adc_config_t* params)
  * */
 void halAdcProcessPressure(uint32_t pressurevalue)
 {
-    //TODO: sip&puff, strongsip&puff
+    generalConfig_t *cfg = configGetCurrent();
+    if(cfg == NULL) return;
+    
+    //SIP triggered
+    if(pressurevalue < cfg->adc.threshold_sip && \
+        pressurevalue > cfg->adc.threshold_strongsip)
+    {
+        
+    }
+    //STRONGSIP triggered
+    if(pressurevalue < cfg->adc.threshold_strongsip)
+    {
+        
+    }
+    
+    //PUFF triggered
+    if(pressurevalue > cfg->adc.threshold_puff && \
+        pressurevalue < cfg->adc.threshold_strongpuff)
+    {
+        
+    }
+    
+    //STRONGPUFF triggered
+    if(pressurevalue > cfg->adc.threshold_strongpuff)
+    {
+        
+    }
 }
 
 /** @brief HAL TASK - Mouse task for ADC
@@ -186,49 +186,52 @@ void halAdcProcessPressure(uint32_t pressurevalue)
 void halAdcTaskMouse(void * pvParameters)
 {
     //analog values
-    uint32_t up, down, left, right, pressure;
+    adcData_t D;
     //int32_t x,y;
     static uint16_t accelTimeX=0,accelTimeY=0;
-    float tempX,tempY,moveVal, accumXpos, accumYpos;
+    int32_t tempX,tempY;
+    float moveVal, accumXpos = 0, accumYpos = 0;
     //todo: use a define for the delay here... (currently used: value from vTaskDelay())
     float accelFactor= 20 / 100000000.0f;
     float max_speed= adc_conf.max_speed / 10.0f;
     mouse_command_t command;
+    TickType_t xLastWakeTime;
     
     while(1)
     {
-        //read out the analog voltages from all 5 channels
-        up = adc1_to_voltage(HAL_IO_ADC_CHANNEL_UP, &characteristics);
-        down = adc1_to_voltage(HAL_IO_ADC_CHANNEL_DOWN, &characteristics);
-        left = adc1_to_voltage(HAL_IO_ADC_CHANNEL_LEFT, &characteristics);
-        right = adc1_to_voltage(HAL_IO_ADC_CHANNEL_RIGHT, &characteristics);
-        pressure = adc1_to_voltage(HAL_IO_ADC_CHANNEL_PRESSURE, &characteristics);
+        //get mutex
+        if(xSemaphoreTake(adcSem, (TickType_t) 30) != pdTRUE)
+        {
+            ESP_LOGW(LOG_TAG,"Cannot obtain mutex for reading");
+            continue;
+        }
         
-        //TODO: use gain?!?
-        //left = left * adc_conf.gainLeft / 50;
-        //right = right * adc_conf.gainRight / 50;
-        //up = up * adc_conf.gainUp / 50;
-        //down = down * adc_conf.gainDown / 50;
+        //read out the analog voltages from all 5 channels
+        halAdcReadData(&D);
         
         //subtract offsets
-        tempX = (float)(left - right) - offsetx;
-        tempY = (float)(up - down) - offsety;
-        halAdcReportRaw(up, down, left, right, pressure, (int)tempX, (int)tempY);
+        tempX = (D.left - D.right) - offsetx;
+        tempY = (D.up - D.down) - offsety;
+        
         
         //apply deadzone
         if (tempX<-adc_conf.deadzone_x) tempX+=adc_conf.deadzone_x;
         else if (tempX>adc_conf.deadzone_x) tempX-=adc_conf.deadzone_x;
-        else tempX=0.0;
+        else tempX=0;
+        
         if (tempY<-adc_conf.deadzone_y) tempY+=adc_conf.deadzone_y;
         else if (tempY>adc_conf.deadzone_y) tempY-=adc_conf.deadzone_y;
-        else tempY=0.0;
+        else tempY=0;
+        
+        //report raw values.
+        halAdcReportRaw(D.up, D.down, D.left, D.right, D.pressure, tempX, tempY);
   
         //apply acceleration
         if (tempX==0) accelTimeX=0;
         else if (accelTimeX < ACCELTIME_MAX) accelTimeX+=adc_conf.acceleration;
         if (tempY==0) accelTimeY=0;
         else if (accelTimeY < ACCELTIME_MAX) accelTimeY+=adc_conf.acceleration;
-                
+                        
         //calculate the current X movement by using acceleration, accel factor and sensitivity
         moveVal = tempX * adc_conf.sensitivity_x * accelFactor * accelTimeX;
         //limit value
@@ -244,42 +247,44 @@ void halAdcTaskMouse(void * pvParameters)
         accumYpos+=moveVal;
         
         //cast to int again
-        int xMove = (int)accumXpos;
-        int yMove = (int)accumYpos;
+        tempX = accumXpos;
+        tempY = accumYpos;
         
         //limit to int8 values (to fit into mouse report)
-        if(xMove > 127) xMove = 127;
-        if(xMove < -127) xMove = -127;
-        if(yMove > 127) yMove = 127;
-        if(yMove < -127) yMove = -127;
+        if(tempX > 127) tempX = 127;
+        if(tempX < -127) tempX = -127;
+        if(tempY > 127) tempY = 127;
+        if(tempY < -127) tempY = -127;
         
         //if at least one value is != 0, send to mouse.
-        if ((xMove != 0) || (yMove != 0))
+        if ((tempX != 0) || (tempY != 0))
         {
-            command.x = xMove;
-            command.y = yMove;
-            accumXpos -= xMove;
-            accumYpos -= yMove;
+            command.x = tempX;
+            command.y = tempY;
+            accumXpos -= tempX;
+            accumYpos -= tempY;
             
             //post values to mouse queue (USB and/or BLE)
             if(xEventGroupGetBits(connectionRoutingStatus) & DATATO_USB)
             {
-                ESP_LOGD(LOG_TAG,"Sending mouse X/Y (USB): %d/%d",xMove,yMove);
                 xQueueSend(mouse_movement_usb,&command,0);
             }
             
             if(xEventGroupGetBits(connectionRoutingStatus) & DATATO_BLE)
             {
-                ESP_LOGD(LOG_TAG,"Sending mouse X/Y (BLE): %d/%d",xMove,yMove);
                 xQueueSend(mouse_movement_ble,&command,0);
             }
         }  
                 
         //pressure sensor is handled in another function
-        halAdcProcessPressure(pressure);
+        halAdcProcessPressure(D.pressure);
+        
+        
+        //give mutex
+        xSemaphoreGive(adcSem);
         
         //delay the task.
-        vTaskDelay(20/portTICK_PERIOD_MS); 
+        vTaskDelayUntil( &xLastWakeTime, 20/portTICK_PERIOD_MS);
     }
 }
 
@@ -299,30 +304,34 @@ void halAdcTaskMouse(void * pvParameters)
 void halAdcTaskJoystick(void * pvParameters)
 {
     //analog values
-    uint32_t up, down, left, right, pressure;
+    adcData_t D;
     int32_t x,y;
     joystick_command_t command;
+    TickType_t xLastWakeTime;
     
     while(1)
     {
+        //get mutex
+        if(xSemaphoreTake(adcSem, (TickType_t) 30) != pdTRUE)
+        {
+            ESP_LOGW(LOG_TAG,"Cannot obtain mutex for reading");
+            continue;
+        }
+        
         //read out the analog voltages from all 5 channels
-        up = adc1_to_voltage(HAL_IO_ADC_CHANNEL_UP, &characteristics);
-        down = adc1_to_voltage(HAL_IO_ADC_CHANNEL_DOWN, &characteristics);
-        left = adc1_to_voltage(HAL_IO_ADC_CHANNEL_LEFT, &characteristics);
-        right = adc1_to_voltage(HAL_IO_ADC_CHANNEL_RIGHT, &characteristics);
-        pressure = adc1_to_voltage(HAL_IO_ADC_CHANNEL_PRESSURE, &characteristics);
+        halAdcReadData(&D);
         
         //if a value is outside threshold, activate debounce timer
-        x = (int32_t)(left - right) - offsetx;
-        y = (int32_t)(up - down) - offsety;
-        halAdcReportRaw(up, down, left, right, pressure, x, y);
+        x = (int32_t)(D.left - D.right) - offsetx;
+        y = (int32_t)(D.up - D.down) - offsety;
+        halAdcReportRaw(D.up, D.down, D.left, D.right, D.pressure, x, y);
         
         //TODO: acceleration & max speed calc
         
         //TODO: do everything...
         
         //post values to mouse queue (USB and/or BLE)
-        if(xEventGroupGetBits(connectionRoutingStatus) & DATATO_USB)
+        /*if(xEventGroupGetBits(connectionRoutingStatus) & DATATO_USB)
         {
             xQueueSend(joystick_movement_usb,&command,0);
         }
@@ -330,13 +339,16 @@ void halAdcTaskJoystick(void * pvParameters)
         if(xEventGroupGetBits(connectionRoutingStatus) & DATATO_BLE)
         {
             xQueueSend(joystick_movement_ble,&command,0);
-        }
+        }*/
                 
         //pressure sensor is handled in another function
-        halAdcProcessPressure(pressure);
+        halAdcProcessPressure(D.pressure);
+        
+        //give mutex
+        xSemaphoreGive(adcSem);
         
         //delay the task.
-        vTaskDelay(20/portTICK_PERIOD_MS); 
+        vTaskDelayUntil(&xLastWakeTime, 20/portTICK_PERIOD_MS); 
     }
 }
 
@@ -346,19 +358,45 @@ void halAdcTaskJoystick(void * pvParameters)
  * axis of the mouthpiece.
  * Either triggered by the functional task task_calibration or on a
  * config change.
- * 
- * @todo Implement everything...
+ * @note Can be called directly.
  **/
 void halAdcCalibrate(void)
 {
-    //TODO:
-    //suspend adcHandle
-    //get semaphore
-    //read values itself & accumulate
-    //divide
-    //set as offset values
-    //give semaphore
-    //resume adcHandle
+    //get mutex
+    if(xSemaphoreTake(adcSem, (TickType_t) 20))
+    {
+        ESP_LOGI(LOG_TAG,"Starting calibration, offsets: %d/%d",offsetx,offsety);
+        uint32_t up = 0;
+        uint32_t down = 0;
+        uint32_t left = 0;
+        uint32_t right = 0;
+        //read values itself & accumulate (8sensor readings)
+        for(uint8_t i = 0; i<8; i++)
+        {
+            up += adc1_to_voltage(HAL_IO_ADC_CHANNEL_UP, &characteristics);
+            down += adc1_to_voltage(HAL_IO_ADC_CHANNEL_DOWN, &characteristics);
+            left += adc1_to_voltage(HAL_IO_ADC_CHANNEL_LEFT, &characteristics);
+            right += adc1_to_voltage(HAL_IO_ADC_CHANNEL_RIGHT, &characteristics);
+            vTaskDelay(2);
+        }
+        
+        //divide (by shift, easy for 8 readings)
+        up = up >> 3;
+        down = down >> 3;
+        left = left >> 3;
+        right = right >> 3;
+        //set as offset values
+        offsetx = left - right;
+        offsety = up - down;
+        
+        ESP_LOGI(LOG_TAG,"Finished calibration, offsets: %d/%d",offsetx,offsety);
+        
+        //give mutex to enable tasks again
+        xSemaphoreGive(adcSem);
+    } else {
+        ESP_LOGE(LOG_TAG,"Cannot calibrate, no mutex");
+    }
+    
     return;
 }
 
@@ -444,23 +482,26 @@ void task_calibration(taskNoParameterConfig_t *param)
 void halAdcTaskThreshold(void * pvParameters)
 {
     //analog values
-    uint32_t up, down, left, right, pressure;
+    adcData_t D;
     int32_t x,y;
     uint8_t firedx = 0,firedy = 0;
+    TickType_t xLastWakeTime;
     
     while(1)
     {
+        //get mutex
+        if(xSemaphoreTake(adcSem, (TickType_t) 30) != pdTRUE)
+        {
+            ESP_LOGW(LOG_TAG,"Cannot obtain mutex for reading");
+            continue;
+        }
+        
         //read out the analog voltages from all 5 channels
-        up = adc1_to_voltage(HAL_IO_ADC_CHANNEL_UP, &characteristics);
-        down = adc1_to_voltage(HAL_IO_ADC_CHANNEL_DOWN, &characteristics);
-        left = adc1_to_voltage(HAL_IO_ADC_CHANNEL_LEFT, &characteristics);
-        right = adc1_to_voltage(HAL_IO_ADC_CHANNEL_RIGHT, &characteristics);
-        pressure = adc1_to_voltage(HAL_IO_ADC_CHANNEL_PRESSURE, &characteristics);
+        halAdcReadData(&D);
         
         //if a value is outside threshold, activate debounce timer
-        x = (int32_t)(left - right) - offsetx;
-        y = (int32_t)(up - down) - offsety;
-        halAdcReportRaw(up, down, left, right, pressure, x, y);
+        x = (int32_t)(D.left - D.right) - offsetx;
+        y = (int32_t)(D.up - D.down) - offsety;
         
         //LEFT/RIGHT value exceeds threshold (deadzone) value?
         if(abs(x) > adc_conf.deadzone_x)
@@ -470,12 +511,21 @@ void halAdcTaskThreshold(void * pvParameters)
             {
                 ESP_LOGD("hal_adc","X-axis fired in alternative mode");
                 //set either left or right bit in debouncer input event group
-                if(x < 0) xEventGroupSetBits(virtualButtonsIn[VB_LEFT/4],(1<<(VB_LEFT%4)));
-                if(x > 0) xEventGroupSetBits(virtualButtonsIn[VB_RIGHT/4],(1<<(VB_RIGHT%4)));
+                if(x < 0) 
+                {
+                    xEventGroupSetBits(virtualButtonsIn[VB_LEFT/4],(1<<(VB_LEFT%4)));
+                    x = -1;
+                }
+                if(x > 0) 
+                {
+                    xEventGroupSetBits(virtualButtonsIn[VB_RIGHT/4],(1<<(VB_RIGHT%4)));
+                    x = 1;
+                }
                 //remember that we alread set the flag
                 firedx = 1;
             }
         } else {
+            x = 0;
             //below threshold, clear the one-time flag setting variable
             firedx = 0;
             //also clear the debouncer event bits
@@ -491,12 +541,21 @@ void halAdcTaskThreshold(void * pvParameters)
             {
                 ESP_LOGD("hal_adc","Y-axis fired in alternative mode");
                 //set either left or right bit in debouncer input event group
-                if(y < 0) xEventGroupSetBits(virtualButtonsIn[VB_UP/4],(1<<(VB_UP%4)));
-                if(y > 0) xEventGroupSetBits(virtualButtonsIn[VB_DOWN/4],(1<<(VB_DOWN%4)));
+                if(y < 0) 
+                {
+                    xEventGroupSetBits(virtualButtonsIn[VB_UP/4],(1<<(VB_UP%4)));
+                    y = -1;
+                }
+                if(y > 0) 
+                {
+                    xEventGroupSetBits(virtualButtonsIn[VB_DOWN/4],(1<<(VB_DOWN%4)));
+                    y = 1;
+                }
                 //remember that we alread set the flag
                 firedy = 1;
             }
         } else {
+            y = 0;
             //below threshold, clear the one-time flag setting variable
             firedy = 0;
             //also clear the debouncer event bits
@@ -504,13 +563,95 @@ void halAdcTaskThreshold(void * pvParameters)
             xEventGroupClearBits(virtualButtonsIn[VB_DOWN/4],(1<<(VB_DOWN%4)));
         }
         
+        halAdcReportRaw(D.up, D.down, D.left, D.right, D.pressure, x, y);
+        
         //pressure sensor is handled in another function
-        halAdcProcessPressure(pressure);
+        halAdcProcessPressure(D.pressure);
+        
+        //give mutex
+        xSemaphoreGive(adcSem);
         
         //delay the task.
-        vTaskDelay(20/portTICK_PERIOD_MS); 
+        vTaskDelayUntil(&xLastWakeTime, 20/portTICK_PERIOD_MS); 
     }
     
+}
+
+
+/** @brief Reload ADC config
+ * 
+ * This method reloads the ADC config.
+ * Depending on the configuration, a task switch might be initiated
+ * to switch the mouthpiece mode from e.g., Joystick to Mouse to 
+ * Alternative Mode (Threshold operated).
+ * @param params New ADC config
+ * @todo Clear pending VB flags on a config switch
+ * @return ESP_OK on success, ESP_FAIL otherwise (wrong config, out of memory)
+ * */
+esp_err_t halAdcUpdateConfig(adc_config_t* params)
+{
+    //do some parameter validations. TBD!
+    if(params == NULL)
+    {
+        ESP_LOGE(LOG_TAG,"cannot update config, no parameter");
+        return ESP_FAIL;
+    }
+    
+    //acquire mutex
+    if(xSemaphoreTake(adcSem, (TickType_t) 30) != pdTRUE)
+    {
+        ESP_LOGW(LOG_TAG,"Cannot obtain mutex for config update");
+        return ESP_FAIL;
+    }
+    
+    //if new mode is different, delete previous task
+    if(params->mode != adc_conf.mode)
+    {
+        if(adcHandle != NULL) 
+        {
+            ESP_LOGD(LOG_TAG, "mode change, deleting old task");
+            vTaskDelete(adcHandle);
+            adcHandle = NULL;
+        } else ESP_LOGW(LOG_TAG, "no valid task handle, no task deleted");
+    }
+        
+    
+    //clear pending button flags
+    //TBD...
+    
+    //Just copy content
+    memcpy(&adc_conf,params,sizeof(adc_config_t));
+    
+    //start task according to mode
+    if(adcHandle == NULL)
+    {
+        switch(adc_conf.mode)
+        {
+            case MOUSE:
+                xTaskCreate(halAdcTaskMouse,"ADC_TASK",4096,NULL,HAL_ADC_TASK_PRIORITY,&adcHandle);
+                ESP_LOGD(LOG_TAG,"created ADC task for mouse, handle %d",(uint32_t)adcHandle);
+                break;
+            case JOYSTICK:
+                xTaskCreate(halAdcTaskJoystick,"ADC_TASK",4096,NULL,HAL_ADC_TASK_PRIORITY,&adcHandle);
+                ESP_LOGD(LOG_TAG,"created ADC task for joystick, handle %d",(uint32_t)adcHandle);
+                break;
+            case THRESHOLD:
+                xTaskCreate(halAdcTaskThreshold,"ADC_TASK",4096,NULL,HAL_ADC_TASK_PRIORITY,&adcHandle);
+                ESP_LOGD(LOG_TAG,"created ADC task for threshold, handle %d",(uint32_t)adcHandle);
+                break;
+            
+            default:
+               ESP_LOGE(LOG_TAG,"unknown mode (unconfigured), cannot startup task.");
+               return ESP_FAIL;
+        }
+    } else {
+        ESP_LOGI(LOG_TAG,"ADC config reloaded without task switch");
+    }
+    
+    ESP_LOG_BUFFER_HEXDUMP(LOG_TAG,&adc_conf,sizeof(adc_config_t),ESP_LOG_DEBUG);
+    //give mutex
+    xSemaphoreGive(adcSem);
+    return ESP_OK;
 }
 
 
@@ -527,7 +668,7 @@ esp_err_t halAdcInit(adc_config_t* params)
 {
     esp_err_t ret;
     //Init ADC and Characteristics
-    ret = adc1_config_width(ADC_WIDTH_BIT_12);
+    ret = adc1_config_width(ADC_WIDTH_BIT_10);
     if(ret != ESP_OK) { ESP_LOGE("hal_adc","Error setting channel width"); return ret; }
     ret = adc1_config_channel_atten(HAL_IO_ADC_CHANNEL_UP, ADC_ATTEN_DB_11);
     if(ret != ESP_OK) { ESP_LOGE("hal_adc","Error setting atten on channel %d",HAL_IO_ADC_CHANNEL_UP); return ret; }
@@ -562,9 +703,13 @@ esp_err_t halAdcInit(adc_config_t* params)
         return ESP_FAIL;
     }
     
+    //initialize ADC semphore as mutex
+    adcSem = xSemaphoreCreateMutex();
+    
     //not initializing full config, only ADC
     if(params == NULL) return ESP_OK;
     
     //init remaining parts by updating config.
     return halAdcUpdateConfig(params);
 }
+

@@ -85,6 +85,16 @@
 #define ACCELTIME_MAX 20000
 
 
+/** @brief Calibration function
+ * 
+ * This method is called to calibrate the offset value for x and y
+ * axis of the mouthpiece.
+ * Either triggered by the functional task task_calibration or on a
+ * config change.
+ * @note Can be called directly.
+ **/
+ void halAdcCalibrate(void);
+
 /** @brief FUNCTIONAL TASK - Trigger zero-point calibration of mouthpiece
  * 
  * This task is used to trigger a zero-point calibration of

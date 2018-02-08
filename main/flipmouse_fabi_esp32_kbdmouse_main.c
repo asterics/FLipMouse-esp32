@@ -152,6 +152,9 @@ void app_main()
         ESP_LOGE(LOG_TAG,"error initializing taskCommands");
     }
     
+    //calibrate directly after start-up
+    halAdcCalibrate();
+    
     //delete this task after initializing.
     ESP_LOGI(LOG_TAG,"Finished intializing, deleting app_main");
     vTaskDelete(NULL);

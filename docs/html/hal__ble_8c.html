@@ -160,10 +160,12 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 <p>initializing BLE HAL</p>
-<p>This method initializes the BLE staff: -) Enable BT -) Init GATT &amp; GAP -) Start 4 tasks: Joystick, Mouse, Keyboard Press &amp; Keyboard Release</p>
-<dl class="params"><dt>Parameters</dt><dd>
+<p>This method initializes the BLE staff:</p><ul>
+<li>Enable BT</li>
+<li>Init GATT &amp; GAP</li>
+<li>Start 4 tasks: Joystick, Mouse, Keyboard Press &amp; Keyboard Release <br />
+ <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">locale</td><td>Keyboard locale which should be used by this device </td></tr>
     <tr><td class="paramname">deviceIdentifier</td><td>Which device is using this firmware? FABI or FLipMouse? </td></tr>
   </table>
   </dd>
@@ -171,9 +173,11 @@ Variables</h2></td></tr>
 <dl class="section see"><dt>See also</dt><dd>DEVICE_FABI </dd>
 <dd>
 <a class="el" href="common_8h.html#ac9a214fe0920b60586b7cd204ad0ce0a">DEVICE_FLIPMOUSE</a> </dd></dl>
+</li>
+</ul>
 <p>register the callback function to the gap module </p>
 
-<p class="definition">Definition at line <a class="el" href="hal__ble_8c_source.html#l00427">427</a> of file <a class="el" href="hal__ble_8c_source.html">hal_ble.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="hal__ble_8c_source.html#l00426">426</a> of file <a class="el" href="hal__ble_8c_source.html">hal_ble.c</a>.</p>
 
 <p class="reference">Referenced by <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c_source.html#l00073">app_main()</a>.</p>
 <div class="dynheader">

@@ -22,7 +22,7 @@
  /** @file
   * @brief Contains extra information/documentation for doxygen only*/
  
- /** @defgroup FunctionTasks
+ /** @defgroup fcttasks FunctionTasks
  *
  * All these listed functions are so called "FunctionTasks".
  * These are tasks, which are loaded and bound to a virtual button.
@@ -70,7 +70,6 @@
  @todo Clarify AT KP/KR/KH commands on original FlipMouse, to be compatible... (especially for press/release with buttons & with multiple key identifiers)
  @todo Debouncer testing...
  @todo Re-implement hal_serial's UART data reception: use own interrupt & discard UART driver.
- @todo Maybe store VB configs not in individual files, is slow...
  @todo Problem with AT MX/MY: not always stepping correct
  @todo Implement buzzer
  @todo Implement IR

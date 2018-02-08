@@ -22,10 +22,19 @@
  * THANK YOU VERY MUCH FOR THIS EFFORT ON KEYBOARD + LAYOUTS!
  * 
  */
- 
-/**
- * @file 
- * Contains arrays for each locale with corresponding keylayouts
+/** @file
+ * @brief Keyboard layout/keycode helper functions
+ * 
+ * This module is basically a wrapper around Paul Stoffregen's
+ * <b>keylayouts.h</b> file, which contains all keycodes & locales.
+ * This file supports following tasks:<br>
+ * * Get a keycode for one or more ASCII/Unicode bytes
+ * * Get a HID country code for a locale
+ * * Get a keycode for a key identifier (e.g., KEY_A)
+ * * Get a key identifier for a keycode
+ * * Fill/empty a keycode array for HID reports
+ * 
+ * This file is mostly used by task_kbd and task_commands modules.
  * 
  * This file is built around keylayouts.h, a header file for all
  * keyboard layouts from Paul Stoffregen.
@@ -43,11 +52,8 @@
  * 
  * 5.) Redo steps 1-4 for all different arrays for all keyboard layouts
  * 
- * If you want to get keycodes for a defined ASCII or UNICODE character,
- * please use the functions provided by this file.
- * 
- * @see keyboard_layouts
- * */
+ * @note Once again: Thank you very much Paul for these layouts!
+ **/
  
 #include <stdio.h>
 #include <stdlib.h>
@@ -2027,16 +2033,18 @@ uint8_t keycode_to_modifier(uint16_t keycode, uint8_t locale)
 	return modifier;
 }
 
-/** @brief Parse an incoming byte for a keycode, step 1
+
+/** @brief Parse an incoming byte for a keycode
  * 
  * This method parses one incoming byte for the given locale.
  * It returns 0 if there is no keycode or another byte is needed (Unicode input).
  * If a modifier is needed the given modifier byte is updated.
  * 
- * In the case of a necessary deadkey sequence, the second keystroke
- * is returned and the first keystroke is written to the given parameter.
- * 
  * @see keyboard_layouts
+ * @param inputdata Input byte to parse for a keycode
+ * @param locale Use this keyboard layout
+ * @param keycode_modifier If a modifier is needed, it will be written here
+ * @param deadkey_first_keycode If a deadkey stroke is needed, it will be written here
  * @return 0 if another byte is needed or no keycode is found; the keycode otherwise
  * 
  * */
@@ -2093,10 +2101,9 @@ uint8_t parse_for_keycode(uint8_t inputdata, uint8_t locale, uint8_t *keycode_mo
 
 /** @brief Remove a keycode from the given HID keycode array.
  * 
- * This is a helper function for managing a 6 byte keycode array for
- * HID reports.
- * 
  * @note The size of the keycode_arr parameter MUST be 6
+ * @param keycode Keycode to be removed
+ * @param keycode_arr Keycode to remove this keycode from
  * @return 0 if the keycode was removed, 1 if the keycode was not in the array
  * */
 uint8_t remove_keycode(uint8_t keycode,uint8_t *keycode_arr)
@@ -2116,11 +2123,10 @@ uint8_t remove_keycode(uint8_t keycode,uint8_t *keycode_arr)
 
 /** @brief Add a keycode to the given HID keycode array.
  * 
- * This is a helper function for managing a 6 byte keycode array for
- * HID reports.
- * 
  * @note The size of the keycode_arr parameter MUST be 6
- * @return 0 if the keycode was added, 1 if the keycode was already in the array and 2 if there was no space
+ * @param keycode Keycode to be added
+ * @param keycode_arr Keycode to add this keycode to
+ * @return 0 if the keycode was added, 1 if the keycode was already in the array, 2 if there was no space
  * */
 uint8_t add_keycode(uint8_t keycode,uint8_t *keycode_arr)
 {
@@ -2510,17 +2516,16 @@ uint16_t parseKeycodeToIdentifier(uint16_t keycode, char* buffer, uint8_t buf_le
 }
 
 
-/** @brief Get a keycode for 16bit input, step 0 (if necessary)
+/** @brief Get a keycode for the given UTF codepoint
  * 
- * This method parses a 16bit unicode character to a keycode by simply
- * invoking parse_for_keycode two times.
- * Some parameter in the FLipMouse/FABI configuration might be using 16bits
- * for characters, so in this case this function is used.
+ * This method parses a 16bit unicode character to a keycode.
+ * If a modifier is needed the given modifier byte is updated.
  * 
- * @see parse_for_keycode
- * @param cpoint Codepoint to be parsed (16bit!!!)
- * @param keycode_modifier Modifier byte which will be changed to reflect this cpoint
- * @param deadkey_first_keystroke If a deadkey needs to be pressed first, this will be the keycode
+ * @see keyboard_layouts
+ * @param cpoint 16bit Unicode-codepoint to parse
+ * @param locale Use this locale/layout to parse
+ * @param keycode_modifier If a modifier is needed, it will be written here
+ * @param deadkey_first_keystroke If a deadkey stroke is needed, it will be written here
  * @return 0 if no keycode is found; the keycode otherwise
  * */
 uint8_t get_keycode(uint16_t cpoint,uint8_t locale,uint8_t *keycode_modifier, uint8_t *deadkey_first_keystroke)
@@ -2536,7 +2541,6 @@ uint8_t get_keycode(uint16_t cpoint,uint8_t locale,uint8_t *keycode_modifier, ui
   }
   return keycode;
 }
-
 
 /** @brief Getting the HID country code for a given locale
  * 

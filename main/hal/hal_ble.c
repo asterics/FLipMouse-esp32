@@ -415,11 +415,10 @@ void halBLEReset(uint8_t exceptDevice)
 /** initializing BLE HAL
  * 
  * This method initializes the BLE staff:
- * -) Enable BT
- * -) Init GATT & GAP
- * -) Start 4 tasks: Joystick, Mouse, Keyboard Press & Keyboard Release
- * 
- * @param locale Keyboard locale which should be used by this device
+ * * Enable BT
+ * * Init GATT & GAP
+ * * Start 4 tasks: Joystick, Mouse, Keyboard Press & Keyboard Release
+ * <br>
  * @param deviceIdentifier Which device is using this firmware? FABI or FLipMouse?
  * @see DEVICE_FABI
  * @see DEVICE_FLIPMOUSE

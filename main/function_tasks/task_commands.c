@@ -192,13 +192,30 @@ parserstate_t doMouthpieceSettingsParsing(uint8_t *cmdBuffer, taskNoParameterCon
   /*++++ mouthpiece mode ++++*/
   if(CMD("AT MM"))
   {
-    //assign to gain value
+    //assign ADC mode accordingly
     switch(cmdBuffer[6])
     {
-      case '0': currentcfg->adc.mode = THRESHOLD; requestUpdate = 1; return NOACTION;
-      case '1': currentcfg->adc.mode = MOUSE; requestUpdate = 1; return NOACTION;
-      case '2': currentcfg->adc.mode = JOYSTICK; requestUpdate = 1; return NOACTION;
-      default: sendErrorBack("Mode is 0,1 or 2"); return UNKNOWNCMD;
+      case '0':
+        ESP_LOGD(LOG_TAG,"AT MM set to threshold");
+        currentcfg->adc.mode = THRESHOLD; 
+        requestUpdate = 1;
+        return NOACTION;
+        break;
+      case '1': 
+        ESP_LOGD(LOG_TAG,"AT MM set to mouse");
+        currentcfg->adc.mode = MOUSE; 
+        requestUpdate = 1; 
+        return NOACTION;
+        break;
+      case '2': 
+        ESP_LOGD(LOG_TAG,"AT MM set to joystick");
+        currentcfg->adc.mode = JOYSTICK; 
+        requestUpdate = 1; 
+        return NOACTION;
+        break;
+      default: 
+        sendErrorBack("Mode is 0,1 or 2"); 
+        return UNKNOWNCMD;
     }
   }
   
@@ -873,25 +890,30 @@ parserstate_t doMouseParsing(uint8_t *cmdBuffer, taskMouseConfig_t *mouseinstanc
   }  
   
   /*++++ mouse move ++++*/
-  //AT RL, AT RR, AT RM
+  //AT MX MY
   if(CMD4("AT M"))
   {
     mouseinstance->actionparam = M_UNUSED;
     //mouseinstance->actionvalue = atoi((char*)&(cmdBuffer[6]));
     //mouseinstance->actionvalue = strtoimax((char*)&(cmdBuffer[6]),&endBuf,10);
     int param = strtol((char*)&(cmdBuffer[5]),NULL,10);
-    ESP_LOGI(LOG_TAG,"Mouse move %c, %d",cmdBuffer[4],mouseinstance->actionvalue);
     if(param > 127 && param < -127)
     {
-      ESP_LOGW(LOG_TAG,"AT MX parameter limit -127 - 127");
+      ESP_LOGW(LOG_TAG,"AT M? parameter limit -127 - 127");
       return UNKNOWNCMD;
     } else {
       mouseinstance->actionvalue = param;
     }
     switch(cmdBuffer[4])
     {
-      case 'X': mouseinstance->type = X; return TRIGGERTASK;
-      case 'Y': mouseinstance->type = Y; return TRIGGERTASK;
+      case 'X': 
+        mouseinstance->type = X; 
+        ESP_LOGI(LOG_TAG,"Mouse move X, %d",mouseinstance->actionvalue);
+        return TRIGGERTASK;
+      case 'Y': 
+        mouseinstance->type = Y; 
+        ESP_LOGI(LOG_TAG,"Mouse move Y, %d",mouseinstance->actionvalue);
+        return TRIGGERTASK;
       default: return UNKNOWNCMD;
     }
   }
@@ -1037,6 +1059,8 @@ void task_commands(void *params)
         if(configUpdate() != ESP_OK)
         {
           ESP_LOGE(LOG_TAG,"Error updating general config!");
+        } else {
+          ESP_LOGD(LOG_TAG,"requesting config update");
         }
         requestUpdate = 0;
         continue;

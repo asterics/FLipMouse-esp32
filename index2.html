@@ -167,6 +167,9 @@
                 toSipPuff();
             } else if (url.indexOf('#tabActions') > -1) {
                 toActionLearn();
+            } else {
+                window.location.replace(window.location.href + '#tabBasic');
+                toBasic();
             }
         });
         window.flip = flip;

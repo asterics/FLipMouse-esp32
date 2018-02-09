@@ -344,7 +344,19 @@ void halStorageCreateDefault(uint32_t tid)
   ESP_LOGI(LOG_TAG,"Created new default slot");
 }
 
-/** Get the number of stored slots
+/** @brief Get number of currently loaded slot
+ * 
+ * An empty device will return 0
+ * 
+ * @see storageCurrentSlotNumber
+ * @return Currently loaded slot number
+ * */
+uint8_t halStorageGetCurrentSlotNumber(void)
+{
+  return storageCurrentSlotNumber;
+}
+
+/** @brief Get the number of stored slots
  * 
  * This method returns the number of available slots (the default slot
  * is not counted).
@@ -392,7 +404,7 @@ esp_err_t halStorageGetNumberOfSlots(uint32_t tid, uint8_t *slotsavailable)
   return ESP_OK;
 }
 
-/** Get the name of a slot number
+/** @brief Get the name of a slot number
  * 
  * This method returns the name of the given slot number.
  * An invalid slotnumber will return ESP_FAIL and an unchanged slotname
@@ -445,7 +457,7 @@ esp_err_t halStorageGetNameForNumber(uint32_t tid, uint8_t slotnumber, char *slo
   return ESP_OK;
 }
 
-/** Get the number of a slotname
+/** @brief Get the number of a slotname
  * 
  * This method returns the number of the given slotname.
  * An invalid name will return ESP_FAIL and a slotnumber of 0
@@ -521,7 +533,7 @@ esp_err_t halStorageGetNumberForName(uint32_t tid, uint8_t *slotnumber, char *sl
   return ESP_OK;
 }
 
-/** load a slot by an action
+/** @brief Load a slot by an action
  * 
  * This method loads a slot & saves the general config to the given
  * config struct pointer.
@@ -591,7 +603,7 @@ esp_err_t halStorageLoad(hal_storage_load_action navigate, generalConfig_t *cfg,
 }
 
 
-/** load a slot by a slot number (starting with 1, 0 is default slot)
+/** @brief Load a slot by a slot number (starting with 1, 0 is default slot)
  * 
  * This method loads a slot & saves the general config to the given
  * config struct pointer.
@@ -728,7 +740,7 @@ esp_err_t halStorageLoadNumber(uint8_t slotnumber, generalConfig_t *cfg, uint32_
 }
 
 
-/** load a slot by a slot name
+/** @brief Load a slot by a slot name
  * 
  * This method loads a slot & saves the general config to the given
  * config struct pointer.
@@ -1057,7 +1069,7 @@ esp_err_t halStorageStoreSetVBConfigs(uint8_t slotnumber, uint8_t vb, void *conf
   return ESP_OK;
 }
 
-/** Start a storage transaction
+/** @brief Start a storage transaction
  * 
  * This method is used to start a transaction and needs to be called
  * BEFORE any further storage access.
@@ -1115,7 +1127,7 @@ esp_err_t halStorageStartTransaction(uint32_t *tid, TickType_t tickstowait)
 }
 
 
-/** Finish a storage transaction
+/** @brief Finish a storage transaction
  * 
  * This method is used to stop a transaction and needs to be called
  * AFTER storage access, enabling other tasks to acquire the storage

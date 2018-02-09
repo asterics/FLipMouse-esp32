@@ -88,6 +88,15 @@ typedef enum {
 }hal_storage_load_action;
 
 
+/** @brief Get number of currently loaded slot
+ * 
+ * An empty device will return 0
+ * 
+ * @see storageCurrentSlotNumber
+ * @return Currently loaded slot number
+ * */
+uint8_t halStorageGetCurrentSlotNumber(void)
+
 /** Get the name of a slot number
  * 
  * This method returns the name of the given slot number.
@@ -104,7 +113,7 @@ typedef enum {
 esp_err_t halStorageGetNameForNumber(uint32_t tid, uint8_t slotnumber, char *slotname);
 
 
-/** Get the number of a slotname
+/** @brief Get the number of a slotname
  * 
  * This method returns the number of the given slotname.
  * An invalid name will return ESP_FAIL and a slotnumber of 0
@@ -119,7 +128,7 @@ esp_err_t halStorageGetNameForNumber(uint32_t tid, uint8_t slotnumber, char *slo
 esp_err_t halStorageGetNumberForName(uint32_t tid, uint8_t *slotnumber, char *slotname);
 
 
-/** Get the number of stored slots
+/** @brief Get the number of stored slots
  * 
  * This method returns the number of available slots (the default slot
  * is not counted).
@@ -133,7 +142,7 @@ esp_err_t halStorageGetNumberForName(uint32_t tid, uint8_t *slotnumber, char *sl
  * */
 esp_err_t halStorageGetNumberOfSlots(uint32_t tid, uint8_t *slotsavailable);
 
-/** load a slot by an action
+/** @brief Load a slot by an action
  * 
  * This method loads a slot & saves the general config to the given
  * config struct pointer.
@@ -160,7 +169,7 @@ esp_err_t halStorageGetNumberOfSlots(uint32_t tid, uint8_t *slotsavailable);
 esp_err_t halStorageLoad(hal_storage_load_action navigate, generalConfig_t *cfg, uint32_t tid);
 
 
-/** load a slot by a slot number (starting with 1, 0 is default slot)
+/** @brief Load a slot by a slot number (starting with 1, 0 is default slot)
  * 
  * This method loads a slot & saves the general config to the given
  * config struct pointer.
@@ -187,7 +196,7 @@ esp_err_t halStorageLoad(hal_storage_load_action navigate, generalConfig_t *cfg,
 esp_err_t halStorageLoadNumber(uint8_t slotnumber, generalConfig_t *cfg, uint32_t tid);
 
 
-/** load a slot by a slot name
+/** @brief Load a slot by a slot name
  * 
  * This method loads a slot & saves the general config to the given
  * config struct pointer.
@@ -232,7 +241,7 @@ esp_err_t halStorageLoadName(char *slotname, generalConfig_t *cfg, uint32_t tid)
  * */
 esp_err_t halStorageLoadGetVBConfigs(uint8_t vb, void * vb_config, size_t vb_config_size, uint32_t tid);
 
-/** Start a storage transaction
+/** @brief Start a storage transaction
  * 
  * This method is used to start a transaction and needs to be called
  * BEFORE any further storage access.
@@ -250,7 +259,7 @@ esp_err_t halStorageLoadGetVBConfigs(uint8_t vb, void * vb_config, size_t vb_con
 esp_err_t halStorageStartTransaction(uint32_t *tid, TickType_t tickstowait);
 
 
-/** Finish a storage transaction
+/** @brief Finish a storage transaction
  * 
  * This method is used to stop a transaction and needs to be called
  * AFTER storage access, enabling other tasks to acquire the storage
@@ -262,7 +271,7 @@ esp_err_t halStorageStartTransaction(uint32_t *tid, TickType_t tickstowait);
  * */
 esp_err_t halStorageFinishTransaction(uint32_t tid);
 
-/** Store a generalConfig_t struct
+/** @brief Store a generalConfig_t struct
  * 
  * This method stores the general config for the given slotnumber.
  * A slot contains:
@@ -286,7 +295,7 @@ esp_err_t halStorageFinishTransaction(uint32_t tid);
  * */
 esp_err_t halStorageStore(uint32_t tid,generalConfig_t *cfg, char *slotname, uint8_t slotnumber);
 
-/** Store a virtual button config struct
+/** @brief Store a virtual button config struct
  * 
  * This method stores the config struct for the given virtual button
  * If there is already a config with this given VB, it is overwritten!

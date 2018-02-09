@@ -158,25 +158,25 @@ void halAdcProcessPressure(uint32_t pressurevalue)
     if(pressurevalue < cfg->adc.threshold_sip && \
         pressurevalue > cfg->adc.threshold_strongsip)
     {
-        
+        TONE(TONE_SIP_FREQ,TONE_SIP_DURATION);
     }
     //STRONGSIP triggered
     if(pressurevalue < cfg->adc.threshold_strongsip)
     {
-        
+        TONE(TONE_STRONGSIP_ENTER_FREQ,TONE_STRONGSIP_ENTER_DURATION);
     }
     
     //PUFF triggered
     if(pressurevalue > cfg->adc.threshold_puff && \
         pressurevalue < cfg->adc.threshold_strongpuff)
     {
-        
+        TONE(TONE_PUFF_FREQ,TONE_PUFF_DURATION);
     }
     
     //STRONGPUFF triggered
     if(pressurevalue > cfg->adc.threshold_strongpuff)
     {
-        
+        TONE(TONE_STRONGPUFF_ENTER_FREQ,TONE_STRONGPUFF_ENTER_DURATION);
     }
 }
 

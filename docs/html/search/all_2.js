@@ -25,6 +25,7 @@ var searchData=
   ['connected',['connected',['../structhidd__clcb__t.html#ad7688ff1b454f5f445931be8d1d3487e',1,'hidd_clcb_t']]],
   ['connectionroutingstatus',['connectionRoutingStatus',['../flipmouse__fabi__esp32__kbdmouse__main_8c.html#ae2b183880be8976139d636a3a714e315',1,'connectionRoutingStatus():&#160;flipmouse_fabi_esp32_kbdmouse_main.c'],['../common_8h.html#ae2b183880be8976139d636a3a714e315',1,'connectionRoutingStatus():&#160;flipmouse_fabi_esp32_kbdmouse_main.c']]],
   ['consumer_5fcmd_5ft',['consumer_cmd_t',['../hid__dev_8h.html#aed4225041f5388cc8ad2a127bb8482d9',1,'hid_dev.h']]],
+  ['count',['count',['../structhalIOIR.html#afd3cecb29246569077b5348487fb5d62',1,'halIOIR']]],
   ['countrycode',['countryCode',['../structgeneralConfig.html#a7894347d712056056521db904a444a30',1,'generalConfig']]],
   ['cur_5fsrvc_5fid',['cur_srvc_id',['../structhidd__clcb__t.html#a753dbdb0ac0971d06092328aa80cbb68',1,'hidd_clcb_t']]],
   ['currentconfigloaded',['currentConfigLoaded',['../config__switcher_8c.html#a73c577cdbcaa9439f9458a9e5d39c143',1,'config_switcher.c']]],

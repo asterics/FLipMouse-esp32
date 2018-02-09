@@ -88,6 +88,9 @@ $(function() {
 <li>HAL_IO_ADC_TASK_PRIORITY
 : <a class="el" href="hal__adc_8h.html#aec5255c5a049b277c1de3cfc79dfdd57">hal_adc.h</a>
 </li>
+<li>HAL_IO_IR_MEM_BLOCKS
+: <a class="el" href="hal__io_8h.html#a8e09474b15adae0b00d1c683e91eea64">hal_io.h</a>
+</li>
 <li>HAL_IO_PIN_ADC_DOWN
 : <a class="el" href="hal__adc_8h.html#a2b486fca4bebfbc5983bd9876de79300">hal_adc.h</a>
 </li>
@@ -235,11 +238,23 @@ $(function() {
 : <a class="el" href="hal__io_8c.html#aa5ee74913a09cba6dca62bfdc9f8342b">hal_io.c</a>
 , <a class="el" href="hal__io_8h.html#aa5ee74913a09cba6dca62bfdc9f8342b">hal_io.h</a>
 </li>
+<li>halIOIR_t
+: <a class="el" href="hal__io_8h.html#af531911959683790ca7ae870f8462a16">hal_io.h</a>
+</li>
+<li>halIOIRFree()
+: <a class="el" href="hal__io_8c.html#ac042a2c8cb99fa3ba52f8e494c1bbe13">hal_io.c</a>
+</li>
 <li>halIOIRRecvQueue
 : <a class="el" href="hal__io_8h.html#a528414effa3559daeccac2474c3835ed">hal_io.h</a>
 </li>
+<li>halIOIRRecvTask()
+: <a class="el" href="hal__io_8c.html#af049ec6b187a1b5b1575120758561ae8">hal_io.c</a>
+</li>
 <li>halIOIRSendQueue
 : <a class="el" href="hal__io_8h.html#acb1e15303cc7da57fd758e36180ecec9">hal_io.h</a>
+</li>
+<li>halIOIRSendTask()
+: <a class="el" href="hal__io_8c.html#a2c496a858bfe63759ccc520a2add4963">hal_io.c</a>
 </li>
 <li>halIOLEDQueue
 : <a class="el" href="hal__io_8c.html#a9e32dec844f77f4ba6f10d4641ef8779">hal_io.c</a>
@@ -297,6 +312,10 @@ $(function() {
 <li>halStorageFinishTransaction()
 : <a class="el" href="hal__storage_8c.html#a00b5db14e24d7ada8a42aa6b3f1a1cb7">hal_storage.c</a>
 , <a class="el" href="hal__storage_8h.html#a00b5db14e24d7ada8a42aa6b3f1a1cb7">hal_storage.h</a>
+</li>
+<li>halStorageGetCurrentSlotNumber()
+: <a class="el" href="hal__storage_8c.html#aa5da838bef47becbd2b5bd96a60c75b3">hal_storage.c</a>
+, <a class="el" href="hal__storage_8h.html#aa5da838bef47becbd2b5bd96a60c75b3">hal_storage.h</a>
 </li>
 <li>halStorageGetNameForNumber()
 : <a class="el" href="hal__storage_8c.html#a2046481d14910cc6a5b0086a796f293b">hal_storage.c</a>
@@ -591,16 +610,16 @@ $(function() {
 : <a class="el" href="hidd__le__prf__int_8h.html#a26f0357180ecb5b51fcda5a4e2301e72">hidd_le_prf_int.h</a>
 </li>
 <li>hidd_clcb_alloc()
-: <a class="el" href="hid__device__le__prf_8c.html#a4e7096230eedcf2dbc89351ea636677d">hid_device_le_prf.c</a>
-, <a class="el" href="hidd__le__prf__int_8h.html#a4e7096230eedcf2dbc89351ea636677d">hidd_le_prf_int.h</a>
+: <a class="el" href="hidd__le__prf__int_8h.html#a4e7096230eedcf2dbc89351ea636677d">hidd_le_prf_int.h</a>
+, <a class="el" href="hid__device__le__prf_8c.html#a4e7096230eedcf2dbc89351ea636677d">hid_device_le_prf.c</a>
 </li>
 <li>hidd_clcb_dealloc()
 : <a class="el" href="hid__device__le__prf_8c.html#a74aa695557816b038ff9847860291fa2">hid_device_le_prf.c</a>
 , <a class="el" href="hidd__le__prf__int_8h.html#a74aa695557816b038ff9847860291fa2">hidd_le_prf_int.h</a>
 </li>
 <li>hidd_get_attr_value()
-: <a class="el" href="hidd__le__prf__int_8h.html#a192d7cf437968a2130fcde7888eaf5ce">hidd_le_prf_int.h</a>
-, <a class="el" href="hid__device__le__prf_8c.html#a192d7cf437968a2130fcde7888eaf5ce">hid_device_le_prf.c</a>
+: <a class="el" href="hid__device__le__prf_8c.html#a192d7cf437968a2130fcde7888eaf5ce">hid_device_le_prf.c</a>
+, <a class="el" href="hidd__le__prf__int_8h.html#a192d7cf437968a2130fcde7888eaf5ce">hidd_le_prf_int.h</a>
 </li>
 <li>HIDD_GREAT_VER
 : <a class="el" href="hidd__le__prf__int_8h.html#ae9345fe7f433ab105bdef0c6c983b078">hidd_le_prf_int.h</a>
@@ -675,8 +694,8 @@ $(function() {
 : <a class="el" href="hidd__le__prf__int_8h.html#a7907956e9e9ae0f0d5e6a928c9e1f143">hidd_le_prf_int.h</a>
 </li>
 <li>hidd_le_create_service()
-: <a class="el" href="hidd__le__prf__int_8h.html#a479cfaafdbd41501ccd953c0abfc8ca6">hidd_le_prf_int.h</a>
-, <a class="el" href="hid__device__le__prf_8c.html#a479cfaafdbd41501ccd953c0abfc8ca6">hid_device_le_prf.c</a>
+: <a class="el" href="hid__device__le__prf_8c.html#a479cfaafdbd41501ccd953c0abfc8ca6">hid_device_le_prf.c</a>
+, <a class="el" href="hidd__le__prf__int_8h.html#a479cfaafdbd41501ccd953c0abfc8ca6">hidd_le_prf_int.h</a>
 </li>
 <li>HIDD_LE_CTNL_PT_CHAR
 : <a class="el" href="hidd__le__prf__int_8h.html#a99fb83031ce9923c84392b4e92f956b5a95cd26e74422592c250244b0b0fc1ec1">hidd_le_prf_int.h</a>
@@ -685,8 +704,8 @@ $(function() {
 : <a class="el" href="hidd__le__prf__int_8h.html#adc29c2ff13d900c2f185ee95427fb06ca5178520cb60bd1e750d91b7173fb6bcb">hidd_le_prf_int.h</a>
 </li>
 <li>hidd_le_env
-: <a class="el" href="hidd__le__prf__int_8h.html#a91d82217264ad84483e4f8f0c644d6cf">hidd_le_prf_int.h</a>
-, <a class="el" href="hid__device__le__prf_8c.html#a91d82217264ad84483e4f8f0c644d6cf">hid_device_le_prf.c</a>
+: <a class="el" href="hid__device__le__prf_8c.html#a91d82217264ad84483e4f8f0c644d6cf">hid_device_le_prf.c</a>
+, <a class="el" href="hidd__le__prf__int_8h.html#a91d82217264ad84483e4f8f0c644d6cf">hidd_le_prf_int.h</a>
 </li>
 <li>HIDD_LE_IDX_BOOT_KB_IN_REPORT_CHAR
 : <a class="el" href="hidd__le__prf__int_8h.html#adf764cbdea00d65edcd07bb9953ad2b7a162f34f7fafa5aa044b614e5757fafbb">hidd_le_prf_int.h</a>
@@ -851,16 +870,16 @@ $(function() {
 : <a class="el" href="hidd__le__prf__int_8h.html#aba6045c504a62a047161d5241029a024">hidd_le_prf_int.h</a>
 </li>
 <li>hidd_register_cb()
-: <a class="el" href="hid__device__le__prf_8c.html#acb0d2b8e95e7bbabf1e3bdab379d18d5">hid_device_le_prf.c</a>
-, <a class="el" href="hidd__le__prf__int_8h.html#acb0d2b8e95e7bbabf1e3bdab379d18d5">hidd_le_prf_int.h</a>
+: <a class="el" href="hidd__le__prf__int_8h.html#acb0d2b8e95e7bbabf1e3bdab379d18d5">hidd_le_prf_int.h</a>
+, <a class="el" href="hid__device__le__prf_8c.html#acb0d2b8e95e7bbabf1e3bdab379d18d5">hid_device_le_prf.c</a>
 </li>
 <li>hidd_set_attr_value()
 : <a class="el" href="hid__device__le__prf_8c.html#af1d398a5081d065d043c584c44d77b91">hid_device_le_prf.c</a>
 , <a class="el" href="hidd__le__prf__int_8h.html#af1d398a5081d065d043c584c44d77b91">hidd_le_prf_int.h</a>
 </li>
 <li>hidd_set_countrycode()
-: <a class="el" href="hidd__le__prf__int_8h.html#afa62ba26a48e429b592a9e5be49778d8">hidd_le_prf_int.h</a>
-, <a class="el" href="hid__device__le__prf_8c.html#afa62ba26a48e429b592a9e5be49778d8">hid_device_le_prf.c</a>
+: <a class="el" href="hid__device__le__prf_8c.html#afa62ba26a48e429b592a9e5be49778d8">hid_device_le_prf.c</a>
+, <a class="el" href="hidd__le__prf__int_8h.html#afa62ba26a48e429b592a9e5be49778d8">hidd_le_prf_int.h</a>
 </li>
 <li>HIDD_SUB_VER
 : <a class="el" href="hidd__le__prf__int_8h.html#a6cf775d40bbf29d5dbddd89532d2183e">hidd_le_prf_int.h</a>

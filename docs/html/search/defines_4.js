@@ -9,6 +9,7 @@ var searchData=
   ['hal_5fio_5fadc_5fchannel_5fright',['HAL_IO_ADC_CHANNEL_RIGHT',['../hal__adc_8h.html#a6210aeeacdb49a0f5db1c141a769ab62',1,'hal_adc.h']]],
   ['hal_5fio_5fadc_5fchannel_5fup',['HAL_IO_ADC_CHANNEL_UP',['../hal__adc_8h.html#a093931e36ef0aa4a63483f093b203155',1,'hal_adc.h']]],
   ['hal_5fio_5fadc_5ftask_5fpriority',['HAL_IO_ADC_TASK_PRIORITY',['../hal__adc_8h.html#aec5255c5a049b277c1de3cfc79dfdd57',1,'hal_adc.h']]],
+  ['hal_5fio_5fir_5fmem_5fblocks',['HAL_IO_IR_MEM_BLOCKS',['../hal__io_8h.html#a8e09474b15adae0b00d1c683e91eea64',1,'hal_io.h']]],
   ['hal_5fio_5fpin_5fadc_5fdown',['HAL_IO_PIN_ADC_DOWN',['../hal__adc_8h.html#a2b486fca4bebfbc5983bd9876de79300',1,'hal_adc.h']]],
   ['hal_5fio_5fpin_5fadc_5fleft',['HAL_IO_PIN_ADC_LEFT',['../hal__adc_8h.html#a1e4f4fffcd1c5b0c1b23197b38e91d8b',1,'hal_adc.h']]],
   ['hal_5fio_5fpin_5fadc_5fpressure',['HAL_IO_PIN_ADC_PRESSURE',['../hal__adc_8h.html#a481e9ac3c4b59162a80d464c410629c5',1,'hal_adc.h']]],

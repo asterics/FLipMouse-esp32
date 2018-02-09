@@ -152,7 +152,7 @@ void halStorageCreateDefault(uint32_t tid)
   defaultCfg->slotversion = STORAGE_ID;
   defaultCfg->locale = LAYOUT_GERMAN;
   defaultCfg->wheel_stepsize = 3;
-  defaultCfg->orientation = 0;
+  
   
   strcpy(defaultCfg->slotName,"__DEFAULT");
   
@@ -163,6 +163,7 @@ void halStorageCreateDefault(uint32_t tid)
     defaultCfg->deviceIdentifier = 0;
   #endif
   
+  defaultCfg->adc.orientation = 0;
   defaultCfg->adc.acceleration = 50;
   defaultCfg->adc.axis = 0;
   defaultCfg->adc.deadzone_x = 20;

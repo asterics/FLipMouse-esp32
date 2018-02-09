@@ -1205,7 +1205,7 @@ void printAllSlots(uint8_t printconfig)
       halSerialSendUSBSerial(HAL_SERIAL_TX_TO_CDC,parameterNumber,strlen(parameterNumber),10);
       sprintf(parameterNumber,"AT GR %d\r\n",currentcfg->adc.gain[3]);
       halSerialSendUSBSerial(HAL_SERIAL_TX_TO_CDC,parameterNumber,strlen(parameterNumber),10);
-      sprintf(parameterNumber,"AT RO %d\r\n",currentcfg->orientation);
+      sprintf(parameterNumber,"AT RO %d\r\n",currentcfg->adc.orientation);
       halSerialSendUSBSerial(HAL_SERIAL_TX_TO_CDC,parameterNumber,strlen(parameterNumber),10);
       
       

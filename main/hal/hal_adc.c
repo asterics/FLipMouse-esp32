@@ -124,11 +124,19 @@ void halAdcReportRaw(uint32_t up, uint32_t down, uint32_t left, uint32_t right, 
 void halAdcReadData(adcData_t *values)
 {
     //read all sensors
+    uint32_t tmp = 0;
     uint32_t up = adc1_to_voltage(HAL_IO_ADC_CHANNEL_UP, &characteristics);
     uint32_t down = adc1_to_voltage(HAL_IO_ADC_CHANNEL_DOWN, &characteristics);
     uint32_t left = adc1_to_voltage(HAL_IO_ADC_CHANNEL_LEFT, &characteristics);
     uint32_t right = adc1_to_voltage(HAL_IO_ADC_CHANNEL_RIGHT, &characteristics);
     values->pressure = adc1_to_voltage(HAL_IO_ADC_CHANNEL_PRESSURE, &characteristics);
+
+    //do the mouse rotation
+    switch (adc_conf.orientation) {
+      case 90: tmp=up; up=left; left=down; down=right; right=tmp; break;
+      case 180: tmp=up; up=down; down=tmp; tmp=right; right=left; left=tmp; break;
+      case 270: tmp=up; up=right; right=down; down=left; left=tmp;break;
+    }
         
     //apply individual sensor gain
     values->up = up * adc_conf.gain[0] / 50;

@@ -16,6 +16,7 @@ var searchData=
   ['halbletaskkeyboardrelease',['halBleTaskKeyboardRelease',['../hal__ble_8c.html#adbfa982381d6d09432d7ba1961846b32',1,'hal_ble.c']]],
   ['halbletaskmouse',['halBleTaskMouse',['../hal__ble_8c.html#a2daad176a4409b3a0e1c1b3c1b813d49',1,'hal_ble.c']]],
   ['halioinit',['halIOInit',['../hal__io_8c.html#aa5ee74913a09cba6dca62bfdc9f8342b',1,'halIOInit(void):&#160;hal_io.c'],['../hal__io_8h.html#aa5ee74913a09cba6dca62bfdc9f8342b',1,'halIOInit(void):&#160;hal_io.c']]],
+  ['halioledtask',['halIOLEDTask',['../hal__io_8c.html#ad83b58c9ee836526a874392c0757f42d',1,'hal_io.c']]],
   ['halserialflushrx',['halSerialFlushRX',['../hal__serial_8c.html#a995c536b9e0d279066d893c6a3dfce4e',1,'halSerialFlushRX(void):&#160;hal_serial.c'],['../hal__serial_8h.html#a995c536b9e0d279066d893c6a3dfce4e',1,'halSerialFlushRX(void):&#160;hal_serial.c']]],
   ['halserialinit',['halSerialInit',['../hal__serial_8c.html#a2d03c06463b09e33d87d90eb273819b0',1,'halSerialInit(void):&#160;hal_serial.c'],['../hal__serial_8h.html#a2d03c06463b09e33d87d90eb273819b0',1,'halSerialInit(void):&#160;hal_serial.c']]],
   ['halserialreceiveusbserial',['halSerialReceiveUSBSerial',['../hal__serial_8c.html#a131377105453d5b94f02f977ff454613',1,'halSerialReceiveUSBSerial(uint8_t *data, uint32_t length):&#160;hal_serial.c'],['../hal__serial_8h.html#a131377105453d5b94f02f977ff454613',1,'halSerialReceiveUSBSerial(uint8_t *data, uint32_t length):&#160;hal_serial.c']]],

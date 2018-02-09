@@ -18,17 +18,26 @@
  * 
  * Copyright 2017 Benjamin Aigner <aignerb@technikum-wien.at,
  * beni@asterics-foundation.org>
- * 
- * This header file contains the hardware abstraction for all IO related
- * stuff (except ADC). Input buttons are read here, as well as the RGB LED
- * is driven.
- * In addition the infrared (IR) command stuff is also done here.
- * 
- * Compared to the tasks in the folder "function_tasks" all HAL tasks are
- * singletons.
- * Call init to initialize every necessary data structure.
- * 
  */
+/** @file
+ * @brief HAL TASK - This file contains the hardware abstraction for all IO related
+ * stuff (except ADC).
+ * 
+ * Following peripherals are utilized here:<br>
+ * * Input buttons
+ * * RGB LED
+ * * IR receiver (TSOP)
+ * * IR LED (sender)
+ * * Buzzer
+ * 
+ * @note Compared to the tasks in the folder "function_tasks" all HAL tasks are
+ * singletons. Call init to initialize every necessary data structure.
+ * 
+ * @todo Test LED driver
+ * @todo Implement Buzzer
+ * @todo Implement IR driver
+ * @todo Implement an IR struct for queues (pointer + length to RMT)
+ * */
  
  
 #include <freertos/FreeRTOS.h>
@@ -43,32 +52,73 @@
 //common definitions & data for all of these functional tasks
 #include "common.h"
 
+/** @brief PIN - GPIO pin for external button 1 */
 #define HAL_IO_PIN_BUTTON_EXT1  26 
+/** @brief PIN - GPIO pin for external button 2 */
 #define HAL_IO_PIN_BUTTON_EXT2  27
+/** @brief PIN - GPIO pin for internal button 1 */
 #define HAL_IO_PIN_BUTTON_INT1  22
+/** @brief PIN - GPIO pin for internal button 2 */
 #define HAL_IO_PIN_BUTTON_INT2  23
+/** @brief PIN - GPIO pin for buzzer
+ * @note We will use ledc drivers for the buzzer*/
+#define HAL_IO_PIN_BUZZER       25
+/** @brief PIN - GPIO pin for IR receiver (TSOP) 
+ * @note IR will be done with the RMT driver*/
+#define HAL_IO_PIN_IR_RECV      19
+/** @brief PIN - GPIO pin for IR sender (IR-LED)
+ * @note IR will be done with the RMT driver */
+#define HAL_IO_PIN_IR_SEND      21
 
-/** initializing IO HAL
+/** @brief PIN - GPIO pin for status LED (RGB) - RED 
+ * @note LEDs are driven by LEDC driver */
+#define HAL_IO_PIN_LED_RED      12
+/** @brief PIN - GPIO pin for status LED (RGB) - GREEN
+ * @note LEDs are driven by LEDC driver */
+#define HAL_IO_PIN_LED_GREEN    13
+/** @brief PIN - GPIO pin for status LED (RGB) - BLUE
+ * @note LEDs are driven by LEDC driver */
+#define HAL_IO_PIN_LED_BLUE     14
+
+/** @brief LED update queue
  * 
- * This method initializes the IO HAL stuff:
- * -) GPIO interrupt on 2 external and one internal button
- * -) RMT engine (recording and replaying of infrared commands)
- * -) LEDc driver for the RGB LED output
+ * This queue is used to update the LED color & brightness
+ * Please use one uint32_t value with following content:
+ * * \<bits 0-7\> RED
+ * * \<bits 8-15\> GREEN
+ * * \<bits 16-23\> BLUE
+ * * \<bits 24-31\> Fading time ([10¹ms] -> value of 200 is 2s)
+ * 
+ * @note Call halIOInit to initialize this queue.
+ * @see halIOInit
+ **/
+extern QueueHandle_t halIOLEDQueue;
+
+/** @brief Task stacksize for LED update task */
+#define TASK_HAL_LED_STACKSIZE 512
+
+/** @brief Task priority for LED update task */
+#define TASK_HAL_LED_PRIORITY (tskIDLE_PRIORITY + 2)
+
+/** @brief Initializing IO HAL
+ * 
+ * This method initializes the IO HAL stuff:<br>
+ * * GPIO interrupt on 2 external and one internal button
+ * * RMT engine (recording and replaying of infrared commands)
+ * * LEDc driver for the RGB LED output
+ * * PWM for buzzer output
  * */
 esp_err_t halIOInit(void);
 
-/** queue to control the LED and change color.
- * @see halIOLED_t */
-QueueHandle_t hal_io_led;
-/** queue to pend for any incoming infrared remote commands 
+/** @brief Queue to pend for any incoming infrared remote commands 
  * @see halIOIR_t */
-QueueHandle_t hal_io_ir_recv;
-/** queue to trigger any sending of infrared remote commands 
+QueueHandle_t halIOIRRecvQueue;
+/** @brief Queue to trigger any sending of infrared remote commands 
  * @see halIOIR_t */
-QueueHandle_t hal_io_ir_send;
-/** queue to trigger any sending of infrared remote commands 
+QueueHandle_t halIOIRSendQueue;
+/** @brief Queue to trigger a buzzer tone 
  * @see halIOBuzzer_t */
-QueueHandle_t hal_io_buzzer;
+QueueHandle_t halIOBuzzerQueue;
 
 /** output buzzer noise */
 typedef struct halIOBuzzer {

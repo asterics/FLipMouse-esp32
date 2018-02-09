@@ -16,22 +16,54 @@
  * 
  * Copyright 2017 Benjamin Aigner <aignerb@technikum-wien.at,
  * beni@asterics-foundation.org>
- * 
- * This file contains the hardware abstraction for all IO related
- * stuff (except ADC). Input buttons are read here, as well as the RGB LED
- * is driven.
- * In addition the infrared (IR) command stuff is also done here.
- * 
- * Compared to the tasks in the folder "function_tasks" all HAL tasks are
- * singletons.
- * Call init to initialize every necessary data structure.
- * 
  */
- 
+/** @file
+ * @brief HAL TASK - This file contains the hardware abstraction for all IO related
+ * stuff (except ADC).
+ * 
+ * Following peripherals are utilized here:<br>
+ * * Input buttons
+ * * RGB LED
+ * * IR receiver (TSOP)
+ * * IR LED (sender)
+ * * Buzzer
+ * 
+ * @note Compared to the tasks in the folder "function_tasks" all HAL tasks are
+ * singletons. Call init to initialize every necessary data structure.
+ * 
+ * @todo Test LED driver
+ * @todo Implement Buzzer
+ * @todo Implement IR driver
+ * */
  
 #include "hal_io.h"
 
+/** @brief Log tag */
+#define LOG_TAG "halIO"
 
+/** @brief LED update queue
+ * 
+ * This queue is used to update the LED color & brightness
+ * Please use one uint32_t value with following content:
+ * * \<bits 0-7\> RED
+ * * \<bits 8-15\> GREEN
+ * * \<bits 16-23\> BLUE
+ * * \<bits 24-31\> Fading time ([10¹ms] -> value of 200 is 2s)
+ * 
+ * @note Call halIOInit to initialize this queue.
+ * @see halIOInit
+ **/
+QueueHandle_t halIOLEDQueue = NULL;
+
+/** @brief GPIO ISR handler for buttons (internal/external)
+ * 
+ * This ISR handler is called on rising&falling edge of each button
+ * GPIO.
+ * 
+ * It sets and clears the VB flags accordingly on each call.
+ * These flags are used for button debouncing.
+ * @see task_debouncer
+ */
 static void gpio_isr_handler(void* arg)
 {
   uint32_t pin = (uint32_t) arg;
@@ -62,12 +94,65 @@ static void gpio_isr_handler(void* arg)
   if(xResult == pdPASS) portYIELD_FROM_ISR();
 }
 
-/** initializing IO HAL
+/** @brief HAL TASK - LED update task
  * 
- * This method initializes the IO HAL stuff:
- * -) GPIO interrupt on 2 external and one internal button
- * -) RMT engine (recording and replaying of infrared commands)
- * -) LEDc driver for the RGB LED output
+ * This task simply takes an uint32_t value from the LED queue
+ * and calls the ledc_fading_... methods of the esp-idf.
+ * 
+ * @see halIOLEDQueue
+ */
+void halIOLEDTask(void * param)
+{
+  uint32_t recv = 0;
+  uint32_t duty = 0;
+  uint32_t fade = 0;
+  if(halIOLEDQueue == NULL)
+  {
+    ESP_LOGW(LOG_TAG, "halIOLEDQueue not initialised");
+    while(halIOLEDQueue == NULL) vTaskDelay(1000/portTICK_PERIOD_MS);
+  }
+  while(1)
+  {
+    //wait for updates
+    if(xQueueReceive(halIOLEDQueue,&recv,10000))
+    {
+      //updates received, sending to ledc driver
+      
+      //get fading time, unit is 10ms
+      fade = ((recv & 0xFF000000) >> 24) * 10;
+      
+      //set fade with time (target duty and fading time)
+      
+      //1.) RED: map to 10bit and set to fading unit
+      duty = (recv & 0x000000FF) * 2 * 2; 
+      ledc_set_fade_with_time(LEDC_HIGH_SPEED_MODE,LEDC_CHANNEL_0, \
+        duty, fade);
+      
+      //2.) GREEN: map to 10bit and set to fading unit
+      duty = ((recv & 0x0000FF00) >> 8) * 2 * 2; 
+      ledc_set_fade_with_time(LEDC_HIGH_SPEED_MODE,LEDC_CHANNEL_1, \
+        duty, fade);
+      
+      //3.) BLUE: map to 10bit and set to fading unit
+      duty = ((recv & 0x00FF0000) >> 16) * 2 * 2; 
+      ledc_set_fade_with_time(LEDC_HIGH_SPEED_MODE,LEDC_CHANNEL_2, \
+        duty, fade);
+      
+      //start fading for RGB
+      ledc_fade_start(LEDC_HIGH_SPEED_MODE, LEDC_CHANNEL_0, LEDC_FADE_NO_WAIT);
+      ledc_fade_start(LEDC_HIGH_SPEED_MODE, LEDC_CHANNEL_1, LEDC_FADE_NO_WAIT);
+      ledc_fade_start(LEDC_HIGH_SPEED_MODE, LEDC_CHANNEL_2, LEDC_FADE_NO_WAIT);
+    }
+  }
+}
+
+/** @brief Initializing IO HAL
+ * 
+ * This method initializes the IO HAL stuff:<br>
+ * * GPIO interrupt on 2 external and one internal button
+ * * RMT engine (recording and replaying of infrared commands)
+ * * LEDc driver for the RGB LED output
+ * * PWM for buzzer output
  * */
 esp_err_t halIOInit(void)
 {
@@ -97,11 +182,61 @@ esp_err_t halIOInit(void)
   gpio_isr_handler_add(HAL_IO_PIN_BUTTON_INT1, gpio_isr_handler, (void*) HAL_IO_PIN_BUTTON_INT1);
   gpio_isr_handler_add(HAL_IO_PIN_BUTTON_INT2, gpio_isr_handler, (void*) HAL_IO_PIN_BUTTON_INT2);
   
-  return ESP_OK;
-  
+  /*++++ init infrared drivers (via RMT engine) ++++*/
   //TBD: init IR
   
-  //TBD: init RGB....
+  /*++++ init RGB LEDc driver ++++*/
   
+  //init RGB queue & ledc driver
+  halIOLEDQueue = xQueueCreate(8,sizeof(uint32_t));
+  ledc_timer_config_t led_timer = {
+    .duty_resolution = LEDC_TIMER_10_BIT, // resolution of PWM duty
+    .freq_hz = 5000,                      // frequency of PWM signal
+    .speed_mode = LEDC_HIGH_SPEED_MODE,           // timer mode
+    .timer_num = LEDC_TIMER_0            // timer index
+  };
+  // Set configuration of timer0 for high speed channels
+  ledc_timer_config(&led_timer);
+  ledc_channel_config_t led_channel[3] = {
+    {
+      .channel    = LEDC_CHANNEL_0,
+      .duty       = 0,
+      .gpio_num   = HAL_IO_PIN_LED_RED,
+      .speed_mode = LEDC_HIGH_SPEED_MODE,
+      .timer_sel  = LEDC_TIMER_0
+    } , {
+      .channel    = LEDC_CHANNEL_1,
+      .duty       = 0,
+      .gpio_num   = HAL_IO_PIN_LED_GREEN,
+      .speed_mode = LEDC_HIGH_SPEED_MODE,
+      .timer_sel  = LEDC_TIMER_0
+    } , {
+      .channel    = LEDC_CHANNEL_2,
+      .duty       = 0,
+      .gpio_num   = HAL_IO_PIN_LED_BLUE,
+      .speed_mode = LEDC_HIGH_SPEED_MODE,
+      .timer_sel  = LEDC_TIMER_0
+    }
+  };
+  //apply config to LED driver channels
+  for (uint8_t ch = 0; ch < 3; ch++) {
+    ledc_channel_config(&led_channel[ch]);
+  }
+  //activate fading
+  ledc_fade_func_install(0);
+  //start LED update task
+  if(xTaskCreate(halIOLEDTask,"ledtask",TASK_HAL_LED_STACKSIZE, 
+    (void*)NULL,TASK_HAL_LED_PRIORITY, NULL) == pdPASS)
+  {
+    ESP_LOGD(LOG_TAG,"created LED task");
+  } else {
+    ESP_LOGE(LOG_TAG,"error creating task");
+    return ESP_FAIL;
+  }
+  
+  
+  /*++++ INIT buzzer ++++*/
   //TBD: init buzzer
+  
+  return ESP_OK;
 }

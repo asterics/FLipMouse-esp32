@@ -63,20 +63,79 @@ $(function() {
 </div><!-- top -->
 <div class="header">
   <div class="summary">
-<a href="#func-members">Functions</a>  </div>
+<a href="#define-members">Macros</a> &#124;
+<a href="#func-members">Functions</a> &#124;
+<a href="#var-members">Variables</a>  </div>
   <div class="headertitle">
 <div class="title">hal_io.c File Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
+
+<p>HAL TASK - This file contains the hardware abstraction for all IO related stuff (except ADC).  
+<a href="#details">More...</a></p>
 <div class="textblock"><code>#include &quot;<a class="el" href="hal__io_8h_source.html">hal_io.h</a>&quot;</code><br />
 </div>
 <p><a href="hal__io_8c_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="define-members"></a>
+Macros</h2></td></tr>
+<tr class="memitem:a7ce0df38eb467e59f209470c8f5ac4e6"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="hal__io_8c.html#a7ce0df38eb467e59f209470c8f5ac4e6">LOG_TAG</a>&#160;&#160;&#160;&quot;halIO&quot;</td></tr>
+<tr class="memdesc:a7ce0df38eb467e59f209470c8f5ac4e6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Log tag.  <a href="#a7ce0df38eb467e59f209470c8f5ac4e6">More...</a><br /></td></tr>
+<tr class="separator:a7ce0df38eb467e59f209470c8f5ac4e6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
+<tr class="memitem:ad83b58c9ee836526a874392c0757f42d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="hal__io_8c.html#ad83b58c9ee836526a874392c0757f42d">halIOLEDTask</a> (void *param)</td></tr>
+<tr class="memdesc:ad83b58c9ee836526a874392c0757f42d"><td class="mdescLeft">&#160;</td><td class="mdescRight">HAL TASK - LED update task.  <a href="#ad83b58c9ee836526a874392c0757f42d">More...</a><br /></td></tr>
+<tr class="separator:ad83b58c9ee836526a874392c0757f42d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa5ee74913a09cba6dca62bfdc9f8342b"><td class="memItemLeft" align="right" valign="top">esp_err_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="hal__io_8c.html#aa5ee74913a09cba6dca62bfdc9f8342b">halIOInit</a> (void)</td></tr>
+<tr class="memdesc:aa5ee74913a09cba6dca62bfdc9f8342b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initializing IO HAL.  <a href="#aa5ee74913a09cba6dca62bfdc9f8342b">More...</a><br /></td></tr>
 <tr class="separator:aa5ee74913a09cba6dca62bfdc9f8342b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="var-members"></a>
+Variables</h2></td></tr>
+<tr class="memitem:a9e32dec844f77f4ba6f10d4641ef8779"><td class="memItemLeft" align="right" valign="top">QueueHandle_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="hal__io_8c.html#a9e32dec844f77f4ba6f10d4641ef8779">halIOLEDQueue</a> = NULL</td></tr>
+<tr class="memdesc:a9e32dec844f77f4ba6f10d4641ef8779"><td class="mdescLeft">&#160;</td><td class="mdescRight">LED update queue.  <a href="#a9e32dec844f77f4ba6f10d4641ef8779">More...</a><br /></td></tr>
+<tr class="separator:a9e32dec844f77f4ba6f10d4641ef8779"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>HAL TASK - This file contains the hardware abstraction for all IO related stuff (except ADC). </p>
+<p>Following peripherals are utilized here:<br />
+</p><ul>
+<li>Input buttons</li>
+<li>RGB LED</li>
+<li>IR receiver (TSOP)</li>
+<li>IR LED (sender)</li>
+<li>Buzzer</li>
+</ul>
+<dl class="section note"><dt>Note</dt><dd>Compared to the tasks in the folder "function_tasks" all HAL tasks are singletons. Call init to initialize every necessary data structure.</dd></dl>
+<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000027">Todo:</a></b></dt><dd><p class="startdd">Test LED driver </p>
+<p>Implement Buzzer </p>
+<p class="enddd">Implement IR driver </p>
+</dd></dl>
+
+<p class="definition">Definition in file <a class="el" href="hal__io_8c_source.html">hal_io.c</a>.</p>
+</div><h2 class="groupheader">Macro Definition Documentation</h2>
+<a id="a7ce0df38eb467e59f209470c8f5ac4e6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7ce0df38eb467e59f209470c8f5ac4e6">&#9670;&nbsp;</a></span>LOG_TAG</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define LOG_TAG&#160;&#160;&#160;&quot;halIO&quot;</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Log tag. </p>
+
+<p class="definition">Definition at line <a class="el" href="hal__io_8c_source.html#l00042">42</a> of file <a class="el" href="hal__io_8c_source.html">hal_io.c</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="hal__io_8c_source.html#l00104">halIOLEDTask()</a>.</p>
+
+</div>
+</div>
 <h2 class="groupheader">Function Documentation</h2>
 <a id="aa5ee74913a09cba6dca62bfdc9f8342b"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#aa5ee74913a09cba6dca62bfdc9f8342b">&#9670;&nbsp;</a></span>halIOInit()</h2>
@@ -93,10 +152,17 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>initializing IO HAL</p>
-<p>This method initializes the IO HAL stuff: -) GPIO interrupt on 2 external and one internal button -) RMT engine (recording and replaying of infrared commands) -) LEDc driver for the RGB LED output </p>
 
-<p class="definition">Definition at line <a class="el" href="hal__io_8c_source.html#l00072">72</a> of file <a class="el" href="hal__io_8c_source.html">hal_io.c</a>.</p>
+<p>Initializing IO HAL. </p>
+<p>This method initializes the IO HAL stuff:<br />
+</p><ul>
+<li>GPIO interrupt on 2 external and one internal button</li>
+<li>RMT engine (recording and replaying of infrared commands)</li>
+<li>LEDc driver for the RGB LED output</li>
+<li>PWM for buzzer output </li>
+</ul>
+
+<p class="definition">Definition at line <a class="el" href="hal__io_8c_source.html#l00157">157</a> of file <a class="el" href="hal__io_8c_source.html">hal_io.c</a>.</p>
 
 <p class="reference">Referenced by <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c_source.html#l00073">app_main()</a>.</p>
 <div class="dynheader">
@@ -107,6 +173,59 @@ Here is the caller graph for this function:</div>
 <area shape="rect" id="node2" href="flipmouse__fabi__esp32__kbdmouse__main_8c.html#abce06be17fc37d675118a678a8100a36" title="Main task, created by esp&#45;idf. " alt="" coords="124,5,203,32"/>
 </map>
 </div>
+
+</div>
+</div>
+<a id="ad83b58c9ee836526a874392c0757f42d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad83b58c9ee836526a874392c0757f42d">&#9670;&nbsp;</a></span>halIOLEDTask()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void halIOLEDTask </td>
+          <td>(</td>
+          <td class="paramtype">void *&#160;</td>
+          <td class="paramname"><em>param</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>HAL TASK - LED update task. </p>
+<p>This task simply takes an uint32_t value from the LED queue and calls the ledc_fading_... methods of the esp-idf.</p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="hal__io_8c.html#a9e32dec844f77f4ba6f10d4641ef8779" title="LED update queue. ">halIOLEDQueue</a> </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="hal__io_8c_source.html#l00104">104</a> of file <a class="el" href="hal__io_8c_source.html">hal_io.c</a>.</p>
+
+</div>
+</div>
+<h2 class="groupheader">Variable Documentation</h2>
+<a id="a9e32dec844f77f4ba6f10d4641ef8779"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9e32dec844f77f4ba6f10d4641ef8779">&#9670;&nbsp;</a></span>halIOLEDQueue</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">QueueHandle_t halIOLEDQueue = NULL</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>LED update queue. </p>
+<p>This queue is used to update the LED color &amp; brightness Please use one uint32_t value with following content:</p><ul>
+<li>&lt;bits 0-7&gt; RED</li>
+<li>&lt;bits 8-15&gt; GREEN</li>
+<li>&lt;bits 16-23&gt; BLUE</li>
+<li>&lt;bits 24-31&gt; Fading time ([10¹ms] -&gt; value of 200 is 2s)</li>
+</ul>
+<dl class="section note"><dt>Note</dt><dd>Call halIOInit to initialize this queue. </dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="hal__io_8c.html#aa5ee74913a09cba6dca62bfdc9f8342b" title="Initializing IO HAL. ">halIOInit</a> </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="hal__io_8c_source.html#l00056">56</a> of file <a class="el" href="hal__io_8c_source.html">hal_io.c</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="hal__io_8c_source.html#l00104">halIOLEDTask()</a>.</p>
 
 </div>
 </div>

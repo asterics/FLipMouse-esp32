@@ -5,6 +5,8 @@ var searchData=
   ['task_5fcommands_5fstacksize',['TASK_COMMANDS_STACKSIZE',['../task__commands_8h.html#a9c3489b45f7d45da88376537cd376dd1',1,'task_commands.h']]],
   ['task_5fconfigswitcher_5fstacksize',['TASK_CONFIGSWITCHER_STACKSIZE',['../config__switcher_8h.html#a2eb976695a3c5db9b4ddf53ac58bd0b1',1,'config_switcher.h']]],
   ['task_5fdebouncer_5fstacksize',['TASK_DEBOUNCER_STACKSIZE',['../task__debouncer_8h.html#ac755d224eea4f51dbb1b9ad3bef592ab',1,'task_debouncer.h']]],
+  ['task_5fhal_5fled_5fpriority',['TASK_HAL_LED_PRIORITY',['../hal__io_8h.html#aae2c47fa297e6591a48b145b8223ed8a',1,'hal_io.h']]],
+  ['task_5fhal_5fled_5fstacksize',['TASK_HAL_LED_STACKSIZE',['../hal__io_8h.html#af104025de9174910a63b2a995c55efcb',1,'hal_io.h']]],
   ['task_5fhalble_5fstacksize',['TASK_HALBLE_STACKSIZE',['../hal__ble_8h.html#ae755abe4e9fee17dd29035a97ea7d87a',1,'hal_ble.h']]],
   ['task_5fkeyboard_5fparameterlength',['TASK_KEYBOARD_PARAMETERLENGTH',['../task__kbd_8h.html#af1d6b3680a52c16cd778420b8953eab7',1,'task_kbd.h']]],
   ['task_5fkeyboard_5fstacksize',['TASK_KEYBOARD_STACKSIZE',['../task__kbd_8h.html#a0a795efc5a0066d74b5855a17665203e',1,'task_kbd.h']]],

@@ -1,12 +1,12 @@
 var searchData=
 [
-  ['hal_5fio_5fbuzzer',['hal_io_buzzer',['../hal__io_8h.html#a366242fd798c57b587522dd4beb593c0',1,'hal_io.h']]],
-  ['hal_5fio_5fir_5frecv',['hal_io_ir_recv',['../hal__io_8h.html#a5d9e3d7e2cfd2528bac47cb0723f95fb',1,'hal_io.h']]],
-  ['hal_5fio_5fir_5fsend',['hal_io_ir_send',['../hal__io_8h.html#a377c4f677c4f5587efdde3d6b5570ba8',1,'hal_io.h']]],
-  ['hal_5fio_5fled',['hal_io_led',['../hal__io_8h.html#a7329eaa0940f1713da08f39603aa5dba',1,'hal_io.h']]],
   ['halbletaskfunctions',['halbletaskfunctions',['../hal__ble_8c.html#af61e8f78b336f4360f7561ec416bf940',1,'hal_ble.c']]],
   ['halbletasknames',['halbletasknames',['../hal__ble_8c.html#a1222b5a43211cdb4cb6ec3659a40e2dc',1,'hal_ble.c']]],
   ['halbletasks',['halbletasks',['../hal__ble_8c.html#ae272a00db0b4da927785f952db45f214',1,'hal_ble.c']]],
+  ['haliobuzzerqueue',['halIOBuzzerQueue',['../hal__io_8h.html#a013e2ff76763650e88cc05325b89d93c',1,'hal_io.h']]],
+  ['halioirrecvqueue',['halIOIRRecvQueue',['../hal__io_8h.html#a528414effa3559daeccac2474c3835ed',1,'hal_io.h']]],
+  ['halioirsendqueue',['halIOIRSendQueue',['../hal__io_8h.html#acb1e15303cc7da57fd758e36180ecec9',1,'hal_io.h']]],
+  ['halioledqueue',['halIOLEDQueue',['../hal__io_8c.html#a9e32dec844f77f4ba6f10d4641ef8779',1,'halIOLEDQueue():&#160;hal_io.c'],['../hal__io_8h.html#a9e32dec844f77f4ba6f10d4641ef8779',1,'halIOLEDQueue():&#160;hal_io.c']]],
   ['halstoragemutex',['halStorageMutex',['../hal__storage_8c.html#afe54e8f771b85765a57fb799302f2a09',1,'hal_storage.c']]],
   ['handle',['handle',['../structhid__report__map__t.html#aeb8592d58f344c97f105c45b5565a27b',1,'hid_report_map_t::handle()'],['../structhidRptMap__t.html#ae381ed8df03d72c0c1fee2165c5ca16f',1,'hidRptMap_t::handle()']]],
   ['hat',['hat',['../structjoystick__data.html#ad557e516f2e51201d40a2c4763133afc',1,'joystick_data']]],

@@ -22,6 +22,8 @@ var searchData=
   ['task_5fdebouncer_2ec',['task_debouncer.c',['../task__debouncer_8c.html',1,'']]],
   ['task_5fdebouncer_2eh',['task_debouncer.h',['../task__debouncer_8h.html',1,'']]],
   ['task_5fdebouncer_5fstacksize',['TASK_DEBOUNCER_STACKSIZE',['../task__debouncer_8h.html#ac755d224eea4f51dbb1b9ad3bef592ab',1,'task_debouncer.h']]],
+  ['task_5fhal_5fled_5fpriority',['TASK_HAL_LED_PRIORITY',['../hal__io_8h.html#aae2c47fa297e6591a48b145b8223ed8a',1,'hal_io.h']]],
+  ['task_5fhal_5fled_5fstacksize',['TASK_HAL_LED_STACKSIZE',['../hal__io_8h.html#af104025de9174910a63b2a995c55efcb',1,'hal_io.h']]],
   ['task_5fhalble_5fstacksize',['TASK_HALBLE_STACKSIZE',['../hal__ble_8h.html#ae755abe4e9fee17dd29035a97ea7d87a',1,'hal_ble.h']]],
   ['task_5fkbd_2ec',['task_kbd.c',['../task__kbd_8c.html',1,'']]],
   ['task_5fkbd_2eh',['task_kbd.h',['../task__kbd_8h.html',1,'']]],

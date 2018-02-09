@@ -467,6 +467,27 @@ parserstate_t doGeneralCmdParsing(uint8_t *cmdBuffer)
     return UNKNOWNCMD;
   }
   
+  /*++++ AT RO ++++*/
+  if(CMD("AT RO")) {
+    //set the mouthpiece orientation
+    param = strtol((char*)&(cmdBuffer[6]),NULL,10);
+    switch(param)
+    {
+      case 0:
+      case 90:
+      case 180:
+      case 270:
+        currentcfg->adc.orientation = param;
+        ESP_LOGD(LOG_TAG,"Set orientation to %d",param);
+        requestUpdate = 1;
+        break;
+      default:
+        ESP_LOGE(LOG_TAG,"Orientation %d not available",param);
+        break;
+    }
+    return NOACTION;
+  }
+  
     
   /*++++ AT RA ++++*/
   if(CMD("AT RA")) {

@@ -24,6 +24,7 @@ var searchData=
   ['domouseparsing',['doMouseParsing',['../task__commands_8c.html#a580d9f6a840975525358033a35f761d0',1,'task_commands.c']]],
   ['domouthpiecesettingsparsing',['doMouthpieceSettingsParsing',['../task__commands_8c.html#a2ad28759e53bb5082853d8d004767115',1,'task_commands.c']]],
   ['dostorageparsing',['doStorageParsing',['../task__commands_8c.html#a69b0c55558b32caa21407de8e2277be9',1,'task_commands.c']]],
+  ['down',['down',['../structadcData.html#a4a052112c750f6d483eabc08cb43b6c3',1,'adcData']]],
   ['doxygen_2eh',['doxygen.h',['../doxygen_8h.html',1,'']]],
   ['duration',['duration',['../structhalIOBuzzer.html#a6fee679bc63857c97b18a867a8905b61',1,'halIOBuzzer']]]
 ];

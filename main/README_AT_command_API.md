@@ -25,7 +25,7 @@ Following commands are currently available:
 | AT BL | -- | enable/disable output of triggered virtual buttons. Is used with AT BM for command learning | v3 | no | ? |
 | AT MA | string | execute macro (space separated list of commands, see [Macros](https://github.com/asterics/FLipMouse/wiki/macros)) | v2 | no | yes (task_macro) |
 | AT WA | number | wait/delay (ms); useful for macros. Does nothing if not used in macros. | v2 | no | no |
-| AT RO | number (0,90,180,270) | orientation (0 => LEDs on top) | v2 | no | no |
+| AT RO | number (0,90,180,270) | orientation (0 => LEDs on top) | v2 | untested | no |
 | AT KL | number | Set keyboard locale (locale defines are listed below) | v3 | yes | no |
 | AT BT | number (0,1,2) | Bluetooth mode, 1=USB only, 2=BT only, 3=both(default) | v2 | Working for USB, untested for BLE | no |
 | AT TT | number (100-5000) | Threshold time ([ms]) between short and long press actions. Set to 5000 to disable. | v3 | no | no |

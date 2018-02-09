@@ -65,6 +65,7 @@ var searchData=
   ['haliobuzzer',['halIOBuzzer',['../structhalIOBuzzer.html',1,'']]],
   ['haliobuzzer_5ft',['halIOBuzzer_t',['../hal__io_8h.html#a77048c20189014382fad29049e68a08a',1,'hal_io.h']]],
   ['haliobuzzerqueue',['halIOBuzzerQueue',['../hal__io_8h.html#a013e2ff76763650e88cc05325b89d93c',1,'hal_io.h']]],
+  ['haliobuzzertask',['halIOBuzzerTask',['../hal__io_8c.html#a5c30b3b4a88e8f23489485659d53c7c0',1,'hal_io.c']]],
   ['halioinit',['halIOInit',['../hal__io_8c.html#aa5ee74913a09cba6dca62bfdc9f8342b',1,'halIOInit(void):&#160;hal_io.c'],['../hal__io_8h.html#aa5ee74913a09cba6dca62bfdc9f8342b',1,'halIOInit(void):&#160;hal_io.c']]],
   ['halioirrecvqueue',['halIOIRRecvQueue',['../hal__io_8h.html#a528414effa3559daeccac2474c3835ed',1,'hal_io.h']]],
   ['halioirsendqueue',['halIOIRSendQueue',['../hal__io_8h.html#acb1e15303cc7da57fd758e36180ecec9',1,'hal_io.h']]],

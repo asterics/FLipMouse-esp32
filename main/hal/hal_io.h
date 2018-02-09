@@ -100,6 +100,12 @@ extern QueueHandle_t halIOLEDQueue;
 /** @brief Task priority for LED update task */
 #define TASK_HAL_LED_PRIORITY (tskIDLE_PRIORITY + 2)
 
+/** @brief Task stacksize for buzzer update task */
+#define TASK_HAL_BUZZER_STACKSIZE 512
+
+/** @brief Task priority for buzzer update task */
+#define TASK_HAL_BUZZER_PRIORITY (tskIDLE_PRIORITY + 2)
+
 /** @brief Initializing IO HAL
  * 
  * This method initializes the IO HAL stuff:<br>
@@ -122,12 +128,10 @@ QueueHandle_t halIOBuzzerQueue;
 
 /** output buzzer noise */
 typedef struct halIOBuzzer {
-  /** frequency of tone */
+  /** Frequency of tone [Hz] */
   uint16_t frequency;
-  /** duration of tone */
+  /** Duration of tone [ms] */
   uint16_t duration;
-  /** fading of tone, not implemented */
-  uint16_t fade;
 } halIOBuzzer_t;
 
 #endif

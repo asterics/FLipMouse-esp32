@@ -22,6 +22,8 @@ var searchData=
   ['task_5fdebouncer_2ec',['task_debouncer.c',['../task__debouncer_8c.html',1,'']]],
   ['task_5fdebouncer_2eh',['task_debouncer.h',['../task__debouncer_8h.html',1,'']]],
   ['task_5fdebouncer_5fstacksize',['TASK_DEBOUNCER_STACKSIZE',['../task__debouncer_8h.html#ac755d224eea4f51dbb1b9ad3bef592ab',1,'task_debouncer.h']]],
+  ['task_5fhal_5fbuzzer_5fpriority',['TASK_HAL_BUZZER_PRIORITY',['../hal__io_8h.html#acfd4b7201f62b306aa9dad3d066d0b1e',1,'hal_io.h']]],
+  ['task_5fhal_5fbuzzer_5fstacksize',['TASK_HAL_BUZZER_STACKSIZE',['../hal__io_8h.html#a65e122600e76ce127a8b7529358755cd',1,'hal_io.h']]],
   ['task_5fhal_5fled_5fpriority',['TASK_HAL_LED_PRIORITY',['../hal__io_8h.html#aae2c47fa297e6591a48b145b8223ed8a',1,'hal_io.h']]],
   ['task_5fhal_5fled_5fstacksize',['TASK_HAL_LED_STACKSIZE',['../hal__io_8h.html#af104025de9174910a63b2a995c55efcb',1,'hal_io.h']]],
   ['task_5fhalble_5fstacksize',['TASK_HALBLE_STACKSIZE',['../hal__ble_8h.html#ae755abe4e9fee17dd29035a97ea7d87a',1,'hal_ble.h']]],

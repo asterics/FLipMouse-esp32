@@ -1,6 +1,5 @@
 var searchData=
 [
-  ['fade',['fade',['../structhalIOBuzzer.html#a53ccb1a293b04ca036f633be61d8fb74',1,'halIOBuzzer']]],
   ['functiontasks',['FunctionTasks',['../group__fcttasks.html',1,'']]],
   ['flags',['flags',['../structhids__hid__info__t.html#a5175ab79e23e51bc16aef1722d4256c7',1,'hids_hid_info_t']]],
   ['flipmouse_5ffabi_5fesp32_5fkbdmouse_5fmain_2ec',['flipmouse_fabi_esp32_kbdmouse_main.c',['../flipmouse__fabi__esp32__kbdmouse__main_8c.html',1,'']]],

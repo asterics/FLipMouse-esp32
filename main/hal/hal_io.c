@@ -94,6 +94,46 @@ static void gpio_isr_handler(void* arg)
   if(xResult == pdPASS) portYIELD_FROM_ISR();
 }
 
+/** @brief HAL TASK - Buzzer update task
+ * 
+ * This task takes an instance of the buzzer update struct and creates
+ * a tone on the buzzer accordingly.
+ * Done via the LEDC driver & vTaskDelays
+ * 
+ * @see halIOBuzzer_t
+ * @see halIOBuzzerQueue
+ * 
+ */
+void halIOBuzzerTask(void * param)
+{
+  halIOBuzzer_t *recv;
+  
+  if(halIOBuzzerQueue == NULL)
+  {
+    ESP_LOGW(LOG_TAG, "halIOLEDQueue not initialised");
+    while(halIOBuzzerQueue == NULL) vTaskDelay(1000/portTICK_PERIOD_MS);
+  }
+  
+  while(1)
+  {
+    //wait for updates
+    if(xQueueReceive(halIOBuzzerQueue,&recv,10000))
+    {
+      //set duty, set frequency
+      ledc_set_freq(LEDC_LOW_SPEED_MODE, LEDC_TIMER_0, recv->frequency);
+      ledc_set_duty(LEDC_LOW_SPEED_MODE, LEDC_CHANNEL_0, 512);
+      ledc_update_duty(LEDC_LOW_SPEED_MODE, LEDC_CHANNEL_0);
+      
+      //delay for duration
+      vTaskDelay(recv->duration / portTICK_PERIOD_MS);
+      
+      //set duty to 0
+      ledc_set_duty(LEDC_LOW_SPEED_MODE, LEDC_CHANNEL_0, 0);
+      ledc_update_duty(LEDC_LOW_SPEED_MODE, LEDC_CHANNEL_0);
+    }
+  }
+}
+
 /** @brief HAL TASK - LED update task
  * 
  * This task simply takes an uint32_t value from the LED queue
@@ -236,7 +276,35 @@ esp_err_t halIOInit(void)
   
   
   /*++++ INIT buzzer ++++*/
-  //TBD: init buzzer
+  //we will use the LEDC unit for the buzzer
+  //because RMT has no lower frequency than 611Hz (according to example)
+  
+  ledc_timer_config_t buzzer_timer = {
+    .duty_resolution = LEDC_TIMER_10_BIT, // resolution of PWM duty
+    .freq_hz = 100,                      // frequency of PWM signal
+    .speed_mode = LEDC_LOW_SPEED_MODE,           // timer mode
+    .timer_num = LEDC_TIMER_0            // timer index
+  };
+  ledc_timer_config(&buzzer_timer);
+  ledc_channel_config_t buzzer_channel = {
+    .channel    = LEDC_CHANNEL_0,
+    .duty       = 0,
+    .gpio_num   = HAL_IO_PIN_BUZZER,
+    .speed_mode = LEDC_LOW_SPEED_MODE,
+    .timer_sel  = LEDC_TIMER_0
+  };
+  ledc_channel_config(&buzzer_channel);
+  
+  //start buzzer update task
+  if(xTaskCreate(halIOBuzzerTask,"buzztask",TASK_HAL_BUZZER_STACKSIZE, 
+    (void*)NULL,TASK_HAL_BUZZER_PRIORITY, NULL) == pdPASS)
+  {
+    ESP_LOGD(LOG_TAG,"created buzzer task");
+  } else {
+    ESP_LOGE(LOG_TAG,"error creating buzzer task");
+    return ESP_FAIL;
+  }
+  
   
   return ESP_OK;
 }

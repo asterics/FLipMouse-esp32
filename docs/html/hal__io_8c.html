@@ -85,6 +85,9 @@ Macros</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
+<tr class="memitem:a5c30b3b4a88e8f23489485659d53c7c0"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="hal__io_8c.html#a5c30b3b4a88e8f23489485659d53c7c0">halIOBuzzerTask</a> (void *param)</td></tr>
+<tr class="memdesc:a5c30b3b4a88e8f23489485659d53c7c0"><td class="mdescLeft">&#160;</td><td class="mdescRight">HAL TASK - Buzzer update task.  <a href="#a5c30b3b4a88e8f23489485659d53c7c0">More...</a><br /></td></tr>
+<tr class="separator:a5c30b3b4a88e8f23489485659d53c7c0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad83b58c9ee836526a874392c0757f42d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="hal__io_8c.html#ad83b58c9ee836526a874392c0757f42d">halIOLEDTask</a> (void *param)</td></tr>
 <tr class="memdesc:ad83b58c9ee836526a874392c0757f42d"><td class="mdescLeft">&#160;</td><td class="mdescRight">HAL TASK - LED update task.  <a href="#ad83b58c9ee836526a874392c0757f42d">More...</a><br /></td></tr>
 <tr class="separator:ad83b58c9ee836526a874392c0757f42d"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -132,11 +135,37 @@ Variables</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="hal__io_8c_source.html#l00042">42</a> of file <a class="el" href="hal__io_8c_source.html">hal_io.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="hal__io_8c_source.html#l00104">halIOLEDTask()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="hal__io_8c_source.html#l00107">halIOBuzzerTask()</a>, and <a class="el" href="hal__io_8c_source.html#l00144">halIOLEDTask()</a>.</p>
 
 </div>
 </div>
 <h2 class="groupheader">Function Documentation</h2>
+<a id="a5c30b3b4a88e8f23489485659d53c7c0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5c30b3b4a88e8f23489485659d53c7c0">&#9670;&nbsp;</a></span>halIOBuzzerTask()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void halIOBuzzerTask </td>
+          <td>(</td>
+          <td class="paramtype">void *&#160;</td>
+          <td class="paramname"><em>param</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>HAL TASK - Buzzer update task. </p>
+<p>This task takes an instance of the buzzer update struct and creates a tone on the buzzer accordingly. Done via the LEDC driver &amp; vTaskDelays</p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="hal__io_8h.html#a77048c20189014382fad29049e68a08a">halIOBuzzer_t</a> </dd>
+<dd>
+<a class="el" href="hal__io_8h.html#a013e2ff76763650e88cc05325b89d93c" title="Queue to trigger a buzzer tone. ">halIOBuzzerQueue</a> </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="hal__io_8c_source.html#l00107">107</a> of file <a class="el" href="hal__io_8c_source.html">hal_io.c</a>.</p>
+
+</div>
+</div>
 <a id="aa5ee74913a09cba6dca62bfdc9f8342b"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#aa5ee74913a09cba6dca62bfdc9f8342b">&#9670;&nbsp;</a></span>halIOInit()</h2>
 
@@ -162,7 +191,7 @@ Variables</h2></td></tr>
 <li>PWM for buzzer output </li>
 </ul>
 
-<p class="definition">Definition at line <a class="el" href="hal__io_8c_source.html#l00157">157</a> of file <a class="el" href="hal__io_8c_source.html">hal_io.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="hal__io_8c_source.html#l00197">197</a> of file <a class="el" href="hal__io_8c_source.html">hal_io.c</a>.</p>
 
 <p class="reference">Referenced by <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c_source.html#l00073">app_main()</a>.</p>
 <div class="dynheader">
@@ -196,7 +225,7 @@ Here is the caller graph for this function:</div>
 <p>This task simply takes an uint32_t value from the LED queue and calls the ledc_fading_... methods of the esp-idf.</p>
 <dl class="section see"><dt>See also</dt><dd><a class="el" href="hal__io_8c.html#a9e32dec844f77f4ba6f10d4641ef8779" title="LED update queue. ">halIOLEDQueue</a> </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="hal__io_8c_source.html#l00104">104</a> of file <a class="el" href="hal__io_8c_source.html">hal_io.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="hal__io_8c_source.html#l00144">144</a> of file <a class="el" href="hal__io_8c_source.html">hal_io.c</a>.</p>
 
 </div>
 </div>
@@ -225,7 +254,7 @@ Here is the caller graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="hal__io_8c_source.html#l00056">56</a> of file <a class="el" href="hal__io_8c_source.html">hal_io.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="hal__io_8c_source.html#l00104">halIOLEDTask()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="hal__io_8c_source.html#l00144">halIOLEDTask()</a>.</p>
 
 </div>
 </div>

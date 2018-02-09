@@ -49,15 +49,27 @@
 #include "esp_err.h"
 #include "driver/ledc.h"
 #include "driver/gpio.h"
+#include "driver/rmt.h"
 //common definitions & data for all of these functional tasks
 #include "common.h"
 
-/** @brief Macro to easily create a tone */
+/** @brief Macro to easily create a tone
+ * @param freq Frequency of the tone [Hz]
+ * @param length Tone length [ms] */
 #define TONE(freq,length) { \
   halIOBuzzer_t tone = {    \
     .frequency = freq,      \
     .duration = length };   \
   xQueueSend(halIOBuzzerQueue, (void*)&tone , (TickType_t) 0 ); }
+
+/** @brief Macro to easily send an IR buffer 
+ * @param buf rmt_item32_t pointer to the buffer
+ * @param len Count of buffer items */
+#define SENDIR(buf,len) { \
+  halIOIR_t ir = {    \
+    .buffer = buf,      \
+    .count = len};   \
+  xQueueSend(halIOIRSendQueue, (void*)&ir , (TickType_t) 0 ); }
 
 /** @brief PIN - GPIO pin for external button 1 */
 #define HAL_IO_PIN_BUTTON_EXT1  26 
@@ -87,6 +99,15 @@
  * @note LEDs are driven by LEDC driver */
 #define HAL_IO_PIN_LED_BLUE     14
 
+/** @brief Set the count of memory blocks utilized for IR sending
+ * 
+ * ESP32's RMT unit has 8 64x32bits buffers for IR waveforms.
+ * The IR code in FLipMouse/FABI uses RMT channels 0 and 4, therefor
+ * both channels (RX&TX) could use up to 4 blocks for saving waveforms.
+ * If there is need for a RMT channel for different purposes, reduce
+ * this value to 3 to free one buffer for channel 3 and one for channel 7*/
+#define HAL_IO_IR_MEM_BLOCKS    4
+
 /** @brief LED update queue
  * 
  * This queue is used to update the LED color & brightness
@@ -109,6 +130,21 @@ extern QueueHandle_t halIOLEDQueue;
 
 /** @brief Task stacksize for buzzer update task */
 #define TASK_HAL_BUZZER_STACKSIZE 512
+
+/** @brief Task stacksize for IR send task */
+#define TASK_HAL_IR_SEND_STACKSIZE 512
+
+/** @brief Task priority for IR send task */
+#define TASK_HAL_IR_SEND_PRIORITY (tskIDLE_PRIORITY + 2)
+
+/** @brief Task stacksize for IR receive task */
+#define TASK_HAL_IR_RECV_STACKSIZE 512
+
+/** @brief Task priority for IR receive task */
+#define TASK_HAL_IR_RECV_PRIORITY (tskIDLE_PRIORITY + 2)
+
+/** @brief Task priority for buzzer update task */
+#define TASK_HAL_BUZZER_PRIORITY (tskIDLE_PRIORITY + 2)
 
 /** @brief Task priority for buzzer update task */
 #define TASK_HAL_BUZZER_PRIORITY (tskIDLE_PRIORITY + 2)
@@ -133,7 +169,7 @@ QueueHandle_t halIOIRSendQueue;
  * @see halIOBuzzer_t */
 QueueHandle_t halIOBuzzerQueue;
 
-/** output buzzer noise */
+/** @brief Output buzzer noise */
 typedef struct halIOBuzzer {
   /** Frequency of tone [Hz]
    * @note Use 0 for a pause without tone. */
@@ -141,5 +177,15 @@ typedef struct halIOBuzzer {
   /** Duration of tone [ms] */
   uint16_t duration;
 } halIOBuzzer_t;
+
+/** @brief Output buzzer noise */
+typedef struct halIOIR {
+  /** Buffer for IR signal
+   * @warning Do not free this buffer! It will be freed by transmitting task
+   * @note In case of receiving, this buffer can be freed. */
+   rmt_item32_t *buffer;
+  /** Count of rmt_item32_t items */
+  uint16_t count;
+} halIOIR_t;
 
 #endif

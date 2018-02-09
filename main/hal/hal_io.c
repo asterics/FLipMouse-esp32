@@ -94,6 +94,88 @@ static void gpio_isr_handler(void* arg)
   if(xResult == pdPASS) portYIELD_FROM_ISR();
 }
 
+/** @brief Callback to free the memory after finished transmission
+ * 
+ * This method calls free() on the buffer which is transmitted now.
+ * @param channel Channel of RMT enging
+ * @param arg rmt_item32_t* pointer to the buffer
+ * */
+void halIOIRFree(rmt_channel_t channel, void *arg)
+{
+  if(arg != NULL)
+  {
+    free((rmt_item32_t*)arg);
+  }
+}
+
+/** @brief HAL TASK - IR sending task
+ * 
+ * This task receives via halIOIRSendQueue a pointer and a length
+ * of waveform array, which is sent to the RMT unit.
+ * 
+ * @see halIOIR_t
+ * @see halIOIRSendQueue
+ * @param param Unused.
+ */
+void halIOIRSendTask(void * param)
+{
+  halIOIR_t *recv;
+  
+  if(halIOIRSendQueue == NULL)
+  {
+    ESP_LOGW(LOG_TAG, "halIOIRSendQueue not initialised");
+    while(halIOIRSendQueue == NULL) vTaskDelay(1000/portTICK_PERIOD_MS);
+  }
+  
+  while(1)
+  {
+    //wait for updates
+    if(xQueueReceive(halIOIRSendQueue,&recv,10000))
+    {
+      if(recv->buffer == NULL) continue;
+      //check if there is an ongoing transmission. If yes, block.
+      rmt_wait_tx_done(0, portMAX_DELAY);
+      
+      //register the callback again with the pointer to the buffer
+      //after finished transmission, this callback frees this buffer
+      rmt_register_tx_end_callback(halIOIRFree,recv->buffer);
+      //To send data according to the waveform items.
+      rmt_write_items(0, recv->buffer, recv->count, false);
+    }
+  }
+}
+
+/** @brief HAL TASK - IR receiving task
+ * 
+ * This task is used to store data from the RMT unit if the receiving
+ * of an IR code is started. A received signal will be put to the queue.
+ * 
+ * @see halIOIR_t
+ * @see halIOIRRecvQueue
+ * @todo How to start the receiver?
+ * @param param Unused.
+ */
+void halIOIRRecvTask(void * param)
+{
+  halIOIR_t *recv;
+  
+  if(halIOIRRecvQueue == NULL)
+  {
+    ESP_LOGW(LOG_TAG, "halIOIRRecvQueue not initialised");
+    while(halIOIRRecvQueue == NULL) vTaskDelay(1000/portTICK_PERIOD_MS);
+  }
+  
+  while(1)
+  {
+    //wait for updates
+    if(xQueueReceive(halIOIRRecvQueue,&recv,10000))
+    {
+      
+      
+    }
+  }
+}
+
 /** @brief HAL TASK - Buzzer update task
  * 
  * This task takes an instance of the buzzer update struct and creates
@@ -102,7 +184,7 @@ static void gpio_isr_handler(void* arg)
  * 
  * @see halIOBuzzer_t
  * @see halIOBuzzerQueue
- * 
+ * @param param Unused.
  */
 void halIOBuzzerTask(void * param)
 {
@@ -144,6 +226,7 @@ void halIOBuzzerTask(void * param)
  * and calls the ledc_fading_... methods of the esp-idf.
  * 
  * @see halIOLEDQueue
+ * @param param Unused.
  */
 void halIOLEDTask(void * param)
 {
@@ -190,6 +273,10 @@ void halIOLEDTask(void * param)
   }
 }
 
+#define RMT_TICK_10_US    (80000000/RMT_CLK_DIV/100000)   /*!< RMT counter value for 10 us.(Source clock is APB clock) */
+#define rmt_item32_tIMEOUT_US  9500   /*!< RMT receiver timeout value(us) */
+#define RMT_CLK_DIV      100    /*!< RMT counter clock divider */
+
 /** @brief Initializing IO HAL
  * 
  * This method initializes the IO HAL stuff:<br>
@@ -228,6 +315,56 @@ esp_err_t halIOInit(void)
   
   /*++++ init infrared drivers (via RMT engine) ++++*/
   //TBD: init IR
+  halIOIRRecvQueue = xQueueCreate(8,sizeof(halIOIR_t));
+  halIOIRSendQueue = xQueueCreate(8,sizeof(halIOIR_t));
+  
+  //transmitter
+  rmt_config_t rmtcfg;
+  rmtcfg.channel = 0;
+  rmtcfg.gpio_num = HAL_IO_PIN_IR_SEND;
+  rmtcfg.mem_block_num = HAL_IO_IR_MEM_BLOCKS;
+  rmtcfg.clk_div = RMT_CLK_DIV;
+  rmtcfg.tx_config.loop_en = false;
+  rmtcfg.tx_config.carrier_duty_percent = 50;
+  rmtcfg.tx_config.carrier_freq_hz = 38000;
+  rmtcfg.tx_config.carrier_level = 1;
+  rmtcfg.tx_config.carrier_en = 1;
+  rmtcfg.tx_config.idle_level = 0;
+  rmtcfg.tx_config.idle_output_en = true;
+  rmtcfg.rmt_mode = RMT_MODE_TX;
+  rmt_config(&rmtcfg);
+  rmt_driver_install(rmtcfg.channel, 0, 0);
+  if(xTaskCreate(halIOIRSendTask,"irsend",TASK_HAL_IR_SEND_STACKSIZE, 
+    (void*)NULL,TASK_HAL_IR_SEND_PRIORITY, NULL) == pdPASS)
+  {
+    ESP_LOGD(LOG_TAG,"created IR send task");
+  } else {
+    ESP_LOGE(LOG_TAG,"error creating IR send task");
+    return ESP_FAIL;
+  }
+  
+  //receiver
+  rmt_config_t rmt_rx;
+  rmt_rx.channel = 4;
+  rmt_rx.gpio_num = HAL_IO_PIN_IR_RECV;
+  rmt_rx.clk_div = RMT_CLK_DIV;
+  rmt_rx.mem_block_num = HAL_IO_IR_MEM_BLOCKS;
+  rmt_rx.rmt_mode = RMT_MODE_RX;
+  rmt_rx.rx_config.filter_en = true;
+  rmt_rx.rx_config.filter_ticks_thresh = 100;
+  rmt_rx.rx_config.idle_threshold = rmt_item32_tIMEOUT_US / 10 * (RMT_TICK_10_US);
+  rmt_config(&rmt_rx);
+  rmt_driver_install(rmt_rx.channel, 1000, 0);
+  if(xTaskCreate(halIOIRRecvTask,"irrecv",TASK_HAL_IR_RECV_STACKSIZE, 
+    (void*)NULL,TASK_HAL_IR_RECV_PRIORITY, NULL) == pdPASS)
+  {
+    ESP_LOGD(LOG_TAG,"created IR receive task");
+  } else {
+    ESP_LOGE(LOG_TAG,"error creating IR receive task");
+    return ESP_FAIL;
+  }
+  
+  
   
   /*++++ init RGB LEDc driver ++++*/
   
@@ -282,7 +419,7 @@ esp_err_t halIOInit(void)
   /*++++ INIT buzzer ++++*/
   //we will use the LEDC unit for the buzzer
   //because RMT has no lower frequency than 611Hz (according to example)
-  
+  halIOBuzzerQueue = xQueueCreate(32,sizeof(halIOBuzzer_t));
   ledc_timer_config_t buzzer_timer = {
     .duty_resolution = LEDC_TIMER_10_BIT, // resolution of PWM duty
     .freq_hz = 100,                      // frequency of PWM signal

@@ -100,17 +100,17 @@
 
 /** @brief Frequency of receiving IR tone
  * @see task_infrared.c */
-#define TONE_IR_RECV_FREQ          800
+#define TONE_IR_RECV_FREQ                   800
 /** @brief Duration of receiving IR tone
  * @see task_infrared.c */
-#define TONE_IR_RECV_DURATION      400
+#define TONE_IR_RECV_DURATION               400
 
 /** @brief Frequency of sending IR tone
  * @see task_infrared.c */
-#define TONE_IR_SEND_FREQ          800
+#define TONE_IR_SEND_FREQ                   800
 /** @brief Duration of sending IR tone
  * @see task_infrared.c */
-#define TONE_IR_SEND_DURATION      400
+#define TONE_IR_SEND_DURATION               400
 
 #endif
 

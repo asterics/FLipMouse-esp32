@@ -397,6 +397,9 @@ void halAdcCalibrate(void)
         offsetx = left - right;
         offsety = up - down;
         
+        //make a tone
+        TONE(TONE_CALIB_FREQ,TONE_CALIB_DURATION);
+        
         ESP_LOGI(LOG_TAG,"Finished calibration, offsets: %d/%d",offsetx,offsety);
         
         //give mutex to enable tasks again

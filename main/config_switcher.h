@@ -46,7 +46,7 @@
 
 #include "esp_log.h"
 #include "common.h"
-
+#include "tones.h"
 
 //include all hal tasks, making config structs available
 #include "hal_adc.h"

@@ -53,8 +53,11 @@
 #include "common.h"
 
 /** @brief Macro to easily create a tone */
-#define TONE(tone,duration) { halIOBuzzer_t tone = {.frequency = tone; \
-  .duration = duration; }; xQueueSend(halIOBuzzerQueue, (void*)&tone , (TickType_t) 0 ) }
+#define TONE(freq,length) { \
+  halIOBuzzer_t tone = {    \
+    .frequency = freq,      \
+    .duration = length };   \
+  xQueueSend(halIOBuzzerQueue, (void*)&tone , (TickType_t) 0 ); }
 
 /** @brief PIN - GPIO pin for external button 1 */
 #define HAL_IO_PIN_BUTTON_EXT1  26 

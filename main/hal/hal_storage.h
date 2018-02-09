@@ -95,7 +95,7 @@ typedef enum {
  * @see storageCurrentSlotNumber
  * @return Currently loaded slot number
  * */
-uint8_t halStorageGetCurrentSlotNumber(void)
+uint8_t halStorageGetCurrentSlotNumber(void);
 
 /** Get the name of a slot number
  * 

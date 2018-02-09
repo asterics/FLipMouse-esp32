@@ -69,7 +69,7 @@
  @todo Clarify AT KP/KR/KH commands on original FlipMouse, to be compatible... (especially for press/release with buttons & with multiple key identifiers)
  @todo Debouncer testing...
  @todo Re-implement hal_serial's UART data reception: use own interrupt & discard UART driver.
- @todo Implement buzzer
+ @todo Implement buzzer in all task_* functions (
  @todo Implement IR
  @todo Configswitch with AT MM is triggering only the second/third time...
 */

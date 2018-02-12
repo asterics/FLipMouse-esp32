@@ -86,9 +86,9 @@ Following commands are currently available:
 | AT AX | number (0-100)  | sensitivity x-axis  | v2 | untested | no |
 | AT AY | number (0-100)  | sensitivity y-axis  | v2 | untested | no |
 | AT AC | number (0-100)  | acceleration  | v2 | untested | no |
-| AT MS | number (0-100)  | maximum speed  | v2 | no | no |
-| AT DX | number (0-10000)  | deadzone x-axis  | v2 | no | no |
-| AT DY | number (0-10000)   | deadzone y-axis  | v2 | no | no |
+| AT MS | number (0-100)  | maximum speed  | v2 | untested | no |
+| AT DX | number (0-10000)  | deadzone x-axis  | v2 | untested | no |
+| AT DY | number (0-10000)   | deadzone y-axis  | v2 | untested | no |
 | AT TS | number (0-512)  | sip action threshold  | v2 | untested | no |
 | AT SS | number (0-512)  | strong-sip action threshold  | v2 | untested | no |
 | AT TP | number (512-1023)  | puff action threshold  | v2 | untested | no |

@@ -277,6 +277,45 @@ parserstate_t doMouthpieceSettingsParsing(uint8_t *cmdBuffer, taskNoParameterCon
     }
   }
   
+  /*++++ mouthpiece deadzone ++++*/
+  //AT DX, DY
+  if(CMD4("AT D"))
+  {
+    unsigned int param = strtol((char*)&(cmdBuffer[5]),NULL,10);
+    ESP_LOGI(LOG_TAG,"Deadzone %c, %d",cmdBuffer[4],param);
+    if(param > 10000)
+    {
+      sendErrorBack("Deadzone is 0-10000");
+      return UNKNOWNCMD;
+    } else {
+      //assign to sensitivity/acceleration value
+      switch(cmdBuffer[4])
+      {
+        case 'X': currentcfg->adc.deadzone_x = param; requestUpdate = 1; return NOACTION;
+        case 'Y': currentcfg->adc.deadzone_y = param; requestUpdate = 1; return NOACTION;
+        default: return UNKNOWNCMD;
+      }
+    }
+  }
+  
+  /*++++ mouthpiece mouse - maximum speed ++++*/
+  //AT MS
+  if(CMD("AT MS"))
+  {
+    unsigned int param = strtol((char*)&(cmdBuffer[5]),NULL,10);
+    ESP_LOGI(LOG_TAG,"Maximum speed %d",param);
+    if(param > 100)
+    {
+      sendErrorBack("Maximum speed is 0-100");
+      return UNKNOWNCMD;
+    } else {
+      //assign to maximum speed
+      currentcfg->adc.max_speed = param; 
+      requestUpdate = 1; 
+      return NOACTION;
+    }
+  }
+  
   /*++++ threshold sip/puff++++*/
   //AT TS/TP
   if(CMD4("AT T"))

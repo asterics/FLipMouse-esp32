@@ -148,7 +148,12 @@ void halIOIRSendTask(void * param)
 /** @brief HAL TASK - IR receiving task
  * 
  * This task is used to store data from the RMT unit if the receiving
- * of an IR code is started. A received signal will be put to the queue.
+ * of an IR code is started.
+ * By sending an element to the queue halIOIRRecvQueue, this task starts
+ * to receive any incoming IR signals.
+ * The status of the struct is updated (either finished, timeout or error)
+ * on any status change.
+ * Poll this value to see if the receiver is finished.
  * 
  * @see halIOIR_t
  * @see halIOIRRecvQueue
@@ -167,10 +172,12 @@ void halIOIRRecvTask(void * param)
   
   while(1)
   {
-    //wait for updates
+    //wait for updates (triggered receiving)
     if(xQueueReceive(halIOIRRecvQueue,&recv,10000))
     {
-      
+      //TODO start receiving
+      //put data into buffer
+      //update status accordingly
       
     }
   }

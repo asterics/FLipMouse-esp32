@@ -186,6 +186,8 @@ typedef struct halIOIR {
    rmt_item32_t *buffer;
   /** Count of rmt_item32_t items */
   uint16_t count;
+  /** Status of receiver */
+  uint8_t status;
 } halIOIR_t;
 
 #endif

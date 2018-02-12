@@ -65,6 +65,9 @@ $(function() {
 </div><!--header-->
 <div class="contents">
 
+<p>Output buzzer noise.  
+ <a href="structhalIOBuzzer.html#details">More...</a></p>
+
 <p><code>#include &lt;<a class="el" href="hal__io_8h_source.html">hal_io.h</a>&gt;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
@@ -73,13 +76,11 @@ Data Fields</h2></td></tr>
 <tr class="separator:a85ad12ddaac1e475a3648b0938af436e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6fee679bc63857c97b18a867a8905b61"><td class="memItemLeft" align="right" valign="top">uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structhalIOBuzzer.html#a6fee679bc63857c97b18a867a8905b61">duration</a></td></tr>
 <tr class="separator:a6fee679bc63857c97b18a867a8905b61"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a53ccb1a293b04ca036f633be61d8fb74"><td class="memItemLeft" align="right" valign="top">uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structhalIOBuzzer.html#a53ccb1a293b04ca036f633be61d8fb74">fade</a></td></tr>
-<tr class="separator:a53ccb1a293b04ca036f633be61d8fb74"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>output buzzer noise </p>
+<div class="textblock"><p>Output buzzer noise. </p>
 
-<p class="definition">Definition at line <a class="el" href="hal__io_8h_source.html#l00074">74</a> of file <a class="el" href="hal__io_8h_source.html">hal_io.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="hal__io_8h_source.html#l00173">173</a> of file <a class="el" href="hal__io_8h_source.html">hal_io.h</a>.</p>
 </div><h2 class="groupheader">Field Documentation</h2>
 <a id="a6fee679bc63857c97b18a867a8905b61"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a6fee679bc63857c97b18a867a8905b61">&#9670;&nbsp;</a></span>duration</h2>
@@ -92,26 +93,11 @@ Data Fields</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>duration of tone </p>
+<p>Duration of tone [ms] </p>
 
-<p class="definition">Definition at line <a class="el" href="hal__io_8h_source.html#l00078">78</a> of file <a class="el" href="hal__io_8h_source.html">hal_io.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="hal__io_8h_source.html#l00178">178</a> of file <a class="el" href="hal__io_8h_source.html">hal_io.h</a>.</p>
 
-</div>
-</div>
-<a id="a53ccb1a293b04ca036f633be61d8fb74"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a53ccb1a293b04ca036f633be61d8fb74">&#9670;&nbsp;</a></span>fade</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">uint16_t halIOBuzzer::fade</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>fading of tone, not implemented </p>
-
-<p class="definition">Definition at line <a class="el" href="hal__io_8h_source.html#l00080">80</a> of file <a class="el" href="hal__io_8h_source.html">hal_io.h</a>.</p>
+<p class="reference">Referenced by <a class="el" href="hal__io_8c_source.html#l00196">halIOBuzzerTask()</a>.</p>
 
 </div>
 </div>
@@ -126,9 +112,11 @@ Data Fields</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>frequency of tone </p>
+<p>Frequency of tone [Hz] </p><dl class="section note"><dt>Note</dt><dd>Use 0 for a pause without tone. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="hal__io_8h_source.html#l00076">76</a> of file <a class="el" href="hal__io_8h_source.html">hal_io.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="hal__io_8h_source.html#l00176">176</a> of file <a class="el" href="hal__io_8h_source.html">hal_io.h</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="hal__io_8c_source.html#l00196">halIOBuzzerTask()</a>.</p>
 
 </div>
 </div>

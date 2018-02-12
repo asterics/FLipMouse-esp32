@@ -1,6 +1,7 @@
 var searchData=
 [
   ['haliobuzzer',['halIOBuzzer',['../structhalIOBuzzer.html',1,'']]],
+  ['halioir',['halIOIR',['../structhalIOIR.html',1,'']]],
   ['hid_5fdev_5fcfg_5ft',['hid_dev_cfg_t',['../structhid__dev__cfg__t.html',1,'']]],
   ['hid_5freport_5fmap_5ft',['hid_report_map_t',['../structhid__report__map__t.html',1,'']]],
   ['hidd_5fclcb_5ft',['hidd_clcb_t',['../structhidd__clcb__t.html',1,'']]],

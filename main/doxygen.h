@@ -68,8 +68,9 @@
  @todo Configswitcher NEXT increments slot number, even if not possible. Also check for turn-around. & missing slots.
  @todo Clarify AT KP/KR/KH commands on original FlipMouse, to be compatible... (especially for press/release with buttons & with multiple key identifiers)
  @todo Debouncer testing...
+ @todo Debouncer: add macro for easily setting/clearing a VB (in IN and OUT)
  @todo Re-implement hal_serial's UART data reception: use own interrupt & discard UART driver.
- @todo Implement buzzer
- @todo Implement IR
+ @todo Implement buzzer in remaining task_* functions (infrared, strongsip/puff exit)
+ @todo Implement IR-Receive, test IR sending
  @todo Configswitch with AT MM is triggering only the second/third time...
 */

@@ -277,6 +277,45 @@ parserstate_t doMouthpieceSettingsParsing(uint8_t *cmdBuffer, taskNoParameterCon
     }
   }
   
+  /*++++ mouthpiece deadzone ++++*/
+  //AT DX, DY
+  if(CMD4("AT D"))
+  {
+    unsigned int param = strtol((char*)&(cmdBuffer[5]),NULL,10);
+    ESP_LOGI(LOG_TAG,"Deadzone %c, %d",cmdBuffer[4],param);
+    if(param > 10000)
+    {
+      sendErrorBack("Deadzone is 0-10000");
+      return UNKNOWNCMD;
+    } else {
+      //assign to sensitivity/acceleration value
+      switch(cmdBuffer[4])
+      {
+        case 'X': currentcfg->adc.deadzone_x = param; requestUpdate = 1; return NOACTION;
+        case 'Y': currentcfg->adc.deadzone_y = param; requestUpdate = 1; return NOACTION;
+        default: return UNKNOWNCMD;
+      }
+    }
+  }
+  
+  /*++++ mouthpiece mouse - maximum speed ++++*/
+  //AT MS
+  if(CMD("AT MS"))
+  {
+    unsigned int param = strtol((char*)&(cmdBuffer[5]),NULL,10);
+    ESP_LOGI(LOG_TAG,"Maximum speed %d",param);
+    if(param > 100)
+    {
+      sendErrorBack("Maximum speed is 0-100");
+      return UNKNOWNCMD;
+    } else {
+      //assign to maximum speed
+      currentcfg->adc.max_speed = param; 
+      requestUpdate = 1; 
+      return NOACTION;
+    }
+  }
+  
   /*++++ threshold sip/puff++++*/
   //AT TS/TP
   if(CMD4("AT T"))
@@ -465,6 +504,27 @@ parserstate_t doGeneralCmdParsing(uint8_t *cmdBuffer)
   {
     ESP_LOGE(LOG_TAG,"Current config is null, cannot update general cmd");
     return UNKNOWNCMD;
+  }
+  
+  /*++++ AT RO ++++*/
+  if(CMD("AT RO")) {
+    //set the mouthpiece orientation
+    param = strtol((char*)&(cmdBuffer[6]),NULL,10);
+    switch(param)
+    {
+      case 0:
+      case 90:
+      case 180:
+      case 270:
+        currentcfg->adc.orientation = param;
+        ESP_LOGD(LOG_TAG,"Set orientation to %d",param);
+        requestUpdate = 1;
+        break;
+      default:
+        ESP_LOGE(LOG_TAG,"Orientation %d not available",param);
+        break;
+    }
+    return NOACTION;
   }
   
     
@@ -1205,7 +1265,7 @@ void printAllSlots(uint8_t printconfig)
       halSerialSendUSBSerial(HAL_SERIAL_TX_TO_CDC,parameterNumber,strlen(parameterNumber),10);
       sprintf(parameterNumber,"AT GR %d\r\n",currentcfg->adc.gain[3]);
       halSerialSendUSBSerial(HAL_SERIAL_TX_TO_CDC,parameterNumber,strlen(parameterNumber),10);
-      sprintf(parameterNumber,"AT RO %d\r\n",currentcfg->orientation);
+      sprintf(parameterNumber,"AT RO %d\r\n",currentcfg->adc.orientation);
       halSerialSendUSBSerial(HAL_SERIAL_TX_TO_CDC,parameterNumber,strlen(parameterNumber),10);
       
       

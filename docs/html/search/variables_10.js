@@ -11,5 +11,6 @@ var searchData=
   ['requestvbparametersize',['requestVBParameterSize',['../task__commands_8c.html#a72a3465e14641646907f99794f88e6dc',1,'task_commands.c']]],
   ['requestvbtask',['requestVBTask',['../task__commands_8c.html#a9c73c48b3f99599795437a9a22ed98d5',1,'task_commands.c']]],
   ['requestvbtype',['requestVBType',['../task__commands_8c.html#af2fcbc3f27a33e58b92d0b0a979a3b33',1,'task_commands.c']]],
-  ['requestvbupdate',['requestVBUpdate',['../task__commands_8c.html#a92f6cea4b2f3b9af0abce6f8fcf3da97',1,'task_commands.c']]]
+  ['requestvbupdate',['requestVBUpdate',['../task__commands_8c.html#a92f6cea4b2f3b9af0abce6f8fcf3da97',1,'task_commands.c']]],
+  ['right',['right',['../structadcData.html#aac97a6c1840b8874c8fae91265d51707',1,'adcData']]]
 ];

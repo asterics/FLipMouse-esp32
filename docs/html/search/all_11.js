@@ -2,6 +2,7 @@ var searchData=
 [
   ['save',['SAVE',['../keyboard_8c.html#a74737b7419bce75262b34ece12a7f7eb',1,'keyboard.c']]],
   ['senderrorback',['sendErrorBack',['../task__commands_8c.html#acea81ba8a182ae78feb2db6418fc1806',1,'task_commands.c']]],
+  ['sendir',['SENDIR',['../hal__io_8h.html#a57492bb37c5bc8edb8f7165f1c00082e',1,'hal_io.h']]],
   ['sendkbd',['sendKbd',['../task__kbd_8c.html#a7d605cb2407a7a7309911c70e28a9884',1,'task_kbd.c']]],
   ['sensitivity_5fx',['sensitivity_x',['../structadc__config.html#a81465c39748fa52d1b773f34ad4ee435',1,'adc_config']]],
   ['sensitivity_5fy',['sensitivity_y',['../structadc__config.html#adbfe1bd3388e5274fd37ffb27c6a719a',1,'adc_config']]],
@@ -12,6 +13,7 @@ var searchData=
   ['slotversion',['slotversion',['../structgeneralConfig.html#a346d50e48981b23684bd04c371212a08',1,'generalConfig']]],
   ['starttimer',['startTimer',['../task__debouncer_8c.html#a2d41ed2a246a1b8d4ee5510262001e50',1,'task_debouncer.c']]],
   ['state',['state',['../structesp__hidd__cb__param__t_1_1hidd__init__finish__evt__param.html#a33c7c87def3302bcaa923c620d31b1d9',1,'esp_hidd_cb_param_t::hidd_init_finish_evt_param::state()'],['../structesp__hidd__cb__param__t_1_1hidd__deinit__finish__evt__param.html#aead8cf8834062cfa90a418aeb7dd7a71',1,'esp_hidd_cb_param_t::hidd_deinit_finish_evt_param::state()']]],
+  ['status',['status',['../structhalIOIR.html#a3eaabf7a86519f06b7c9809b2420f423',1,'halIOIR']]],
   ['storage_5fid',['STORAGE_ID',['../common_8h.html#a600cc24764111d572c05ab8a985de463',1,'common.h']]],
   ['svc_5ffeatures',['svc_features',['../structhidd__feature__t.html#a254c99f1e3115e399a088611e1e93123',1,'hidd_feature_t']]]
 ];

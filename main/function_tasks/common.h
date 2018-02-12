@@ -168,27 +168,46 @@ extern QueueHandle_t config_switcher;
  * Planned for future release:
  * Gesture VBs, a recorded gesture is treated like a virtual button
  * */
-#define VB_EXTERNAL1    0
-#define VB_EXTERNAL2    1
-#define VB_INTERNAL1    2
-#define VB_INTERNAL2    3
-#define VB_UP           4
-#define VB_DOWN         5
-#define VB_LEFT         6
-#define VB_RIGHT        7
-#define VB_SIP          8
-#define VB_PUFF         9
-#define VB_STRONGSIP    10
-#define VB_STRONGPUFF   11
-#define VB_STRONGSIP_UP     12
-#define VB_STRONGSIP_DOWN   13
-#define VB_STRONGSIP_LEFT   14
-#define VB_STRONGSIP_RIGHT  15
-#define VB_STRONGPUFF_UP    16
-#define VB_STRONGPUFF_DOWN  17
-#define VB_STRONGPUFF_LEFT  18
-#define VB_STRONGPUFF_RIGHT 19
-#define VB_MAX          20
+#ifdef DEVICE_FLIPMOUSE
+  #define VB_EXTERNAL1    0
+  #define VB_EXTERNAL2    1
+  #define VB_INTERNAL1    2
+  #define VB_INTERNAL2    3
+  #define VB_UP           4
+  #define VB_DOWN         5
+  #define VB_LEFT         6
+  #define VB_RIGHT        7
+  #define VB_SIP          8
+  #define VB_PUFF         9
+  #define VB_STRONGSIP    10
+  #define VB_STRONGPUFF   11
+  #define VB_STRONGSIP_UP     12
+  #define VB_STRONGSIP_DOWN   13
+  #define VB_STRONGSIP_LEFT   14
+  #define VB_STRONGSIP_RIGHT  15
+  #define VB_STRONGPUFF_UP    16
+  #define VB_STRONGPUFF_DOWN  17
+  #define VB_STRONGPUFF_LEFT  18
+  #define VB_STRONGPUFF_RIGHT 19
+  #define VB_MAX          20
+#endif
+
+#ifdef DEVICE_FABI
+  #define VB_EXTERNAL1    0
+  #define VB_EXTERNAL2    1
+  #define VB_EXTERNAL3    2
+  #define VB_EXTERNAL4    3
+  #define VB_EXTERNAL5    4
+  #define VB_EXTERNAL6    5
+  #define VB_EXTERNAL7    6
+  #define VB_EXTERNAL8    7
+  #define VB_EXTERNAL9    8
+  #define VB_SIP          9
+  #define VB_PUFF         10
+  #define VB_STRONGSIP    11
+  #define VB_STRONGPUFF   12
+  #define VB_MAX          13
+#endif
 
 /** special virtual button, which is used to trigger a task immediately.
  * After this single action, each function body of functional tasks
@@ -270,6 +289,8 @@ typedef struct adc_config {
   uint8_t gain[4];
   /** joystick axis assignment TBD: assign axis to numbers*/
   uint8_t axis;
+  /** FLipMouse orientation, 0,90,180 or 270° */
+  uint16_t orientation;
 } adc_config_t;
 
 typedef enum {
@@ -288,8 +309,6 @@ typedef struct generalConfig {
   uint8_t usb_active;
   /** mouse wheel: stepsize */
   uint8_t wheel_stepsize;
-  /** FLipMouse orientation, 0,90,180 or 270° */
-  uint16_t orientation;
   /** country code to be used by BLE&USB HID */
   uint8_t countryCode;
   /** keyboard locale to be used by BLE&USB(serial) HID */

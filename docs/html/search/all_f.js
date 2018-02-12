@@ -8,6 +8,7 @@ var searchData=
   ['pending_5fhal',['pending_hal',['../structhidd__inst__t.html#a1309de066f9180311cb21532b6fe81ce',1,'hidd_inst_t']]],
   ['press',['PRESS',['../task__kbd_8h.html#aff3bf982a86299e69b007b0d16a45227a6e70a672c8edfbcdf18c8204913e285d',1,'task_kbd.h']]],
   ['press_5frelease_5fbutton',['PRESS_RELEASE_BUTTON',['../task__kbd_8h.html#aff3bf982a86299e69b007b0d16a45227a64b216d07776d1f5df5f7ad88c73fcab',1,'task_kbd.h']]],
+  ['pressure',['pressure',['../structadcData.html#ab8dd40e7779ed6f4894c678d2b315d09',1,'adcData']]],
   ['prev',['PREV',['../hal__storage_8h.html#a8a4828abe0b7cd309fba5c2e5e228b95ab359289a088e693e1c62099baf550b39',1,'hal_storage.h']]],
   ['prf_5fchar_5fpres_5ffmt',['prf_char_pres_fmt',['../structprf__char__pres__fmt.html',1,'']]],
   ['printallslots',['printAllSlots',['../task__commands_8c.html#ad59215648a26578c22baa7ceae099e0e',1,'task_commands.c']]],

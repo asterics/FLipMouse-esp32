@@ -408,6 +408,18 @@ void configSwitcherTask(void * params)
         }
       }
       
+      //make one or more config tones (depending on slot number)
+      uint8_t slotnr = halStorageGetCurrentSlotNumber();
+      //if no slot is available, do at least one beep
+      if(slotnr == 0) slotnr++;
+      for(uint8_t i = 0; i<slotnr; i++)
+      {
+        //create a tone and a pause (values are from original firmware)
+        TONE(TONE_CHANGESLOT_FREQ_BASE + slotnr*TONE_CHANGESLOT_FREQ_SLOTNR, \
+          TONE_CHANGESLOT_DURATION);
+        TONE(0,TONE_CHANGESLOT_DURATION_PAUSE);
+      }
+      
       //clean up
       halStorageFinishTransaction(tid);
       //save newly loaded cfg

@@ -16,14 +16,19 @@
 <div id="content">
     <h1 i18n>FLipMouse Web Configuration // FLipMouse Webkonfiguration</h1>
 
-    <div data-tabs class="row">
-        <div class="four columns"><a onclick="toBasic()" class="button button-primary" data-tab href="#tabBasic"
+    <div data-tabs class="row" id="tabMenu">
+        <div class="four columns hide-mobile"><a onclick="toTab(this.href)" class="button button-primary" data-tab href="#tabBasic"
                                      class="ui-btn-active" i18n>Basic Setup // Basis-Konfiguration</a></div>
-        <div class="four columns"><a onclick="toSipPuff()" class="button button-primary" data-tab href="#tabPuff" i18n>Sip and Puff // Saug-Blassteuerung</a></div>
-        <div class="four columns"><a onclick="toActionLearn()" class="button button-primary" data-tab
+        <div class="four columns hide-mobile"><a onclick="toTab(this.href)" class="button button-primary" data-tab href="#tabPuff" i18n>Sip and Puff // Saug-Blassteuerung</a></div>
+        <div class="four columns hide-mobile"><a onclick="toTab(this.href)" class="button button-primary" data-tab
                                      href="#tabActions">Learn Actions</a></div>
+        <div class="show-mobile"><a id="toNavLink" onclick="toNav()" class="button button-primary" data-tab href="#tabNav" i18n>&#x2630; Menu // &#x2630; Menü</a></div>
+        <div class="show-mobile"><a id="toNavBackLink" style="display: none" onclick="toNavBack()" class="button button-primary" i18n>&#8592; Back // &#8592; Zurück</a></div>
     </div>
     <div data-tabs-content>
+        <div data-tabs-pane class="tabs-pane" id="tabNav">
+            <div id="tabNavContainer" class="row"></div>
+        </div>
         <div data-tabs-pane class="tabs-pane" id="tabBasic">
             <div id="basic-SENSITIVITY-single">
                 <label for="SENSITIVITY" i18n>Sensitivity: // Sensitivität:</label>
@@ -208,6 +213,12 @@
 
 <script>
     window.onload = function () {
+        tabby.init();
+        domI18n({
+            selector: '[i18n]',
+            separator: ' // ',
+            languages: ['en', 'de']
+        });
         var flip = new FlipMouse(function (config) {
             setSliderValue(flip.SENSITIVITY_X, config[flip.SENSITIVITY_X]);
             setSliderValue(flip.SENSITIVITY_Y, config[flip.SENSITIVITY_Y]);
@@ -228,17 +239,7 @@
             }
             console.log(config);
 
-            var url = window.location.href;
-            if (url.indexOf('#tabBasic') > -1) {
-                toBasic();
-            } else if (url.indexOf('#tabPuff') > -1) {
-                toSipPuff();
-            } else if (url.indexOf('#tabActions') > -1) {
-                toActionLearn();
-            } else {
-                window.location.replace(window.location.href + '#tabBasic');
-                toBasic();
-            }
+            toTab(getCurrentTabId());
         });
         window.flip = flip;
     };
@@ -318,6 +319,22 @@
         });
     }
 
+    function toTab(tabId) {
+        tabId = parseTabId(tabId);
+        tabby.toggleTab(tabId);
+        if (!tabId || tabId.indexOf('#tabBasic') > -1) {
+            toBasic();
+        } else if (tabId.indexOf('#tabPuff') > -1) {
+            toSipPuff();
+        } else if (tabId.indexOf('#tabActions') > -1) {
+            toActionLearn();
+        }  else if (tabId.indexOf('#tabNav') > -1) {
+            toNav();
+        }
+        L.setVisible('#toNavLink');
+        L.setVisible('#toNavBackLink', false);
+    }
+    
     function toBasic() {
         flip.startLiveValueListener(cursorPosValueHandler);
     }
@@ -328,6 +345,41 @@
 
     function toActionLearn() {
         flip.stopLiveValueListener();
+    }
+
+    function toNav() {
+        tabby.toggleTab('#tabNav');
+        L.toggle('#toNavLink', '#toNavBackLink');
+        window.lastNav = getCurrentTabId();
+
+        var tabNav = L('#tabNavContainer');
+        if(tabNav.hasChildNodes()) {
+            return;
+        }
+        var navItems = L('#tabMenu').children;
+        for (var i = 0; i < navItems.length-2; i++) {
+            var clone = navItems[i].cloneNode(true);
+            clone.className = '';
+            tabNav.appendChild(clone);
+        }
+    }
+
+    function toNavBack() {
+        L.toggle('#toNavLink', '#toNavBackLink');
+        if(window.lastNav && window.lastNav != '#tabNav') {
+            toTab(window.lastNav);
+        } else {
+            toTab('#tabBasic');
+        }
+    }
+
+    function getCurrentTabId() {
+        var id = parseTabId(L('.tabs-pane.active')[0].baseURI);
+        return id ? id : parseTabId(window.location.href);
+    }
+
+    function parseTabId(url) {
+        return url.substring(url.indexOf('#'));
     }
 
     function cursorPosValueHandler(data) {
@@ -386,14 +438,6 @@
             L(id).max = currentMaxRange;
         });
     }
-</script>
-<script>
-    tabby.init();
-    domI18n({
-        selector: '[i18n]',
-        separator: ' // ',
-        languages: ['en', 'de']
-    });
 </script>
 </body>
 </html>

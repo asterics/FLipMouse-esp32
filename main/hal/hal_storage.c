@@ -156,6 +156,7 @@ void halStorageCreateDefault(uint32_t tid)
   defaultCfg->slotversion = STORAGE_ID;
   defaultCfg->locale = LAYOUT_GERMAN;
   defaultCfg->wheel_stepsize = 3;
+  defaultCfg->irtimeout = 10;
   
   
   strcpy(defaultCfg->slotName,"__DEFAULT");
@@ -717,6 +718,89 @@ esp_err_t halStorageGetNumberForName(uint32_t tid, uint8_t *slotnumber, char *sl
       *slotnumber = currentSlot;
       fclose(f);
       ESP_LOGD(LOG_TAG,"Found slot \"%s\" @%u",slotname,currentSlot);
+      return ESP_OK;
+    }
+    
+    //go to next possible slot & clean up
+    currentSlot++;
+    fclose(f);
+  } while(1);
+
+  //we should never be here...
+  if(f!=NULL) fclose(f);
+  return ESP_OK;
+}
+
+/** @brief Get the number of an IR command
+ * 
+ * This method returns the number of the given IR command name.
+ * An invalid name will return ESP_FAIL and a slotnumber of 0xFF.
+ * 
+ * @param tid Transaction id
+ * @param cmdName Name of the IR command to look for
+ * @param slotnumber Variable where the slot number will be stored
+ * @see halStorageStartTransaction
+ * @see halStorageFinishTransaction
+ * @return ESP_OK if tid is valid and slot number is valid, ESP_FAIL otherwise
+ * */
+esp_err_t halStorageGetNumberForNameIR(uint32_t tid, uint8_t *slotnumber, char *cmdName)
+{
+  uint8_t currentSlot = 1;
+  uint32_t slotnamelen = 0;
+  char file[sizeof(base_path)+32];
+  char fileSlotName[SLOTNAME_LENGTH+4];
+  FILE *f;
+
+  if(halStorageChecks(tid) != ESP_OK) return ESP_FAIL;
+  
+  do {
+    //check for limit of slots
+    if(currentSlot == 100)
+    {
+      ESP_LOGW(LOG_TAG,"Finished search, didn't find name %s",cmdName);
+      *slotnumber = 0xFF;
+      return ESP_FAIL;
+    }
+    
+    //create filename string to search if this slot is available
+    sprintf(file,"%s/IR_%02d.fms",base_path,currentSlot);
+    
+    //open file for reading
+    ESP_LOGD(LOG_TAG,"Opening file %s",file);
+    f = fopen(file, "rb");
+    
+    //check if this file is available
+    //TODO: should we re-arrange slots if one is deleted or should we
+    //search through all 255 possible slots? (might be slow if the slot
+    //is not found)
+    //Currently: return ESP_FAIL for first not found file
+    if(f == NULL)
+    {
+      currentSlot++;
+      continue;
+    }
+    
+    fseek(f,0,SEEK_SET);
+  
+    //read slot name
+    fread(&slotnamelen,sizeof(uint32_t),1,f);
+    if(slotnamelen > SLOTNAME_LENGTH + 1)
+    {
+      ESP_LOGE(LOG_TAG,"Slotname length too high: %u",slotnamelen);
+      fclose(f);
+      return ESP_FAIL;
+    }
+    fread(fileSlotName,sizeof(char),slotnamelen+1,f);
+    fileSlotName[slotnamelen] = '\0';
+    ESP_LOGD(LOG_TAG,"Read slotname: %s, length %d",fileSlotName,slotnamelen);
+      
+    //compare parameter & file slotname
+    if(strcmp(cmdName, fileSlotName) == 0)
+    {
+      //found a slot
+      *slotnumber = currentSlot;
+      fclose(f);
+      ESP_LOGD(LOG_TAG,"Found slot \"%s\" @%u",cmdName,currentSlot);
       return ESP_OK;
     }
     

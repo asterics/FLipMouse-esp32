@@ -287,6 +287,20 @@ esp_err_t halStorageGetNameForNumberIR(uint32_t tid, uint8_t slotnumber, char *c
  * */
 esp_err_t halStorageStoreIR(uint32_t tid, halIOIR_t *cfg, char *cmdName);
 
+/** @brief Get the number of an IR command
+ * 
+ * This method returns the number of the given IR command name.
+ * An invalid name will return ESP_FAIL and a slotnumber of 0xFF.
+ * 
+ * @param tid Transaction id
+ * @param cmdName Name of the IR command to look for
+ * @param slotnumber Variable where the slot number will be stored
+ * @see halStorageStartTransaction
+ * @see halStorageFinishTransaction
+ * @return ESP_OK if tid is valid and slot number is valid, ESP_FAIL otherwise
+ * */
+esp_err_t halStorageGetNumberForNameIR(uint32_t tid, uint8_t *slotnumber, char *cmdName);
+
 
 /** @brief Get the number of stored IR commands
  * 

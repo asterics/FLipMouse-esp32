@@ -1,197 +1,399 @@
-<html>
+﻿<html>
 <head>
     <title>FlipMouse WebGUI</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="jquery.mobile.custom.structure.min.css">
-    <link rel="stylesheet" href="jquery.mobile.custom.theme.min.css">
-	<link rel="stylesheet" href="esp32.css">
-    <script src="jq.js"></script>
-    <script src="jquery.mobile.custom.min.js"></script>
-	<script>
-	
-	function refreshPressureLevel() {
-	
-		$.getJSON('getPressure', function(data) {
-			$.each(data, function(key, val) {
-				if(key == 'pressureValue') $('#actual-pressure-level').val(val);
-			});
-		});
-	};
-	
-	function refreshConfig() {
-	
-		$.getJSON('getConfig', function(data) {
-			$.each(data, function(key, val) {
-								
-				if(key == 'led') {
-				
-					if(val == 'on') {
-						$("#set-led").prop('checked', true);
-						$("#status").text("led ON");
-					}
-					if(val == 'off') {
-						$("#set-led").prop('checked', false);
-						$("#status").text("led OFF");
-					}
-					$("#set-led").flipswitch("refresh");
-				}					
-				else if(key == 'command') {
-					$("#actioncommand").val(val);
-				}
-				else if(key == 'parameter') {
-					$("#actionparameter").val(val);
-				}
-				else if(key == 'pressureValue') {
-					$("#set-pressure-level").val(val);
-					$("#set-pressure-level").slider("refresh");
-				}
-				else if(key == 'sensitivityX') {
-					$("#sensitivityX").val(val);
-					$("#sensitivityX").slider("refresh");
-				}
-				
-				else if(key == 'sensitivityY') {
-					$("#sensitivityY").val(val);
-					$("#sensitivityY").slider("refresh");
-				}
-				else if(key == 'deadzoneX') {
-					$("#deadzoneX").val(val);
-					$("#deadzoneX").slider("refresh");
-				}
-				else if(key == 'deadzoneY') {
-					$("#deadzoneY").val(val);
-					$("#deadzoneY").slider("refresh");
-				}
-			});
-		});
-	};
-	
-	$(document).ready(function() {
-		$('#actioncommand').val('CL');
-		refreshConfig();
-		
-		$("#set-led").change(function() {
-
-			var data = {'mode':'led','status':$("#set-led").is(':checked') ? "on" : "off"};
-
-
-			$.ajax({
-			url: 'setConfig',
-			type: 'POST',
-			contentType:'application/json',
-			data: JSON.stringify(data),
-			dataType:'json'
-			});
-		});
-
-		$("#basic-button").click(function() {
-
-			var data = {'mode':'basic','sensitivityX':$("#sensitivityX").val(),'sensitivityY':$("#sensitivityY").val(),'deadzoneX':$("#deadzoneX").val(),'deadzoneY':$("#deadzoneY").val()};
-			$.ajax({
-			url: 'setConfig',
-			type: 'POST',
-			contentType:'application/json',
-			data: JSON.stringify(data),
-			dataType:'json'
-			});
-		});
-						
-		$("#pressure-button").click(function() {
-		
-			var data = {'mode':'pressure','pressureValue':$("#set-pressure-level").val()};
-			$.ajax({
-			url: 'setConfig',
-			type: 'POST',
-			contentType:'application/json',
-			data: JSON.stringify(data),
-			dataType:'json'
-			});
-		});
-		
-		$("#action-button").click(function() {
-			var selected = $("#actioncommand").val();
-			console.log("actioncommand=" + selected + ", parameter=" + $("#actionparameter").val());
-			var data = {'mode':'action','command':selected,'parameter':$("#actionparameter").val()};
-			$.ajax({
-			url: 'setConfig',
-			type: 'POST',
-			contentType:'application/json',
-			data: JSON.stringify(data),
-			dataType:'json'
-			});
-		});
-
-		
-	    setInterval("refreshPressureLevel()", 500);
-	});
-	</script>
+    <link rel="stylesheet" href="css/normalize.css">
+    <link rel="stylesheet" href="css/skeleton.css">
+    <link rel="stylesheet" href="css/tabby.min.css">
+    <link rel="stylesheet" href="css/custom.css">
+    <script src="lib/lquery.js"></script>
+    <script src="lib/areCommunicatorLight.js"></script>
+    <script src="lib/flipMouseCommunicator.js"></script>
+    <script src="lib/tabby.min.js"></script>
+    <script src="lib/dom-i18n.min.js"></script>
 </head>
 <body>
-    <div data-role="page">
- 
-        <div data-role="header">
-            <h1>FlipMouse WebGUI</h1>
-        </div><!-- /header -->
- 
-        <div role="main" class="ui-content">
-			<div data-role="tabs" id="tabs">
-				<div data-role="navbar">
-					<ul>
-					<li><a href="#basic" data-ajax="false" class="ui-btn-active">Basic Setup</a></li>
-					<li><a href="#sippuff" data-ajax="false">Sip and Puff</a></li>
-					<li><a href="#actions" data-ajax="false">Learn Actions</a></li>
-					</ul>
-				</div>
-				<div id="basic" class="ui-body-d ui-content">
-					<div class="empty-separator"></div>
-					<label for="basic-1">Horizontal Sensitivity:</label>
-					<input type="range" data-clear-btn="true" name="sensitivityX" id="sensitivityX" min="0" max="100">
-					<label for="basic-2">Vertical Sensitivity:</label>
-					<input type="range" data-clear-btn="true" name="sensitivityY" id="sensitivityY" min="0" max="100">
-					<div class="empty-separator"></div>
-					<label for="basic-3">Horizontal Deadzone:</label>
-					<input type="range" data-clear-btn="true" name="deadzoneX" id="deadzoneX" min="0" max="100">
-					<label for="basic-4">Vertical Deadzone:</label>
-					<input type="range" data-clear-btn="true" name="deadzoneY" id="deadzoneY" min="0" max="100">
-					<div class="empty-separator"></div>
-					<input type="button" id="basic-button" value="Apply">
-					<div><input type="checkbox" id="set-led" data-role="flipswitch"></div>
-				</div>
-				<div id="sippuff" class="ui-body-d ui-content">
-					<div class="empty-separator"></div>
-					<label for="pressure-1">Pressure level for puff:</label>
-					<input type="range" data-clear-btn="true" name="set-pressure-level" id="set-pressure-level" min="0" max="1200">
-					<label for="pressure-2">Actual pressure level:</label>
-					<input type="number" name="actual-pressure-level" id="actual-pressure-level" value="" data-disabled="true">
-					<div class="empty-separator"></div>
-					<input type="button" id="pressure-button" value="Apply">
-					
-				</div>
-				<div id="actions" class="ui-body-d ui-content">
-					<div class="empty-separator"></div>
+<div id="content">
+    <h1 i18n>FLipMouse Web Configuration // FLipMouse Webkonfiguration</h1>
 
-					<label for="action-1">Select an action:</label>
-					 <select id="actioncommand">
-					  <option selected="selected" value="CL">Click Left</option>
-					  <option value="CR">Click Right</option>
-					  <option value="PL">Press (Hold) Left</option>
-					  <option value="KW">Write Keyboard</option>
-					</select> 
-					<label for="action-2">additional paramters (text or value):</label>
-					<input type="text" data-clear-btn="true" name="actionparameter" id="actionparameter" value="">
-					<div class="empty-separator"></div>
-					<input type="button" id="action-button" value="Learn Gesture">
-				</div>
-			</div>
-        </div><!-- /content -->
- 
-        <div data-role="footer" data-position="fixed">
-            <h4 id="status"></h4>
-        </div><!-- /footer -->
- 
-    </div><!-- /page -->
+    <div data-tabs class="row">
+        <div class="four columns"><a onclick="toBasic()" class="button button-primary" data-tab href="#tabBasic"
+                                     class="ui-btn-active" i18n>Basic Setup // Basis-Konfiguration</a></div>
+        <div class="four columns"><a onclick="toSipPuff()" class="button button-primary" data-tab href="#tabPuff" i18n>Sip and Puff // Saug-Blassteuerung</a></div>
+        <div class="four columns"><a onclick="toActionLearn()" class="button button-primary" data-tab
+                                     href="#tabActions">Learn Actions</a></div>
+    </div>
+    <div data-tabs-content>
+        <div data-tabs-pane class="tabs-pane" id="tabBasic">
+            <div id="basic-SENSITIVITY-single">
+                <label for="SENSITIVITY" i18n>Sensitivity: // Sensitivität:</label>
+                <a class="u-pull-right" href="javascript:toggleShowXY('SENSITIVITY')" i18n>show x/y separately // zeige x/y getrennt</a>
+                <div class="row">
+                    <span id="SENSITIVITY_VAL" class="text-center one column">0</span>
+                    <input type="range" oninput="basicSliderChanged(event)" onchange="basicSliderChanged(event)"
+                           id="SENSITIVITY" min="0" max="100" class="eleven columns">
+                </div>
+            </div>
+            <div id="basic-SENSITIVITY-xy" style="display: none">
+                <label for="SENSITIVITY_X" i18n>Horizontal Sensitivity: // Sensitivität horizontal:</label>
+                <a class="u-pull-right" href="javascript:toggleShowXY('SENSITIVITY')" i18n>hide separate x/y // zeige  x/y gemeinsam</a>
+                <div class="row">
+                    <span id="SENSITIVITY_X_VAL" class="text-center one column">0</span>
+                    <input type="range" oninput="basicSliderChanged(event)" onchange="basicSliderChanged(event)"
+                           id="SENSITIVITY_X" min="0" max="100" class="eleven columns">
+                </div>
+                <label for="SENSITIVITY_Y" i18n>Vertical Sensitivity: // Sensitivität vertikal:</label>
+                <div class="row">
+                    <span id="SENSITIVITY_Y_VAL" class="text-center one column">0</span>
+                    <input type="range" oninput="basicSliderChanged(event)" onchange="basicSliderChanged(event)"
+                           id="SENSITIVITY_Y" min="0" max="100" class="eleven columns">
+                </div>
+            </div>
+
+            <br/>
+            <div class="row">
+                <div class="six columns">
+                    <div class="relative center-div cursorPosWrapper" style="border: medium solid;">
+                        <div id="orientationSign" class="back-layer full-height full-width" style="transform: rotate(270deg);">
+                            <div class="back-layer" style="top:100%; left: 35%; width: 30%; height: 10%; background-color: black; z-index: 2"></div>
+                        </div>
+                        <div id="deadZonePos" class="back-layer color-lightcyan"
+                             style="top: 40%; left: 40%; height: 20%; width: 20%;"></div>
+                        <div class="back-layer"
+                             style="left: 50%; height: 100%; border-right-style: solid; border-right-width: thin;"></div>
+                        <div class="back-layer"
+                             style="top: 50%; width: 100%; border-bottom-style: solid; border-bottom-width: thin;"></div>
+                        <button onclick="cursorPosZoomReset();" class="zoombutton" style="top: 55%;" title="Reset Zoom">&#8634;</button>
+                        <div id="cursorPosVal" class="back-layer" style="top: 40%;">110</div>
+                        <div id="cursorPos" class="back-layer" style="top: 50%; left: 50%;">
+                            <div class="back-layer" id="circle"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="five columns">
+                    <button onclick="calibrate()">
+                        <span i18n id="basic-button-calibrate">Calibrate middle position // Mittelposition kalibrieren</span>
+                        <span id="basic-button-calibrating" style="display: none;" i18n>Calibrating... // wird kalibriert...</span>
+                    </button>
+                    <button onclick="rotate()">
+                        <span i18n id="basic-button-rotate">&#x21bb; Rotate right // &#x21bb; Nach rechts drehen</span>
+                        <span id="basic-button-rotating" style="display: none;" i18n>Rotating... // wird gedreht...</span>
+                    </button>
+                </div>
+            </div>
+
+            <br/>
+            <div id="basic-DEADZONE-single">
+                <label for="DEADZONE">Deadzone:</label>
+                <a class="u-pull-right" href="javascript:toggleShowXY('DEADZONE')" i18n>show x/y separately // zeige x/y getrennt</a>
+                <div class="row">
+                    <span id="DEADZONE_VAL" class="text-center one column">0</span>
+                    <input type="range" oninput="basicSliderChanged(event)" onchange="basicSliderChanged(event)"
+                           id="DEADZONE" min="0" max="100" class="eleven columns">
+                </div>
+            </div>
+            <div id="basic-DEADZONE-xy" style="display: none">
+                <label for="DEADZONE_X">Horizontal Deadzone:</label>
+                <a class="u-pull-right" href="javascript:toggleShowXY('DEADZONE')" i18n>hide separate x/y // zeige x/y gemeinsam</a>
+                <div class="row">
+                    <span id="DEADZONE_X_VAL" class="text-center one column">0</span>
+                    <input type="range" oninput="basicSliderChanged(event)" onchange="basicSliderChanged(event)"
+                           id="DEADZONE_X" min="0" max="100" class="eleven columns">
+                </div>
+                <label for="DEADZONE_Y">Vertical Deadzone:</label>
+                <div class="row">
+                    <span id="DEADZONE_Y_VAL" class="text-center one column">0</span>
+                    <input type="range" oninput="basicSliderChanged(event)" onchange="basicSliderChanged(event)"
+                           id="DEADZONE_Y" min="0" max="100" class="eleven columns">
+                </div>
+            </div>
 
 
-	
-	</body>
+            <br/>
+            <br/>
+            <div class="row">
+                <button id="basic-button" onclick="save()" class="one-third">
+                    <div id="basic-button-normal" i18n>Save // Speichern</div>
+                    <div id="basic-button-saving" style="display: none;" i18n>Saving... // Wird
+                        gespeichert...
+                    </div>
+                </button>
+            </div>
+        </div>
+        <div data-tabs-pane class="tabs-pane" id="tabPuff">
+
+            <div id="tab-puff-container" class="relative">
+
+                <div class="row back-layer full-height full-width">
+                    <div class="two columns"><span style="font-size: 1px; color: transparent">_</span></div>
+                    <div class="ten columns full-height relative">
+                        <div id="guide-current" class="back-layer full-height border-right-gray"
+                             style="width: 50%;"></div>
+                        <div id="guide-max" class="back-layer full-height border-right-red" style="width: 50%;"></div>
+                        <div id="guide-min" class="back-layer full-height border-right-blue" style="width: 50%;"></div>
+                    </div>
+                </div>
+
+                <br/>
+                <label for="SIP_THRESHOLD" i18n>Sip Threshold: // Schwellenwert Saugen:</label>
+                <div class="row">
+                    <span id="SIP_THRESHOLD_VAL" class="text-center two columns">0</span>
+                    <input type="range" oninput="sipSliderChanged(this)" onchange="sipSliderChanged(this)"
+                           id="SIP_THRESHOLD" min="0" max="1023" class="ten columns"/>
+                </div>
+                <label for="SIP_STRONG_THRESHOLD" i18n>Strong Sip Threshold: // Schwellenwert Saugen
+                    stark:</label>
+                <div class="row">
+                    <span id="SIP_STRONG_THRESHOLD_VAL" class="text-center two columns">0</span>
+                    <input type="range" oninput="sipSliderChanged(this)" onchange="sipSliderChanged(this)"
+                           id="SIP_STRONG_THRESHOLD" min="0" max="1023" class="ten columns"/>
+                </div>
+
+                <br/>
+                <label for="value-bar-wrapper" i18n>Live values: // Aktuelle Werte:</label>
+                <div class="row">
+                    <div id="value-bar-wrapper" class="text-center two columns">
+                        <span i18n>current: // aktuell:</span><span id="currentValue">0</span>,
+                        <span>max:</span><span id="maxValue">0</span>,
+                        <span>min:</span><span id="minValue">-1</span></div>
+                    <div class="ten columns"
+                         style="border-style: solid; border-width: thin; background-color: transparent">
+                        <div id="value-bar" style="width: 50%;"></div>
+                    </div>
+                </div>
+
+                <br/>
+                <br/>
+                <label for="PUFF_THRESHOLD" i18n>Puff Threshold: // Schwellenwert Blasen:</label>
+                <div class="row">
+                    <span id="PUFF_THRESHOLD_VAL" class="text-center two columns">0</span>
+                    <input type="range" oninput="sipSliderChanged(this)" onchange="sipSliderChanged(this)"
+                           id="PUFF_THRESHOLD" min="0" max="1023" class="ten columns">
+                </div>
+                <label for="PUFF_STRONG_THRESHOLD" i18n>Strong Puff Threshold: // Schwellenwert Blasen
+                    stark:</label>
+                <div class="row">
+                    <span id="PUFF_STRONG_THRESHOLD_VAL" class="text-center two columns">0</span>
+                    <input type="range" oninput="sipSliderChanged(this)" onchange="sipSliderChanged(this)"
+                           id="PUFF_STRONG_THRESHOLD" min="0" max="1023" class="ten columns">
+                </div>
+            </div>
+
+            <br/>
+            <br/>
+            <button id="sip-puff-button" onclick="save()" class="u-full-width">
+                <div id="sip-puff-button-normal" i18n>Save // Speichern</div>
+                <div id="sip-puff-button-saving" style="display: none" i18n>Saving... // Wird
+                    gespeichert...
+                </div>
+            </button>
+        </div>
+        <div data-tabs-pane class="tabs-pane" id="tabActions">
+            <div class="empty-separator"></div>
+
+            <label for="action-1">Select an action:</label>
+            <select id="actioncommand">
+                <option selected="selected" value="CL">Click Left</option>
+                <option value="CR">Click Right</option>
+                <option value="PL">Press (Hold) Left</option>
+                <option value="KW">Write Keyboard</option>
+            </select>
+            <label for="action-2">additional paramters (text or value):</label>
+            <input type="text" data-clear-btn="true" name="actionparameter" id="actionparameter" value="">
+            <div class="empty-separator"></div>
+            <input type="button" id="action-button" value="Learn Gesture">
+        </div>
+    </div>
+</div>
+
+<script>
+    window.onload = function () {
+        var flip = new FlipMouse(function (config) {
+            setSliderValue(flip.SENSITIVITY_X, config[flip.SENSITIVITY_X]);
+            setSliderValue(flip.SENSITIVITY_Y, config[flip.SENSITIVITY_Y]);
+            setSliderValue('SENSITIVITY', config[flip.SENSITIVITY_X]);
+            setSliderValue(flip.DEADZONE_X, config[flip.DEADZONE_X]);
+            setSliderValue(flip.DEADZONE_Y, config[flip.DEADZONE_Y]);
+            setSliderValue('DEADZONE', config[flip.DEADZONE_X]);
+            setSliderValue(flip.SIP_THRESHOLD, config[flip.SIP_THRESHOLD]);
+            setSliderValue(flip.SIP_STRONG_THRESHOLD, config[flip.SIP_STRONG_THRESHOLD]);
+            setSliderValue(flip.PUFF_THRESHOLD, config[flip.PUFF_THRESHOLD]);
+            setSliderValue(flip.PUFF_STRONG_THRESHOLD, config[flip.PUFF_STRONG_THRESHOLD]);
+
+            if(config[flip.SENSITIVITY_X] != config[flip.SENSITIVITY_Y]) {
+                toggleShowXY('SENSITIVITY');
+            }
+            if(config[flip.DEADZONE_X] != config[flip.DEADZONE_Y]) {
+                toggleShowXY('DEADZONE');
+            }
+            console.log(config);
+
+            var url = window.location.href;
+            if (url.indexOf('#tabBasic') > -1) {
+                toBasic();
+            } else if (url.indexOf('#tabPuff') > -1) {
+                toSipPuff();
+            } else if (url.indexOf('#tabActions') > -1) {
+                toActionLearn();
+            } else {
+                window.location.replace(window.location.href + '#tabBasic');
+                toBasic();
+            }
+        });
+        window.flip = flip;
+    };
+
+    function basicSliderChanged(evt) {
+        var id = evt.currentTarget.id;
+        var val = evt.currentTarget.value;
+        if(id.indexOf('_X') == -1 && id.indexOf('_Y') == -1) {
+            //slider for x/y synchronous was moved
+            L('#' + id + '_VAL').innerHTML = val;
+            setSliderValue(id + '_X', val);
+            setSliderValue(id + '_Y', val);
+            flip.setValue(id + '_X', val);
+            flip.setValue(id + '_Y', val);
+        } else {
+            setSliderValue(id, val, true);
+            flip.setValue(id, val);
+        }
+    }
+
+    function sipSliderChanged(input) {
+        var old = flip.getConfig([input.id]);
+        var new1 = parseInt(input.value);
+        var cur = flip.getLiveData([flip.LIVE_PRESSURE]);
+
+        //only move slider if sip thresholds are below and puff thresholds are above the current live value and if strong-values are below/above normal values
+        if ((input.id == flip.SIP_THRESHOLD && new1 < cur && new1 > flip.getConfig()[flip.SIP_STRONG_THRESHOLD]) ||
+            (input.id == flip.SIP_STRONG_THRESHOLD && new1 < cur && new1 < flip.getConfig()[flip.SIP_THRESHOLD]) ||
+            (input.id == flip.PUFF_THRESHOLD && new1 > cur && new1 < flip.getConfig()[flip.PUFF_STRONG_THRESHOLD]) ||
+            (input.id == flip.PUFF_STRONG_THRESHOLD && new1 > cur && new1 > flip.getConfig()[flip.PUFF_THRESHOLD])) {
+
+            setSliderValue(input.id, new1, true);
+            flip.setValue(input.id, new1);
+        } else {
+            setSliderValue(input.id, old);
+        }
+    }
+
+    function setSliderValue(constant, value, dontSetSlider) {
+        L('#' + constant + '_VAL').innerHTML = value;
+        if (!dontSetSlider) {
+            L('#' + constant).value = value;
+        }
+    }
+
+    function toggleShowXY (constant) {
+        var xVal = flip.getConfig(constant + '_X');
+        var toSingle = L.isVisible('#basic-' + constant + '-xy');
+        L.toggle('#basic-' + constant + '-single', '#basic-' + constant + '-xy');
+        if(toSingle) {
+            flip.setValue(constant + '_Y', xVal);
+            L('#' + constant + '_VAL').innerHTML = xVal;
+            L('#' + constant).value = xVal;
+        } else {
+            setSliderValue(constant, xVal);
+        }
+    }
+
+    function save() {
+        L.toggle('#basic-button-normal', '#basic-button-saving', '#sip-puff-button-normal', '#sip-puff-button-saving');
+        flip.save().then(function () {
+            L.toggle('#basic-button-normal', '#basic-button-saving', '#sip-puff-button-normal', '#sip-puff-button-saving');
+        });
+    }
+
+    function calibrate() {
+        L.toggle('#basic-button-calibrate', '#basic-button-calibrating');
+        flip.calibrate().then(function () {
+            L.toggle('#basic-button-calibrate', '#basic-button-calibrating');
+        });
+    }
+
+    function rotate() {
+        L.toggle('#basic-button-rotate', '#basic-button-rotating');
+        flip.rotate().then(function () {
+            L.toggle('#basic-button-rotate', '#basic-button-rotating');
+        });
+    }
+
+    function toBasic() {
+        flip.startLiveValueListener(cursorPosValueHandler);
+    }
+
+    function toSipPuff() {
+        flip.startLiveValueListener(sipPuffValueHandler);
+    }
+
+    function toActionLearn() {
+        flip.stopLiveValueListener();
+    }
+
+    function cursorPosValueHandler(data) {
+        var x = data[flip.LIVE_MOV_X];
+        var y = data[flip.LIVE_MOV_Y];
+        var maxX = data[flip.LIVE_MOV_X_MAX];
+        var maxY = data[flip.LIVE_MOV_Y_MAX];
+        var minX = data[flip.LIVE_MOV_X_MIN];
+        var minY = data[flip.LIVE_MOV_Y_MIN];
+        var cursorPosVal = parseInt(L('#cursorPosVal').innerHTML);
+        var maxAbs = Math.max(maxX, maxY, Math.abs(minX), Math.abs(minY), cursorPosVal);
+        var percentageX = (L.getPercentage(x, -maxAbs, maxAbs));
+        var percentageY = (L.getPercentage(y, -maxAbs, maxAbs));
+        var percentageDzX = (L.getPercentage(flip.getConfig(flip.DEADZONE_X), 0, maxAbs));
+        var percentageDzY = (L.getPercentage(flip.getConfig(flip.DEADZONE_Y), 0, maxAbs));
+        var inDeadzone = x < flip.getConfig(flip.DEADZONE_X) && x > -flip.getConfig(flip.DEADZONE_X) &&
+            y < flip.getConfig(flip.DEADZONE_Y) && y > -flip.getConfig(flip.DEADZONE_Y);
+
+        L('#cursorPos').style = 'top: ' + percentageY + '%; left: ' + percentageX + '%;';
+        L('#cursorPosVal').innerHTML = maxAbs;
+        L('#deadZonePos').style = 'top: ' + (100 - percentageDzY) / 2 + '%; left: ' + (100 - percentageDzX) / 2 + '%; height: ' + (percentageDzY) + '%; width: ' + (percentageDzX) + '%;';
+        L('#deadZonePos').className = 'back-layer color-' + (inDeadzone ? 'lightcyan' : 'lightercyan');
+        L('#orientationSign').style = 'transform: rotate(' + (flip.getConfig(flip.ORIENTATION_ANGLE)+90)%360 + 'deg);';
+    }
+
+    function cursorPosZoomReset() {
+        flip.resetMinMaxLiveValues();
+        L('#cursorPosVal').innerHTML = 110;
+    }
+
+    function sipPuffValueHandler(data) {
+        var min = data[flip.LIVE_PRESSURE_MIN];
+        var max = data[flip.LIVE_PRESSURE_MAX];
+        var val = data[flip.LIVE_PRESSURE];
+
+        var border = 10; // space that is left and right of the min/max values on the sliders
+        var currentMinRange = Math.max(Math.min(min - border, flip.getConfig()[flip.SIP_THRESHOLD] - border, flip.getConfig()[flip.SIP_STRONG_THRESHOLD] - border), 0);
+        var currentMaxRange = Math.min(Math.max(max + border, flip.getConfig()[flip.PUFF_THRESHOLD] + border, flip.getConfig()[flip.PUFF_STRONG_THRESHOLD] + border), 1023);
+        var percent = L.getPercentage(val, currentMinRange, currentMaxRange);
+        var percentMin = L.getPercentage(min, currentMinRange, currentMaxRange);
+        var percentMax = L.getPercentage(max, currentMinRange, currentMaxRange);
+
+        L('#maxValue').innerHTML = max;
+        L('#minValue').innerHTML = min;
+        L('#currentValue').innerHTML = val;
+
+        L('#guide-max').style = 'width: ' + percentMax + '%;';
+        L('#guide-min').style = 'width: ' + percentMin + '%;';
+
+        L('#value-bar').style = 'width: ' + percent + '%;';
+        L('#guide-current').style = 'width: ' + percent + '%;';
+
+        //set slider ranges
+        flip.SIP_PUFF_IDS.forEach(function (id) {
+            L(id).min = currentMinRange;
+            L(id).max = currentMaxRange;
+        });
+    }
+</script>
+<script>
+    tabby.init();
+    domI18n({
+        selector: '[i18n]',
+        separator: ' // ',
+        languages: ['en', 'de']
+    });
+</script>
+</body>
 </html>

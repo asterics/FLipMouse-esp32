@@ -240,6 +240,21 @@ esp_err_t halStorageLoadName(char *slotname, generalConfig_t *cfg, uint32_t tid)
  * */
 esp_err_t halStorageLoadIR(char *cmdName, halIOIR_t *cfg, uint32_t tid);
 
+/** @brief Store an infrared command to storage
+ * 
+ * This method stores a set of IR edges with a given length and a given
+ * command name. 
+ * If there is already a cmd with this given name, it is overwritten!
+ * 
+ * @param tid Transaction id
+ * @param cfg Pointer to a IR config, can be freed after this call
+ * @param cmdName Name of this IR command
+ * @return ESP_OK on success, ESP_FAIL otherwise
+ * @see halIOIR_t
+ * @see halStorageLoadIR
+ * */
+esp_err_t halStorageStoreIR(uint32_t tid, halIOIR_t *cfg, char *cmdName);
+
 /** @brief Load one virtual button config for currently loaded slot
  * 
  * This function is used to load one virtual button config after the

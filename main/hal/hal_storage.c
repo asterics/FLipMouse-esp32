@@ -978,6 +978,77 @@ esp_err_t halStorageStore(uint32_t tid, generalConfig_t *cfg, char *slotname, ui
   return ESP_OK;
 }
 
+/** @brief Store an infrared command to storage
+ * 
+ * This method stores a set of IR edges with a given length and a given
+ * command name. 
+ * If there is already a cmd with this given name, it is overwritten!
+ * 
+ * @param tid Transaction id
+ * @param cfg Pointer to a IR config, can be freed after this call
+ * @param cmdName Name of this IR command
+ * @return ESP_OK on success, ESP_FAIL otherwise
+ * @see halIOIR_t
+ * @see halStorageLoadIR
+ * */
+esp_err_t halStorageStoreIR(uint32_t tid, halIOIR_t *cfg, char *cmdName)
+{
+  char file[sizeof(base_path)+12];
+  char nullterm = '\0';
+  uint32_t namelen;
+
+  //basic FS checks
+  if(halStorageChecks(tid) != ESP_OK) return ESP_FAIL;
+  
+  if(strlen(cmdName) > SLOTNAME_LENGTH)
+  {
+    ESP_LOGE(LOG_TAG,"CMD name too long!");
+    return ESP_FAIL;
+  }
+  
+  //TODO: get first available IR slotnumber
+  uint8_t cmdnumber = 0;
+  
+  //create filename from slotnumber
+  sprintf(file,"%s/IR_%02d.fms",base_path,cmdnumber);
+  
+  //open file for writing
+  ESP_LOGD(LOG_TAG,"Opening file %s",file);
+  FILE *f = fopen(file, "wb");
+  if(f == NULL)
+  {
+    ESP_LOGE(LOG_TAG,"cannot open file for writing: %s",file);
+    return ESP_FAIL;
+  }
+  
+  fseek(f,0,SEEK_SET);
+  
+  //write cmd name (size of string + 1x '\0' char)
+  namelen = strlen(cmdName);
+  fwrite(&namelen,sizeof(uint32_t),1, f);
+  fwrite(cmdName,sizeof(char),namelen, f);
+  fwrite(&nullterm,sizeof(char),1, f);
+  
+  //write length of IR commands.
+  fwrite(&cfg->count,sizeof(uint16_t),1, f);
+  
+  //write remaining IR command
+  if(fwrite(cfg->buffer,sizeof(rmt_item32_t),cfg->count,f) != cfg->count)
+  {
+    //did not write a full config
+    ESP_LOGE(LOG_TAG,"Error writing IR cmd");
+    fclose(f);
+    return ESP_FAIL;
+  } else {
+    ESP_LOGD(LOG_TAG,"Successfully stored IR cmd %u with %u bytes payload (length %d)", cmdnumber, sizeof(rmt_item32_t)*cfg->count, cfg->count);
+    ESP_LOG_BUFFER_HEXDUMP(LOG_TAG,cfg->buffer,sizeof(rmt_item32_t)*cfg->count,ESP_LOG_DEBUG);
+  }
+  
+  //clean up
+  fclose(f);
+  return ESP_OK;
+}
+
 /** @brief Store a virtual button config struct
  * 
  * This method stores the config struct for the given virtual button
@@ -1139,16 +1210,19 @@ esp_err_t halStorageLoadIR(char *cmdName, halIOIR_t *cfg, uint32_t tid)
       
       if(cfg->buffer != NULL)
       {
-          //TODO: read from file to buffer
+          //read from file to buffer
           if(fread(cfg->buffer,sizeof(rmt_item32_t),irlength,f) != irlength)
           {
+            //maybe EOF, didn't read as many bytes as requested
             ESP_LOGE(LOG_TAG,"Cannot read data from file");
             fclose(f);
             free(cfg->buffer);
             return ESP_FAIL;
           }
+          //save length to struct as well
           cfg->count = irlength;
       } else {
+        //didn't get a buffer pointer
         ESP_LOGE(LOG_TAG,"No memory for IR command");
         fclose(f);
         return ESP_FAIL;

@@ -71,8 +71,7 @@ label {
     display:inline-block;
 }
 
-#cursorPosWrapper {
-    border: medium solid;
+.cursorPosWrapper {
     background-color: transparent;
     height: 200px;
     width: 200px;
@@ -111,6 +110,5 @@ label {
 
 .center-div
 {
-    width: 50%;
     margin: 0 auto;
 }

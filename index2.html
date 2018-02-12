@@ -53,7 +53,10 @@
             <br/>
             <div class="row">
                 <div class="six columns">
-                    <div class="relative center-div" id="cursorPosWrapper" style="border-bottom-width: thick;">
+                    <div class="relative center-div cursorPosWrapper" style="border: medium solid;">
+                        <div id="orientationSign" class="back-layer full-height full-width" style="transform: rotate(270deg);">
+                            <div class="back-layer" style="top:100%; left: 35%; width: 30%; height: 10%; background-color: black; z-index: 2"></div>
+                        </div>
                         <div id="deadZonePos" class="back-layer color-lightcyan"
                              style="top: 40%; left: 40%; height: 20%; width: 20%;"></div>
                         <div class="back-layer"
@@ -342,14 +345,12 @@
         var percentageDzY = (L.getPercentage(flip.getConfig(flip.DEADZONE_Y), 0, maxAbs));
         var inDeadzone = x < flip.getConfig(flip.DEADZONE_X) && x > -flip.getConfig(flip.DEADZONE_X) &&
             y < flip.getConfig(flip.DEADZONE_Y) && y > -flip.getConfig(flip.DEADZONE_Y);
-        var orientation = flip.getConfig(flip.ORIENTATION_ANGLE);
-        var orientationString = orientation == 0 ? 'left' : orientation == 90 ? 'top' : orientation == 180 ? 'right' : 'bottom';
 
         L('#cursorPos').style = 'top: ' + percentageY + '%; left: ' + percentageX + '%;';
         L('#cursorPosVal').innerHTML = maxAbs;
         L('#deadZonePos').style = 'top: ' + (100 - percentageDzY) / 2 + '%; left: ' + (100 - percentageDzX) / 2 + '%; height: ' + (percentageDzY) + '%; width: ' + (percentageDzX) + '%;';
         L('#deadZonePos').className = 'back-layer color-' + (inDeadzone ? 'lightcyan' : 'lightercyan');
-        L('#cursorPosWrapper').style = 'border-' + orientationString + '-width: thick;';
+        L('#orientationSign').style = 'transform: rotate(' + (flip.getConfig(flip.ORIENTATION_ANGLE)+90)%360 + 'deg);';
     }
 
     function cursorPosZoomReset() {

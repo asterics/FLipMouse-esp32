@@ -38,7 +38,6 @@
  * @note If you want to add a new FUNCTIONAL TASK, please include headers here
  * & add loading functionality to configSwitcherTask. 
  * 
- * @todo How to do the reverse parsing of config to AT commands?
  * */
 
 #ifndef _CONFIG_SWITCHER_H

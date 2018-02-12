@@ -32,6 +32,7 @@ Following commands are currently available:
 | AT AP | number (1-500) | Antitremor delay for button press ([ms]) | v3 | no | no |
 | AT AR | number (1-500) | Antitremor delay for button release ([ms]) | v3 | no | no |
 | AT AI | number (1-500) | Antitremor delay for button idle ([ms]) | v3 | no | no |
+| AT FR | -- | Reports free, used and available config storage space (e.g., "FREE:10%,9000,1000")| v3 | no | no |
 **USB HID Commands**
 | Command | Parameter | Description | Available since | Implemented in v3 | FUNCTIONAL task |
 |:--------|:----------|:------------|:--------------|:--------------------|:----------------|
@@ -41,7 +42,7 @@ Following commands are currently available:
 | AT CD | --  | Doubleclick left mouse button  | v2 | yes | yes (task_mouse) |
 |       |   |   ||| |
 | AT PL | --  | Press+hold left mouse button  | v2 | yes | yes (task_mouse) |
-| AT PR | --  | Press+hold right mouse button  | v2 | yes | yes (task_mouse) |
+| AT PR | --  | Press+hold right mouse button  | v2 | yes | yes (task_mouse) |AT FR           report free EEPROM bytes in % (starting with "FREE:") 
 | AT PM | --  | Press+hold middle mouse button  | v2 | yes | yes (task_mouse) |
 |       |   |   ||| |
 | AT RL | --  | Release left mouse button  | v2 | yes | yes (task_mouse) |
@@ -111,8 +112,8 @@ Following commands are currently available:
 **Infrared commands** 
 | Command | Parameter | Description | Available since | Implemented in v3 | FUNCTIONAL task |
 |:--------|:----------|:------------|:--------------|:--------------------|:----------------|
-| AT IR | string  | record a new infrared command, store it with the given name  | v2 | no | yes/no? (task_infrared) |
-| AT IP | string  | replay a recorded IR command, stored with the given name  | v2 | no | yes (task_infrared) |
+| AT IR | string  | record a new infrared command, store it with the given name  | v2 | no | no |
+| AT IP | string  | replay a recorded IR command, stored with the given name  | v2 | untested | yes (task_infrared) |
 | AT IC | string  | clear an IR command, defined by the name  | v2 | no | no |
 | AT IW | --  | wipe all IR commands  | v2 | no | no |
 | AT IT | number (2-100) | timeout for recording IR commands (time[ms] between 2 edges) | v2 | no | no |

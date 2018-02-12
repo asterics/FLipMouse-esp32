@@ -101,6 +101,8 @@ $(function() {
 <td align="left">AT AR </td><td align="left">number (1-500) </td><td align="left">Antitremor delay for button release ([ms]) </td><td align="left">v3 </td><td align="left">no </td><td align="left">no </td></tr>
 <tr>
 <td align="left">AT AI </td><td align="left">number (1-500) </td><td align="left">Antitremor delay for button idle ([ms]) </td><td align="left">v3 </td><td align="left">no </td><td align="left">no </td></tr>
+<tr>
+<td align="left">AT FR </td><td align="left">&ndash; </td><td align="left">Reports free, used and available config storage space (e.g., "FREE:10%,9000,1000")</td><td align="left">v3 </td><td align="left">no </td><td align="left">no </td></tr>
 </table>
 <p><b>USB HID Commands</b> </p><table class="doxtable">
 <tr>
@@ -117,44 +119,42 @@ $(function() {
 <td align="left"></td><td align="left"></td><td align="left"></td><td align="left"></td><td align="left"></td><td align="left"></td></tr>
 <tr>
 <td align="left">AT PL </td><td align="left">&ndash; </td><td align="left">Press+hold left mouse button </td><td align="left">v2 </td><td align="left">yes </td><td align="left">yes (task_mouse) </td></tr>
+</table>
+<p>| AT PR | &ndash; | Press+hold right mouse button | v2 | yes | yes (task_mouse) |AT FR report free EEPROM bytes in % (starting with "FREE:") </p><table class="doxtable">
 <tr>
-<td align="left">AT PR </td><td align="left">&ndash; </td><td align="left">Press+hold right mouse button </td><td align="left">v2 </td><td align="left">yes </td><td align="left">yes (task_mouse) </td></tr>
+<th>AT PM </th><th>&ndash; </th><th>Press+hold middle mouse button </th><th>v2 </th><th>yes </th><th>yes (task_mouse)  </th></tr>
 <tr>
-<td align="left">AT PM </td><td align="left">&ndash; </td><td align="left">Press+hold middle mouse button </td><td align="left">v2 </td><td align="left">yes </td><td align="left">yes (task_mouse) </td></tr>
+<td>AT RL </td><td>&ndash; </td><td>Release left mouse button </td><td>v2 </td><td>yes </td><td>yes (task_mouse) </td></tr>
 <tr>
-<td align="left"></td><td align="left"></td><td align="left"></td><td align="left"></td><td align="left"></td><td align="left"></td></tr>
+<td>AT RR </td><td>&ndash; </td><td>Release right mouse button </td><td>v2 </td><td>yes </td><td>yes (task_mouse) </td></tr>
 <tr>
-<td align="left">AT RL </td><td align="left">&ndash; </td><td align="left">Release left mouse button </td><td align="left">v2 </td><td align="left">yes </td><td align="left">yes (task_mouse) </td></tr>
+<td>AT RM </td><td>&ndash; </td><td>Release middle mouse button </td><td>v2 </td><td>yes </td><td>yes (task_mouse) </td></tr>
 <tr>
-<td align="left">AT RR </td><td align="left">&ndash; </td><td align="left">Release right mouse button </td><td align="left">v2 </td><td align="left">yes </td><td align="left">yes (task_mouse) </td></tr>
+<td></td><td></td><td></td><td></td><td></td><td></td></tr>
 <tr>
-<td align="left">AT RM </td><td align="left">&ndash; </td><td align="left">Release middle mouse button </td><td align="left">v2 </td><td align="left">yes </td><td align="left">yes (task_mouse) </td></tr>
+<td>AT WU </td><td>&ndash; </td><td>Move mouse wheel up </td><td>v2 </td><td>yes </td><td>yes (task_mouse) </td></tr>
 <tr>
-<td align="left"></td><td align="left"></td><td align="left"></td><td align="left"></td><td align="left"></td><td align="left"></td></tr>
+<td>AT WD </td><td>&ndash; </td><td>Move mouse wheel down </td><td>v2 </td><td>yes </td><td>yes (task_mouse) </td></tr>
 <tr>
-<td align="left">AT WU </td><td align="left">&ndash; </td><td align="left">Move mouse wheel up </td><td align="left">v2 </td><td align="left">yes </td><td align="left">yes (task_mouse) </td></tr>
+<td>AT WS </td><td>number (1-) </td><td>Set mousewheel stepsize (e.g.: "AT WS 3" sets the stepsize to 3 rows)</td><td>v2 </td><td>yes </td><td>no </td></tr>
 <tr>
-<td align="left">AT WD </td><td align="left">&ndash; </td><td align="left">Move mouse wheel down </td><td align="left">v2 </td><td align="left">yes </td><td align="left">yes (task_mouse) </td></tr>
+<td></td><td></td><td></td><td></td><td></td><td></td></tr>
 <tr>
-<td align="left">AT WS </td><td align="left">number (1-) </td><td align="left">Set mousewheel stepsize (e.g.: "AT WS 3" sets the stepsize to 3 rows)</td><td align="left">v2 </td><td align="left">yes </td><td align="left">no </td></tr>
+<td>AT MX </td><td>number </td><td>Move mouse (X direction), e.g. AT MX -25 </td><td>v2 </td><td>yes </td><td>yes (task_mouse) </td></tr>
 <tr>
-<td align="left"></td><td align="left"></td><td align="left"></td><td align="left"></td><td align="left"></td><td align="left"></td></tr>
+<td>AT MY </td><td>number </td><td>Move mouse (Y direction), e.g. AT MY 10 </td><td>v2 </td><td>yes </td><td>yes (task_mouse) </td></tr>
 <tr>
-<td align="left">AT MX </td><td align="left">number </td><td align="left">Move mouse (X direction), e.g. AT MX -25 </td><td align="left">v2 </td><td align="left">yes </td><td align="left">yes (task_mouse) </td></tr>
+<td></td><td></td><td></td><td></td><td></td><td></td></tr>
 <tr>
-<td align="left">AT MY </td><td align="left">number </td><td align="left">Move mouse (Y direction), e.g. AT MY 10 </td><td align="left">v2 </td><td align="left">yes </td><td align="left">yes (task_mouse) </td></tr>
+<td>AT KW </td><td>string </td><td>Keyboard write (e.g. "AT KW Hi" types "Hi") </td><td>v2 </td><td>yes </td><td>yes (task_keyboard) </td></tr>
 <tr>
-<td align="left"></td><td align="left"></td><td align="left"></td><td align="left"></td><td align="left"></td><td align="left"></td></tr>
+<td>AT KP </td><td>string </td><td>Key press (e.g. "AT KP KEY_UP" presses &amp; releases the up arrow key), a full list of supported key identifiers is provided on the bottom. </td><td>v2 </td><td>yes </td><td>yes (task_keyboard) </td></tr>
 <tr>
-<td align="left">AT KW </td><td align="left">string </td><td align="left">Keyboard write (e.g. "AT KW Hi" types "Hi") </td><td align="left">v2 </td><td align="left">yes </td><td align="left">yes (task_keyboard) </td></tr>
+<td>AT KH </td><td>string </td><td>Key hold (e.g. "AT KH KEY_UP" presses &amp; holds the up arrow key), a full list of supported key identifiers is provided on the bottom </td><td>v2 </td><td>untested </td><td>yes (task_keyboard) </td></tr>
 <tr>
-<td align="left">AT KP </td><td align="left">string </td><td align="left">Key press (e.g. "AT KP KEY_UP" presses &amp; releases the up arrow key), a full list of supported key identifiers is provided on the bottom. </td><td align="left">v2 </td><td align="left">yes </td><td align="left">yes (task_keyboard) </td></tr>
+<td>AT KR </td><td>string </td><td>Key release (e.g. "AT KR KEY_UP" releases the up arrow key) </td><td>v2 </td><td>untested </td><td>yes (task_keyboard) </td></tr>
 <tr>
-<td align="left">AT KH </td><td align="left">string </td><td align="left">Key hold (e.g. "AT KH KEY_UP" presses &amp; holds the up arrow key), a full list of supported key identifiers is provided on the bottom </td><td align="left">v2 </td><td align="left">untested </td><td align="left">yes (task_keyboard) </td></tr>
-<tr>
-<td align="left">AT KR </td><td align="left">string </td><td align="left">Key release (e.g. "AT KR KEY_UP" releases the up arrow key) </td><td align="left">v2 </td><td align="left">untested </td><td align="left">yes (task_keyboard) </td></tr>
-<tr>
-<td align="left">AT RA </td><td align="left">&ndash; </td><td align="left">Release all keys </td><td align="left">v2 </td><td align="left">untested </td><td align="left">no </td></tr>
+<td>AT RA </td><td>&ndash; </td><td>Release all keys </td><td>v2 </td><td>untested </td><td>no </td></tr>
 </table>
 <p><b>Storage commands</b> </p><table class="doxtable">
 <tr>
@@ -250,9 +250,9 @@ $(function() {
 <tr>
 <th align="left">Command </th><th align="left">Parameter </th><th align="left">Description </th><th align="left">Available since </th><th align="left">Implemented in v3 </th><th align="left">FUNCTIONAL task  </th></tr>
 <tr>
-<td align="left">AT IR </td><td align="left">string </td><td align="left">record a new infrared command, store it with the given name </td><td align="left">v2 </td><td align="left">no </td><td align="left">yes/no? (task_infrared) </td></tr>
+<td align="left">AT IR </td><td align="left">string </td><td align="left">record a new infrared command, store it with the given name </td><td align="left">v2 </td><td align="left">no </td><td align="left">no </td></tr>
 <tr>
-<td align="left">AT IP </td><td align="left">string </td><td align="left">replay a recorded IR command, stored with the given name </td><td align="left">v2 </td><td align="left">no </td><td align="left">yes (task_infrared) </td></tr>
+<td align="left">AT IP </td><td align="left">string </td><td align="left">replay a recorded IR command, stored with the given name </td><td align="left">v2 </td><td align="left">untested </td><td align="left">yes (task_infrared) </td></tr>
 <tr>
 <td align="left">AT IC </td><td align="left">string </td><td align="left">clear an IR command, defined by the name </td><td align="left">v2 </td><td align="left">no </td><td align="left">no </td></tr>
 <tr>

@@ -2,6 +2,7 @@ var searchData=
 [
   ['cccdhandle',['cccdHandle',['../structhid__report__map__t.html#a4d8de6f01789180784099d58e594f725',1,'hid_report_map_t::cccdHandle()'],['../structhidRptMap__t.html#a93dbdeea466d75a55743433ec19c4524',1,'hidRptMap_t::cccdHandle()']]],
   ['characteristics',['characteristics',['../hal__adc_8c.html#a29552c7e29f877a9bd6ed4e3827696e4',1,'hal_adc.c']]],
+  ['cmdname',['cmdName',['../structtaskInfraredConfig.html#add25c6a4a9ed3ece5c032434e6befc4c',1,'taskInfraredConfig']]],
   ['config_5fswitcher',['config_switcher',['../flipmouse__fabi__esp32__kbdmouse__main_8c.html#a4701c432a28c389e4b8557f2fa3323d1',1,'config_switcher():&#160;flipmouse_fabi_esp32_kbdmouse_main.c'],['../common_8h.html#a4701c432a28c389e4b8557f2fa3323d1',1,'config_switcher():&#160;flipmouse_fabi_esp32_kbdmouse_main.c']]],
   ['configswitcher_5fhandle',['configswitcher_handle',['../config__switcher_8c.html#abd2fb9b048f1de98ee98dd54077541c2',1,'config_switcher.c']]],
   ['congest',['congest',['../structhidd__clcb__t.html#ad8abd2b6ed031a08d305bc03d45102c7',1,'hidd_clcb_t']]],

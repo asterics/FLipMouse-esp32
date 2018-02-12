@@ -157,7 +157,7 @@ Adjust according to DEBOUNCETIME_MS </dd></dl>
 <p>Default time before debounce kicks in and flag is mapped from virtualButtonsIn to virtualButtonsOut. </p><dl class="section see"><dt>See also</dt><dd><a class="el" href="common_8h.html#a591ffaa399081915a0eab951f83f93e2" title="Event group array for all virtual buttons, used by functional tasks to send a signal to the debouncer...">virtualButtonsIn</a> </dd>
 <dd>
 <a class="el" href="common_8h.html#a3633668cff0a27ea52ca662673978667" title="Event group array for all virtual buttons, used by functional tasks to be triggered. ">virtualButtonsOut</a> </dd></dl>
-<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000019">Todo:</a></b></dt><dd>Change this value from testing (500ms) to production (~50-100ms) </dd></dl>
+<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000020">Todo:</a></b></dt><dd>Change this value from testing (500ms) to production (~50-100ms) </dd></dl>
 <dl class="section note"><dt>Note</dt><dd>Should be a factor of DEBOUNCE_RESOLUTION_MS, to avoid float divisions </dd></dl>
 
 <p class="definition">Definition at line <a class="el" href="task__debouncer_8h_source.html#l00048">48</a> of file <a class="el" href="task__debouncer_8h_source.html">task_debouncer.h</a>.</p>
@@ -218,7 +218,7 @@ Adjust according to DEBOUNCETIME_MS </dd></dl>
 <dd>
 <a class="el" href="common_8h.html#a3633668cff0a27ea52ca662673978667" title="Event group array for all virtual buttons, used by functional tasks to be triggered. ">virtualButtonsOut</a> </dd></dl>
 <dl class="section note"><dt>Note</dt><dd>This task is persistently running </dd></dl>
-<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000020">Todo:</a></b></dt><dd>Add anti-tremor &amp; deadtime functionality </dd></dl>
+<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000021">Todo:</a></b></dt><dd>Add anti-tremor &amp; deadtime functionality </dd></dl>
 <p>This task is periodically testing the virtualButtonsIn flags for changes (DEBOUNCE_RESOLUTION_MS is used as delay between task wakeups). If a change is detected (either press or release flag for a virtualbutton is set), a timer is started.<br />
  Either the timer expires and the flag is mapped to virtualButtonsOut by debouncerCallback.<br />
  Or the input flag is cleared again by the responsible task and the debouncer cancels the timer as well (input was too short).</p>
@@ -234,7 +234,7 @@ Adjust according to DEBOUNCETIME_MS </dd></dl>
 <dd>
 <a class="el" href="common_8h.html#a3633668cff0a27ea52ca662673978667" title="Event group array for all virtual buttons, used by functional tasks to be triggered. ">virtualButtonsOut</a> </dd></dl>
 <dl class="section note"><dt>Note</dt><dd>This task is persistently running </dd></dl>
-<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000018">Todo:</a></b></dt><dd>Add anti-tremor &amp; deadtime functionality </dd></dl>
+<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000019">Todo:</a></b></dt><dd>Add anti-tremor &amp; deadtime functionality </dd></dl>
 
 <p class="definition">Definition at line <a class="el" href="task__debouncer_8c_source.html#l00272">272</a> of file <a class="el" href="task__debouncer_8c_source.html">task_debouncer.c</a>.</p>
 

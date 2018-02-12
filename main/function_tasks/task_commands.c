@@ -141,7 +141,6 @@ static int checkqueues(void)
   //house-keeping queues
   if(config_switcher == 0) return 0;
   
-  //TODO: add IR queue
   return 1;
 }
 /*
@@ -440,8 +439,7 @@ parserstate_t doStorageParsing(uint8_t *cmdBuffer, taskConfigSwitcherConfig_t *i
         case T_KEYBOARD: sizevb = sizeof(taskKeyboardConfig_t); break;
         case T_CONFIGCHANGE: sizevb = sizeof(taskConfigSwitcherConfig_t); break;
         case T_CALIBRATE: sizevb = sizeof(taskNoParameterConfig_t); break;
-        //case T_SENDIR: sizevb = sizeof(taskKeyboardConfig_t); break;
-        /** @todo Activate T_SENDIR here when IR task is finished */
+        case T_SENDIR: sizevb = sizeof(taskInfraredConfig_t); break;
         case T_NOFUNCTION: sizevb = sizeof(taskNoParameterConfig_t); break;
         default: break;
       }
@@ -1301,7 +1299,8 @@ void printAllSlots(uint8_t printconfig)
             halSerialSendUSBSerial(HAL_SERIAL_TX_TO_CDC,outputstring,strlen(outputstring),10);
             break;
           case T_SENDIR:
-            ///@todo Ad reverse parser for IR
+            task_infrared_getAT(outputstring,currentcfg->virtualButtonConfig[j]);
+            halSerialSendUSBSerial(HAL_SERIAL_TX_TO_CDC,outputstring,strlen(outputstring),10);
             break;
           case T_NOFUNCTION:
           default:

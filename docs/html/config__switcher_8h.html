@@ -131,8 +131,7 @@ Functions</h2></td></tr>
 <p>The config_switcher module is used to control all tasks assigned to virtual buttons (called FUNCTIONAL TASKS). If a new configuration should be loaded from the storage, all previously loaded tasks are deleted and new tasks are loaded.</p>
 <p>A slot configuration is provided by the config_storage, which is controlled by this module.</p>
 <p>task_configswitcher is the FUNCTIONAL TASK for triggering a slot switch. configSwitcherTask is the CONTINOUS TASK which monitors the queue for any config switching action.</p>
-<dl class="section note"><dt>Note</dt><dd>If you want to add a new FUNCTIONAL TASK, please include headers here &amp; add loading functionality to configSwitcherTask.</dd></dl>
-<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000005">Todo:</a></b></dt><dd>How to do the reverse parsing of config to AT commands? </dd></dl>
+<dl class="section note"><dt>Note</dt><dd>If you want to add a new FUNCTIONAL TASK, please include headers here &amp; add loading functionality to configSwitcherTask. </dd></dl>
 
 <p class="definition">Definition in file <a class="el" href="config__switcher_8h_source.html">config_switcher.h</a>.</p>
 </div><h2 class="groupheader">Macro Definition Documentation</h2>
@@ -149,9 +148,9 @@ Functions</h2></td></tr>
 </div><div class="memdoc">
 <p>Stacksize for functional task task_configswitcher. </p><dl class="section see"><dt>See also</dt><dd><a class="el" href="config__switcher_8h.html#a083adf41746c3380dcc6dbc099047f2e" title="FUNCTIONAL TASK - Load another slot. ">task_configswitcher</a> </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="config__switcher_8h_source.html#l00066">66</a> of file <a class="el" href="config__switcher_8h_source.html">config_switcher.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="config__switcher_8h_source.html#l00065">65</a> of file <a class="el" href="config__switcher_8h_source.html">config_switcher.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="config__switcher_8c_source.html#l00205">configSwitcherTask()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="config__switcher_8c_source.html#l00201">configSwitcherTask()</a>.</p>
 
 </div>
 </div>
@@ -198,7 +197,7 @@ Functions</h2></td></tr>
 <dd>
 currentConfig </dd></dl>
 <dl class="section return"><dt>Returns</dt><dd>Pointer to the current config struct </dd></dl>
-<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000006">Todo:</a></b></dt><dd>Do we need locking here (mutex)? </dd></dl>
+<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000005">Todo:</a></b></dt><dd>Do we need locking here (mutex)? </dd></dl>
 <p>This method is used to get a reference to the current config struct. The caller can use this reference to change the configuration and update the config afterwards (via the config_switcher queue).</p>
 <dl class="section see"><dt>See also</dt><dd><a class="el" href="common_8h.html#a4701c432a28c389e4b8557f2fa3323d1" title="Queue to receive config changing commands. ">config_switcher</a> </dd>
 <dd>
@@ -206,9 +205,9 @@ currentConfig </dd></dl>
 <dl class="section return"><dt>Returns</dt><dd>Pointer to the current config struct </dd></dl>
 <dl class="todo"><dt><b><a class="el" href="todo.html#_todo000003">Todo:</a></b></dt><dd>Do we need locking here (mutex)? </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="config__switcher_8c_source.html#l00103">103</a> of file <a class="el" href="config__switcher_8c_source.html">config_switcher.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="config__switcher_8c_source.html#l00101">101</a> of file <a class="el" href="config__switcher_8c_source.html">config_switcher.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="task__commands_8c_source.html#l00496">doGeneralCmdParsing()</a>, <a class="el" href="task__commands_8c_source.html#l00677">doKeyboardParsing()</a>, <a class="el" href="task__commands_8c_source.html#l00155">doMouthpieceSettingsParsing()</a>, <a class="el" href="task__commands_8c_source.html#l00393">doStorageParsing()</a>, <a class="el" href="hal__adc_8c_source.html#l00152">halAdcProcessPressure()</a>, <a class="el" href="hal__ble_8c_source.html#l00181">halBleTaskKeyboardPress()</a>, <a class="el" href="hal__ble_8c_source.html#l00253">halBleTaskKeyboardRelease()</a>, <a class="el" href="task__mouse_8c_source.html#l00062">mouse_get_wheel()</a>, <a class="el" href="task__mouse_8c_source.html#l00044">mouse_set_wheel()</a>, and <a class="el" href="task__commands_8c_source.html#l01177">printAllSlots()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="task__commands_8c_source.html#l00494">doGeneralCmdParsing()</a>, <a class="el" href="task__commands_8c_source.html#l00675">doKeyboardParsing()</a>, <a class="el" href="task__commands_8c_source.html#l00154">doMouthpieceSettingsParsing()</a>, <a class="el" href="task__commands_8c_source.html#l00392">doStorageParsing()</a>, <a class="el" href="hal__adc_8c_source.html#l00152">halAdcProcessPressure()</a>, <a class="el" href="hal__ble_8c_source.html#l00181">halBleTaskKeyboardPress()</a>, <a class="el" href="hal__ble_8c_source.html#l00253">halBleTaskKeyboardRelease()</a>, <a class="el" href="task__mouse_8c_source.html#l00062">mouse_get_wheel()</a>, <a class="el" href="task__mouse_8c_source.html#l00044">mouse_set_wheel()</a>, and <a class="el" href="task__commands_8c_source.html#l01175">printAllSlots()</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
@@ -250,7 +249,7 @@ Here is the caller graph for this function:</div>
 <p>Initializing the config switching functionality. </p>
 <p>The CONTINOUS task will be loaded to enable slot switches via the task_configswitcher FUNCTIONAL task. </p><dl class="section return"><dt>Returns</dt><dd>ESP_OK if everything is fined, ESP_FAIL otherwise </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="config__switcher_8c_source.html#l00506">506</a> of file <a class="el" href="config__switcher_8c_source.html">config_switcher.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="config__switcher_8c_source.html#l00502">502</a> of file <a class="el" href="config__switcher_8c_source.html">config_switcher.c</a>.</p>
 
 <p class="reference">Referenced by <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c_source.html#l00073">app_main()</a>.</p>
 <div class="dynheader">
@@ -323,9 +322,9 @@ Here is the caller graph for this function:</div>
 currentConfig </dd></dl>
 <dl class="section return"><dt>Returns</dt><dd>ESP_OK on success, ESP_FAIL otherwise </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="config__switcher_8c_source.html#l00136">136</a> of file <a class="el" href="config__switcher_8c_source.html">config_switcher.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="config__switcher_8c_source.html#l00134">134</a> of file <a class="el" href="config__switcher_8c_source.html">config_switcher.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="config__switcher_8c_source.html#l00168">configUpdateVB()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="config__switcher_8c_source.html#l00166">configUpdateVB()</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
@@ -383,7 +382,7 @@ Here is the caller graph for this function:</div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>ESP_OK on success, ESP_FAIL otherwise </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="config__switcher_8c_source.html#l00168">168</a> of file <a class="el" href="config__switcher_8c_source.html">config_switcher.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="config__switcher_8c_source.html#l00166">166</a> of file <a class="el" href="config__switcher_8c_source.html">config_switcher.c</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -421,9 +420,9 @@ Here is the call graph for this function:</div>
 </dl>
 <dl class="section see"><dt>See also</dt><dd><a class="el" href="config__switcher_8h.html#aa6d38946df351bfaec1994fdb081e7db" title="Parameter for functional task task_configswitcher. ">taskConfigSwitcherConfig_t</a> </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="config__switcher_8c_source.html#l00440">440</a> of file <a class="el" href="config__switcher_8c_source.html">config_switcher.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="config__switcher_8c_source.html#l00436">436</a> of file <a class="el" href="config__switcher_8c_source.html">config_switcher.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="config__switcher_8c_source.html#l00205">configSwitcherTask()</a>, and <a class="el" href="task__commands_8c_source.html#l00393">doStorageParsing()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="config__switcher_8c_source.html#l00201">configSwitcherTask()</a>, and <a class="el" href="task__commands_8c_source.html#l00392">doStorageParsing()</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
@@ -474,9 +473,9 @@ Here is the caller graph for this function:</div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>ESP_OK if everything went fine, ESP_FAIL otherwise </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="config__switcher_8c_source.html#l00116">116</a> of file <a class="el" href="config__switcher_8c_source.html">config_switcher.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="config__switcher_8c_source.html#l00114">114</a> of file <a class="el" href="config__switcher_8c_source.html">config_switcher.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="task__commands_8c_source.html#l01177">printAllSlots()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="task__commands_8c_source.html#l01175">printAllSlots()</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">

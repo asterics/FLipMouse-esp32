@@ -38,8 +38,6 @@
  * & add loading functionality to configSwitcherTask. 
  * 
  * @todo Create getter/setter for current config (including fkt tasks & possibly the reloading)
- * @todo Add update config here, enabling updating configs (general & VB) from other parts
- * @todo Add save slot here
  * */
 #include "config_switcher.h"
 
@@ -198,9 +196,7 @@ esp_err_t configUpdateVB(void *param, command_type_t type, uint8_t vb)
  * 
  * @warning On a factory reset, it is necessary to load the default slot again!
  * 
- * @todo Add __UPDATE functionality. Maybe necessary to load VB settings not only from FAT, also via another channel?
  * @todo Add __RESTOREFACTORY...
- * @todo Maybe add an array of function pointers to do the reverse parsing from config to AT commands?!?
  **/
 void configSwitcherTask(void * params)
 {

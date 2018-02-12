@@ -71,6 +71,17 @@
  @todo Debouncer: add macro for easily setting/clearing a VB (in IN and OUT)
  @todo Re-implement hal_serial's UART data reception: use own interrupt & discard UART driver.
  @todo Implement buzzer in remaining task_* functions (infrared, strongsip/puff exit)
+ 
+ 
  @todo Implement IR-Receive, test IR sending
+ 
+ @todo Implement in halStorage store of IR commands
+ @todo Implement in halStorage delete one or all IR commands
+ @todo Implement in halStorage list IR commands
+ @todo Implement in task_commands a trigger for receiving IR cmds
+ 
+ @todo add AT FR to hal_storage & task_commands
+ 
  @todo Configswitch with AT MM is triggering only the second/third time...
+ @todo Have an elliptic deadzone.
 */

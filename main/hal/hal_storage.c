@@ -46,10 +46,9 @@
  * the requested operation is finished.
  * 
  * Slots are stored in following naming convention (8.3 rule applies here):
- * general slot config:
- * xxx.fms (slot number, e.g., 001.fms for slot 1)
- * virtual button config for slot xxx
- * xxx_VB.fms
+ * * General slot config: xxx.fms (slot number, e.g., 001.fms for slot 1)
+ * * Virtual button config for slot xxx: xxx_VB.fms
+ * * IR command cfg: IR_xx.fms
  * 
  * @note Maximum number of slots: 250! (e.g. 250.fms)
  * @warning Adjust the esp-idf (via "make menuconfig") to use 512B sectors
@@ -1066,6 +1065,107 @@ esp_err_t halStorageStoreSetVBConfigs(uint8_t slotnumber, uint8_t vb, void *conf
   fclose(f);
   ESP_LOGD(LOG_TAG,"Successfully stored slotnumber %d, VB%d, payload: %d",slotnumber,vb,configsize);
   ESP_LOG_BUFFER_HEXDUMP(LOG_TAG,config,configsize,ESP_LOG_DEBUG);
+  return ESP_OK;
+}
+
+/** @brief Load an IR command by name
+ * 
+ * This method loads an IR command from storage.
+ * The slot is defined by the slot name.
+ * 
+ * To start loading a command, call halStorageStartTransaction to acquire
+ * a load/store transaction id. This is necessary to enable multitask access.
+ * Finally, if the command is loaded, call halStorageFinishTransaction to
+ * free the storage access to the other tasks or the next call.
+ * 
+ * @see halStorageStartTransaction
+ * @see halStorageFinishTransaction
+ * @param cmdName Name of the slot to be loaded
+ * @param tid Transaction ID, which must match the one given by halStorageStartTransaction
+ * @param cfg Pointer to a general config struct, which will be used to load the slot into
+ * @return ESP_OK if everything is fine, ESP_FAIL if the command was not successful (slot name not found)
+ * */
+esp_err_t halStorageLoadIR(char *cmdName, halIOIR_t *cfg, uint32_t tid)
+{
+  uint8_t currentSlot = 1;
+  uint32_t slotnamelen = 0;
+  char file[sizeof(base_path)+32];
+  char fileSlotName[SLOTNAME_LENGTH+4];
+  FILE *f;
+  
+  //do some checks for file system
+  if(halStorageChecks(tid) != ESP_OK) return ESP_FAIL;
+  
+  do {
+    //create filename string to search if this slot is available
+    sprintf(file,"%s/IR_%02d.fms",base_path,currentSlot);
+    
+    //open file for reading
+    ESP_LOGD(LOG_TAG,"Opening file %s",file);
+    f = fopen(file, "rb");
+
+    //Currently: return ESP_FAIL for first not found file
+    if(f == NULL)
+    {
+      ESP_LOGD(LOG_TAG,"Stopped at IR cmd number %u, didn't found the given name",currentSlot);
+      return ESP_FAIL;
+    }
+    
+    fseek(f,0,SEEK_SET);
+  
+    //read slot name
+    fread(&slotnamelen,sizeof(uint32_t),1,f);
+    if(slotnamelen > SLOTNAME_LENGTH + 1)
+    {
+      ESP_LOGE(LOG_TAG,"CMD name too long: %u",slotnamelen);
+      fclose(f);
+      return ESP_FAIL;
+    }
+    fread(fileSlotName,sizeof(char),slotnamelen+1,f);
+    fileSlotName[slotnamelen] = '\0';
+    ESP_LOGD(LOG_TAG,"Read cmdname: %s, length %d",fileSlotName,slotnamelen);
+      
+    //compare parameter & file slotname
+    if(strcmp(cmdName, fileSlotName) == 0)
+    {
+      //found a slot
+      ESP_LOGD(LOG_TAG,"Found slot \"%s\" @%u",cmdName,currentSlot);
+      //read length of recorded items
+      uint16_t irlength = 0;
+      fread(&irlength,sizeof(uint16_t),1,f);
+      
+      //allocate amount of IR edges.
+      cfg->buffer = malloc(sizeof(rmt_item32_t)*irlength);
+      
+      if(cfg->buffer != NULL)
+      {
+          //TODO: read from file to buffer
+          if(fread(cfg->buffer,sizeof(rmt_item32_t),irlength,f) != irlength)
+          {
+            ESP_LOGE(LOG_TAG,"Cannot read data from file");
+            fclose(f);
+            free(cfg->buffer);
+            return ESP_FAIL;
+          }
+          cfg->count = irlength;
+      } else {
+        ESP_LOGE(LOG_TAG,"No memory for IR command");
+        fclose(f);
+        return ESP_FAIL;
+      }
+      
+      //clean up / return
+      fclose(f);
+      return ESP_OK;
+    }
+    
+    //go to next possible slot & clean up
+    currentSlot++;
+    fclose(f);
+  } while(1);
+
+  //we should never be here...
+  if(f!=NULL) fclose(f);
   return ESP_OK;
 }
 

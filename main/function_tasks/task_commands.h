@@ -49,6 +49,7 @@
 #include "hal_serial.h"
 #include "task_mouse.h"
 #include "task_kbd.h"
+#include "task_infrared.h"
 #include "../keyboard_layout_helper/keyboard.h"
 #include "../config_switcher.h"
 

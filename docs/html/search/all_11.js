@@ -3,6 +3,7 @@ var searchData=
   ['save',['SAVE',['../keyboard_8c.html#a74737b7419bce75262b34ece12a7f7eb',1,'keyboard.c']]],
   ['senderrorback',['sendErrorBack',['../task__commands_8c.html#acea81ba8a182ae78feb2db6418fc1806',1,'task_commands.c']]],
   ['sendir',['SENDIR',['../hal__io_8h.html#a57492bb37c5bc8edb8f7165f1c00082e',1,'hal_io.h']]],
+  ['sendirstruct',['SENDIRSTRUCT',['../hal__io_8h.html#ac51510bf1295d5e23fb68d84d67dadcd',1,'hal_io.h']]],
   ['sendkbd',['sendKbd',['../task__kbd_8c.html#a7d605cb2407a7a7309911c70e28a9884',1,'task_kbd.c']]],
   ['sensitivity_5fx',['sensitivity_x',['../structadc__config.html#a81465c39748fa52d1b773f34ad4ee435',1,'adc_config']]],
   ['sensitivity_5fy',['sensitivity_y',['../structadc__config.html#adbfe1bd3388e5274fd37ffb27c6a719a',1,'adc_config']]],

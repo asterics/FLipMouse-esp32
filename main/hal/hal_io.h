@@ -71,6 +71,11 @@
     .count = len};   \
   xQueueSend(halIOIRSendQueue, (void*)&ir , (TickType_t) 0 ); }
 
+/** @brief Macro to easily send an halIOIR_t struct to IR hal driver 
+ * @param cfg halIOIR_t struct pointer
+ * @see halIOIR_t */
+#define SENDIRSTRUCT(cfg) { xQueueSend(halIOIRSendQueue, (void*)cfg , (TickType_t) 0 ); }
+
 /** @brief PIN - GPIO pin for external button 1 */
 #define HAL_IO_PIN_BUTTON_EXT1  26 
 /** @brief PIN - GPIO pin for external button 2 */

@@ -221,6 +221,25 @@ esp_err_t halStorageLoadNumber(uint8_t slotnumber, generalConfig_t *cfg, uint32_
  * */
 esp_err_t halStorageLoadName(char *slotname, generalConfig_t *cfg, uint32_t tid);
 
+/** @brief Load an IR command by name
+ * 
+ * This method loads an IR command from storage.
+ * The slot is defined by the slot name.
+ * 
+ * To start loading a command, call halStorageStartTransaction to acquire
+ * a load/store transaction id. This is necessary to enable multitask access.
+ * Finally, if the command is loaded, call halStorageFinishTransaction to
+ * free the storage access to the other tasks or the next call.
+ * 
+ * @see halStorageStartTransaction
+ * @see halStorageFinishTransaction
+ * @param cmdName Name of the slot to be loaded
+ * @param tid Transaction ID, which must match the one given by halStorageStartTransaction
+ * @param cfg Pointer to a general config struct, which will be used to load the slot into
+ * @return ESP_OK if everything is fine, ESP_FAIL if the command was not successful (slot name not found)
+ * */
+esp_err_t halStorageLoadIR(char *cmdName, halIOIR_t *cfg, uint32_t tid);
+
 /** @brief Load one virtual button config for currently loaded slot
  * 
  * This function is used to load one virtual button config after the

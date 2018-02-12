@@ -79,6 +79,7 @@ $(function() {
 <code>#include &quot;<a class="el" href="hal__serial_8h_source.html">hal_serial.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="task__mouse_8h_source.html">task_mouse.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="task__kbd_8h_source.html">task_kbd.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="task__infrared_8h_source.html">task_infrared.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="keyboard_8h_source.html">../keyboard_layout_helper/keyboard.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="config__switcher_8h_source.html">../config_switcher.h</a>&quot;</code><br />
 </div>
@@ -123,9 +124,9 @@ hal_serial </dd>
 <dd>
 atcmd_api </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="task__commands_8h_source.html#l00055">55</a> of file <a class="el" href="task__commands_8h_source.html">task_commands.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="task__commands_8h_source.html#l00056">56</a> of file <a class="el" href="task__commands_8h_source.html">task_commands.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="task__commands_8c_source.html#l01330">taskCommandsInit()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="task__commands_8c_source.html#l01329">taskCommandsInit()</a>.</p>
 
 </div>
 </div>
@@ -150,7 +151,7 @@ atcmd_api </dd></dl>
 <p>This method starts the command parser task, which handles incoming UART bytes &amp; responses if necessary. If necessary, this task deletes itself &amp; starts a CIM task (it MUST be the other way as well to restart the AT command parser) </p><dl class="section see"><dt>See also</dt><dd><a class="el" href="task__commands_8h.html#a26091155b4d85093239033d689f363d0" title="Restart the command parser task. ">taskCommandsRestart</a> </dd></dl>
 <dl class="section return"><dt>Returns</dt><dd>ESP_OK on success, ESP_FAIL otherwise </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="task__commands_8c_source.html#l01330">1330</a> of file <a class="el" href="task__commands_8c_source.html">task_commands.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="task__commands_8c_source.html#l01329">1329</a> of file <a class="el" href="task__commands_8c_source.html">task_commands.c</a>.</p>
 
 <p class="reference">Referenced by <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c_source.html#l00073">app_main()</a>.</p>
 <div class="dynheader">
@@ -193,7 +194,7 @@ Here is the caller graph for this function:</div>
 <p>Restart the command parser task</p>
 <p>This method is used, if the CIM parser detects AT commands and stops itself, providing the AT command set again. </p><dl class="section return"><dt>Returns</dt><dd>ESP_OK on success, ESP_FAIL otherwise (cannot start task, task already running) </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="task__commands_8c_source.html#l01347">1347</a> of file <a class="el" href="task__commands_8c_source.html">task_commands.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="task__commands_8c_source.html#l01346">1346</a> of file <a class="el" href="task__commands_8c_source.html">task_commands.c</a>.</p>
 
 </div>
 </div>

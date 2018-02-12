@@ -49,15 +49,16 @@
 
 //include all hal tasks, making config structs available
 #include "hal_adc.h"
+#include "hal_storage.h"
 #include "hal_io.h"
 #include "hal_ble.h"
 #include "hal_serial.h"
-#include "hal_storage.h"
 
 //include all functional tasks, making config structs available
 #include "task_kbd.h"
 #include "task_mouse.h"
 #include "task_debouncer.h"
+#include "task_infrared.h"
 
 
 /** Stacksize for functional task task_configswitcher.

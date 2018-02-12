@@ -9,6 +9,7 @@
 #include <esp_log.h>
 
 #include "keyboard.h"
+#include "driver/rmt.h"
 
 /** @brief module firmware version
  * 
@@ -343,6 +344,32 @@ typedef struct taskNoParameterConfig {
   //number of virtual button which this instance will be attached to
   uint8_t virtualButton;
 } taskNoParameterConfig_t;
+
+
+/** @brief State of IR receiver
+ * 
+ * Following states are possible for the IR receiver (task):
+ * * IR_IDLE Nothing is done, this halIOIR_t struct is not used for receiving
+ * * IR_RECEIVING Receiver is active and storing
+ * * IR_TOOSHORT If timeout was triggered and not enough edges are detected
+ * * IR_FINISHED If timeout was triggered and enough edges were stored
+ * * IR_OVERFLOW Too many edges were detected, could not store
+ * 
+ * @see TASK_HAL_IR_RECEV_MINIMUM_EDGES
+ * @see TASK_HAL_IR_RECV_MAXIMUM_EDGES*/
+typedef enum irstate {IR_IDLE,IR_RECEIVING,IR_TOOSHORT,IR_FINISHED,IR_OVERFLOW} irstate_t;
+
+/** @brief Output buzzer noise */
+typedef struct halIOIR {
+  /** Buffer for IR signal
+   * @warning Do not free this buffer! It will be freed by transmitting task
+   * @note In case of receiving, this buffer can be freed. */
+  rmt_item32_t *buffer;
+  /** Count of rmt_item32_t items */
+  uint16_t count;
+  /** Status of receiver */
+  irstate_t status;
+} halIOIR_t;
 
 
 #endif /*FUNCTION_COMMON_H_*/

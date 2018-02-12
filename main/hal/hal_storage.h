@@ -74,6 +74,7 @@
 #include <mbedtls/md5.h>
 #include "esp_vfs.h"
 #include "esp_vfs_fat.h"
+
 //common definitions & data for all of these functional tasks
 #include "common.h"
 
@@ -83,6 +84,10 @@
 #include "task_mouse.h"
 #include "task_debouncer.h"
 #include "hal_adc.h"
+
+
+//for IR stuff
+#include "hal_io.h"
 
 typedef enum {
   NEXT, /** load next slot (no name needed) **/

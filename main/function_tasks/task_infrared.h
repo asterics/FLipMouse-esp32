@@ -65,6 +65,32 @@ typedef struct taskInfraredConfig {
   uint virtualButton;
 } taskInfraredConfig_t;
 
+/**@brief Set the time between two IR edges which will trigger the timeout
+ * (end of received command)
+ * 
+ * This method is used to set the timeout between two edges which is
+ * used to trigger the timeout, therefore the finished signal for an
+ * IR command recording.
+ * 
+ * @see infrared_trigger_record
+ * @param timeout Timeout in [ms], 0-200
+ * */
+esp_err_t infrared_set_edge_timeout(uint8_t timeout);
+
+
+/** @brief Trigger an IR command recording.
+ * 
+ * This method is used to record one infrared command.
+ * It will block until either the timeout is reached or
+ * a command is received.
+ * The command is stored vial hal_storage.
+ * 
+ * @see halStorageStoreIR
+ * @see TASK_HAL_IR_RECV_TIMEOUT
+ * @param cmdName Name of command which will be used to store.
+ * @return ESP_OK if command was stored, ESP_FAIL otherwise (timeout)
+ * */
+esp_err_t infrared_record(char* cmdName);
 
 /**@brief FUNCTIONAL TASK - Infrared command sending
  * 

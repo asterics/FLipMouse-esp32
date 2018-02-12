@@ -163,6 +163,9 @@ void halIOIRSendTask(void * param)
 void halIOIRRecvTask(void * param)
 {
   halIOIR_t *recv;
+  RingbufHandle_t rb = NULL;
+  //get RMT RX ringbuffer
+  rmt_get_ringbuf_handle(4, &rb);
   
   if(halIOIRRecvQueue == NULL)
   {
@@ -175,10 +178,54 @@ void halIOIRRecvTask(void * param)
     //wait for updates (triggered receiving)
     if(xQueueReceive(halIOIRRecvQueue,&recv,10000))
     {
-      //TODO start receiving
-      //put data into buffer
-      //update status accordingly
+      //acquire buffer for ALL receiving elements
+      rmt_item32_t *buf = malloc(sizeof(rmt_item32_t)*TASK_HAL_IR_RECV_MAXIMUM_EDGES);
+      uint16_t offset = 0;
+      size_t rx_size = 0;
       
+      //check buffer
+      if(buf == NULL)
+      {
+        ESP_LOGE(LOG_TAG,"Not enough memory for receiving IR commands!");
+        continue;
+      }
+      
+      //start receiving on channel 4, flush all buffer elements
+      rmt_rx_start(4, 1);
+      //set target struct
+      recv->status = IR_RECEIVING;
+      //wait for one item until timeout or data is valid
+      rmt_item32_t* item = (rmt_item32_t*) xRingbufferReceive(rb, &rx_size, TASK_HAL_IR_RECV_TIMEOUT);
+      //got one item
+      if(item) {
+        //put data into buffer
+        memcpy(&buf[offset], item, sizeof(rmt_item32_t)*rx_size);
+        offset+= rx_size;
+        //give item back to ringbuffer
+        vRingbufferReturnItem(rb, (void*) item);
+        //too much
+        if(offset == TASK_HAL_IR_RECV_MAXIMUM_EDGES)
+        {
+          ESP_LOGE(LOG_TAG,"Too much IR edges, finished");
+          recv->status = IR_OVERFLOW;
+          continue;
+        }
+      } else {
+        //timeout, cancel
+        rmt_rx_stop(4);
+        //update status accordingly
+        if(offset > TASK_HAL_IR_RECV_MINIMUM_EDGES)
+        {
+          //save everything necessary to pointer from queue
+          recv->buffer = buf;
+          recv->count = offset;
+          recv->status = IR_FINISHED;
+        } else {
+          recv->status = IR_TOOSHORT;
+          ESP_LOGE(LOG_TAG,"Too short, no cmd");
+          continue;
+        }
+      }
     }
   }
 }
@@ -281,7 +328,6 @@ void halIOLEDTask(void * param)
 }
 
 #define RMT_TICK_10_US    (80000000/RMT_CLK_DIV/100000)   /*!< RMT counter value for 10 us.(Source clock is APB clock) */
-#define rmt_item32_tIMEOUT_US  9500   /*!< RMT receiver timeout value(us) */
 #define RMT_CLK_DIV      100    /*!< RMT counter clock divider */
 
 /** @brief Initializing IO HAL
@@ -294,6 +340,18 @@ void halIOLEDTask(void * param)
  * */
 esp_err_t halIOInit(void)
 {
+  generalConfig_t *cfg = configGetCurrent();
+  
+  if(cfg == NULL)
+  {
+    ESP_LOGE(LOG_TAG,"general Config is NULL!!!");
+    while(cfg == NULL) 
+    {
+      vTaskDelay(1000/portTICK_PERIOD_MS);
+      cfg = configGetCurrent();
+    }
+  }
+  
   /*++++ init GPIO interrupts for 2 external & 2 internal buttons ++++*/
   gpio_config_t io_conf;
   //disable pull-down mode
@@ -359,7 +417,7 @@ esp_err_t halIOInit(void)
   rmt_rx.rmt_mode = RMT_MODE_RX;
   rmt_rx.rx_config.filter_en = true;
   rmt_rx.rx_config.filter_ticks_thresh = 100;
-  rmt_rx.rx_config.idle_threshold = rmt_item32_tIMEOUT_US / 10 * (RMT_TICK_10_US);
+  rmt_rx.rx_config.idle_threshold = cfg->irtimeout * 100 * (RMT_TICK_10_US);
   rmt_config(&rmt_rx);
   rmt_driver_install(rmt_rx.channel, 1000, 0);
   if(xTaskCreate(halIOIRRecvTask,"irrecv",TASK_HAL_IR_RECV_STACKSIZE, 

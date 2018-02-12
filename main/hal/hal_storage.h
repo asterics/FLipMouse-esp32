@@ -40,6 +40,10 @@
  * * store a given slot
  * * delete one slot
  * * delete all slots
+ * * delete one or all IR commands
+ * * get number of stored IR commands
+ * * load an IR command
+ * * get names for IR commands
  * 
  * This module starts one task on its own for maintaining the storage
  * access.
@@ -53,6 +57,7 @@
  * xxx_VB.fms
  * 
  * @note Maximum number of slots: 250! (e.g. 250.fms)
+ * @note Maximum number of IR commands: 100 (0-100, e.g. IR_99.fms)
  * @warning Adjust the esp-idf (via "make menuconfig") to use 512B sectors
  * and mode <b>safety</b>!
  * 
@@ -240,6 +245,33 @@ esp_err_t halStorageLoadName(char *slotname, generalConfig_t *cfg, uint32_t tid)
  * */
 esp_err_t halStorageLoadIR(char *cmdName, halIOIR_t *cfg, uint32_t tid);
 
+/** @brief Delete one or all IR commands
+ * 
+ * This function is used to delete one IR command or all commands (depending on
+ * parameter slotnr)
+ * 
+ * @param slotnr Number of slot to be deleted. Use 100 to delete all slots
+ * @param tid Transaction id
+ * @return ESP_OK if everything is fine, ESP_FAIL otherwise
+ * */
+esp_err_t halStorageDeleteIRCmd(uint8_t slotnr, uint32_t tid);
+
+
+/** @brief Get the name of an infrared command stored at the given slot number
+ * 
+ * This method returns the name of the given slot number for IR commands.
+ * An invalid slotnumber will return ESP_FAIL and an unchanged slotname
+ * 
+ * @param tid Transaction id
+ * @param cmdName Memory to store the command name to. Attention: minimum length: SLOTNAME_LENGTH+1
+ * @param slotnumber Number of slot to be loaded
+ * @see halStorageStartTransaction
+ * @see SLOTNAME_LENGTH
+ * @see halStorageFinishTransaction
+ * @return ESP_OK if tid is valid and slot number is valid, ESP_FAIL otherwise
+ * */
+esp_err_t halStorageGetNameForNumberIR(uint32_t tid, uint8_t slotnumber, char *cmdName);
+
 /** @brief Store an infrared command to storage
  * 
  * This method stores a set of IR edges with a given length and a given
@@ -254,6 +286,20 @@ esp_err_t halStorageLoadIR(char *cmdName, halIOIR_t *cfg, uint32_t tid);
  * @see halStorageLoadIR
  * */
 esp_err_t halStorageStoreIR(uint32_t tid, halIOIR_t *cfg, char *cmdName);
+
+
+/** @brief Get the number of stored IR commands
+ * 
+ * This method returns the number of available IR commands.
+ * An empty device will return 0
+ * 
+ * @param tid Transaction id
+ * @param slotsavailable Variable where the slot count will be stored
+ * @see halStorageStartTransaction
+ * @see halStorageFinishTransaction
+ * @return ESP_OK if tid is valid and slot count is valid, ESP_FAIL otherwise
+ * */
+esp_err_t halStorageGetNumberOfIRCmds(uint32_t tid, uint8_t *slotsavailable);
 
 /** @brief Load one virtual button config for currently loaded slot
  * 

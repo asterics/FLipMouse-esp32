@@ -14,7 +14,18 @@
 </head>
 <body>
 <div id="content">
-    <h1 i18n>FLipMouse Web Configuration // FLipMouse Webkonfiguration</h1>
+    <div class="row">
+        <h1 class="nine columns" i18n>FLipMouse Web Configuration // FLipMouse Webkonfiguration</h1>
+        <div class="three columns">
+            <label class="row u-full-width" for="selectSlots" i18n>Select Slot // Slot auswählen</label>
+            <select id="selectSlots" class="row u-full-width">
+                <option>Maus</option>
+                <option>Tastatur</option>
+                <option>Slot irgendwas</option>
+            </select>
+        </div>
+    </div>
+    <div class="row hide-mobile" style="margin-bottom: 1.5em"></div>
 
     <div data-tabs class="row" id="tabMenu">
         <div class="four columns hide-mobile"><a onclick="toTab(this.href)" class="button button-primary" data-tab href="#tabBasic"
@@ -266,10 +277,10 @@
         var cur = flip.getLiveData([flip.LIVE_PRESSURE]);
 
         //only move slider if sip thresholds are below and puff thresholds are above the current live value and if strong-values are below/above normal values
-        if ((input.id == flip.SIP_THRESHOLD && new1 < cur && new1 > flip.getConfig()[flip.SIP_STRONG_THRESHOLD]) ||
-            (input.id == flip.SIP_STRONG_THRESHOLD && new1 < cur && new1 < flip.getConfig()[flip.SIP_THRESHOLD]) ||
-            (input.id == flip.PUFF_THRESHOLD && new1 > cur && new1 < flip.getConfig()[flip.PUFF_STRONG_THRESHOLD]) ||
-            (input.id == flip.PUFF_STRONG_THRESHOLD && new1 > cur && new1 > flip.getConfig()[flip.PUFF_THRESHOLD])) {
+        if ((input.id == flip.SIP_THRESHOLD && new1 < cur && new1 > flip.getConfig(flip.SIP_STRONG_THRESHOLD)) ||
+            (input.id == flip.SIP_STRONG_THRESHOLD && new1 < cur && new1 < flip.getConfig(flip.SIP_THRESHOLD)) ||
+            (input.id == flip.PUFF_THRESHOLD && new1 > cur && new1 < flip.getConfig(flip.PUFF_STRONG_THRESHOLD)) ||
+            (input.id == flip.PUFF_STRONG_THRESHOLD && new1 > cur && new1 > flip.getConfig(flip.PUFF_THRESHOLD))) {
 
             setSliderValue(input.id, new1, true);
             flip.setValue(input.id, new1);
@@ -402,8 +413,8 @@
         var val = data[flip.LIVE_PRESSURE];
 
         var border = 10; // space that is left and right of the min/max values on the sliders
-        var currentMinRange = Math.max(Math.min(min - border, flip.getConfig()[flip.SIP_THRESHOLD] - border, flip.getConfig()[flip.SIP_STRONG_THRESHOLD] - border), 0);
-        var currentMaxRange = Math.min(Math.max(max + border, flip.getConfig()[flip.PUFF_THRESHOLD] + border, flip.getConfig()[flip.PUFF_STRONG_THRESHOLD] + border), 1023);
+        var currentMinRange = Math.max(Math.min(min - border, flip.getConfig(flip.SIP_THRESHOLD) - border, flip.getConfig(flip.SIP_STRONG_THRESHOLD) - border), 0);
+        var currentMaxRange = Math.min(Math.max(max + border, flip.getConfig(flip.PUFF_THRESHOLD) + border, flip.getConfig(flip.PUFF_STRONG_THRESHOLD) + border), 1023);
         var percent = L.getPercentage(val, currentMinRange, currentMaxRange);
         var percentMin = L.getPercentage(min, currentMinRange, currentMaxRange);
         var percentMax = L.getPercentage(max, currentMinRange, currentMaxRange);

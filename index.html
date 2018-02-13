@@ -322,6 +322,8 @@
     function toTab(tabId) {
         tabId = parseTabId(tabId);
         tabby.toggleTab(tabId);
+        L.setVisible('#toNavLink');
+        L.setVisible('#toNavBackLink', false);
         if (!tabId || tabId.indexOf('#tabBasic') > -1) {
             toBasic();
         } else if (tabId.indexOf('#tabPuff') > -1) {
@@ -331,8 +333,6 @@
         }  else if (tabId.indexOf('#tabNav') > -1) {
             toNav();
         }
-        L.setVisible('#toNavLink');
-        L.setVisible('#toNavBackLink', false);
     }
     
     function toBasic() {
@@ -379,7 +379,7 @@
     }
 
     function parseTabId(url) {
-        return url.substring(url.indexOf('#'));
+        return url.indexOf('#') > -1 ? url.substring(url.indexOf('#')) : '';
     }
 
     function cursorPosValueHandler(data) {

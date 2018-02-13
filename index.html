@@ -76,11 +76,11 @@
                     </div>
                 </div>
                 <div class="five columns">
-                    <button onclick="calibrate()">
+                    <button onclick="flipActionThenToggle(flip.calibrate, ['#basic-button-calibrate', '#basic-button-calibrating'])">
                         <span i18n id="basic-button-calibrate">Calibrate middle position // Mittelposition kalibrieren</span>
                         <span id="basic-button-calibrating" style="display: none;" i18n>Calibrating... // wird kalibriert...</span>
                     </button>
-                    <button onclick="rotate()">
+                    <button onclick="flipActionThenToggle(flip.rotate, ['#basic-button-rotate', '#basic-button-rotating'])">
                         <span i18n id="basic-button-rotate">&#x21bb; Rotate right // &#x21bb; Nach rechts drehen</span>
                         <span id="basic-button-rotating" style="display: none;" i18n>Rotating... // wird gedreht...</span>
                     </button>
@@ -117,7 +117,7 @@
             <br/>
             <br/>
             <div class="row">
-                <button id="basic-button" onclick="save()" class="one-third">
+                <button id="basic-button" onclick="flipActionThenToggle(flip.save, ['#basic-button-normal', '#basic-button-saving'])" class="one-third">
                     <div id="basic-button-normal" i18n>Save // Speichern</div>
                     <div id="basic-button-saving" style="display: none;" i18n>Saving... // Wird
                         gespeichert...
@@ -186,7 +186,7 @@
 
             <br/>
             <br/>
-            <button id="sip-puff-button" onclick="save()" class="u-full-width">
+            <button id="sip-puff-button" onclick="flipActionThenToggle(flip.save, ['#sip-puff-button-normal', '#sip-puff-button-saving'])" class="u-full-width">
                 <div id="sip-puff-button-normal" i18n>Save // Speichern</div>
                 <div id="sip-puff-button-saving" style="display: none" i18n>Saving... // Wird
                     gespeichert...
@@ -298,24 +298,10 @@
         }
     }
 
-    function save() {
-        L.toggle('#basic-button-normal', '#basic-button-saving', '#sip-puff-button-normal', '#sip-puff-button-saving');
-        flip.save().then(function () {
-            L.toggle('#basic-button-normal', '#basic-button-saving', '#sip-puff-button-normal', '#sip-puff-button-saving');
-        });
-    }
-
-    function calibrate() {
-        L.toggle('#basic-button-calibrate', '#basic-button-calibrating');
-        flip.calibrate().then(function () {
-            L.toggle('#basic-button-calibrate', '#basic-button-calibrating');
-        });
-    }
-
-    function rotate() {
-        L.toggle('#basic-button-rotate', '#basic-button-rotating');
-        flip.rotate().then(function () {
-            L.toggle('#basic-button-rotate', '#basic-button-rotating');
+    function flipActionThenToggle(actionFunction, toggleElementList) {
+        L.toggle.apply(null, toggleElementList);
+        actionFunction().then(function () {
+            L.toggle.apply(null, toggleElementList);
         });
     }
 

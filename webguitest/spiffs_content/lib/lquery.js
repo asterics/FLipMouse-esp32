@@ -31,6 +31,15 @@ window.L.isVisible = function (selector) {
     return !(x.style && x.style.display === "none");
 };
 
+window.L.setVisible = function (selector, visible) {
+    var x = L(selector);
+    if(visible == false) {
+        x.style.display = "none";
+    } else {
+        x.style.display = "block";
+    }
+};
+
 window.L.val2key = function (val, array) {
     for (var key in array) {
         if (array[key] == val) {

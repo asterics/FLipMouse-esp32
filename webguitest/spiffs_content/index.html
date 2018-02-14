@@ -14,16 +14,32 @@
 </head>
 <body>
 <div id="content">
-    <h1 i18n>FLipMouse Web Configuration // FLipMouse Webkonfiguration</h1>
+    <div class="row">
+        <h1 class="nine columns" i18n>FLipMouse Web Configuration // FLipMouse Webkonfiguration</h1>
+        <div class="three columns">
+            <label class="row u-full-width" for="selectSlots" i18n>Select Slot // Slot auswählen</label>
+            <select id="selectSlots" class="row u-full-width">
+                <option>Maus</option>
+                <option>Tastatur</option>
+                <option>Slot irgendwas</option>
+            </select>
+        </div>
+    </div>
+    <div class="row hide-mobile" style="margin-bottom: 1.5em"></div>
 
-    <div data-tabs class="row">
-        <div class="four columns"><a onclick="toBasic()" class="button button-primary" data-tab href="#tabBasic"
+    <div data-tabs class="row" id="tabMenu">
+        <div class="four columns hide-mobile"><a onclick="toTab(this.href)" class="button button-primary" data-tab href="#tabBasic"
                                      class="ui-btn-active" i18n>Basic Setup // Basis-Konfiguration</a></div>
-        <div class="four columns"><a onclick="toSipPuff()" class="button button-primary" data-tab href="#tabPuff" i18n>Sip and Puff // Saug-Blassteuerung</a></div>
-        <div class="four columns"><a onclick="toActionLearn()" class="button button-primary" data-tab
+        <div class="four columns hide-mobile"><a onclick="toTab(this.href)" class="button button-primary" data-tab href="#tabPuff" i18n>Sip and Puff // Saug-Blassteuerung</a></div>
+        <div class="four columns hide-mobile"><a onclick="toTab(this.href)" class="button button-primary" data-tab
                                      href="#tabActions">Learn Actions</a></div>
+        <div class="show-mobile"><a id="toNavLink" onclick="toNav()" class="button button-primary" data-tab href="#tabNav" i18n>&#x2630; Menu // &#x2630; Menü</a></div>
+        <div class="show-mobile"><a id="toNavBackLink" style="display: none" onclick="toNavBack()" class="button button-primary" i18n>&#8592; Back // &#8592; Zurück</a></div>
     </div>
     <div data-tabs-content>
+        <div data-tabs-pane class="tabs-pane" id="tabNav">
+            <div id="tabNavContainer" class="row"></div>
+        </div>
         <div data-tabs-pane class="tabs-pane" id="tabBasic">
             <div id="basic-SENSITIVITY-single">
                 <label for="SENSITIVITY" i18n>Sensitivity: // Sensitivität:</label>
@@ -71,11 +87,11 @@
                     </div>
                 </div>
                 <div class="five columns">
-                    <button onclick="calibrate()">
+                    <button onclick="flipActionThenToggle(flip.calibrate, ['#basic-button-calibrate', '#basic-button-calibrating'])">
                         <span i18n id="basic-button-calibrate">Calibrate middle position // Mittelposition kalibrieren</span>
                         <span id="basic-button-calibrating" style="display: none;" i18n>Calibrating... // wird kalibriert...</span>
                     </button>
-                    <button onclick="rotate()">
+                    <button onclick="flipActionThenToggle(flip.rotate, ['#basic-button-rotate', '#basic-button-rotating'])">
                         <span i18n id="basic-button-rotate">&#x21bb; Rotate right // &#x21bb; Nach rechts drehen</span>
                         <span id="basic-button-rotating" style="display: none;" i18n>Rotating... // wird gedreht...</span>
                     </button>
@@ -112,7 +128,7 @@
             <br/>
             <br/>
             <div class="row">
-                <button id="basic-button" onclick="save()" class="one-third">
+                <button id="basic-button" onclick="flipActionThenToggle(flip.save, ['#basic-button-normal', '#basic-button-saving'])" class="one-third">
                     <div id="basic-button-normal" i18n>Save // Speichern</div>
                     <div id="basic-button-saving" style="display: none;" i18n>Saving... // Wird
                         gespeichert...
@@ -181,7 +197,7 @@
 
             <br/>
             <br/>
-            <button id="sip-puff-button" onclick="save()" class="u-full-width">
+            <button id="sip-puff-button" onclick="flipActionThenToggle(flip.save, ['#sip-puff-button-normal', '#sip-puff-button-saving'])" class="u-full-width">
                 <div id="sip-puff-button-normal" i18n>Save // Speichern</div>
                 <div id="sip-puff-button-saving" style="display: none" i18n>Saving... // Wird
                     gespeichert...
@@ -208,6 +224,12 @@
 
 <script>
     window.onload = function () {
+        tabby.init();
+        domI18n({
+            selector: '[i18n]',
+            separator: ' // ',
+            languages: ['en', 'de']
+        });
         var flip = new FlipMouse(function (config) {
             setSliderValue(flip.SENSITIVITY_X, config[flip.SENSITIVITY_X]);
             setSliderValue(flip.SENSITIVITY_Y, config[flip.SENSITIVITY_Y]);
@@ -228,17 +250,7 @@
             }
             console.log(config);
 
-            var url = window.location.href;
-            if (url.indexOf('#tabBasic') > -1) {
-                toBasic();
-            } else if (url.indexOf('#tabPuff') > -1) {
-                toSipPuff();
-            } else if (url.indexOf('#tabActions') > -1) {
-                toActionLearn();
-            } else {
-                window.location.replace(window.location.href + '#tabBasic');
-                toBasic();
-            }
+            toTab(getCurrentTabId());
         });
         window.flip = flip;
     };
@@ -265,10 +277,10 @@
         var cur = flip.getLiveData([flip.LIVE_PRESSURE]);
 
         //only move slider if sip thresholds are below and puff thresholds are above the current live value and if strong-values are below/above normal values
-        if ((input.id == flip.SIP_THRESHOLD && new1 < cur && new1 > flip.getConfig()[flip.SIP_STRONG_THRESHOLD]) ||
-            (input.id == flip.SIP_STRONG_THRESHOLD && new1 < cur && new1 < flip.getConfig()[flip.SIP_THRESHOLD]) ||
-            (input.id == flip.PUFF_THRESHOLD && new1 > cur && new1 < flip.getConfig()[flip.PUFF_STRONG_THRESHOLD]) ||
-            (input.id == flip.PUFF_STRONG_THRESHOLD && new1 > cur && new1 > flip.getConfig()[flip.PUFF_THRESHOLD])) {
+        if ((input.id == flip.SIP_THRESHOLD && new1 < cur && new1 > flip.getConfig(flip.SIP_STRONG_THRESHOLD)) ||
+            (input.id == flip.SIP_STRONG_THRESHOLD && new1 < cur && new1 < flip.getConfig(flip.SIP_THRESHOLD)) ||
+            (input.id == flip.PUFF_THRESHOLD && new1 > cur && new1 < flip.getConfig(flip.PUFF_STRONG_THRESHOLD)) ||
+            (input.id == flip.PUFF_STRONG_THRESHOLD && new1 > cur && new1 > flip.getConfig(flip.PUFF_THRESHOLD))) {
 
             setSliderValue(input.id, new1, true);
             flip.setValue(input.id, new1);
@@ -297,27 +309,29 @@
         }
     }
 
-    function save() {
-        L.toggle('#basic-button-normal', '#basic-button-saving', '#sip-puff-button-normal', '#sip-puff-button-saving');
-        flip.save().then(function () {
-            L.toggle('#basic-button-normal', '#basic-button-saving', '#sip-puff-button-normal', '#sip-puff-button-saving');
+    function flipActionThenToggle(actionFunction, toggleElementList) {
+        L.toggle.apply(null, toggleElementList);
+        actionFunction().then(function () {
+            L.toggle.apply(null, toggleElementList);
         });
     }
 
-    function calibrate() {
-        L.toggle('#basic-button-calibrate', '#basic-button-calibrating');
-        flip.calibrate().then(function () {
-            L.toggle('#basic-button-calibrate', '#basic-button-calibrating');
-        });
+    function toTab(tabId) {
+        tabId = parseTabId(tabId);
+        tabby.toggleTab(tabId);
+        L.setVisible('#toNavLink');
+        L.setVisible('#toNavBackLink', false);
+        if (!tabId || tabId.indexOf('#tabBasic') > -1) {
+            toBasic();
+        } else if (tabId.indexOf('#tabPuff') > -1) {
+            toSipPuff();
+        } else if (tabId.indexOf('#tabActions') > -1) {
+            toActionLearn();
+        }  else if (tabId.indexOf('#tabNav') > -1) {
+            toNav();
+        }
     }
-
-    function rotate() {
-        L.toggle('#basic-button-rotate', '#basic-button-rotating');
-        flip.rotate().then(function () {
-            L.toggle('#basic-button-rotate', '#basic-button-rotating');
-        });
-    }
-
+    
     function toBasic() {
         flip.startLiveValueListener(cursorPosValueHandler);
     }
@@ -328,6 +342,41 @@
 
     function toActionLearn() {
         flip.stopLiveValueListener();
+    }
+
+    function toNav() {
+        tabby.toggleTab('#tabNav');
+        L.toggle('#toNavLink', '#toNavBackLink');
+        window.lastNav = getCurrentTabId();
+
+        var tabNav = L('#tabNavContainer');
+        if(tabNav.hasChildNodes()) {
+            return;
+        }
+        var navItems = L('#tabMenu').children;
+        for (var i = 0; i < navItems.length-2; i++) {
+            var clone = navItems[i].cloneNode(true);
+            clone.className = '';
+            tabNav.appendChild(clone);
+        }
+    }
+
+    function toNavBack() {
+        L.toggle('#toNavLink', '#toNavBackLink');
+        if(window.lastNav && window.lastNav != '#tabNav') {
+            toTab(window.lastNav);
+        } else {
+            toTab('#tabBasic');
+        }
+    }
+
+    function getCurrentTabId() {
+        var id = parseTabId(L('.tabs-pane.active')[0].baseURI);
+        return id ? id : parseTabId(window.location.href);
+    }
+
+    function parseTabId(url) {
+        return url.indexOf('#') > -1 ? url.substring(url.indexOf('#')) : '';
     }
 
     function cursorPosValueHandler(data) {
@@ -364,8 +413,8 @@
         var val = data[flip.LIVE_PRESSURE];
 
         var border = 10; // space that is left and right of the min/max values on the sliders
-        var currentMinRange = Math.max(Math.min(min - border, flip.getConfig()[flip.SIP_THRESHOLD] - border, flip.getConfig()[flip.SIP_STRONG_THRESHOLD] - border), 0);
-        var currentMaxRange = Math.min(Math.max(max + border, flip.getConfig()[flip.PUFF_THRESHOLD] + border, flip.getConfig()[flip.PUFF_STRONG_THRESHOLD] + border), 1023);
+        var currentMinRange = Math.max(Math.min(min - border, flip.getConfig(flip.SIP_THRESHOLD) - border, flip.getConfig(flip.SIP_STRONG_THRESHOLD) - border), 0);
+        var currentMaxRange = Math.min(Math.max(max + border, flip.getConfig(flip.PUFF_THRESHOLD) + border, flip.getConfig(flip.PUFF_STRONG_THRESHOLD) + border), 1023);
         var percent = L.getPercentage(val, currentMinRange, currentMaxRange);
         var percentMin = L.getPercentage(min, currentMinRange, currentMaxRange);
         var percentMax = L.getPercentage(max, currentMinRange, currentMaxRange);
@@ -386,14 +435,6 @@
             L(id).max = currentMaxRange;
         });
     }
-</script>
-<script>
-    tabby.init();
-    domI18n({
-        selector: '[i18n]',
-        separator: ' // ',
-        languages: ['en', 'de']
-    });
 </script>
 </body>
 </html>

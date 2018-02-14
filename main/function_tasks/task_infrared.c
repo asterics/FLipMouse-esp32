@@ -123,6 +123,7 @@ void task_infrared(taskInfraredConfig_t *param)
           } else {
             ESP_LOGE(LOG_TAG,"Error loading IR cmd");
           }
+          halStorageFinishTransaction(tid);
         } else {
           ESP_LOGE(LOG_TAG,"Error starting transaction for IR cmd");
         }
@@ -150,22 +151,22 @@ esp_err_t infrared_record(char* cmdName)
   uint16_t timeout = 0;
   if(strlen(cmdName) > SLOTNAME_LENGTH)
   {
-    ESP_LOGE(LOG_TAG,"IR command name too long");
+    ESP_LOGE(LOG_TAG,"IR command name too long (%d chars)",strlen(cmdName));
     return ESP_FAIL;
   }
   //transaction id
   uint32_t tid;
   
   //create the IR struct
-  halIOIR_t cfg;
-  cfg.status = IR_RECEIVING;
+  halIOIR_t *cfg = malloc(sizeof(halIOIR_t));
+  cfg->status = IR_RECEIVING;
   
   //put it to queue
   //we assume there is space in the queue
   xQueueSend(halIOIRRecvQueue, (void *)&cfg, (TickType_t)0);
   
   //check status every two ticks
-  while(cfg.status == IR_RECEIVING) 
+  while(cfg->status == IR_RECEIVING) 
   {
     vTaskDelay(2);
     timeout+=2;
@@ -176,33 +177,39 @@ esp_err_t infrared_record(char* cmdName)
     }
   }
   
-  switch(cfg.status)
+  switch(cfg->status)
   {
     case IR_TOOSHORT:
       ESP_LOGW(LOG_TAG,"IR cmd too short");
+      free(cfg);
       return ESP_FAIL;
     case IR_FINISHED:
       //finished, storing
       if(halStorageStartTransaction(&tid, 20) != ESP_OK)
       {
         ESP_LOGE(LOG_TAG,"Cannot start transaction");
+        free(cfg);
         return ESP_FAIL;
       }
-      if(halStorageStoreIR(tid, &cfg, cmdName) != ESP_OK)
+      if(halStorageStoreIR(tid, cfg, cmdName) != ESP_OK)
       {
         ESP_LOGE(LOG_TAG,"Cannot store IR cmd");
       }
       halStorageFinishTransaction(tid);
+      free(cfg);
       break;
     case IR_OVERFLOW:
       ESP_LOGW(LOG_TAG,"IR cmd too long");
+      free(cfg);
       return ESP_FAIL;
     default:
       ESP_LOGE(LOG_TAG,"Unknown IR recv status");
+      free(cfg);
       return ESP_FAIL;
   }
 
   //everything fine...
+  free(cfg);
   return ESP_OK;
 }
 

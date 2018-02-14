@@ -119,7 +119,7 @@ void halIOIRFree(rmt_channel_t channel, void *arg)
  */
 void halIOIRSendTask(void * param)
 {
-  halIOIR_t *recv;
+  halIOIR_t recv;
   
   if(halIOIRSendQueue == NULL)
   {
@@ -132,20 +132,20 @@ void halIOIRSendTask(void * param)
     //wait for updates
     if(xQueueReceive(halIOIRSendQueue,&recv,10000))
     {
-      if(recv->buffer == NULL) continue;
+      if(recv.buffer == NULL) continue;
       //check if there is an ongoing transmission. If yes, block.
       rmt_wait_tx_done(0, portMAX_DELAY);
       
       //register the callback again with the pointer to the buffer
       //after finished transmission, this callback frees this buffer
-      rmt_register_tx_end_callback(halIOIRFree,recv->buffer);
+      rmt_register_tx_end_callback(halIOIRFree,recv.buffer);
       //To send data according to the waveform items.
-      rmt_write_items(0, recv->buffer, recv->count, false);
+      rmt_write_items(0, recv.buffer, recv.count, false);
     }
   }
 }
 
-/** @brief HAL TASK - IR receiving task
+/** @brief HAL TASK - IR receiving (recording) task
  * 
  * This task is used to store data from the RMT unit if the receiving
  * of an IR code is started.
@@ -162,7 +162,7 @@ void halIOIRSendTask(void * param)
  */
 void halIOIRRecvTask(void * param)
 {
-  halIOIR_t *recv;
+  halIOIR_t* recv;
   RingbufHandle_t rb = NULL;
   //get RMT RX ringbuffer
   rmt_get_ringbuf_handle(4, &rb);
@@ -195,7 +195,7 @@ void halIOIRRecvTask(void * param)
       //set target struct
       recv->status = IR_RECEIVING;
       //wait for one item until timeout or data is valid
-      rmt_item32_t* item = (rmt_item32_t*) xRingbufferReceive(rb, &rx_size, TASK_HAL_IR_RECV_TIMEOUT);
+      rmt_item32_t* item = (rmt_item32_t*) xRingbufferReceive(rb, &rx_size, TASK_HAL_IR_RECV_TIMEOUT/portTICK_PERIOD_MS);
       //got one item
       if(item) {
         //put data into buffer
@@ -379,8 +379,7 @@ esp_err_t halIOInit(void)
   gpio_isr_handler_add(HAL_IO_PIN_BUTTON_INT2, gpio_isr_handler, (void*) HAL_IO_PIN_BUTTON_INT2);
   
   /*++++ init infrared drivers (via RMT engine) ++++*/
-  //TBD: init IR
-  halIOIRRecvQueue = xQueueCreate(8,sizeof(halIOIR_t));
+  halIOIRRecvQueue = xQueueCreate(8,sizeof(halIOIR_t*));
   halIOIRSendQueue = xQueueCreate(8,sizeof(halIOIR_t));
   
   //transmitter

@@ -600,7 +600,11 @@ parserstate_t doInfraredParsing(uint8_t *cmdBuffer, taskInfraredConfig_t *instan
             printed++;
           }
           //if we have printed the same count as available IR slots, finish
-          if(printed == count) break;
+          if(printed == count) 
+          {
+            halStorageFinishTransaction(tid);
+            return NOACTION;
+          }
         }
       } else {
         ESP_LOGE(LOG_TAG,"Cannot get IR cmd number");
@@ -609,6 +613,7 @@ parserstate_t doInfraredParsing(uint8_t *cmdBuffer, taskInfraredConfig_t *instan
     } else {
       ESP_LOGE(LOG_TAG,"Cannot start transaction");
     }
+    return UNKNOWNCMD;
   }
   //not consumed, no command found for infrared
   return UNKNOWNCMD;
@@ -1155,13 +1160,17 @@ void task_commands(void *params)
         continue;
       }
       
+      //replace '\r' and '\n' by '\0'
+      //terminate...
+      for(uint16_t i = 0; i<received;i++)
+      {
+        if(commandBuffer[i] == '\r' || commandBuffer[i] == '\n') {
+          commandBuffer[i] = 0;
+        }
+      }
       //do parsing :-)
       //simplified into smaller functions, to make reading easy.
-      //each parser returns either:
-      //0 if the command was not consumed (not a valid command for this part)
-      //1 if the command was consumed and needs to be forwarded to a task (singleshot/VB reload)
-      //2 if the command was consumed but no further action is needed
-      
+      //
       //the variable requestVBUpdate which is used to determine if an
       //AT command should be triggered as singleshot (== VB_SINGLESHOT)
       //or should be assigned to a VB.

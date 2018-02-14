@@ -2,6 +2,7 @@ var searchData=
 [
   ['readme_5fadd_5fnew_5ffunction_2emd',['README_add_new_Function.md',['../README__add__new__Function_8md.html',1,'']]],
   ['readme_5fat_5fcommand_5fapi_2emd',['README_AT_command_API.md',['../README__AT__command__API_8md.html',1,'']]],
+  ['readme_5fblockdiagram_2emd',['README_blockdiagram.md',['../README__blockdiagram_8md.html',1,'']]],
   ['release',['RELEASE',['../task__kbd_8h.html#aff3bf982a86299e69b007b0d16a45227ad590443978dc58d64aed5001f56efcdf',1,'task_kbd.h']]],
   ['remote_5fbda',['remote_bda',['../structesp__hidd__cb__param__t_1_1hidd__connect__evt__param.html#a3227bcea2587ee9ead9e1b7196d2de5e',1,'esp_hidd_cb_param_t::hidd_connect_evt_param::remote_bda()'],['../structesp__hidd__cb__param__t_1_1hidd__disconnect__evt__param.html#ac8ef9a20592cbd51326dac5ab5525cf6',1,'esp_hidd_cb_param_t::hidd_disconnect_evt_param::remote_bda()'],['../structhidd__clcb__t.html#aafd3134d0947d2888f22377271a21d33',1,'hidd_clcb_t::remote_bda()']]],
   ['remove_5fkeycode',['remove_keycode',['../keyboard_8c.html#a999cf21107da9c1a7e3797e72d95045b',1,'remove_keycode(uint8_t keycode, uint8_t *keycode_arr):&#160;keyboard.c'],['../keyboard_8h.html#a999cf21107da9c1a7e3797e72d95045b',1,'remove_keycode(uint8_t keycode, uint8_t *keycode_arr):&#160;keyboard.c']]],
@@ -24,6 +25,5 @@ var searchData=
   ['right_5fgui_5fkey_5fmask',['RIGHT_GUI_KEY_MASK',['../esp__hidd__prf__api_8h.html#a5fceff1ced3de13f7e0a3d13750b47d9',1,'esp_hidd_prf_api.h']]],
   ['right_5fshift_5fkey_5fmask',['RIGHT_SHIFT_KEY_MASK',['../esp__hidd__prf__api_8h.html#aa5cf8b6093b8111e14600bc334ceaf72',1,'esp_hidd_prf_api.h']]],
   ['rmt_5fclk_5fdiv',['RMT_CLK_DIV',['../hal__io_8c.html#a902a07543b8754716667f7d0102ad9af',1,'hal_io.c']]],
-  ['rmt_5fitem32_5ftimeout_5fus',['rmt_item32_tIMEOUT_US',['../hal__io_8c.html#a7a5d34eb268be9dd13c9a50784130c1a',1,'hal_io.c']]],
   ['rmt_5ftick_5f10_5fus',['RMT_TICK_10_US',['../hal__io_8c.html#acfe8de99b8ccf08b2d34c25bac254f21',1,'hal_io.c']]]
 ];

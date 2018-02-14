@@ -14,5 +14,6 @@ var searchData=
   ['buffer',['buffer',['../structhalIOIR.html#a10f36898f86566eb85d3ea20ef447cec',1,'halIOIR']]],
   ['buttons',['buttons',['../structmouse__command.html#afbf7acf4a966848d57312cbaed9896e1',1,'mouse_command::buttons()'],['../structjoystick__command.html#a385fe49f00ae494fb8f72091000e709b',1,'joystick_command::buttons()']]],
   ['buttons1',['buttons1',['../structjoystick__data.html#ae89042e1655f553f3edf02ba5d86533c',1,'joystick_data']]],
-  ['buttons2',['buttons2',['../structjoystick__data.html#a7b1f1f0db9ff22424623b9564ff7f6d0',1,'joystick_data']]]
+  ['buttons2',['buttons2',['../structjoystick__data.html#a7b1f1f0db9ff22424623b9564ff7f6d0',1,'joystick_data']]],
+  ['blockdiagram_20of_20v3',['Blockdiagram of v3',['../md__home_beni_sync_Projects_FH_FLipMouse-esp32_main_README_blockdiagram.html',1,'']]]
 ];

@@ -538,14 +538,13 @@ esp_err_t halStorageGetNumberOfIRCmds(uint32_t tid, uint8_t *slotsavailable)
     //create filename string to search if this slot is available
     sprintf(file,"%s/IR_%02d.fms",base_path,current);
     
-    //open file for reading
-    ESP_LOGD(LOG_TAG,"Opening file %s",file);
-    
     f = fopen(file, "rb");
     
     //check if this file is available
     if(f != NULL)
     {
+      //open file for reading
+      ESP_LOGD(LOG_TAG,"Opening file %s",file);
       count++;
       fclose(f);
     }

@@ -242,7 +242,7 @@ void halIOIRRecvTask(void * param)
  */
 void halIOBuzzerTask(void * param)
 {
-  halIOBuzzer_t *recv;
+  halIOBuzzer_t recv;
   
   if(halIOBuzzerQueue == NULL)
   {
@@ -253,19 +253,19 @@ void halIOBuzzerTask(void * param)
   while(1)
   {
     //wait for updates
-    if(xQueueReceive(halIOBuzzerQueue,&recv,10000))
+    if(xQueueReceive(halIOBuzzerQueue,(void*)&recv,10000))
     {
       //set duty, set frequency
       //do a tone only if frequency is != 0, otherwise it is just a pause
-      if(recv->frequency != 0)
+      if(recv.frequency != 0)
       {
-        ledc_set_freq(LEDC_LOW_SPEED_MODE, LEDC_TIMER_0, recv->frequency);
+        ledc_set_freq(LEDC_LOW_SPEED_MODE, LEDC_TIMER_0, recv.frequency);
         ledc_set_duty(LEDC_LOW_SPEED_MODE, LEDC_CHANNEL_0, 512);
         ledc_update_duty(LEDC_LOW_SPEED_MODE, LEDC_CHANNEL_0);
       }
       
       //delay for duration
-      vTaskDelay(recv->duration / portTICK_PERIOD_MS);
+      vTaskDelay(recv.duration / portTICK_PERIOD_MS);
       
       //set duty to 0
       ledc_set_duty(LEDC_LOW_SPEED_MODE, LEDC_CHANNEL_0, 0);

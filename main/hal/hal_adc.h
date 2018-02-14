@@ -53,35 +53,55 @@
 #include "common.h"
 #include "hal_serial.h"
 
-/** ADC input pin for "up" channel of FSR */
+/** @brief ADC input pin for "up" channel of FSR
+ * @note For adapting this pin, change HAL_IO_ADC_CHANNEL_UP as well!
+ * @see HAL_IO_ADC_CHANNEL_UP */
 #define HAL_IO_PIN_ADC_UP       36
-/** ADC input pin for "down" channel of FSR */
-#define HAL_IO_PIN_ADC_DOWN     37
-/** ADC input pin for "left" channel of FSR */
-#define HAL_IO_PIN_ADC_LEFT     38
-/** ADC input pin for "right" channel of FSR */
+/** @brief ADC input pin for "down" channel of FSR
+ * @note For adapting this pin, change HAL_IO_ADC_CHANNEL_DOWN as well!
+ * @see HAL_IO_ADC_CHANNEL_DOWN */
+#define HAL_IO_PIN_ADC_DOWN     32
+/** @brief ADC input pin for "left" channel of FSR
+ * @note For adapting this pin, change HAL_IO_ADC_CHANNEL_LEFT as well!
+ * @see HAL_IO_ADC_CHANNEL_LEFT */
+#define HAL_IO_PIN_ADC_LEFT     35
+/** @brief ADC input pin for "right" channel of FSR
+ * @note For adapting this pin, change HAL_IO_ADC_CHANNEL_RIGHT as well!
+ * @see HAL_IO_ADC_CHANNEL_RIGHT */
 #define HAL_IO_PIN_ADC_RIGHT    39
-  /** ADC input pin for pressure sensor MPX */
+/** @brief ADC input pin for pressure sensor MPX
+ * @note For adapting this pin, change HAL_IO_ADC_CHANNEL_PRESSURE as well!
+ * @see HAL_IO_ADC_CHANNEL_PRESSURE */
 #define HAL_IO_PIN_ADC_PRESSURE 34
 
-/** ADC channel for FSR up */
+/** @brief ADC channel for FSR up
+ * @note For adapting this channel, change HAL_IO_PIN_ADC_UP as well!
+ * @see HAL_IO_PIN_ADC_UP */
 #define HAL_IO_ADC_CHANNEL_UP       ADC1_CHANNEL_0
-/** ADC channel for FSR down */
-#define HAL_IO_ADC_CHANNEL_DOWN     ADC1_CHANNEL_1
-/** ADC channel for FSR left */
-#define HAL_IO_ADC_CHANNEL_LEFT     ADC1_CHANNEL_2
-/** ADC channel for FSR right */
+/** @brief ADC channel for FSR down
+ * @note For adapting this channel, change HAL_IO_PIN_ADC_DOWN as well!
+ * @see HAL_IO_PIN_ADC_DOWN */
+#define HAL_IO_ADC_CHANNEL_DOWN     ADC1_CHANNEL_4
+/** @brief ADC channel for FSR left
+ * @note For adapting this channel, change HAL_IO_PIN_ADC_LEFT as well!
+ * @see HAL_IO_PIN_ADC_LEFT */
+#define HAL_IO_ADC_CHANNEL_LEFT     ADC1_CHANNEL_7
+/** @brief ADC channel for FSR right
+ * @note For adapting this channel, change HAL_IO_PIN_ADC_RIGHT as well!
+ * @see HAL_IO_PIN_ADC_RIGHT */
 #define HAL_IO_ADC_CHANNEL_RIGHT    ADC1_CHANNEL_3
-/** ADC channel for pressure sensor */
+/** @brief ADC channel for pressure sensor
+ * @note For adapting this channel, change HAL_IO_PIN_ADC_PRESSURE as well!
+ * @see HAL_IO_PIN_ADC_PRESSURE */
 #define HAL_IO_ADC_CHANNEL_PRESSURE ADC1_CHANNEL_6
 
-/** Task priority for ADC task */
+/** @brief Task priority for ADC task */
 #define HAL_IO_ADC_TASK_PRIORITY 4
-/** Stacksize for functional task task_calibration.
+/** @brief Stacksize for functional task task_calibration.
  * @see task_calibration */
 #define TASK_CALIB_STACKSIZE 2048
 
-/** Parameter for mouse acceleration calculation */
+/** @brief Parameter for mouse acceleration calculation */
 #define ACCELTIME_MAX 20000
 
 

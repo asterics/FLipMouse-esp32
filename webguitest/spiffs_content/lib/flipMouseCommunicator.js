@@ -57,14 +57,55 @@ function FlipMouse(initFinished) {
     var _valueHandler = null;
     var _currentSlot = null;
     var _SLOT_CONSTANT = 'Slot:';
+    var _AT_CMD_MIN_WAITTIME_MS = 50;
+    var _timestampLastAtCmd = new Date().getTime();
+    var _atCmdQueue = [];
+    var _sendingAtCmds = false;
 
+    /**
+     * sends the given AT command to the FLipMouse. If sending of the last command is not completed yet, the given AT command
+     * is added to a queue and will be sent later. The time between two sent commands is at least _AT_CMD_MIN_WAITTIME_MS.
+     * The order of sending the commands is always equal to the order of calls to this function.
+     *
+     * @param atCmd
+     * @return {Promise}
+     */
     thiz.sendATCmd = function (atCmd) {
-        console.log("sending to FlipMouse: " + atCmd);
-        return are.sendDataToInputPort('LipMouse.1', 'send', atCmd);
+        var promise =  new Promise((resolve) => {
+            if(_atCmdQueue.length > 0) {
+                console.log("adding cmd to queue: " + atCmd);
+            }
+            _atCmdQueue.push({
+                cmd: atCmd,
+                resolveFn: resolve
+            });
+        });
+        if(!_sendingAtCmds) {
+            sendNext();
+        }
+        function sendNext() {
+            _sendingAtCmds = true;
+            if(_atCmdQueue.length == 0) {
+                _sendingAtCmds = false;
+                return;
+            }
+            var nextCmd = _atCmdQueue.shift();
+            var timeout = _AT_CMD_MIN_WAITTIME_MS - (new Date().getTime() - _timestampLastAtCmd);
+            timeout = timeout > 0 ? timeout : 0;
+            //console.log("waiting for cmd: " + nextCmd.cmd + ", " + timeout + "ms");
+            setTimeout(function () {
+                _timestampLastAtCmd = new Date().getTime();
+                console.log("sending to FlipMouse: " + nextCmd.cmd);
+                are.sendDataToInputPort('LipMouse.1', 'send', nextCmd.cmd).then(nextCmd.resolveFn);
+                sendNext();
+            }, timeout);
+        }
+
+        return promise;
     };
 
     thiz.testConnection = function () {
-        return new Promise((resolve, reject) => {
+        return new Promise((resolve) => {
             thiz.sendATCmd('AT').then(function () {
                 resolve(true);
             }, function () {
@@ -97,10 +138,47 @@ function FlipMouse(initFinished) {
         });
     };
 
+    /**
+     * saves the complete current configuration (all slots) to the FLipMouse. This is done by the following steps:
+     * 1) Deleting alls slots
+     * 2) loading slot configuration to FLipMouse
+     * 3) saving slot
+     * 4) go back to (2) for next slot, until all slots are saved
+     * 5) loading slot configuration to FLipMouse that was loaded before saving
+     *
+     * @return {Promise}
+     */
     thiz.save = function () {
         sendAtCmdNoResultHandling('AT DE');
-        sendAtCmdNoResultHandling('AT SA mouse');
-        return thiz.testConnection();
+        thiz.pauseLiveValueListener();
+        var saveSlotsPromise = new Promise(function (resolve) {
+            loadAndSaveSlot(thiz.getSlots(), 0);
+            function loadAndSaveSlot(slots, i) {
+                if(i >= slots.length) {
+                    resolve();
+                    return;
+                }
+                var slot = slots[i];
+                thiz.testConnection().then(function () {
+                    loadSlotByConfig(slot);
+                    thiz.testConnection().then(function () {
+                        sendAtCmdNoResultHandling('AT SA ' + slot);
+                        loadAndSaveSlot(slots, i+1);
+                    });
+                });
+            }
+        });
+
+        return new Promise(function (resolve) {
+            saveSlotsPromise.then(function () {
+                thiz.testConnection().then(function () {
+                    loadSlotByConfig(_currentSlot).then(function () {
+                        thiz.resumeLiveValueListener();
+                        resolve();
+                    });
+                });
+            });
+        });
     };
 
     thiz.calibrate = function () {
@@ -125,6 +203,20 @@ function FlipMouse(initFinished) {
         console.log('listening to live values stopped.');
     };
 
+    thiz.pauseLiveValueListener = function () {
+        thiz.sendATCmd('AT ER');
+        console.log('listening to live values stopped.');
+    };
+
+    thiz.resumeLiveValueListener = function () {
+        if(_valueHandler) {
+            thiz.sendATCmd('AT SR');
+            console.log('listening to live values resumed.');
+        } else {
+            console.log('listening to live values not resumed, because no value handler.');
+        }
+    };
+
     thiz.getConfig = function (constant, slot) {
         slot = slot || _currentSlot;
         return _config[slot] ? _config[slot][constant] : null;
@@ -135,6 +227,22 @@ function FlipMouse(initFinished) {
         if(_config[slot]) {
             _config[slot][constant] = value;
         }
+    };
+
+    thiz.getSlots = function() {
+        return Object.keys(_config);
+    };
+
+    thiz.getCurrentSlot = function() {
+        return _currentSlot;
+    };
+
+    thiz.setSlot = function(slot) {
+        if(thiz.getSlots().includes(slot)) {
+            _currentSlot = slot;
+            sendAtCmdNoResultHandling('AT LO ' + slot);
+        }
+        return _config[_currentSlot];
     };
 
     thiz.getLiveData = function (constant) {
@@ -232,5 +340,19 @@ function FlipMouse(initFinished) {
             }
         }
         return parseConfigElement(remainingList.slice(1), config);
+    }
+
+    function loadSlotByConfig(slotName) {
+        var config = _config[slotName];
+        return new Promise(function (resolve) {
+            var promises = [];
+            Object.keys(config).forEach(function (key) {
+                var atCmd = AT_CMD_MAPPING[key];
+                promises.push(thiz.sendATCmd(atCmd + ' ' + config[key]));
+            });
+            Promise.all(promises).then(function () {
+                resolve();
+            });
+        });
     }
 }

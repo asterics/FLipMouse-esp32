@@ -18,10 +18,7 @@
         <h1 class="nine columns" i18n>FLipMouse Web Configuration // FLipMouse Webkonfiguration</h1>
         <div class="three columns">
             <label class="row u-full-width" for="selectSlots" i18n>Select Slot // Slot auswählen</label>
-            <select id="selectSlots" class="row u-full-width">
-                <option>Maus</option>
-                <option>Tastatur</option>
-                <option>Slot irgendwas</option>
+            <select id="selectSlots" class="row u-full-width" onchange="selectSlot(this)">
             </select>
         </div>
     </div>
@@ -47,7 +44,7 @@
                 <div class="row">
                     <span id="SENSITIVITY_VAL" class="text-center one column">0</span>
                     <input type="range" oninput="basicSliderChanged(event)" onchange="basicSliderChanged(event)"
-                           id="SENSITIVITY" min="0" max="100" class="eleven columns">
+                           id="SENSITIVITY" min="0" max="255" class="eleven columns">
                 </div>
             </div>
             <div id="basic-SENSITIVITY-xy" style="display: none">
@@ -56,13 +53,13 @@
                 <div class="row">
                     <span id="SENSITIVITY_X_VAL" class="text-center one column">0</span>
                     <input type="range" oninput="basicSliderChanged(event)" onchange="basicSliderChanged(event)"
-                           id="SENSITIVITY_X" min="0" max="100" class="eleven columns">
+                           id="SENSITIVITY_X" min="0" max="255" class="eleven columns">
                 </div>
                 <label for="SENSITIVITY_Y" i18n>Vertical Sensitivity: // Sensitivität vertikal:</label>
                 <div class="row">
                     <span id="SENSITIVITY_Y_VAL" class="text-center one column">0</span>
                     <input type="range" oninput="basicSliderChanged(event)" onchange="basicSliderChanged(event)"
-                           id="SENSITIVITY_Y" min="0" max="100" class="eleven columns">
+                           id="SENSITIVITY_Y" min="0" max="255" class="eleven columns">
                 </div>
             </div>
 
@@ -105,7 +102,7 @@
                 <div class="row">
                     <span id="DEADZONE_VAL" class="text-center one column">0</span>
                     <input type="range" oninput="basicSliderChanged(event)" onchange="basicSliderChanged(event)"
-                           id="DEADZONE" min="0" max="100" class="eleven columns">
+                           id="DEADZONE" min="0" max="650" class="eleven columns">
                 </div>
             </div>
             <div id="basic-DEADZONE-xy" style="display: none">
@@ -114,13 +111,13 @@
                 <div class="row">
                     <span id="DEADZONE_X_VAL" class="text-center one column">0</span>
                     <input type="range" oninput="basicSliderChanged(event)" onchange="basicSliderChanged(event)"
-                           id="DEADZONE_X" min="0" max="100" class="eleven columns">
+                           id="DEADZONE_X" min="0" max="650" class="eleven columns">
                 </div>
                 <label for="DEADZONE_Y">Vertical Deadzone:</label>
                 <div class="row">
                     <span id="DEADZONE_Y_VAL" class="text-center one column">0</span>
                     <input type="range" oninput="basicSliderChanged(event)" onchange="basicSliderChanged(event)"
-                           id="DEADZONE_Y" min="0" max="100" class="eleven columns">
+                           id="DEADZONE_Y" min="0" max="650" class="eleven columns">
                 </div>
             </div>
 
@@ -231,29 +228,49 @@
             languages: ['en', 'de']
         });
         var flip = new FlipMouse(function (config) {
-            setSliderValue(flip.SENSITIVITY_X, config[flip.SENSITIVITY_X]);
-            setSliderValue(flip.SENSITIVITY_Y, config[flip.SENSITIVITY_Y]);
-            setSliderValue('SENSITIVITY', config[flip.SENSITIVITY_X]);
-            setSliderValue(flip.DEADZONE_X, config[flip.DEADZONE_X]);
-            setSliderValue(flip.DEADZONE_Y, config[flip.DEADZONE_Y]);
-            setSliderValue('DEADZONE', config[flip.DEADZONE_X]);
-            setSliderValue(flip.SIP_THRESHOLD, config[flip.SIP_THRESHOLD]);
-            setSliderValue(flip.SIP_STRONG_THRESHOLD, config[flip.SIP_STRONG_THRESHOLD]);
-            setSliderValue(flip.PUFF_THRESHOLD, config[flip.PUFF_THRESHOLD]);
-            setSliderValue(flip.PUFF_STRONG_THRESHOLD, config[flip.PUFF_STRONG_THRESHOLD]);
-
-            if(config[flip.SENSITIVITY_X] != config[flip.SENSITIVITY_Y]) {
-                toggleShowXY('SENSITIVITY');
-            }
-            if(config[flip.DEADZONE_X] != config[flip.DEADZONE_Y]) {
-                toggleShowXY('DEADZONE');
-            }
-            console.log(config);
-
+            initWithConfig(config);
+            initSlots();
             toTab(getCurrentTabId());
         });
         window.flip = flip;
     };
+
+    function initWithConfig(config) {
+        console.log('applying config:');
+        console.log(config);
+        setSliderValue(flip.SENSITIVITY_X, config[flip.SENSITIVITY_X]);
+        setSliderValue(flip.SENSITIVITY_Y, config[flip.SENSITIVITY_Y]);
+        setSliderValue('SENSITIVITY', config[flip.SENSITIVITY_X]);
+        setSliderValue(flip.DEADZONE_X, config[flip.DEADZONE_X]);
+        setSliderValue(flip.DEADZONE_Y, config[flip.DEADZONE_Y]);
+        setSliderValue('DEADZONE', config[flip.DEADZONE_X]);
+        setSliderValue(flip.SIP_THRESHOLD, config[flip.SIP_THRESHOLD]);
+        setSliderValue(flip.SIP_STRONG_THRESHOLD, config[flip.SIP_STRONG_THRESHOLD]);
+        setSliderValue(flip.PUFF_THRESHOLD, config[flip.PUFF_THRESHOLD]);
+        setSliderValue(flip.PUFF_STRONG_THRESHOLD, config[flip.PUFF_STRONG_THRESHOLD]);
+
+        if (config[flip.SENSITIVITY_X] != config[flip.SENSITIVITY_Y]) {
+            toggleShowXY('SENSITIVITY');
+        }
+        if (config[flip.DEADZONE_X] != config[flip.DEADZONE_Y]) {
+            toggleShowXY('DEADZONE');
+        }
+    }
+
+    function initSlots() {
+        var slots = flip.getSlots();
+        slots.forEach(function (slot) {
+            var option = document.createElement("option");
+            option.value = slot;
+            option.innerHTML = slot;
+            L('#selectSlots').appendChild(option);
+        });
+    }
+
+    function selectSlot(select) {
+        var config = flip.setSlot(select.value);
+        initWithConfig(config);
+    }
 
     function basicSliderChanged(evt) {
         var id = evt.currentTarget.id;
@@ -318,10 +335,13 @@
 
     function toTab(tabId) {
         tabId = parseTabId(tabId);
+        if(!tabId) {
+            tabId = '#tabBasic';
+        }
         tabby.toggleTab(tabId);
         L.setVisible('#toNavLink');
         L.setVisible('#toNavBackLink', false);
-        if (!tabId || tabId.indexOf('#tabBasic') > -1) {
+        if (tabId.indexOf('#tabBasic') > -1) {
             toBasic();
         } else if (tabId.indexOf('#tabPuff') > -1) {
             toSipPuff();
@@ -371,7 +391,9 @@
     }
 
     function getCurrentTabId() {
-        var id = parseTabId(L('.tabs-pane.active')[0].baseURI);
+        if(L('.tabs-pane.active')[0]) {
+            var id = parseTabId(L('.tabs-pane.active')[0].baseURI);
+        }
         return id ? id : parseTabId(window.location.href);
     }
 
@@ -387,7 +409,9 @@
         var minX = data[flip.LIVE_MOV_X_MIN];
         var minY = data[flip.LIVE_MOV_Y_MIN];
         var cursorPosVal = parseInt(L('#cursorPosVal').innerHTML);
-        var maxAbs = Math.max(maxX, maxY, Math.abs(minX), Math.abs(minY), cursorPosVal);
+        var deadX = flip.getConfig(flip.DEADZONE_X);
+        var deadY = flip.getConfig(flip.DEADZONE_Y);
+        var maxAbs = Math.max(maxX, maxY, Math.abs(minX), Math.abs(minY), cursorPosVal, Math.round(deadX*1.1), Math.round(deadY*1.1));
         var percentageX = (L.getPercentage(x, -maxAbs, maxAbs));
         var percentageY = (L.getPercentage(y, -maxAbs, maxAbs));
         var percentageDzX = (L.getPercentage(flip.getConfig(flip.DEADZONE_X), 0, maxAbs));

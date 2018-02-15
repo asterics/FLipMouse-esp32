@@ -104,6 +104,12 @@ Typedefs</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
+<tr class="memitem:a085c1313247cfb56fc663527aa3bdb49"><td class="memItemLeft" align="right" valign="top">esp_err_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="task__infrared_8h.html#a085c1313247cfb56fc663527aa3bdb49">infrared_set_edge_timeout</a> (uint8_t timeout)</td></tr>
+<tr class="memdesc:a085c1313247cfb56fc663527aa3bdb49"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the time between two IR edges which will trigger the timeout (end of received command)  <a href="#a085c1313247cfb56fc663527aa3bdb49">More...</a><br /></td></tr>
+<tr class="separator:a085c1313247cfb56fc663527aa3bdb49"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6f7bfd75e03bde856f3e5fc9a2391fe3"><td class="memItemLeft" align="right" valign="top">esp_err_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="task__infrared_8h.html#a6f7bfd75e03bde856f3e5fc9a2391fe3">infrared_record</a> (char *cmdName)</td></tr>
+<tr class="memdesc:a6f7bfd75e03bde856f3e5fc9a2391fe3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Trigger an IR command recording.  <a href="#a6f7bfd75e03bde856f3e5fc9a2391fe3">More...</a><br /></td></tr>
+<tr class="separator:a6f7bfd75e03bde856f3e5fc9a2391fe3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2950159444d03958630c6731bd1600c9"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="task__infrared_8h.html#a2950159444d03958630c6731bd1600c9">task_infrared</a> (<a class="el" href="task__infrared_8h.html#ae79eca562c950fdefa5b55c65e44c1f4">taskInfraredConfig_t</a> *param)</td></tr>
 <tr class="memdesc:a2950159444d03958630c6731bd1600c9"><td class="mdescLeft">&#160;</td><td class="mdescRight">FUNCTIONAL TASK - Infrared command sending.  <a href="#a2950159444d03958630c6731bd1600c9">More...</a><br /></td></tr>
 <tr class="separator:a2950159444d03958630c6731bd1600c9"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -162,6 +168,110 @@ Functions</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Function Documentation</h2>
+<a id="a6f7bfd75e03bde856f3e5fc9a2391fe3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6f7bfd75e03bde856f3e5fc9a2391fe3">&#9670;&nbsp;</a></span>infrared_record()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">esp_err_t infrared_record </td>
+          <td>(</td>
+          <td class="paramtype">char *&#160;</td>
+          <td class="paramname"><em>cmdName</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Trigger an IR command recording. </p>
+<p>This method is used to record one infrared command. It will block until either the timeout is reached or a command is received. The command is stored vial hal_storage.</p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="hal__storage_8h.html#ace0ac79b0e2b273d97e5b806de9eb493" title="Store an infrared command to storage. ">halStorageStoreIR</a> </dd>
+<dd>
+<a class="el" href="hal__io_8h.html#a3fdd9649d02ffd86570875508267ab98" title="Timeout for ONE IR command. If no edges are detected in this time, the record will be canceled...">TASK_HAL_IR_RECV_TIMEOUT</a> </dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">cmdName</td><td>Name of command which will be used to store. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>ESP_OK if command was stored, ESP_FAIL otherwise (timeout) </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="task__infrared_8c_source.html#l00149">149</a> of file <a class="el" href="task__infrared_8c_source.html">task_infrared.c</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="task__commands_8c_source.html#l00487">doInfraredParsing()</a>.</p>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="task__infrared_8h_a6f7bfd75e03bde856f3e5fc9a2391fe3_cgraph.png" border="0" usemap="#task__infrared_8h_a6f7bfd75e03bde856f3e5fc9a2391fe3_cgraph" alt=""/></div>
+<map name="task__infrared_8h_a6f7bfd75e03bde856f3e5fc9a2391fe3_cgraph" id="task__infrared_8h_a6f7bfd75e03bde856f3e5fc9a2391fe3_cgraph">
+<area shape="rect" id="node2" href="hal__storage_8c.html#ac67aaf5a3af4140bff3d7c134b9d771f" title="Start a storage transaction. " alt="" coords="165,5,345,32"/>
+<area shape="rect" id="node3" href="hal__storage_8c.html#ace0ac79b0e2b273d97e5b806de9eb493" title="Store an infrared command to storage. " alt="" coords="190,56,319,83"/>
+<area shape="rect" id="node6" href="hal__storage_8c.html#a00b5db14e24d7ada8a42aa6b3f1a1cb7" title="Finish a storage transaction. " alt="" coords="161,107,348,133"/>
+<area shape="rect" id="node4" href="hal__storage_8c.html#a4b6566ef5b69c85d422df52435c95d36" title="Internal helper to check for a valid WL handle and the correct tid. " alt="" coords="640,56,769,83"/>
+<area shape="rect" id="node5" href="hal__storage_8c.html#ae5e6fcc8c1bdff7f78009830bc78f260" title="Get the number of first available slot for an IR command. " alt="" coords="396,81,592,108"/>
+</map>
+</div>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="task__infrared_8h_a6f7bfd75e03bde856f3e5fc9a2391fe3_icgraph.png" border="0" usemap="#task__infrared_8h_a6f7bfd75e03bde856f3e5fc9a2391fe3_icgraph" alt=""/></div>
+<map name="task__infrared_8h_a6f7bfd75e03bde856f3e5fc9a2391fe3_icgraph" id="task__infrared_8h_a6f7bfd75e03bde856f3e5fc9a2391fe3_icgraph">
+<area shape="rect" id="node2" href="task__commands_8c.html#a937cdeb2f02b0c5d9a0f94a0f69e9328" title="doInfraredParsing" alt="" coords="161,5,285,32"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="a085c1313247cfb56fc663527aa3bdb49"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a085c1313247cfb56fc663527aa3bdb49">&#9670;&nbsp;</a></span>infrared_set_edge_timeout()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">esp_err_t infrared_set_edge_timeout </td>
+          <td>(</td>
+          <td class="paramtype">uint8_t&#160;</td>
+          <td class="paramname"><em>timeout</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Set the time between two IR edges which will trigger the timeout (end of received command) </p>
+<p>This method is used to set the timeout between two edges which is used to trigger the timeout, therefore the finished signal for an IR command recording.</p>
+<dl class="section see"><dt>See also</dt><dd>infrared_trigger_record </dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">timeout</td><td>Timeout in [ms], 0-200</td></tr>
+  </table>
+  </dd>
+</dl>
+<p>This method is used to set the timeout between two edges which is used to trigger the timeout, therefore the finished signal for an IR command recording.</p>
+<dl class="section see"><dt>See also</dt><dd>infrared_trigger_record </dd>
+<dd>
+<a class="el" href="common_8h.html#a1d17932316265a53a6982a2526a4cada">generalConfig_t</a> </dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">timeout</td><td>Timeout in [ms], 2-100 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>ESP_OK if parameter is set, ESP_FAIL otherwise (out of range) </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="task__infrared_8c_source.html#l00229">229</a> of file <a class="el" href="task__infrared_8c_source.html">task_infrared.c</a>.</p>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="task__infrared_8h_a085c1313247cfb56fc663527aa3bdb49_cgraph.png" border="0" usemap="#task__infrared_8h_a085c1313247cfb56fc663527aa3bdb49_cgraph" alt=""/></div>
+<map name="task__infrared_8h_a085c1313247cfb56fc663527aa3bdb49_cgraph" id="task__infrared_8h_a085c1313247cfb56fc663527aa3bdb49_cgraph">
+<area shape="rect" id="node2" href="config__switcher_8c.html#a921538bec34d128a44a748fd5a2c391f" title="Get the current config struct. " alt="" coords="228,5,349,32"/>
+</map>
+</div>
+
+</div>
+</div>
 <a id="a2950159444d03958630c6731bd1600c9"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a2950159444d03958630c6731bd1600c9">&#9670;&nbsp;</a></span>task_infrared()</h2>
 
@@ -190,14 +300,25 @@ Functions</h2></td></tr>
 <dl class="section see"><dt>See also</dt><dd><a class="el" href="common_8h.html#a784ceb4b2d4c4fb77baa99646c6e5035">VB_SINGLESHOT</a> </dd></dl>
 
 <p class="definition">Definition at line <a class="el" href="task__infrared_8c_source.html#l00051">51</a> of file <a class="el" href="task__infrared_8c_source.html">task_infrared.c</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="task__commands_8c_source.html#l00487">doInfraredParsing()</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="task__infrared_8h_a2950159444d03958630c6731bd1600c9_cgraph.png" border="0" usemap="#task__infrared_8h_a2950159444d03958630c6731bd1600c9_cgraph" alt=""/></div>
 <map name="task__infrared_8h_a2950159444d03958630c6731bd1600c9_cgraph" id="task__infrared_8h_a2950159444d03958630c6731bd1600c9_cgraph">
-<area shape="rect" id="node2" href="hal__storage_8c.html#ac67aaf5a3af4140bff3d7c134b9d771f" title="Start a storage transaction. " alt="" coords="151,5,331,32"/>
-<area shape="rect" id="node3" href="hal__storage_8c.html#aa728fac6a17066ecb910c19338ae5288" title="Load an IR command by name. " alt="" coords="177,56,304,83"/>
-<area shape="rect" id="node4" href="hal__storage_8c.html#a4b6566ef5b69c85d422df52435c95d36" title="Internal helper to check for a valid WL handle and the correct tid. " alt="" coords="379,56,508,83"/>
+<area shape="rect" id="node2" href="hal__storage_8c.html#ac67aaf5a3af4140bff3d7c134b9d771f" title="Start a storage transaction. " alt="" coords="154,5,334,32"/>
+<area shape="rect" id="node3" href="hal__storage_8c.html#aa728fac6a17066ecb910c19338ae5288" title="Load an IR command by name. " alt="" coords="181,56,307,83"/>
+<area shape="rect" id="node5" href="hal__storage_8c.html#a00b5db14e24d7ada8a42aa6b3f1a1cb7" title="Finish a storage transaction. " alt="" coords="151,107,337,133"/>
+<area shape="rect" id="node4" href="hal__storage_8c.html#a4b6566ef5b69c85d422df52435c95d36" title="Internal helper to check for a valid WL handle and the correct tid. " alt="" coords="385,56,515,83"/>
+</map>
+</div>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="task__infrared_8h_a2950159444d03958630c6731bd1600c9_icgraph.png" border="0" usemap="#task__infrared_8h_a2950159444d03958630c6731bd1600c9_icgraph" alt=""/></div>
+<map name="task__infrared_8h_a2950159444d03958630c6731bd1600c9_icgraph" id="task__infrared_8h_a2950159444d03958630c6731bd1600c9_icgraph">
+<area shape="rect" id="node2" href="task__commands_8c.html#a937cdeb2f02b0c5d9a0f94a0f69e9328" title="doInfraredParsing" alt="" coords="151,5,275,32"/>
 </map>
 </div>
 
@@ -239,9 +360,9 @@ Here is the call graph for this function:</div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>ESP_OK if everything went fine, ESP_FAIL otherwise </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="task__infrared_8c_source.html#l00145">145</a> of file <a class="el" href="task__infrared_8c_source.html">task_infrared.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="task__infrared_8c_source.html#l00249">249</a> of file <a class="el" href="task__infrared_8c_source.html">task_infrared.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="task__commands_8c_source.html#l01175">printAllSlots()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="task__commands_8c_source.html#l01308">printAllSlots()</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">

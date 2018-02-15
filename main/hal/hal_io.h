@@ -52,6 +52,7 @@
 #include "driver/rmt.h"
 //common definitions & data for all of these functional tasks
 #include "common.h"
+#include "../config_switcher.h"
 
 /** @brief Macro to easily create a tone
  * @param freq Frequency of the tone [Hz]
@@ -127,23 +128,33 @@
  **/
 extern QueueHandle_t halIOLEDQueue;
 
+/** @brief Timeout for ONE IR command. 
+ * If no edges are detected in this time, the record will be canceled*/
+#define TASK_HAL_IR_RECV_TIMEOUT 10000
+
+/**@brief How many edges are necessary to declare a command valid? */
+#define TASK_HAL_IR_RECV_MINIMUM_EDGES 5
+
+/**@brief How many edges can be stored maximum? */
+#define TASK_HAL_IR_RECV_MAXIMUM_EDGES 256
+
 /** @brief Task stacksize for LED update task */
-#define TASK_HAL_LED_STACKSIZE 512
+#define TASK_HAL_LED_STACKSIZE 1024
 
 /** @brief Task priority for LED update task */
 #define TASK_HAL_LED_PRIORITY (tskIDLE_PRIORITY + 2)
 
 /** @brief Task stacksize for buzzer update task */
-#define TASK_HAL_BUZZER_STACKSIZE 512
+#define TASK_HAL_BUZZER_STACKSIZE 1024
 
 /** @brief Task stacksize for IR send task */
-#define TASK_HAL_IR_SEND_STACKSIZE 512
+#define TASK_HAL_IR_SEND_STACKSIZE 1024
 
 /** @brief Task priority for IR send task */
 #define TASK_HAL_IR_SEND_PRIORITY (tskIDLE_PRIORITY + 2)
 
 /** @brief Task stacksize for IR receive task */
-#define TASK_HAL_IR_RECV_STACKSIZE 512
+#define TASK_HAL_IR_RECV_STACKSIZE 1024
 
 /** @brief Task priority for IR receive task */
 #define TASK_HAL_IR_RECV_PRIORITY (tskIDLE_PRIORITY + 2)
@@ -182,17 +193,5 @@ typedef struct halIOBuzzer {
   /** Duration of tone [ms] */
   uint16_t duration;
 } halIOBuzzer_t;
-
-/** @brief Output buzzer noise */
-typedef struct halIOIR {
-  /** Buffer for IR signal
-   * @warning Do not free this buffer! It will be freed by transmitting task
-   * @note In case of receiving, this buffer can be freed. */
-   rmt_item32_t *buffer;
-  /** Count of rmt_item32_t items */
-  uint16_t count;
-  /** Status of receiver */
-  uint8_t status;
-} halIOIR_t;
 
 #endif

@@ -119,7 +119,7 @@ void halIOIRFree(rmt_channel_t channel, void *arg)
  */
 void halIOIRSendTask(void * param)
 {
-  halIOIR_t *recv;
+  halIOIR_t recv;
   
   if(halIOIRSendQueue == NULL)
   {
@@ -132,20 +132,20 @@ void halIOIRSendTask(void * param)
     //wait for updates
     if(xQueueReceive(halIOIRSendQueue,&recv,10000))
     {
-      if(recv->buffer == NULL) continue;
+      if(recv.buffer == NULL) continue;
       //check if there is an ongoing transmission. If yes, block.
       rmt_wait_tx_done(0, portMAX_DELAY);
       
       //register the callback again with the pointer to the buffer
       //after finished transmission, this callback frees this buffer
-      rmt_register_tx_end_callback(halIOIRFree,recv->buffer);
+      rmt_register_tx_end_callback(halIOIRFree,recv.buffer);
       //To send data according to the waveform items.
-      rmt_write_items(0, recv->buffer, recv->count, false);
+      rmt_write_items(0, recv.buffer, recv.count, false);
     }
   }
 }
 
-/** @brief HAL TASK - IR receiving task
+/** @brief HAL TASK - IR receiving (recording) task
  * 
  * This task is used to store data from the RMT unit if the receiving
  * of an IR code is started.
@@ -162,7 +162,10 @@ void halIOIRSendTask(void * param)
  */
 void halIOIRRecvTask(void * param)
 {
-  halIOIR_t *recv;
+  halIOIR_t* recv;
+  RingbufHandle_t rb = NULL;
+  //get RMT RX ringbuffer
+  rmt_get_ringbuf_handle(4, &rb);
   
   if(halIOIRRecvQueue == NULL)
   {
@@ -175,10 +178,54 @@ void halIOIRRecvTask(void * param)
     //wait for updates (triggered receiving)
     if(xQueueReceive(halIOIRRecvQueue,&recv,10000))
     {
-      //TODO start receiving
-      //put data into buffer
-      //update status accordingly
+      //acquire buffer for ALL receiving elements
+      rmt_item32_t *buf = malloc(sizeof(rmt_item32_t)*TASK_HAL_IR_RECV_MAXIMUM_EDGES);
+      uint16_t offset = 0;
+      size_t rx_size = 0;
       
+      //check buffer
+      if(buf == NULL)
+      {
+        ESP_LOGE(LOG_TAG,"Not enough memory for receiving IR commands!");
+        continue;
+      }
+      
+      //start receiving on channel 4, flush all buffer elements
+      rmt_rx_start(4, 1);
+      //set target struct
+      recv->status = IR_RECEIVING;
+      //wait for one item until timeout or data is valid
+      rmt_item32_t* item = (rmt_item32_t*) xRingbufferReceive(rb, &rx_size, TASK_HAL_IR_RECV_TIMEOUT/portTICK_PERIOD_MS);
+      //got one item
+      if(item) {
+        //put data into buffer
+        memcpy(&buf[offset], item, sizeof(rmt_item32_t)*rx_size);
+        offset+= rx_size;
+        //give item back to ringbuffer
+        vRingbufferReturnItem(rb, (void*) item);
+        //too much
+        if(offset == TASK_HAL_IR_RECV_MAXIMUM_EDGES)
+        {
+          ESP_LOGE(LOG_TAG,"Too much IR edges, finished");
+          recv->status = IR_OVERFLOW;
+          continue;
+        }
+      } else {
+        //timeout, cancel
+        rmt_rx_stop(4);
+        //update status accordingly
+        if(offset > TASK_HAL_IR_RECV_MINIMUM_EDGES)
+        {
+          //save everything necessary to pointer from queue
+          recv->buffer = buf;
+          recv->count = offset;
+          recv->status = IR_FINISHED;
+        } else {
+          recv->status = IR_TOOSHORT;
+          ESP_LOGE(LOG_TAG,"Too short, no cmd");
+          continue;
+        }
+      }
     }
   }
 }
@@ -195,7 +242,7 @@ void halIOIRRecvTask(void * param)
  */
 void halIOBuzzerTask(void * param)
 {
-  halIOBuzzer_t *recv;
+  halIOBuzzer_t recv;
   
   if(halIOBuzzerQueue == NULL)
   {
@@ -206,19 +253,19 @@ void halIOBuzzerTask(void * param)
   while(1)
   {
     //wait for updates
-    if(xQueueReceive(halIOBuzzerQueue,&recv,10000))
+    if(xQueueReceive(halIOBuzzerQueue,(void*)&recv,10000))
     {
       //set duty, set frequency
       //do a tone only if frequency is != 0, otherwise it is just a pause
-      if(recv->frequency != 0)
+      if(recv.frequency != 0)
       {
-        ledc_set_freq(LEDC_LOW_SPEED_MODE, LEDC_TIMER_0, recv->frequency);
+        ledc_set_freq(LEDC_LOW_SPEED_MODE, LEDC_TIMER_0, recv.frequency);
         ledc_set_duty(LEDC_LOW_SPEED_MODE, LEDC_CHANNEL_0, 512);
         ledc_update_duty(LEDC_LOW_SPEED_MODE, LEDC_CHANNEL_0);
       }
       
       //delay for duration
-      vTaskDelay(recv->duration / portTICK_PERIOD_MS);
+      vTaskDelay(recv.duration / portTICK_PERIOD_MS);
       
       //set duty to 0
       ledc_set_duty(LEDC_LOW_SPEED_MODE, LEDC_CHANNEL_0, 0);
@@ -281,7 +328,6 @@ void halIOLEDTask(void * param)
 }
 
 #define RMT_TICK_10_US    (80000000/RMT_CLK_DIV/100000)   /*!< RMT counter value for 10 us.(Source clock is APB clock) */
-#define rmt_item32_tIMEOUT_US  9500   /*!< RMT receiver timeout value(us) */
 #define RMT_CLK_DIV      100    /*!< RMT counter clock divider */
 
 /** @brief Initializing IO HAL
@@ -294,6 +340,18 @@ void halIOLEDTask(void * param)
  * */
 esp_err_t halIOInit(void)
 {
+  generalConfig_t *cfg = configGetCurrent();
+  
+  if(cfg == NULL)
+  {
+    ESP_LOGE(LOG_TAG,"general Config is NULL!!!");
+    while(cfg == NULL) 
+    {
+      vTaskDelay(1000/portTICK_PERIOD_MS);
+      cfg = configGetCurrent();
+    }
+  }
+  
   /*++++ init GPIO interrupts for 2 external & 2 internal buttons ++++*/
   gpio_config_t io_conf;
   //disable pull-down mode
@@ -321,8 +379,7 @@ esp_err_t halIOInit(void)
   gpio_isr_handler_add(HAL_IO_PIN_BUTTON_INT2, gpio_isr_handler, (void*) HAL_IO_PIN_BUTTON_INT2);
   
   /*++++ init infrared drivers (via RMT engine) ++++*/
-  //TBD: init IR
-  halIOIRRecvQueue = xQueueCreate(8,sizeof(halIOIR_t));
+  halIOIRRecvQueue = xQueueCreate(8,sizeof(halIOIR_t*));
   halIOIRSendQueue = xQueueCreate(8,sizeof(halIOIR_t));
   
   //transmitter
@@ -359,7 +416,7 @@ esp_err_t halIOInit(void)
   rmt_rx.rmt_mode = RMT_MODE_RX;
   rmt_rx.rx_config.filter_en = true;
   rmt_rx.rx_config.filter_ticks_thresh = 100;
-  rmt_rx.rx_config.idle_threshold = rmt_item32_tIMEOUT_US / 10 * (RMT_TICK_10_US);
+  rmt_rx.rx_config.idle_threshold = cfg->irtimeout * 100 * (RMT_TICK_10_US);
   rmt_config(&rmt_rx);
   rmt_driver_install(rmt_rx.channel, 1000, 0);
   if(xTaskCreate(halIOIRRecvTask,"irrecv",TASK_HAL_IR_RECV_STACKSIZE, 

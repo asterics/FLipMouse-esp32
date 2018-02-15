@@ -84,8 +84,6 @@ Macros</h2></td></tr>
 <tr class="separator:a7ce0df38eb467e59f209470c8f5ac4e6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:acfe8de99b8ccf08b2d34c25bac254f21"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="hal__io_8c.html#acfe8de99b8ccf08b2d34c25bac254f21">RMT_TICK_10_US</a>&#160;&#160;&#160;(80000000/<a class="el" href="hal__io_8c.html#a902a07543b8754716667f7d0102ad9af">RMT_CLK_DIV</a>/100000)</td></tr>
 <tr class="separator:acfe8de99b8ccf08b2d34c25bac254f21"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7a5d34eb268be9dd13c9a50784130c1a"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="hal__io_8c.html#a7a5d34eb268be9dd13c9a50784130c1a">rmt_item32_tIMEOUT_US</a>&#160;&#160;&#160;9500</td></tr>
-<tr class="separator:a7a5d34eb268be9dd13c9a50784130c1a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a902a07543b8754716667f7d0102ad9af"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="hal__io_8c.html#a902a07543b8754716667f7d0102ad9af">RMT_CLK_DIV</a>&#160;&#160;&#160;100</td></tr>
 <tr class="separator:a902a07543b8754716667f7d0102ad9af"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
@@ -98,7 +96,7 @@ Functions</h2></td></tr>
 <tr class="memdesc:a2c496a858bfe63759ccc520a2add4963"><td class="mdescLeft">&#160;</td><td class="mdescRight">HAL TASK - IR sending task.  <a href="#a2c496a858bfe63759ccc520a2add4963">More...</a><br /></td></tr>
 <tr class="separator:a2c496a858bfe63759ccc520a2add4963"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af049ec6b187a1b5b1575120758561ae8"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="hal__io_8c.html#af049ec6b187a1b5b1575120758561ae8">halIOIRRecvTask</a> (void *param)</td></tr>
-<tr class="memdesc:af049ec6b187a1b5b1575120758561ae8"><td class="mdescLeft">&#160;</td><td class="mdescRight">HAL TASK - IR receiving task.  <a href="#af049ec6b187a1b5b1575120758561ae8">More...</a><br /></td></tr>
+<tr class="memdesc:af049ec6b187a1b5b1575120758561ae8"><td class="mdescLeft">&#160;</td><td class="mdescRight">HAL TASK - IR receiving (recording) task.  <a href="#af049ec6b187a1b5b1575120758561ae8">More...</a><br /></td></tr>
 <tr class="separator:af049ec6b187a1b5b1575120758561ae8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5c30b3b4a88e8f23489485659d53c7c0"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="hal__io_8c.html#a5c30b3b4a88e8f23489485659d53c7c0">halIOBuzzerTask</a> (void *param)</td></tr>
 <tr class="memdesc:a5c30b3b4a88e8f23489485659d53c7c0"><td class="mdescLeft">&#160;</td><td class="mdescRight">HAL TASK - Buzzer update task.  <a href="#a5c30b3b4a88e8f23489485659d53c7c0">More...</a><br /></td></tr>
@@ -127,7 +125,7 @@ Variables</h2></td></tr>
 <li>Buzzer</li>
 </ul>
 <dl class="section note"><dt>Note</dt><dd>Compared to the tasks in the folder "function_tasks" all HAL tasks are singletons. Call init to initialize every necessary data structure.</dd></dl>
-<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000028">Todo:</a></b></dt><dd><p class="startdd">Test LED driver </p>
+<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000027">Todo:</a></b></dt><dd><p class="startdd">Test LED driver </p>
 <p>Implement Buzzer </p>
 <p class="enddd">Implement IR driver </p>
 </dd></dl>
@@ -150,7 +148,7 @@ Variables</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="hal__io_8c_source.html#l00042">42</a> of file <a class="el" href="hal__io_8c_source.html">hal_io.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="hal__io_8c_source.html#l00196">halIOBuzzerTask()</a>, <a class="el" href="hal__io_8c_source.html#l00163">halIOIRRecvTask()</a>, <a class="el" href="hal__io_8c_source.html#l00120">halIOIRSendTask()</a>, and <a class="el" href="hal__io_8c_source.html#l00238">halIOLEDTask()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="hal__io_8c_source.html#l00243">halIOBuzzerTask()</a>, <a class="el" href="hal__io_8c_source.html#l00341">halIOInit()</a>, <a class="el" href="hal__io_8c_source.html#l00163">halIOIRRecvTask()</a>, <a class="el" href="hal__io_8c_source.html#l00120">halIOIRSendTask()</a>, and <a class="el" href="hal__io_8c_source.html#l00285">halIOLEDTask()</a>.</p>
 
 </div>
 </div>
@@ -167,24 +165,7 @@ Variables</h2></td></tr>
 </div><div class="memdoc">
 <p>RMT counter clock divider </p>
 
-<p class="definition">Definition at line <a class="el" href="hal__io_8c_source.html#l00285">285</a> of file <a class="el" href="hal__io_8c_source.html">hal_io.c</a>.</p>
-
-</div>
-</div>
-<a id="a7a5d34eb268be9dd13c9a50784130c1a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a7a5d34eb268be9dd13c9a50784130c1a">&#9670;&nbsp;</a></span>rmt_item32_tIMEOUT_US</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define rmt_item32_tIMEOUT_US&#160;&#160;&#160;9500</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>RMT receiver timeout value(us) </p>
-
-<p class="definition">Definition at line <a class="el" href="hal__io_8c_source.html#l00284">284</a> of file <a class="el" href="hal__io_8c_source.html">hal_io.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="hal__io_8c_source.html#l00331">331</a> of file <a class="el" href="hal__io_8c_source.html">hal_io.c</a>.</p>
 
 </div>
 </div>
@@ -201,7 +182,7 @@ Variables</h2></td></tr>
 </div><div class="memdoc">
 <p>RMT counter value for 10 us.(Source clock is APB clock) </p>
 
-<p class="definition">Definition at line <a class="el" href="hal__io_8c_source.html#l00283">283</a> of file <a class="el" href="hal__io_8c_source.html">hal_io.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="hal__io_8c_source.html#l00330">330</a> of file <a class="el" href="hal__io_8c_source.html">hal_io.c</a>.</p>
 
 </div>
 </div>
@@ -234,7 +215,7 @@ Variables</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="hal__io_8c_source.html#l00196">196</a> of file <a class="el" href="hal__io_8c_source.html">hal_io.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="hal__io_8c_source.html#l00243">243</a> of file <a class="el" href="hal__io_8c_source.html">hal_io.c</a>.</p>
 
 </div>
 </div>
@@ -263,9 +244,17 @@ Variables</h2></td></tr>
 <li>PWM for buzzer output </li>
 </ul>
 
-<p class="definition">Definition at line <a class="el" href="hal__io_8c_source.html#l00295">295</a> of file <a class="el" href="hal__io_8c_source.html">hal_io.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="hal__io_8c_source.html#l00341">341</a> of file <a class="el" href="hal__io_8c_source.html">hal_io.c</a>.</p>
 
 <p class="reference">Referenced by <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c_source.html#l00073">app_main()</a>.</p>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="hal__io_8c_aa5ee74913a09cba6dca62bfdc9f8342b_cgraph.png" border="0" usemap="#hal__io_8c_aa5ee74913a09cba6dca62bfdc9f8342b_cgraph" alt=""/></div>
+<map name="hal__io_8c_aa5ee74913a09cba6dca62bfdc9f8342b_cgraph" id="hal__io_8c_aa5ee74913a09cba6dca62bfdc9f8342b_cgraph">
+<area shape="rect" id="node2" href="config__switcher_8c.html#a921538bec34d128a44a748fd5a2c391f" title="Get the current config struct. " alt="" coords="124,5,245,32"/>
+</map>
+</div>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
@@ -342,12 +331,12 @@ Here is the caller graph for this function:</div>
       </table>
 </div><div class="memdoc">
 
-<p>HAL TASK - IR receiving task. </p>
+<p>HAL TASK - IR receiving (recording) task. </p>
 <p>This task is used to store data from the RMT unit if the receiving of an IR code is started. By sending an element to the queue halIOIRRecvQueue, this task starts to receive any incoming IR signals. The status of the struct is updated (either finished, timeout or error) on any status change. Poll this value to see if the receiver is finished.</p>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="hal__io_8h.html#af531911959683790ca7ae870f8462a16" title="Output buzzer noise. ">halIOIR_t</a> </dd>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="common_8h.html#af531911959683790ca7ae870f8462a16" title="Output buzzer noise. ">halIOIR_t</a> </dd>
 <dd>
 <a class="el" href="hal__io_8h.html#a528414effa3559daeccac2474c3835ed" title="Queue to pend for any incoming infrared remote commands. ">halIOIRRecvQueue</a> </dd></dl>
-<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000029">Todo:</a></b></dt><dd>How to start the receiver? </dd></dl>
+<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000028">Todo:</a></b></dt><dd>How to start the receiver? </dd></dl>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">param</td><td>Unused. </td></tr>
@@ -377,7 +366,7 @@ Here is the caller graph for this function:</div>
 
 <p>HAL TASK - IR sending task. </p>
 <p>This task receives via halIOIRSendQueue a pointer and a length of waveform array, which is sent to the RMT unit.</p>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="hal__io_8h.html#af531911959683790ca7ae870f8462a16" title="Output buzzer noise. ">halIOIR_t</a> </dd>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="common_8h.html#af531911959683790ca7ae870f8462a16" title="Output buzzer noise. ">halIOIR_t</a> </dd>
 <dd>
 <a class="el" href="hal__io_8h.html#acb1e15303cc7da57fd758e36180ecec9" title="Queue to trigger any sending of infrared remote commands. ">halIOIRSendQueue</a> </dd></dl>
 <dl class="params"><dt>Parameters</dt><dd>
@@ -425,7 +414,7 @@ Here is the call graph for this function:</div>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="hal__io_8c_source.html#l00238">238</a> of file <a class="el" href="hal__io_8c_source.html">hal_io.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="hal__io_8c_source.html#l00285">285</a> of file <a class="el" href="hal__io_8c_source.html">hal_io.c</a>.</p>
 
 </div>
 </div>
@@ -454,7 +443,7 @@ Here is the call graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="hal__io_8c_source.html#l00056">56</a> of file <a class="el" href="hal__io_8c_source.html">hal_io.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="hal__io_8c_source.html#l00238">halIOLEDTask()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="hal__io_8c_source.html#l00285">halIOLEDTask()</a>.</p>
 
 </div>
 </div>

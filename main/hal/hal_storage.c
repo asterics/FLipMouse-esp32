@@ -39,6 +39,10 @@
  * * store a given slot
  * * delete one slot
  * * delete all slots
+ * * delete one or all IR commands
+ * * get number of stored IR commands
+ * * load an IR command
+ * * get names for IR commands
  * 
  * This module starts one task on its own for maintaining the storage
  * access.
@@ -51,6 +55,7 @@
  * * IR command cfg: IR_xx.fms
  * 
  * @note Maximum number of slots: 250! (e.g. 250.fms)
+ * @note Maximum number of IR commands: 100 (0-100, e.g. IR_99.fms)
  * @warning Adjust the esp-idf (via "make menuconfig") to use 512B sectors
  * and mode <b>safety</b>!
  * 
@@ -151,6 +156,7 @@ void halStorageCreateDefault(uint32_t tid)
   defaultCfg->slotversion = STORAGE_ID;
   defaultCfg->locale = LAYOUT_GERMAN;
   defaultCfg->wheel_stepsize = 3;
+  defaultCfg->irtimeout = 10;
   
   
   strcpy(defaultCfg->slotName,"__DEFAULT");
@@ -403,6 +409,198 @@ esp_err_t halStorageGetNumberOfSlots(uint32_t tid, uint8_t *slotsavailable)
   return ESP_OK;
 }
 
+
+/** @brief Get the name of an infrared command stored at the given slot number
+ * 
+ * This method returns the name of the given slot number for IR commands.
+ * An invalid slotnumber will return ESP_FAIL and an unchanged slotname
+ * 
+ * @param tid Transaction id
+ * @param cmdName Memory to store the command name to. Attention: minimum length: SLOTNAME_LENGTH+1
+ * @param slotnumber Number of slot to be loaded
+ * @see halStorageStartTransaction
+ * @see SLOTNAME_LENGTH
+ * @see halStorageFinishTransaction
+ * @return ESP_OK if tid is valid and slot number is valid, ESP_FAIL otherwise
+ * */
+esp_err_t halStorageGetNameForNumberIR(uint32_t tid, uint8_t slotnumber, char *cmdName)
+{
+  uint32_t slotnamelen = 0;
+  char file[sizeof(base_path)+32];
+  FILE *f;
+
+  if(halStorageChecks(tid) != ESP_OK) return ESP_FAIL;
+  
+  //check for slot number
+  if(slotnumber >= 100)
+  {
+    ESP_LOGE(LOG_TAG,"IR commands maximum: 99");
+    return ESP_FAIL;
+  }
+  
+  //create filename string to search if this slot is available
+  sprintf(file,"%s/IR_%02d.fms",base_path,slotnumber);
+  
+  //open file for reading
+  ESP_LOGD(LOG_TAG,"Opening file %s",file);
+  f = fopen(file, "rb");
+  
+  if(f == NULL)
+  {
+    ESP_LOGD(LOG_TAG,"Invalid slot number %d, cannot load file",slotnumber);
+    return ESP_FAIL;
+  }
+  
+  fseek(f,0,SEEK_SET);
+
+  //read slot name
+  fread(&slotnamelen,sizeof(uint32_t),1,f);
+  if(slotnamelen > SLOTNAME_LENGTH + 1)
+  {
+    ESP_LOGE(LOG_TAG,"Slotname too long: %u",slotnamelen);
+    fclose(f);
+    return ESP_FAIL;
+  }
+  fread(cmdName,sizeof(char),slotnamelen+1,f);
+  cmdName[slotnamelen] = '\0';
+  ESP_LOGD(LOG_TAG,"Read slotname: %s, length %d",cmdName,slotnamelen);
+  
+  //clean up & return
+  if(f!=NULL) fclose(f);
+  return ESP_OK;
+}
+/** @brief Delete one or all IR commands
+ * 
+ * This function is used to delete one IR command or all commands (depending on
+ * parameter slotnr)
+ * 
+ * @param slotnr Number of slot to be deleted. Use 100 to delete all slots
+ * @param tid Transaction id
+ * @return ESP_OK if everything is fine, ESP_FAIL otherwise
+ * */
+esp_err_t halStorageDeleteIRCmd(uint8_t slotnr, uint32_t tid)
+{
+  char file[sizeof(base_path)+32];
+  
+  if(slotnr > 100) 
+  {
+    ESP_LOGE(LOG_TAG,"Cannot delete IR, slotnr too high");
+    return ESP_FAIL;
+  }
+  
+  //delete by starting & ending at given slotnumber 
+  uint8_t from = slotnr;
+  uint8_t to = slotnr;
+  
+  //in case of deleting all slots, start at 1 and delete until 250
+  if(slotnr == 100)
+  {
+    from = 0;
+    to = 99;
+  }
+  
+  //check for valid storage handle
+  if(halStorageChecks(tid) != ESP_OK) return ESP_FAIL;
+  
+  //delete one or all slots
+  for(uint8_t i = from; i<=to; i++)
+  {
+    sprintf(file,"%s/IR_%02d.fms",base_path,i); 
+    remove(file);
+    vTaskDelay(1);
+  }
+  
+  ESP_LOGW(LOG_TAG,"Deleted IR cmd %d (100 means: delete all)",slotnr);
+  return ESP_OK;
+}
+
+/** @brief Get the number of stored IR commands
+ * 
+ * This method returns the number of available IR commands.
+ * An empty device will return 0
+ * 
+ * @param tid Transaction id
+ * @param slotsavailable Variable where the slot count will be stored
+ * @see halStorageStartTransaction
+ * @see halStorageFinishTransaction
+ * @return ESP_OK if tid is valid and slot count is valid, ESP_FAIL otherwise
+ * */
+esp_err_t halStorageGetNumberOfIRCmds(uint32_t tid, uint8_t *slotsavailable)
+{
+  uint8_t current = 0;
+  uint8_t count = 0;
+  char file[sizeof(base_path)+32];
+  FILE *f;
+
+  if(halStorageChecks(tid) != ESP_OK) return ESP_FAIL;
+  
+  do {
+    //create filename string to search if this slot is available
+    sprintf(file,"%s/IR_%02d.fms",base_path,current);
+    
+    f = fopen(file, "rb");
+    
+    //check if this file is available
+    if(f != NULL)
+    {
+      //open file for reading
+      ESP_LOGD(LOG_TAG,"Opening file %s",file);
+      count++;
+      fclose(f);
+    }
+    current++;
+    if(current == 100) break;
+  } while(1);
+  
+  ESP_LOGD(LOG_TAG,"Available IR cmds: %u",count);
+  *slotsavailable = count;
+  return ESP_OK;
+}
+
+/** @brief Get the number of first available slot for an IR command
+ * 
+ * This method returns the number of the first available IR command slot.
+ * An empty device will return 0
+ * 
+ * @param tid Transaction id
+ * @param slotavailable Variable where the slot number will be stored
+ * @see halStorageStartTransaction
+ * @see halStorageFinishTransaction
+ * @return ESP_OK if tid is valid and slot count is valid, ESP_FAIL otherwise (no free slot)
+ * */
+esp_err_t halStorageGetFreeIRCmdSlot(uint32_t tid, uint8_t *slotavailable)
+{
+  uint8_t current = 0;
+  uint8_t count = 0;
+  char file[sizeof(base_path)+32];
+  FILE *f;
+
+  if(halStorageChecks(tid) != ESP_OK) return ESP_FAIL;
+  
+  do {
+    //create filename string to search if this slot is available
+    sprintf(file,"%s/IR_%02d.fms",base_path,current);
+    
+    //open file for reading
+    ESP_LOGD(LOG_TAG,"Opening file %s",file);
+    
+    f = fopen(file, "rb");
+    
+    //check if this file is available
+    if(f == NULL)
+    {
+      fclose(f);
+      *slotavailable = count;
+      return ESP_OK;
+    }
+    current++;
+    if(current == 100) break;
+  } while(1);
+  
+  ESP_LOGD(LOG_TAG,"No free IR slot");
+  return ESP_FAIL;
+}
+
 /** @brief Get the name of a slot number
  * 
  * This method returns the name of the given slot number.
@@ -519,6 +717,89 @@ esp_err_t halStorageGetNumberForName(uint32_t tid, uint8_t *slotnumber, char *sl
       *slotnumber = currentSlot;
       fclose(f);
       ESP_LOGD(LOG_TAG,"Found slot \"%s\" @%u",slotname,currentSlot);
+      return ESP_OK;
+    }
+    
+    //go to next possible slot & clean up
+    currentSlot++;
+    fclose(f);
+  } while(1);
+
+  //we should never be here...
+  if(f!=NULL) fclose(f);
+  return ESP_OK;
+}
+
+/** @brief Get the number of an IR command
+ * 
+ * This method returns the number of the given IR command name.
+ * An invalid name will return ESP_FAIL and a slotnumber of 0xFF.
+ * 
+ * @param tid Transaction id
+ * @param cmdName Name of the IR command to look for
+ * @param slotnumber Variable where the slot number will be stored
+ * @see halStorageStartTransaction
+ * @see halStorageFinishTransaction
+ * @return ESP_OK if tid is valid and slot number is valid, ESP_FAIL otherwise
+ * */
+esp_err_t halStorageGetNumberForNameIR(uint32_t tid, uint8_t *slotnumber, char *cmdName)
+{
+  uint8_t currentSlot = 1;
+  uint32_t slotnamelen = 0;
+  char file[sizeof(base_path)+32];
+  char fileSlotName[SLOTNAME_LENGTH+4];
+  FILE *f;
+
+  if(halStorageChecks(tid) != ESP_OK) return ESP_FAIL;
+  
+  do {
+    //check for limit of slots
+    if(currentSlot == 100)
+    {
+      ESP_LOGW(LOG_TAG,"Finished search, didn't find name %s",cmdName);
+      *slotnumber = 0xFF;
+      return ESP_FAIL;
+    }
+    
+    //create filename string to search if this slot is available
+    sprintf(file,"%s/IR_%02d.fms",base_path,currentSlot);
+    
+    //open file for reading
+    ESP_LOGD(LOG_TAG,"Opening file %s",file);
+    f = fopen(file, "rb");
+    
+    //check if this file is available
+    //TODO: should we re-arrange slots if one is deleted or should we
+    //search through all 255 possible slots? (might be slow if the slot
+    //is not found)
+    //Currently: return ESP_FAIL for first not found file
+    if(f == NULL)
+    {
+      currentSlot++;
+      continue;
+    }
+    
+    fseek(f,0,SEEK_SET);
+  
+    //read slot name
+    fread(&slotnamelen,sizeof(uint32_t),1,f);
+    if(slotnamelen > SLOTNAME_LENGTH + 1)
+    {
+      ESP_LOGE(LOG_TAG,"Slotname length too high: %u",slotnamelen);
+      fclose(f);
+      return ESP_FAIL;
+    }
+    fread(fileSlotName,sizeof(char),slotnamelen+1,f);
+    fileSlotName[slotnamelen] = '\0';
+    ESP_LOGD(LOG_TAG,"Read slotname: %s, length %d",fileSlotName,slotnamelen);
+      
+    //compare parameter & file slotname
+    if(strcmp(cmdName, fileSlotName) == 0)
+    {
+      //found a slot
+      *slotnumber = currentSlot;
+      fclose(f);
+      ESP_LOGD(LOG_TAG,"Found slot \"%s\" @%u",cmdName,currentSlot);
       return ESP_OK;
     }
     
@@ -777,7 +1058,7 @@ esp_err_t halStorageLoadName(char *slotname, generalConfig_t *cfg, uint32_t tid)
 /** @brief Delete one or all slots
  * 
  * This function is used to delete one slot or all slots (depending on
- * parameter slotnumber)
+ * parameter slotnr)
  * 
  * @param slotnr Number of slot to be deleted. Use 0 to delete all slots
  * @param tid Transaction id
@@ -978,6 +1259,82 @@ esp_err_t halStorageStore(uint32_t tid, generalConfig_t *cfg, char *slotname, ui
   return ESP_OK;
 }
 
+/** @brief Store an infrared command to storage
+ * 
+ * This method stores a set of IR edges with a given length and a given
+ * command name. 
+ * If there is already a cmd with this given name, it is overwritten!
+ * 
+ * @param tid Transaction id
+ * @param cfg Pointer to a IR config, can be freed after this call
+ * @param cmdName Name of this IR command
+ * @return ESP_OK on success, ESP_FAIL otherwise
+ * @see halIOIR_t
+ * @see halStorageLoadIR
+ * */
+esp_err_t halStorageStoreIR(uint32_t tid, halIOIR_t *cfg, char *cmdName)
+{
+  char file[sizeof(base_path)+12];
+  char nullterm = '\0';
+  uint32_t namelen;
+
+  //basic FS checks
+  if(halStorageChecks(tid) != ESP_OK) return ESP_FAIL;
+  
+  if(strlen(cmdName) > SLOTNAME_LENGTH)
+  {
+    ESP_LOGE(LOG_TAG,"CMD name too long!");
+    return ESP_FAIL;
+  }
+  
+  //Get first available IR slotnumber
+  uint8_t cmdnumber = 0;
+  if(halStorageGetFreeIRCmdSlot(tid,&cmdnumber) != ESP_OK)
+  {
+    ESP_LOGE(LOG_TAG,"Cannot get a free slot for IR cmd");
+    return ESP_FAIL;
+  }
+  
+  //create filename from slotnumber
+  sprintf(file,"%s/IR_%02d.fms",base_path,cmdnumber);
+  
+  //open file for writing
+  ESP_LOGD(LOG_TAG,"Opening file %s",file);
+  FILE *f = fopen(file, "wb");
+  if(f == NULL)
+  {
+    ESP_LOGE(LOG_TAG,"cannot open file for writing: %s",file);
+    return ESP_FAIL;
+  }
+  
+  fseek(f,0,SEEK_SET);
+  
+  //write cmd name (size of string + 1x '\0' char)
+  namelen = strlen(cmdName);
+  fwrite(&namelen,sizeof(uint32_t),1, f);
+  fwrite(cmdName,sizeof(char),namelen, f);
+  fwrite(&nullterm,sizeof(char),1, f);
+  
+  //write length of IR commands.
+  fwrite(&cfg->count,sizeof(uint16_t),1, f);
+  
+  //write remaining IR command
+  if(fwrite(cfg->buffer,sizeof(rmt_item32_t),cfg->count,f) != cfg->count)
+  {
+    //did not write a full config
+    ESP_LOGE(LOG_TAG,"Error writing IR cmd");
+    fclose(f);
+    return ESP_FAIL;
+  } else {
+    ESP_LOGD(LOG_TAG,"Successfully stored IR cmd %u with %u bytes payload (length %d)", cmdnumber, sizeof(rmt_item32_t)*cfg->count, cfg->count);
+    ESP_LOG_BUFFER_HEXDUMP(LOG_TAG,cfg->buffer,sizeof(rmt_item32_t)*cfg->count,ESP_LOG_DEBUG);
+  }
+  
+  //clean up
+  fclose(f);
+  return ESP_OK;
+}
+
 /** @brief Store a virtual button config struct
  * 
  * This method stores the config struct for the given virtual button
@@ -1139,16 +1496,19 @@ esp_err_t halStorageLoadIR(char *cmdName, halIOIR_t *cfg, uint32_t tid)
       
       if(cfg->buffer != NULL)
       {
-          //TODO: read from file to buffer
+          //read from file to buffer
           if(fread(cfg->buffer,sizeof(rmt_item32_t),irlength,f) != irlength)
           {
+            //maybe EOF, didn't read as many bytes as requested
             ESP_LOGE(LOG_TAG,"Cannot read data from file");
             fclose(f);
             free(cfg->buffer);
             return ESP_FAIL;
           }
+          //save length to struct as well
           cfg->count = irlength;
       } else {
+        //didn't get a buffer pointer
         ESP_LOGE(LOG_TAG,"No memory for IR command");
         fclose(f);
         return ESP_FAIL;
@@ -1243,7 +1603,7 @@ esp_err_t halStorageFinishTransaction(uint32_t tid)
   if(halStorageMutex == NULL)
   {
     //if not, ERROR
-    ESP_LOGE(LOG_TAG,"Not sufficient memory to create mutex, cannot access!");
+    ESP_LOGE(LOG_TAG,"Mutex is NULL, where did it go?");
     return ESP_FAIL;
   }
   

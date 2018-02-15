@@ -78,13 +78,14 @@ $(function() {
 <code>#include &quot;<a class="el" href="common_8h_source.html">common.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="tones_8h_source.html">tones.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="hal__adc_8h_source.html">hal_adc.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="hal__storage_8h_source.html">hal_storage.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="hal__io_8h_source.html">hal_io.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="hal__ble_8h_source.html">hal_ble.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="hal__serial_8h_source.html">hal_serial.h</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="hal__storage_8h_source.html">hal_storage.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="task__kbd_8h_source.html">task_kbd.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="task__mouse_8h_source.html">task_mouse.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="task__debouncer_8h_source.html">task_debouncer.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="task__infrared_8h_source.html">task_infrared.h</a>&quot;</code><br />
 </div>
 <p><a href="config__switcher_8h_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
@@ -148,7 +149,7 @@ Functions</h2></td></tr>
 </div><div class="memdoc">
 <p>Stacksize for functional task task_configswitcher. </p><dl class="section see"><dt>See also</dt><dd><a class="el" href="config__switcher_8h.html#a083adf41746c3380dcc6dbc099047f2e" title="FUNCTIONAL TASK - Load another slot. ">task_configswitcher</a> </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="config__switcher_8h_source.html#l00065">65</a> of file <a class="el" href="config__switcher_8h_source.html">config_switcher.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="config__switcher_8h_source.html#l00066">66</a> of file <a class="el" href="config__switcher_8h_source.html">config_switcher.h</a>.</p>
 
 <p class="reference">Referenced by <a class="el" href="config__switcher_8c_source.html#l00201">configSwitcherTask()</a>.</p>
 
@@ -207,24 +208,28 @@ currentConfig </dd></dl>
 
 <p class="definition">Definition at line <a class="el" href="config__switcher_8c_source.html#l00101">101</a> of file <a class="el" href="config__switcher_8c_source.html">config_switcher.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="task__commands_8c_source.html#l00494">doGeneralCmdParsing()</a>, <a class="el" href="task__commands_8c_source.html#l00675">doKeyboardParsing()</a>, <a class="el" href="task__commands_8c_source.html#l00154">doMouthpieceSettingsParsing()</a>, <a class="el" href="task__commands_8c_source.html#l00392">doStorageParsing()</a>, <a class="el" href="hal__adc_8c_source.html#l00152">halAdcProcessPressure()</a>, <a class="el" href="hal__ble_8c_source.html#l00181">halBleTaskKeyboardPress()</a>, <a class="el" href="hal__ble_8c_source.html#l00253">halBleTaskKeyboardRelease()</a>, <a class="el" href="task__mouse_8c_source.html#l00062">mouse_get_wheel()</a>, <a class="el" href="task__mouse_8c_source.html#l00044">mouse_set_wheel()</a>, and <a class="el" href="task__commands_8c_source.html#l01175">printAllSlots()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="task__commands_8c_source.html#l00622">doGeneralCmdParsing()</a>, <a class="el" href="task__commands_8c_source.html#l00487">doInfraredParsing()</a>, <a class="el" href="task__commands_8c_source.html#l00803">doKeyboardParsing()</a>, <a class="el" href="task__commands_8c_source.html#l00154">doMouthpieceSettingsParsing()</a>, <a class="el" href="task__commands_8c_source.html#l00392">doStorageParsing()</a>, <a class="el" href="hal__adc_8c_source.html#l00152">halAdcProcessPressure()</a>, <a class="el" href="hal__ble_8c_source.html#l00181">halBleTaskKeyboardPress()</a>, <a class="el" href="hal__ble_8c_source.html#l00253">halBleTaskKeyboardRelease()</a>, <a class="el" href="hal__io_8c_source.html#l00341">halIOInit()</a>, <a class="el" href="task__infrared_8c_source.html#l00229">infrared_set_edge_timeout()</a>, <a class="el" href="task__mouse_8c_source.html#l00062">mouse_get_wheel()</a>, <a class="el" href="task__mouse_8c_source.html#l00044">mouse_set_wheel()</a>, and <a class="el" href="task__commands_8c_source.html#l01308">printAllSlots()</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="config__switcher_8h_a921538bec34d128a44a748fd5a2c391f_icgraph.png" border="0" usemap="#config__switcher_8h_a921538bec34d128a44a748fd5a2c391f_icgraph" alt=""/></div>
 <map name="config__switcher_8h_a921538bec34d128a44a748fd5a2c391f_icgraph" id="config__switcher_8h_a921538bec34d128a44a748fd5a2c391f_icgraph">
-<area shape="rect" id="node2" href="task__commands_8c.html#a7f6500be563a3dce7f0854fceed02fab" title="doGeneralCmdParsing" alt="" coords="609,51,762,78"/>
-<area shape="rect" id="node3" href="task__commands_8c.html#ac3c72c089d32dea93c45f4f9f8d1f244" title="doKeyboardParsing" alt="" coords="618,102,753,128"/>
-<area shape="rect" id="node4" href="task__commands_8c.html#a2ad28759e53bb5082853d8d004767115" title="doMouthpieceSettingsParsing" alt="" coords="588,152,783,179"/>
-<area shape="rect" id="node5" href="task__commands_8c.html#a69b0c55558b32caa21407de8e2277be9" title="doStorageParsing" alt="" coords="207,304,333,331"/>
-<area shape="rect" id="node6" href="hal__adc_8c.html#acd8f9f6194ebeaa854a791879382b515" title="Process pressure sensor (sip &amp; puff) " alt="" coords="189,355,351,382"/>
-<area shape="rect" id="node7" href="hal__ble_8c.html#af6a15e1396cb358cd7f1eb6a2a7045a9" title="halBleTaskKeyboardPress" alt="" coords="182,406,358,432"/>
-<area shape="rect" id="node8" href="hal__ble_8c.html#adbfa982381d6d09432d7ba1961846b32" title="halBleTaskKeyboardRelease" alt="" coords="175,456,365,483"/>
-<area shape="rect" id="node9" href="task__mouse_8h.html#ab5cfaaac2cd4ec6fc79546f847db96de" title="Get the current mouse wheel step size. " alt="" coords="413,254,540,280"/>
-<area shape="rect" id="node11" href="task__mouse_8h.html#ac5aaa616044b7bef9f75347719181dbe" title="Set current mouse wheel step size. " alt="" coords="413,203,540,230"/>
-<area shape="rect" id="node12" href="task__commands_8c.html#ad59215648a26578c22baa7ceae099e0e" title="Print the current slot configurations (general settings + VBs) " alt="" coords="224,102,316,128"/>
-<area shape="rect" id="node10" href="task__commands_8c.html#a580d9f6a840975525358033a35f761d0" title="doMouseParsing" alt="" coords="626,203,745,230"/>
-<area shape="rect" id="node13" href="task__commands_8c.html#acea81ba8a182ae78feb2db6418fc1806" title="sendErrorBack" alt="" coords="423,102,531,128"/>
+<area shape="rect" id="node2" href="task__commands_8c.html#a7f6500be563a3dce7f0854fceed02fab" title="doGeneralCmdParsing" alt="" coords="609,35,762,62"/>
+<area shape="rect" id="node3" href="task__commands_8c.html#a937cdeb2f02b0c5d9a0f94a0f69e9328" title="doInfraredParsing" alt="" coords="208,339,332,366"/>
+<area shape="rect" id="node4" href="task__commands_8c.html#ac3c72c089d32dea93c45f4f9f8d1f244" title="doKeyboardParsing" alt="" coords="618,111,753,138"/>
+<area shape="rect" id="node5" href="task__commands_8c.html#a2ad28759e53bb5082853d8d004767115" title="doMouthpieceSettingsParsing" alt="" coords="588,175,783,202"/>
+<area shape="rect" id="node6" href="task__commands_8c.html#a69b0c55558b32caa21407de8e2277be9" title="doStorageParsing" alt="" coords="207,390,333,417"/>
+<area shape="rect" id="node7" href="hal__adc_8c.html#acd8f9f6194ebeaa854a791879382b515" title="Process pressure sensor (sip &amp; puff) " alt="" coords="189,441,351,467"/>
+<area shape="rect" id="node8" href="hal__ble_8c.html#af6a15e1396cb358cd7f1eb6a2a7045a9" title="halBleTaskKeyboardPress" alt="" coords="182,491,358,518"/>
+<area shape="rect" id="node9" href="hal__ble_8c.html#adbfa982381d6d09432d7ba1961846b32" title="halBleTaskKeyboardRelease" alt="" coords="175,542,365,569"/>
+<area shape="rect" id="node10" href="hal__io_8h.html#aa5ee74913a09cba6dca62bfdc9f8342b" title="Initializing IO HAL. " alt="" coords="235,593,305,619"/>
+<area shape="rect" id="node12" href="task__infrared_8h.html#a085c1313247cfb56fc663527aa3bdb49" title="Set the time between two IR edges which will trigger the timeout (end of received command) ..." alt="" coords="183,643,357,670"/>
+<area shape="rect" id="node13" href="task__mouse_8h.html#ab5cfaaac2cd4ec6fc79546f847db96de" title="Get the current mouse wheel step size. " alt="" coords="413,238,540,265"/>
+<area shape="rect" id="node15" href="task__mouse_8h.html#ac5aaa616044b7bef9f75347719181dbe" title="Set current mouse wheel step size. " alt="" coords="413,289,540,315"/>
+<area shape="rect" id="node16" href="task__commands_8c.html#ad59215648a26578c22baa7ceae099e0e" title="Print the current slot configurations (general settings + VBs) " alt="" coords="224,86,316,113"/>
+<area shape="rect" id="node11" href="flipmouse__fabi__esp32__kbdmouse__main_8c.html#abce06be17fc37d675118a678a8100a36" title="Main task, created by esp&#45;idf. " alt="" coords="437,593,516,619"/>
+<area shape="rect" id="node14" href="task__commands_8c.html#a580d9f6a840975525358033a35f761d0" title="doMouseParsing" alt="" coords="626,238,745,265"/>
+<area shape="rect" id="node17" href="task__commands_8c.html#acea81ba8a182ae78feb2db6418fc1806" title="sendErrorBack" alt="" coords="423,86,531,113"/>
 </map>
 </div>
 
@@ -475,7 +480,7 @@ Here is the caller graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="config__switcher_8c_source.html#l00114">114</a> of file <a class="el" href="config__switcher_8c_source.html">config_switcher.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="task__commands_8c_source.html#l01175">printAllSlots()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="task__commands_8c_source.html#l01308">printAllSlots()</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">

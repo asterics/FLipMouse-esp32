@@ -1,11 +1,6 @@
 var searchData=
 [
-  ['t_5fcalibrate',['T_CALIBRATE',['../common_8h.html#ac27b6f4710923c6689834e86aea228aca788417f1dce5bcbd1c068047b9ea9c01',1,'common.h']]],
-  ['t_5fconfigchange',['T_CONFIGCHANGE',['../common_8h.html#ac27b6f4710923c6689834e86aea228acaef5d43daff3e932bbc610563bc1fe83e',1,'common.h']]],
-  ['t_5fkeyboard',['T_KEYBOARD',['../common_8h.html#ac27b6f4710923c6689834e86aea228aca6ba7a3076b8a61933f9558075d22ae22',1,'common.h']]],
-  ['t_5fmouse',['T_MOUSE',['../common_8h.html#ac27b6f4710923c6689834e86aea228aca641942cf217e5ff4dd65ff9a699d9d45',1,'common.h']]],
-  ['t_5fnofunction',['T_NOFUNCTION',['../common_8h.html#ac27b6f4710923c6689834e86aea228aca43adee93f5ac14f200b55ebb92de2cd4',1,'common.h']]],
-  ['t_5fsendir',['T_SENDIR',['../common_8h.html#ac27b6f4710923c6689834e86aea228aca1e122797dcfb476a22864607873d9fe9',1,'common.h']]],
-  ['threshold',['THRESHOLD',['../common_8h.html#a43f0521562303f42d96251f43d198c66a4b8d6cea1ac561b0b7bb443d586aae42',1,'common.h']]],
-  ['triggertask',['TRIGGERTASK',['../task__commands_8c.html#a7860b6904b2ba2dd906d189ada5f1e17a50c64ae796b6cf92c249f1a90f98a992',1,'task_commands.c']]]
+  ['release',['RELEASE',['../task__kbd_8h.html#aff3bf982a86299e69b007b0d16a45227ad590443978dc58d64aed5001f56efcdf',1,'task_kbd.h']]],
+  ['restorefactorysettings',['RESTOREFACTORYSETTINGS',['../hal__storage_8h.html#a8a4828abe0b7cd309fba5c2e5e228b95a9e10e3a504fc1980c1866aad86e7f2b6',1,'hal_storage.h']]],
+  ['right',['RIGHT',['../task__mouse_8h.html#ad99a95527afeac61cb05911c7695d942aec8379af7490bb9eaaf579cf17876f38',1,'task_mouse.h']]]
 ];

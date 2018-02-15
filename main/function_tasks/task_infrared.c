@@ -123,6 +123,7 @@ void task_infrared(taskInfraredConfig_t *param)
           } else {
             ESP_LOGE(LOG_TAG,"Error loading IR cmd");
           }
+          halStorageFinishTransaction(tid);
         } else {
           ESP_LOGE(LOG_TAG,"Error starting transaction for IR cmd");
         }
@@ -133,6 +134,109 @@ void task_infrared(taskInfraredConfig_t *param)
   }
 }
 
+/** @brief Trigger an IR command recording.
+ * 
+ * This method is used to record one infrared command.
+ * It will block until either the timeout is reached or
+ * a command is received.
+ * The command is stored vial hal_storage.
+ * 
+ * @see halStorageStoreIR
+ * @see TASK_HAL_IR_RECV_TIMEOUT
+ * @param cmdName Name of command which will be used to store.
+ * @return ESP_OK if command was stored, ESP_FAIL otherwise (timeout)
+ * */
+esp_err_t infrared_record(char* cmdName)
+{
+  uint16_t timeout = 0;
+  if(strlen(cmdName) > SLOTNAME_LENGTH)
+  {
+    ESP_LOGE(LOG_TAG,"IR command name too long (%d chars)",strlen(cmdName));
+    return ESP_FAIL;
+  }
+  //transaction id
+  uint32_t tid;
+  
+  //create the IR struct
+  halIOIR_t *cfg = malloc(sizeof(halIOIR_t));
+  cfg->status = IR_RECEIVING;
+  
+  //put it to queue
+  //we assume there is space in the queue
+  xQueueSend(halIOIRRecvQueue, (void *)&cfg, (TickType_t)0);
+  
+  //check status every two ticks
+  while(cfg->status == IR_RECEIVING) 
+  {
+    vTaskDelay(2);
+    timeout+=2;
+    if((timeout/portTICK_PERIOD_MS) > TASK_HAL_IR_RECV_TIMEOUT)
+    {
+      ESP_LOGW(LOG_TAG,"IR timeout waiting for status change");
+      return ESP_FAIL;
+    }
+  }
+  
+  switch(cfg->status)
+  {
+    case IR_TOOSHORT:
+      ESP_LOGW(LOG_TAG,"IR cmd too short");
+      free(cfg);
+      return ESP_FAIL;
+    case IR_FINISHED:
+      //finished, storing
+      if(halStorageStartTransaction(&tid, 20) != ESP_OK)
+      {
+        ESP_LOGE(LOG_TAG,"Cannot start transaction");
+        free(cfg);
+        return ESP_FAIL;
+      }
+      if(halStorageStoreIR(tid, cfg, cmdName) != ESP_OK)
+      {
+        ESP_LOGE(LOG_TAG,"Cannot store IR cmd");
+      }
+      halStorageFinishTransaction(tid);
+      free(cfg);
+      break;
+    case IR_OVERFLOW:
+      ESP_LOGW(LOG_TAG,"IR cmd too long");
+      free(cfg);
+      return ESP_FAIL;
+    default:
+      ESP_LOGE(LOG_TAG,"Unknown IR recv status");
+      free(cfg);
+      return ESP_FAIL;
+  }
+
+  //everything fine...
+  free(cfg);
+  return ESP_OK;
+}
+
+
+/**@brief Set the time between two IR edges which will trigger the timeout
+ * (end of received command)
+ * 
+ * This method is used to set the timeout between two edges which is
+ * used to trigger the timeout, therefore the finished signal for an
+ * IR command recording.
+ * 
+ * @see infrared_trigger_record
+ * @see generalConfig_t
+ * @param timeout Timeout in [ms], 2-100
+ * @return ESP_OK if parameter is set, ESP_FAIL otherwise (out of range)
+ * */
+esp_err_t infrared_set_edge_timeout(uint8_t timeout)
+{
+  if(timeout > 100 || timeout < 2) return ESP_FAIL;
+  
+  //get config struct to store the value there.
+  generalConfig_t *cfg = configGetCurrent();
+  if(cfg == NULL) return ESP_FAIL;
+  cfg->irtimeout = timeout;
+  
+  return ESP_OK;
+}
 
 /** @brief Reverse Parsing - get AT command for IR VB
  * 

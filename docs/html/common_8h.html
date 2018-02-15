@@ -79,6 +79,7 @@ $(function() {
 <code>#include &quot;freertos/queue.h&quot;</code><br />
 <code>#include &lt;esp_log.h&gt;</code><br />
 <code>#include &quot;<a class="el" href="keyboard_8h_source.html">keyboard.h</a>&quot;</code><br />
+<code>#include &quot;driver/rmt.h&quot;</code><br />
 </div>
 <p><a href="common_8h_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
@@ -93,6 +94,9 @@ Data Structures</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structjoystick__command.html">joystick_command</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structtaskNoParameterConfig.html">taskNoParameterConfig</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structhalIOIR.html">halIOIR</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Output buzzer noise.  <a href="structhalIOIR.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="define-members"></a>
@@ -192,6 +196,12 @@ Typedefs</h2></td></tr>
 <tr class="separator:af0acd69c825ad599f4c9b9e371604996"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a735049d5abb65dcaa7ba76917158a3b3"><td class="memItemLeft" align="right" valign="top">typedef struct <a class="el" href="structtaskNoParameterConfig.html">taskNoParameterConfig</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="common_8h.html#a735049d5abb65dcaa7ba76917158a3b3">taskNoParameterConfig_t</a></td></tr>
 <tr class="separator:a735049d5abb65dcaa7ba76917158a3b3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a24a8084ac55ddbcf555f8b931294609b"><td class="memItemLeft" align="right" valign="top">typedef enum <a class="el" href="common_8h.html#aecc70331ee0aea41d03158f13365fbdf">irstate</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="common_8h.html#a24a8084ac55ddbcf555f8b931294609b">irstate_t</a></td></tr>
+<tr class="memdesc:a24a8084ac55ddbcf555f8b931294609b"><td class="mdescLeft">&#160;</td><td class="mdescRight">State of IR receiver.  <a href="#a24a8084ac55ddbcf555f8b931294609b">More...</a><br /></td></tr>
+<tr class="separator:a24a8084ac55ddbcf555f8b931294609b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af531911959683790ca7ae870f8462a16"><td class="memItemLeft" align="right" valign="top">typedef struct <a class="el" href="structhalIOIR.html">halIOIR</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="common_8h.html#af531911959683790ca7ae870f8462a16">halIOIR_t</a></td></tr>
+<tr class="memdesc:af531911959683790ca7ae870f8462a16"><td class="mdescLeft">&#160;</td><td class="mdescRight">Output buzzer noise.  <a href="#af531911959683790ca7ae870f8462a16">More...</a><br /></td></tr>
+<tr class="separator:af531911959683790ca7ae870f8462a16"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="enum-members"></a>
 Enumerations</h2></td></tr>
@@ -211,6 +221,17 @@ Enumerations</h2></td></tr>
 <br />
  }</td></tr>
 <tr class="separator:ac27b6f4710923c6689834e86aea228ac"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aecc70331ee0aea41d03158f13365fbdf"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="common_8h.html#aecc70331ee0aea41d03158f13365fbdf">irstate</a> { <br />
+&#160;&#160;<a class="el" href="common_8h.html#aecc70331ee0aea41d03158f13365fbdfab435b7e34af08f591009b064f24b8f74">IR_IDLE</a>, 
+<a class="el" href="common_8h.html#aecc70331ee0aea41d03158f13365fbdfa1dedc749726dac6a3029b324d2e22048">IR_RECEIVING</a>, 
+<a class="el" href="common_8h.html#aecc70331ee0aea41d03158f13365fbdfa720a272eea9bfe35919bae0eccb10f12">IR_TOOSHORT</a>, 
+<a class="el" href="common_8h.html#aecc70331ee0aea41d03158f13365fbdfa1640a6322c6bfe8f045c286b8608aebe">IR_FINISHED</a>, 
+<br />
+&#160;&#160;<a class="el" href="common_8h.html#aecc70331ee0aea41d03158f13365fbdfabf479fe1b5cb3349124fdf3f25f10560">IR_OVERFLOW</a>
+<br />
+ }<tr class="memdesc:aecc70331ee0aea41d03158f13365fbdf"><td class="mdescLeft">&#160;</td><td class="mdescRight">State of IR receiver.  <a href="common_8h.html#aecc70331ee0aea41d03158f13365fbdf">More...</a><br /></td></tr>
+</td></tr>
+<tr class="separator:aecc70331ee0aea41d03158f13365fbdf"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="var-members"></a>
 Variables</h2></td></tr>
@@ -256,7 +277,7 @@ Variables</h2></td></tr>
 </div><div class="memdoc">
 <p>maximum length for an AT command (including parameters, e.g., macro text) </p>
 
-<p class="definition">Definition at line <a class="el" href="common_8h_source.html#l00044">44</a> of file <a class="el" href="common_8h_source.html">common.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="common_8h_source.html#l00045">45</a> of file <a class="el" href="common_8h_source.html">common.h</a>.</p>
 
 </div>
 </div>
@@ -273,7 +294,7 @@ Variables</h2></td></tr>
 </div><div class="memdoc">
 <p>bitmask for testing if a function task should send data to BLE queues </p>
 
-<p class="definition">Definition at line <a class="el" href="common_8h_source.html#l00053">53</a> of file <a class="el" href="common_8h_source.html">common.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="common_8h_source.html#l00054">54</a> of file <a class="el" href="common_8h_source.html">common.h</a>.</p>
 
 <p class="reference">Referenced by <a class="el" href="config__switcher_8c_source.html#l00201">configSwitcherTask()</a>, <a class="el" href="task__kbd_8c_source.html#l00144">sendKbd()</a>, and <a class="el" href="task__mouse_8c_source.html#l00079">task_mouse()</a>.</p>
 
@@ -292,7 +313,7 @@ Variables</h2></td></tr>
 </div><div class="memdoc">
 <p>bitmask used to signal a FLipMouse in CIM mode (no USB/BLE functionality) </p>
 
-<p class="definition">Definition at line <a class="el" href="common_8h_source.html#l00055">55</a> of file <a class="el" href="common_8h_source.html">common.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="common_8h_source.html#l00056">56</a> of file <a class="el" href="common_8h_source.html">common.h</a>.</p>
 
 </div>
 </div>
@@ -309,7 +330,7 @@ Variables</h2></td></tr>
 </div><div class="memdoc">
 <p>bitmask for testing if a function task should send data to USB queues </p>
 
-<p class="definition">Definition at line <a class="el" href="common_8h_source.html#l00051">51</a> of file <a class="el" href="common_8h_source.html">common.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="common_8h_source.html#l00052">52</a> of file <a class="el" href="common_8h_source.html">common.h</a>.</p>
 
 <p class="reference">Referenced by <a class="el" href="config__switcher_8c_source.html#l00201">configSwitcherTask()</a>, <a class="el" href="task__kbd_8c_source.html#l00144">sendKbd()</a>, and <a class="el" href="task__mouse_8c_source.html#l00079">task_mouse()</a>.</p>
 
@@ -327,7 +348,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="common_8h_source.html#l00221">221</a> of file <a class="el" href="common_8h_source.html">common.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="common_8h_source.html#l00222">222</a> of file <a class="el" href="common_8h_source.html">common.h</a>.</p>
 
 <p class="reference">Referenced by <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c_source.html#l00073">app_main()</a>.</p>
 
@@ -345,7 +366,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="common_8h_source.html#l00026">26</a> of file <a class="el" href="common_8h_source.html">common.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="common_8h_source.html#l00027">27</a> of file <a class="el" href="common_8h_source.html">common.h</a>.</p>
 
 </div>
 </div>
@@ -361,9 +382,9 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="common_8h_source.html#l00219">219</a> of file <a class="el" href="common_8h_source.html">common.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="common_8h_source.html#l00220">220</a> of file <a class="el" href="common_8h_source.html">common.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="hal__adc_8c_source.html#l00602">halAdcUpdateConfig()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="hal__adc_8c_source.html#l00601">halAdcUpdateConfig()</a>.</p>
 
 </div>
 </div>
@@ -380,7 +401,7 @@ Variables</h2></td></tr>
 </div><div class="memdoc">
 <p>All BLE tasks in <a class="el" href="hal__ble_8c.html">hal_ble.c</a>. </p>
 
-<p class="definition">Definition at line <a class="el" href="common_8h_source.html#l00223">223</a> of file <a class="el" href="common_8h_source.html">common.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="common_8h_source.html#l00224">224</a> of file <a class="el" href="common_8h_source.html">common.h</a>.</p>
 
 </div>
 </div>
@@ -396,7 +417,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="common_8h_source.html#l00224">224</a> of file <a class="el" href="common_8h_source.html">common.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="common_8h_source.html#l00225">225</a> of file <a class="el" href="common_8h_source.html">common.h</a>.</p>
 
 <p class="reference">Referenced by <a class="el" href="config__switcher_8c_source.html#l00502">configSwitcherInit()</a>.</p>
 
@@ -414,7 +435,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="common_8h_source.html#l00220">220</a> of file <a class="el" href="common_8h_source.html">common.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="common_8h_source.html#l00221">221</a> of file <a class="el" href="common_8h_source.html">common.h</a>.</p>
 
 <p class="reference">Referenced by <a class="el" href="config__switcher_8c_source.html#l00201">configSwitcherTask()</a>.</p>
 
@@ -431,11 +452,11 @@ Variables</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>ID String to be printed on "AT ID" command. </p><dl class="todo"><dt><b><a class="el" href="todo.html#_todo000011">Todo:</a></b></dt><dd>Change this back to new version, when GUI is compatible </dd></dl>
+<p>ID String to be printed on "AT ID" command. </p><dl class="todo"><dt><b><a class="el" href="todo.html#_todo000010">Todo:</a></b></dt><dd>Change this back to new version, when GUI is compatible </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="common_8h_source.html#l00022">22</a> of file <a class="el" href="common_8h_source.html">common.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="common_8h_source.html#l00023">23</a> of file <a class="el" href="common_8h_source.html">common.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="task__commands_8c_source.html#l00494">doGeneralCmdParsing()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="task__commands_8c_source.html#l00622">doGeneralCmdParsing()</a>.</p>
 
 </div>
 </div>
@@ -454,7 +475,7 @@ Variables</h2></td></tr>
 <p>module firmware version </p>
 <p>This string is used to determine the running firmware version. It is printed on the "AT FW" command. </p>
 
-<p class="definition">Definition at line <a class="el" href="common_8h_source.html#l00017">17</a> of file <a class="el" href="common_8h_source.html">common.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="common_8h_source.html#l00018">18</a> of file <a class="el" href="common_8h_source.html">common.h</a>.</p>
 
 </div>
 </div>
@@ -471,9 +492,9 @@ Variables</h2></td></tr>
 </div><div class="memdoc">
 <p>number of virtual button event groups. One event group is used for 4 VBs </p>
 
-<p class="definition">Definition at line <a class="el" href="common_8h_source.html#l00029">29</a> of file <a class="el" href="common_8h_source.html">common.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="common_8h_source.html#l00030">30</a> of file <a class="el" href="common_8h_source.html">common.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c_source.html#l00073">app_main()</a>, <a class="el" href="config__switcher_8c_source.html#l00502">configSwitcherInit()</a>, <a class="el" href="config__switcher_8c_source.html#l00201">configSwitcherTask()</a>, <a class="el" href="config__switcher_8c_source.html#l00166">configUpdateVB()</a>, <a class="el" href="task__commands_8c_source.html#l00392">doStorageParsing()</a>, <a class="el" href="hal__adc_8c_source.html#l00678">halAdcInit()</a>, <a class="el" href="hal__storage_8c_source.html#l00131">halStorageCreateDefault()</a>, <a class="el" href="hal__storage_8c_source.html#l00835">halStorageLoadGetVBConfigs()</a>, <a class="el" href="task__commands_8c_source.html#l01175">printAllSlots()</a>, <a class="el" href="hal__adc_8c_source.html#l00424">task_calibration()</a>, <a class="el" href="config__switcher_8c_source.html#l00436">task_configswitcher()</a>, <a class="el" href="task__debouncer_8c_source.html#l00272">task_debouncer()</a>, <a class="el" href="task__infrared_8c_source.html#l00051">task_infrared()</a>, <a class="el" href="task__kbd_8c_source.html#l00164">task_keyboard()</a>, and <a class="el" href="task__mouse_8c_source.html#l00079">task_mouse()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c_source.html#l00073">app_main()</a>, <a class="el" href="config__switcher_8c_source.html#l00502">configSwitcherInit()</a>, <a class="el" href="config__switcher_8c_source.html#l00201">configSwitcherTask()</a>, <a class="el" href="config__switcher_8c_source.html#l00166">configUpdateVB()</a>, <a class="el" href="task__commands_8c_source.html#l00392">doStorageParsing()</a>, <a class="el" href="hal__adc_8c_source.html#l00677">halAdcInit()</a>, <a class="el" href="hal__storage_8c_source.html#l00136">halStorageCreateDefault()</a>, <a class="el" href="hal__storage_8c_source.html#l01116">halStorageLoadGetVBConfigs()</a>, <a class="el" href="task__commands_8c_source.html#l01308">printAllSlots()</a>, <a class="el" href="hal__adc_8c_source.html#l00423">task_calibration()</a>, <a class="el" href="config__switcher_8c_source.html#l00436">task_configswitcher()</a>, <a class="el" href="task__debouncer_8c_source.html#l00272">task_debouncer()</a>, <a class="el" href="task__infrared_8c_source.html#l00051">task_infrared()</a>, <a class="el" href="task__kbd_8c_source.html#l00164">task_keyboard()</a>, and <a class="el" href="task__mouse_8c_source.html#l00079">task_mouse()</a>.</p>
 
 </div>
 </div>
@@ -490,9 +511,9 @@ Variables</h2></td></tr>
 </div><div class="memdoc">
 <p>maximum length for a slot name </p>
 
-<p class="definition">Definition at line <a class="el" href="common_8h_source.html#l00033">33</a> of file <a class="el" href="common_8h_source.html">common.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="common_8h_source.html#l00034">34</a> of file <a class="el" href="common_8h_source.html">common.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c_source.html#l00073">app_main()</a>, <a class="el" href="config__switcher_8c_source.html#l00502">configSwitcherInit()</a>, <a class="el" href="config__switcher_8c_source.html#l00201">configSwitcherTask()</a>, <a class="el" href="config__switcher_8c_source.html#l00134">configUpdate()</a>, <a class="el" href="task__commands_8c_source.html#l00392">doStorageParsing()</a>, <a class="el" href="hal__storage_8c_source.html#l00419">halStorageGetNameForNumber()</a>, <a class="el" href="hal__storage_8c_source.html#l00471">halStorageGetNumberForName()</a>, <a class="el" href="hal__storage_8c_source.html#l01088">halStorageLoadIR()</a>, <a class="el" href="hal__storage_8c_source.html#l00629">halStorageLoadNumber()</a>, <a class="el" href="hal__storage_8c_source.html#l00900">halStorageStore()</a>, <a class="el" href="task__commands_8c_source.html#l01175">printAllSlots()</a>, and <a class="el" href="task__infrared_8c_source.html#l00051">task_infrared()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c_source.html#l00073">app_main()</a>, <a class="el" href="config__switcher_8c_source.html#l00502">configSwitcherInit()</a>, <a class="el" href="config__switcher_8c_source.html#l00201">configSwitcherTask()</a>, <a class="el" href="config__switcher_8c_source.html#l00134">configUpdate()</a>, <a class="el" href="task__commands_8c_source.html#l00487">doInfraredParsing()</a>, <a class="el" href="task__commands_8c_source.html#l00392">doStorageParsing()</a>, <a class="el" href="hal__storage_8c_source.html#l00617">halStorageGetNameForNumber()</a>, <a class="el" href="hal__storage_8c_source.html#l00426">halStorageGetNameForNumberIR()</a>, <a class="el" href="hal__storage_8c_source.html#l00669">halStorageGetNumberForName()</a>, <a class="el" href="hal__storage_8c_source.html#l00745">halStorageGetNumberForNameIR()</a>, <a class="el" href="hal__storage_8c_source.html#l01445">halStorageLoadIR()</a>, <a class="el" href="hal__storage_8c_source.html#l00910">halStorageLoadNumber()</a>, <a class="el" href="hal__storage_8c_source.html#l01181">halStorageStore()</a>, <a class="el" href="hal__storage_8c_source.html#l01275">halStorageStoreIR()</a>, <a class="el" href="task__infrared_8c_source.html#l00149">infrared_record()</a>, <a class="el" href="task__commands_8c_source.html#l01308">printAllSlots()</a>, and <a class="el" href="task__infrared_8c_source.html#l00051">task_infrared()</a>.</p>
 
 </div>
 </div>
@@ -509,9 +530,9 @@ Variables</h2></td></tr>
 </div><div class="memdoc">
 <p>ID of storage revision. Is used to determine any data storage upgrades </p>
 
-<p class="definition">Definition at line <a class="el" href="common_8h_source.html#l00047">47</a> of file <a class="el" href="common_8h_source.html">common.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="common_8h_source.html#l00048">48</a> of file <a class="el" href="common_8h_source.html">common.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="hal__storage_8c_source.html#l00131">halStorageCreateDefault()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="hal__storage_8c_source.html#l00136">halStorageCreateDefault()</a>.</p>
 
 </div>
 </div>
@@ -527,9 +548,9 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="common_8h_source.html#l00225">225</a> of file <a class="el" href="common_8h_source.html">common.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="common_8h_source.html#l00226">226</a> of file <a class="el" href="common_8h_source.html">common.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="task__commands_8c_source.html#l01329">taskCommandsInit()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="task__commands_8c_source.html#l01462">taskCommandsInit()</a>.</p>
 
 </div>
 </div>
@@ -545,7 +566,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="common_8h_source.html#l00177">177</a> of file <a class="el" href="common_8h_source.html">common.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="common_8h_source.html#l00178">178</a> of file <a class="el" href="common_8h_source.html">common.h</a>.</p>
 
 </div>
 </div>
@@ -564,9 +585,9 @@ Variables</h2></td></tr>
 <p>Currently used mappings: Mouthpiece - Alternative mode External+Internal buttons</p>
 <p>Planned for future release: Gesture VBs, a recorded gesture is treated like a virtual button </p>
 
-<p class="definition">Definition at line <a class="el" href="common_8h_source.html#l00172">172</a> of file <a class="el" href="common_8h_source.html">common.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="common_8h_source.html#l00173">173</a> of file <a class="el" href="common_8h_source.html">common.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="hal__storage_8c_source.html#l00131">halStorageCreateDefault()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="hal__storage_8c_source.html#l00136">halStorageCreateDefault()</a>.</p>
 
 </div>
 </div>
@@ -582,9 +603,9 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="common_8h_source.html#l00173">173</a> of file <a class="el" href="common_8h_source.html">common.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="common_8h_source.html#l00174">174</a> of file <a class="el" href="common_8h_source.html">common.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="hal__storage_8c_source.html#l00131">halStorageCreateDefault()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="hal__storage_8c_source.html#l00136">halStorageCreateDefault()</a>.</p>
 
 </div>
 </div>
@@ -600,9 +621,9 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="common_8h_source.html#l00174">174</a> of file <a class="el" href="common_8h_source.html">common.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="common_8h_source.html#l00175">175</a> of file <a class="el" href="common_8h_source.html">common.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="hal__storage_8c_source.html#l00131">halStorageCreateDefault()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="hal__storage_8c_source.html#l00136">halStorageCreateDefault()</a>.</p>
 
 </div>
 </div>
@@ -618,9 +639,9 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="common_8h_source.html#l00175">175</a> of file <a class="el" href="common_8h_source.html">common.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="common_8h_source.html#l00176">176</a> of file <a class="el" href="common_8h_source.html">common.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="hal__storage_8c_source.html#l00131">halStorageCreateDefault()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="hal__storage_8c_source.html#l00136">halStorageCreateDefault()</a>.</p>
 
 </div>
 </div>
@@ -636,7 +657,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="common_8h_source.html#l00178">178</a> of file <a class="el" href="common_8h_source.html">common.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="common_8h_source.html#l00179">179</a> of file <a class="el" href="common_8h_source.html">common.h</a>.</p>
 
 </div>
 </div>
@@ -652,9 +673,9 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="common_8h_source.html#l00192">192</a> of file <a class="el" href="common_8h_source.html">common.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="common_8h_source.html#l00193">193</a> of file <a class="el" href="common_8h_source.html">common.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="task__commands_8c_source.html#l00494">doGeneralCmdParsing()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="task__commands_8c_source.html#l00622">doGeneralCmdParsing()</a>.</p>
 
 </div>
 </div>
@@ -677,7 +698,7 @@ Variables</h2></td></tr>
 <dd>
 <a class="el" href="hal__storage_8h.html#abc699ff3996d12d3e6bcc9e372b277e0" title="Load one virtual button config for currently loaded slot. ">halStorageLoadGetVBConfigs</a> </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="common_8h_source.html#l00041">41</a> of file <a class="el" href="common_8h_source.html">common.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="common_8h_source.html#l00042">42</a> of file <a class="el" href="common_8h_source.html">common.h</a>.</p>
 
 </div>
 </div>
@@ -693,9 +714,9 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="common_8h_source.html#l00181">181</a> of file <a class="el" href="common_8h_source.html">common.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="common_8h_source.html#l00182">182</a> of file <a class="el" href="common_8h_source.html">common.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="hal__storage_8c_source.html#l00131">halStorageCreateDefault()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="hal__storage_8c_source.html#l00136">halStorageCreateDefault()</a>.</p>
 
 </div>
 </div>
@@ -711,7 +732,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="common_8h_source.html#l00179">179</a> of file <a class="el" href="common_8h_source.html">common.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="common_8h_source.html#l00180">180</a> of file <a class="el" href="common_8h_source.html">common.h</a>.</p>
 
 </div>
 </div>
@@ -728,9 +749,9 @@ Variables</h2></td></tr>
 </div><div class="memdoc">
 <p>special virtual button, which is used to trigger a task immediately. After this single action, each function body of functional tasks is REQUIRED to do a return. </p>
 
-<p class="definition">Definition at line <a class="el" href="common_8h_source.html#l00215">215</a> of file <a class="el" href="common_8h_source.html">common.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="common_8h_source.html#l00216">216</a> of file <a class="el" href="common_8h_source.html">common.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="config__switcher_8c_source.html#l00166">configUpdateVB()</a>, <a class="el" href="hal__adc_8c_source.html#l00424">task_calibration()</a>, <a class="el" href="config__switcher_8c_source.html#l00436">task_configswitcher()</a>, <a class="el" href="task__infrared_8c_source.html#l00051">task_infrared()</a>, <a class="el" href="task__kbd_8c_source.html#l00164">task_keyboard()</a>, and <a class="el" href="task__mouse_8c_source.html#l00079">task_mouse()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="config__switcher_8c_source.html#l00166">configUpdateVB()</a>, <a class="el" href="hal__adc_8c_source.html#l00423">task_calibration()</a>, <a class="el" href="config__switcher_8c_source.html#l00436">task_configswitcher()</a>, <a class="el" href="task__infrared_8c_source.html#l00051">task_infrared()</a>, <a class="el" href="task__kbd_8c_source.html#l00164">task_keyboard()</a>, and <a class="el" href="task__mouse_8c_source.html#l00079">task_mouse()</a>.</p>
 
 </div>
 </div>
@@ -746,9 +767,9 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="common_8h_source.html#l00180">180</a> of file <a class="el" href="common_8h_source.html">common.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="common_8h_source.html#l00181">181</a> of file <a class="el" href="common_8h_source.html">common.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="hal__storage_8c_source.html#l00131">halStorageCreateDefault()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="hal__storage_8c_source.html#l00136">halStorageCreateDefault()</a>.</p>
 
 </div>
 </div>
@@ -764,9 +785,9 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="common_8h_source.html#l00183">183</a> of file <a class="el" href="common_8h_source.html">common.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="common_8h_source.html#l00184">184</a> of file <a class="el" href="common_8h_source.html">common.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="hal__storage_8c_source.html#l00131">halStorageCreateDefault()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="hal__storage_8c_source.html#l00136">halStorageCreateDefault()</a>.</p>
 
 </div>
 </div>
@@ -782,7 +803,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="common_8h_source.html#l00189">189</a> of file <a class="el" href="common_8h_source.html">common.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="common_8h_source.html#l00190">190</a> of file <a class="el" href="common_8h_source.html">common.h</a>.</p>
 
 </div>
 </div>
@@ -798,7 +819,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="common_8h_source.html#l00190">190</a> of file <a class="el" href="common_8h_source.html">common.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="common_8h_source.html#l00191">191</a> of file <a class="el" href="common_8h_source.html">common.h</a>.</p>
 
 </div>
 </div>
@@ -814,7 +835,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="common_8h_source.html#l00191">191</a> of file <a class="el" href="common_8h_source.html">common.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="common_8h_source.html#l00192">192</a> of file <a class="el" href="common_8h_source.html">common.h</a>.</p>
 
 </div>
 </div>
@@ -830,7 +851,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="common_8h_source.html#l00188">188</a> of file <a class="el" href="common_8h_source.html">common.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="common_8h_source.html#l00189">189</a> of file <a class="el" href="common_8h_source.html">common.h</a>.</p>
 
 </div>
 </div>
@@ -846,7 +867,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="common_8h_source.html#l00182">182</a> of file <a class="el" href="common_8h_source.html">common.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="common_8h_source.html#l00183">183</a> of file <a class="el" href="common_8h_source.html">common.h</a>.</p>
 
 </div>
 </div>
@@ -862,7 +883,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="common_8h_source.html#l00185">185</a> of file <a class="el" href="common_8h_source.html">common.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="common_8h_source.html#l00186">186</a> of file <a class="el" href="common_8h_source.html">common.h</a>.</p>
 
 </div>
 </div>
@@ -878,7 +899,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="common_8h_source.html#l00186">186</a> of file <a class="el" href="common_8h_source.html">common.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="common_8h_source.html#l00187">187</a> of file <a class="el" href="common_8h_source.html">common.h</a>.</p>
 
 </div>
 </div>
@@ -894,7 +915,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="common_8h_source.html#l00187">187</a> of file <a class="el" href="common_8h_source.html">common.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="common_8h_source.html#l00188">188</a> of file <a class="el" href="common_8h_source.html">common.h</a>.</p>
 
 </div>
 </div>
@@ -910,7 +931,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="common_8h_source.html#l00184">184</a> of file <a class="el" href="common_8h_source.html">common.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="common_8h_source.html#l00185">185</a> of file <a class="el" href="common_8h_source.html">common.h</a>.</p>
 
 </div>
 </div>
@@ -926,7 +947,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="common_8h_source.html#l00176">176</a> of file <a class="el" href="common_8h_source.html">common.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="common_8h_source.html#l00177">177</a> of file <a class="el" href="common_8h_source.html">common.h</a>.</p>
 
 </div>
 </div>
@@ -967,6 +988,48 @@ Variables</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+</div>
+</div>
+<a id="af531911959683790ca7ae870f8462a16"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af531911959683790ca7ae870f8462a16">&#9670;&nbsp;</a></span>halIOIR_t</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">typedef struct <a class="el" href="structhalIOIR.html">halIOIR</a>  <a class="el" href="common_8h.html#af531911959683790ca7ae870f8462a16">halIOIR_t</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Output buzzer noise. </p>
+
+</div>
+</div>
+<a id="a24a8084ac55ddbcf555f8b931294609b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a24a8084ac55ddbcf555f8b931294609b">&#9670;&nbsp;</a></span>irstate_t</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">typedef enum <a class="el" href="common_8h.html#aecc70331ee0aea41d03158f13365fbdf">irstate</a>  <a class="el" href="common_8h.html#a24a8084ac55ddbcf555f8b931294609b">irstate_t</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>State of IR receiver. </p>
+<p>Following states are possible for the IR receiver (task):</p><ul>
+<li>IR_IDLE Nothing is done, this halIOIR_t struct is not used for receiving</li>
+<li>IR_RECEIVING Receiver is active and storing</li>
+<li>IR_TOOSHORT If timeout was triggered and not enough edges are detected</li>
+<li>IR_FINISHED If timeout was triggered and enough edges were stored</li>
+<li>IR_OVERFLOW Too many edges were detected, could not store</li>
+</ul>
+<dl class="section see"><dt>See also</dt><dd>TASK_HAL_IR_RECEV_MINIMUM_EDGES </dd>
+<dd>
+<a class="el" href="hal__io_8h.html#a259cfb8eceafdeb6b0340ebea1fe9db6" title="How many edges can be stored maximum? ">TASK_HAL_IR_RECV_MAXIMUM_EDGES</a> </dd></dl>
 
 </div>
 </div>
@@ -1074,7 +1137,42 @@ Variables</h2></td></tr>
 <tr><td class="fieldname"><a id="ac27b6f4710923c6689834e86aea228aca43adee93f5ac14f200b55ebb92de2cd4"></a>T_NOFUNCTION&#160;</td><td class="fielddoc"></td></tr>
 </table>
 
-<p class="definition">Definition at line <a class="el" href="common_8h_source.html#l00296">296</a> of file <a class="el" href="common_8h_source.html">common.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="common_8h_source.html#l00297">297</a> of file <a class="el" href="common_8h_source.html">common.h</a>.</p>
+
+</div>
+</div>
+<a id="aecc70331ee0aea41d03158f13365fbdf"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aecc70331ee0aea41d03158f13365fbdf">&#9670;&nbsp;</a></span>irstate</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum <a class="el" href="common_8h.html#aecc70331ee0aea41d03158f13365fbdf">irstate</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>State of IR receiver. </p>
+<p>Following states are possible for the IR receiver (task):</p><ul>
+<li>IR_IDLE Nothing is done, this halIOIR_t struct is not used for receiving</li>
+<li>IR_RECEIVING Receiver is active and storing</li>
+<li>IR_TOOSHORT If timeout was triggered and not enough edges are detected</li>
+<li>IR_FINISHED If timeout was triggered and enough edges were stored</li>
+<li>IR_OVERFLOW Too many edges were detected, could not store</li>
+</ul>
+<dl class="section see"><dt>See also</dt><dd>TASK_HAL_IR_RECEV_MINIMUM_EDGES </dd>
+<dd>
+<a class="el" href="hal__io_8h.html#a259cfb8eceafdeb6b0340ebea1fe9db6" title="How many edges can be stored maximum? ">TASK_HAL_IR_RECV_MAXIMUM_EDGES</a> </dd></dl>
+<table class="fieldtable">
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="aecc70331ee0aea41d03158f13365fbdfab435b7e34af08f591009b064f24b8f74"></a>IR_IDLE&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="aecc70331ee0aea41d03158f13365fbdfa1dedc749726dac6a3029b324d2e22048"></a>IR_RECEIVING&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="aecc70331ee0aea41d03158f13365fbdfa720a272eea9bfe35919bae0eccb10f12"></a>IR_TOOSHORT&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="aecc70331ee0aea41d03158f13365fbdfa1640a6322c6bfe8f045c286b8608aebe"></a>IR_FINISHED&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="aecc70331ee0aea41d03158f13365fbdfabf479fe1b5cb3349124fdf3f25f10560"></a>IR_OVERFLOW&#160;</td><td class="fielddoc"></td></tr>
+</table>
+
+<p class="definition">Definition at line <a class="el" href="common_8h_source.html#l00360">360</a> of file <a class="el" href="common_8h_source.html">common.h</a>.</p>
 
 </div>
 </div>
@@ -1120,7 +1218,7 @@ Variables</h2></td></tr>
 <tr><td class="fieldname"><a id="a43f0521562303f42d96251f43d198c66a4b8d6cea1ac561b0b7bb443d586aae42"></a>THRESHOLD&#160;</td><td class="fielddoc"></td></tr>
 </table>
 
-<p class="definition">Definition at line <a class="el" href="common_8h_source.html#l00251">251</a> of file <a class="el" href="common_8h_source.html">common.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="common_8h_source.html#l00252">252</a> of file <a class="el" href="common_8h_source.html">common.h</a>.</p>
 
 </div>
 </div>
@@ -1196,7 +1294,7 @@ currentConfig </dd></dl>
 
 <p class="definition">Definition at line <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c_source.html#l00064">64</a> of file <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c_source.html">flipmouse_fabi_esp32_kbdmouse_main.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c_source.html#l00073">app_main()</a>, <a class="el" href="hal__adc_8c_source.html#l00678">halAdcInit()</a>, and <a class="el" href="hal__ble_8c_source.html#l00354">halBleTaskJoystick()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c_source.html#l00073">app_main()</a>, <a class="el" href="hal__adc_8c_source.html#l00677">halAdcInit()</a>, and <a class="el" href="hal__ble_8c_source.html#l00354">halBleTaskJoystick()</a>.</p>
 
 </div>
 </div>
@@ -1215,7 +1313,7 @@ currentConfig </dd></dl>
 
 <p class="definition">Definition at line <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c_source.html#l00063">63</a> of file <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c_source.html">flipmouse_fabi_esp32_kbdmouse_main.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c_source.html#l00073">app_main()</a>, <a class="el" href="hal__adc_8c_source.html#l00678">halAdcInit()</a>, and <a class="el" href="hal__serial_8c_source.html#l00360">halSerialTaskJoystick()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c_source.html#l00073">app_main()</a>, <a class="el" href="hal__adc_8c_source.html#l00677">halAdcInit()</a>, and <a class="el" href="hal__serial_8c_source.html#l00360">halSerialTaskJoystick()</a>.</p>
 
 </div>
 </div>
@@ -1310,7 +1408,7 @@ currentConfig </dd></dl>
 
 <p class="definition">Definition at line <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c_source.html#l00062">62</a> of file <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c_source.html">flipmouse_fabi_esp32_kbdmouse_main.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c_source.html#l00073">app_main()</a>, <a class="el" href="hal__adc_8c_source.html#l00678">halAdcInit()</a>, <a class="el" href="hal__ble_8c_source.html#l00305">halBleTaskMouse()</a>, and <a class="el" href="task__mouse_8c_source.html#l00079">task_mouse()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c_source.html#l00073">app_main()</a>, <a class="el" href="hal__adc_8c_source.html#l00677">halAdcInit()</a>, <a class="el" href="hal__ble_8c_source.html#l00305">halBleTaskMouse()</a>, and <a class="el" href="task__mouse_8c_source.html#l00079">task_mouse()</a>.</p>
 
 </div>
 </div>
@@ -1329,7 +1427,7 @@ currentConfig </dd></dl>
 
 <p class="definition">Definition at line <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c_source.html#l00061">61</a> of file <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c_source.html">flipmouse_fabi_esp32_kbdmouse_main.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c_source.html#l00073">app_main()</a>, <a class="el" href="hal__adc_8c_source.html#l00678">halAdcInit()</a>, <a class="el" href="hal__serial_8c_source.html#l00291">halSerialTaskMouse()</a>, and <a class="el" href="task__mouse_8c_source.html#l00079">task_mouse()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c_source.html#l00073">app_main()</a>, <a class="el" href="hal__adc_8c_source.html#l00677">halAdcInit()</a>, <a class="el" href="hal__serial_8c_source.html#l00291">halSerialTaskMouse()</a>, and <a class="el" href="task__mouse_8c_source.html#l00079">task_mouse()</a>.</p>
 
 </div>
 </div>
@@ -1353,7 +1451,7 @@ currentConfig </dd></dl>
 
 <p class="definition">Definition at line <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c_source.html#l00055">55</a> of file <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c_source.html">flipmouse_fabi_esp32_kbdmouse_main.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c_source.html#l00073">app_main()</a>, <a class="el" href="task__debouncer_8c_source.html#l00181">debouncerCallback()</a>, <a class="el" href="hal__adc_8c_source.html#l00678">halAdcInit()</a>, and <a class="el" href="task__debouncer_8c_source.html#l00272">task_debouncer()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c_source.html#l00073">app_main()</a>, <a class="el" href="task__debouncer_8c_source.html#l00181">debouncerCallback()</a>, <a class="el" href="hal__adc_8c_source.html#l00677">halAdcInit()</a>, and <a class="el" href="task__debouncer_8c_source.html#l00272">task_debouncer()</a>.</p>
 
 </div>
 </div>
@@ -1377,7 +1475,7 @@ currentConfig </dd></dl>
 
 <p class="definition">Definition at line <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c_source.html#l00054">54</a> of file <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c_source.html">flipmouse_fabi_esp32_kbdmouse_main.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c_source.html#l00073">app_main()</a>, <a class="el" href="task__debouncer_8c_source.html#l00181">debouncerCallback()</a>, <a class="el" href="hal__adc_8c_source.html#l00678">halAdcInit()</a>, <a class="el" href="hal__adc_8c_source.html#l00424">task_calibration()</a>, <a class="el" href="config__switcher_8c_source.html#l00436">task_configswitcher()</a>, <a class="el" href="task__debouncer_8c_source.html#l00272">task_debouncer()</a>, <a class="el" href="task__infrared_8c_source.html#l00051">task_infrared()</a>, <a class="el" href="task__kbd_8c_source.html#l00164">task_keyboard()</a>, and <a class="el" href="task__mouse_8c_source.html#l00079">task_mouse()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c_source.html#l00073">app_main()</a>, <a class="el" href="task__debouncer_8c_source.html#l00181">debouncerCallback()</a>, <a class="el" href="hal__adc_8c_source.html#l00677">halAdcInit()</a>, <a class="el" href="hal__adc_8c_source.html#l00423">task_calibration()</a>, <a class="el" href="config__switcher_8c_source.html#l00436">task_configswitcher()</a>, <a class="el" href="task__debouncer_8c_source.html#l00272">task_debouncer()</a>, <a class="el" href="task__infrared_8c_source.html#l00051">task_infrared()</a>, <a class="el" href="task__kbd_8c_source.html#l00164">task_keyboard()</a>, and <a class="el" href="task__mouse_8c_source.html#l00079">task_mouse()</a>.</p>
 
 </div>
 </div>

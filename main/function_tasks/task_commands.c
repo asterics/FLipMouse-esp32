@@ -484,9 +484,137 @@ parserstate_t doStorageParsing(uint8_t *cmdBuffer, taskConfigSwitcherConfig_t *i
   return UNKNOWNCMD;
 }
 
-parserstate_t doInfraredParsing(uint8_t *cmdBuffer)
+parserstate_t doInfraredParsing(uint8_t *cmdBuffer, taskInfraredConfig_t *instance)
 {
+  uint32_t tid;
+  uint8_t param;
+  generalConfig_t *currentcfg = configGetCurrent();
+  if(currentcfg == NULL)
+  {
+    ESP_LOGE(LOG_TAG,"Errroorrr: general config is NULL");
+    return UNKNOWNCMD;
+  }
+  //clear any previous data
+  memset(instance,0,sizeof(taskInfraredConfig_t));
   
+  //use global virtual button (normally VB_SINGLESHOT,
+  //can be changed by "AT BM"
+  instance->virtualButton = requestVBUpdate;
+  
+  //set everything up for updates
+  requestVBTask = (void (*)(void *))&task_infrared;
+  requestVBParameterSize = sizeof(taskInfraredConfig_t);
+  requestVBParameter = instance;
+  requestVBType = T_SENDIR;
+  
+  /*++++ AT IW ++++*/
+  if(CMD("AT IW")) {
+    if(halStorageStartTransaction(&tid,20) == ESP_OK)
+    {
+      if(halStorageDeleteIRCmd(100,tid) != ESP_OK)
+      {
+        ESP_LOGE(LOG_TAG,"Cannot delete all IR cmds");
+      }
+      halStorageFinishTransaction(tid);
+    } else {
+      ESP_LOGE(LOG_TAG,"Cannot start transaction");
+    }
+    return NOACTION;
+  }
+  
+  /*++++ AT IT ++++*/
+  if(CMD("AT IT")) {
+    //set the IR timeout in ms
+    param = strtol((char*)&(cmdBuffer[6]),NULL,10);
+    if(param <= 100 && param >= 2)
+    {
+      currentcfg->irtimeout = param;
+      ESP_LOGD(LOG_TAG,"Set IR timeout to %d ms",param);
+      requestUpdate = 1;
+    } else {
+      ESP_LOGE(LOG_TAG,"IR timeout %d is not possible",param);
+    }
+    return NOACTION;
+  }
+  
+  /*++++ AT IC ++++*/
+  if(CMD("AT IC")) {
+    if(halStorageStartTransaction(&tid,20) == ESP_OK)
+    {
+      uint8_t nr = 0;
+      if(halStorageGetNumberForNameIR(tid,&nr,(char*)&cmdBuffer[6]) == ESP_OK)
+      {
+        if(halStorageDeleteIRCmd(nr,tid) != ESP_OK)
+        {
+          ESP_LOGE(LOG_TAG,"Cannot delete IR cmd %s",&cmdBuffer[6]);
+        }
+      } else {
+        ESP_LOGE(LOG_TAG,"No slot found for IR cmd %s",&cmdBuffer[6]);
+      }
+      halStorageFinishTransaction(tid);
+    } else {
+      ESP_LOGE(LOG_TAG,"Cannot start transaction");
+    }
+  }
+  
+  /*++++ AT IP ++++*/
+  if(CMD("AT IP")) {
+    //save cmd name to config instance
+    strcpy(instance->cmdName,(char*)&cmdBuffer[6]);
+    ESP_LOGD(LOG_TAG,"Play IR cmd %s",&cmdBuffer[6]);
+    return TRIGGERTASK;
+  }
+  
+  /*++++ AT IR ++++*/
+  if(CMD("AT IR")) {
+    //trigger record
+    if(infrared_record((char*)&cmdBuffer[6]) == ESP_OK)
+    {
+      ESP_LOGD(LOG_TAG,"Recorded IR cmd %s",&cmdBuffer[6]);
+      return NOACTION;
+    } else {
+      return UNKNOWNCMD;
+    }
+  }
+  
+  /*++++ AT IL ++++*/
+  if(CMD("AT IL")) {
+    if(halStorageStartTransaction(&tid,20) == ESP_OK)
+    {
+      uint8_t count = 0;
+      uint8_t printed = 0;
+      char name[SLOTNAME_LENGTH+1];
+      char output[SLOTNAME_LENGTH+10];
+      halStorageGetNumberOfIRCmds(tid,&count);
+      if(halStorageGetNumberOfIRCmds(tid,&count) == ESP_OK)
+      {
+        for(uint8_t i = 0; i<100;i++)
+        {
+          //load name, if available
+          if(halStorageGetNameForNumberIR(tid,i,name) == ESP_OK)
+          {
+            //if available: print out on serial and increase number of 
+            //printed IR cmds
+            sprintf(output,"IRCommand%d:%s\r\n",printed,name);
+            halSerialSendUSBSerial(HAL_SERIAL_TX_TO_CDC,output,strlen(output),10);
+            printed++;
+          }
+          //if we have printed the same count as available IR slots, finish
+          if(printed == count) 
+          {
+            halStorageFinishTransaction(tid);
+            return NOACTION;
+          }
+        }
+      } else {
+        ESP_LOGE(LOG_TAG,"Cannot get IR cmd number");
+      }
+      halStorageFinishTransaction(tid);
+    } else {
+      ESP_LOGE(LOG_TAG,"Cannot start transaction");
+    }
+    return UNKNOWNCMD;
+  }
   //not consumed, no command found for infrared
   return UNKNOWNCMD;
 }
@@ -993,6 +1121,7 @@ void task_commands(void *params)
   taskKeyboardConfig_t *cmdKeyboard = malloc(sizeof(taskKeyboardConfig_t));
   taskNoParameterConfig_t *cmdNoConfig = malloc(sizeof(taskNoParameterConfig_t));
   taskConfigSwitcherConfig_t *cmdCfgSwitcher = malloc(sizeof(taskConfigSwitcherConfig_t));
+  taskInfraredConfig_t *cmdInfrared = malloc(sizeof(taskInfraredConfig_t));
   //taskJoystickConfig_t *cmdJoystick = malloc(sizeof(taskJoystickConfig_t));
   
   //check if we have all our pointers
@@ -1031,13 +1160,17 @@ void task_commands(void *params)
         continue;
       }
       
+      //replace '\r' and '\n' by '\0'
+      //terminate...
+      for(uint16_t i = 0; i<received;i++)
+      {
+        if(commandBuffer[i] == '\r' || commandBuffer[i] == '\n') {
+          commandBuffer[i] = 0;
+        }
+      }
       //do parsing :-)
       //simplified into smaller functions, to make reading easy.
-      //each parser returns either:
-      //0 if the command was not consumed (not a valid command for this part)
-      //1 if the command was consumed and needs to be forwarded to a task (singleshot/VB reload)
-      //2 if the command was consumed but no further action is needed
-      
+      //
       //the variable requestVBUpdate which is used to determine if an
       //AT command should be triggered as singleshot (== VB_SINGLESHOT)
       //or should be assigned to a VB.
@@ -1048,7 +1181,7 @@ void task_commands(void *params)
       if(parserstate == UNKNOWNCMD) parserstate = doStorageParsing(commandBuffer,cmdCfgSwitcher);
       if(parserstate == UNKNOWNCMD) parserstate = doKeyboardParsing(commandBuffer,cmdKeyboard,received);
       if(parserstate == UNKNOWNCMD) parserstate = doGeneralCmdParsing(commandBuffer);
-      if(parserstate == UNKNOWNCMD) parserstate = doInfraredParsing(commandBuffer);
+      if(parserstate == UNKNOWNCMD) parserstate = doInfraredParsing(commandBuffer,cmdInfrared);
       if(parserstate == UNKNOWNCMD) parserstate = doMouthpieceSettingsParsing(commandBuffer,cmdNoConfig);
       
       switch(parserstate)

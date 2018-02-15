@@ -1,6 +1,5 @@
 var searchData=
 [
-  ['mouse_5faction',['mouse_action',['../task__mouse_8h.html#ad99a95527afeac61cb05911c7695d942',1,'task_mouse.h']]],
-  ['mouse_5faction_5fparam',['mouse_action_param',['../task__mouse_8h.html#ad53ec90e96906b6a56850883cc215635',1,'task_mouse.h']]],
-  ['mouthpiece_5fmode',['mouthpiece_mode',['../common_8h.html#a43f0521562303f42d96251f43d198c66',1,'common.h']]]
+  ['keyboard_5faction',['keyboard_action',['../task__kbd_8h.html#aff3bf982a86299e69b007b0d16a45227',1,'task_kbd.h']]],
+  ['keyboard_5flayouts',['keyboard_layouts',['../keyboard_8h.html#a2a924c746739f7a895f76d13ef8e6e5f',1,'keyboard.h']]]
 ];

@@ -201,7 +201,6 @@ void halAdcTaskMouse(void * pvParameters)
     float moveVal, accumXpos = 0, accumYpos = 0;
     //todo: use a define for the delay here... (currently used: value from vTaskDelay())
     float accelFactor= 20 / 100000000.0f;
-    float max_speed= adc_conf.max_speed / 10.0f;
     mouse_command_t command;
     TickType_t xLastWakeTime;
     
@@ -314,7 +313,7 @@ void halAdcTaskJoystick(void * pvParameters)
     //analog values
     adcData_t D;
     int32_t x,y;
-    joystick_command_t command;
+    //joystick_command_t command;
     TickType_t xLastWakeTime;
     
     while(1)

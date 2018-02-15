@@ -52,6 +52,7 @@
 //common definitions & data for all of these functional tasks
 #include "common.h"
 #include "hal_serial.h"
+#include "math.h"
 
 /** @brief ADC input pin for "up" channel of FSR
  * @note For adapting this pin, change HAL_IO_ADC_CHANNEL_UP as well!

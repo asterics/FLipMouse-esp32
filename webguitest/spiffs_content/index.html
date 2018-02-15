@@ -335,10 +335,13 @@
 
     function toTab(tabId) {
         tabId = parseTabId(tabId);
+        if(!tabId) {
+            tabId = '#tabBasic';
+        }
         tabby.toggleTab(tabId);
         L.setVisible('#toNavLink');
         L.setVisible('#toNavBackLink', false);
-        if (!tabId || tabId.indexOf('#tabBasic') > -1) {
+        if (tabId.indexOf('#tabBasic') > -1) {
             toBasic();
         } else if (tabId.indexOf('#tabPuff') > -1) {
             toSipPuff();
@@ -388,7 +391,9 @@
     }
 
     function getCurrentTabId() {
-        var id = parseTabId(L('.tabs-pane.active')[0].baseURI);
+        if(L('.tabs-pane.active')[0]) {
+            var id = parseTabId(L('.tabs-pane.active')[0].baseURI);
+        }
         return id ? id : parseTabId(window.location.href);
     }
 

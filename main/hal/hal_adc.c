@@ -52,6 +52,9 @@ typedef struct adcData {
     uint32_t left;
     uint32_t right;
     uint32_t pressure;
+    int32_t x;
+    int32_t y;
+    
 } adcData_t;
 
 /** current loaded ADC task handle, used to delete & recreate an ADC task
@@ -115,16 +118,22 @@ void halAdcReportRaw(uint32_t up, uint32_t down, uint32_t left, uint32_t right, 
     }
 }
 
-/** @brief Read out analog voltages & apply sensor gain
+/** @brief Read out analog voltages, apply sensor gain and deadzone
  * 
  * Internally used function for sensor readings & applying the
- * sensor gain
+ * sensor gain.
+ * Furthermore, X&Y values are calculated by subtracting left/right and
+ * up/down, offset is used as well. 
+ * In addition, the deadzone is calculated as well (based on an elliptic curve).
+ * 
  * @param values Pointer to struct of all analog values
+ * @see adcData_t
  */
 void halAdcReadData(adcData_t *values)
 {
     //read all sensors
     uint32_t tmp = 0;
+    int32_t x,y;
     uint32_t up = adc1_to_voltage(HAL_IO_ADC_CHANNEL_UP, &characteristics);
     uint32_t down = adc1_to_voltage(HAL_IO_ADC_CHANNEL_DOWN, &characteristics);
     uint32_t left = adc1_to_voltage(HAL_IO_ADC_CHANNEL_LEFT, &characteristics);
@@ -143,6 +152,58 @@ void halAdcReadData(adcData_t *values)
     values->down = down * adc_conf.gain[1] / 50;
     values->left = left * adc_conf.gain[2] / 50;
     values->right = right * adc_conf.gain[3] / 50;
+    
+    //calculate X and Y values
+    x = (values->left - values->right) - offsetx;
+    y = (values->up - values->down) - offsety;
+    
+    //apply elliptic deadzone
+    //formula:
+    //https://sebadorn.de/2012/01/02/herausfinden-ob-ein-punkt-in-einer-ellipse-liegt
+    //A point in an elliptic curve:
+    //(px - cx)² / rx² + (py - cy)² / ry² <= 1
+    //cx/cy is 0 (we start at 0/0)
+    //py/py is our x/y
+    //rx/ry are deadzone values
+    //to shorten the formulas
+    uint8_t a = adc_conf.deadzone_x;
+    uint8_t b = adc_conf.deadzone_y;
+    float status = pow(x,2) / pow(a,2) + pow(y,2) / pow(b,2);
+    
+    //check if point is outside deadzone
+    if(status > 1)
+    {
+       //if outside deadzone, subtract ellipse itself to start with
+       //0 for a movement
+       
+       //formula for ellipse point:
+       //https://math.stackexchange.com/questions/22064/calculating-a-point-that-lies-on-an-ellipse-given-an-angle
+       
+       //angle of the given mouthpiece
+       float angle = atan(y/x);
+       float deadzoneX = abs((a*b)/sqrt(pow(b,2)+pow(a,2)*pow(tan(angle),2)));
+       float deadzoneY = abs((a*b)/sqrt(pow(a,2)+ pow(b,2)/pow(tan(angle),2)));
+              
+       //subtract calculated ellipse coordinates from output X/Y values
+       if(x > 0)
+       {
+           values->x = x - (int)deadzoneX;
+       } else {
+           values->x = x + (int)deadzoneX;
+       }
+       if(y > 0)
+       {
+           values->y = y - (int)deadzoneY;
+       } else {
+           values->y = y + (int)deadzoneY;
+       }
+    } else {
+        //otherwise, x&y is 0
+        values->x = 0;
+        values->y = 0;
+    }
+    //(px,py) = point to calculate
+    //(rx,ry) = radius of ellipse
 }
 
 /** @brief Process pressure sensor (sip & puff)
@@ -220,6 +281,7 @@ void halAdcTaskMouse(void * pvParameters)
         tempX = (D.left - D.right) - offsetx;
         tempY = (D.up - D.down) - offsety;
         
+        //TODO: use calculated X/Y from halAdcReadData
         
         //apply deadzone
         if (tempX<-adc_conf.deadzone_x) tempX+=adc_conf.deadzone_x;

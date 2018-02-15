@@ -171,39 +171,43 @@ void halAdcReadData(adcData_t *values)
     float status = pow(x,2) / pow(a,2) + pow(y,2) / pow(b,2);
     
     //check if point is outside deadzone
-    if(status > 1)
+    if(status > 1.0)
     {
-       //if outside deadzone, subtract ellipse itself to start with
-       //0 for a movement
+        //if outside deadzone, subtract ellipse itself to start with
+        //0 for a movement
+        
+        //formula for ellipse point:
+        //https://math.stackexchange.com/questions/22064/calculating-a-point-that-lies-on-an-ellipse-given-an-angle
+        float deadzoneX = 0;
+        float deadzoneY = 0;
        
-       //formula for ellipse point:
-       //https://math.stackexchange.com/questions/22064/calculating-a-point-that-lies-on-an-ellipse-given-an-angle
-       
-       //angle of the given mouthpiece
-       float angle = atan(y/x);
-       float deadzoneX = abs((a*b)/sqrt(pow(b,2)+pow(a,2)*pow(tan(angle),2)));
-       float deadzoneY = abs((a*b)/sqrt(pow(a,2)+ pow(b,2)/pow(tan(angle),2)));
+        //angle of the given mouthpiece
+        //calculate only if x&y is != 0
+        if((x < 0 || x > 0) && (y < 0 || y > 0))
+        {
+            float angle = atan(y/x);
+            deadzoneX = abs((a*b)/sqrt(pow(b,2)+pow(a,2)*pow(tan(angle),2)));
+            deadzoneY = abs((a*b)/sqrt(pow(a,2)+ pow(b,2)/pow(tan(angle),2)));
+        }
               
-       //subtract calculated ellipse coordinates from output X/Y values
-       if(x > 0)
-       {
-           values->x = x - (int)deadzoneX;
-       } else {
-           values->x = x + (int)deadzoneX;
-       }
-       if(y > 0)
-       {
-           values->y = y - (int)deadzoneY;
-       } else {
-           values->y = y + (int)deadzoneY;
-       }
+        //subtract calculated ellipse coordinates from output X/Y values
+        if(x > 0)
+        {
+            values->x = x - (int)deadzoneX;
+        } else {
+            values->x = x + (int)deadzoneX;
+        }
+        if(y > 0)
+        {
+            values->y = y - (int)deadzoneY;
+        } else {
+            values->y = y + (int)deadzoneY;
+        }
     } else {
         //otherwise, x&y is 0
         values->x = 0;
         values->y = 0;
     }
-    //(px,py) = point to calculate
-    //(rx,ry) = radius of ellipse
 }
 
 /** @brief Process pressure sensor (sip & puff)
@@ -281,7 +285,9 @@ void halAdcTaskMouse(void * pvParameters)
         tempX = (D.left - D.right) - offsetx;
         tempY = (D.up - D.down) - offsety;
         
-        //TODO: use calculated X/Y from halAdcReadData
+        //if you want to slow down, uncomment following two lines
+        //ESP_LOGD(LOG_TAG,"X/Y square, X/Y ellipse: %d/%d, %d/%d",tempX,tempY,D.x,D.y);
+        //vTaskDelay(10);
         
         //apply deadzone
         if (tempX<-adc_conf.deadzone_x) tempX+=adc_conf.deadzone_x;

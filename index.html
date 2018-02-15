@@ -171,8 +171,8 @@
                         <span>max:</span><span id="maxValue">0</span>,
                         <span>min:</span><span id="minValue">-1</span></div>
                     <div class="ten columns"
-                         style="border-style: solid; border-width: thin; background-color: transparent">
-                        <div id="value-bar" style="width: 50%;"></div>
+                         style="position:relative; height: 2em; border-style: solid; border-width: thin; background-color: transparent">
+                        <div id="sippuff-value-bar" class="value-bar" style="width: 50%;"></div>
                     </div>
                 </div>
 
@@ -195,11 +195,13 @@
 
             <br/>
             <br/>
-            <button id="sip-puff-button" onclick="flipActionThenToggle(flip.save, ['#sip-puff-button-normal', '#sip-puff-button-saving'])" class="u-full-width">
-                <div id="sip-puff-button-normal" i18n>Save // Speichern</div>
+            <button id="sip-puff-button" onclick="flipActionThenToggle(flip.save, ['#sip-puff-button-normal', '#sip-puff-button-saving'], '#save-sip-value-bar')" class="u-full-width" style="position: relative;">
+                <div id="save-sip-value-bar" class="value-bar color-lightercyan" style="width: 0%;"></div>
+                <div id="sip-puff-button-normal" style="position: relative" i18n>Save // Speichern</div>
                 <div id="sip-puff-button-saving" style="display: none" i18n>Saving... // Wird
                     gespeichert...
                 </div>
+
             </button>
         </div>
         <div data-tabs-pane class="tabs-pane" id="tabActions">
@@ -327,11 +329,43 @@
         }
     }
 
-    function flipActionThenToggle(actionFunction, toggleElementList) {
+    function flipActionThenToggle(actionFunction, toggleElementList, progressBarId) {
+        var oldProgress = 0;
+        var maxProgress = 0;
+        var stopProgressBar = false;
         L.toggle.apply(null, toggleElementList);
-        actionFunction().then(function () {
+        actionFunction(progressHandler).then(function () {
+            stopProgressBar = true;
+            progressHandler(100);
+            setTimeout(function () {
+                L(progressBarId).style = 'width: 0%;';
+            }, 500);
             L.toggle.apply(null, toggleElementList);
+        }, function () {
+            stopProgressBar = true;
         });
+
+        function progressHandler(progress) {
+            var startTime = L.getMs();
+            if (progressBarId) {
+                updateProgressBar(oldProgress);
+            }
+            oldProgress = progress;
+
+            function updateProgressBar(oldPrg) {
+                setTimeout(function () {
+                    var t = L.getMs() - startTime;
+                    var p = (progress - oldPrg) * (1 - Math.exp(-t / 1000)) + oldPrg;
+                    if(p > maxProgress) {
+                        maxProgress = p;
+                        L(progressBarId).style = 'width: ' + p + '%;';
+                        if(!stopProgressBar) {
+                            updateProgressBar(oldPrg);
+                        }
+                    }
+                }, 50);
+            }
+        }
     }
 
     function toTab(tabId) {
@@ -451,7 +485,7 @@
         L('#guide-max').style = 'width: ' + percentMax + '%;';
         L('#guide-min').style = 'width: ' + percentMin + '%;';
 
-        L('#value-bar').style = 'width: ' + percent + '%;';
+        L('#sippuff-value-bar').style = 'width: ' + percent + '%;';
         L('#guide-current').style = 'width: ' + percent + '%;';
 
         //set slider ranges

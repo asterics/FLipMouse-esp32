@@ -126,7 +126,8 @@
             <br/>
             <br/>
             <div class="row">
-                <button id="basic-button" onclick="flipActionThenToggle(flip.save, ['#basic-button-normal', '#basic-button-saving'])" class="one-third">
+                <button id="basic-button" onclick="flipActionThenToggle(flip.save, ['#basic-button-normal', '#basic-button-saving'], '#save-basic-value-bar')" class="one-third" style="position: relative;">
+                    <div id="save-basic-value-bar" class="value-bar color-lightercyan" style="width: 0%;"></div>
                     <div id="basic-button-normal" i18n>Save // Speichern</div>
                     <div id="basic-button-saving" style="display: none;" i18n>Saving... // Wird
                         gespeichert...
@@ -330,14 +331,13 @@
     }
 
     function flipActionThenToggle(actionFunction, toggleElementList, progressBarId) {
-        var oldProgress = 0;
         var maxProgress = 0;
         var stopProgressBar = false;
         L.toggle.apply(null, toggleElementList);
         actionFunction(progressHandler).then(function () {
-            stopProgressBar = true;
-            progressHandler(100);
+            progressHandler(100, 100);
             setTimeout(function () {
+                stopProgressBar = true;
                 L(progressBarId).style = 'width: 0%;';
             }, 500);
             L.toggle.apply(null, toggleElementList);
@@ -345,23 +345,21 @@
             stopProgressBar = true;
         });
 
-        function progressHandler(progress) {
+        function progressHandler(progress, timeConstant) {
             var startTime = L.getMs();
+            timeConstant = timeConstant || 1000;
             if (progressBarId) {
-                updateProgressBar(oldProgress);
+                updateProgressBar(maxProgress);
             }
-            oldProgress = progress;
 
             function updateProgressBar(oldPrg) {
                 setTimeout(function () {
                     var t = L.getMs() - startTime;
-                    var p = (progress - oldPrg) * (1 - Math.exp(-t / 1000)) + oldPrg;
-                    if(p > maxProgress) {
+                    var p = (progress - oldPrg) * (1 - Math.exp(-t / timeConstant)) + oldPrg;
+                    if(p > maxProgress && !stopProgressBar) {
                         maxProgress = p;
                         L(progressBarId).style = 'width: ' + p + '%;';
-                        if(!stopProgressBar) {
-                            updateProgressBar(oldPrg);
-                        }
+                        updateProgressBar(oldPrg);
                     }
                 }, 50);
             }

@@ -17,11 +17,21 @@ window.L.toggle = function () {
     }
     for (var i = 0; i < arguments.length; i++) {
         var selector = arguments[i];
-        var x = L(selector);
-        if (x.style && x.style.display === "none") {
-            x.style.display = "block";
-        } else {
-            x.style.display = "none";
+        var elems = L(selector);
+        if(elems.length) {
+            elems.forEach(function (x) {
+                toggle(x);
+            });
+        } else if(elems.style) {
+            toggle(elems);
+        }
+
+        function toggle(x) {
+            if (x.style && x.style.display === "none") {
+                x.style.display = "block";
+            } else {
+                x.style.display = "none";
+            }
         }
     }
 };
@@ -32,11 +42,21 @@ window.L.isVisible = function (selector) {
 };
 
 window.L.setVisible = function (selector, visible) {
-    var x = L(selector);
-    if(visible == false) {
-        x.style.display = "none";
-    } else {
-        x.style.display = "block";
+    var elems = L(selector);
+    if(elems.length) {
+        elems.forEach(function (x) {
+            setVisible(x);
+        });
+    } else if(elems.style) {
+        setVisible(elems);
+    }
+
+    function setVisible(x) {
+        if(visible == false) {
+            x.style.display = "none";
+        } else {
+            x.style.display = "block";
+        }
     }
 };
 

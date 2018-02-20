@@ -61,3 +61,27 @@ window.L.getIDSelector = function (id) {
 window.L.getPercentage = function (value, minRange, maxRange) {
     return (Math.round(((value - minRange) / (maxRange - minRange) * 100) * 1000) / 1000)
 };
+
+window.L.getMs = function () {
+    return new Date().getTime();
+};
+
+window.L.deepCopy = function (object) {
+    return JSON.parse(JSON.stringify(object));
+};
+
+window.L.removeAllChildren = function (selector) {
+    L(selector).forEach(function (elem) {
+        while (elem.firstChild) {
+            elem.removeChild(elem.firstChild);
+        }
+    });
+};
+
+/**
+ * returns true if the current browser language contains the given localeString
+ */
+window.L.isLang = function (localeString) {
+    var lang = window.navigator.userLanguage || window.navigator.language;
+    return lang.indexOf(localeString) > -1;
+};

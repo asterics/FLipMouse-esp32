@@ -148,9 +148,13 @@ function FlipMouse(initFinished) {
      *
      * @return {Promise}
      */
-    thiz.save = function () {
+    thiz.save = function (updateProgressHandler) {
+        updateProgressHandler = updateProgressHandler || function(){};
+        var progress = 0;
         sendAtCmdNoResultHandling('AT DE');
         thiz.pauseLiveValueListener();
+        increaseProgress(10);
+        var percentPerSlot = 50 / thiz.getSlots().length;
         var saveSlotsPromise = new Promise(function (resolve) {
             loadAndSaveSlot(thiz.getSlots(), 0);
             function loadAndSaveSlot(slots, i) {
@@ -163,16 +167,24 @@ function FlipMouse(initFinished) {
                     loadSlotByConfig(slot);
                     thiz.testConnection().then(function () {
                         sendAtCmdNoResultHandling('AT SA ' + slot);
+                        increaseProgress(percentPerSlot);
                         loadAndSaveSlot(slots, i+1);
                     });
                 });
             }
         });
 
+        function increaseProgress(percent) {
+            progress += percent;
+            updateProgressHandler(progress);
+        }
+
         return new Promise(function (resolve) {
             saveSlotsPromise.then(function () {
                 thiz.testConnection().then(function () {
+                    increaseProgress(30);
                     loadSlotByConfig(_currentSlot).then(function () {
+                        increaseProgress(10);
                         thiz.resumeLiveValueListener();
                         resolve();
                     });
@@ -243,6 +255,27 @@ function FlipMouse(initFinished) {
             sendAtCmdNoResultHandling('AT LO ' + slot);
         }
         return _config[_currentSlot];
+    };
+
+    thiz.saveSlot = function (slotName, progressHandler) {
+        if(!slotName || thiz.getSlots().includes(slotName)) {
+            console.warn('slot not saved because no slot name or slot already existing!');
+        }
+        _config[slotName] = L.deepCopy(_config[_currentSlot]);
+        _currentSlot = slotName;
+        sendAtCmdNoResultHandling('AT SA ' + slotName);
+        if(progressHandler) {
+            progressHandler(50);
+        }
+        return thiz.testConnection();
+    };
+
+    thiz.deleteSlot = function (slotName, progressHandler) {
+        if(!slotName || !thiz.getSlots().includes(slotName)) {
+            console.warn('slot not deleted because no slot name or slot not existing!');
+        }
+        delete _config[slotName];
+        return thiz.save(progressHandler);
     };
 
     thiz.getLiveData = function (constant) {

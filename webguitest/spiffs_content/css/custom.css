@@ -19,6 +19,11 @@ button, .button {
     padding: 0; !important;
 }
 
+button:disabled, button:disabled div{
+    border-color: darkgray;
+    color: lightgray;
+}
+
 br {
     line-height: 250%;
 }
@@ -27,10 +32,10 @@ br {
     text-align: center;
 }
 
-#value-bar {
+.value-bar {
     background-color: #9be7ff;
-    height: 2em;
-    position: relative;
+    height: 100%;
+    position: absolute;
     z-index: -10;
 }
 

@@ -17,9 +17,9 @@
 <div id="content">
     <div class="row">
         <h1 class="nine columns" i18n>FLipMouse Web Configuration // FLipMouse Webkonfiguration</h1>
-        <div class="three columns">
+        <div class="three columns hide-mobile">
             <label class="row u-full-width" for="selectSlots" i18n>Select Slot // Slot auswählen</label>
-            <select id="selectSlots" class="row u-full-width" onchange="selectSlot(this)">
+            <select id="selectSlots" class="slot-select row u-full-width" onchange="selectSlot(this)">
             </select>
         </div>
     </div>
@@ -30,7 +30,7 @@
                                      class="ui-btn-active" i18n>Basic Setup // Basis-Konfiguration</a></div>
         <div class="four columns hide-mobile"><a onclick="toTab(this.href)" class="button button-primary" data-tab href="#tabPuff" i18n>Sip and Puff // Saug-Blassteuerung</a></div>
         <div class="four columns hide-mobile"><a onclick="toTab(this.href)" class="button button-primary" data-tab
-                                     href="#tabActions">Learn Actions</a></div>
+                                     href="#tabSlots" i18n>Slot configuration // Slot-Konfiguration</a></div>
         <div class="show-mobile"><a id="toNavLink" onclick="toNav()" class="button button-primary" data-tab href="#tabNav" i18n>&#x2630; Menu // &#x2630; Menü</a></div>
         <div class="show-mobile"><a id="toNavBackLink" style="display: none" onclick="toNavBack()" class="button button-primary" i18n>&#8592; Back // &#8592; Zurück</a></div>
     </div>
@@ -85,11 +85,11 @@
                     </div>
                 </div>
                 <div class="five columns">
-                    <button onclick="flipActionThenToggle(flip.calibrate, ['#basic-button-calibrate', '#basic-button-calibrating'])">
+                    <button onclick="flipActionThenToggle(flip.calibrate, [], ['#basic-button-calibrate', '#basic-button-calibrating'])">
                         <span i18n id="basic-button-calibrate">Calibrate middle position // Mittelposition kalibrieren</span>
                         <span id="basic-button-calibrating" style="display: none;" i18n>Calibrating... // wird kalibriert...</span>
                     </button>
-                    <button onclick="flipActionThenToggle(flip.rotate, ['#basic-button-rotate', '#basic-button-rotating'])">
+                    <button onclick="flipActionThenToggle(flip.rotate, [], ['#basic-button-rotate', '#basic-button-rotating'])">
                         <span i18n id="basic-button-rotate">&#x21bb; Rotate right // &#x21bb; Nach rechts drehen</span>
                         <span id="basic-button-rotating" style="display: none;" i18n>Rotating... // wird gedreht...</span>
                     </button>
@@ -126,7 +126,7 @@
             <br/>
             <br/>
             <div class="row">
-                <button id="basic-button" onclick="flipActionThenToggle(flip.save, ['#basic-button-normal', '#basic-button-saving'], '#save-basic-value-bar')" class="one-third" style="position: relative;">
+                <button id="basic-button" onclick="flipActionThenToggle(flip.save, [], ['#basic-button-normal', '#basic-button-saving'], '#save-basic-value-bar')" class="one-third" style="position: relative;">
                     <div id="save-basic-value-bar" class="value-bar color-lightercyan" style="width: 0%;"></div>
                     <div id="basic-button-normal" i18n>Save // Speichern</div>
                     <div id="basic-button-saving" style="display: none;" i18n>Saving... // Wird
@@ -196,29 +196,46 @@
 
             <br/>
             <br/>
-            <button id="sip-puff-button" onclick="flipActionThenToggle(flip.save, ['#sip-puff-button-normal', '#sip-puff-button-saving'], '#save-sip-value-bar')" class="u-full-width" style="position: relative;">
+            <button id="sip-puff-button" onclick="flipActionThenToggle(flip.save, [], ['#sip-puff-button-normal', '#sip-puff-button-saving'], '#save-sip-value-bar')" class="u-full-width" style="position: relative;">
                 <div id="save-sip-value-bar" class="value-bar color-lightercyan" style="width: 0%;"></div>
                 <div id="sip-puff-button-normal" style="position: relative" i18n>Save // Speichern</div>
                 <div id="sip-puff-button-saving" style="display: none" i18n>Saving... // Wird
                     gespeichert...
                 </div>
-
             </button>
         </div>
-        <div data-tabs-pane class="tabs-pane" id="tabActions">
-            <div class="empty-separator"></div>
+        <div data-tabs-pane class="tabs-pane" id="tabSlots">
+            <div class="row">
+                <label for="selectSlots2" i18n>Select active slot // Aktiven Slot auswählen</label>
+                <select id="selectSlots2" class="slot-select u-full-width" onchange="selectSlot(this)">
+                </select>
+            </div>
 
-            <label for="action-1">Select an action:</label>
-            <select id="actioncommand">
-                <option selected="selected" value="CL">Click Left</option>
-                <option value="CR">Click Right</option>
-                <option value="PL">Press (Hold) Left</option>
-                <option value="KW">Write Keyboard</option>
-            </select>
-            <label for="action-2">additional paramters (text or value):</label>
-            <input type="text" data-clear-btn="true" name="actionparameter" id="actionparameter" value="">
-            <div class="empty-separator"></div>
-            <input type="button" id="action-button" value="Learn Gesture">
+            <br/>
+            <div class="row">
+                <label for="newSlotLabel" i18n>Create new slot // Neuen Slot anlegen</label>
+                <div i18n class="u-full-width">
+                    <input id="newSlotLabel" oninput="saveSlotLabelChanged(this)" type="text" class="u-full-width" placeholder="<insert name for new slot>" maxlength="15"/>
+                    <input id="newSlotLabel" oninput="saveSlotLabelChanged(this)" type="text" class="u-full-width" placeholder="<Name für neuen Slot eingeben>" maxlength="15"/>
+                </div>
+                <button id="create-slot-button" disabled onclick="saveSlot(['#create-slot-button-normal', '#create-slot-button-saving'], '#create-slot-value-bar')" class="u-full-width" style="position: relative;">
+                    <div id="create-slot-value-bar" class="value-bar color-lightercyan" style="width: 0%;"></div>
+                    <div id="create-slot-button-normal" style="position: relative" i18n>Create Slot // Slot anlegen</div>
+                    <div id="create-slot-button-saving" style="display: none" i18n>creating slot... // Slot wird anlgelegt...</div>
+                </button>
+            </div>
+
+            <br/>
+            <div class="row">
+                <label for="selectSlotDelete" i18n>Delete Slot // Slot löschen</label>
+                <select id="selectSlotDelete" class="slot-select u-full-width">
+                </select>
+                <button id="delete-slot-button" onclick="deleteSlot(['#delete-slot-button-normal', '#delete-slot-button-saving'], '#delete-slot-value-bar')" class="u-full-width" style="position: relative;">
+                    <div id="delete-slot-value-bar" class="value-bar color-lightercyan" style="width: 0%;"></div>
+                    <div id="delete-slot-button-normal" style="position: relative" i18n>Delete Slot // Slot löschen</div>
+                    <div id="delete-slot-button-saving" style="display: none" i18n>deleting slot... // Slot wird gelöscht...</div>
+                </button>
+            </div>
         </div>
     </div>
 </div>
@@ -263,16 +280,24 @@
 
     function initSlots() {
         var slots = flip.getSlots();
+        L('#delete-slot-button').disabled = slots.length <= 1;
+        L('#create-slot-button').disabled = true;
+        L.removeAllChildren('.slot-select');
         slots.forEach(function (slot) {
             var option = document.createElement("option");
             option.value = slot;
             option.innerHTML = slot;
-            L('#selectSlots').appendChild(option);
+            L('.slot-select').forEach(function (elem) {
+                elem.appendChild(option.cloneNode(true));
+            });
         });
     }
 
     function selectSlot(select) {
         var config = flip.setSlot(select.value);
+        L('.slot-select').forEach(function (elem) {
+            elem.value = select.value;
+        });
         initWithConfig(config);
     }
 
@@ -330,40 +355,68 @@
         }
     }
 
-    function flipActionThenToggle(actionFunction, toggleElementList, progressBarId) {
-        var maxProgress = 0;
-        var stopProgressBar = false;
-        L.toggle.apply(null, toggleElementList);
-        actionFunction(progressHandler).then(function () {
-            progressHandler(100, 100);
-            setTimeout(function () {
-                stopProgressBar = true;
-                L(progressBarId).style = 'width: 0%;';
-            }, 500);
-            L.toggle.apply(null, toggleElementList);
-        }, function () {
-            stopProgressBar = true;
+    function saveSlotLabelChanged(element) {
+        L('#create-slot-button').disabled = !element.value;
+    }
+
+    function saveSlot(toggleElementList, progressBarId) {
+        var slotName = L('#newSlotLabel').value;
+        flipActionThenToggle(flip.saveSlot, [slotName], toggleElementList, progressBarId).then(function () {
+            initSlots();
+            L('#newSlotLabel').value = '';
         });
+    }
 
-        function progressHandler(progress, timeConstant) {
-            var startTime = L.getMs();
-            timeConstant = timeConstant || 1000;
-            if (progressBarId) {
-                updateProgressBar(maxProgress);
-            }
-
-            function updateProgressBar(oldPrg) {
-                setTimeout(function () {
-                    var t = L.getMs() - startTime;
-                    var p = (progress - oldPrg) * (1 - Math.exp(-t / timeConstant)) + oldPrg;
-                    if(p > maxProgress && !stopProgressBar) {
-                        maxProgress = p;
-                        L(progressBarId).style = 'width: ' + p + '%;';
-                        updateProgressBar(oldPrg);
-                    }
-                }, 50);
-            }
+    function deleteSlot(toggleElementList, progressBarId) {
+        var slotName = L('#selectSlotDelete').value;
+        var confirmMessage = L.isLang('de') ? 'Möchten Sie den Slot "' + slotName + '" wirklich löschen?' : 'Do you really want to delete the slot "' + slotName + '"?';
+        if(!window.confirm(confirmMessage)){
+            return;
         }
+        flipActionThenToggle(flip.deleteSlot, [slotName], toggleElementList, progressBarId).then(function () {
+            initSlots();
+            L('#newSlotLabel').value = '';
+        });
+    }
+
+    function flipActionThenToggle(actionFunction, argList, toggleElementList, progressBarId) {
+        return new Promise(function (resolve) {
+            var maxProgress = 0;
+            var stopProgressBar = false;
+            argList = argList || [];
+            L.toggle.apply(null, toggleElementList);
+            actionFunction.apply(null, argList.concat(progressHandler)).then(function () {
+                progressHandler(100, 100);
+                setTimeout(function () {
+                    stopProgressBar = true;
+                    L(progressBarId).style = 'width: 0%;';
+                }, 500);
+                L.toggle.apply(null, toggleElementList);
+                resolve();
+            }, function () {
+                stopProgressBar = true;
+            });
+
+            function progressHandler(progress, timeConstant) {
+                var startTime = L.getMs();
+                timeConstant = timeConstant || 1000;
+                if (progressBarId) {
+                    updateProgressBar(maxProgress);
+                }
+
+                function updateProgressBar(oldPrg) {
+                    setTimeout(function () {
+                        var t = L.getMs() - startTime;
+                        var p = (progress - oldPrg) * (1 - Math.exp(-t / timeConstant)) + oldPrg;
+                        if (p > maxProgress && !stopProgressBar) {
+                            maxProgress = p;
+                            L(progressBarId).style = 'width: ' + p + '%;';
+                            updateProgressBar(oldPrg);
+                        }
+                    }, 50);
+                }
+            }
+        });
     }
 
     function toTab(tabId) {
@@ -378,8 +431,8 @@
             toBasic();
         } else if (tabId.indexOf('#tabPuff') > -1) {
             toSipPuff();
-        } else if (tabId.indexOf('#tabActions') > -1) {
-            toActionLearn();
+        } else if (tabId.indexOf('#tabSlots') > -1) {
+            toSlots();
         }  else if (tabId.indexOf('#tabNav') > -1) {
             toNav();
         }
@@ -393,7 +446,7 @@
         flip.startLiveValueListener(sipPuffValueHandler);
     }
 
-    function toActionLearn() {
+    function toSlots() {
         flip.stopLiveValueListener();
     }
 

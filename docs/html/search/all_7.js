@@ -33,6 +33,7 @@ var searchData=
   ['hal_5fio_5fpin_5fled_5fred',['HAL_IO_PIN_LED_RED',['../hal__io_8h.html#a48ccd4fca4db542339ffcdca59b2459d',1,'hal_io.h']]],
   ['hal_5fserial_2ec',['hal_serial.c',['../hal__serial_8c.html',1,'']]],
   ['hal_5fserial_2eh',['hal_serial.h',['../hal__serial_8h.html',1,'']]],
+  ['hal_5fserial_5fline_5fending',['HAL_SERIAL_LINE_ENDING',['../hal__serial_8h.html#a473298fc9468937c90caa6fb9c53f8fc',1,'hal_serial.h']]],
   ['hal_5fserial_5frxpin',['HAL_SERIAL_RXPIN',['../hal__serial_8h.html#a45f62b4622856ce7c40997e870b85895',1,'hal_serial.h']]],
   ['hal_5fserial_5fswitchpin',['HAL_SERIAL_SWITCHPIN',['../hal__serial_8h.html#a8262773282e83f78fb119496d90de114',1,'hal_serial.h']]],
   ['hal_5fserial_5ftask_5fstacksize',['HAL_SERIAL_TASK_STACKSIZE',['../hal__serial_8c.html#a15a73632001c9a59bb02bcb816492923',1,'hal_serial.c']]],

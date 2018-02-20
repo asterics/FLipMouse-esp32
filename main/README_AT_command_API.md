@@ -21,13 +21,13 @@ Following commands are currently available:
 |:--------|:----------|:------------|:--------------|:--------------------|:----------------|
 | AT    | --  | returns OK   | v2 | yes | no |
 | AT ID | --  | returns the current version string  | v2 | yes | no |
-| AT BM | number (1-11)  | set the button, which corresponds to the next command. The button assignments are described on the bottom | v2 | yes | no |
+| AT BM | number (0-VB_MAX-1)  | set the button, which corresponds to the next command. The button assignments are described on the bottom | v2 | yes | no |
 | AT BL | -- | enable/disable output of triggered virtual buttons. Is used with AT BM for command learning | v3 | no | ? |
 | AT MA | string | execute macro (space separated list of commands, see [Macros](https://github.com/asterics/FLipMouse/wiki/macros)) | v2 | no | yes (task_macro) |
 | AT WA | number | wait/delay (ms); useful for macros. Does nothing if not used in macros. | v2 | no | no |
-| AT RO | number (0,90,180,270) | orientation (0 => LEDs on top) | v2 | untested | no |
+| AT RO | number (0,90,180,270) | orientation (0 => LEDs on top) | v2 | yes | no |
 | AT KL | number | Set keyboard locale (locale defines are listed below) | v3 | yes | no |
-| AT BT | number (0,1,2) | Bluetooth mode, 1=USB only, 2=BT only, 3=both(default) | v2 | Working for USB, untested for BLE | no |
+| AT BT | number (0,1,2,3) | Bluetooth mode, 0=no HID output, 1=USB only, 2=BT only, 3=both(default) | v2 | Working for USB, untested for BLE | no |
 | AT TT | number (100-5000) | Threshold time ([ms]) between short and long press actions. Set to 5000 to disable. | v3 | no | no |
 | AT AP | number (1-500) | Antitremor delay for button press ([ms]) | v3 | no | no |
 | AT AR | number (1-500) | Antitremor delay for button release ([ms]) | v3 | no | no |
@@ -42,7 +42,7 @@ Following commands are currently available:
 | AT CD | --  | Doubleclick left mouse button  | v2 | yes | yes (task_mouse) |
 |       |   |   ||| |
 | AT PL | --  | Press+hold left mouse button  | v2 | yes | yes (task_mouse) |
-| AT PR | --  | Press+hold right mouse button  | v2 | yes | yes (task_mouse) |AT FR           report free EEPROM bytes in % (starting with "FREE:") 
+| AT PR | --  | Press+hold right mouse button  | v2 | yes | yes (task_mouse) |
 | AT PM | --  | Press+hold middle mouse button  | v2 | yes | yes (task_mouse) |
 |       |   |   ||| |
 | AT RL | --  | Release left mouse button  | v2 | yes | yes (task_mouse) |
@@ -51,7 +51,7 @@ Following commands are currently available:
 |       |   |   ||| |
 | AT WU | --  | Move mouse wheel up  | v2 | yes | yes (task_mouse) |
 | AT WD | --  | Move mouse wheel down  | v2 | yes | yes (task_mouse) |
-| AT WS | number (1-)  | Set mousewheel stepsize (e.g.: "AT WS 3" sets the stepsize to 3 rows)| v2 | yes | no |
+| AT WS | number (1-127)  | Set mousewheel stepsize (e.g.: "AT WS 3" sets the stepsize to 3 rows)| v2 | yes | no |
 |       |   |   ||| |
 | AT MX | number  | Move mouse (X direction), e.g. AT MX -25  | v2 | yes | yes (task_mouse) |
 | AT MY | number  | Move mouse (Y direction), e.g. AT MY 10  | v2 | yes | yes (task_mouse) |
@@ -68,10 +68,10 @@ Following commands are currently available:
 | AT LO | string  | load a configuration from the EEPROM (e.g. "AT LO mouse")  | v2 | yes | yes (task_configswitcher) |
 | AT LA | --  | load all slots and print the configuration   | v2 | yes | no |
 | AT LI | --  | list all available slots   | v2 | yes | no |
-| AT NE | --  | load next slot (wrap around after the last slot)  | v2 | untested | yes (task_configswitcher) |
+| AT NE | --  | load next slot (wrap around after the last slot)  | v2 | yes | yes (task_configswitcher) |
 | AT DE | --  | delete all slots  | v2 | yes | no |
 | AT DL | number (1-) | delete one slot.  | v3 | untested | no |
-| AT DN | string | delete one slot by name  | v3 | untested | no |
+| AT DN | string | delete one slot by name  | v3 | yes | no |
 | AT NC | --  | do nothing  | v2 | yes | no |
 | AT E0 | --  | disable debug output  | v2 | never, use make monitor | - |
 | AT E1 | --  | enable debug output  | v2 | never, use make monitor | - |
@@ -81,23 +81,23 @@ Following commands are currently available:
 |:--------|:----------|:------------|:--------------|:--------------------|:----------------|
 | AT MM | number (0,1,2)  | use the mouthpiece either as mouse cursor (AT MM 1), alternative function (AT MM 0) or joystick (AT MM 2)  | v2 | untested | no |
 | AT SW | --  | switch between cursor and alternative mode  | v2 | untested | no |
-| AT SR | --  | start reporting out the raw sensor values | v2 | untested | no |
-| AT ER | --  | stop reporting the sensor values  | v2 | untested | no |
-| AT CA | --  | trigger zeropoint calibration  | v2 | untested | yes (task_calibration) |
-| AT AX | number (0-100)  | sensitivity x-axis  | v2 | untested | no |
-| AT AY | number (0-100)  | sensitivity y-axis  | v2 | untested | no |
-| AT AC | number (0-100)  | acceleration  | v2 | untested | no |
-| AT MS | number (0-100)  | maximum speed  | v2 | untested | no |
-| AT DX | number (0-10000)  | deadzone x-axis  | v2 | untested | no |
-| AT DY | number (0-10000)   | deadzone y-axis  | v2 | untested | no |
-| AT TS | number (0-512)  | sip action threshold  | v2 | untested | no |
-| AT SS | number (0-512)  | strong-sip action threshold  | v2 | untested | no |
-| AT TP | number (512-1023)  | puff action threshold  | v2 | untested | no |
-| AT SP | number (512-1023)  | strong-puff action threshold  | v2 | untested | no |
-| AT GU | number (0-100)  | "up" sensor gain  | v2 | untested | no |
-| AT GD | number (0-100)  | "down" sensor gain  | v2 | untested | no |
-| AT GL | number (0-100)  | "left" sensor gain  | v2 | untested | no |
-| AT GR | number (0-100)  | "right" sensor gain  | v2 | untested | no |
+| AT SR | --  | start reporting out the raw sensor values | v2 | yes | no |
+| AT ER | --  | stop reporting the sensor values  | v2 | yes | no |
+| AT CA | --  | trigger zeropoint calibration  | v2 | yes | yes (task_calibration) |
+| AT AX | number (0-100)  | sensitivity x-axis  | v2 | yes | no |
+| AT AY | number (0-100)  | sensitivity y-axis  | v2 | yes | no |
+| AT AC | number (0-100)  | acceleration  | v2 | yes | no |
+| AT MS | number (0-100)  | maximum speed  | v2 | yes | no |
+| AT DX | number (0-10000)  | deadzone x-axis  | v2 | yes | no |
+| AT DY | number (0-10000)   | deadzone y-axis  | v2 | yes | no |
+| AT TS | number (0-512)  | sip action threshold  | v2 | yes | no |
+| AT SS | number (0-512)  | strong-sip action threshold  | v2 | yes | no |
+| AT TP | number (512-1023)  | puff action threshold  | v2 | yes | no |
+| AT SP | number (512-1023)  | strong-puff action threshold  | v2 | yes | no |
+| AT GU | number (0-100)  | "up" sensor gain  | v2 | yes | no |
+| AT GD | number (0-100)  | "down" sensor gain  | v2 | yes | no |
+| AT GL | number (0-100)  | "left" sensor gain  | v2 | yes | no |
+| AT GR | number (0-100)  | "right" sensor gain  | v2 | yes | no |
 **Joystick settings**
 | Command | Parameter | Description | Available since | Implemented in v3 | FUNCTIONAL task |
 |:--------|:----------|:------------|:--------------|:--------------------|:----------------|

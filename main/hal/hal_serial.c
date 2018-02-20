@@ -42,7 +42,7 @@
  * the task_commands_cim is used to fetch & parse serial data.
  * 
  * @note In this firmware, there are 3 pins routed to the USB support chip (RX,TX,signal).
- * Depending on the level of the signal line, data sent to the USB chip are either
+ * Depending on the level of the signal line, data sent to the USB chip is either
  * interpreted as USB-HID commands (keyboard, mouse or joystick reports) or
  * the data is forwarded to the USB-CDC interface, which is used to send data 
  * to the host (config GUI, terminal, AsTeRICS,...).
@@ -62,8 +62,9 @@
  * If you adjust the
  * 
  * Currently, the value 30ms reflects 115k2 baud and 256 bytes for one AT command:
- * -) ~87us are necessary for 1 byte (115k2 baud + 10 bit times) <br>
- * -) ~22ms are necessary for maximum command length
+ * * ~87us are necessary for 1 byte (115k2 baud + 10 bit times) <br>
+ * * ~22ms are necessary for maximum command length
+ * 
  * -> next bigger value reflectable in ticks is 30ms.
  * 
  * @see ATCMD_LENGTH
@@ -72,29 +73,36 @@
 #define HAL_SERIAL_UART_TIMEOUT_MS 5000
 
 static const int BUF_SIZE_RX = 512;
-static const int EVENTQUEUE_SIZE = 64;
+/** @brief Length of queue for AT commands
+ * @note A maximum of CMDQUEUE_SIZE x ATCMD_LENGTH will be allocated. 
+ * @see cmds
+ * */
+static const int CMDQUEUE_SIZE = 16;
 static const int BUF_SIZE_TX = 512;
 static uint8_t keycode_modifier;
 static uint8_t keycode_arr[8] = {'K',0,0,0,0,0,0,0};
+/** @brief Queue for parsed AT commands
+ * 
+ * This queue is read by halSerialReceiveUSBSerial (which receives
+ * from the queue and frees the memory afterwards).
+ * AT commands are sent by halSerialRXTask, which parses each byte.
+ * @note Pass structs of type atcmd_t, no pointer!
+ * @see halSerialRXTask
+ * @see halSerialReceiveUSBSerial
+ * @see CMDQUEUE_SIZE
+ * @see atcmd_t
+ * */
+QueueHandle_t cmds;
+
+typedef struct atcmd {
+  uint8_t *buf;
+  uint16_t len;
+} atcmd_t;
 
 /** mutex for sending to serial port. Used to avoid wrong set signal pin
  * on different UART sent bytes (either USB-HID or USB-Serial)
  * */
 static SemaphoreHandle_t serialsendingsem;
-
-/** @brief Pattern detected semaphore
- * Each time the "\n" character is received, this semaphore will
- * release any pending halSerialReceiveUSBSerial call.
- * @see halSerialReceiveUSBSerial*/
-static SemaphoreHandle_t serialpatternsem;
-
-/** @brief Event queue for UART events (by esp-idf UART driver)
- * 
- * This queue is used by uart_driver_install to create a queue where
- * UART events are sent to.
- * In this case, this queue is used to detect the \n character by the
- * pattern detection interrupt. */
-static QueueHandle_t uarteventsqueue;
 
 /** Utility function, changing UART TX channel (HID or Serial)
  * 
@@ -142,51 +150,115 @@ void halSerialFlushRX(void)
 
 /** @brief Event task for pattern (\n) detection
  * 
- * This task is used to detect any pattern detection interrupts, which
- * are configured to be triggered on '\n' characters.
- * 
- * On a pattern detection event, the pattern semaphore is given, so
- * any pending task will be able to read the data.
- * Pending on this semaphore is done by halSerialReceiveUSBSerial.
- * 
- * @see serialpatternsem
- * @see halSerialReceiveUSBSerial
- * @see uarteventsqueue
+ * @todo write docs new
  * */
-static void halSerialEventTask(void *pvParameters)
+static void halSerialRXTask(void *pvParameters)
 {
-    uart_event_t event;
-    for(;;) {
-        //Waiting for UART event.
-        if(xQueueReceive(uarteventsqueue, (void * )&event, (portTickType)portMAX_DELAY)) {
-            switch(event.type) {
-                //Event of UART receving data. Not used here, data is read
-                //by halSerialReceiveUSBSerial
-                case UART_DATA:
-                break;
-                
-                //Event of UART ring buffer full
-                // & FIFO overflow: reset queue & flush uart
-                case UART_FIFO_OVF:
-                case UART_BUFFER_FULL:
-                    ESP_LOGW(LOG_TAG,"FIFO/buffer full, maybe missing UART consumer?");
-                    uart_flush_input(HAL_SERIAL_UART);
-                    xQueueReset(uarteventsqueue);
-                    break;
-                //UART_PATTERN_DET, give semaphore to unblock pending
-                //UART readers...
-                case UART_PATTERN_DET:
-                    xSemaphoreGive(serialpatternsem); //maybe we try break?
-                    break;
-                case UART_BREAK:
-                    //xSemaphoreGive(serialpatternsem); //maybe we try break?
-                    //break;
-                //Others, do nothing....
-                default: break;
+  uint16_t cmdoffset;
+  uint8_t *buf;
+  uint8_t data;
+  uint8_t parserstate = 0;
+  atcmd_t currentcmd;
+    
+  while(1)
+  {
+    int len = uart_read_bytes(HAL_SERIAL_UART, &data, 1, portMAX_DELAY);
+    
+    //only parse if a valid byte is received
+    if(len == 1)
+    {
+      switch(parserstate)
+      {
+        case 0:
+          //check for leading "A"
+          if(data == 'A' || data == 'a') 
+          { 
+            ///@todo When CIM mode is active, switch back here to AT mode
+            parserstate++; 
+          }
+          //if starting with '@', go to CIM mode.
+          if(data == '@')
+          {
+            ///@todo Activate CIM mode here.
+            ESP_LOGW(LOG_TAG,"CIM mdoe currently unsupported!");
+          }
+        break;
+        
+        
+        case 1:
+          //check for second 'T'/'t'
+          if(data == 'T' || data == 't')
+          {
+            parserstate++;
+            //reset command offset to beginning (but after "AT")
+            cmdoffset = 2;
+            //allocate new buffer for command & save "AT"
+            //free is either done in error case or in halSerialReceiveUSBSerial.
+            buf = malloc(ATCMD_LENGTH*sizeof(uint8_t));
+            if(buf != NULL)
+            {
+              buf[0] = 'A';
+              buf[1] = 'T';
+            } else {
+              ESP_LOGE(LOG_TAG,"Cannot allocate buffer for command");
+              parserstate = 0;
             }
-        }
+          } else {
+            //reset parser of no leading "AT" is detected
+            parserstate = 0;
+          }
+        break;
+        
+        
+        case 2:
+          //now read data until we reach \r or \n
+          if(data == '\r' || data == '\n')
+          {
+            //terminate string
+            buf[cmdoffset] = 0;
+            //send buffer to queue
+            currentcmd.buf = buf;
+            currentcmd.len = cmdoffset+1;
+            if(cmds != NULL)
+            {
+              if(xQueueSend(cmds,(void*)&currentcmd,10) != pdTRUE)
+              {
+                ESP_LOGE(LOG_TAG,"AT cmd queue is full, cannot send cmd");
+                free(buf);
+              } else {
+                ESP_LOGI(LOG_TAG,"Sent AT cmd with len %d to queue",cmdoffset);
+              }
+            } else {
+              ESP_LOGE(LOG_TAG,"AT cmd queue is NULL, cannot send cmd");
+              free(buf);
+            }
+            parserstate = 0;
+            break;
+          }
+          
+          //if everything is fine, just save this byte.
+          buf[cmdoffset] = data;
+          cmdoffset++;
+          
+          //check for memory length
+          if(cmdoffset == ATCMD_LENGTH)
+          {
+            ESP_LOGW(LOG_TAG,"AT cmd too long, discarding");
+            free(buf);
+            parserstate = 0;
+          }
+        break;
+        
+        default:
+          ESP_LOGE(LOG_TAG,"Unknown parser state");
+          parserstate = 0;
+        break;
+      }
     }
-    vTaskDelete(NULL);
+  }
+  
+  //we should never be here...
+  vTaskDelete(NULL);
 }
 
 void halSerialTaskKeyboardPress(void *param)
@@ -346,7 +418,7 @@ void halSerialTaskMouse(void *param)
             //remember we sent an empty report
             emptySent = 1;
             //delay for 1 tick, allowing the USB chip to parse the cmd
-            vTaskDelay(2);
+            vTaskDelay(1);
           }
         }
       }
@@ -387,27 +459,37 @@ void halSerialTaskJoystick(void *param)
  * @return -1 on error, number of read bytes otherwise
  * @param data Data to be sent
  * @param length Number of maximum bytes to read
- * @todo Maybe remove parameter length, not needed here?
  * @see HAL_SERIAL_UART_TIMEOUT_MS
+ * @see cmds
  * */
 int halSerialReceiveUSBSerial(uint8_t *data, uint32_t length)
 {
-  if(xSemaphoreTake(serialpatternsem,HAL_SERIAL_UART_TIMEOUT_MS / portTICK_PERIOD_MS) == pdTRUE)
+  atcmd_t recv;
+  if(xQueueReceive(cmds,&recv,HAL_SERIAL_UART_TIMEOUT_MS / portTICK_PERIOD_MS))
   {
-    //got this semaphore on time, return data & length
-    size_t buffered_size;
-    uart_get_buffered_data_len(HAL_SERIAL_UART, &buffered_size);
-    if(buffered_size < length)
+    //test for valid buffer
+    if(recv.buf == NULL)
     {
-      int pos = uart_pattern_pop_pos(HAL_SERIAL_UART);
-      ESP_LOGI(LOG_TAG, "pos: %d, buffered size: %d", pos, buffered_size);
-      return uart_read_bytes(HAL_SERIAL_UART, data, buffered_size, HAL_SERIAL_UART_TIMEOUT_MS / portTICK_PERIOD_MS);
-    } else {
-      ESP_LOGE(LOG_TAG,"Provide bigger buffer for UART receive (buffer size %d, buffered %d)",length,buffered_size);
+      ESP_LOGW(LOG_TAG,"buffer is null?!?");
       return -1;
     }
+    
+    //test if we have enough memory
+    if(length < recv.len) 
+    {
+      //if no, free memory, warn and return
+      free(recv.buf);
+      ESP_LOGW(LOG_TAG,"not enough buffer provided for halSerialReceiveUSBSerial");
+      return -1;
+    }
+    //save to caller
+    memcpy(data,recv.buf,sizeof(uint8_t)*recv.len);
+    //free buffer
+    free(recv.buf);
+    return recv.len;
   } else {
-    //no pattern detected on time...
+    //no cmd received
+    ESP_LOGD(LOG_TAG,"Timeout reading UART");
     return -1;
   }
 }
@@ -537,17 +619,11 @@ esp_err_t halSerialInit(void)
   }
   
   //Install UART driver with RX and TX buffers
-  ret = uart_driver_install(HAL_SERIAL_UART, BUF_SIZE_RX, BUF_SIZE_TX, EVENTQUEUE_SIZE, &uarteventsqueue, 0);
+  ret = uart_driver_install(HAL_SERIAL_UART, BUF_SIZE_RX, BUF_SIZE_TX, 0, NULL, 0);
   if(ret != ESP_OK) 
   {
     ESP_LOGE(LOG_TAG,"UART driver install failed"); 
     return ret;
-  }
-  
-  if(uarteventsqueue == NULL)
-  {
-    ESP_LOGE(LOG_TAG,"Cannot create queue for UART events");
-    return ESP_FAIL;
   }
   
   //Setup GPIO for UART sending direction (either use UART data to drive
@@ -567,20 +643,14 @@ esp_err_t halSerialInit(void)
     ESP_LOGE(LOG_TAG,"Cannot create semaphore for TX"); 
     return ESP_FAIL;
   }
-  
-  //create mutex for all tasks sending to serial TX queue.
-  //avoids splitting of different packets due to preemption
-  serialpatternsem = xSemaphoreCreateMutex();
-  if(serialpatternsem == NULL) 
-  {
-    ESP_LOGE(LOG_TAG,"Cannot create semaphore for pattern detection"); 
-    return ESP_FAIL;
-  }
+
+  //create the AT command queue
+  cmds = xQueueCreate(CMDQUEUE_SIZE,sizeof(atcmd_t));
   
   //Set uart pattern detect function.
-  uart_enable_pattern_det_intr(HAL_SERIAL_UART, '\r', 1, 10000, 10, 10);
+  //uart_enable_pattern_det_intr(HAL_SERIAL_UART, '\r', 1, 10000, 10, 10);
   //Reset the pattern queue length to record at most 10 pattern positions.
-  uart_pattern_queue_reset(HAL_SERIAL_UART, EVENTQUEUE_SIZE);
+  //uart_pattern_queue_reset(HAL_SERIAL_UART, EVENTQUEUE_SIZE);
   
   //install serial tasks (4x -> keyboard press/release; mouse; joystick)
   xTaskCreate(halSerialTaskKeyboardPress, "serialKbdPress", HAL_SERIAL_TASK_STACKSIZE, NULL, configMAX_PRIORITIES-1, NULL);
@@ -589,7 +659,7 @@ esp_err_t halSerialInit(void)
   xTaskCreate(halSerialTaskJoystick, "serialJoystick", HAL_SERIAL_TASK_STACKSIZE, NULL, configMAX_PRIORITIES-1, NULL);
   
   //Create a task to handler UART event from ISR
-  xTaskCreate(halSerialEventTask, "serialeventT", HAL_SERIAL_TASK_STACKSIZE, NULL, configMAX_PRIORITIES-1, NULL);
+  xTaskCreate(halSerialRXTask, "serialRX", HAL_SERIAL_TASK_STACKSIZE, NULL, configMAX_PRIORITIES-1, NULL);
   
   //set GPIO to route data to USB-HID
   gpio_set_level(HAL_SERIAL_SWITCHPIN, 0);

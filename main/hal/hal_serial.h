@@ -72,6 +72,10 @@
 #define HAL_SERIAL_TX_TO_HID  0
 #define HAL_SERIAL_TX_TO_CDC  1
 
+/**@brief Sets line ending character
+ * According to FLipMouse GUI PortIO.cs, \r is used */
+#define HAL_SERIAL_LINE_ENDING '\r'
+
 /** Initialize the serial HAL
  * 
  * This method initializes the serial interface & creates

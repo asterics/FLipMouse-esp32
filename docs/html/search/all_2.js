@@ -7,6 +7,7 @@ var searchData=
   ['cmd',['CMD',['../task__commands_8c.html#ad4d8475ff8191eec64ec75fa4241f187',1,'task_commands.c']]],
   ['cmd4',['CMD4',['../task__commands_8c.html#a3857f5c8268c235bcaf6beb2cf5edfee',1,'task_commands.c']]],
   ['cmdname',['cmdName',['../structtaskInfraredConfig.html#add25c6a4a9ed3ece5c032434e6befc4c',1,'taskInfraredConfig']]],
+  ['cmds',['cmds',['../hal__serial_8c.html#aba40b92cce52984f8003f0ac11b1094b',1,'hal_serial.c']]],
   ['command_5ftype_5ft',['command_type_t',['../common_8h.html#ac27b6f4710923c6689834e86aea228ac',1,'common.h']]],
   ['common_2eh',['common.h',['../common_8h.html',1,'']]],
   ['comp',['COMP',['../keyboard_8c.html#ab5451811c8920dcc67f9c8fcc51395a9',1,'keyboard.c']]],

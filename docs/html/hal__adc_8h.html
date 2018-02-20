@@ -81,6 +81,7 @@ $(function() {
 <code>#include &quot;esp_adc_cal.h&quot;</code><br />
 <code>#include &quot;<a class="el" href="common_8h_source.html">common.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="hal__serial_8h_source.html">hal_serial.h</a>&quot;</code><br />
+<code>#include &quot;math.h&quot;</code><br />
 </div>
 <p><a href="hal__adc_8h_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
@@ -155,7 +156,7 @@ Functions</h2></td></tr>
 <p>These tasks are HAL tasks, which means they might be reloaded/changed, but they are not managed outside this module.<br />
  In addition, the FUNCTIONAL task task_calibration can be used to trigger a zero-point calibration of the mouthpiece.</p>
 <dl class="section see"><dt>See also</dt><dd><a class="el" href="common_8h.html#a08f9b338fac73a54ad3d0810c270614f">adc_config_t</a> </dd></dl>
-<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000026">Todo:</a></b></dt><dd>Add raw value reporting for: CIM mode and serial interface </dd></dl>
+<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000025">Todo:</a></b></dt><dd>Add raw value reporting for: CIM mode and serial interface </dd></dl>
 
 <p class="definition">Definition in file <a class="el" href="hal__adc_8h_source.html">hal_adc.h</a>.</p>
 </div><h2 class="groupheader">Macro Definition Documentation</h2>
@@ -173,7 +174,9 @@ Functions</h2></td></tr>
 
 <p>Parameter for mouse acceleration calculation. </p>
 
-<p class="definition">Definition at line <a class="el" href="hal__adc_8h_source.html#l00105">105</a> of file <a class="el" href="hal__adc_8h_source.html">hal_adc.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="hal__adc_8h_source.html#l00106">106</a> of file <a class="el" href="hal__adc_8h_source.html">hal_adc.h</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="hal__adc_8c_source.html#l00259">halAdcTaskMouse()</a>.</p>
 
 </div>
 </div>
@@ -193,9 +196,9 @@ Functions</h2></td></tr>
 <dl class="section note"><dt>Note</dt><dd>For adapting this channel, change HAL_IO_PIN_ADC_DOWN as well! </dd></dl>
 <dl class="section see"><dt>See also</dt><dd><a class="el" href="hal__adc_8h.html#a2b486fca4bebfbc5983bd9876de79300" title="ADC input pin for &quot;down&quot; channel of FSR. ">HAL_IO_PIN_ADC_DOWN</a> </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="hal__adc_8h_source.html#l00084">84</a> of file <a class="el" href="hal__adc_8h_source.html">hal_adc.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="hal__adc_8h_source.html#l00085">85</a> of file <a class="el" href="hal__adc_8h_source.html">hal_adc.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="hal__adc_8c_source.html#l00677">halAdcInit()</a>, and <a class="el" href="hal__adc_8c_source.html#l00124">halAdcReadData()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="hal__adc_8c_source.html#l00725">halAdcInit()</a>, and <a class="el" href="hal__adc_8c_source.html#l00132">halAdcReadData()</a>.</p>
 
 </div>
 </div>
@@ -215,9 +218,9 @@ Functions</h2></td></tr>
 <dl class="section note"><dt>Note</dt><dd>For adapting this channel, change HAL_IO_PIN_ADC_LEFT as well! </dd></dl>
 <dl class="section see"><dt>See also</dt><dd><a class="el" href="hal__adc_8h.html#a1e4f4fffcd1c5b0c1b23197b38e91d8b" title="ADC input pin for &quot;left&quot; channel of FSR. ">HAL_IO_PIN_ADC_LEFT</a> </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="hal__adc_8h_source.html#l00088">88</a> of file <a class="el" href="hal__adc_8h_source.html">hal_adc.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="hal__adc_8h_source.html#l00089">89</a> of file <a class="el" href="hal__adc_8h_source.html">hal_adc.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="hal__adc_8c_source.html#l00677">halAdcInit()</a>, and <a class="el" href="hal__adc_8c_source.html#l00124">halAdcReadData()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="hal__adc_8c_source.html#l00725">halAdcInit()</a>, and <a class="el" href="hal__adc_8c_source.html#l00132">halAdcReadData()</a>.</p>
 
 </div>
 </div>
@@ -237,9 +240,9 @@ Functions</h2></td></tr>
 <dl class="section note"><dt>Note</dt><dd>For adapting this channel, change HAL_IO_PIN_ADC_PRESSURE as well! </dd></dl>
 <dl class="section see"><dt>See also</dt><dd><a class="el" href="hal__adc_8h.html#a481e9ac3c4b59162a80d464c410629c5" title="ADC input pin for pressure sensor MPX. ">HAL_IO_PIN_ADC_PRESSURE</a> </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="hal__adc_8h_source.html#l00096">96</a> of file <a class="el" href="hal__adc_8h_source.html">hal_adc.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="hal__adc_8h_source.html#l00097">97</a> of file <a class="el" href="hal__adc_8h_source.html">hal_adc.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="hal__adc_8c_source.html#l00677">halAdcInit()</a>, and <a class="el" href="hal__adc_8c_source.html#l00124">halAdcReadData()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="hal__adc_8c_source.html#l00725">halAdcInit()</a>, and <a class="el" href="hal__adc_8c_source.html#l00132">halAdcReadData()</a>.</p>
 
 </div>
 </div>
@@ -259,9 +262,9 @@ Functions</h2></td></tr>
 <dl class="section note"><dt>Note</dt><dd>For adapting this channel, change HAL_IO_PIN_ADC_RIGHT as well! </dd></dl>
 <dl class="section see"><dt>See also</dt><dd><a class="el" href="hal__adc_8h.html#a08706ae3c8ed42ef0635b47785568fcf" title="ADC input pin for &quot;right&quot; channel of FSR. ">HAL_IO_PIN_ADC_RIGHT</a> </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="hal__adc_8h_source.html#l00092">92</a> of file <a class="el" href="hal__adc_8h_source.html">hal_adc.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="hal__adc_8h_source.html#l00093">93</a> of file <a class="el" href="hal__adc_8h_source.html">hal_adc.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="hal__adc_8c_source.html#l00677">halAdcInit()</a>, and <a class="el" href="hal__adc_8c_source.html#l00124">halAdcReadData()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="hal__adc_8c_source.html#l00725">halAdcInit()</a>, and <a class="el" href="hal__adc_8c_source.html#l00132">halAdcReadData()</a>.</p>
 
 </div>
 </div>
@@ -281,9 +284,9 @@ Functions</h2></td></tr>
 <dl class="section note"><dt>Note</dt><dd>For adapting this channel, change HAL_IO_PIN_ADC_UP as well! </dd></dl>
 <dl class="section see"><dt>See also</dt><dd><a class="el" href="hal__adc_8h.html#ac552afdd91d7c0224b2bd88b218bffeb" title="ADC input pin for &quot;up&quot; channel of FSR. ">HAL_IO_PIN_ADC_UP</a> </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="hal__adc_8h_source.html#l00080">80</a> of file <a class="el" href="hal__adc_8h_source.html">hal_adc.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="hal__adc_8h_source.html#l00081">81</a> of file <a class="el" href="hal__adc_8h_source.html">hal_adc.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="hal__adc_8c_source.html#l00677">halAdcInit()</a>, and <a class="el" href="hal__adc_8c_source.html#l00124">halAdcReadData()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="hal__adc_8c_source.html#l00725">halAdcInit()</a>, and <a class="el" href="hal__adc_8c_source.html#l00132">halAdcReadData()</a>.</p>
 
 </div>
 </div>
@@ -301,7 +304,7 @@ Functions</h2></td></tr>
 
 <p>Task priority for ADC task. </p>
 
-<p class="definition">Definition at line <a class="el" href="hal__adc_8h_source.html#l00099">99</a> of file <a class="el" href="hal__adc_8h_source.html">hal_adc.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="hal__adc_8h_source.html#l00100">100</a> of file <a class="el" href="hal__adc_8h_source.html">hal_adc.h</a>.</p>
 
 </div>
 </div>
@@ -321,7 +324,7 @@ Functions</h2></td></tr>
 <dl class="section note"><dt>Note</dt><dd>For adapting this pin, change HAL_IO_ADC_CHANNEL_DOWN as well! </dd></dl>
 <dl class="section see"><dt>See also</dt><dd><a class="el" href="hal__adc_8h.html#a9f1796721ce0c5a7ee80f90d2454b62d" title="ADC channel for FSR down. ">HAL_IO_ADC_CHANNEL_DOWN</a> </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="hal__adc_8h_source.html#l00063">63</a> of file <a class="el" href="hal__adc_8h_source.html">hal_adc.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="hal__adc_8h_source.html#l00064">64</a> of file <a class="el" href="hal__adc_8h_source.html">hal_adc.h</a>.</p>
 
 </div>
 </div>
@@ -341,7 +344,7 @@ Functions</h2></td></tr>
 <dl class="section note"><dt>Note</dt><dd>For adapting this pin, change HAL_IO_ADC_CHANNEL_LEFT as well! </dd></dl>
 <dl class="section see"><dt>See also</dt><dd><a class="el" href="hal__adc_8h.html#ab4aa37d1e6858ad2af9cc376870f571e" title="ADC channel for FSR left. ">HAL_IO_ADC_CHANNEL_LEFT</a> </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="hal__adc_8h_source.html#l00067">67</a> of file <a class="el" href="hal__adc_8h_source.html">hal_adc.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="hal__adc_8h_source.html#l00068">68</a> of file <a class="el" href="hal__adc_8h_source.html">hal_adc.h</a>.</p>
 
 </div>
 </div>
@@ -361,7 +364,7 @@ Functions</h2></td></tr>
 <dl class="section note"><dt>Note</dt><dd>For adapting this pin, change HAL_IO_ADC_CHANNEL_PRESSURE as well! </dd></dl>
 <dl class="section see"><dt>See also</dt><dd><a class="el" href="hal__adc_8h.html#a81ec7a442d20a2683aec36cf3feeaa68" title="ADC channel for pressure sensor. ">HAL_IO_ADC_CHANNEL_PRESSURE</a> </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="hal__adc_8h_source.html#l00075">75</a> of file <a class="el" href="hal__adc_8h_source.html">hal_adc.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="hal__adc_8h_source.html#l00076">76</a> of file <a class="el" href="hal__adc_8h_source.html">hal_adc.h</a>.</p>
 
 </div>
 </div>
@@ -381,7 +384,7 @@ Functions</h2></td></tr>
 <dl class="section note"><dt>Note</dt><dd>For adapting this pin, change HAL_IO_ADC_CHANNEL_RIGHT as well! </dd></dl>
 <dl class="section see"><dt>See also</dt><dd><a class="el" href="hal__adc_8h.html#a6210aeeacdb49a0f5db1c141a769ab62" title="ADC channel for FSR right. ">HAL_IO_ADC_CHANNEL_RIGHT</a> </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="hal__adc_8h_source.html#l00071">71</a> of file <a class="el" href="hal__adc_8h_source.html">hal_adc.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="hal__adc_8h_source.html#l00072">72</a> of file <a class="el" href="hal__adc_8h_source.html">hal_adc.h</a>.</p>
 
 </div>
 </div>
@@ -401,7 +404,7 @@ Functions</h2></td></tr>
 <dl class="section note"><dt>Note</dt><dd>For adapting this pin, change HAL_IO_ADC_CHANNEL_UP as well! </dd></dl>
 <dl class="section see"><dt>See also</dt><dd><a class="el" href="hal__adc_8h.html#a093931e36ef0aa4a63483f093b203155" title="ADC channel for FSR up. ">HAL_IO_ADC_CHANNEL_UP</a> </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="hal__adc_8h_source.html#l00059">59</a> of file <a class="el" href="hal__adc_8h_source.html">hal_adc.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="hal__adc_8h_source.html#l00060">60</a> of file <a class="el" href="hal__adc_8h_source.html">hal_adc.h</a>.</p>
 
 </div>
 </div>
@@ -420,7 +423,7 @@ Functions</h2></td></tr>
 <p>Stacksize for functional task task_calibration. </p>
 <dl class="section see"><dt>See also</dt><dd><a class="el" href="hal__adc_8h.html#a3217185bc86562dee8617ded3872022f" title="FUNCTIONAL TASK - Trigger zero-point calibration of mouthpiece. ">task_calibration</a> </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="hal__adc_8h_source.html#l00102">102</a> of file <a class="el" href="hal__adc_8h_source.html">hal_adc.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="hal__adc_8h_source.html#l00103">103</a> of file <a class="el" href="hal__adc_8h_source.html">hal_adc.h</a>.</p>
 
 <p class="reference">Referenced by <a class="el" href="config__switcher_8c_source.html#l00201">configSwitcherTask()</a>.</p>
 
@@ -446,9 +449,9 @@ Functions</h2></td></tr>
 <p>Calibration function. </p>
 <p>This method is called to calibrate the offset value for x and y axis of the mouthpiece. Either triggered by the functional task task_calibration or on a config change. </p><dl class="section note"><dt>Note</dt><dd>Can be called directly. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="hal__adc_8c_source.html#l00370">370</a> of file <a class="el" href="hal__adc_8c_source.html">hal_adc.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="hal__adc_8c_source.html#l00425">425</a> of file <a class="el" href="hal__adc_8c_source.html">hal_adc.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c_source.html#l00073">app_main()</a>, and <a class="el" href="hal__adc_8c_source.html#l00423">task_calibration()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c_source.html#l00073">app_main()</a>, and <a class="el" href="hal__adc_8c_source.html#l00478">task_calibration()</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
@@ -489,7 +492,7 @@ Here is the caller graph for this function:</div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>ESP_OK on success, ESP_FAIL otherwise (wrong config, no memory, already initialized) </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="hal__adc_8c_source.html#l00677">677</a> of file <a class="el" href="hal__adc_8c_source.html">hal_adc.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="hal__adc_8c_source.html#l00725">725</a> of file <a class="el" href="hal__adc_8c_source.html">hal_adc.c</a>.</p>
 
 <p class="reference">Referenced by <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c_source.html#l00073">app_main()</a>.</p>
 <div class="dynheader">
@@ -498,10 +501,14 @@ Here is the call graph for this function:</div>
 <div class="center"><img src="hal__adc_8h_a6f0d302f35e5b7f7a1144f0ddace35d2_cgraph.png" border="0" usemap="#hal__adc_8h_a6f0d302f35e5b7f7a1144f0ddace35d2_cgraph" alt=""/></div>
 <map name="hal__adc_8h_a6f0d302f35e5b7f7a1144f0ddace35d2_cgraph" id="hal__adc_8h_a6f0d302f35e5b7f7a1144f0ddace35d2_cgraph">
 <area shape="rect" id="node2" href="hal__adc_8c.html#a4135bb73c2271b4a27db8d8d81884de7" title="Reload ADC config. " alt="" coords="133,56,276,83"/>
-<area shape="rect" id="node3" href="hal__adc_8c.html#aadc294c08df0386572ffdc8e7228f6b4" title="HAL TASK &#45; Mouse task for ADC. " alt="" coords="333,5,463,32"/>
-<area shape="rect" id="node5" href="hal__adc_8c.html#a452077aaa6a576304708d00d4ec439f1" title="HAL TASK &#45; Joystick task for ADC. " alt="" coords="328,56,468,83"/>
-<area shape="rect" id="node6" href="hal__adc_8c.html#aee719704e643d27c1faab768cf4bc22e" title="HAL TASK &#45; Threshold task for ADC. " alt="" coords="324,107,472,133"/>
-<area shape="rect" id="node4" href="hal__adc_8c.html#a5e0d74baf098e774b0e3aa0dab621987" title="Read out analog voltages &amp; apply sensor gain. " alt="" coords="520,56,641,83"/>
+<area shape="rect" id="node3" href="hal__adc_8c.html#aadc294c08df0386572ffdc8e7228f6b4" title="HAL TASK &#45; Mouse task for ADC. " alt="" coords="333,107,463,133"/>
+<area shape="rect" id="node9" href="hal__adc_8c.html#a452077aaa6a576304708d00d4ec439f1" title="HAL TASK &#45; Joystick task for ADC. " alt="" coords="328,5,468,32"/>
+<area shape="rect" id="node10" href="hal__adc_8c.html#aee719704e643d27c1faab768cf4bc22e" title="HAL TASK &#45; Threshold task for ADC. " alt="" coords="324,56,472,83"/>
+<area shape="rect" id="node4" href="hal__adc_8c.html#a5e0d74baf098e774b0e3aa0dab621987" title="Read out analog voltages, apply sensor gain and deadzone. " alt="" coords="541,5,662,32"/>
+<area shape="rect" id="node5" href="hal__adc_8c.html#a8743abcde6f190545c429f072c16106d" title="Report raw values via serial interface. " alt="" coords="537,107,665,133"/>
+<area shape="rect" id="node7" href="hal__adc_8c.html#acd8f9f6194ebeaa854a791879382b515" title="Process pressure sensor (sip &amp; puff) " alt="" coords="520,56,683,83"/>
+<area shape="rect" id="node6" href="hal__serial_8c.html#a8f987ba001c2a39c959a551a94b5df43" title="halSerialSendUSBSerial" alt="" coords="731,107,893,133"/>
+<area shape="rect" id="node8" href="config__switcher_8c.html#a921538bec34d128a44a748fd5a2c391f" title="Get the current config struct. " alt="" coords="751,56,873,83"/>
 </map>
 </div>
 <div class="dynheader">
@@ -545,21 +552,25 @@ Here is the caller graph for this function:</div>
   </table>
   </dd>
 </dl>
-<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000025">Todo:</a></b></dt><dd>Clear pending VB flags on a config switch </dd></dl>
+<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000024">Todo:</a></b></dt><dd>Clear pending VB flags on a config switch </dd></dl>
 <dl class="section return"><dt>Returns</dt><dd>ESP_OK on success, ESP_FAIL otherwise (wrong config, out of memory) </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="hal__adc_8c_source.html#l00601">601</a> of file <a class="el" href="hal__adc_8c_source.html">hal_adc.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="hal__adc_8c_source.html#l00649">649</a> of file <a class="el" href="hal__adc_8c_source.html">hal_adc.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="config__switcher_8c_source.html#l00201">configSwitcherTask()</a>, and <a class="el" href="hal__adc_8c_source.html#l00677">halAdcInit()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="config__switcher_8c_source.html#l00201">configSwitcherTask()</a>, and <a class="el" href="hal__adc_8c_source.html#l00725">halAdcInit()</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="hal__adc_8h_a4135bb73c2271b4a27db8d8d81884de7_cgraph.png" border="0" usemap="#hal__adc_8h_a4135bb73c2271b4a27db8d8d81884de7_cgraph" alt=""/></div>
 <map name="hal__adc_8h_a4135bb73c2271b4a27db8d8d81884de7_cgraph" id="hal__adc_8h_a4135bb73c2271b4a27db8d8d81884de7_cgraph">
-<area shape="rect" id="node2" href="hal__adc_8c.html#aadc294c08df0386572ffdc8e7228f6b4" title="HAL TASK &#45; Mouse task for ADC. " alt="" coords="205,5,335,32"/>
-<area shape="rect" id="node4" href="hal__adc_8c.html#a452077aaa6a576304708d00d4ec439f1" title="HAL TASK &#45; Joystick task for ADC. " alt="" coords="200,56,340,83"/>
-<area shape="rect" id="node5" href="hal__adc_8c.html#aee719704e643d27c1faab768cf4bc22e" title="HAL TASK &#45; Threshold task for ADC. " alt="" coords="196,107,344,133"/>
-<area shape="rect" id="node3" href="hal__adc_8c.html#a5e0d74baf098e774b0e3aa0dab621987" title="Read out analog voltages &amp; apply sensor gain. " alt="" coords="392,56,513,83"/>
+<area shape="rect" id="node2" href="hal__adc_8c.html#aadc294c08df0386572ffdc8e7228f6b4" title="HAL TASK &#45; Mouse task for ADC. " alt="" coords="205,107,335,133"/>
+<area shape="rect" id="node8" href="hal__adc_8c.html#a452077aaa6a576304708d00d4ec439f1" title="HAL TASK &#45; Joystick task for ADC. " alt="" coords="200,5,340,32"/>
+<area shape="rect" id="node9" href="hal__adc_8c.html#aee719704e643d27c1faab768cf4bc22e" title="HAL TASK &#45; Threshold task for ADC. " alt="" coords="196,56,344,83"/>
+<area shape="rect" id="node3" href="hal__adc_8c.html#a5e0d74baf098e774b0e3aa0dab621987" title="Read out analog voltages, apply sensor gain and deadzone. " alt="" coords="413,5,534,32"/>
+<area shape="rect" id="node4" href="hal__adc_8c.html#a8743abcde6f190545c429f072c16106d" title="Report raw values via serial interface. " alt="" coords="409,107,537,133"/>
+<area shape="rect" id="node6" href="hal__adc_8c.html#acd8f9f6194ebeaa854a791879382b515" title="Process pressure sensor (sip &amp; puff) " alt="" coords="392,56,555,83"/>
+<area shape="rect" id="node5" href="hal__serial_8c.html#a8f987ba001c2a39c959a551a94b5df43" title="halSerialSendUSBSerial" alt="" coords="603,107,765,133"/>
+<area shape="rect" id="node7" href="config__switcher_8c.html#a921538bec34d128a44a748fd5a2c391f" title="Get the current config struct. " alt="" coords="623,56,745,83"/>
 </map>
 </div>
 <div class="dynheader">
@@ -604,7 +615,7 @@ Here is the caller graph for this function:</div>
 <dd>
 <a class="el" href="common_8h.html#a735049d5abb65dcaa7ba76917158a3b3">taskNoParameterConfig_t</a> </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="hal__adc_8c_source.html#l00423">423</a> of file <a class="el" href="hal__adc_8c_source.html">hal_adc.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="hal__adc_8c_source.html#l00478">478</a> of file <a class="el" href="hal__adc_8c_source.html">hal_adc.c</a>.</p>
 
 <p class="reference">Referenced by <a class="el" href="config__switcher_8c_source.html#l00201">configSwitcherTask()</a>, and <a class="el" href="task__commands_8c_source.html#l00154">doMouthpieceSettingsParsing()</a>.</p>
 <div class="dynheader">

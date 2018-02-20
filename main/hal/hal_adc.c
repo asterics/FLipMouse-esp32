@@ -171,39 +171,43 @@ void halAdcReadData(adcData_t *values)
     float status = pow(x,2) / pow(a,2) + pow(y,2) / pow(b,2);
     
     //check if point is outside deadzone
-    if(status > 1)
+    if(status > 1.0)
     {
-       //if outside deadzone, subtract ellipse itself to start with
-       //0 for a movement
+        //if outside deadzone, subtract ellipse itself to start with
+        //0 for a movement
+        
+        //formula for ellipse point:
+        //https://math.stackexchange.com/questions/22064/calculating-a-point-that-lies-on-an-ellipse-given-an-angle
+        float deadzoneX = 0;
+        float deadzoneY = 0;
        
-       //formula for ellipse point:
-       //https://math.stackexchange.com/questions/22064/calculating-a-point-that-lies-on-an-ellipse-given-an-angle
-       
-       //angle of the given mouthpiece
-       float angle = atan(y/x);
-       float deadzoneX = abs((a*b)/sqrt(pow(b,2)+pow(a,2)*pow(tan(angle),2)));
-       float deadzoneY = abs((a*b)/sqrt(pow(a,2)+ pow(b,2)/pow(tan(angle),2)));
+        //angle of the given mouthpiece
+        //calculate only if x&y is != 0
+        if((x < 0 || x > 0) && (y < 0 || y > 0))
+        {
+            float angle = atan(y/x);
+            deadzoneX = abs((a*b)/sqrt(pow(b,2)+pow(a,2)*pow(tan(angle),2)));
+            deadzoneY = abs((a*b)/sqrt(pow(a,2)+ pow(b,2)/pow(tan(angle),2)));
+        }
               
-       //subtract calculated ellipse coordinates from output X/Y values
-       if(x > 0)
-       {
-           values->x = x - (int)deadzoneX;
-       } else {
-           values->x = x + (int)deadzoneX;
-       }
-       if(y > 0)
-       {
-           values->y = y - (int)deadzoneY;
-       } else {
-           values->y = y + (int)deadzoneY;
-       }
+        //subtract calculated ellipse coordinates from output X/Y values
+        if(x > 0)
+        {
+            values->x = x - (int)deadzoneX;
+        } else {
+            values->x = x + (int)deadzoneX;
+        }
+        if(y > 0)
+        {
+            values->y = y - (int)deadzoneY;
+        } else {
+            values->y = y + (int)deadzoneY;
+        }
     } else {
         //otherwise, x&y is 0
         values->x = 0;
         values->y = 0;
     }
-    //(px,py) = point to calculate
-    //(rx,ry) = radius of ellipse
 }
 
 /** @brief Process pressure sensor (sip & puff)
@@ -274,35 +278,24 @@ void halAdcTaskMouse(void * pvParameters)
             continue;
         }
         
-        //read out the analog voltages from all 5 channels
+        //read out the analog voltages from all 5 channels (including deadzone)
         halAdcReadData(&D);
         
-        //subtract offsets
-        tempX = (D.left - D.right) - offsetx;
-        tempY = (D.up - D.down) - offsety;
-        
-        //TODO: use calculated X/Y from halAdcReadData
-        
-        //apply deadzone
-        if (tempX<-adc_conf.deadzone_x) tempX+=adc_conf.deadzone_x;
-        else if (tempX>adc_conf.deadzone_x) tempX-=adc_conf.deadzone_x;
-        else tempX=0;
-        
-        if (tempY<-adc_conf.deadzone_y) tempY+=adc_conf.deadzone_y;
-        else if (tempY>adc_conf.deadzone_y) tempY-=adc_conf.deadzone_y;
-        else tempY=0;
+        //if you want to slow down, uncomment following two lines
+        //ESP_LOGD(LOG_TAG,"X/Y square, X/Y ellipse: %d/%d, %d/%d",tempX,tempY,D.x,D.y);
+        //vTaskDelay(10);
         
         //report raw values.
-        halAdcReportRaw(D.up, D.down, D.left, D.right, D.pressure, tempX, tempY);
+        halAdcReportRaw(D.up, D.down, D.left, D.right, D.pressure, D.x, D.y);
   
         //apply acceleration
-        if (tempX==0) accelTimeX=0;
+        if (D.x==0) accelTimeX=0;
         else if (accelTimeX < ACCELTIME_MAX) accelTimeX+=adc_conf.acceleration;
-        if (tempY==0) accelTimeY=0;
+        if (D.y==0) accelTimeY=0;
         else if (accelTimeY < ACCELTIME_MAX) accelTimeY+=adc_conf.acceleration;
                         
         //calculate the current X movement by using acceleration, accel factor and sensitivity
-        moveVal = tempX * adc_conf.sensitivity_x * accelFactor * accelTimeX;
+        moveVal = D.x * adc_conf.sensitivity_x * accelFactor * accelTimeX;
         //limit value
         if (moveVal>adc_conf.max_speed) moveVal=adc_conf.max_speed;
         if (moveVal< -adc_conf.max_speed) moveVal=-adc_conf.max_speed;
@@ -310,7 +303,7 @@ void halAdcTaskMouse(void * pvParameters)
         accumXpos+=moveVal;
         
         //do the same calculations for Y axis
-        moveVal = tempY * adc_conf.sensitivity_y * accelFactor * accelTimeY;
+        moveVal = D.y * adc_conf.sensitivity_y * accelFactor * accelTimeY;
         if (moveVal>adc_conf.max_speed) moveVal=adc_conf.max_speed;
         if (moveVal< -adc_conf.max_speed) moveVal=-adc_conf.max_speed;
         accumYpos+=moveVal;
@@ -555,7 +548,6 @@ void halAdcTaskThreshold(void * pvParameters)
 {
     //analog values
     adcData_t D;
-    int32_t x,y;
     uint8_t firedx = 0,firedy = 0;
     TickType_t xLastWakeTime;
     
@@ -571,33 +563,28 @@ void halAdcTaskThreshold(void * pvParameters)
         //read out the analog voltages from all 5 channels
         halAdcReadData(&D);
         
-        //if a value is outside threshold, activate debounce timer
-        x = (int32_t)(D.left - D.right) - offsetx;
-        y = (int32_t)(D.up - D.down) - offsety;
-        
         //LEFT/RIGHT value exceeds threshold (deadzone) value?
-        if(abs(x) > adc_conf.deadzone_x)
+        if(D.x != 0)
         {
             //if yes, check if not set already (avoid lot of load)
             if(firedx == 0)
             {
                 ESP_LOGD("hal_adc","X-axis fired in alternative mode");
                 //set either left or right bit in debouncer input event group
-                if(x < 0) 
+                if(D.x < 0) 
                 {
                     xEventGroupSetBits(virtualButtonsIn[VB_LEFT/4],(1<<(VB_LEFT%4)));
-                    x = -1;
+                    D.x = -1;
                 }
-                if(x > 0) 
+                if(D.x > 0) 
                 {
                     xEventGroupSetBits(virtualButtonsIn[VB_RIGHT/4],(1<<(VB_RIGHT%4)));
-                    x = 1;
+                    D.x = 1;
                 }
                 //remember that we alread set the flag
                 firedx = 1;
             }
         } else {
-            x = 0;
             //below threshold, clear the one-time flag setting variable
             firedx = 0;
             //also clear the debouncer event bits
@@ -606,28 +593,27 @@ void halAdcTaskThreshold(void * pvParameters)
         }
         
         //UP/DOWN value exceeds threshold (deadzone) value?
-        if(abs(y) > adc_conf.deadzone_y)
+        if(D.y != 0)
         {
             //if yes, check if not set already (avoid lot of load)
             if(firedy == 0)
             {
                 ESP_LOGD("hal_adc","Y-axis fired in alternative mode");
                 //set either left or right bit in debouncer input event group
-                if(y < 0) 
+                if(D.y < 0) 
                 {
                     xEventGroupSetBits(virtualButtonsIn[VB_UP/4],(1<<(VB_UP%4)));
-                    y = -1;
+                    D.y = -1;
                 }
-                if(y > 0) 
+                if(D.y > 0) 
                 {
                     xEventGroupSetBits(virtualButtonsIn[VB_DOWN/4],(1<<(VB_DOWN%4)));
-                    y = 1;
+                    D.y = 1;
                 }
                 //remember that we alread set the flag
                 firedy = 1;
             }
         } else {
-            y = 0;
             //below threshold, clear the one-time flag setting variable
             firedy = 0;
             //also clear the debouncer event bits
@@ -635,7 +621,7 @@ void halAdcTaskThreshold(void * pvParameters)
             xEventGroupClearBits(virtualButtonsIn[VB_DOWN/4],(1<<(VB_DOWN%4)));
         }
         
-        halAdcReportRaw(D.up, D.down, D.left, D.right, D.pressure, x, y);
+        halAdcReportRaw(D.up, D.down, D.left, D.right, D.pressure, D.x, D.y);
         
         //pressure sensor is handled in another function
         halAdcProcessPressure(D.pressure);

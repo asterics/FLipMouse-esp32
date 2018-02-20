@@ -409,6 +409,9 @@ there.
   .hide-mobile {
     display: none;
   }
+  .show-desktop {
+    display: none;
+  }
 }
 
 /* Larger than mobile */
@@ -435,7 +438,11 @@ there.
 @media (min-width: 750px) {}
 
 /* Larger than desktop */
-@media (min-width: 1000px) {}
+@media (min-width: 1000px) {
+  .show-desktop {
+    display: inline;
+  }
+}
 
 /* Larger than Desktop HD */
 @media (min-width: 1200px) {}

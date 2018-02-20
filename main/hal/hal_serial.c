@@ -104,12 +104,6 @@ typedef struct atcmd {
  * */
 static SemaphoreHandle_t serialsendingsem;
 
-/** @brief Pattern detected semaphore
- * Each time the "\n" character is received, this semaphore will
- * release any pending halSerialReceiveUSBSerial call.
- * @see halSerialReceiveUSBSerial*/
-static SemaphoreHandle_t serialpatternsem;
-
 /** Utility function, changing UART TX channel (HID or Serial)
  * 
  * This function changes the gpio pin, which is used to determine
@@ -224,10 +218,10 @@ static void halSerialRXTask(void *pvParameters)
             buf[cmdoffset] = 0;
             //send buffer to queue
             currentcmd.buf = buf;
-            currentcmd.len = cmdoffset;
+            currentcmd.len = cmdoffset+1;
             if(cmds != NULL)
             {
-              if(xQueueSend(cmds,(void*)&currentcmd,10) != pdPASS)
+              if(xQueueSend(cmds,(void*)&currentcmd,10) != pdTRUE)
               {
                 ESP_LOGE(LOG_TAG,"AT cmd queue is full, cannot send cmd");
                 free(buf);
@@ -649,16 +643,7 @@ esp_err_t halSerialInit(void)
     ESP_LOGE(LOG_TAG,"Cannot create semaphore for TX"); 
     return ESP_FAIL;
   }
-  
-  //create mutex for all tasks sending to serial TX queue.
-  //avoids splitting of different packets due to preemption
-  serialpatternsem = xSemaphoreCreateMutex();
-  if(serialpatternsem == NULL) 
-  {
-    ESP_LOGE(LOG_TAG,"Cannot create semaphore for pattern detection"); 
-    return ESP_FAIL;
-  }
-  
+
   //create the AT command queue
   cmds = xQueueCreate(CMDQUEUE_SIZE,sizeof(atcmd_t));
   

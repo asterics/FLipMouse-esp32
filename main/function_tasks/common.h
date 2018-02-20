@@ -41,7 +41,7 @@
  * @see halStorageLoadGetVBConfigs*/
 #define VB_MAXIMUM_PARAMETER_SIZE 128
 
-/** maximum length for an AT command (including parameters, e.g., macro text) */
+/** @brief maximum length for an AT command (including parameters & 'AT ', e.g., macro text) */
 #define ATCMD_LENGTH   256
 
 /** ID of storage revision. Is used to determine any data storage upgrades */

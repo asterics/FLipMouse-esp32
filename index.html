@@ -285,6 +285,9 @@
     function initWithConfig(config) {
         console.log('applying config:');
         console.log(config);
+        if(!config) {
+            return;
+        }
         setSliderValue(flip.SENSITIVITY_X, config[flip.SENSITIVITY_X]);
         setSliderValue(flip.SENSITIVITY_Y, config[flip.SENSITIVITY_Y]);
         setSliderValue('SENSITIVITY', config[flip.SENSITIVITY_X]);
@@ -412,11 +415,13 @@
             argList = argList || [];
             L.toggle.apply(null, toggleElementList);
             actionFunction.apply(null, argList.concat(progressHandler)).then(function () {
-                progressHandler(100, 100);
-                setTimeout(function () {
-                    stopProgressBar = true;
-                    L(progressBarId).style = 'width: 0%;';
-                }, 500);
+                if (progressBarId) {
+                    progressHandler(100, 100);
+                    setTimeout(function () {
+                        stopProgressBar = true;
+                        L(progressBarId).style = 'width: 0%;';
+                    }, 500);
+                }
                 L.toggle.apply(null, toggleElementList);
                 resolve();
             }, function () {

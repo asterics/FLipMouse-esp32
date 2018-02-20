@@ -257,6 +257,27 @@ function FlipMouse(initFinished) {
         return _config[_currentSlot];
     };
 
+    thiz.saveSlot = function (slotName, progressHandler) {
+        if(!slotName || thiz.getSlots().includes(slotName)) {
+            console.warn('slot not saved because no slot name or slot already existing!');
+        }
+        _config[slotName] = L.deepCopy(_config[_currentSlot]);
+        _currentSlot = slotName;
+        sendAtCmdNoResultHandling('AT SA ' + slotName);
+        if(progressHandler) {
+            progressHandler(50);
+        }
+        return thiz.testConnection();
+    };
+
+    thiz.deleteSlot = function (slotName, progressHandler) {
+        if(!slotName || !thiz.getSlots().includes(slotName)) {
+            console.warn('slot not deleted because no slot name or slot not existing!');
+        }
+        delete _config[slotName];
+        return thiz.save(progressHandler);
+    };
+
     thiz.getLiveData = function (constant) {
         if(constant) {
             return _liveData[constant];

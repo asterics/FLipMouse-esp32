@@ -77,6 +77,10 @@ Data Fields</h2></td></tr>
 <tr class="separator:aac97a6c1840b8874c8fae91265d51707"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab8dd40e7779ed6f4894c678d2b315d09"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structadcData.html#ab8dd40e7779ed6f4894c678d2b315d09">pressure</a></td></tr>
 <tr class="separator:ab8dd40e7779ed6f4894c678d2b315d09"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a50d4601bcd5fd87f7155211dc41b8688"><td class="memItemLeft" align="right" valign="top">int32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structadcData.html#a50d4601bcd5fd87f7155211dc41b8688">x</a></td></tr>
+<tr class="separator:a50d4601bcd5fd87f7155211dc41b8688"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a114414adadfec12f82ad409a76fe9308"><td class="memItemLeft" align="right" valign="top">int32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structadcData.html#a114414adadfec12f82ad409a76fe9308">y</a></td></tr>
+<tr class="separator:a114414adadfec12f82ad409a76fe9308"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock">
@@ -96,7 +100,7 @@ Data Fields</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="hal__adc_8c_source.html#l00051">51</a> of file <a class="el" href="hal__adc_8c_source.html">hal_adc.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="hal__adc_8c_source.html#l00124">halAdcReadData()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="hal__adc_8c_source.html#l00132">halAdcReadData()</a>, <a class="el" href="hal__adc_8c_source.html#l00259">halAdcTaskMouse()</a>, and <a class="el" href="hal__adc_8c_source.html#l00547">halAdcTaskThreshold()</a>.</p>
 
 </div>
 </div>
@@ -114,7 +118,7 @@ Data Fields</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="hal__adc_8c_source.html#l00052">52</a> of file <a class="el" href="hal__adc_8c_source.html">hal_adc.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="hal__adc_8c_source.html#l00124">halAdcReadData()</a>, <a class="el" href="hal__adc_8c_source.html#l00311">halAdcTaskJoystick()</a>, <a class="el" href="hal__adc_8c_source.html#l00194">halAdcTaskMouse()</a>, and <a class="el" href="hal__adc_8c_source.html#l00492">halAdcTaskThreshold()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="hal__adc_8c_source.html#l00132">halAdcReadData()</a>, <a class="el" href="hal__adc_8c_source.html#l00366">halAdcTaskJoystick()</a>, <a class="el" href="hal__adc_8c_source.html#l00259">halAdcTaskMouse()</a>, and <a class="el" href="hal__adc_8c_source.html#l00547">halAdcTaskThreshold()</a>.</p>
 
 </div>
 </div>
@@ -132,7 +136,7 @@ Data Fields</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="hal__adc_8c_source.html#l00054">54</a> of file <a class="el" href="hal__adc_8c_source.html">hal_adc.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="hal__adc_8c_source.html#l00124">halAdcReadData()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="hal__adc_8c_source.html#l00132">halAdcReadData()</a>, <a class="el" href="hal__adc_8c_source.html#l00259">halAdcTaskMouse()</a>, and <a class="el" href="hal__adc_8c_source.html#l00547">halAdcTaskThreshold()</a>.</p>
 
 </div>
 </div>
@@ -150,7 +154,7 @@ Data Fields</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="hal__adc_8c_source.html#l00053">53</a> of file <a class="el" href="hal__adc_8c_source.html">hal_adc.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="hal__adc_8c_source.html#l00124">halAdcReadData()</a>, <a class="el" href="hal__adc_8c_source.html#l00311">halAdcTaskJoystick()</a>, <a class="el" href="hal__adc_8c_source.html#l00194">halAdcTaskMouse()</a>, and <a class="el" href="hal__adc_8c_source.html#l00492">halAdcTaskThreshold()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="hal__adc_8c_source.html#l00132">halAdcReadData()</a>, <a class="el" href="hal__adc_8c_source.html#l00366">halAdcTaskJoystick()</a>, <a class="el" href="hal__adc_8c_source.html#l00259">halAdcTaskMouse()</a>, and <a class="el" href="hal__adc_8c_source.html#l00547">halAdcTaskThreshold()</a>.</p>
 
 </div>
 </div>
@@ -168,7 +172,43 @@ Data Fields</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="hal__adc_8c_source.html#l00050">50</a> of file <a class="el" href="hal__adc_8c_source.html">hal_adc.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="hal__adc_8c_source.html#l00124">halAdcReadData()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="hal__adc_8c_source.html#l00132">halAdcReadData()</a>, <a class="el" href="hal__adc_8c_source.html#l00259">halAdcTaskMouse()</a>, and <a class="el" href="hal__adc_8c_source.html#l00547">halAdcTaskThreshold()</a>.</p>
+
+</div>
+</div>
+<a id="a50d4601bcd5fd87f7155211dc41b8688"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a50d4601bcd5fd87f7155211dc41b8688">&#9670;&nbsp;</a></span>x</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int32_t adcData::x</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="hal__adc_8c_source.html#l00055">55</a> of file <a class="el" href="hal__adc_8c_source.html">hal_adc.c</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="hal__adc_8c_source.html#l00132">halAdcReadData()</a>, <a class="el" href="hal__adc_8c_source.html#l00366">halAdcTaskJoystick()</a>, <a class="el" href="hal__adc_8c_source.html#l00259">halAdcTaskMouse()</a>, and <a class="el" href="hal__adc_8c_source.html#l00547">halAdcTaskThreshold()</a>.</p>
+
+</div>
+</div>
+<a id="a114414adadfec12f82ad409a76fe9308"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a114414adadfec12f82ad409a76fe9308">&#9670;&nbsp;</a></span>y</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int32_t adcData::y</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="hal__adc_8c_source.html#l00056">56</a> of file <a class="el" href="hal__adc_8c_source.html">hal_adc.c</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="hal__adc_8c_source.html#l00132">halAdcReadData()</a>, <a class="el" href="hal__adc_8c_source.html#l00366">halAdcTaskJoystick()</a>, <a class="el" href="hal__adc_8c_source.html#l00259">halAdcTaskMouse()</a>, and <a class="el" href="hal__adc_8c_source.html#l00547">halAdcTaskThreshold()</a>.</p>
 
 </div>
 </div>

@@ -19,6 +19,11 @@ button, .button {
     padding: 0; !important;
 }
 
+button:disabled, button:disabled div{
+    border-color: darkgray;
+    color: lightgray;
+}
+
 br {
     line-height: 250%;
 }

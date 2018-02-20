@@ -16,9 +16,23 @@
 <body>
 <div id="content">
     <div class="row">
-        <h1 class="nine columns" i18n>FLipMouse Web Configuration // FLipMouse Webkonfiguration</h1>
+        <div>
+            <h1 class="nine columns" i18n>FLipMouse Web Configuration // FLipMouse Webkonfiguration</h1>
+            <span class="show-mobile headerConnectIndicator green connectedIndicator" style="display: none">&#x2713;</span>
+            <span class="show-mobile headerConnectIndicator red disconnectedIndicator">&#x2717;</span>
+        </div>
         <div class="three columns hide-mobile">
-            <label class="row u-full-width" for="selectSlots" i18n>Select Slot // Slot auswählen</label>
+            <div class="row">
+                <label class="seven columns" for="selectSlots" i18n>Select Slot // Slot auswählen</label>
+                <div class="five columns text-right connectedIndicator" style="display: none">
+                    <span style="color: green">&#x2713;</span>
+                    <span class="show-desktop">connected</span>
+                </div>
+                <div class="five columns text-right disconnectedIndicator">
+                    <span style="color: red">&#x2717;</span>
+                    <span class="show-desktop">not connected</span>
+                </div>
+            </div>
             <select id="selectSlots" class="slot-select row u-full-width" onchange="selectSlot(this)">
             </select>
         </div>
@@ -26,11 +40,10 @@
     <div class="row hide-mobile" style="margin-bottom: 1.5em"></div>
 
     <div data-tabs class="row" id="tabMenu">
-        <div class="four columns hide-mobile"><a onclick="toTab(this.href)" class="button button-primary" data-tab href="#tabBasic"
-                                     class="ui-btn-active" i18n>Basic Setup // Basis-Konfiguration</a></div>
-        <div class="four columns hide-mobile"><a onclick="toTab(this.href)" class="button button-primary" data-tab href="#tabPuff" i18n>Sip and Puff // Saug-Blassteuerung</a></div>
-        <div class="four columns hide-mobile"><a onclick="toTab(this.href)" class="button button-primary" data-tab
-                                     href="#tabSlots" i18n>Slot configuration // Slot-Konfiguration</a></div>
+        <div class="three columns hide-mobile"><a onclick="toTab(this.href)" class="button button-primary" data-tab href="#tabBasic" class="ui-btn-active" i18n>Basic Setup // Basis-Konfiguration</a></div>
+        <div class="three columns hide-mobile"><a onclick="toTab(this.href)" class="button button-primary" data-tab href="#tabPuff" i18n>Sip and Puff // Saug-Blassteuerung</a></div>
+        <div class="three columns hide-mobile"><a onclick="toTab(this.href)" class="button button-primary" data-tab href="#tabSlots" i18n>Slot configuration // Slot-Konfiguration</a></div>
+        <div class="three columns hide-mobile"><a onclick="toTab(this.href)" class="button button-primary" data-tab href="#tabActions" i18n>Action configuration // Konfiguration Aktionen</a></div>
         <div class="show-mobile"><a id="toNavLink" onclick="toNav()" class="button button-primary" data-tab href="#tabNav" i18n>&#x2630; Menu // &#x2630; Menü</a></div>
         <div class="show-mobile"><a id="toNavBackLink" style="display: none" onclick="toNavBack()" class="button button-primary" i18n>&#8592; Back // &#8592; Zurück</a></div>
     </div>
@@ -237,6 +250,9 @@
                 </button>
             </div>
         </div>
+        <div data-tabs-pane class="tabs-pane" id="tabActions">
+            Actions
+        </div>
     </div>
 </div>
 
@@ -252,6 +268,16 @@
             initWithConfig(config);
             initSlots();
             toTab(getCurrentTabId());
+            testConnection();
+            setInterval(function () {
+                testConnection();
+            }, 3000);
+            function testConnection() {
+                flip.testConnection().then(function (isConnected) {
+                    L.setVisible('.connectedIndicator', isConnected);
+                    L.setVisible('.disconnectedIndicator', !isConnected);
+                });
+            }
         });
         window.flip = flip;
     };
@@ -433,7 +459,9 @@
             toSipPuff();
         } else if (tabId.indexOf('#tabSlots') > -1) {
             toSlots();
-        }  else if (tabId.indexOf('#tabNav') > -1) {
+        } else if (tabId.indexOf('#tabActions') > -1) {
+            toActions();
+        } else if (tabId.indexOf('#tabNav') > -1) {
             toNav();
         }
     }
@@ -447,6 +475,10 @@
     }
 
     function toSlots() {
+        flip.stopLiveValueListener();
+    }
+
+    function toActions() {
         flip.stopLiveValueListener();
     }
 

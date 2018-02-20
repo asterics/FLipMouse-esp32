@@ -56,6 +56,7 @@ input[type=range]::-ms-track {
     background: transparent;
     border-color: transparent;
     color: transparent;
+    padding: 10px 0;
 }
 input[type=range]::-ms-fill-lower {
     background: rgba(181, 232, 246, 0.78);
@@ -74,10 +75,10 @@ input[type=range]::-ms-thumb {
     border: 2px solid #5a5a5a;
     height: 40px;
     width: 40px;
-    border-radius: 26px;
+    border-radius: 40px;
     background: #ffffff;
     cursor: pointer;
-    height: 11.4px;
+    margin-top: 0px;
 }
 input[type=range]:focus::-ms-fill-lower {
     background: rgba(204, 239, 249, 0.78);
@@ -98,5 +99,15 @@ input[type=range]:focus::-ms-fill-upper {
     input[type=range]::-moz-range-thumb {
         height: 25px !important;
         width: 25px !important;
+    }
+
+    input[type=range]::-ms-thumb {
+        height: 25px !important;
+        width: 25px !important;
+        margin-top: 2.5px !important;
+    }
+
+    input[type=range]::-ms-track {
+        padding: 10px 0 !important;
     }
 }

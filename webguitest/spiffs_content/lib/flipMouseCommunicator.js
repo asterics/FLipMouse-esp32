@@ -106,8 +106,8 @@ function FlipMouse(initFinished) {
 
     thiz.testConnection = function () {
         return new Promise((resolve) => {
-            thiz.sendATCmd('AT').then(function () {
-                resolve(true);
+            thiz.sendATCmd('AT').then(function (response) {
+                resolve(response.indexOf('OK') > -1 ? true : false);
             }, function () {
                 resolve(false);
             });

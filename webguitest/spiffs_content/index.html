@@ -103,11 +103,11 @@
                     </div>
                 </div>
                 <div class="five columns">
-                    <button onclick="flipActionThenToggle(flip.calibrate, [], ['#basic-button-calibrate', '#basic-button-calibrating'])">
+                    <button onclick="actionAndToggle(flip.calibrate, [], ['#basic-button-calibrate', '#basic-button-calibrating'])">
                         <span i18n id="basic-button-calibrate">Calibrate middle position // Mittelposition kalibrieren</span>
                         <span id="basic-button-calibrating" style="display: none;" i18n>Calibrating... // wird kalibriert...</span>
                     </button>
-                    <button onclick="flipActionThenToggle(flip.rotate, [], ['#basic-button-rotate', '#basic-button-rotating'])">
+                    <button onclick="actionAndToggle(flip.rotate, [], ['#basic-button-rotate', '#basic-button-rotating'])">
                         <span i18n id="basic-button-rotate">&#x21bb; Rotate right // &#x21bb; Nach rechts drehen</span>
                         <span id="basic-button-rotating" style="display: none;" i18n>Rotating... // wird gedreht...</span>
                     </button>
@@ -144,7 +144,7 @@
             <br/>
             <br/>
             <div class="row">
-                <button id="basic-button" onclick="flipActionThenToggle(flip.save, [], ['#basic-button-normal', '#basic-button-saving'], '#save-basic-value-bar')" class="one-third" style="position: relative;">
+                <button id="basic-button" onclick="actionAndToggle(flip.save, [], ['#basic-button-normal', '#basic-button-saving'], '#save-basic-value-bar')" class="one-third" style="position: relative;">
                     <div id="save-basic-value-bar" class="value-bar color-lightercyan" style="width: 0%;"></div>
                     <div id="basic-button-normal" i18n>Save // Speichern</div>
                     <div id="basic-button-saving" style="display: none;" i18n>Saving... // Wird
@@ -214,7 +214,7 @@
 
             <br/>
             <br/>
-            <button id="sip-puff-button" onclick="flipActionThenToggle(flip.save, [], ['#sip-puff-button-normal', '#sip-puff-button-saving'], '#save-sip-value-bar')" class="u-full-width" style="position: relative;">
+            <button id="sip-puff-button" onclick="actionAndToggle(flip.save, [], ['#sip-puff-button-normal', '#sip-puff-button-saving'], '#save-sip-value-bar')" class="u-full-width" style="position: relative;">
                 <div id="save-sip-value-bar" class="value-bar color-lightercyan" style="width: 0%;"></div>
                 <div id="sip-puff-button-normal" style="position: relative" i18n>Save // Speichern</div>
                 <div id="sip-puff-button-saving" style="display: none" i18n>Saving... // Wird
@@ -260,21 +260,31 @@
             <div id="pressedKey">
                 <div class="row">
                     <label class="three columns text-right text-normal" i18n>Action to define // Zu belegende Funktion</label>
-                    <select class="eight columns">
-                        <option value="test">test</option>
+                    <select id="selectActionButton" class="eight columns" onchange="tabAction.selectActionButton(this.value)">
                     </select>
                 </div>
-                <div class="row">
+                <div class="row" style="display: none">
                     <label class="three columns text-right text-normal" i18n>Action category // Aktions-Kategorie</label>
-                    <select class="eight columns">
-                        <option value="test">test</option>
+                    <select id="selectActionCategory" class="eight columns" disabled="true">
                     </select>
                 </div>
-                <div class="row">
+                <div class="row" style="display: none">
                     <label class="three columns text-right text-normal" i18n>Action // Aktion</label>
-                    <select class="eight columns">
-                        <option value="test">test</option>
+                    <select id="selectAction" class="eight columns" disabled="true">
                     </select>
+                </div>
+
+                <div class="row">
+                    <label class="three columns"></label>
+                    <button id="start-rec-button" onclick="actionAndToggle(tabAction.startRec, [], ['#start-rec-button-normal', '#start-rec-button-rec'])" class="eight columns" style="position: relative;">
+                        <div id="start-rec-button-normal" style="position: relative" i18n>Start record actions // Aufnahme Aktionen starten</div>
+                        <div id="start-rec-button-rec" style="display: none" i18n>Recording... (click to stop) // Aufnahme... (zum Stoppen klicken)</div>
+                    </button>
+                </div>
+
+                <div class="row">
+                    <label class="three columns text-right text-normal" i18n>Recorded Events // Aufgenommene Events</label>
+                    <input id="recordedEvents" class="eight columns" type="text" disabled="true"/>
                 </div>
             </div>
             <label i18n>Current mapping // Aktuelle Konfiguration</label>
@@ -361,25 +371,28 @@
         }
     }
 
-    function flipActionThenToggle(actionFunction, argList, toggleElementList, progressBarId) {
+    function actionAndToggle(actionFunction, argList, toggleElementList, progressBarId) {
         return new Promise(function (resolve) {
             var maxProgress = 0;
             var stopProgressBar = false;
             argList = argList || [];
             L.toggle.apply(null, toggleElementList);
-            actionFunction.apply(null, argList.concat(progressHandler)).then(function () {
-                if (progressBarId) {
-                    progressHandler(100, 100);
-                    setTimeout(function () {
-                        stopProgressBar = true;
-                        L(progressBarId).style = 'width: 0%;';
-                    }, 500);
-                }
-                L.toggle.apply(null, toggleElementList);
-                resolve();
-            }, function () {
-                stopProgressBar = true;
-            });
+            var promise = actionFunction.apply(null, argList.concat(progressHandler));
+            if (promise && promise.then) {
+                promise.then(function () {
+                    if (progressBarId) {
+                        progressHandler(100, 100);
+                        setTimeout(function () {
+                            stopProgressBar = true;
+                            L(progressBarId).style = 'width: 0%;';
+                        }, 500);
+                    }
+                    L.toggle.apply(null, toggleElementList);
+                    resolve();
+                }, function () {
+                    stopProgressBar = true;
+                });
+            }
 
             function progressHandler(progress, timeConstant) {
                 var startTime = L.getMs();
@@ -439,12 +452,7 @@
     function toActions() {
         flip.stopLiveValueListener();
         tabAction.initBtnModeActionTable();
-        document.onkeydown = function(e) {
-            e = e || window.event;
-            //e.preventDefault();
-            console.log(e);
-            L('#pressedKey').innerHTML = e.key + ' ' + e.keyCode + ' ' + e.which;
-        };
+        tabAction.initCombos();
     }
 
     function toNav() {

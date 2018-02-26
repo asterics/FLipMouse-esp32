@@ -14,6 +14,9 @@
     <script src="lib/dom-i18n.min.js"></script>
 
     <script src="lib/tabBasic.js"></script>
+    <script src="lib/tabSip.js"></script>
+    <script src="lib/tabSlot.js"></script>
+    <script src="lib/tabAction.js"></script>
 </head>
 <body>
 <div id="content">
@@ -35,7 +38,7 @@
                     <span class="show-desktop">not connected</span>
                 </div>
             </div>
-            <select id="selectSlots" class="slot-select row u-full-width" onchange="selectSlot(this)">
+            <select id="selectSlots" class="slot-select row u-full-width" onchange="tabSlot.selectSlot(this)">
             </select>
         </div>
     </div>
@@ -92,7 +95,7 @@
                              style="left: 50%; height: 100%; border-right-style: solid; border-right-width: thin;"></div>
                         <div class="back-layer"
                              style="top: 50%; width: 100%; border-bottom-style: solid; border-bottom-width: thin;"></div>
-                        <button onclick="cursorPosZoomReset();" class="zoombutton" style="top: 55%;" title="Reset Zoom">&#8634;</button>
+                        <button onclick="tabBasic.cursorPosZoomReset();" class="zoombutton" style="top: 55%;" title="Reset Zoom">&#8634;</button>
                         <div id="cursorPosVal" class="back-layer" style="top: 40%;">110</div>
                         <div id="cursorPos" class="back-layer" style="top: 50%; left: 50%;">
                             <div class="back-layer" id="circle"></div>
@@ -168,14 +171,14 @@
                 <label for="SIP_THRESHOLD" i18n>Sip Threshold: // Schwellenwert Saugen:</label>
                 <div class="row">
                     <span id="SIP_THRESHOLD_VAL" class="text-center two columns">0</span>
-                    <input type="range" oninput="sipSliderChanged(this)" onchange="sipSliderChanged(this)"
+                    <input type="range" oninput="tabSip.sipSliderChanged(this)" onchange="tabSip.sipSliderChanged(this)"
                            id="SIP_THRESHOLD" min="0" max="1023" class="ten columns"/>
                 </div>
                 <label for="SIP_STRONG_THRESHOLD" i18n>Strong Sip Threshold: // Schwellenwert Saugen
                     stark:</label>
                 <div class="row">
                     <span id="SIP_STRONG_THRESHOLD_VAL" class="text-center two columns">0</span>
-                    <input type="range" oninput="sipSliderChanged(this)" onchange="sipSliderChanged(this)"
+                    <input type="range" oninput="tabSip.sipSliderChanged(this)" onchange="tabSip.sipSliderChanged(this)"
                            id="SIP_STRONG_THRESHOLD" min="0" max="1023" class="ten columns"/>
                 </div>
 
@@ -197,14 +200,14 @@
                 <label for="PUFF_THRESHOLD" i18n>Puff Threshold: // Schwellenwert Blasen:</label>
                 <div class="row">
                     <span id="PUFF_THRESHOLD_VAL" class="text-center two columns">0</span>
-                    <input type="range" oninput="sipSliderChanged(this)" onchange="sipSliderChanged(this)"
+                    <input type="range" oninput="tabSip.sipSliderChanged(this)" onchange="tabSip.sipSliderChanged(this)"
                            id="PUFF_THRESHOLD" min="0" max="1023" class="ten columns">
                 </div>
                 <label for="PUFF_STRONG_THRESHOLD" i18n>Strong Puff Threshold: // Schwellenwert Blasen
                     stark:</label>
                 <div class="row">
                     <span id="PUFF_STRONG_THRESHOLD_VAL" class="text-center two columns">0</span>
-                    <input type="range" oninput="sipSliderChanged(this)" onchange="sipSliderChanged(this)"
+                    <input type="range" oninput="tabSip.sipSliderChanged(this)" onchange="tabSip.sipSliderChanged(this)"
                            id="PUFF_STRONG_THRESHOLD" min="0" max="1023" class="ten columns">
                 </div>
             </div>
@@ -222,7 +225,7 @@
         <div data-tabs-pane class="tabs-pane" id="tabSlots">
             <div class="row">
                 <label for="selectSlots2" i18n>Select active slot // Aktiven Slot auswählen</label>
-                <select id="selectSlots2" class="slot-select u-full-width" onchange="selectSlot(this)">
+                <select id="selectSlots2" class="slot-select u-full-width" onchange="tabSlot.selectSlot(this)">
                 </select>
             </div>
 
@@ -230,10 +233,10 @@
             <div class="row">
                 <label for="newSlotLabel" i18n>Create new slot // Neuen Slot anlegen</label>
                 <div i18n class="u-full-width">
-                    <input id="newSlotLabel" oninput="saveSlotLabelChanged(this)" type="text" class="u-full-width" placeholder="<insert name for new slot>" maxlength="15"/>
-                    <input id="newSlotLabel" oninput="saveSlotLabelChanged(this)" type="text" class="u-full-width" placeholder="<Name für neuen Slot eingeben>" maxlength="15"/>
+                    <input id="newSlotLabel" oninput="tabSlot.saveSlotLabelChanged(this)" type="text" class="u-full-width" placeholder="<insert name for new slot>" maxlength="15"/>
+                    <input id="newSlotLabel" oninput="tabSlot.saveSlotLabelChanged(this)" type="text" class="u-full-width" placeholder="<Name für neuen Slot eingeben>" maxlength="15"/>
                 </div>
-                <button id="create-slot-button" disabled onclick="saveSlot(['#create-slot-button-normal', '#create-slot-button-saving'], '#create-slot-value-bar')" class="u-full-width" style="position: relative;">
+                <button id="create-slot-button" disabled onclick="tabSlot.createSlot(['#create-slot-button-normal', '#create-slot-button-saving'], '#create-slot-value-bar')" class="u-full-width" style="position: relative;">
                     <div id="create-slot-value-bar" class="value-bar color-lightercyan" style="width: 0%;"></div>
                     <div id="create-slot-button-normal" style="position: relative" i18n>Create Slot // Slot anlegen</div>
                     <div id="create-slot-button-saving" style="display: none" i18n>creating slot... // Slot wird anlgelegt...</div>
@@ -245,7 +248,7 @@
                 <label for="selectSlotDelete" i18n>Delete Slot // Slot löschen</label>
                 <select id="selectSlotDelete" class="slot-select u-full-width">
                 </select>
-                <button id="delete-slot-button" onclick="deleteSlot(['#delete-slot-button-normal', '#delete-slot-button-saving'], '#delete-slot-value-bar')" class="u-full-width" style="position: relative;">
+                <button id="delete-slot-button" onclick="tabSlot.deleteSlot(['#delete-slot-button-normal', '#delete-slot-button-saving'], '#delete-slot-value-bar')" class="u-full-width" style="position: relative;">
                     <div id="delete-slot-value-bar" class="value-bar color-lightercyan" style="width: 0%;"></div>
                     <div id="delete-slot-button-normal" style="position: relative" i18n>Delete Slot // Slot löschen</div>
                     <div id="delete-slot-button-saving" style="display: none" i18n>deleting slot... // Slot wird gelöscht...</div>
@@ -277,21 +280,9 @@
             <label i18n>Current mapping // Aktuelle Konfiguration</label>
             <div id="currentConfigTh" class="hide-mobile row thead" aria-hidden="true">
                 <div class="two columns" i18n>Description // Bezeichnung</div>
-                <div class="two columns" i18n>Current action // aktuelle Aktion</div>
-                <div class="two columns"></div>
+                <div class="eight columns" i18n>Current action // aktuelle Aktion</div>
             </div>
-            <ol id="currentConfigTb" class="tbody">
-                <li class="row">
-                    <div class="two columns">Stick UP</div>
-                    <div class="two columns">AX 100</div>
-                    <div class="two columns"><a href="#">change</a></div>
-                </li>
-                <li class="row">
-                    <div class="two columns">Stick DOWN</div>
-                    <div class="two columns">AX 100</div>
-                    <div class="two columns"><a href="#">change</a></div>
-                </li>
-            </ol>
+            <ol id="currentConfigTb" class="tbody"></ol>
         </div>
     </div>
 </div>
@@ -358,52 +349,9 @@
             option.innerHTML = slot;
             L('.slot-select').forEach(function (elem) {
                 elem.appendChild(option.cloneNode(true));
+                elem.value = flip.getCurrentSlot();
             });
         });
-    }
-
-    function initBtnModeActionTable() {
-        L.removeAllChildren('#currentConfigTb');
-        flip.BTN_MODES.forEach(function (btnMode) {
-            var liElm = L.createElement('li', 'row');
-            liElm.appendChild(L.createElement('div', 'two columns', btnMode));
-            liElm.appendChild(L.createElement('div', 'two columns', flip.getConfig(btnMode)));
-            liElm.appendChild(L.createElement('div', 'two columns', 'LINK'));
-            L('#currentConfigTb').appendChild(liElm);
-            /*
-            <li class="row">
-                    <div class="two columns">Stick UP</div>
-                    <div class="two columns">AX 100</div>
-                    <div class="two columns"><a href="#">change</a></div>
-                </li>
-             */
-        });
-    }
-
-    function selectSlot(select) {
-        var config = flip.setSlot(select.value);
-        L('.slot-select').forEach(function (elem) {
-            elem.value = select.value;
-        });
-        initWithConfig(config);
-    }
-
-    function sipSliderChanged(input) {
-        var old = flip.getConfig([input.id]);
-        var new1 = parseInt(input.value);
-        var cur = flip.getLiveData([flip.LIVE_PRESSURE]);
-
-        //only move slider if sip thresholds are below and puff thresholds are above the current live value and if strong-values are below/above normal values
-        if ((input.id == flip.SIP_THRESHOLD && new1 < cur && new1 > flip.getConfig(flip.SIP_STRONG_THRESHOLD)) ||
-            (input.id == flip.SIP_STRONG_THRESHOLD && new1 < cur && new1 < flip.getConfig(flip.SIP_THRESHOLD)) ||
-            (input.id == flip.PUFF_THRESHOLD && new1 > cur && new1 < flip.getConfig(flip.PUFF_STRONG_THRESHOLD)) ||
-            (input.id == flip.PUFF_STRONG_THRESHOLD && new1 > cur && new1 > flip.getConfig(flip.PUFF_THRESHOLD))) {
-
-            setSliderValue(input.id, new1, true);
-            flip.setValue(input.id, new1);
-        } else {
-            setSliderValue(input.id, old);
-        }
     }
 
     function setSliderValue(constant, value, dontSetSlider) {
@@ -411,30 +359,6 @@
         if (!dontSetSlider) {
             L('#' + constant).value = value;
         }
-    }
-
-    function saveSlotLabelChanged(element) {
-        L('#create-slot-button').disabled = !element.value;
-    }
-
-    function saveSlot(toggleElementList, progressBarId) {
-        var slotName = L('#newSlotLabel').value;
-        flipActionThenToggle(flip.saveSlot, [slotName], toggleElementList, progressBarId).then(function () {
-            initSlots();
-            L('#newSlotLabel').value = '';
-        });
-    }
-
-    function deleteSlot(toggleElementList, progressBarId) {
-        var slotName = L('#selectSlotDelete').value;
-        var confirmMessage = L.isLang('de') ? 'Möchten Sie den Slot "' + slotName + '" wirklich löschen?' : 'Do you really want to delete the slot "' + slotName + '"?';
-        if(!window.confirm(confirmMessage)){
-            return;
-        }
-        flipActionThenToggle(flip.deleteSlot, [slotName], toggleElementList, progressBarId).then(function () {
-            initSlots();
-            L('#newSlotLabel').value = '';
-        });
     }
 
     function flipActionThenToggle(actionFunction, argList, toggleElementList, progressBarId) {
@@ -501,11 +425,11 @@
     }
     
     function toBasic() {
-        flip.startLiveValueListener(cursorPosValueHandler);
+        flip.startLiveValueListener(tabBasic.cursorPosValueHandler);
     }
 
     function toSipPuff() {
-        flip.startLiveValueListener(sipPuffValueHandler);
+        flip.startLiveValueListener(tabSip.sipPuffValueHandler);
     }
 
     function toSlots() {
@@ -514,7 +438,7 @@
 
     function toActions() {
         flip.stopLiveValueListener();
-        initBtnModeActionTable();
+        tabAction.initBtnModeActionTable();
         document.onkeydown = function(e) {
             e = e || window.event;
             //e.preventDefault();
@@ -558,65 +482,6 @@
 
     function parseTabId(url) {
         return url.indexOf('#') > -1 ? url.substring(url.indexOf('#')) : '';
-    }
-
-    function cursorPosValueHandler(data) {
-        var x = data[flip.LIVE_MOV_X];
-        var y = data[flip.LIVE_MOV_Y];
-        var maxX = data[flip.LIVE_MOV_X_MAX];
-        var maxY = data[flip.LIVE_MOV_Y_MAX];
-        var minX = data[flip.LIVE_MOV_X_MIN];
-        var minY = data[flip.LIVE_MOV_Y_MIN];
-        var cursorPosVal = parseInt(L('#cursorPosVal').innerHTML);
-        var deadX = flip.getConfig(flip.DEADZONE_X);
-        var deadY = flip.getConfig(flip.DEADZONE_Y);
-        var maxAbs = Math.max(maxX, maxY, Math.abs(minX), Math.abs(minY), cursorPosVal, Math.round(deadX*1.1), Math.round(deadY*1.1));
-        var percentageX = (L.getPercentage(x, -maxAbs, maxAbs));
-        var percentageY = (L.getPercentage(y, -maxAbs, maxAbs));
-        var percentageDzX = (L.getPercentage(flip.getConfig(flip.DEADZONE_X), 0, maxAbs));
-        var percentageDzY = (L.getPercentage(flip.getConfig(flip.DEADZONE_Y), 0, maxAbs));
-        var inDeadzone = x < flip.getConfig(flip.DEADZONE_X) && x > -flip.getConfig(flip.DEADZONE_X) &&
-            y < flip.getConfig(flip.DEADZONE_Y) && y > -flip.getConfig(flip.DEADZONE_Y);
-
-        L('#cursorPos').style = 'top: ' + percentageY + '%; left: ' + percentageX + '%;';
-        L('#cursorPosVal').innerHTML = maxAbs;
-        L('#deadZonePos').style = 'top: ' + (100 - percentageDzY) / 2 + '%; left: ' + (100 - percentageDzX) / 2 + '%; height: ' + (percentageDzY) + '%; width: ' + (percentageDzX) + '%;';
-        L('#deadZonePos').className = 'back-layer color-' + (inDeadzone ? 'lightcyan' : 'lightercyan');
-        L('#orientationSign').style = 'transform: rotate(' + (flip.getConfig(flip.ORIENTATION_ANGLE)+90)%360 + 'deg);';
-    }
-
-    function cursorPosZoomReset() {
-        flip.resetMinMaxLiveValues();
-        L('#cursorPosVal').innerHTML = 110;
-    }
-
-    function sipPuffValueHandler(data) {
-        var min = data[flip.LIVE_PRESSURE_MIN];
-        var max = data[flip.LIVE_PRESSURE_MAX];
-        var val = data[flip.LIVE_PRESSURE];
-
-        var border = 10; // space that is left and right of the min/max values on the sliders
-        var currentMinRange = Math.max(Math.min(min - border, flip.getConfig(flip.SIP_THRESHOLD) - border, flip.getConfig(flip.SIP_STRONG_THRESHOLD) - border), 0);
-        var currentMaxRange = Math.min(Math.max(max + border, flip.getConfig(flip.PUFF_THRESHOLD) + border, flip.getConfig(flip.PUFF_STRONG_THRESHOLD) + border), 1023);
-        var percent = L.getPercentage(val, currentMinRange, currentMaxRange);
-        var percentMin = L.getPercentage(min, currentMinRange, currentMaxRange);
-        var percentMax = L.getPercentage(max, currentMinRange, currentMaxRange);
-
-        L('#maxValue').innerHTML = max;
-        L('#minValue').innerHTML = min;
-        L('#currentValue').innerHTML = val;
-
-        L('#guide-max').style = 'width: ' + percentMax + '%;';
-        L('#guide-min').style = 'width: ' + percentMin + '%;';
-
-        L('#sippuff-value-bar').style = 'width: ' + percent + '%;';
-        L('#guide-current').style = 'width: ' + percent + '%;';
-
-        //set slider ranges
-        flip.SIP_PUFF_IDS.forEach(function (id) {
-            L(id).min = currentMinRange;
-            L(id).max = currentMaxRange;
-        });
     }
 </script>
 </body>

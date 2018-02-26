@@ -35,6 +35,20 @@ function FlipMouse(initFinished) {
         L.getIDSelector(thiz.PUFF_STRONG_THRESHOLD)
     ];
 
+    thiz.BTN_MODE_BUTTON_1 = 'BTN_MODE_BUTTON_1';
+    thiz.BTN_MODE_BUTTON_2 = 'BTN_MODE_BUTTON_2';
+    thiz.BTN_MODE_BUTTON_3 = 'BTN_MODE_BUTTON_3';
+    thiz.BTN_MODE_STICK_UP = 'BTN_MODE_STICK_UP';
+    thiz.BTN_MODE_STICK_DOWN = 'BTN_MODE_STICK_DOWN';
+    thiz.BTN_MODE_STICK_LEFT = 'BTN_MODE_STICK_LEFT';
+    thiz.BTN_MODE_STICK_RIGHT = 'BTN_MODE_STICK_RIGHT';
+    thiz.BTN_MODE_SIP = 'BTN_MODE_SIP';
+    thiz.BTN_MODE_PUFF = 'BTN_MODE_PUFF';
+    thiz.BTN_MODES = [thiz.BTN_MODE_BUTTON_1, thiz.BTN_MODE_BUTTON_2, thiz.BTN_MODE_BUTTON_3,
+        thiz.BTN_MODE_STICK_UP, thiz.BTN_MODE_STICK_DOWN, thiz.BTN_MODE_STICK_LEFT, thiz.BTN_MODE_STICK_RIGHT,
+        thiz.BTN_MODE_SIP, thiz.BTN_MODE_PUFF];
+    var AT_CMD_BTN_MODE = 'AT BM';
+
     var are = new ARECommunicator();
     var _config = {};
     var _liveData = {};
@@ -71,8 +85,8 @@ function FlipMouse(initFinished) {
      * @return {Promise}
      */
     thiz.sendATCmd = function (atCmd) {
-        var promise =  new Promise((resolve) => {
-            if(_atCmdQueue.length > 0) {
+        var promise = new Promise((resolve) => {
+            if (_atCmdQueue.length > 0) {
                 console.log("adding cmd to queue: " + atCmd);
             }
             _atCmdQueue.push({
@@ -80,12 +94,13 @@ function FlipMouse(initFinished) {
                 resolveFn: resolve
             });
         });
-        if(!_sendingAtCmds) {
+        if (!_sendingAtCmds) {
             sendNext();
         }
+
         function sendNext() {
             _sendingAtCmds = true;
-            if(_atCmdQueue.length == 0) {
+            if (_atCmdQueue.length == 0) {
                 _sendingAtCmds = false;
                 return;
             }
@@ -115,7 +130,7 @@ function FlipMouse(initFinished) {
     };
 
     thiz.setValue = function (valueConstant, value, debounceTimeout) {
-        if(!debounceTimeout) {
+        if (!debounceTimeout) {
             debounceTimeout = 300;
         }
         thiz.setConfig(valueConstant, parseInt(value));
@@ -149,7 +164,8 @@ function FlipMouse(initFinished) {
      * @return {Promise}
      */
     thiz.save = function (updateProgressHandler) {
-        updateProgressHandler = updateProgressHandler || function(){};
+        updateProgressHandler = updateProgressHandler || function () {
+        };
         var progress = 0;
         sendAtCmdNoResultHandling('AT DE');
         thiz.pauseLiveValueListener();
@@ -157,8 +173,9 @@ function FlipMouse(initFinished) {
         var percentPerSlot = 50 / thiz.getSlots().length;
         var saveSlotsPromise = new Promise(function (resolve) {
             loadAndSaveSlot(thiz.getSlots(), 0);
+
             function loadAndSaveSlot(slots, i) {
-                if(i >= slots.length) {
+                if (i >= slots.length) {
                     resolve();
                     return;
                 }
@@ -168,7 +185,7 @@ function FlipMouse(initFinished) {
                     thiz.testConnection().then(function () {
                         sendAtCmdNoResultHandling('AT SA ' + slot);
                         increaseProgress(percentPerSlot);
-                        loadAndSaveSlot(slots, i+1);
+                        loadAndSaveSlot(slots, i + 1);
                     });
                 });
             }
@@ -221,7 +238,7 @@ function FlipMouse(initFinished) {
     };
 
     thiz.resumeLiveValueListener = function () {
-        if(_valueHandler) {
+        if (_valueHandler) {
             thiz.sendATCmd('AT SR');
             console.log('listening to live values resumed.');
         } else {
@@ -236,21 +253,21 @@ function FlipMouse(initFinished) {
 
     thiz.setConfig = function (constant, value, slot) {
         slot = slot || _currentSlot;
-        if(_config[slot]) {
+        if (_config[slot]) {
             _config[slot][constant] = value;
         }
     };
 
-    thiz.getSlots = function() {
+    thiz.getSlots = function () {
         return Object.keys(_config);
     };
 
-    thiz.getCurrentSlot = function() {
+    thiz.getCurrentSlot = function () {
         return _currentSlot;
     };
 
-    thiz.setSlot = function(slot) {
-        if(thiz.getSlots().includes(slot)) {
+    thiz.setSlot = function (slot) {
+        if (thiz.getSlots().includes(slot)) {
             _currentSlot = slot;
             sendAtCmdNoResultHandling('AT LO ' + slot);
         }
@@ -258,20 +275,20 @@ function FlipMouse(initFinished) {
     };
 
     thiz.saveSlot = function (slotName, progressHandler) {
-        if(!slotName || thiz.getSlots().includes(slotName)) {
+        if (!slotName || thiz.getSlots().includes(slotName)) {
             console.warn('slot not saved because no slot name or slot already existing!');
         }
         _config[slotName] = L.deepCopy(_config[_currentSlot]);
         _currentSlot = slotName;
         sendAtCmdNoResultHandling('AT SA ' + slotName);
-        if(progressHandler) {
+        if (progressHandler) {
             progressHandler(50);
         }
         return thiz.testConnection();
     };
 
     thiz.deleteSlot = function (slotName, progressHandler) {
-        if(!slotName || !thiz.getSlots().includes(slotName)) {
+        if (!slotName || !thiz.getSlots().includes(slotName)) {
             console.warn('slot not deleted because no slot name or slot not existing!');
         }
         delete _config[slotName];
@@ -279,7 +296,7 @@ function FlipMouse(initFinished) {
     };
 
     thiz.getLiveData = function (constant) {
-        if(constant) {
+        if (constant) {
             return _liveData[constant];
         }
         return _liveData;
@@ -295,6 +312,7 @@ function FlipMouse(initFinished) {
     };
 
     init();
+
     function init() {
         thiz.resetMinMaxLiveValues();
         thiz.refreshConfig().then(function () {
@@ -305,9 +323,9 @@ function FlipMouse(initFinished) {
         });
     }
 
-    function setLiveValueHandler (handler) {
+    function setLiveValueHandler(handler) {
         _valueHandler = handler;
-        if(L.isFunction(_valueHandler)) {
+        if (L.isFunction(_valueHandler)) {
             sendAtCmdNoResultHandling('AT SR');
             are.setValueHandler(parseLiveValues);
         } else {
@@ -316,11 +334,11 @@ function FlipMouse(initFinished) {
     }
 
     function parseLiveValues(data) {
-        if(!L.isFunction(_valueHandler)) {
+        if (!L.isFunction(_valueHandler)) {
             are.setValueHandler(null);
             return;
         }
-        if(!data || data.indexOf('VALUES') == -1) {
+        if (!data || data.indexOf('VALUES') == -1) {
             console.log('error parsing live data: ' + data);
             return;
         }
@@ -344,7 +362,9 @@ function FlipMouse(initFinished) {
     }
 
     function sendAtCmdNoResultHandling(atCmd) {
-        thiz.sendATCmd(atCmd).then(function () {}, function () {});
+        thiz.sendATCmd(atCmd).then(function () {
+        }, function () {
+        });
     }
 
     function parseConfig(atCmdsString) {
@@ -359,7 +379,7 @@ function FlipMouse(initFinished) {
         var currentElement = remainingList[0];
         var nextElement = remainingList[1];
 
-        if(currentElement.indexOf(_SLOT_CONSTANT) > -1) {
+        if (currentElement.indexOf(_SLOT_CONSTANT) > -1) {
             var slot = currentElement.substring(_SLOT_CONSTANT.length);
             if (!_currentSlot) {
                 _currentSlot = slot;
@@ -369,7 +389,10 @@ function FlipMouse(initFinished) {
         } else {
             var currentAtCmd = currentElement.substring(0, AT_CMD_LENGTH);
             if (VALUE_AT_CMDS.includes(currentAtCmd)) {
-                config[L.val2key(currentAtCmd, AT_CMD_MAPPING)] = parseInt(currentElement.substring(5));
+                config[L.val2key(currentAtCmd, AT_CMD_MAPPING)] = parseInt(currentElement.substring(AT_CMD_LENGTH));
+            } else if(currentAtCmd.indexOf(AT_CMD_BTN_MODE) > -1) {
+                var buttonModeIndex = parseInt(currentElement.substring(AT_CMD_LENGTH));
+                config[thiz.BTN_MODES[buttonModeIndex-1]] = nextElement.trim();
             }
         }
         return parseConfigElement(remainingList.slice(1), config);

@@ -412,6 +412,9 @@ there.
   .show-desktop {
     display: none;
   }
+  .text-right {
+    text-align: left;
+  }
 }
 
 /* Larger than mobile */
@@ -431,6 +434,9 @@ there.
   }
   .hide-mobile {
     display: block;
+  }
+  .text-right {
+    text-align: right;
   }
 }
 

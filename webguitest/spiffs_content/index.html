@@ -12,6 +12,8 @@
     <script src="lib/flipMouseCommunicator.js"></script>
     <script src="lib/tabby.min.js"></script>
     <script src="lib/dom-i18n.min.js"></script>
+
+    <script src="lib/tabBasic.js"></script>
 </head>
 <body>
 <div id="content">
@@ -54,25 +56,25 @@
         <div data-tabs-pane class="tabs-pane" id="tabBasic">
             <div id="basic-SENSITIVITY-single">
                 <label for="SENSITIVITY" i18n>Sensitivity: // Sensitivität:</label>
-                <a class="u-pull-right" href="javascript:toggleShowXY('SENSITIVITY')" i18n>show x/y separately // zeige x/y getrennt</a>
+                <a class="u-pull-right" href="javascript:tabBasic.toggleShowXY('SENSITIVITY')" i18n>show x/y separately // zeige x/y getrennt</a>
                 <div class="row">
                     <span id="SENSITIVITY_VAL" class="text-center one column">0</span>
-                    <input type="range" oninput="basicSliderChanged(event)" onchange="basicSliderChanged(event)"
+                    <input type="range" oninput="tabBasic.basicSliderChanged(event)" onchange="tabBasic.basicSliderChanged(event)"
                            id="SENSITIVITY" min="0" max="255" class="eleven columns">
                 </div>
             </div>
             <div id="basic-SENSITIVITY-xy" style="display: none">
                 <label for="SENSITIVITY_X" i18n>Horizontal Sensitivity: // Sensitivität horizontal:</label>
-                <a class="u-pull-right" href="javascript:toggleShowXY('SENSITIVITY')" i18n>hide separate x/y // zeige  x/y gemeinsam</a>
+                <a class="u-pull-right" href="javascript:tabBasic.toggleShowXY('SENSITIVITY')" i18n>hide separate x/y // zeige  x/y gemeinsam</a>
                 <div class="row">
                     <span id="SENSITIVITY_X_VAL" class="text-center one column">0</span>
-                    <input type="range" oninput="basicSliderChanged(event)" onchange="basicSliderChanged(event)"
+                    <input type="range" oninput="tabBasic.basicSliderChanged(event)" onchange="tabBasic.basicSliderChanged(event)"
                            id="SENSITIVITY_X" min="0" max="255" class="eleven columns">
                 </div>
                 <label for="SENSITIVITY_Y" i18n>Vertical Sensitivity: // Sensitivität vertikal:</label>
                 <div class="row">
                     <span id="SENSITIVITY_Y_VAL" class="text-center one column">0</span>
-                    <input type="range" oninput="basicSliderChanged(event)" onchange="basicSliderChanged(event)"
+                    <input type="range" oninput="tabBasic.basicSliderChanged(event)" onchange="tabBasic.basicSliderChanged(event)"
                            id="SENSITIVITY_Y" min="0" max="255" class="eleven columns">
                 </div>
             </div>
@@ -112,25 +114,25 @@
             <br/>
             <div id="basic-DEADZONE-single">
                 <label for="DEADZONE">Deadzone:</label>
-                <a class="u-pull-right" href="javascript:toggleShowXY('DEADZONE')" i18n>show x/y separately // zeige x/y getrennt</a>
+                <a class="u-pull-right" href="javascript:tabBasic.toggleShowXY('DEADZONE')" i18n>show x/y separately // zeige x/y getrennt</a>
                 <div class="row">
                     <span id="DEADZONE_VAL" class="text-center one column">0</span>
-                    <input type="range" oninput="basicSliderChanged(event)" onchange="basicSliderChanged(event)"
+                    <input type="range" oninput="tabBasic.basicSliderChanged(event)" onchange="tabBasic.basicSliderChanged(event)"
                            id="DEADZONE" min="0" max="650" class="eleven columns">
                 </div>
             </div>
             <div id="basic-DEADZONE-xy" style="display: none">
                 <label for="DEADZONE_X">Horizontal Deadzone:</label>
-                <a class="u-pull-right" href="javascript:toggleShowXY('DEADZONE')" i18n>hide separate x/y // zeige x/y gemeinsam</a>
+                <a class="u-pull-right" href="javascript:tabBasic.toggleShowXY('DEADZONE')" i18n>hide separate x/y // zeige x/y gemeinsam</a>
                 <div class="row">
                     <span id="DEADZONE_X_VAL" class="text-center one column">0</span>
-                    <input type="range" oninput="basicSliderChanged(event)" onchange="basicSliderChanged(event)"
+                    <input type="range" oninput="tabBasic.basicSliderChanged(event)" onchange="tabBasic.basicSliderChanged(event)"
                            id="DEADZONE_X" min="0" max="650" class="eleven columns">
                 </div>
                 <label for="DEADZONE_Y">Vertical Deadzone:</label>
                 <div class="row">
                     <span id="DEADZONE_Y_VAL" class="text-center one column">0</span>
-                    <input type="range" oninput="basicSliderChanged(event)" onchange="basicSliderChanged(event)"
+                    <input type="range" oninput="tabBasic.basicSliderChanged(event)" onchange="tabBasic.basicSliderChanged(event)"
                            id="DEADZONE_Y" min="0" max="650" class="eleven columns">
                 </div>
             </div>
@@ -338,10 +340,10 @@
         setSliderValue(flip.PUFF_STRONG_THRESHOLD, config[flip.PUFF_STRONG_THRESHOLD]);
 
         if (config[flip.SENSITIVITY_X] != config[flip.SENSITIVITY_Y]) {
-            toggleShowXY('SENSITIVITY');
+            tabBasic.toggleShowXY('SENSITIVITY');
         }
         if (config[flip.DEADZONE_X] != config[flip.DEADZONE_Y]) {
-            toggleShowXY('DEADZONE');
+            tabBasic.toggleShowXY('DEADZONE');
         }
     }
 
@@ -386,22 +388,6 @@
         initWithConfig(config);
     }
 
-    function basicSliderChanged(evt) {
-        var id = evt.currentTarget.id;
-        var val = evt.currentTarget.value;
-        if(id.indexOf('_X') == -1 && id.indexOf('_Y') == -1) {
-            //slider for x/y synchronous was moved
-            L('#' + id + '_VAL').innerHTML = val;
-            setSliderValue(id + '_X', val);
-            setSliderValue(id + '_Y', val);
-            flip.setValue(id + '_X', val);
-            flip.setValue(id + '_Y', val);
-        } else {
-            setSliderValue(id, val, true);
-            flip.setValue(id, val);
-        }
-    }
-
     function sipSliderChanged(input) {
         var old = flip.getConfig([input.id]);
         var new1 = parseInt(input.value);
@@ -424,19 +410,6 @@
         L('#' + constant + '_VAL').innerHTML = value;
         if (!dontSetSlider) {
             L('#' + constant).value = value;
-        }
-    }
-
-    function toggleShowXY (constant) {
-        var xVal = flip.getConfig(constant + '_X');
-        var toSingle = L.isVisible('#basic-' + constant + '-xy');
-        L.toggle('#basic-' + constant + '-single', '#basic-' + constant + '-xy');
-        if(toSingle) {
-            flip.setValue(constant + '_Y', xVal);
-            L('#' + constant + '_VAL').innerHTML = xVal;
-            L('#' + constant).value = xVal;
-        } else {
-            setSliderValue(constant, xVal);
         }
     }
 

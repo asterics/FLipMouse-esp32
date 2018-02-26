@@ -17,7 +17,7 @@
 <div id="content">
     <div class="row">
         <div>
-            <h1 class="nine columns" i18n>FLipMouse Web Configuration // FLipMouse Webkonfiguration</h1>
+            <h1 class="nine columns" i18n>FLipMouse Configuration // FLipMouse Konfiguration</h1>
             <span class="show-mobile headerConnectIndicator green connectedIndicator" style="display: none">&#x2713;</span>
             <span class="show-mobile headerConnectIndicator red disconnectedIndicator">&#x2717;</span>
         </div>
@@ -251,7 +251,45 @@
             </div>
         </div>
         <div data-tabs-pane class="tabs-pane" id="tabActions">
-            Actions
+            <label i18n>Change actions // Aktionen ändern</label>
+            <div id="pressedKey">
+                <div class="row">
+                    <label class="three columns text-right text-normal" i18n>Action to define // Zu belegende Funktion</label>
+                    <select class="eight columns">
+                        <option value="test">test</option>
+                    </select>
+                </div>
+                <div class="row">
+                    <label class="three columns text-right text-normal" i18n>Action category // Aktions-Kategorie</label>
+                    <select class="eight columns">
+                        <option value="test">test</option>
+                    </select>
+                </div>
+                <div class="row">
+                    <label class="three columns text-right text-normal" i18n>Action // Aktion</label>
+                    <select class="eight columns">
+                        <option value="test">test</option>
+                    </select>
+                </div>
+            </div>
+            <label i18n>Current mapping // Aktuelle Konfiguration</label>
+            <div id="currentConfigTh" class="hide-mobile row thead" aria-hidden="true">
+                <div class="two columns" i18n>Description // Bezeichnung</div>
+                <div class="two columns" i18n>Current action // aktuelle Aktion</div>
+                <div class="two columns"></div>
+            </div>
+            <ol id="currentConfigTb" class="tbody">
+                <li class="row">
+                    <div class="two columns">Stick UP</div>
+                    <div class="two columns">AX 100</div>
+                    <div class="two columns"><a href="#">change</a></div>
+                </li>
+                <li class="row">
+                    <div class="two columns">Stick DOWN</div>
+                    <div class="two columns">AX 100</div>
+                    <div class="two columns"><a href="#">change</a></div>
+                </li>
+            </ol>
         </div>
     </div>
 </div>
@@ -271,7 +309,7 @@
             testConnection();
             setInterval(function () {
                 testConnection();
-            }, 3000);
+            }, 10000);
             function testConnection() {
                 flip.testConnection().then(function (isConnected) {
                     L.setVisible('.connectedIndicator', isConnected);
@@ -319,6 +357,24 @@
             L('.slot-select').forEach(function (elem) {
                 elem.appendChild(option.cloneNode(true));
             });
+        });
+    }
+
+    function initBtnModeActionTable() {
+        L.removeAllChildren('#currentConfigTb');
+        flip.BTN_MODES.forEach(function (btnMode) {
+            var liElm = L.createElement('li', 'row');
+            liElm.appendChild(L.createElement('div', 'two columns', btnMode));
+            liElm.appendChild(L.createElement('div', 'two columns', flip.getConfig(btnMode)));
+            liElm.appendChild(L.createElement('div', 'two columns', 'LINK'));
+            L('#currentConfigTb').appendChild(liElm);
+            /*
+            <li class="row">
+                    <div class="two columns">Stick UP</div>
+                    <div class="two columns">AX 100</div>
+                    <div class="two columns"><a href="#">change</a></div>
+                </li>
+             */
         });
     }
 
@@ -485,6 +541,13 @@
 
     function toActions() {
         flip.stopLiveValueListener();
+        initBtnModeActionTable();
+        document.onkeydown = function(e) {
+            e = e || window.event;
+            //e.preventDefault();
+            console.log(e);
+            L('#pressedKey').innerHTML = e.key + ' ' + e.keyCode + ' ' + e.which;
+        };
     }
 
     function toNav() {

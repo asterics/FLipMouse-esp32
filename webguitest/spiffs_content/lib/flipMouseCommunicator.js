@@ -49,6 +49,11 @@ function FlipMouse(initFinished) {
         thiz.BTN_MODE_SIP, thiz.BTN_MODE_PUFF];
     var AT_CMD_BTN_MODE = 'AT BM';
 
+    thiz.LEARN_CAT_KEYBOARD = 'LEARN_CAT_KEYBOARD';
+    thiz.LEARN_CAT_MOUSE = 'LEARN_CAT_MOUSE';
+    thiz.LEARN_CAT_FLIPACTIONS = 'LEARN_CAT_FLIPACTIONS';
+    thiz.LEARN_CATEGORIES = [thiz.LEARN_CAT_KEYBOARD, thiz.LEARN_CAT_MOUSE, thiz.LEARN_CAT_FLIPACTIONS];
+
     var are = new ARECommunicator();
     var _config = {};
     var _liveData = {};

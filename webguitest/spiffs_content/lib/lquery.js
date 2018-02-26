@@ -91,11 +91,24 @@ window.L.deepCopy = function (object) {
 };
 
 window.L.removeAllChildren = function (selector) {
-    L(selector).forEach(function (elem) {
+    var elm = L(selector);
+    elm = elm.length ? elm : [elm];
+    elm.forEach(function (elem) {
         while (elem.firstChild) {
             elem.removeChild(elem.firstChild);
         }
     });
+};
+
+window.L.createElement = function(tagName, className, inner) {
+    var e = document.createElement(tagName);
+    e.className = className;
+    if(inner && typeof inner === 'string') {
+        e.innerHTML = inner;
+    } else if(inner) {
+        e.appendChild(inner);
+    }
+    return e;
 };
 
 /**

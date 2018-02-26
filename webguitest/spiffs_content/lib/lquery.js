@@ -92,7 +92,7 @@ window.L.deepCopy = function (object) {
 
 window.L.removeAllChildren = function (selector) {
     var elm = L(selector);
-    elm = elm.length ? elm : [elm];
+    elm = elm instanceof NodeList ? elm : [elm];
     elm.forEach(function (elem) {
         while (elem.firstChild) {
             elem.removeChild(elem.firstChild);

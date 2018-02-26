@@ -46,6 +46,11 @@ br {
     text-align: center;
 }
 
+.text-normal {
+    font-style: normal;
+    font-weight: normal; !important;
+}
+
 .value-bar {
     background-color: #9be7ff;
     height: 100%;
@@ -66,16 +71,21 @@ br {
     width: 100%;
 }
 
+.tbody li {
+    list-style-type: none;
+    margin: 0; !important;
+}
+
+.thead div {
+    font-style: italic;
+}
+
 .relative {
     position: relative;
 }
 
 .float-left{
     float: left;
-}
-
-.text-right {
-    text-align: right;
 }
 
 .border-right-blue {

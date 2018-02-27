@@ -29,10 +29,14 @@ Following commands are currently available:
 | AT KL | number | Set keyboard locale (locale defines are listed below) | v3 | yes | no |
 | AT BT | number (0,1,2,3) | Bluetooth mode, 0=no HID output, 1=USB only, 2=BT only, 3=both(default) | v2 | Working for USB, untested for BLE | no |
 | AT TT | number (100-5000) | Threshold time ([ms]) between short and long press actions. Set to 5000 to disable. | v3 | no | no |
-| AT AP | number (1-500) | Antitremor delay for button press ([ms]) | v3 | no | no |
-| AT AR | number (1-500) | Antitremor delay for button release ([ms]) | v3 | no | no |
-| AT AI | number (1-500) | Antitremor delay for button idle ([ms]) | v3 | no | no |
+| AT AP | number (1-500) | Antitremor delay for button press ([ms]) <sup>[A](#footnoteA)</sup> | v3 | untested | no |
+| AT AR | number (1-500) | Antitremor delay for button release ([ms]) <sup>[A](#footnoteA)</sup>| v3 | untested | no |
+| AT AI | number (1-500) | Antitremor delay for button idle ([ms]) <sup>[A](#footnoteA)</sup>| v3 | untested | no |
 | AT FR | -- | Reports free, used and available config storage space (e.g., "FREE:10%,9000,1000")| v3 | no | no |
+
+<a name="footnoteA">A</a>: Either combine the anti-tremor time settings with a previously sent __AT BM__ command to set a debouncing time for an individual virtual button **OR** use this command
+individually to set a global value.
+
 **USB HID Commands**
 | Command | Parameter | Description | Available since | Implemented in v3 | FUNCTIONAL task |
 |:--------|:----------|:------------|:--------------|:--------------------|:----------------|

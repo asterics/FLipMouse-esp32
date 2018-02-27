@@ -623,6 +623,43 @@ parserstate_t doGeneralCmdParsing(uint8_t *cmdBuffer)
     return UNKNOWNCMD;
   }
   
+  ///@todo hier den AT AI,AP,AR commands hinzufügen. Achtung auf requestVBUpdate: wenn gesetzt, wieder zurücksetzen & entsprechend die Zeit speichern.
+  /*++++ AT AP,AR,AI; anti-tremor ++++*/
+  if(CMD4("AT A")) {
+    //get the time value ([ms])
+    param = strtol((char*)&(cmdBuffer[6]),NULL,10);
+      
+    if(cmdBuffer[4] == 'P' || cmdBuffer[4] == 'R' || cmdBuffer[4] == 'I')
+    {
+      //check parameter range
+      if(param == 0 || param > 500)
+      {
+        sendErrorBack("Time out of range");
+        return UNKNOWNCMD;
+      }
+      
+      //should we apply it as global value or for an individual button?
+      if(requestVBUpdate == VB_SINGLESHOT)
+      {
+        switch(cmdBuffer[4])
+        {
+          case 'P': currentcfg->debounce_press = param;
+          case 'R': currentcfg->debounce_release = param;
+          case 'I': currentcfg->debounce_idle = param;
+        }
+      } else {
+        switch(cmdBuffer[4])
+        {
+          case 'P': currentcfg->debounce_press_vb[requestVBUpdate] = param;
+          case 'R': currentcfg->debounce_release_vb[requestVBUpdate] = param;
+          case 'I': currentcfg->debounce_idle_vb[requestVBUpdate] = param;
+        }
+      }
+      //need to update.
+      requestUpdate = 1;
+    }
+  }
+  
   /*++++ AT RO ++++*/
   if(CMD("AT RO")) {
     //set the mouthpiece orientation

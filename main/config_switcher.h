@@ -103,7 +103,6 @@ esp_err_t configSwitcherInit(void);
  * @see config_switcher
  * @see currentConfig
  * @return Pointer to the current config struct
- * @todo Do we need locking here (mutex)?
  * */
 generalConfig_t* configGetCurrent(void);
 

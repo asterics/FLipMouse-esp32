@@ -23,7 +23,7 @@
  * 
  * Following peripherals are utilized here:<br>
  * * Input buttons
- * * RGB LED
+ * * RGB LED (or maybe a Neopixel LED)
  * * IR receiver (TSOP)
  * * IR LED (sender)
  * * Buzzer
@@ -31,9 +31,7 @@
  * @note Compared to the tasks in the folder "function_tasks" all HAL tasks are
  * singletons. Call init to initialize every necessary data structure.
  * 
- * @todo Test LED driver
- * @todo Implement Buzzer
- * @todo Implement IR driver
+ * @todo Test LED driver, Buzzer & IR
  * */
  
 #include "hal_io.h"

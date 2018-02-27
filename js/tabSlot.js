@@ -13,7 +13,7 @@ window.tabSlot.saveSlotLabelChanged = function (element) {
 
 window.tabSlot.createSlot = function (toggleElementList, progressBarId) {
     var slotName = L('#newSlotLabel').value;
-    flipActionThenToggle(flip.createSlot, [slotName], toggleElementList, progressBarId).then(function () {
+    actionAndToggle(flip.createSlot, [slotName], toggleElementList, progressBarId).then(function () {
         initSlots();
         L('#newSlotLabel').value = '';
     });
@@ -25,8 +25,16 @@ window.tabSlot.deleteSlot = function (toggleElementList, progressBarId) {
     if(!window.confirm(confirmMessage)){
         return;
     }
-    flipActionThenToggle(flip.deleteSlot, [slotName], toggleElementList, progressBarId).then(function () {
+    actionAndToggle(flip.deleteSlot, [slotName], toggleElementList, progressBarId).then(function () {
         initSlots();
         L('#newSlotLabel').value = '';
     });
+};
+
+window.tabSlot.resetConfig = function (toggleElementList, progressBarId) {
+    var confirmMessage = L.isLang('de') ? 'Möchten Sie die FLipMouse wirklich auf die Standardeinstellungen zurücksetzen?' : 'Do you really want to reset the FLipMouse to the default configuration?';
+    if(!window.confirm(confirmMessage)){
+        return;
+    }
+    actionAndToggle(flip.restoreDefaultConfiguration, [], toggleElementList, progressBarId);
 };

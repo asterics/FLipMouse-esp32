@@ -268,40 +268,39 @@
         </div>
         <div data-tabs-pane class="tabs-pane" id="tabActions">
             <label i18n>Change actions // Aktionen ändern</label>
-            <div id="pressedKey">
-                <div class="row">
-                    <label class="three columns text-right text-normal" i18n>Action to define // Zu belegende Funktion</label>
-                    <select id="selectActionButton" class="eight columns" onchange="tabAction.selectActionButton(this.value)">
-                    </select>
-                </div>
-                <div class="row" style="display: none">
-                    <label class="three columns text-right text-normal" i18n>Action category // Aktions-Kategorie</label>
-                    <select id="selectActionCategory" class="eight columns" disabled="true">
-                    </select>
-                </div>
-                <div class="row" style="display: none">
-                    <label class="three columns text-right text-normal" i18n>Action // Aktion</label>
-                    <select id="selectAction" class="eight columns" disabled="true">
-                    </select>
-                </div>
-
-                <div class="row">
-                    <label class="three columns"></label>
-                    <button id="start-rec-button" onclick="actionAndToggle(tabAction.startRec, [], ['#start-rec-button-normal', '#start-rec-button-rec'])" class="eight columns" style="position: relative;">
-                        <div id="start-rec-button-normal" style="position: relative" i18n>Start recording actions // Aufnahme Aktionen starten</div>
-                        <div id="start-rec-button-rec" style="display: none" i18n>Now press keys to record... (click here to stop) // Jetzt Tasten zum Aufnehmen drücken... (zum Stoppen klicken)</div>
-                    </button>
-                </div>
-
-                <div class="row">
-                    <label class="three columns text-right text-normal" i18n>Recorded Action // Aufgenommene Aktion</label>
-                    <span id="recordedAction" style="font-weight: bold" class="eight columns"/>
-                </div>
-                <div class="row">
-                    <label class="three columns text-right text-normal" i18n>Recorded AT Command // Aufgenommenes AT Kommando</label>
-                    <span id="recordedAtCmd" class="eight columns"/>
-                </div>
+            <div class="row">
+                <label class="three columns text-right text-normal" i18n>Action to define // Zu belegende Funktion</label>
+                <select id="selectActionButton" class="eight columns" onchange="tabAction.selectActionButton(this.value)">
+                </select>
             </div>
+            <div class="row" style="display: none">
+                <label class="three columns text-right text-normal" i18n>Action category // Aktions-Kategorie</label>
+                <select id="selectActionCategory" class="eight columns" disabled="true">
+                </select>
+            </div>
+            <div class="row" style="display: none">
+                <label class="three columns text-right text-normal" i18n>Action // Aktion</label>
+                <select id="selectAction" class="eight columns" disabled="true">
+                </select>
+            </div>
+
+            <div class="row">
+                <label class="three columns"></label>
+                <button id="start-rec-button" onclick="actionAndToggle(tabAction.startRec, [], ['#start-rec-button-normal', '#start-rec-button-rec'])" class="eight columns" style="position: relative;">
+                    <div id="start-rec-button-normal" style="position: relative" i18n>Start recording actions // Aufnahme Aktionen starten</div>
+                    <div id="start-rec-button-rec" style="display: none" i18n>Now press keys to record... (click here to stop) // Jetzt Tasten zum Aufnehmen drücken... (zum Stoppen klicken)</div>
+                </button>
+            </div>
+            <div class="row">
+                <label class="three columns text-right text-normal" i18n>Recorded Action // Aufgenommene Aktion</label>
+                <span id="recordedAction" style="font-weight: bold" class="eight columns"/>
+            </div>
+            <div class="row">
+                <label class="three columns text-right text-normal" i18n>Recorded AT Command // Aufgenommenes AT Kommando</label>
+                <span id="recordedAtCmd" class="eight columns"/>
+            </div>
+
+            <br/>
             <label i18n>Current mapping // Aktuelle Konfiguration</label>
             <div id="currentConfigTh" class="hide-mobile row thead" aria-hidden="true">
                 <div class="two columns" i18n>Description // Bezeichnung</div>

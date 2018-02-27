@@ -10,6 +10,7 @@
     <script src="lib/tabby.min.js"></script>
     <script src="lib/dom-i18n.min.js"></script>
 
+    <script src="js/constants.js"></script>
     <script src="js/lquery.js"></script>
     <script src="js/areCommunicatorLight.js"></script>
     <script src="js/flipMouseCommunicator.js"></script>
@@ -254,6 +255,16 @@
                     <div id="delete-slot-button-saving" style="display: none" i18n>deleting slot... // Slot wird gelöscht...</div>
                 </button>
             </div>
+
+            <br/>
+            <div class="row">
+                <label for="selectSlotDelete" i18n>Reset to default configuration // Rücksetzen auf Defaulteinstellungen</label>
+                <button id="reset-slot-button" onclick="tabSlot.resetConfig(['#reset-slot-button-normal', '#reset-slot-button-saving'], '#reset-slot-value-bar')" class="u-full-width" style="position: relative;">
+                    <div id="reset-slot-value-bar" class="value-bar color-lightercyan" style="width: 0%;"></div>
+                    <div id="reset-slot-button-normal" style="position: relative" i18n>Reset // Zurücksetzen</div>
+                    <div id="reset-slot-button-saving" style="display: none" i18n>Resetting... // Wird zurückgesetzt...</div>
+                </button>
+            </div>
         </div>
         <div data-tabs-pane class="tabs-pane" id="tabActions">
             <label i18n>Change actions // Aktionen ändern</label>
@@ -283,8 +294,12 @@
                 </div>
 
                 <div class="row">
-                    <label class="three columns text-right text-normal" i18n>Recorded Events // Aufgenommene Events</label>
-                    <input id="recordedEvents" class="eight columns" type="text" disabled="true"/>
+                    <label class="three columns text-right text-normal" i18n>Recorded Action // Aufgenommene Aktion</label>
+                    <span id="recordedAction" style="font-weight: bold" class="eight columns"/>
+                </div>
+                <div class="row">
+                    <label class="three columns text-right text-normal" i18n>Recorded AT Command // Aufgenommenes AT Kommando</label>
+                    <span id="recordedAtCmd" class="eight columns"/>
                 </div>
             </div>
             <label i18n>Current mapping // Aktuelle Konfiguration</label>
@@ -314,7 +329,7 @@
                 testConnection();
             }, 10000);
             function testConnection() {
-                flip.testConnection().then(function (isConnected) {
+                flip.testConnection(true).then(function (isConnected) {
                     L.setVisible('.connectedIndicator', isConnected);
                     L.setVisible('.disconnectedIndicator', !isConnected);
                 });

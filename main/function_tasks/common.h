@@ -372,6 +372,19 @@ typedef struct generalConfig {
   uint8_t deviceIdentifier;
   /** @brief Timeout between IR edges before command is declared as finished */
   uint8_t irtimeout;
+  /** @brief Global anti-tremor time for press */
+  uint16_t debounce_press;
+  /** @brief Global anti-tremor time for release */
+  uint16_t debounce_release;
+  /** @brief Global anti-tremor time for idle */
+  uint16_t debounce_idle;
+  /** @brief Anti-tremor (debounce) time for press of each VB */
+  uint16_t debounce_press_vb[NUMBER_VIRTUALBUTTONS*4];
+  /** @brief Anti-tremor (debounce) time for release of each VB */
+  uint16_t debounce_release_vb[NUMBER_VIRTUALBUTTONS*4];
+  /** @brief Anti-tremor (debounce) time for idle of each VB */
+  uint16_t debounce_idle_vb[NUMBER_VIRTUALBUTTONS*4];
+  /** @brief Slotname of this config */
   char slotName[SLOTNAME_LENGTH];
   command_type_t virtualButtonCommand[NUMBER_VIRTUALBUTTONS*4];
   void* virtualButtonConfig[NUMBER_VIRTUALBUTTONS*4];

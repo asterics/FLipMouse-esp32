@@ -158,6 +158,17 @@ void halStorageCreateDefault(uint32_t tid)
   defaultCfg->wheel_stepsize = 3;
   defaultCfg->irtimeout = 10;
   
+  //set any debounce time to 0 (use default)
+  defaultCfg->debounce_press = 0;
+  defaultCfg->debounce_release = 0;
+  defaultCfg->debounce_idle = 0;
+  for(uint8_t i = 0; i<NUMBER_VIRTUALBUTTONS*4;i++)
+  {
+    defaultCfg->debounce_press_vb[i] = 0;
+    defaultCfg->debounce_release_vb[i] = 0;
+    defaultCfg->debounce_idle_vb[i] = 0;
+  }
+  
   
   strcpy(defaultCfg->slotName,"__DEFAULT");
   
@@ -217,7 +228,40 @@ void halStorageCreateDefault(uint32_t tid)
     ESP_LOGE(LOG_TAG,"Error saving default general config!");
     return;
   }
+    
+  pConfig = malloc(sizeof(taskMouseConfig_t));
+  if(pConfig != NULL)
+  {
+    ((taskMouseConfig_t *)pConfig)->type = Y;
+    ((taskMouseConfig_t *)pConfig)->actionvalue = (int8_t) 10;
+    ((taskMouseConfig_t *)pConfig)->virtualButton = VB_INTERNAL2;
+    ret = halStorageStoreSetVBConfigs(0,VB_INTERNAL2,pConfig,sizeof(taskMouseConfig_t),tid);
+    //wait for 10ticks, to feed the watchdog (file access seems to block the IDLE task)
+    vTaskDelay(10); 
+    free(pConfig);
+  } else { ESP_LOGE(LOG_TAG,"malloc error VB%u",VB_INTERNAL2); return; }
+  if(ret != ESP_OK)
+  {
+    ESP_LOGE(LOG_TAG,"Error saving default VB%u config!",VB_INTERNAL2);
+    return;
+  }
   
+  pConfig = malloc(sizeof(taskConfigSwitcherConfig_t));
+  if(pConfig != NULL)
+  {
+    strcpy(((taskConfigSwitcherConfig_t *)pConfig)->slotName, "__NEXT");
+    ((taskConfigSwitcherConfig_t *)pConfig)->virtualButton = VB_INTERNAL1;
+    ret = halStorageStoreSetVBConfigs(0,VB_INTERNAL1,pConfig,sizeof(taskConfigSwitcherConfig_t),tid);
+    //wait for 10ticks, to feed the watchdog (file access seems to block the IDLE task)
+    vTaskDelay(10); 
+    free(pConfig);
+  } else { ESP_LOGE(LOG_TAG,"malloc error VB%u",VB_INTERNAL1); return; }
+  if(ret != ESP_OK)
+  {
+    ESP_LOGE(LOG_TAG,"Error saving default VB%u config!",VB_INTERNAL1);
+    return;
+  }
+
   //create virtual button configs for each assigned VB
   pConfig = malloc(sizeof(taskKeyboardConfig_t));
   if(pConfig != NULL)
@@ -261,39 +305,6 @@ void halStorageCreateDefault(uint32_t tid)
   if(ret != ESP_OK)
   {
     ESP_LOGE(LOG_TAG,"Error saving default VB%u config!",VB_EXTERNAL2);
-    return;
-  }
-
-  pConfig = malloc(sizeof(taskConfigSwitcherConfig_t));
-  if(pConfig != NULL)
-  {
-    strcpy(((taskConfigSwitcherConfig_t *)pConfig)->slotName, "__NEXT");
-    ((taskConfigSwitcherConfig_t *)pConfig)->virtualButton = VB_INTERNAL1;
-    ret = halStorageStoreSetVBConfigs(0,VB_INTERNAL1,pConfig,sizeof(taskConfigSwitcherConfig_t),tid);
-    //wait for 10ticks, to feed the watchdog (file access seems to block the IDLE task)
-    vTaskDelay(10); 
-    free(pConfig);
-  } else { ESP_LOGE(LOG_TAG,"malloc error VB%u",VB_INTERNAL1); return; }
-  if(ret != ESP_OK)
-  {
-    ESP_LOGE(LOG_TAG,"Error saving default VB%u config!",VB_INTERNAL1);
-    return;
-  }
-  
-  pConfig = malloc(sizeof(taskMouseConfig_t));
-  if(pConfig != NULL)
-  {
-    ((taskMouseConfig_t *)pConfig)->type = Y;
-    ((taskMouseConfig_t *)pConfig)->actionvalue = (int8_t) 10;
-    ((taskMouseConfig_t *)pConfig)->virtualButton = VB_INTERNAL2;
-    ret = halStorageStoreSetVBConfigs(0,VB_INTERNAL2,pConfig,sizeof(taskMouseConfig_t),tid);
-    //wait for 10ticks, to feed the watchdog (file access seems to block the IDLE task)
-    vTaskDelay(10); 
-    free(pConfig);
-  } else { ESP_LOGE(LOG_TAG,"malloc error VB%u",VB_INTERNAL2); return; }
-  if(ret != ESP_OK)
-  {
-    ESP_LOGE(LOG_TAG,"Error saving default VB%u config!",VB_INTERNAL2);
     return;
   }
   

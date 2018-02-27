@@ -69,6 +69,8 @@
 /** Check for release flag */
 #define VB_FLAG_RELEASE(x) ((1<<(x+4)))
 
+int8_t startTimer(uint32_t virtualButton, uint16_t debounceTime);
+
 /** @brief Array of timer handles
  * 
  * This array contains all possible running timer handles.
@@ -90,33 +92,6 @@ TimerHandle_t xTimers[DEBOUNCERCHANNELS];
  * @see TIMER_IDLE
  * */
 uint8_t xTimerDirection[DEBOUNCERCHANNELS];
-
-/** @brief Time for each virtual button used for deadtime
- * 
- * This array contains the time for each virtual button, which
- * should be used for deadtime locking.
- * @todo Implement deadtime & use this array for the config switcher
- * @see TIMER_DEADTIME
- * */
-uint16_t xTimeDebounceDeadtime[NUMBER_VIRTUALBUTTONS*4];
-
-/** @brief Time for each virtual button used for press debouncing
- * 
- * This array contains the time for each virtual button, which
- * should be used for press debouncing
- * @todo Use this array for the config switcher & control it externally
- * @see TIMER_PRESS
- * */
-uint16_t xTimeDebouncePress[NUMBER_VIRTUALBUTTONS*4];
-
-/** @brief Time for each virtual button used for release debouncing
- * 
- * This array contains the time for each virtual button, which
- * should be used for release debouncing
- * @todo Use this array for the config switcher & control it externally
- * @see TIMER_RELEASE
- * */
-uint16_t xTimeDebounceRelease[NUMBER_VIRTUALBUTTONS*4];
 
 /** @brief Look for a possibly running debouncing timer
  * 
@@ -182,6 +157,20 @@ void debouncerCallback(TimerHandle_t xTimer) {
   //get own ID (virtual button)
   uint8_t virtualButton = (uint32_t) pvTimerGetTimerID(xTimer);
   int8_t timerindex = isDebouncerActive(virtualButton);
+  generalConfig_t *cfg = configGetCurrent();
+  uint16_t deadtime = 0;
+  int8_t timerId;
+  
+  if(cfg == NULL)
+  {
+    ESP_LOGE(LOG_TAG,"Cannot do deadtime for VB %d, global config is NULL!",virtualButton);
+    deadtime = 0;
+  } else {
+    //check if an individual deadtime is set
+    if(cfg->debounce_idle_vb[virtualButton] != 0) deadtime = cfg->debounce_idle_vb[virtualButton];
+    //check if we have to use global deadtime
+    if(deadtime == 0 && cfg->debounce_idle != 0) deadtime = cfg->debounce_idle;
+  }
   
   if(timerindex == -1)
   {
@@ -193,23 +182,36 @@ void debouncerCallback(TimerHandle_t xTimer) {
   {
     case TIMER_IDLE:
       ESP_LOGE(LOG_TAG,"Major error: debounceCallback but timer should be idle %d",virtualButton);
-      break;
+      return;
     case TIMER_PRESS:
       ESP_LOGD(LOG_TAG,"Debounce finished, map in to out for press VB%d",virtualButton);
       xEventGroupSetBits(virtualButtonsOut[virtualButton/4],(1<<(virtualButton%4)));
       xEventGroupClearBits(virtualButtonsIn[virtualButton/4],(1<<(virtualButton%4)));
       if(cancelTimer(virtualButton) == -1) ESP_LOGE(LOG_TAG,"Cannot cancel timer!");
+      
       break;
     case TIMER_RELEASE:
       ESP_LOGD(LOG_TAG,"Debounce finished, map in to out for release VB%d",virtualButton);
       xEventGroupSetBits(virtualButtonsOut[virtualButton/4],(1<<((virtualButton%4)+4)));
       xEventGroupClearBits(virtualButtonsIn[virtualButton/4],(1<<((virtualButton%4)+4)));
       if(cancelTimer(virtualButton) == -1) ESP_LOGE(LOG_TAG,"Cannot cancel timer!");
-      break;
+      return;;
     case TIMER_DEADTIME:
-      //TODO: add deadtime  
-      ESP_LOGE(LOG_TAG,"TODO: add deadtime to debouncerCallback");
-      break;
+      ESP_LOGE(LOG_TAG,"Deadtime finished, ready");
+      if(cancelTimer(virtualButton) == -1) ESP_LOGE(LOG_TAG,"Cannot cancel timer!");
+      return;
+  }
+  //if necessary, start timer again for deadtime.
+  if(deadtime != 0)
+  {
+    timerId = startTimer(virtualButton,deadtime);
+    if(timerId == -1) 
+    {
+      ESP_LOGE(LOG_TAG,"Cannot start timer...");
+    } else {
+      ESP_LOGD(LOG_TAG,"Deadtime start for VB %d",virtualButton);
+      xTimerDirection[timerId] = TIMER_DEADTIME; 
+    }
   }
 }
 
@@ -271,6 +273,8 @@ int8_t startTimer(uint32_t virtualButton, uint16_t debounceTime)
  * */
 void task_debouncer(void *param)
 {
+  generalConfig_t *cfg = configGetCurrent();
+  
   for(uint8_t i =0; i<NUMBER_VIRTUALBUTTONS;i++)
   {
     //test if eventgroup is created
@@ -281,14 +285,14 @@ void task_debouncer(void *param)
     }
     //set timer direction to idle on startup
     xTimerDirection[i] = TIMER_IDLE;
-    
-    //set default debounce time for press, release and deadtime
-    for(uint8_t j = 0; j<4;j++)
-    {
-      xTimeDebounceDeadtime[VB_ITER(i,j)] = 0;
-      xTimeDebouncePress[VB_ITER(i,j)] = DEBOUNCETIME_MS;
-      xTimeDebounceRelease[VB_ITER(i,j)] = DEBOUNCETIME_MS;
-    }      
+  }
+  
+  //wait until config is valid
+  while(cfg == NULL)
+  {
+    ESP_LOGE(LOG_TAG,"Global config uninitialized, retry in 1s");
+    vTaskDelay(1000/portTICK_PERIOD_MS);
+    cfg = configGetCurrent();
   }
   
   ESP_LOGD(LOG_TAG,"Debouncer started, resolution: %d ms",DEBOUNCE_RESOLUTION_MS);
@@ -329,9 +333,18 @@ void task_debouncer(void *param)
           //check if this is a press & out flag is unset
           if(in == VB_FLAG_PRESS(j) && (out & VB_FLAG_PRESS(j)) == 0)
           {
-            if(xTimeDebouncePress[VB_ITER(i,j)] > DEBOUNCE_RESOLUTION_MS)
+            //check which time to use (either VB, global value or default)
+            uint16_t time = 0;
+            //is a VB value set in config?
+            if(cfg->debounce_press_vb[VB_ITER(i,j)] != 0) time = cfg->debounce_press_vb[VB_ITER(i,j)];
+            //is a global value set in config?
+            if(time == 0 && cfg->debounce_press != 0) time = cfg->debounce_press;
+            //no? just use the default value
+            if(time == 0) time = DEBOUNCETIME_MS;
+            
+            if(time > DEBOUNCE_RESOLUTION_MS)
             {
-              timerId = startTimer(VB_ITER(i,j),xTimeDebouncePress[VB_ITER(i,j)]);
+              timerId = startTimer(VB_ITER(i,j),time);
               if(timerId == -1) 
               {
                 ESP_LOGE(LOG_TAG,"Cannot start timer...");
@@ -340,6 +353,7 @@ void task_debouncer(void *param)
                 xTimerDirection[timerId] = TIMER_PRESS; 
               }
               continue;
+            //note: currently, following branch is unused, but maybe we need a directly mapped VB.
             } else {
               //if no debounce time is used
               ESP_LOGD(LOG_TAG,"Min. debounce time, just mapping press");
@@ -353,9 +367,18 @@ void task_debouncer(void *param)
           //check if this is a release & out flag is unset
           if(in == VB_FLAG_RELEASE(j) && (out & VB_FLAG_RELEASE(j)) == 0)
           {
-            if(xTimeDebounceRelease[VB_ITER(i,j)] > DEBOUNCE_RESOLUTION_MS)
+            //check which time to use (either VB, global value or default)
+            uint16_t time = 0;
+            //is a VB value set in config?
+            if(cfg->debounce_release_vb[VB_ITER(i,j)] != 0) time = cfg->debounce_release_vb[VB_ITER(i,j)];
+            //is a global value set in config?
+            if(time == 0 && cfg->debounce_release != 0) time = cfg->debounce_release;
+            //no? just use the default value
+            if(time == 0) time = DEBOUNCETIME_MS;
+            
+            if(time > DEBOUNCE_RESOLUTION_MS)
             {
-              timerId = startTimer(VB_ITER(i,j),xTimeDebounceRelease[VB_ITER(i,j)]);
+              timerId = startTimer(VB_ITER(i,j),time);
               if(timerId == -1) 
               {
                 ESP_LOGE(LOG_TAG,"Cannot start timer...");
@@ -364,6 +387,7 @@ void task_debouncer(void *param)
                 xTimerDirection[timerId] = TIMER_RELEASE;
               }
               continue;
+            //note: currently, following branch is unused, but maybe we need a directly mapped VB.
             } else {
               //if no debounce time is used
               ESP_LOGD(LOG_TAG,"Min. debounce time, just mapping release");
@@ -402,8 +426,7 @@ void task_debouncer(void *param)
               ESP_LOGE(LOG_TAG,"Timer is idle but a valid ID?");
               break;
             case TIMER_DEADTIME:
-              //TODO: add deadtime
-              ESP_LOGE(LOG_TAG,"TODO: add deadtime capability");
+              ESP_LOGD(LOG_TAG,"Deadtime active, waiting.");
               break;
             default:
               ESP_LOGE(LOG_TAG,"Unknown status in xTimerDirection[%d]",timerId);

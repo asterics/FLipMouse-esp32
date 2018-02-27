@@ -37,6 +37,7 @@
 #include <esp_log.h>
 //common definitions & data for all of these functional tasks
 #include "common.h"
+#include "../config_switcher.h"
 
 /** Default time before debounce kicks in and flag is mapped 
  * from virtualButtonsIn to virtualButtonsOut. 
@@ -55,8 +56,11 @@
  * @see DEBOUNCETIME_MS */
  
 #define DEBOUNCE_RESOLUTION_MS 10
-/** Number of concurrent debouncing channels, each channel represents
- * one software timer handle */
+/** @brief Number of concurrent debouncing channels, each channel represents
+ * one software timer handle
+ * @note If set to a value less than the number of virtual buttons, there
+ * might be the possibility to miss button presses because of too less timer
+ * slots. */
 #define DEBOUNCERCHANNELS 32
 
 /** Stack size for debouncer task */

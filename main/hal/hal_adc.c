@@ -37,7 +37,7 @@
  * trigger a zero-point calibration of the mouthpiece.
  * 
  * @see adc_config_t
- * @todo Add raw value reporting for: CIM mode and serial interface
+ * @todo Add CIM reporting...
  * @todo Do Strong<Sip/puff>+<UP/DOWN/LEFT/RIGHT>
  * */
  
@@ -223,25 +223,52 @@ void halAdcProcessPressure(uint32_t pressurevalue)
     if(pressurevalue < cfg->adc.threshold_sip && \
         pressurevalue > cfg->adc.threshold_strongsip)
     {
+        //set/clear VBs
+        CLEARVB_RELEASE(VB_SIP);
+        SETVB_PRESS(VB_SIP);
+        //create a tone
         TONE(TONE_SIP_FREQ,TONE_SIP_DURATION);
+    } else {
+        //set/clear VBs
+        CLEARVB_PRESS(VB_SIP);
+        SETVB_RELEASE(VB_SIP);
     }
+    
     //STRONGSIP triggered
     if(pressurevalue < cfg->adc.threshold_strongsip)
     {
         TONE(TONE_STRONGSIP_ENTER_FREQ,TONE_STRONGSIP_ENTER_DURATION);
+        //TODO: how to disable other data & get up/down/left/right?
+    } else {
+        //set/clear VBs
+        CLEARVB_PRESS(VB_STRONGSIP);
+        SETVB_RELEASE(VB_STRONGSIP);
     }
     
     //PUFF triggered
     if(pressurevalue > cfg->adc.threshold_puff && \
         pressurevalue < cfg->adc.threshold_strongpuff)
     {
+        //set/clear VBs
+        CLEARVB_RELEASE(VB_PUFF);
+        SETVB_PRESS(VB_PUFF);
+        //create a tone
         TONE(TONE_PUFF_FREQ,TONE_PUFF_DURATION);
+    } else {
+        //set/clear VBs
+        CLEARVB_PRESS(VB_PUFF);
+        SETVB_RELEASE(VB_PUFF);
     }
     
     //STRONGPUFF triggered
     if(pressurevalue > cfg->adc.threshold_strongpuff)
     {
         TONE(TONE_STRONGPUFF_ENTER_FREQ,TONE_STRONGPUFF_ENTER_DURATION);
+        //TODO: how to disable other data & get up/down/left/right?
+    } else {
+        //set/clear VBs
+        CLEARVB_PRESS(VB_STRONGPUFF);
+        SETVB_RELEASE(VB_STRONGPUFF);
     }
 }
 

@@ -36,8 +36,6 @@
  * 
  * @note If you want to add a new FUNCTIONAL TASK, please include headers here
  * & add loading functionality to configSwitcherTask. 
- * 
- * @todo Create getter/setter for current config (including fkt tasks & possibly the reloading)
  * */
 #include "config_switcher.h"
 
@@ -96,7 +94,6 @@ generalConfig_t currentConfigLoaded;
  * @see config_switcher
  * @see currentConfigLoaded
  * @return Pointer to the current config struct
- * @todo Do we need locking here (mutex)?
  * */
 generalConfig_t* configGetCurrent(void)
 {

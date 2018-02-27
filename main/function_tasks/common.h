@@ -170,10 +170,10 @@ extern QueueHandle_t config_switcher;
  * Gesture VBs, a recorded gesture is treated like a virtual button
  * */
 #ifdef DEVICE_FLIPMOUSE
-  #define VB_EXTERNAL1    0
-  #define VB_EXTERNAL2    1
-  #define VB_INTERNAL1    2
-  #define VB_INTERNAL2    3
+  #define VB_INTERNAL2    0
+  #define VB_INTERNAL1    1
+  #define VB_EXTERNAL1    2
+  #define VB_EXTERNAL2    3
   #define VB_UP           4
   #define VB_DOWN         5
   #define VB_LEFT         6
@@ -214,6 +214,58 @@ extern QueueHandle_t config_switcher;
  * After this single action, each function body of functional tasks
  * is REQUIRED to do a return. */
 #define VB_SINGLESHOT   32
+
+/** @brief Easy macro to set a VB (with debouncing for press action)
+ * 
+ * This macro sets the corresponding VB flag in virtualButtonsIn.
+ * The debouncer will map it to virtualButtonsOut after the set debouncing
+ * time. Cancel a pending VB action by CLEARVB_PRESS.
+ * 
+ * @see virtualButtonsIn
+ * @see virtualButtonsOut
+ * @see task_debouncer
+ * @see CLEARVB_PRESS
+ * */
+#define SETVB_PRESS(x) xEventGroupSetBits(virtualButtonsIn[x/4],(1<<(x%4)))
+
+
+/** @brief Easy macro to clear a VB (with debouncing for press action)
+ * 
+ * This macro clears the corresponding VB flag in virtualButtonsIn.
+ * @note If the flag is already mapped to the out group, this macro has no effect.
+ * 
+ * @see virtualButtonsIn
+ * @see virtualButtonsOut
+ * @see task_debouncer
+ * @see SETVB_PRESS
+ * */
+#define CLEARVB_PRESS(x) xEventGroupClearBits(virtualButtonsIn[x/4],(1<<(x%4)))
+
+/** @brief Easy macro to set a VB (with debouncing for release action)
+ * 
+ * This macro sets the corresponding VB flag in virtualButtonsIn.
+ * The debouncer will map it to virtualButtonsOut after the set debouncing
+ * time. Cancel a pending VB action by CLEARVB_PRESS.
+ * 
+ * @see virtualButtonsIn
+ * @see virtualButtonsOut
+ * @see task_debouncer
+ * @see CLEARVB_RELEASE
+ * */
+#define SETVB_RELEASE(x) xEventGroupSetBits(virtualButtonsIn[x/4],(1<<(x%4 + 4)))
+
+
+/** @brief Easy macro to clear a VB (with debouncing for release action)
+ * 
+ * This macro clears the corresponding VB flag in virtualButtonsIn.
+ * @note If the flag is already mapped to the out group, this macro has no effect.
+ * 
+ * @see virtualButtonsIn
+ * @see virtualButtonsOut
+ * @see task_debouncer
+ * @see SETVB_RELEASE
+ * */
+#define CLEARVB_RELEASE(x) xEventGroupClearBits(virtualButtonsIn[x/4],(1<<(x%4 + 4)))
 
 
 /*++++ TASK PRIORITY ASSIGNMENT ++++*/
@@ -320,6 +372,27 @@ typedef struct generalConfig {
   uint8_t deviceIdentifier;
   /** @brief Timeout between IR edges before command is declared as finished */
   uint8_t irtimeout;
+  /** @brief Global anti-tremor time for press */
+  uint16_t debounce_press;
+  /** @brief Global anti-tremor time for release */
+  uint16_t debounce_release;
+  /** @brief Global anti-tremor time for idle */
+  uint16_t debounce_idle;
+  /** @brief Feedback mode.
+   * 
+   * * 0 disables LED and buzzer
+   * * 1 disables buzzer, but LED is on
+   * * 2 disables LED, but buzzer gives output
+   * * 3 gives LED and buzzer feedback
+   * */
+  uint8_t feedback;
+  /** @brief Anti-tremor (debounce) time for press of each VB */
+  uint16_t debounce_press_vb[NUMBER_VIRTUALBUTTONS*4];
+  /** @brief Anti-tremor (debounce) time for release of each VB */
+  uint16_t debounce_release_vb[NUMBER_VIRTUALBUTTONS*4];
+  /** @brief Anti-tremor (debounce) time for idle of each VB */
+  uint16_t debounce_idle_vb[NUMBER_VIRTUALBUTTONS*4];
+  /** @brief Slotname of this config */
   char slotName[SLOTNAME_LENGTH];
   command_type_t virtualButtonCommand[NUMBER_VIRTUALBUTTONS*4];
   void* virtualButtonConfig[NUMBER_VIRTUALBUTTONS*4];

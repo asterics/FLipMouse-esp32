@@ -23,7 +23,7 @@
  * 
  * Following peripherals are utilized here:<br>
  * * Input buttons
- * * RGB LED
+ * * RGB LED (or maybe a Neopixel LED)
  * * IR receiver (TSOP)
  * * IR LED (sender)
  * * Buzzer
@@ -31,9 +31,7 @@
  * @note Compared to the tasks in the folder "function_tasks" all HAL tasks are
  * singletons. Call init to initialize every necessary data structure.
  * 
- * @todo Test LED driver
- * @todo Implement Buzzer
- * @todo Implement IR driver
+ * @todo Test LED driver, Buzzer & IR
  * */
  
 #include "hal_io.h"
@@ -243,6 +241,7 @@ void halIOIRRecvTask(void * param)
 void halIOBuzzerTask(void * param)
 {
   halIOBuzzer_t recv;
+  generalConfig_t *cfg = configGetCurrent();
   
   if(halIOBuzzerQueue == NULL)
   {
@@ -250,11 +249,21 @@ void halIOBuzzerTask(void * param)
     while(halIOBuzzerQueue == NULL) vTaskDelay(1000/portTICK_PERIOD_MS);
   }
   
+  while(cfg == NULL)
+  {
+    ESP_LOGW(LOG_TAG, "generalconfig not initialised");
+    vTaskDelay(1000/portTICK_PERIOD_MS);
+    cfg = configGetCurrent(); 
+  }
+  
   while(1)
   {
     //wait for updates
     if(xQueueReceive(halIOBuzzerQueue,(void*)&recv,10000))
     {
+      //check if feedback mode is set to buzzer output. If not: do nothing
+      if((cfg->feedback & 0x02) == 0) continue;
+      
       //set duty, set frequency
       //do a tone only if frequency is != 0, otherwise it is just a pause
       if(recv.frequency != 0)
@@ -287,16 +296,31 @@ void halIOLEDTask(void * param)
   uint32_t recv = 0;
   uint32_t duty = 0;
   uint32_t fade = 0;
+  generalConfig_t *cfg = configGetCurrent();
+  
   if(halIOLEDQueue == NULL)
   {
     ESP_LOGW(LOG_TAG, "halIOLEDQueue not initialised");
     while(halIOLEDQueue == NULL) vTaskDelay(1000/portTICK_PERIOD_MS);
   }
+  
+    
+  while(cfg == NULL)
+  {
+    ESP_LOGW(LOG_TAG, "generalconfig not initialised");
+    vTaskDelay(1000/portTICK_PERIOD_MS);
+    cfg = configGetCurrent(); 
+  }
+  
   while(1)
   {
     //wait for updates
     if(xQueueReceive(halIOLEDQueue,&recv,10000))
     {
+      //check if feedback mode is set to LED output. If not: do nothing
+      if((cfg->feedback & 0x01) == 0) continue;
+      
+      
       //updates received, sending to ledc driver
       
       //get fading time, unit is 10ms

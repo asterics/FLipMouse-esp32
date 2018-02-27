@@ -29,10 +29,17 @@ Following commands are currently available:
 | AT KL | number | Set keyboard locale (locale defines are listed below) | v3 | yes | no |
 | AT BT | number (0,1,2,3) | Bluetooth mode, 0=no HID output, 1=USB only, 2=BT only, 3=both(default) | v2 | Working for USB, untested for BLE | no |
 | AT TT | number (100-5000) | Threshold time ([ms]) between short and long press actions. Set to 5000 to disable. | v3 | no | no |
-| AT AP | number (1-500) | Antitremor delay for button press ([ms]) | v3 | no | no |
-| AT AR | number (1-500) | Antitremor delay for button release ([ms]) | v3 | no | no |
-| AT AI | number (1-500) | Antitremor delay for button idle ([ms]) | v3 | no | no |
-| AT FR | -- | Reports free, used and available config storage space (e.g., "FREE:10%,9000,1000")| v3 | no | no |
+| AT AP | number (1-500) | Antitremor delay for button press ([ms]) <sup>[A](#footnoteA)</sup> | v3 | untested | no |
+| AT AR | number (1-500) | Antitremor delay for button release ([ms]) <sup>[A](#footnoteA)</sup>| v3 | untested | no |
+| AT AI | number (1-500) | Antitremor delay for button idle ([ms]) <sup>[A](#footnoteA)</sup>| v3 | untested | no |
+| AT FR | -- | Reports free, used and available config storage space (e.g., "FREE:10%,9000,1000")| v3 | no<sup>[B](#footnoteB)</sup> | no |
+| AT FB | number (0,1,2,3) | Feedback mode, 0=no LED/no buzzer, 1=LED/no buzzer, 2=no LED/buzzer, 3= LED + buzzer | v3 | untested | no |
+
+<a name="footnoteA">A</a>: Either combine the anti-tremor time settings with a previously sent __AT BM__ command to set a debouncing time for an individual virtual button **OR** use this command
+individually to set a global value.
+
+<a name="footnoteA">B</a>: Cannot implement until available in ESP-IDF
+
 **USB HID Commands**
 | Command | Parameter | Description | Available since | Implemented in v3 | FUNCTIONAL task |
 |:--------|:----------|:------------|:--------------|:--------------------|:----------------|
@@ -127,10 +134,10 @@ Following number mapping is used for the __AT BM__ command:
 
 |VB nr | Function |
 |:-----|:---------|
-| 0    | External button 1|
-| 1    | External button 2|
-| 2    | Internal button 1|
-| 3    | Internal button 2 (might not be implemented) |
+| 0    | Internal button 2 (might not be implemented) |
+| 1    | Internal button 1|
+| 2    | External button 1|
+| 3    | External button 2|
 | 4    | Mouthpiece in threshold mode: UP |
 | 5    | Mouthpiece in threshold mode: DOWN |
 | 6    | Mouthpiece in threshold mode: LEFT |

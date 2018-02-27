@@ -75,7 +75,5 @@
  @todo Test whole IR stuff
  
  @todo add AT FR to hal_storage & task_commands
- @todo Fix task_commands, not parsing all the time?!?
  @todo ADC_TASK triggers watchdog...
- @todo Configswitch with AT MM is triggering only the second/third time...
 */

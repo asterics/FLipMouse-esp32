@@ -170,10 +170,10 @@ extern QueueHandle_t config_switcher;
  * Gesture VBs, a recorded gesture is treated like a virtual button
  * */
 #ifdef DEVICE_FLIPMOUSE
-  #define VB_EXTERNAL1    0
-  #define VB_EXTERNAL2    1
-  #define VB_INTERNAL1    2
-  #define VB_INTERNAL2    3
+  #define VB_INTERNAL2    0
+  #define VB_INTERNAL1    1
+  #define VB_EXTERNAL1    2
+  #define VB_EXTERNAL2    3
   #define VB_UP           4
   #define VB_DOWN         5
   #define VB_LEFT         6

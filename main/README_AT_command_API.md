@@ -127,10 +127,10 @@ Following number mapping is used for the __AT BM__ command:
 
 |VB nr | Function |
 |:-----|:---------|
-| 0    | External button 1|
-| 1    | External button 2|
-| 2    | Internal button 1|
-| 3    | Internal button 2 (might not be implemented) |
+| 0    | Internal button 2 (might not be implemented) |
+| 1    | Internal button 1|
+| 2    | External button 1|
+| 3    | External button 2|
 | 4    | Mouthpiece in threshold mode: UP |
 | 5    | Mouthpiece in threshold mode: DOWN |
 | 6    | Mouthpiece in threshold mode: LEFT |

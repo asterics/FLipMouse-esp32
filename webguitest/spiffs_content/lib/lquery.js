@@ -118,3 +118,7 @@ window.L.isLang = function (localeString) {
     var lang = window.navigator.userLanguage || window.navigator.language;
     return lang.indexOf(localeString) > -1;
 };
+
+window.L.getLastElement = function(array) {
+    return array.slice(-1)[0];
+};

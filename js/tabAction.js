@@ -44,7 +44,14 @@ window.tabAction.startRec = function () {
             e.preventDefault();
             var last = L.getLastElement(window.tabAction.queue);
             if(!e.repeat && C.SUPPORTED_KEYCODES.includes(getKeycode(e))) {
-                tabAction.queue.push(e);
+                if(getKeycode(e) != C.JS_KEYCODE_BACKSPACE || !getText(tabAction.queue)) {
+                    tabAction.queue.push(e);
+                } else {
+                    tabAction.queue.pop();
+                    if(!getText(tabAction.queue)) {
+                        tabAction.queue = [];
+                    }
+                }
                 console.log(e);
                 var atCmd = getAtCmd(tabAction.queue);
                 L('#recordedAction').innerHTML = getReadable(atCmd);
@@ -53,9 +60,9 @@ window.tabAction.startRec = function () {
         };
     } else {
         var atCmd = getAtCmd(tabAction.queue);
-        var selected
-        if(atCmd) {
-            flip.sendATCmd(atCmd);
+        var selectedButton = L('#selectActionButton').value;
+        if(atCmd && selectedButton) {
+            flip.setButtonAction(selectedButton, atCmd);
         }
         document.onkeydown = null;
     }
@@ -102,10 +109,13 @@ function getText(eventList) {
 
 function isAltGrLetter(e1,e2,e3) {
     if(!e1 || !e2 || !e3) return false;
-    return getKeycode(e1) == C.JS_KEYCODE_CTRL && getKeycode(e2) == C.JS_KEYCODE_ALT && isPrintableKey(e3);
+    return getKeycode(e1) == C.JS_KEYCODE_CTRL && getKeycode(e2) == C.JS_KEYCODE_ALT && isPrintableKey(e3) && e3.ctrlKey && e3.altKey;
 }
 
 function getAtCmd(queue) {
+    if(!queue || queue.length == 0) {
+        return '';
+    }
     var atCmd;
     var text = getText(queue);
     if(text) {
@@ -124,9 +134,10 @@ function getAtCmd(queue) {
 }
 
 function getReadable(atCmd) {
-    if(atCmd.indexOf(C.AT_CMD_KEYPRESS)) {
+    if(atCmd.indexOf(C.AT_CMD_WRITEWORD) > -1) {
         return "Write word: " + "'" + atCmd.substring(C.LENGTH_ATCMD_PREFIX) + "'";
-    } else if(atCmd.indexOf(C.AT_CMD_WRITEWORD)) {
+    } else if(atCmd.indexOf(C.AT_CMD_KEYPRESS) > -1) {
         return "Press keys: " + L.replaceAll(atCmd.substring(C.LENGTH_ATCMD_PREFIX), ' ', ' + ');
     }
+    return '';
 }

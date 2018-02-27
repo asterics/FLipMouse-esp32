@@ -87,9 +87,16 @@ function FlipMouse(initFinished) {
      * The order of sending the commands is always equal to the order of calls to this function.
      *
      * @param atCmd
+     * @param onlyIfEmptyQueue if set to true, the command is sent only if the queue is empty
      * @return {Promise}
      */
-    thiz.sendATCmd = function (atCmd) {
+    thiz.sendATCmd = function (atCmd, onlyIfEmptyQueue) {
+        if(onlyIfEmptyQueue && _atCmdQueue.length > 0) {
+            console.log('did not send cmd: "' + atCmd + "' because another command is executing.");
+            return new Promise(function (resolve) {
+                resolve('');
+            });
+        }
         var promise = new Promise((resolve) => {
             if (_atCmdQueue.length > 0) {
                 console.log("adding cmd to queue: " + atCmd);
@@ -124,9 +131,14 @@ function FlipMouse(initFinished) {
         return promise;
     };
 
-    thiz.testConnection = function () {
+    /**
+     * tests the connection to the flipmouse
+     * @param onlyIfEmptyQueue only sends the test if currently no other tasks are running
+     * @return {Promise}
+     */
+    thiz.testConnection = function (onlyIfEmptyQueue) {
         return new Promise((resolve) => {
-            thiz.sendATCmd('AT').then(function (response) {
+            thiz.sendATCmd('AT', onlyIfEmptyQueue).then(function (response) {
                 resolve(response.indexOf('OK') > -1 ? true : false);
             }, function () {
                 resolve(false);
@@ -319,6 +331,47 @@ function FlipMouse(initFinished) {
         _liveData[thiz.LIVE_MOV_Y_MAX] = -1;
     };
 
+    thiz.setButtonAction = function(buttonModeConstant, atCmd, dontSetConfig) {
+        var index = thiz.BTN_MODES.indexOf(buttonModeConstant) + 1;
+        var indexFormatted = ("0" + index).slice(-2); //1 => 01
+        if(!index || !atCmd) {
+            return;
+        }
+        if(!dontSetConfig) {
+            _config[_currentSlot][buttonModeConstant] = atCmd;
+        }
+        return new Promise(function (resolve) {
+            var promises = [];
+            promises.push(thiz.sendATCmd(AT_CMD_BTN_MODE + ' ' + indexFormatted));
+            promises.push(thiz.sendATCmd(atCmd));
+            Promise.all(promises).then(function () {
+                resolve();
+            });
+        });
+    };
+
+    thiz.restoreDefaultConfiguration = function(progressCallback) {
+        var promises = [];
+        var progress = 0;
+        var progressPerItem = 100/C.DEFAULT_CONFIGURATION.length;
+        C.DEFAULT_CONFIGURATION.forEach(function (cmd) {
+            var promise = thiz.sendATCmd(cmd);
+            promises.push(promise);
+            promise.then(function () {
+                if(L.isFunction(progressCallback)) {
+                    progress += progressPerItem;
+                    progressCallback(progress);
+                }
+            });
+        });
+
+        return new Promise(function (resolve) {
+            Promise.all(promises).then(function () {
+                resolve();
+            });
+        });
+    };
+
     init();
 
     function init() {
@@ -415,11 +468,7 @@ function FlipMouse(initFinished) {
             Object.keys(config).forEach(function (key) {
                 var atCmd = AT_CMD_MAPPING[key];
                 if(thiz.BTN_MODES.includes(key)) {
-                    var index = thiz.BTN_MODES.indexOf(key) + 1;
-                    var indexFormatted = ("0" + index).slice(-2); //1 => 01
-                    atCmd = 'AT BM ' + indexFormatted;
-                    promises.push(thiz.sendATCmd(atCmd));
-                    promises.push(thiz.sendATCmd(config[key]));
+                    promises.push(thiz.setButtonAction(key, config[key]), true);
                 } else {
                     promises.push(thiz.sendATCmd(atCmd + ' ' + config[key]));
                 }

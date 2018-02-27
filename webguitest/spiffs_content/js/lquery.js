@@ -119,6 +119,14 @@ window.L.isLang = function (localeString) {
     return lang.indexOf(localeString) > -1;
 };
 
+window.L.translate = function(enString, deString) {
+    return L.isLang('de') ? deString : enString;
+};
+
 window.L.getLastElement = function(array) {
     return array.slice(-1)[0];
+};
+
+window.L.replaceAll = function(string, search, replace) {
+    return string.replace(new RegExp(search, 'g'), replace);
 };

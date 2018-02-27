@@ -17,11 +17,21 @@ window.L.toggle = function () {
     }
     for (var i = 0; i < arguments.length; i++) {
         var selector = arguments[i];
-        var x = L(selector);
-        if (x.style && x.style.display === "none") {
-            x.style.display = "block";
-        } else {
-            x.style.display = "none";
+        var elems = L(selector);
+        if(elems.length) {
+            elems.forEach(function (x) {
+                toggle(x);
+            });
+        } else if(elems.style) {
+            toggle(elems);
+        }
+
+        function toggle(x) {
+            if (x.style && x.style.display === "none") {
+                x.style.display = "block";
+            } else {
+                x.style.display = "none";
+            }
         }
     }
 };
@@ -32,11 +42,21 @@ window.L.isVisible = function (selector) {
 };
 
 window.L.setVisible = function (selector, visible) {
-    var x = L(selector);
-    if(visible == false) {
-        x.style.display = "none";
-    } else {
-        x.style.display = "block";
+    var elems = L(selector);
+    if(elems.length) {
+        elems.forEach(function (x) {
+            setVisible(x);
+        });
+    } else if(elems.style) {
+        setVisible(elems);
+    }
+
+    function setVisible(x) {
+        if(visible == false) {
+            x.style.display = "none";
+        } else {
+            x.style.display = "block";
+        }
     }
 };
 
@@ -71,11 +91,24 @@ window.L.deepCopy = function (object) {
 };
 
 window.L.removeAllChildren = function (selector) {
-    L(selector).forEach(function (elem) {
+    var elm = L(selector);
+    elm = elm instanceof NodeList ? elm : [elm];
+    elm.forEach(function (elem) {
         while (elem.firstChild) {
             elem.removeChild(elem.firstChild);
         }
     });
+};
+
+window.L.createElement = function(tagName, className, inner) {
+    var e = document.createElement(tagName);
+    e.className = className;
+    if(inner && typeof inner === 'string') {
+        e.innerHTML = inner;
+    } else if(inner) {
+        e.appendChild(inner);
+    }
+    return e;
 };
 
 /**
@@ -84,4 +117,8 @@ window.L.removeAllChildren = function (selector) {
 window.L.isLang = function (localeString) {
     var lang = window.navigator.userLanguage || window.navigator.language;
     return lang.indexOf(localeString) > -1;
+};
+
+window.L.getLastElement = function(array) {
+    return array.slice(-1)[0];
 };

@@ -28,8 +28,27 @@ br {
     line-height: 250%;
 }
 
+.headerConnectIndicator {
+    float: right;
+    font-size: 1.5em;
+    margin-top: -3em;
+}
+
+.green {
+    color: green;
+}
+
+.red {
+    color: red;
+}
+
 .text-center{
     text-align: center;
+}
+
+.text-normal {
+    font-style: normal;
+    font-weight: normal; !important;
 }
 
 .value-bar {
@@ -52,8 +71,21 @@ br {
     width: 100%;
 }
 
+.tbody li {
+    list-style-type: none;
+    margin: 0; !important;
+}
+
+.thead div {
+    font-style: italic;
+}
+
 .relative {
     position: relative;
+}
+
+.float-left{
+    float: left;
 }
 
 .border-right-blue {

@@ -7,30 +7,48 @@
     <link rel="stylesheet" href="css/tabby.min.css">
     <link rel="stylesheet" href="css/custom.css">
     <link rel="stylesheet" href="css/rangeslider.css">
-    <script src="lib/lquery.js"></script>
-    <script src="lib/areCommunicatorLight.js"></script>
-    <script src="lib/flipMouseCommunicator.js"></script>
     <script src="lib/tabby.min.js"></script>
     <script src="lib/dom-i18n.min.js"></script>
+
+    <script src="js/lquery.js"></script>
+    <script src="js/areCommunicatorLight.js"></script>
+    <script src="js/flipMouseCommunicator.js"></script>
+    <script src="js/tabBasic.js"></script>
+    <script src="js/tabSip.js"></script>
+    <script src="js/tabSlot.js"></script>
+    <script src="js/tabAction.js"></script>
 </head>
 <body>
 <div id="content">
     <div class="row">
-        <h1 class="nine columns" i18n>FLipMouse Web Configuration // FLipMouse Webkonfiguration</h1>
+        <div>
+            <h1 class="nine columns" i18n>FLipMouse Configuration // FLipMouse Konfiguration</h1>
+            <span class="show-mobile headerConnectIndicator green connectedIndicator" style="display: none">&#x2713;</span>
+            <span class="show-mobile headerConnectIndicator red disconnectedIndicator">&#x2717;</span>
+        </div>
         <div class="three columns hide-mobile">
-            <label class="row u-full-width" for="selectSlots" i18n>Select Slot // Slot auswählen</label>
-            <select id="selectSlots" class="slot-select row u-full-width" onchange="selectSlot(this)">
+            <div class="row">
+                <label class="seven columns" for="selectSlots" i18n>Select Slot // Slot auswählen</label>
+                <div class="five columns text-right connectedIndicator" style="display: none">
+                    <span style="color: green">&#x2713;</span>
+                    <span class="show-desktop">connected</span>
+                </div>
+                <div class="five columns text-right disconnectedIndicator">
+                    <span style="color: red">&#x2717;</span>
+                    <span class="show-desktop">not connected</span>
+                </div>
+            </div>
+            <select id="selectSlots" class="slot-select row u-full-width" onchange="tabSlot.selectSlot(this)">
             </select>
         </div>
     </div>
     <div class="row hide-mobile" style="margin-bottom: 1.5em"></div>
 
     <div data-tabs class="row" id="tabMenu">
-        <div class="four columns hide-mobile"><a onclick="toTab(this.href)" class="button button-primary" data-tab href="#tabBasic"
-                                     class="ui-btn-active" i18n>Basic Setup // Basis-Konfiguration</a></div>
-        <div class="four columns hide-mobile"><a onclick="toTab(this.href)" class="button button-primary" data-tab href="#tabPuff" i18n>Sip and Puff // Saug-Blassteuerung</a></div>
-        <div class="four columns hide-mobile"><a onclick="toTab(this.href)" class="button button-primary" data-tab
-                                     href="#tabSlots" i18n>Slot configuration // Slot-Konfiguration</a></div>
+        <div class="three columns hide-mobile"><a onclick="toTab(this.href)" class="button button-primary" data-tab href="#tabBasic" class="ui-btn-active" i18n>Basic Setup // Basis-Konfiguration</a></div>
+        <div class="three columns hide-mobile"><a onclick="toTab(this.href)" class="button button-primary" data-tab href="#tabPuff" i18n>Sip and Puff // Saug-Blassteuerung</a></div>
+        <div class="three columns hide-mobile"><a onclick="toTab(this.href)" class="button button-primary" data-tab href="#tabSlots" i18n>Slot configuration // Slot-Konfiguration</a></div>
+        <div class="three columns hide-mobile"><a onclick="toTab(this.href)" class="button button-primary" data-tab href="#tabActions" i18n>Action configuration // Konfiguration Aktionen</a></div>
         <div class="show-mobile"><a id="toNavLink" onclick="toNav()" class="button button-primary" data-tab href="#tabNav" i18n>&#x2630; Menu // &#x2630; Menü</a></div>
         <div class="show-mobile"><a id="toNavBackLink" style="display: none" onclick="toNavBack()" class="button button-primary" i18n>&#8592; Back // &#8592; Zurück</a></div>
     </div>
@@ -41,25 +59,25 @@
         <div data-tabs-pane class="tabs-pane" id="tabBasic">
             <div id="basic-SENSITIVITY-single">
                 <label for="SENSITIVITY" i18n>Sensitivity: // Sensitivität:</label>
-                <a class="u-pull-right" href="javascript:toggleShowXY('SENSITIVITY')" i18n>show x/y separately // zeige x/y getrennt</a>
+                <a class="u-pull-right" href="javascript:tabBasic.toggleShowXY('SENSITIVITY')" i18n>show x/y separately // zeige x/y getrennt</a>
                 <div class="row">
                     <span id="SENSITIVITY_VAL" class="text-center one column">0</span>
-                    <input type="range" oninput="basicSliderChanged(event)" onchange="basicSliderChanged(event)"
+                    <input type="range" oninput="tabBasic.basicSliderChanged(event)" onchange="tabBasic.basicSliderChanged(event)"
                            id="SENSITIVITY" min="0" max="255" class="eleven columns">
                 </div>
             </div>
             <div id="basic-SENSITIVITY-xy" style="display: none">
                 <label for="SENSITIVITY_X" i18n>Horizontal Sensitivity: // Sensitivität horizontal:</label>
-                <a class="u-pull-right" href="javascript:toggleShowXY('SENSITIVITY')" i18n>hide separate x/y // zeige  x/y gemeinsam</a>
+                <a class="u-pull-right" href="javascript:tabBasic.toggleShowXY('SENSITIVITY')" i18n>hide separate x/y // zeige  x/y gemeinsam</a>
                 <div class="row">
                     <span id="SENSITIVITY_X_VAL" class="text-center one column">0</span>
-                    <input type="range" oninput="basicSliderChanged(event)" onchange="basicSliderChanged(event)"
+                    <input type="range" oninput="tabBasic.basicSliderChanged(event)" onchange="tabBasic.basicSliderChanged(event)"
                            id="SENSITIVITY_X" min="0" max="255" class="eleven columns">
                 </div>
                 <label for="SENSITIVITY_Y" i18n>Vertical Sensitivity: // Sensitivität vertikal:</label>
                 <div class="row">
                     <span id="SENSITIVITY_Y_VAL" class="text-center one column">0</span>
-                    <input type="range" oninput="basicSliderChanged(event)" onchange="basicSliderChanged(event)"
+                    <input type="range" oninput="tabBasic.basicSliderChanged(event)" onchange="tabBasic.basicSliderChanged(event)"
                            id="SENSITIVITY_Y" min="0" max="255" class="eleven columns">
                 </div>
             </div>
@@ -77,7 +95,7 @@
                              style="left: 50%; height: 100%; border-right-style: solid; border-right-width: thin;"></div>
                         <div class="back-layer"
                              style="top: 50%; width: 100%; border-bottom-style: solid; border-bottom-width: thin;"></div>
-                        <button onclick="cursorPosZoomReset();" class="zoombutton" style="top: 55%;" title="Reset Zoom">&#8634;</button>
+                        <button onclick="tabBasic.cursorPosZoomReset();" class="zoombutton" style="top: 55%;" title="Reset Zoom">&#8634;</button>
                         <div id="cursorPosVal" class="back-layer" style="top: 40%;">110</div>
                         <div id="cursorPos" class="back-layer" style="top: 50%; left: 50%;">
                             <div class="back-layer" id="circle"></div>
@@ -85,11 +103,11 @@
                     </div>
                 </div>
                 <div class="five columns">
-                    <button onclick="flipActionThenToggle(flip.calibrate, [], ['#basic-button-calibrate', '#basic-button-calibrating'])">
+                    <button onclick="actionAndToggle(flip.calibrate, [], ['#basic-button-calibrate', '#basic-button-calibrating'])">
                         <span i18n id="basic-button-calibrate">Calibrate middle position // Mittelposition kalibrieren</span>
                         <span id="basic-button-calibrating" style="display: none;" i18n>Calibrating... // wird kalibriert...</span>
                     </button>
-                    <button onclick="flipActionThenToggle(flip.rotate, [], ['#basic-button-rotate', '#basic-button-rotating'])">
+                    <button onclick="actionAndToggle(flip.rotate, [], ['#basic-button-rotate', '#basic-button-rotating'])">
                         <span i18n id="basic-button-rotate">&#x21bb; Rotate right // &#x21bb; Nach rechts drehen</span>
                         <span id="basic-button-rotating" style="display: none;" i18n>Rotating... // wird gedreht...</span>
                     </button>
@@ -99,25 +117,25 @@
             <br/>
             <div id="basic-DEADZONE-single">
                 <label for="DEADZONE">Deadzone:</label>
-                <a class="u-pull-right" href="javascript:toggleShowXY('DEADZONE')" i18n>show x/y separately // zeige x/y getrennt</a>
+                <a class="u-pull-right" href="javascript:tabBasic.toggleShowXY('DEADZONE')" i18n>show x/y separately // zeige x/y getrennt</a>
                 <div class="row">
                     <span id="DEADZONE_VAL" class="text-center one column">0</span>
-                    <input type="range" oninput="basicSliderChanged(event)" onchange="basicSliderChanged(event)"
+                    <input type="range" oninput="tabBasic.basicSliderChanged(event)" onchange="tabBasic.basicSliderChanged(event)"
                            id="DEADZONE" min="0" max="650" class="eleven columns">
                 </div>
             </div>
             <div id="basic-DEADZONE-xy" style="display: none">
                 <label for="DEADZONE_X">Horizontal Deadzone:</label>
-                <a class="u-pull-right" href="javascript:toggleShowXY('DEADZONE')" i18n>hide separate x/y // zeige x/y gemeinsam</a>
+                <a class="u-pull-right" href="javascript:tabBasic.toggleShowXY('DEADZONE')" i18n>hide separate x/y // zeige x/y gemeinsam</a>
                 <div class="row">
                     <span id="DEADZONE_X_VAL" class="text-center one column">0</span>
-                    <input type="range" oninput="basicSliderChanged(event)" onchange="basicSliderChanged(event)"
+                    <input type="range" oninput="tabBasic.basicSliderChanged(event)" onchange="tabBasic.basicSliderChanged(event)"
                            id="DEADZONE_X" min="0" max="650" class="eleven columns">
                 </div>
                 <label for="DEADZONE_Y">Vertical Deadzone:</label>
                 <div class="row">
                     <span id="DEADZONE_Y_VAL" class="text-center one column">0</span>
-                    <input type="range" oninput="basicSliderChanged(event)" onchange="basicSliderChanged(event)"
+                    <input type="range" oninput="tabBasic.basicSliderChanged(event)" onchange="tabBasic.basicSliderChanged(event)"
                            id="DEADZONE_Y" min="0" max="650" class="eleven columns">
                 </div>
             </div>
@@ -126,7 +144,7 @@
             <br/>
             <br/>
             <div class="row">
-                <button id="basic-button" onclick="flipActionThenToggle(flip.save, [], ['#basic-button-normal', '#basic-button-saving'], '#save-basic-value-bar')" class="one-third" style="position: relative;">
+                <button id="basic-button" onclick="actionAndToggle(flip.save, [], ['#basic-button-normal', '#basic-button-saving'], '#save-basic-value-bar')" class="one-third" style="position: relative;">
                     <div id="save-basic-value-bar" class="value-bar color-lightercyan" style="width: 0%;"></div>
                     <div id="basic-button-normal" i18n>Save // Speichern</div>
                     <div id="basic-button-saving" style="display: none;" i18n>Saving... // Wird
@@ -153,14 +171,14 @@
                 <label for="SIP_THRESHOLD" i18n>Sip Threshold: // Schwellenwert Saugen:</label>
                 <div class="row">
                     <span id="SIP_THRESHOLD_VAL" class="text-center two columns">0</span>
-                    <input type="range" oninput="sipSliderChanged(this)" onchange="sipSliderChanged(this)"
+                    <input type="range" oninput="tabSip.sipSliderChanged(this)" onchange="tabSip.sipSliderChanged(this)"
                            id="SIP_THRESHOLD" min="0" max="1023" class="ten columns"/>
                 </div>
                 <label for="SIP_STRONG_THRESHOLD" i18n>Strong Sip Threshold: // Schwellenwert Saugen
                     stark:</label>
                 <div class="row">
                     <span id="SIP_STRONG_THRESHOLD_VAL" class="text-center two columns">0</span>
-                    <input type="range" oninput="sipSliderChanged(this)" onchange="sipSliderChanged(this)"
+                    <input type="range" oninput="tabSip.sipSliderChanged(this)" onchange="tabSip.sipSliderChanged(this)"
                            id="SIP_STRONG_THRESHOLD" min="0" max="1023" class="ten columns"/>
                 </div>
 
@@ -182,21 +200,21 @@
                 <label for="PUFF_THRESHOLD" i18n>Puff Threshold: // Schwellenwert Blasen:</label>
                 <div class="row">
                     <span id="PUFF_THRESHOLD_VAL" class="text-center two columns">0</span>
-                    <input type="range" oninput="sipSliderChanged(this)" onchange="sipSliderChanged(this)"
+                    <input type="range" oninput="tabSip.sipSliderChanged(this)" onchange="tabSip.sipSliderChanged(this)"
                            id="PUFF_THRESHOLD" min="0" max="1023" class="ten columns">
                 </div>
                 <label for="PUFF_STRONG_THRESHOLD" i18n>Strong Puff Threshold: // Schwellenwert Blasen
                     stark:</label>
                 <div class="row">
                     <span id="PUFF_STRONG_THRESHOLD_VAL" class="text-center two columns">0</span>
-                    <input type="range" oninput="sipSliderChanged(this)" onchange="sipSliderChanged(this)"
+                    <input type="range" oninput="tabSip.sipSliderChanged(this)" onchange="tabSip.sipSliderChanged(this)"
                            id="PUFF_STRONG_THRESHOLD" min="0" max="1023" class="ten columns">
                 </div>
             </div>
 
             <br/>
             <br/>
-            <button id="sip-puff-button" onclick="flipActionThenToggle(flip.save, [], ['#sip-puff-button-normal', '#sip-puff-button-saving'], '#save-sip-value-bar')" class="u-full-width" style="position: relative;">
+            <button id="sip-puff-button" onclick="actionAndToggle(flip.save, [], ['#sip-puff-button-normal', '#sip-puff-button-saving'], '#save-sip-value-bar')" class="u-full-width" style="position: relative;">
                 <div id="save-sip-value-bar" class="value-bar color-lightercyan" style="width: 0%;"></div>
                 <div id="sip-puff-button-normal" style="position: relative" i18n>Save // Speichern</div>
                 <div id="sip-puff-button-saving" style="display: none" i18n>Saving... // Wird
@@ -207,7 +225,7 @@
         <div data-tabs-pane class="tabs-pane" id="tabSlots">
             <div class="row">
                 <label for="selectSlots2" i18n>Select active slot // Aktiven Slot auswählen</label>
-                <select id="selectSlots2" class="slot-select u-full-width" onchange="selectSlot(this)">
+                <select id="selectSlots2" class="slot-select u-full-width" onchange="tabSlot.selectSlot(this)">
                 </select>
             </div>
 
@@ -215,10 +233,10 @@
             <div class="row">
                 <label for="newSlotLabel" i18n>Create new slot // Neuen Slot anlegen</label>
                 <div i18n class="u-full-width">
-                    <input id="newSlotLabel" oninput="saveSlotLabelChanged(this)" type="text" class="u-full-width" placeholder="<insert name for new slot>" maxlength="15"/>
-                    <input id="newSlotLabel" oninput="saveSlotLabelChanged(this)" type="text" class="u-full-width" placeholder="<Name für neuen Slot eingeben>" maxlength="15"/>
+                    <input id="newSlotLabel" oninput="tabSlot.saveSlotLabelChanged(this)" type="text" class="u-full-width" placeholder="<insert name for new slot>" maxlength="15"/>
+                    <input id="newSlotLabel" oninput="tabSlot.saveSlotLabelChanged(this)" type="text" class="u-full-width" placeholder="<Name für neuen Slot eingeben>" maxlength="15"/>
                 </div>
-                <button id="create-slot-button" disabled onclick="saveSlot(['#create-slot-button-normal', '#create-slot-button-saving'], '#create-slot-value-bar')" class="u-full-width" style="position: relative;">
+                <button id="create-slot-button" disabled onclick="tabSlot.createSlot(['#create-slot-button-normal', '#create-slot-button-saving'], '#create-slot-value-bar')" class="u-full-width" style="position: relative;">
                     <div id="create-slot-value-bar" class="value-bar color-lightercyan" style="width: 0%;"></div>
                     <div id="create-slot-button-normal" style="position: relative" i18n>Create Slot // Slot anlegen</div>
                     <div id="create-slot-button-saving" style="display: none" i18n>creating slot... // Slot wird anlgelegt...</div>
@@ -230,12 +248,51 @@
                 <label for="selectSlotDelete" i18n>Delete Slot // Slot löschen</label>
                 <select id="selectSlotDelete" class="slot-select u-full-width">
                 </select>
-                <button id="delete-slot-button" onclick="deleteSlot(['#delete-slot-button-normal', '#delete-slot-button-saving'], '#delete-slot-value-bar')" class="u-full-width" style="position: relative;">
+                <button id="delete-slot-button" onclick="tabSlot.deleteSlot(['#delete-slot-button-normal', '#delete-slot-button-saving'], '#delete-slot-value-bar')" class="u-full-width" style="position: relative;">
                     <div id="delete-slot-value-bar" class="value-bar color-lightercyan" style="width: 0%;"></div>
                     <div id="delete-slot-button-normal" style="position: relative" i18n>Delete Slot // Slot löschen</div>
                     <div id="delete-slot-button-saving" style="display: none" i18n>deleting slot... // Slot wird gelöscht...</div>
                 </button>
             </div>
+        </div>
+        <div data-tabs-pane class="tabs-pane" id="tabActions">
+            <label i18n>Change actions // Aktionen ändern</label>
+            <div id="pressedKey">
+                <div class="row">
+                    <label class="three columns text-right text-normal" i18n>Action to define // Zu belegende Funktion</label>
+                    <select id="selectActionButton" class="eight columns" onchange="tabAction.selectActionButton(this.value)">
+                    </select>
+                </div>
+                <div class="row" style="display: none">
+                    <label class="three columns text-right text-normal" i18n>Action category // Aktions-Kategorie</label>
+                    <select id="selectActionCategory" class="eight columns" disabled="true">
+                    </select>
+                </div>
+                <div class="row" style="display: none">
+                    <label class="three columns text-right text-normal" i18n>Action // Aktion</label>
+                    <select id="selectAction" class="eight columns" disabled="true">
+                    </select>
+                </div>
+
+                <div class="row">
+                    <label class="three columns"></label>
+                    <button id="start-rec-button" onclick="actionAndToggle(tabAction.startRec, [], ['#start-rec-button-normal', '#start-rec-button-rec'])" class="eight columns" style="position: relative;">
+                        <div id="start-rec-button-normal" style="position: relative" i18n>Start record actions // Aufnahme Aktionen starten</div>
+                        <div id="start-rec-button-rec" style="display: none" i18n>Recording... (click to stop) // Aufnahme... (zum Stoppen klicken)</div>
+                    </button>
+                </div>
+
+                <div class="row">
+                    <label class="three columns text-right text-normal" i18n>Recorded Events // Aufgenommene Events</label>
+                    <input id="recordedEvents" class="eight columns" type="text" disabled="true"/>
+                </div>
+            </div>
+            <label i18n>Current mapping // Aktuelle Konfiguration</label>
+            <div id="currentConfigTh" class="hide-mobile row thead" aria-hidden="true">
+                <div class="two columns" i18n>Description // Bezeichnung</div>
+                <div class="eight columns" i18n>Current action // aktuelle Aktion</div>
+            </div>
+            <ol id="currentConfigTb" class="tbody"></ol>
         </div>
     </div>
 </div>
@@ -252,6 +309,16 @@
             initWithConfig(config);
             initSlots();
             toTab(getCurrentTabId());
+            testConnection();
+            setInterval(function () {
+                testConnection();
+            }, 10000);
+            function testConnection() {
+                flip.testConnection().then(function (isConnected) {
+                    L.setVisible('.connectedIndicator', isConnected);
+                    L.setVisible('.disconnectedIndicator', !isConnected);
+                });
+            }
         });
         window.flip = flip;
     };
@@ -259,6 +326,9 @@
     function initWithConfig(config) {
         console.log('applying config:');
         console.log(config);
+        if(!config) {
+            return;
+        }
         setSliderValue(flip.SENSITIVITY_X, config[flip.SENSITIVITY_X]);
         setSliderValue(flip.SENSITIVITY_Y, config[flip.SENSITIVITY_Y]);
         setSliderValue('SENSITIVITY', config[flip.SENSITIVITY_X]);
@@ -271,10 +341,10 @@
         setSliderValue(flip.PUFF_STRONG_THRESHOLD, config[flip.PUFF_STRONG_THRESHOLD]);
 
         if (config[flip.SENSITIVITY_X] != config[flip.SENSITIVITY_Y]) {
-            toggleShowXY('SENSITIVITY');
+            tabBasic.toggleShowXY('SENSITIVITY');
         }
         if (config[flip.DEADZONE_X] != config[flip.DEADZONE_Y]) {
-            toggleShowXY('DEADZONE');
+            tabBasic.toggleShowXY('DEADZONE');
         }
     }
 
@@ -289,50 +359,9 @@
             option.innerHTML = slot;
             L('.slot-select').forEach(function (elem) {
                 elem.appendChild(option.cloneNode(true));
+                elem.value = flip.getCurrentSlot();
             });
         });
-    }
-
-    function selectSlot(select) {
-        var config = flip.setSlot(select.value);
-        L('.slot-select').forEach(function (elem) {
-            elem.value = select.value;
-        });
-        initWithConfig(config);
-    }
-
-    function basicSliderChanged(evt) {
-        var id = evt.currentTarget.id;
-        var val = evt.currentTarget.value;
-        if(id.indexOf('_X') == -1 && id.indexOf('_Y') == -1) {
-            //slider for x/y synchronous was moved
-            L('#' + id + '_VAL').innerHTML = val;
-            setSliderValue(id + '_X', val);
-            setSliderValue(id + '_Y', val);
-            flip.setValue(id + '_X', val);
-            flip.setValue(id + '_Y', val);
-        } else {
-            setSliderValue(id, val, true);
-            flip.setValue(id, val);
-        }
-    }
-
-    function sipSliderChanged(input) {
-        var old = flip.getConfig([input.id]);
-        var new1 = parseInt(input.value);
-        var cur = flip.getLiveData([flip.LIVE_PRESSURE]);
-
-        //only move slider if sip thresholds are below and puff thresholds are above the current live value and if strong-values are below/above normal values
-        if ((input.id == flip.SIP_THRESHOLD && new1 < cur && new1 > flip.getConfig(flip.SIP_STRONG_THRESHOLD)) ||
-            (input.id == flip.SIP_STRONG_THRESHOLD && new1 < cur && new1 < flip.getConfig(flip.SIP_THRESHOLD)) ||
-            (input.id == flip.PUFF_THRESHOLD && new1 > cur && new1 < flip.getConfig(flip.PUFF_STRONG_THRESHOLD)) ||
-            (input.id == flip.PUFF_STRONG_THRESHOLD && new1 > cur && new1 > flip.getConfig(flip.PUFF_THRESHOLD))) {
-
-            setSliderValue(input.id, new1, true);
-            flip.setValue(input.id, new1);
-        } else {
-            setSliderValue(input.id, old);
-        }
     }
 
     function setSliderValue(constant, value, dontSetSlider) {
@@ -342,60 +371,28 @@
         }
     }
 
-    function toggleShowXY (constant) {
-        var xVal = flip.getConfig(constant + '_X');
-        var toSingle = L.isVisible('#basic-' + constant + '-xy');
-        L.toggle('#basic-' + constant + '-single', '#basic-' + constant + '-xy');
-        if(toSingle) {
-            flip.setValue(constant + '_Y', xVal);
-            L('#' + constant + '_VAL').innerHTML = xVal;
-            L('#' + constant).value = xVal;
-        } else {
-            setSliderValue(constant, xVal);
-        }
-    }
-
-    function saveSlotLabelChanged(element) {
-        L('#create-slot-button').disabled = !element.value;
-    }
-
-    function saveSlot(toggleElementList, progressBarId) {
-        var slotName = L('#newSlotLabel').value;
-        flipActionThenToggle(flip.saveSlot, [slotName], toggleElementList, progressBarId).then(function () {
-            initSlots();
-            L('#newSlotLabel').value = '';
-        });
-    }
-
-    function deleteSlot(toggleElementList, progressBarId) {
-        var slotName = L('#selectSlotDelete').value;
-        var confirmMessage = L.isLang('de') ? 'Möchten Sie den Slot "' + slotName + '" wirklich löschen?' : 'Do you really want to delete the slot "' + slotName + '"?';
-        if(!window.confirm(confirmMessage)){
-            return;
-        }
-        flipActionThenToggle(flip.deleteSlot, [slotName], toggleElementList, progressBarId).then(function () {
-            initSlots();
-            L('#newSlotLabel').value = '';
-        });
-    }
-
-    function flipActionThenToggle(actionFunction, argList, toggleElementList, progressBarId) {
+    function actionAndToggle(actionFunction, argList, toggleElementList, progressBarId) {
         return new Promise(function (resolve) {
             var maxProgress = 0;
             var stopProgressBar = false;
             argList = argList || [];
             L.toggle.apply(null, toggleElementList);
-            actionFunction.apply(null, argList.concat(progressHandler)).then(function () {
-                progressHandler(100, 100);
-                setTimeout(function () {
+            var promise = actionFunction.apply(null, argList.concat(progressHandler));
+            if (promise && promise.then) {
+                promise.then(function () {
+                    if (progressBarId) {
+                        progressHandler(100, 100);
+                        setTimeout(function () {
+                            stopProgressBar = true;
+                            L(progressBarId).style = 'width: 0%;';
+                        }, 500);
+                    }
+                    L.toggle.apply(null, toggleElementList);
+                    resolve();
+                }, function () {
                     stopProgressBar = true;
-                    L(progressBarId).style = 'width: 0%;';
-                }, 500);
-                L.toggle.apply(null, toggleElementList);
-                resolve();
-            }, function () {
-                stopProgressBar = true;
-            });
+                });
+            }
 
             function progressHandler(progress, timeConstant) {
                 var startTime = L.getMs();
@@ -433,21 +430,29 @@
             toSipPuff();
         } else if (tabId.indexOf('#tabSlots') > -1) {
             toSlots();
-        }  else if (tabId.indexOf('#tabNav') > -1) {
+        } else if (tabId.indexOf('#tabActions') > -1) {
+            toActions();
+        } else if (tabId.indexOf('#tabNav') > -1) {
             toNav();
         }
     }
     
     function toBasic() {
-        flip.startLiveValueListener(cursorPosValueHandler);
+        flip.startLiveValueListener(tabBasic.cursorPosValueHandler);
     }
 
     function toSipPuff() {
-        flip.startLiveValueListener(sipPuffValueHandler);
+        flip.startLiveValueListener(tabSip.sipPuffValueHandler);
     }
 
     function toSlots() {
         flip.stopLiveValueListener();
+    }
+
+    function toActions() {
+        flip.stopLiveValueListener();
+        tabAction.initBtnModeActionTable();
+        tabAction.initCombos();
     }
 
     function toNav() {
@@ -485,65 +490,6 @@
 
     function parseTabId(url) {
         return url.indexOf('#') > -1 ? url.substring(url.indexOf('#')) : '';
-    }
-
-    function cursorPosValueHandler(data) {
-        var x = data[flip.LIVE_MOV_X];
-        var y = data[flip.LIVE_MOV_Y];
-        var maxX = data[flip.LIVE_MOV_X_MAX];
-        var maxY = data[flip.LIVE_MOV_Y_MAX];
-        var minX = data[flip.LIVE_MOV_X_MIN];
-        var minY = data[flip.LIVE_MOV_Y_MIN];
-        var cursorPosVal = parseInt(L('#cursorPosVal').innerHTML);
-        var deadX = flip.getConfig(flip.DEADZONE_X);
-        var deadY = flip.getConfig(flip.DEADZONE_Y);
-        var maxAbs = Math.max(maxX, maxY, Math.abs(minX), Math.abs(minY), cursorPosVal, Math.round(deadX*1.1), Math.round(deadY*1.1));
-        var percentageX = (L.getPercentage(x, -maxAbs, maxAbs));
-        var percentageY = (L.getPercentage(y, -maxAbs, maxAbs));
-        var percentageDzX = (L.getPercentage(flip.getConfig(flip.DEADZONE_X), 0, maxAbs));
-        var percentageDzY = (L.getPercentage(flip.getConfig(flip.DEADZONE_Y), 0, maxAbs));
-        var inDeadzone = x < flip.getConfig(flip.DEADZONE_X) && x > -flip.getConfig(flip.DEADZONE_X) &&
-            y < flip.getConfig(flip.DEADZONE_Y) && y > -flip.getConfig(flip.DEADZONE_Y);
-
-        L('#cursorPos').style = 'top: ' + percentageY + '%; left: ' + percentageX + '%;';
-        L('#cursorPosVal').innerHTML = maxAbs;
-        L('#deadZonePos').style = 'top: ' + (100 - percentageDzY) / 2 + '%; left: ' + (100 - percentageDzX) / 2 + '%; height: ' + (percentageDzY) + '%; width: ' + (percentageDzX) + '%;';
-        L('#deadZonePos').className = 'back-layer color-' + (inDeadzone ? 'lightcyan' : 'lightercyan');
-        L('#orientationSign').style = 'transform: rotate(' + (flip.getConfig(flip.ORIENTATION_ANGLE)+90)%360 + 'deg);';
-    }
-
-    function cursorPosZoomReset() {
-        flip.resetMinMaxLiveValues();
-        L('#cursorPosVal').innerHTML = 110;
-    }
-
-    function sipPuffValueHandler(data) {
-        var min = data[flip.LIVE_PRESSURE_MIN];
-        var max = data[flip.LIVE_PRESSURE_MAX];
-        var val = data[flip.LIVE_PRESSURE];
-
-        var border = 10; // space that is left and right of the min/max values on the sliders
-        var currentMinRange = Math.max(Math.min(min - border, flip.getConfig(flip.SIP_THRESHOLD) - border, flip.getConfig(flip.SIP_STRONG_THRESHOLD) - border), 0);
-        var currentMaxRange = Math.min(Math.max(max + border, flip.getConfig(flip.PUFF_THRESHOLD) + border, flip.getConfig(flip.PUFF_STRONG_THRESHOLD) + border), 1023);
-        var percent = L.getPercentage(val, currentMinRange, currentMaxRange);
-        var percentMin = L.getPercentage(min, currentMinRange, currentMaxRange);
-        var percentMax = L.getPercentage(max, currentMinRange, currentMaxRange);
-
-        L('#maxValue').innerHTML = max;
-        L('#minValue').innerHTML = min;
-        L('#currentValue').innerHTML = val;
-
-        L('#guide-max').style = 'width: ' + percentMax + '%;';
-        L('#guide-min').style = 'width: ' + percentMin + '%;';
-
-        L('#sippuff-value-bar').style = 'width: ' + percent + '%;';
-        L('#guide-current').style = 'width: ' + percent + '%;';
-
-        //set slider ranges
-        flip.SIP_PUFF_IDS.forEach(function (id) {
-            L(id).min = currentMinRange;
-            L(id).max = currentMaxRange;
-        });
     }
 </script>
 </body>

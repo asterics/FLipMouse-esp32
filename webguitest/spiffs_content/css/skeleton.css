@@ -409,6 +409,12 @@ there.
   .hide-mobile {
     display: none;
   }
+  .show-desktop {
+    display: none;
+  }
+  .text-right {
+    text-align: left;
+  }
 }
 
 /* Larger than mobile */
@@ -429,13 +435,20 @@ there.
   .hide-mobile {
     display: block;
   }
+  .text-right {
+    text-align: right;
+  }
 }
 
 /* Larger than tablet */
 @media (min-width: 750px) {}
 
 /* Larger than desktop */
-@media (min-width: 1000px) {}
+@media (min-width: 1000px) {
+  .show-desktop {
+    display: inline;
+  }
+}
 
 /* Larger than Desktop HD */
 @media (min-width: 1200px) {}

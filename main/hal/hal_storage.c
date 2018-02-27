@@ -86,6 +86,13 @@ static wl_handle_t s_wl_handle = WL_INVALID_HANDLE;
 /** @brief Partition name (used to define different memory types) */
 const char *base_path = "/spiflash";
 
+uint16_t halStorageGetFree()
+{
+  //f_getfree (const TCHAR* path, DWORD* nclst, FATFS** fatfs);
+  ///@todo Implement "getFree" for FAT, or wait for esp-idf to implement.
+  return 0;
+}
+
 
 /** @brief internal function to init the filesystem if handle is invalid 
  * @return ESP_OK on success, ESP_FAIL otherwise*/
@@ -168,6 +175,9 @@ void halStorageCreateDefault(uint32_t tid)
     defaultCfg->debounce_release_vb[i] = 0;
     defaultCfg->debounce_idle_vb[i] = 0;
   }
+  
+  //default feedback mode: LED+buzzer
+  defaultCfg->feedback = 3;
   
   
   strcpy(defaultCfg->slotName,"__DEFAULT");

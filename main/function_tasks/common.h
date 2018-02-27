@@ -378,6 +378,14 @@ typedef struct generalConfig {
   uint16_t debounce_release;
   /** @brief Global anti-tremor time for idle */
   uint16_t debounce_idle;
+  /** @brief Feedback mode.
+   * 
+   * * 0 disables LED and buzzer
+   * * 1 disables buzzer, but LED is on
+   * * 2 disables LED, but buzzer gives output
+   * * 3 gives LED and buzzer feedback
+   * */
+  uint8_t feedback;
   /** @brief Anti-tremor (debounce) time for press of each VB */
   uint16_t debounce_press_vb[NUMBER_VIRTUALBUTTONS*4];
   /** @brief Anti-tremor (debounce) time for release of each VB */

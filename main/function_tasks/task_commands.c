@@ -623,6 +623,25 @@ parserstate_t doGeneralCmdParsing(uint8_t *cmdBuffer)
     return UNKNOWNCMD;
   }
   
+  /*++++ AT FB; feedback ++++*/
+  if(CMD("AT FB")) {
+    switch(cmdBuffer[6])
+    {
+      case '0':
+      case '1':
+      case '2':
+      case '3':
+        currentcfg->feedback = cmdBuffer[6] - '0';
+        ESP_LOGD(LOG_TAG,"Setting feedback mode to %d",currentcfg->feedback);
+        break;
+      default:
+        sendErrorBack("Parameter out of range (0-3)");
+        return UNKNOWNCMD;
+    }
+    requestUpdate = 1;
+    return NOACTION;  
+  }
+  
   ///@todo hier den AT AI,AP,AR commands hinzufügen. Achtung auf requestVBUpdate: wenn gesetzt, wieder zurücksetzen & entsprechend die Zeit speichern.
   /*++++ AT AP,AR,AI; anti-tremor ++++*/
   if(CMD4("AT A")) {
@@ -654,6 +673,8 @@ parserstate_t doGeneralCmdParsing(uint8_t *cmdBuffer)
           case 'R': currentcfg->debounce_release_vb[requestVBUpdate] = param;
           case 'I': currentcfg->debounce_idle_vb[requestVBUpdate] = param;
         }
+        //reset to VB_SINGLESHOT after setting anti-tremor time.
+        requestVBUpdate = VB_SINGLESHOT;
       }
       //need to update.
       requestUpdate = 1;

@@ -215,6 +215,58 @@ extern QueueHandle_t config_switcher;
  * is REQUIRED to do a return. */
 #define VB_SINGLESHOT   32
 
+/** @brief Easy macro to set a VB (with debouncing for press action)
+ * 
+ * This macro sets the corresponding VB flag in virtualButtonsIn.
+ * The debouncer will map it to virtualButtonsOut after the set debouncing
+ * time. Cancel a pending VB action by CLEARVB_PRESS.
+ * 
+ * @see virtualButtonsIn
+ * @see virtualButtonsOut
+ * @see task_debouncer
+ * @see CLEARVB_PRESS
+ * */
+#define SETVB_PRESS(x) xEventGroupSetBits(virtualButtonsIn[x/4],(1<<(x%4)))
+
+
+/** @brief Easy macro to clear a VB (with debouncing for press action)
+ * 
+ * This macro clears the corresponding VB flag in virtualButtonsIn.
+ * @note If the flag is already mapped to the out group, this macro has no effect.
+ * 
+ * @see virtualButtonsIn
+ * @see virtualButtonsOut
+ * @see task_debouncer
+ * @see SETVB_PRESS
+ * */
+#define CLEARVB_PRESS(x) xEventGroupClearBits(virtualButtonsIn[x/4],(1<<(x%4)))
+
+/** @brief Easy macro to set a VB (with debouncing for release action)
+ * 
+ * This macro sets the corresponding VB flag in virtualButtonsIn.
+ * The debouncer will map it to virtualButtonsOut after the set debouncing
+ * time. Cancel a pending VB action by CLEARVB_PRESS.
+ * 
+ * @see virtualButtonsIn
+ * @see virtualButtonsOut
+ * @see task_debouncer
+ * @see CLEARVB_RELEASE
+ * */
+#define SETVB_RELEASE(x) xEventGroupSetBits(virtualButtonsIn[x/4],(1<<(x%4 + 4)))
+
+
+/** @brief Easy macro to clear a VB (with debouncing for release action)
+ * 
+ * This macro clears the corresponding VB flag in virtualButtonsIn.
+ * @note If the flag is already mapped to the out group, this macro has no effect.
+ * 
+ * @see virtualButtonsIn
+ * @see virtualButtonsOut
+ * @see task_debouncer
+ * @see SETVB_RELEASE
+ * */
+#define CLEARVB_RELEASE(x) xEventGroupClearBits(virtualButtonsIn[x/4],(1<<(x%4 + 4)))
+
 
 /*++++ TASK PRIORITY ASSIGNMENT ++++*/
 #define HAL_ADC_TASK_PRIORITY     (tskIDLE_PRIORITY + 1)

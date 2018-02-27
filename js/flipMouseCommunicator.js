@@ -331,11 +331,14 @@ function FlipMouse(initFinished) {
         _liveData[thiz.LIVE_MOV_Y_MAX] = -1;
     };
 
-    thiz.setButtonAction = function(buttonModeConstant, atCmd) {
+    thiz.setButtonAction = function(buttonModeConstant, atCmd, dontSetConfig) {
         var index = thiz.BTN_MODES.indexOf(buttonModeConstant) + 1;
         var indexFormatted = ("0" + index).slice(-2); //1 => 01
         if(!index || !atCmd) {
             return;
+        }
+        if(!dontSetConfig) {
+            _config[_currentSlot][buttonModeConstant] = atCmd;
         }
         return new Promise(function (resolve) {
             var promises = [];
@@ -465,7 +468,7 @@ function FlipMouse(initFinished) {
             Object.keys(config).forEach(function (key) {
                 var atCmd = AT_CMD_MAPPING[key];
                 if(thiz.BTN_MODES.includes(key)) {
-                    promises.push(thiz.setButtonAction(key, config[key]));
+                    promises.push(thiz.setButtonAction(key, config[key]), true);
                 } else {
                     promises.push(thiz.sendATCmd(atCmd + ' ' + config[key]));
                 }

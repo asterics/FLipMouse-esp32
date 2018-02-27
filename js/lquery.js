@@ -122,3 +122,7 @@ window.L.isLang = function (localeString) {
 window.L.getLastElement = function(array) {
     return array.slice(-1)[0];
 };
+
+window.L.replaceAll = function(string, search, replace) {
+    return string.replace(new RegExp(search, 'g'), replace);
+};

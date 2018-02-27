@@ -135,9 +135,11 @@ function getAtCmd(queue) {
 
 function getReadable(atCmd) {
     if(atCmd.indexOf(C.AT_CMD_WRITEWORD) > -1) {
-        return "Write word: " + "'" + atCmd.substring(C.LENGTH_ATCMD_PREFIX) + "'";
+        var s = L.translate("Write word:", "Schreibe Wort:");
+        return s + " '" + atCmd.substring(C.LENGTH_ATCMD_PREFIX) + "'";
     } else if(atCmd.indexOf(C.AT_CMD_KEYPRESS) > -1) {
-        return "Press keys: " + L.replaceAll(atCmd.substring(C.LENGTH_ATCMD_PREFIX), ' ', ' + ');
+        var s = L.translate("Press keys: ", "Drücke Tasten: ");
+        return s + L.replaceAll(atCmd.substring(C.LENGTH_ATCMD_PREFIX), ' ', ' + ');
     }
     return '';
 }

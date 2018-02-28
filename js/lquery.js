@@ -130,3 +130,7 @@ window.L.getLastElement = function(array) {
 window.L.replaceAll = function(string, search, replace) {
     return string.replace(new RegExp(search, 'g'), replace);
 };
+
+window.L.equalIgnoreCase = function (str1, str2) {
+    return str1.toUpperCase() === str2.toUpperCase();
+};

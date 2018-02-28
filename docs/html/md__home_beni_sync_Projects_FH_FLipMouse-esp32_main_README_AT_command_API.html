@@ -96,14 +96,18 @@ $(function() {
 <tr>
 <td align="left">AT TT </td><td align="left">number (100-5000) </td><td align="left">Threshold time ([ms]) between short and long press actions. Set to 5000 to disable. </td><td align="left">v3 </td><td align="left">no </td><td align="left">no </td></tr>
 <tr>
-<td align="left">AT AP </td><td align="left">number (1-500) </td><td align="left">Antitremor delay for button press ([ms]) </td><td align="left">v3 </td><td align="left">no </td><td align="left">no </td></tr>
+<td align="left">AT AP </td><td align="left">number (1-500) </td><td align="left">Antitremor delay for button press ([ms]) <sup><a href="#footnoteA">A</a></sup> </td><td align="left">v3 </td><td align="left">untested </td><td align="left">no </td></tr>
 <tr>
-<td align="left">AT AR </td><td align="left">number (1-500) </td><td align="left">Antitremor delay for button release ([ms]) </td><td align="left">v3 </td><td align="left">no </td><td align="left">no </td></tr>
+<td align="left">AT AR </td><td align="left">number (1-500) </td><td align="left">Antitremor delay for button release ([ms]) <sup><a href="#footnoteA">A</a></sup></td><td align="left">v3 </td><td align="left">untested </td><td align="left">no </td></tr>
 <tr>
-<td align="left">AT AI </td><td align="left">number (1-500) </td><td align="left">Antitremor delay for button idle ([ms]) </td><td align="left">v3 </td><td align="left">no </td><td align="left">no </td></tr>
+<td align="left">AT AI </td><td align="left">number (1-500) </td><td align="left">Antitremor delay for button idle ([ms]) <sup><a href="#footnoteA">A</a></sup></td><td align="left">v3 </td><td align="left">untested </td><td align="left">no </td></tr>
 <tr>
-<td align="left">AT FR </td><td align="left">&ndash; </td><td align="left">Reports free, used and available config storage space (e.g., "FREE:10%,9000,1000")</td><td align="left">v3 </td><td align="left">no </td><td align="left">no </td></tr>
+<td align="left">AT FR </td><td align="left">&ndash; </td><td align="left">Reports free, used and available config storage space (e.g., "FREE:10%,9000,1000")</td><td align="left">v3 </td><td align="left">no<sup><a href="#footnoteB">B</a></sup> </td><td align="left">no </td></tr>
+<tr>
+<td align="left">AT FB </td><td align="left">number (0,1,2,3) </td><td align="left">Feedback mode, 0=no LED/no buzzer, 1=LED/no buzzer, 2=no LED/buzzer, 3= LED + buzzer </td><td align="left">v3 </td><td align="left">untested </td><td align="left">no </td></tr>
 </table>
+<p><a class="anchor" id="footnoteA"></a>A: Either combine the anti-tremor time settings with a previously sent <em>AT BM</em> command to set a debouncing time for an individual virtual button <b>OR</b> use this command individually to set a global value.</p>
+<p><a class="anchor" id="footnoteA"></a>B: Cannot implement until available in ESP-IDF</p>
 <p><b>USB HID Commands</b> </p><table class="doxtable">
 <tr>
 <th align="left">Command </th><th align="left">Parameter </th><th align="left">Description </th><th align="left">Available since </th><th align="left">Implemented in v3 </th><th align="left">FUNCTIONAL task  </th></tr>

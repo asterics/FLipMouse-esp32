@@ -7,6 +7,8 @@ var searchData=
   ['sendkbd',['sendKbd',['../task__kbd_8c.html#a7d605cb2407a7a7309911c70e28a9884',1,'task_kbd.c']]],
   ['sensitivity_5fx',['sensitivity_x',['../structadc__config.html#a81465c39748fa52d1b773f34ad4ee435',1,'adc_config']]],
   ['sensitivity_5fy',['sensitivity_y',['../structadc__config.html#adbfe1bd3388e5274fd37ffb27c6a719a',1,'adc_config']]],
+  ['setvb_5fpress',['SETVB_PRESS',['../common_8h.html#a05b9e4a4f2cb30e2a5916e623e4b8f90',1,'common.h']]],
+  ['setvb_5frelease',['SETVB_RELEASE',['../common_8h.html#a117d08f16e88970948fd596be80d845b',1,'common.h']]],
   ['slider_5fleft',['slider_left',['../structjoystick__data.html#a4a807700ce03cf13b94cf8b97c744653',1,'joystick_data']]],
   ['slider_5fright',['slider_right',['../structjoystick__data.html#a218ba3d9aee6cd81fa8321ba0754fadb',1,'joystick_data']]],
   ['slotname',['slotName',['../structtaskConfigSwitcherConfig.html#a28b1ab4ccf1aa8814a9b81d58d5c7bd5',1,'taskConfigSwitcherConfig::slotName()'],['../structgeneralConfig.html#a1d383c1fdfd705732cac3a1d435078e0',1,'generalConfig::slotName()']]],

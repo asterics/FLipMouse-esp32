@@ -4,6 +4,8 @@ var searchData=
   ['cccdhandle',['cccdHandle',['../structhid__report__map__t.html#a4d8de6f01789180784099d58e594f725',1,'hid_report_map_t::cccdHandle()'],['../structhidRptMap__t.html#a93dbdeea466d75a55743433ec19c4524',1,'hidRptMap_t::cccdHandle()']]],
   ['char_5fdeclaration_5fsize',['CHAR_DECLARATION_SIZE',['../hid__device__le__prf_8c.html#a36dab879c60ad380569b702ffb0caabf',1,'hid_device_le_prf.c']]],
   ['characteristics',['characteristics',['../hal__adc_8c.html#a29552c7e29f877a9bd6ed4e3827696e4',1,'hal_adc.c']]],
+  ['clearvb_5fpress',['CLEARVB_PRESS',['../common_8h.html#a37d0332a463ea03d04a8460f8d5ac09c',1,'common.h']]],
+  ['clearvb_5frelease',['CLEARVB_RELEASE',['../common_8h.html#a3e6c16120eb02d417f56ce03a3c61d9f',1,'common.h']]],
   ['cmd',['CMD',['../task__commands_8c.html#ad4d8475ff8191eec64ec75fa4241f187',1,'task_commands.c']]],
   ['cmd4',['CMD4',['../task__commands_8c.html#a3857f5c8268c235bcaf6beb2cf5edfee',1,'task_commands.c']]],
   ['cmdname',['cmdName',['../structtaskInfraredConfig.html#add25c6a4a9ed3ece5c032434e6befc4c',1,'taskInfraredConfig']]],

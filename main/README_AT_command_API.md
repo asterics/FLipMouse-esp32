@@ -35,7 +35,7 @@ Following commands are currently available:
 | AT FR | -- | Reports free, used and available config storage space (e.g., "FREE:10%,9000,1000")| v3 | no<sup>[B](#footnoteB)</sup> | no |
 | AT FB | number (0,1,2,3) | Feedback mode, 0=no LED/no buzzer, 1=LED/no buzzer, 2=no LED/buzzer, 3= LED + buzzer | v3 | untested | no |
 
-<a name="footnoteA">A</a>: Either combine the anti-tremor time settings with a previously sent __AT BM__ command to set a debouncing time for an individual virtual button **OR** use this command
+<a name="footnoteA">A</a>: Either combine the anti-tremor time settings with a previously sent _AT BM_ command to set a debouncing time for an individual virtual button **OR** use this command
 individually to set a global value.
 
 <a name="footnoteA">B</a>: Cannot implement until available in ESP-IDF

@@ -1028,6 +1028,32 @@ parserstate_t doKeyboardParsing(uint8_t *cmdBuffer, taskKeyboardConfig_t *kbdins
   return UNKNOWNCMD;
 }
 
+parserstate_t doMacroParsing(uint8_t *cmdBuffer, taskMacrosConfig_t *macroinstance, int length)
+{
+  /*++++ AT MA (macro) ++++*/
+  if(CMD("AT MA")) {
+    //clear any previous data
+    memset(macroinstance,0,sizeof(taskMacrosConfig_t));
+  
+    //set everything up for updates
+    requestVBTask = (void (*)(void *))&task_macro;
+    requestVBParameterSize = sizeof(taskMacrosConfig_t);
+    requestVBParameter = macroinstance;
+    requestVBType = T_MACRO;
+    
+    //save command string to task config.
+    strncpy(macroinstance->macro,(char*)&cmdBuffer[6],length-6);
+    
+    ESP_LOGD(LOG_TAG,"Saved macro '%s'",macroinstance->macro);
+    
+    //and tell to either call or save this task
+    return TRIGGERTASK;
+  }
+  
+  //not consumed...
+  return UNKNOWNCMD;
+}
+
 parserstate_t doMouseParsing(uint8_t *cmdBuffer, taskMouseConfig_t *mouseinstance)
 {
   //clear any previous data
@@ -1165,11 +1191,14 @@ void task_commands(void *params)
   taskKeyboardConfig_t *cmdKeyboard = malloc(sizeof(taskKeyboardConfig_t));
   taskNoParameterConfig_t *cmdNoConfig = malloc(sizeof(taskNoParameterConfig_t));
   taskConfigSwitcherConfig_t *cmdCfgSwitcher = malloc(sizeof(taskConfigSwitcherConfig_t));
+  taskMacrosConfig_t *cmdMacros = malloc(sizeof(taskMacrosConfig_t));
   taskInfraredConfig_t *cmdInfrared = malloc(sizeof(taskInfraredConfig_t));
   //taskJoystickConfig_t *cmdJoystick = malloc(sizeof(taskJoystickConfig_t));
   
   //check if we have all our pointers
-  if(cmdMouse == NULL || cmdKeyboard == NULL /*|| cmdJoystick == NULL */)
+  if(cmdMouse == NULL || cmdKeyboard == NULL /*|| cmdJoystick == NULL */ || \
+    cmdNoConfig == NULL || cmdCfgSwitcher == NULL || cmdMacros == NULL || \
+    cmdInfrared == NULL)
   {
     ESP_LOGE(LOG_TAG,"Cannot malloc memory for command parsing, EXIT!");
     vTaskDelete(NULL);
@@ -1211,6 +1240,7 @@ void task_commands(void *params)
       if(parserstate == UNKNOWNCMD) { parserstate = doGeneralCmdParsing(commandBuffer); }
       if(parserstate == UNKNOWNCMD) { parserstate = doInfraredParsing(commandBuffer,cmdInfrared); }
       if(parserstate == UNKNOWNCMD) { parserstate = doMouthpieceSettingsParsing(commandBuffer,cmdNoConfig); }
+      if(parserstate == UNKNOWNCMD) { parserstate = doMacroParsing(commandBuffer,cmdMacros,received); }
       
       ESP_LOGD(LOG_TAG,"Parserstate: %d",parserstate);
       

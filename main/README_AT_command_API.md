@@ -23,22 +23,24 @@ Following commands are currently available:
 | AT ID | --  | returns the current version string  | v2 | yes | no |
 | AT BM | number (0-VB_MAX-1)  | set the button, which corresponds to the next command. The button assignments are described on the bottom | v2 | yes | no |
 | AT BL | -- | enable/disable output of triggered virtual buttons. Is used with AT BM for command learning | v3 | no | ? |
-| AT MA | string | execute macro (space separated list of commands, see [Macros](https://github.com/asterics/FLipMouse/wiki/macros)) | v2 | no | yes (task_macro) |
-| AT WA | number | wait/delay (ms); useful for macros. Does nothing if not used in macros. | v2 | no | no |
+| AT MA | string | execute macro (space separated list of commands, see [Macros](https://github.com/asterics/FLipMouse/wiki/macros)) | v2 | untested | yes (task_macro) |
+| AT WA | number (0-30000) | wait/delay (ms); useful for macros. Does nothing if not used in macros. | v2 | untested | yes/no <sup>[A](#footnoteA)</sup> |
 | AT RO | number (0,90,180,270) | orientation (0 => LEDs on top) | v2 | yes | no |
 | AT KL | number | Set keyboard locale (locale defines are listed below) | v3 | yes | no |
 | AT BT | number (0,1,2,3) | Bluetooth mode, 0=no HID output, 1=USB only, 2=BT only, 3=both(default) | v2 | Working for USB, untested for BLE | no |
 | AT TT | number (100-5000) | Threshold time ([ms]) between short and long press actions. Set to 5000 to disable. | v3 | no | no |
-| AT AP | number (1-500) | Antitremor delay for button press ([ms]) <sup>[A](#footnoteA)</sup> | v3 | untested | no |
-| AT AR | number (1-500) | Antitremor delay for button release ([ms]) <sup>[A](#footnoteA)</sup>| v3 | untested | no |
-| AT AI | number (1-500) | Antitremor delay for button idle ([ms]) <sup>[A](#footnoteA)</sup>| v3 | untested | no |
-| AT FR | -- | Reports free, used and available config storage space (e.g., "FREE:10%,9000,1000")| v3 | no<sup>[B](#footnoteB)</sup> | no |
+| AT AP | number (1-500) | Antitremor delay for button press ([ms]) <sup>[B](#footnoteB)</sup> | v3 | untested | no |
+| AT AR | number (1-500) | Antitremor delay for button release ([ms]) <sup>[B](#footnoteB)</sup>| v3 | untested | no |
+| AT AI | number (1-500) | Antitremor delay for button idle ([ms]) <sup>[B](#footnoteB)</sup>| v3 | untested | no |
+| AT FR | -- | Reports free, used and available config storage space (e.g., "FREE:10%,9000,1000")| v3 | no<sup>[C](#footnoteC)</sup> | no |
 | AT FB | number (0,1,2,3) | Feedback mode, 0=no LED/no buzzer, 1=LED/no buzzer, 2=no LED/buzzer, 3= LED + buzzer | v3 | untested | no |
 
-<a name="footnoteA">A</a>: Either combine the anti-tremor time settings with a previously sent _AT BM_ command to set a debouncing time for an individual virtual button **OR** use this command
+<a name="footnoteB">A</a>: AT WA is done in task_macro, but cannot be used in any other way except a macro ( _AT MA_ ).
+
+<a name="footnoteB">B</a>: Either combine the anti-tremor time settings with a previously sent _AT BM_ command to set a debouncing time for an individual virtual button **OR** use this command
 individually to set a global value.
 
-<a name="footnoteA">B</a>: Cannot implement until available in ESP-IDF
+<a name="footnoteC">C</a>: Cannot implement until available in ESP-IDF.
 
 **USB HID Commands**
 | Command | Parameter | Description | Available since | Implemented in v3 | FUNCTIONAL task |

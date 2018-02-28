@@ -64,7 +64,8 @@ $(function() {
 <div class="header">
   <div class="summary">
 <a href="#define-members">Macros</a> &#124;
-<a href="#func-members">Functions</a>  </div>
+<a href="#func-members">Functions</a> &#124;
+<a href="#var-members">Variables</a>  </div>
   <div class="headertitle">
 <div class="title">hid_dev.c File Reference</div>  </div>
 </div><!--header-->
@@ -87,12 +88,21 @@ Macros</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
+<tr class="memitem:a1a247bc038a3368cea0bde2303aa8301"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="structhid__report__map__t.html">hid_report_map_t</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="hid__dev_8c.html#a1a247bc038a3368cea0bde2303aa8301">hid_dev_rpt_by_id</a> (uint8_t id, uint8_t type)</td></tr>
+<tr class="separator:a1a247bc038a3368cea0bde2303aa8301"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6df72a6bb64d5c8cd7490eb11617b7ab"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="hid__dev_8c.html#a6df72a6bb64d5c8cd7490eb11617b7ab">hid_dev_register_reports</a> (uint8_t num_reports, <a class="el" href="structhid__report__map__t.html">hid_report_map_t</a> *p_report)</td></tr>
 <tr class="separator:a6df72a6bb64d5c8cd7490eb11617b7ab"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8ae7c69dfd4b740534df123a303a8832"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="hid__dev_8c.html#a8ae7c69dfd4b740534df123a303a8832">hid_dev_send_report</a> (esp_gatt_if_t gatts_if, uint16_t conn_id, uint8_t id, uint8_t type, uint8_t length, uint8_t *data)</td></tr>
 <tr class="separator:a8ae7c69dfd4b740534df123a303a8832"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae3c48383740d3aa04584b20f3447eb02"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="hid__dev_8c.html#ae3c48383740d3aa04584b20f3447eb02">hid_consumer_build_report</a> (uint8_t *buffer, <a class="el" href="hid__dev_8h.html#aed4225041f5388cc8ad2a127bb8482d9">consumer_cmd_t</a> cmd)</td></tr>
 <tr class="separator:ae3c48383740d3aa04584b20f3447eb02"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="var-members"></a>
+Variables</h2></td></tr>
+<tr class="memitem:aac6831e6c5851fa7b2c77fbb67119422"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="structhid__report__map__t.html">hid_report_map_t</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="hid__dev_8c.html#aac6831e6c5851fa7b2c77fbb67119422">hid_dev_rpt_tbl</a></td></tr>
+<tr class="separator:aac6831e6c5851fa7b2c77fbb67119422"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa282bf192d504334111315cb544ddc23"><td class="memItemLeft" align="right" valign="top">static uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="hid__dev_8c.html#aa282bf192d504334111315cb544ddc23">hid_dev_rpt_tbl_Len</a></td></tr>
+<tr class="separator:aa282bf192d504334111315cb544ddc23"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Macro Definition Documentation</h2>
 <a id="ae5c30dc4497ee36bd90bf416cc8ac289"></a>
@@ -188,6 +198,83 @@ Here is the caller graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="hid__dev_8c_source.html#l00046">46</a> of file <a class="el" href="hid__dev_8c_source.html">hid_dev.c</a>.</p>
 
+<p class="reference">Referenced by <a class="el" href="hid__device__le__prf_8c_source.html#l00673">hid_add_id_tbl()</a>.</p>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="hid__dev_8c_a6df72a6bb64d5c8cd7490eb11617b7ab_icgraph.png" border="0" usemap="#hid__dev_8c_a6df72a6bb64d5c8cd7490eb11617b7ab_icgraph" alt=""/></div>
+<map name="hid__dev_8c_a6df72a6bb64d5c8cd7490eb11617b7ab_icgraph" id="hid__dev_8c_a6df72a6bb64d5c8cd7490eb11617b7ab_icgraph">
+<area shape="rect" id="node2" href="hid__device__le__prf_8c.html#ac68d934280b657bfef845f9186a34fe8" title="hid_add_id_tbl" alt="" coords="217,5,323,32"/>
+<area shape="rect" id="node3" href="hid__device__le__prf_8c.html#add8f27ab149175c58a8bced1016df5a6" title="esp_hidd_prf_cb_hdl" alt="" coords="371,5,512,32"/>
+<area shape="rect" id="node4" href="hidd__le__prf__int_8h.html#acb0d2b8e95e7bbabf1e3bdab379d18d5" title="hidd_register_cb" alt="" coords="560,5,677,32"/>
+<area shape="rect" id="node5" href="esp__hidd__prf__api_8h.html#a5256c1f0eb079f624ce5e09a47d5b89c" title="This function is called to receive hid device callback event. " alt="" coords="725,5,912,32"/>
+<area shape="rect" id="node6" href="hal__ble_8h.html#a8ad6c50e81bae3e24e2f86a2797384c2" title="halBLEInit" alt="" coords="960,5,1043,32"/>
+<area shape="rect" id="node7" href="flipmouse__fabi__esp32__kbdmouse__main_8c.html#abce06be17fc37d675118a678a8100a36" title="Main task, created by esp&#45;idf. " alt="" coords="1091,5,1169,32"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="a1a247bc038a3368cea0bde2303aa8301"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1a247bc038a3368cea0bde2303aa8301">&#9670;&nbsp;</a></span>hid_dev_rpt_by_id()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static <a class="el" href="structhid__report__map__t.html">hid_report_map_t</a>* hid_dev_rpt_by_id </td>
+          <td>(</td>
+          <td class="paramtype">uint8_t&#160;</td>
+          <td class="paramname"><em>id</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint8_t&#160;</td>
+          <td class="paramname"><em>type</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="hid__dev_8c_source.html#l00033">33</a> of file <a class="el" href="hid__dev_8c_source.html">hid_dev.c</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="hid__dev_8c_source.html#l00053">hid_dev_send_report()</a>.</p>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="hid__dev_8c_a1a247bc038a3368cea0bde2303aa8301_icgraph.png" border="0" usemap="#hid__dev_8c_a1a247bc038a3368cea0bde2303aa8301_icgraph" alt=""/></div>
+<map name="hid__dev_8c_a1a247bc038a3368cea0bde2303aa8301_icgraph" id="hid__dev_8c_a1a247bc038a3368cea0bde2303aa8301_icgraph">
+<area shape="rect" id="node2" href="hid__dev_8h.html#a8ae7c69dfd4b740534df123a303a8832" title="hid_dev_send_report" alt="" coords="180,78,323,105"/>
+<area shape="rect" id="node3" href="esp__hidd__prf__api_8h.html#ac18cf225b99b4f39545ca562ac85fa97" title="esp_hidd_send_consumer\l_value" alt="" coords="371,5,544,47"/>
+<area shape="rect" id="node4" href="esp__hidd__prf__api_8h.html#a694ff6418e79f3372b3feba7483e3222" title="esp_hidd_send_keyboard\l_value" alt="" coords="373,71,542,112"/>
+<area shape="rect" id="node15" href="esp__hidd__prf__api_8h.html#a0e953976c5ad30d8508ac11bc61cb6b2" title="esp_hidd_send_mouse\l_value" alt="" coords="380,136,535,177"/>
+<area shape="rect" id="node5" href="hal__ble_8h.html#accf307974a0046bce38582d0260bf841" title="halBLEReset" alt="" coords="638,129,737,155"/>
+<area shape="rect" id="node13" href="hal__ble_8c.html#af6a15e1396cb358cd7f1eb6a2a7045a9" title="halBleTaskKeyboardPress" alt="" coords="599,27,775,54"/>
+<area shape="rect" id="node14" href="hal__ble_8c.html#adbfa982381d6d09432d7ba1961846b32" title="halBleTaskKeyboardRelease" alt="" coords="592,78,783,105"/>
+<area shape="rect" id="node6" href="config__switcher_8c.html#af5af5079d1982d42e165039e6de7e40a" title="CONTINOUS TASK &#45; Config switcher task, internal config reloading. " alt="" coords="839,103,976,130"/>
+<area shape="rect" id="node9" href="task__commands_8c.html#a7f6500be563a3dce7f0854fceed02fab" title="doGeneralCmdParsing" alt="" coords="831,154,984,181"/>
+<area shape="rect" id="node7" href="config__switcher_8h.html#aafed047c8d04b814a85239e031cbad7b" title="Initializing the config switching functionality. " alt="" coords="1032,103,1159,130"/>
+<area shape="rect" id="node8" href="flipmouse__fabi__esp32__kbdmouse__main_8c.html#abce06be17fc37d675118a678a8100a36" title="Main task, created by esp&#45;idf. " alt="" coords="1412,129,1491,155"/>
+<area shape="rect" id="node10" href="task__commands_8c.html#a7b36c39275d773aaedcb327ef4e1516f" title="task_commands" alt="" coords="1036,154,1155,181"/>
+<area shape="rect" id="node11" href="task__commands_8h.html#aedb896e40753227f80768e09d3748419" title="Init the command parser. " alt="" coords="1219,154,1351,181"/>
+<area shape="rect" id="node12" href="task__commands_8h.html#a26091155b4d85093239033d689f363d0" title="Restart the command parser task. " alt="" coords="1207,205,1364,231"/>
+<area shape="rect" id="node16" href="hal__ble_8c.html#a2daad176a4409b3a0e1c1b3c1b813d49" title="halBleTaskMouse" alt="" coords="624,179,751,206"/>
+</map>
+</div>
+
 </div>
 </div>
 <a id="a8ae7c69dfd4b740534df123a303a8832"></a>
@@ -244,15 +331,85 @@ Here is the caller graph for this function:</div>
 
 <p class="reference">Referenced by <a class="el" href="esp__hidd__prf__api_8c_source.html#l00096">esp_hidd_send_consumer_value()</a>, <a class="el" href="esp__hidd__prf__api_8c_source.html#l00109">esp_hidd_send_keyboard_value()</a>, and <a class="el" href="esp__hidd__prf__api_8c_source.html#l00130">esp_hidd_send_mouse_value()</a>.</p>
 <div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="hid__dev_8c_a8ae7c69dfd4b740534df123a303a8832_cgraph.png" border="0" usemap="#hid__dev_8c_a8ae7c69dfd4b740534df123a303a8832_cgraph" alt=""/></div>
+<map name="hid__dev_8c_a8ae7c69dfd4b740534df123a303a8832_cgraph" id="hid__dev_8c_a8ae7c69dfd4b740534df123a303a8832_cgraph">
+<area shape="rect" id="node2" href="hid__dev_8c.html#a1a247bc038a3368cea0bde2303aa8301" title="hid_dev_rpt_by_id" alt="" coords="196,5,323,32"/>
+</map>
+</div>
+<div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="hid__dev_8c_a8ae7c69dfd4b740534df123a303a8832_icgraph.png" border="0" usemap="#hid__dev_8c_a8ae7c69dfd4b740534df123a303a8832_icgraph" alt=""/></div>
 <map name="hid__dev_8c_a8ae7c69dfd4b740534df123a303a8832_icgraph" id="hid__dev_8c_a8ae7c69dfd4b740534df123a303a8832_icgraph">
 <area shape="rect" id="node2" href="esp__hidd__prf__api_8h.html#ac18cf225b99b4f39545ca562ac85fa97" title="esp_hidd_send_consumer\l_value" alt="" coords="196,5,369,47"/>
 <area shape="rect" id="node3" href="esp__hidd__prf__api_8h.html#a694ff6418e79f3372b3feba7483e3222" title="esp_hidd_send_keyboard\l_value" alt="" coords="198,71,367,112"/>
-<area shape="rect" id="node4" href="esp__hidd__prf__api_8h.html#a0e953976c5ad30d8508ac11bc61cb6b2" title="esp_hidd_send_mouse\l_value" alt="" coords="205,136,360,177"/>
+<area shape="rect" id="node14" href="esp__hidd__prf__api_8h.html#a0e953976c5ad30d8508ac11bc61cb6b2" title="esp_hidd_send_mouse\l_value" alt="" coords="205,136,360,177"/>
+<area shape="rect" id="node4" href="hal__ble_8h.html#accf307974a0046bce38582d0260bf841" title="halBLEReset" alt="" coords="463,129,562,155"/>
+<area shape="rect" id="node12" href="hal__ble_8c.html#af6a15e1396cb358cd7f1eb6a2a7045a9" title="halBleTaskKeyboardPress" alt="" coords="425,27,601,54"/>
+<area shape="rect" id="node13" href="hal__ble_8c.html#adbfa982381d6d09432d7ba1961846b32" title="halBleTaskKeyboardRelease" alt="" coords="417,78,608,105"/>
+<area shape="rect" id="node5" href="config__switcher_8c.html#af5af5079d1982d42e165039e6de7e40a" title="CONTINOUS TASK &#45; Config switcher task, internal config reloading. " alt="" coords="664,103,801,130"/>
+<area shape="rect" id="node8" href="task__commands_8c.html#a7f6500be563a3dce7f0854fceed02fab" title="doGeneralCmdParsing" alt="" coords="656,154,809,181"/>
+<area shape="rect" id="node6" href="config__switcher_8h.html#aafed047c8d04b814a85239e031cbad7b" title="Initializing the config switching functionality. " alt="" coords="857,103,984,130"/>
+<area shape="rect" id="node7" href="flipmouse__fabi__esp32__kbdmouse__main_8c.html#abce06be17fc37d675118a678a8100a36" title="Main task, created by esp&#45;idf. " alt="" coords="1237,129,1316,155"/>
+<area shape="rect" id="node9" href="task__commands_8c.html#a7b36c39275d773aaedcb327ef4e1516f" title="task_commands" alt="" coords="861,154,980,181"/>
+<area shape="rect" id="node10" href="task__commands_8h.html#aedb896e40753227f80768e09d3748419" title="Init the command parser. " alt="" coords="1045,154,1177,181"/>
+<area shape="rect" id="node11" href="task__commands_8h.html#a26091155b4d85093239033d689f363d0" title="Restart the command parser task. " alt="" coords="1032,205,1189,231"/>
+<area shape="rect" id="node15" href="hal__ble_8c.html#a2daad176a4409b3a0e1c1b3c1b813d49" title="halBleTaskMouse" alt="" coords="449,179,576,206"/>
 </map>
 </div>
+
+</div>
+</div>
+<h2 class="groupheader">Variable Documentation</h2>
+<a id="aac6831e6c5851fa7b2c77fbb67119422"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aac6831e6c5851fa7b2c77fbb67119422">&#9670;&nbsp;</a></span>hid_dev_rpt_tbl</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structhid__report__map__t.html">hid_report_map_t</a>* hid_dev_rpt_tbl</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="hid__dev_8c_source.html#l00030">30</a> of file <a class="el" href="hid__dev_8c_source.html">hid_dev.c</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="hid__dev_8c_source.html#l00033">hid_dev_rpt_by_id()</a>.</p>
+
+</div>
+</div>
+<a id="aa282bf192d504334111315cb544ddc23"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa282bf192d504334111315cb544ddc23">&#9670;&nbsp;</a></span>hid_dev_rpt_tbl_Len</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint8_t hid_dev_rpt_tbl_Len</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="hid__dev_8c_source.html#l00031">31</a> of file <a class="el" href="hid__dev_8c_source.html">hid_dev.c</a>.</p>
 
 </div>
 </div>

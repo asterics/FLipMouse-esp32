@@ -84,9 +84,9 @@ $(function() {
 <tr>
 <td align="left">AT BL </td><td align="left">&ndash; </td><td align="left">enable/disable output of triggered virtual buttons. Is used with AT BM for command learning </td><td align="left">v3 </td><td align="left">no </td><td align="left">? </td></tr>
 <tr>
-<td align="left">AT MA </td><td align="left">string </td><td align="left">execute macro (space separated list of commands, see <a href="https://github.com/asterics/FLipMouse/wiki/macros">Macros</a>) </td><td align="left">v2 </td><td align="left">no </td><td align="left">yes (task_macro) </td></tr>
+<td align="left">AT MA </td><td align="left">string </td><td align="left">execute macro (space separated list of commands, see <a href="https://github.com/asterics/FLipMouse/wiki/macros">Macros</a>) </td><td align="left">v2 </td><td align="left">untested </td><td align="left">yes (task_macro) </td></tr>
 <tr>
-<td align="left">AT WA </td><td align="left">number </td><td align="left">wait/delay (ms); useful for macros. Does nothing if not used in macros. </td><td align="left">v2 </td><td align="left">no </td><td align="left">no </td></tr>
+<td align="left">AT WA </td><td align="left">number (0-30000) </td><td align="left">wait/delay (ms); useful for macros. Does nothing if not used in macros. </td><td align="left">v2 </td><td align="left">untested </td><td align="left">yes/no <sup><a href="#footnoteA">A</a></sup> </td></tr>
 <tr>
 <td align="left">AT RO </td><td align="left">number (0,90,180,270) </td><td align="left">orientation (0 =&gt; LEDs on top) </td><td align="left">v2 </td><td align="left">yes </td><td align="left">no </td></tr>
 <tr>
@@ -96,18 +96,19 @@ $(function() {
 <tr>
 <td align="left">AT TT </td><td align="left">number (100-5000) </td><td align="left">Threshold time ([ms]) between short and long press actions. Set to 5000 to disable. </td><td align="left">v3 </td><td align="left">no </td><td align="left">no </td></tr>
 <tr>
-<td align="left">AT AP </td><td align="left">number (1-500) </td><td align="left">Antitremor delay for button press ([ms]) <sup><a href="#footnoteA">A</a></sup> </td><td align="left">v3 </td><td align="left">untested </td><td align="left">no </td></tr>
+<td align="left">AT AP </td><td align="left">number (1-500) </td><td align="left">Antitremor delay for button press ([ms]) <sup><a href="#footnoteB">B</a></sup> </td><td align="left">v3 </td><td align="left">untested </td><td align="left">no </td></tr>
 <tr>
-<td align="left">AT AR </td><td align="left">number (1-500) </td><td align="left">Antitremor delay for button release ([ms]) <sup><a href="#footnoteA">A</a></sup></td><td align="left">v3 </td><td align="left">untested </td><td align="left">no </td></tr>
+<td align="left">AT AR </td><td align="left">number (1-500) </td><td align="left">Antitremor delay for button release ([ms]) <sup><a href="#footnoteB">B</a></sup></td><td align="left">v3 </td><td align="left">untested </td><td align="left">no </td></tr>
 <tr>
-<td align="left">AT AI </td><td align="left">number (1-500) </td><td align="left">Antitremor delay for button idle ([ms]) <sup><a href="#footnoteA">A</a></sup></td><td align="left">v3 </td><td align="left">untested </td><td align="left">no </td></tr>
+<td align="left">AT AI </td><td align="left">number (1-500) </td><td align="left">Antitremor delay for button idle ([ms]) <sup><a href="#footnoteB">B</a></sup></td><td align="left">v3 </td><td align="left">untested </td><td align="left">no </td></tr>
 <tr>
-<td align="left">AT FR </td><td align="left">&ndash; </td><td align="left">Reports free, used and available config storage space (e.g., "FREE:10%,9000,1000")</td><td align="left">v3 </td><td align="left">no<sup><a href="#footnoteB">B</a></sup> </td><td align="left">no </td></tr>
+<td align="left">AT FR </td><td align="left">&ndash; </td><td align="left">Reports free, used and available config storage space (e.g., "FREE:10%,9000,1000")</td><td align="left">v3 </td><td align="left">no<sup><a href="#footnoteC">C</a></sup> </td><td align="left">no </td></tr>
 <tr>
 <td align="left">AT FB </td><td align="left">number (0,1,2,3) </td><td align="left">Feedback mode, 0=no LED/no buzzer, 1=LED/no buzzer, 2=no LED/buzzer, 3= LED + buzzer </td><td align="left">v3 </td><td align="left">untested </td><td align="left">no </td></tr>
 </table>
-<p><a class="anchor" id="footnoteA"></a>A: Either combine the anti-tremor time settings with a previously sent <em>AT BM</em> command to set a debouncing time for an individual virtual button <b>OR</b> use this command individually to set a global value.</p>
-<p><a class="anchor" id="footnoteA"></a>B: Cannot implement until available in ESP-IDF</p>
+<p><a class="anchor" id="footnoteB"></a>A: AT WA is done in task_macro, but cannot be used in any other way except a macro ( <em>AT MA</em> ).</p>
+<p><a class="anchor" id="footnoteB"></a>B: Either combine the anti-tremor time settings with a previously sent <em>AT BM</em> command to set a debouncing time for an individual virtual button <b>OR</b> use this command individually to set a global value.</p>
+<p><a class="anchor" id="footnoteC"></a>C: Cannot implement until available in ESP-IDF.</p>
 <p><b>USB HID Commands</b> </p><table class="doxtable">
 <tr>
 <th align="left">Command </th><th align="left">Parameter </th><th align="left">Description </th><th align="left">Available since </th><th align="left">Implemented in v3 </th><th align="left">FUNCTIONAL task  </th></tr>

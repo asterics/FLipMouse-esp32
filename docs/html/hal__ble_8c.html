@@ -106,13 +106,29 @@ Functions</h2></td></tr>
 <tr class="separator:a2daad176a4409b3a0e1c1b3c1b813d49"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:abf95059b82a76b0df3e60fac8bc97c7f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="hal__ble_8c.html#abf95059b82a76b0df3e60fac8bc97c7f">halBleTaskJoystick</a> (void *param)</td></tr>
 <tr class="separator:abf95059b82a76b0df3e60fac8bc97c7f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af6354ad49deff7e2dfb1b8e9072660ee"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="hal__ble_8c.html#af6354ad49deff7e2dfb1b8e9072660ee">hidd_event_callback</a> (<a class="el" href="esp__hidd__prf__api_8h.html#a47afe3bf419ceb85a287f6cae0c2d0e6">esp_hidd_cb_event_t</a> event, <a class="el" href="unionesp__hidd__cb__param__t.html">esp_hidd_cb_param_t</a> *param)</td></tr>
+<tr class="separator:af6354ad49deff7e2dfb1b8e9072660ee"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a50ba83bf77cdec4ac247bf44f357f310"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="hal__ble_8c.html#a50ba83bf77cdec4ac247bf44f357f310">gap_event_handler</a> (esp_gap_ble_cb_event_t event, esp_ble_gap_cb_param_t *param)</td></tr>
+<tr class="separator:a50ba83bf77cdec4ac247bf44f357f310"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:accf307974a0046bce38582d0260bf841"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="hal__ble_8c.html#accf307974a0046bce38582d0260bf841">halBLEReset</a> (uint8_t exceptDevice)</td></tr>
 <tr class="separator:accf307974a0046bce38582d0260bf841"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8ad6c50e81bae3e24e2f86a2797384c2"><td class="memItemLeft" align="right" valign="top">esp_err_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="hal__ble_8c.html#a8ad6c50e81bae3e24e2f86a2797384c2">halBLEInit</a> (uint8_t deviceIdentifier)</td></tr>
+<tr class="memitem:a8ad6c50e81bae3e24e2f86a2797384c2"><td class="memItemLeft" align="right" valign="top">esp_err_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="hal__ble_8c.html#a8ad6c50e81bae3e24e2f86a2797384c2">halBLEInit</a> (uint8_t <a class="el" href="hal__ble_8c.html#ad7175895c8cabb280bb57de009caf91a">deviceIdentifier</a>)</td></tr>
 <tr class="separator:a8ad6c50e81bae3e24e2f86a2797384c2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="var-members"></a>
 Variables</h2></td></tr>
+<tr class="memitem:acf63d81e5e92daa2fea46597280eac6d"><td class="memItemLeft" align="right" valign="top">static uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="hal__ble_8c.html#acf63d81e5e92daa2fea46597280eac6d">hid_conn_id</a> = 0</td></tr>
+<tr class="separator:acf63d81e5e92daa2fea46597280eac6d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a11274ca008e2a3199074e7037c665a38"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="hal__ble_8c.html#a11274ca008e2a3199074e7037c665a38">sec_conn</a> = false</td></tr>
+<tr class="separator:a11274ca008e2a3199074e7037c665a38"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0c7a67b22eaf97b79ee4a9eb7264ff1d"><td class="memItemLeft" align="right" valign="top">static uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="hal__ble_8c.html#a0c7a67b22eaf97b79ee4a9eb7264ff1d">keycode_modifier</a></td></tr>
+<tr class="separator:a0c7a67b22eaf97b79ee4a9eb7264ff1d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a131a7a0d9ebdaa113ba29cdbf57e79fc"><td class="memItemLeft" align="right" valign="top">static uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="hal__ble_8c.html#a131a7a0d9ebdaa113ba29cdbf57e79fc">keycode_deadkey_first</a></td></tr>
+<tr class="separator:a131a7a0d9ebdaa113ba29cdbf57e79fc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a972310b9e99a14a3fa6c7eb343c8f83b"><td class="memItemLeft" align="right" valign="top">static uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="hal__ble_8c.html#a972310b9e99a14a3fa6c7eb343c8f83b">keycode_arr</a> [6]</td></tr>
+<tr class="separator:a972310b9e99a14a3fa6c7eb343c8f83b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad7175895c8cabb280bb57de009caf91a"><td class="memItemLeft" align="right" valign="top">static uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="hal__ble_8c.html#ad7175895c8cabb280bb57de009caf91a">deviceIdentifier</a></td></tr>
+<tr class="separator:ad7175895c8cabb280bb57de009caf91a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae272a00db0b4da927785f952db45f214"><td class="memItemLeft" align="right" valign="top">TaskHandle_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="hal__ble_8c.html#ae272a00db0b4da927785f952db45f214">halbletasks</a> [4]</td></tr>
 <tr class="separator:ae272a00db0b4da927785f952db45f214"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1222b5a43211cdb4cb6ec3659a40e2dc"><td class="memItemLeft" align="right" valign="top">char&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="hal__ble_8c.html#a1222b5a43211cdb4cb6ec3659a40e2dc">halbletasknames</a> [4][14] = {&quot;hal_ble_kbd_p&quot;, &quot;hal_ble_kbd_r&quot;, &quot;hal_ble_mouse&quot;, &quot;hal_ble_joyst&quot;}</td></tr>
@@ -123,6 +139,12 @@ Variables</h2></td></tr>
 <tr class="separator:afc012b925d690c6f3aa076e5e9aa514a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4973a51b785a4b9d9cd393086fa91b9b"><td class="memItemLeft" align="right" valign="top">const char&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="hal__ble_8c.html#a4973a51b785a4b9d9cd393086fa91b9b">hid_device_name_flipmouse</a> [] = &quot;FLipMouse&quot;</td></tr>
 <tr class="separator:a4973a51b785a4b9d9cd393086fa91b9b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a93fcf7226d419031220fd965f5d81dac"><td class="memItemLeft" align="right" valign="top">static uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="hal__ble_8c.html#a93fcf7226d419031220fd965f5d81dac">hidd_service_uuid128</a> []</td></tr>
+<tr class="separator:a93fcf7226d419031220fd965f5d81dac"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7f3a50a06396858b513bf74126e13399"><td class="memItemLeft" align="right" valign="top">static esp_ble_adv_data_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="hal__ble_8c.html#a7f3a50a06396858b513bf74126e13399">hidd_adv_data</a></td></tr>
+<tr class="separator:a7f3a50a06396858b513bf74126e13399"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a58b0fa2996d55c2b75a0aeb678854b9b"><td class="memItemLeft" align="right" valign="top">static esp_ble_adv_params_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="hal__ble_8c.html#a58b0fa2996d55c2b75a0aeb678854b9b">hidd_adv_params</a></td></tr>
+<tr class="separator:a58b0fa2996d55c2b75a0aeb678854b9b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Macro Definition Documentation</h2>
 <a id="a7ce0df38eb467e59f209470c8f5ac4e6"></a>
@@ -139,11 +161,60 @@ Variables</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="hal__ble_8c_source.html#l00059">59</a> of file <a class="el" href="hal__ble_8c_source.html">hal_ble.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="hal__ble_8c_source.html#l00354">halBleTaskJoystick()</a>, <a class="el" href="hal__ble_8c_source.html#l00181">halBleTaskKeyboardPress()</a>, <a class="el" href="hal__ble_8c_source.html#l00253">halBleTaskKeyboardRelease()</a>, and <a class="el" href="hal__ble_8c_source.html#l00305">halBleTaskMouse()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="hal__ble_8c_source.html#l00426">halBLEInit()</a>, <a class="el" href="hal__ble_8c_source.html#l00394">halBLEReset()</a>, <a class="el" href="hal__ble_8c_source.html#l00354">halBleTaskJoystick()</a>, <a class="el" href="hal__ble_8c_source.html#l00181">halBleTaskKeyboardPress()</a>, <a class="el" href="hal__ble_8c_source.html#l00253">halBleTaskKeyboardRelease()</a>, and <a class="el" href="hal__ble_8c_source.html#l00305">halBleTaskMouse()</a>.</p>
 
 </div>
 </div>
 <h2 class="groupheader">Function Documentation</h2>
+<a id="a50ba83bf77cdec4ac247bf44f357f310"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a50ba83bf77cdec4ac247bf44f357f310">&#9670;&nbsp;</a></span>gap_event_handler()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static void gap_event_handler </td>
+          <td>(</td>
+          <td class="paramtype">esp_gap_ble_cb_event_t&#160;</td>
+          <td class="paramname"><em>event</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">esp_ble_gap_cb_param_t *&#160;</td>
+          <td class="paramname"><em>param</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="hal__ble_8c_source.html#l00159">159</a> of file <a class="el" href="hal__ble_8c_source.html">hal_ble.c</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="hal__ble_8c_source.html#l00426">halBLEInit()</a>.</p>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="hal__ble_8c_a50ba83bf77cdec4ac247bf44f357f310_icgraph.png" border="0" usemap="#hal__ble_8c_a50ba83bf77cdec4ac247bf44f357f310_icgraph" alt=""/></div>
+<map name="hal__ble_8c_a50ba83bf77cdec4ac247bf44f357f310_icgraph" id="hal__ble_8c_a50ba83bf77cdec4ac247bf44f357f310_icgraph">
+<area shape="rect" id="node2" href="hal__ble_8h.html#a8ad6c50e81bae3e24e2f86a2797384c2" title="halBLEInit" alt="" coords="184,5,267,32"/>
+<area shape="rect" id="node3" href="flipmouse__fabi__esp32__kbdmouse__main_8c.html#abce06be17fc37d675118a678a8100a36" title="Main task, created by esp&#45;idf. " alt="" coords="315,5,393,32"/>
+</map>
+</div>
+
+</div>
+</div>
 <a id="a8ad6c50e81bae3e24e2f86a2797384c2"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a8ad6c50e81bae3e24e2f86a2797384c2">&#9670;&nbsp;</a></span>halBLEInit()</h2>
 
@@ -180,6 +251,27 @@ Variables</h2></td></tr>
 <p class="definition">Definition at line <a class="el" href="hal__ble_8c_source.html#l00426">426</a> of file <a class="el" href="hal__ble_8c_source.html">hal_ble.c</a>.</p>
 
 <p class="reference">Referenced by <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c_source.html#l00073">app_main()</a>.</p>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="hal__ble_8c_a8ad6c50e81bae3e24e2f86a2797384c2_cgraph.png" border="0" usemap="#hal__ble_8c_a8ad6c50e81bae3e24e2f86a2797384c2_cgraph" alt=""/></div>
+<map name="hal__ble_8c_a8ad6c50e81bae3e24e2f86a2797384c2_cgraph" id="hal__ble_8c_a8ad6c50e81bae3e24e2f86a2797384c2_cgraph">
+<area shape="rect" id="node2" href="config__switcher_8c.html#a921538bec34d128a44a748fd5a2c391f" title="Get the current config struct. " alt="" coords="169,5,290,32"/>
+<area shape="rect" id="node3" href="hid__device__le__prf_8c.html#afa62ba26a48e429b592a9e5be49778d8" title="hidd_set_countrycode" alt="" coords="155,56,304,83"/>
+<area shape="rect" id="node4" href="keyboard_8c.html#a5d5bd056cc1731c96de8522b7040f5f1" title="Getting the HID country code for a given locale. " alt="" coords="155,107,304,133"/>
+<area shape="rect" id="node5" href="esp__hidd__prf__api_8c.html#a4c4c8031f1e6ea5615c28b98d46d6232" title="This function is called to initialize hid device profile. " alt="" coords="159,157,299,184"/>
+<area shape="rect" id="node6" href="hal__ble_8c.html#a50ba83bf77cdec4ac247bf44f357f310" title="gap_event_handler" alt="" coords="164,208,295,235"/>
+<area shape="rect" id="node7" href="esp__hidd__prf__api_8c.html#a5256c1f0eb079f624ce5e09a47d5b89c" title="This function is called to receive hid device callback event. " alt="" coords="136,259,323,285"/>
+<area shape="rect" id="node15" href="hal__ble_8c.html#af6354ad49deff7e2dfb1b8e9072660ee" title="hidd_event_callback" alt="" coords="159,309,299,336"/>
+<area shape="rect" id="node8" href="hid__device__le__prf_8c.html#acb0d2b8e95e7bbabf1e3bdab379d18d5" title="hidd_register_cb" alt="" coords="371,259,488,285"/>
+<area shape="rect" id="node9" href="hid__device__le__prf_8c.html#add8f27ab149175c58a8bced1016df5a6" title="esp_hidd_prf_cb_hdl" alt="" coords="536,259,677,285"/>
+<area shape="rect" id="node10" href="hid__device__le__prf_8c.html#a479cfaafdbd41501ccd953c0abfc8ca6" title="hidd_le_create_service" alt="" coords="725,183,880,209"/>
+<area shape="rect" id="node11" href="hid__device__le__prf_8c.html#a4e7096230eedcf2dbc89351ea636677d" title="hidd_clcb_alloc" alt="" coords="747,233,858,260"/>
+<area shape="rect" id="node12" href="hid__device__le__prf_8c.html#a74aa695557816b038ff9847860291fa2" title="hidd_clcb_dealloc" alt="" coords="740,284,865,311"/>
+<area shape="rect" id="node13" href="hid__device__le__prf_8c.html#ac68d934280b657bfef845f9186a34fe8" title="hid_add_id_tbl" alt="" coords="750,335,855,361"/>
+<area shape="rect" id="node14" href="hid__dev_8c.html#a6df72a6bb64d5c8cd7490eb11617b7ab" title="hid_dev_register_reports" alt="" coords="928,335,1092,361"/>
+</map>
+</div>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
@@ -218,6 +310,17 @@ Here is the caller graph for this function:</div>
 
 <p class="reference">Referenced by <a class="el" href="config__switcher_8c_source.html#l00198">configSwitcherTask()</a>, and <a class="el" href="task__commands_8c_source.html#l00613">doGeneralCmdParsing()</a>.</p>
 <div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="hal__ble_8c_accf307974a0046bce38582d0260bf841_cgraph.png" border="0" usemap="#hal__ble_8c_accf307974a0046bce38582d0260bf841_cgraph" alt=""/></div>
+<map name="hal__ble_8c_accf307974a0046bce38582d0260bf841_cgraph" id="hal__ble_8c_accf307974a0046bce38582d0260bf841_cgraph">
+<area shape="rect" id="node2" href="esp__hidd__prf__api_8c.html#a0e953976c5ad30d8508ac11bc61cb6b2" title="esp_hidd_send_mouse\l_value" alt="" coords="159,5,314,47"/>
+<area shape="rect" id="node5" href="esp__hidd__prf__api_8c.html#a694ff6418e79f3372b3feba7483e3222" title="esp_hidd_send_keyboard\l_value" alt="" coords="152,71,321,112"/>
+<area shape="rect" id="node3" href="hid__dev_8c.html#a8ae7c69dfd4b740534df123a303a8832" title="hid_dev_send_report" alt="" coords="369,46,512,73"/>
+<area shape="rect" id="node4" href="hid__dev_8c.html#a1a247bc038a3368cea0bde2303aa8301" title="hid_dev_rpt_by_id" alt="" coords="560,46,687,73"/>
+</map>
+</div>
+<div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="hal__ble_8c_accf307974a0046bce38582d0260bf841_icgraph.png" border="0" usemap="#hal__ble_8c_accf307974a0046bce38582d0260bf841_icgraph" alt=""/></div>
@@ -225,7 +328,10 @@ Here is the caller graph for this function:</div>
 <area shape="rect" id="node2" href="config__switcher_8c.html#af5af5079d1982d42e165039e6de7e40a" title="CONTINOUS TASK &#45; Config switcher task, internal config reloading. " alt="" coords="160,5,297,32"/>
 <area shape="rect" id="node5" href="task__commands_8c.html#a7f6500be563a3dce7f0854fceed02fab" title="doGeneralCmdParsing" alt="" coords="152,56,305,83"/>
 <area shape="rect" id="node3" href="config__switcher_8h.html#aafed047c8d04b814a85239e031cbad7b" title="Initializing the config switching functionality. " alt="" coords="353,5,480,32"/>
-<area shape="rect" id="node4" href="flipmouse__fabi__esp32__kbdmouse__main_8c.html#abce06be17fc37d675118a678a8100a36" title="Main task, created by esp&#45;idf. " alt="" coords="528,5,607,32"/>
+<area shape="rect" id="node4" href="flipmouse__fabi__esp32__kbdmouse__main_8c.html#abce06be17fc37d675118a678a8100a36" title="Main task, created by esp&#45;idf. " alt="" coords="733,31,812,57"/>
+<area shape="rect" id="node6" href="task__commands_8c.html#a7b36c39275d773aaedcb327ef4e1516f" title="task_commands" alt="" coords="357,56,476,83"/>
+<area shape="rect" id="node7" href="task__commands_8h.html#aedb896e40753227f80768e09d3748419" title="Init the command parser. " alt="" coords="541,56,673,83"/>
+<area shape="rect" id="node8" href="task__commands_8h.html#a26091155b4d85093239033d689f363d0" title="Restart the command parser task. " alt="" coords="528,107,685,133"/>
 </map>
 </div>
 
@@ -273,7 +379,16 @@ Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="hal__ble_8c_af6a15e1396cb358cd7f1eb6a2a7045a9_cgraph.png" border="0" usemap="#hal__ble_8c_af6a15e1396cb358cd7f1eb6a2a7045a9_cgraph" alt=""/></div>
 <map name="hal__ble_8c_af6a15e1396cb358cd7f1eb6a2a7045a9_cgraph" id="hal__ble_8c_af6a15e1396cb358cd7f1eb6a2a7045a9_cgraph">
-<area shape="rect" id="node2" href="config__switcher_8c.html#a921538bec34d128a44a748fd5a2c391f" title="Get the current config struct. " alt="" coords="229,5,351,32"/>
+<area shape="rect" id="node2" href="config__switcher_8c.html#a921538bec34d128a44a748fd5a2c391f" title="Get the current config struct. " alt="" coords="253,56,375,83"/>
+<area shape="rect" id="node3" href="keyboard_8c.html#aaa2d4d5bce20b87c88be1a9a33aa85a4" title="Parse an incoming byte for a keycode. " alt="" coords="248,107,380,133"/>
+<area shape="rect" id="node8" href="esp__hidd__prf__api_8c.html#a694ff6418e79f3372b3feba7483e3222" title="esp_hidd_send_keyboard\l_value" alt="" coords="229,158,399,199"/>
+<area shape="rect" id="node11" href="keyboard_8c.html#a5aebbf68f68f1d3212fb187ff156e5c1" title="Add a keycode to the given HID keycode array. " alt="" coords="265,224,363,251"/>
+<area shape="rect" id="node4" href="keyboard_8c.html#add849eefda31316c7d22d45f49e261e2" title="Parse a decoded code point to a keycode, step 2. " alt="" coords="449,5,590,32"/>
+<area shape="rect" id="node5" href="keyboard_8c.html#a6b593fa493aea40be410640981b1c181" title="Parse a keycode for deadkey input, step 3. " alt="" coords="447,56,592,83"/>
+<area shape="rect" id="node6" href="keyboard_8c.html#acdbf297ed74d4534f035e0732c2f1081" title="Mask the keycode to get the modifiers, step 5. " alt="" coords="448,107,591,133"/>
+<area shape="rect" id="node7" href="keyboard_8c.html#a464318439ffe82e71e063a5c9582aa69" title="Mask the keycode to get the HID keycode, step 4. " alt="" coords="461,157,578,184"/>
+<area shape="rect" id="node9" href="hid__dev_8c.html#a8ae7c69dfd4b740534df123a303a8832" title="hid_dev_send_report" alt="" coords="448,208,591,235"/>
+<area shape="rect" id="node10" href="hid__dev_8c.html#a1a247bc038a3368cea0bde2303aa8301" title="hid_dev_rpt_by_id" alt="" coords="640,208,767,235"/>
 </map>
 </div>
 
@@ -301,7 +416,16 @@ Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="hal__ble_8c_adbfa982381d6d09432d7ba1961846b32_cgraph.png" border="0" usemap="#hal__ble_8c_adbfa982381d6d09432d7ba1961846b32_cgraph" alt=""/></div>
 <map name="hal__ble_8c_adbfa982381d6d09432d7ba1961846b32_cgraph" id="hal__ble_8c_adbfa982381d6d09432d7ba1961846b32_cgraph">
-<area shape="rect" id="node2" href="config__switcher_8c.html#a921538bec34d128a44a748fd5a2c391f" title="Get the current config struct. " alt="" coords="244,5,365,32"/>
+<area shape="rect" id="node2" href="config__switcher_8c.html#a921538bec34d128a44a748fd5a2c391f" title="Get the current config struct. " alt="" coords="268,52,389,79"/>
+<area shape="rect" id="node3" href="keyboard_8c.html#aaa2d4d5bce20b87c88be1a9a33aa85a4" title="Parse an incoming byte for a keycode. " alt="" coords="263,103,395,129"/>
+<area shape="rect" id="node8" href="keyboard_8c.html#a999cf21107da9c1a7e3797e72d95045b" title="Remove a keycode from the given HID keycode array. " alt="" coords="268,153,389,180"/>
+<area shape="rect" id="node9" href="esp__hidd__prf__api_8c.html#a694ff6418e79f3372b3feba7483e3222" title="esp_hidd_send_keyboard\l_value" alt="" coords="244,205,413,246"/>
+<area shape="rect" id="node4" href="keyboard_8c.html#add849eefda31316c7d22d45f49e261e2" title="Parse a decoded code point to a keycode, step 2. " alt="" coords="463,5,605,32"/>
+<area shape="rect" id="node5" href="keyboard_8c.html#a6b593fa493aea40be410640981b1c181" title="Parse a keycode for deadkey input, step 3. " alt="" coords="461,56,607,83"/>
+<area shape="rect" id="node6" href="keyboard_8c.html#acdbf297ed74d4534f035e0732c2f1081" title="Mask the keycode to get the modifiers, step 5. " alt="" coords="463,107,605,133"/>
+<area shape="rect" id="node7" href="keyboard_8c.html#a464318439ffe82e71e063a5c9582aa69" title="Mask the keycode to get the HID keycode, step 4. " alt="" coords="475,157,593,184"/>
+<area shape="rect" id="node10" href="hid__dev_8c.html#a8ae7c69dfd4b740534df123a303a8832" title="hid_dev_send_report" alt="" coords="463,212,605,239"/>
+<area shape="rect" id="node11" href="hid__dev_8c.html#a1a247bc038a3368cea0bde2303aa8301" title="hid_dev_rpt_by_id" alt="" coords="655,212,781,239"/>
 </map>
 </div>
 
@@ -324,10 +448,95 @@ Here is the call graph for this function:</div>
 </div><div class="memdoc">
 
 <p class="definition">Definition at line <a class="el" href="hal__ble_8c_source.html#l00305">305</a> of file <a class="el" href="hal__ble_8c_source.html">hal_ble.c</a>.</p>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="hal__ble_8c_a2daad176a4409b3a0e1c1b3c1b813d49_cgraph.png" border="0" usemap="#hal__ble_8c_a2daad176a4409b3a0e1c1b3c1b813d49_cgraph" alt=""/></div>
+<map name="hal__ble_8c_a2daad176a4409b3a0e1c1b3c1b813d49_cgraph" id="hal__ble_8c_a2daad176a4409b3a0e1c1b3c1b813d49_cgraph">
+<area shape="rect" id="node2" href="esp__hidd__prf__api_8c.html#a0e953976c5ad30d8508ac11bc61cb6b2" title="esp_hidd_send_mouse\l_value" alt="" coords="180,5,335,47"/>
+<area shape="rect" id="node3" href="hid__dev_8c.html#a8ae7c69dfd4b740534df123a303a8832" title="hid_dev_send_report" alt="" coords="383,13,525,39"/>
+<area shape="rect" id="node4" href="hid__dev_8c.html#a1a247bc038a3368cea0bde2303aa8301" title="hid_dev_rpt_by_id" alt="" coords="573,13,700,39"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="af6354ad49deff7e2dfb1b8e9072660ee"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af6354ad49deff7e2dfb1b8e9072660ee">&#9670;&nbsp;</a></span>hidd_event_callback()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static void hidd_event_callback </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="esp__hidd__prf__api_8h.html#a47afe3bf419ceb85a287f6cae0c2d0e6">esp_hidd_cb_event_t</a>&#160;</td>
+          <td class="paramname"><em>event</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="unionesp__hidd__cb__param__t.html">esp_hidd_cb_param_t</a> *&#160;</td>
+          <td class="paramname"><em>param</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="hal__ble_8c_source.html#l00118">118</a> of file <a class="el" href="hal__ble_8c_source.html">hal_ble.c</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="hal__ble_8c_source.html#l00426">halBLEInit()</a>.</p>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="hal__ble_8c_af6354ad49deff7e2dfb1b8e9072660ee_icgraph.png" border="0" usemap="#hal__ble_8c_af6354ad49deff7e2dfb1b8e9072660ee_icgraph" alt=""/></div>
+<map name="hal__ble_8c_af6354ad49deff7e2dfb1b8e9072660ee_icgraph" id="hal__ble_8c_af6354ad49deff7e2dfb1b8e9072660ee_icgraph">
+<area shape="rect" id="node2" href="hal__ble_8h.html#a8ad6c50e81bae3e24e2f86a2797384c2" title="halBLEInit" alt="" coords="193,5,276,32"/>
+<area shape="rect" id="node3" href="flipmouse__fabi__esp32__kbdmouse__main_8c.html#abce06be17fc37d675118a678a8100a36" title="Main task, created by esp&#45;idf. " alt="" coords="324,5,403,32"/>
+</map>
+</div>
 
 </div>
 </div>
 <h2 class="groupheader">Variable Documentation</h2>
+<a id="ad7175895c8cabb280bb57de009caf91a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad7175895c8cabb280bb57de009caf91a">&#9670;&nbsp;</a></span>deviceIdentifier</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint8_t deviceIdentifier</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="hal__ble_8c_source.html#l00072">72</a> of file <a class="el" href="hal__ble_8c_source.html">hal_ble.c</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="hal__ble_8c_source.html#l00118">hidd_event_callback()</a>.</p>
+
+</div>
+</div>
 <a id="af61e8f78b336f4360f7561ec416bf940"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#af61e8f78b336f4360f7561ec416bf940">&#9670;&nbsp;</a></span>halbletaskfunctions</h2>
 
@@ -346,6 +555,8 @@ Here is the call graph for this function:</div>
 </div><!-- fragment -->
 <p class="definition">Definition at line <a class="el" href="hal__ble_8c_source.html#l00076">76</a> of file <a class="el" href="hal__ble_8c_source.html">hal_ble.c</a>.</p>
 
+<p class="reference">Referenced by <a class="el" href="hal__ble_8c_source.html#l00426">halBLEInit()</a>.</p>
+
 </div>
 </div>
 <a id="a1222b5a43211cdb4cb6ec3659a40e2dc"></a>
@@ -361,6 +572,8 @@ Here is the call graph for this function:</div>
 </div><div class="memdoc">
 
 <p class="definition">Definition at line <a class="el" href="hal__ble_8c_source.html#l00075">75</a> of file <a class="el" href="hal__ble_8c_source.html">hal_ble.c</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="hal__ble_8c_source.html#l00426">halBLEInit()</a>.</p>
 
 </div>
 </div>
@@ -378,6 +591,34 @@ Here is the call graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="hal__ble_8c_source.html#l00074">74</a> of file <a class="el" href="hal__ble_8c_source.html">hal_ble.c</a>.</p>
 
+<p class="reference">Referenced by <a class="el" href="hal__ble_8c_source.html#l00426">halBLEInit()</a>.</p>
+
+</div>
+</div>
+<a id="acf63d81e5e92daa2fea46597280eac6d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acf63d81e5e92daa2fea46597280eac6d">&#9670;&nbsp;</a></span>hid_conn_id</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint16_t hid_conn_id = 0</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="hal__ble_8c_source.html#l00066">66</a> of file <a class="el" href="hal__ble_8c_source.html">hal_ble.c</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="hal__ble_8c_source.html#l00394">halBLEReset()</a>, <a class="el" href="hal__ble_8c_source.html#l00181">halBleTaskKeyboardPress()</a>, <a class="el" href="hal__ble_8c_source.html#l00253">halBleTaskKeyboardRelease()</a>, <a class="el" href="hal__ble_8c_source.html#l00305">halBleTaskMouse()</a>, and <a class="el" href="hal__ble_8c_source.html#l00118">hidd_event_callback()</a>.</p>
+
 </div>
 </div>
 <a id="afc012b925d690c6f3aa076e5e9aa514a"></a>
@@ -394,6 +635,8 @@ Here is the call graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="hal__ble_8c_source.html#l00083">83</a> of file <a class="el" href="hal__ble_8c_source.html">hal_ble.c</a>.</p>
 
+<p class="reference">Referenced by <a class="el" href="hal__ble_8c_source.html#l00118">hidd_event_callback()</a>.</p>
+
 </div>
 </div>
 <a id="a4973a51b785a4b9d9cd393086fa91b9b"></a>
@@ -409,6 +652,189 @@ Here is the call graph for this function:</div>
 </div><div class="memdoc">
 
 <p class="definition">Definition at line <a class="el" href="hal__ble_8c_source.html#l00084">84</a> of file <a class="el" href="hal__ble_8c_source.html">hal_ble.c</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="hal__ble_8c_source.html#l00118">hidd_event_callback()</a>.</p>
+
+</div>
+</div>
+<a id="a7f3a50a06396858b513bf74126e13399"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7f3a50a06396858b513bf74126e13399">&#9670;&nbsp;</a></span>hidd_adv_data</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">esp_ble_adv_data_t hidd_adv_data</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<b>Initial value:</b><div class="fragment"><div class="line">= {</div><div class="line">    .set_scan_rsp = <span class="keyword">false</span>,</div><div class="line">    .include_name = <span class="keyword">true</span>,</div><div class="line">    .include_txpower = <span class="keyword">true</span>,</div><div class="line">    .min_interval = 0x20,</div><div class="line">    .max_interval = 0x30,</div><div class="line">    .appearance = 0x03c0,       </div><div class="line">    .manufacturer_len = 0,</div><div class="line">    .p_manufacturer_data =  NULL,</div><div class="line">    .service_data_len = 0,</div><div class="line">    .p_service_data = NULL,</div><div class="line">    .service_uuid_len = <span class="keyword">sizeof</span>(<a class="code" href="hal__ble_8c.html#a93fcf7226d419031220fd965f5d81dac">hidd_service_uuid128</a>),</div><div class="line">    .p_service_uuid = <a class="code" href="hal__ble_8c.html#a93fcf7226d419031220fd965f5d81dac">hidd_service_uuid128</a>,</div><div class="line">    .flag = 0x6,</div><div class="line">}</div><div class="ttc" id="hal__ble_8c_html_a93fcf7226d419031220fd965f5d81dac"><div class="ttname"><a href="hal__ble_8c.html#a93fcf7226d419031220fd965f5d81dac">hidd_service_uuid128</a></div><div class="ttdeci">static uint8_t hidd_service_uuid128[]</div><div class="ttdef"><b>Definition:</b> <a href="hal__ble_8c_source.html#l00085">hal_ble.c:85</a></div></div>
+</div><!-- fragment -->
+<p class="definition">Definition at line <a class="el" href="hal__ble_8c_source.html#l00091">91</a> of file <a class="el" href="hal__ble_8c_source.html">hal_ble.c</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="hal__ble_8c_source.html#l00118">hidd_event_callback()</a>.</p>
+
+</div>
+</div>
+<a id="a58b0fa2996d55c2b75a0aeb678854b9b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a58b0fa2996d55c2b75a0aeb678854b9b">&#9670;&nbsp;</a></span>hidd_adv_params</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">esp_ble_adv_params_t hidd_adv_params</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<b>Initial value:</b><div class="fragment"><div class="line">= {</div><div class="line">    .adv_int_min        = 0x20,</div><div class="line">    .adv_int_max        = 0x30,</div><div class="line">    .adv_type           = ADV_TYPE_IND,</div><div class="line">    .own_addr_type      = BLE_ADDR_TYPE_PUBLIC,</div><div class="line">    </div><div class="line">    </div><div class="line">    .channel_map        = ADV_CHNL_ALL,</div><div class="line">    .adv_filter_policy = ADV_FILTER_ALLOW_SCAN_ANY_CON_ANY,</div><div class="line">}</div></div><!-- fragment -->
+<p class="definition">Definition at line <a class="el" href="hal__ble_8c_source.html#l00107">107</a> of file <a class="el" href="hal__ble_8c_source.html">hal_ble.c</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="hal__ble_8c_source.html#l00159">gap_event_handler()</a>, and <a class="el" href="hal__ble_8c_source.html#l00118">hidd_event_callback()</a>.</p>
+
+</div>
+</div>
+<a id="a93fcf7226d419031220fd965f5d81dac"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a93fcf7226d419031220fd965f5d81dac">&#9670;&nbsp;</a></span>hidd_service_uuid128</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint8_t hidd_service_uuid128[]</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<b>Initial value:</b><div class="fragment"><div class="line">= {</div><div class="line">    </div><div class="line">    </div><div class="line">    0xfb, 0x34, 0x9b, 0x5f, 0x80, 0x00, 0x00, 0x80, 0x00, 0x10, 0x00, 0x00, 0x12, 0x18, 0x00, 0x00,</div><div class="line">}</div></div><!-- fragment -->
+<p class="definition">Definition at line <a class="el" href="hal__ble_8c_source.html#l00085">85</a> of file <a class="el" href="hal__ble_8c_source.html">hal_ble.c</a>.</p>
+
+</div>
+</div>
+<a id="a972310b9e99a14a3fa6c7eb343c8f83b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a972310b9e99a14a3fa6c7eb343c8f83b">&#9670;&nbsp;</a></span>keycode_arr</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint8_t keycode_arr[6]</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="hal__ble_8c_source.html#l00070">70</a> of file <a class="el" href="hal__ble_8c_source.html">hal_ble.c</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="hal__ble_8c_source.html#l00394">halBLEReset()</a>, <a class="el" href="hal__ble_8c_source.html#l00181">halBleTaskKeyboardPress()</a>, and <a class="el" href="hal__ble_8c_source.html#l00253">halBleTaskKeyboardRelease()</a>.</p>
+
+</div>
+</div>
+<a id="a131a7a0d9ebdaa113ba29cdbf57e79fc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a131a7a0d9ebdaa113ba29cdbf57e79fc">&#9670;&nbsp;</a></span>keycode_deadkey_first</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint8_t keycode_deadkey_first</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="hal__ble_8c_source.html#l00069">69</a> of file <a class="el" href="hal__ble_8c_source.html">hal_ble.c</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="hal__ble_8c_source.html#l00394">halBLEReset()</a>, <a class="el" href="hal__ble_8c_source.html#l00181">halBleTaskKeyboardPress()</a>, and <a class="el" href="hal__ble_8c_source.html#l00253">halBleTaskKeyboardRelease()</a>.</p>
+
+</div>
+</div>
+<a id="a0c7a67b22eaf97b79ee4a9eb7264ff1d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0c7a67b22eaf97b79ee4a9eb7264ff1d">&#9670;&nbsp;</a></span>keycode_modifier</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint8_t keycode_modifier</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="hal__ble_8c_source.html#l00068">68</a> of file <a class="el" href="hal__ble_8c_source.html">hal_ble.c</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="hal__ble_8c_source.html#l00394">halBLEReset()</a>, <a class="el" href="hal__ble_8c_source.html#l00181">halBleTaskKeyboardPress()</a>, and <a class="el" href="hal__ble_8c_source.html#l00253">halBleTaskKeyboardRelease()</a>.</p>
+
+</div>
+</div>
+<a id="a11274ca008e2a3199074e7037c665a38"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a11274ca008e2a3199074e7037c665a38">&#9670;&nbsp;</a></span>sec_conn</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sec_conn = false</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="hal__ble_8c_source.html#l00067">67</a> of file <a class="el" href="hal__ble_8c_source.html">hal_ble.c</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="hal__ble_8c_source.html#l00159">gap_event_handler()</a>, <a class="el" href="hal__ble_8c_source.html#l00394">halBLEReset()</a>, <a class="el" href="hal__ble_8c_source.html#l00354">halBleTaskJoystick()</a>, <a class="el" href="hal__ble_8c_source.html#l00181">halBleTaskKeyboardPress()</a>, <a class="el" href="hal__ble_8c_source.html#l00253">halBleTaskKeyboardRelease()</a>, <a class="el" href="hal__ble_8c_source.html#l00305">halBleTaskMouse()</a>, and <a class="el" href="hal__ble_8c_source.html#l00118">hidd_event_callback()</a>.</p>
 
 </div>
 </div>

@@ -11,6 +11,7 @@ var searchData=
   ['pressure',['pressure',['../structadcData.html#ab8dd40e7779ed6f4894c678d2b315d09',1,'adcData']]],
   ['prev',['PREV',['../hal__storage_8h.html#a8a4828abe0b7cd309fba5c2e5e228b95ab359289a088e693e1c62099baf550b39',1,'hal_storage.h']]],
   ['prf_5fchar_5fpres_5ffmt',['prf_char_pres_fmt',['../structprf__char__pres__fmt.html',1,'']]],
+  ['primary_5fservice_5fuuid',['primary_service_uuid',['../hid__device__le__prf_8c.html#a906dfab674e5b65aa8b2020087e66c50',1,'hid_device_le_prf.c']]],
   ['printallslots',['printAllSlots',['../task__commands_8c.html#ad59215648a26578c22baa7ceae099e0e',1,'task_commands.c']]],
   ['proto_5fmode',['proto_mode',['../structhidd__inst__t.html#ad6ca0019e7e6401dbf0fdd9a32af13d8',1,'hidd_inst_t']]],
   ['pstate',['pstate',['../task__commands_8c.html#a7860b6904b2ba2dd906d189ada5f1e17',1,'task_commands.c']]]

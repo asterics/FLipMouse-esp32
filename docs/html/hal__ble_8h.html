@@ -82,7 +82,7 @@ Macros</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:a8ad6c50e81bae3e24e2f86a2797384c2"><td class="memItemLeft" align="right" valign="top">esp_err_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="hal__ble_8h.html#a8ad6c50e81bae3e24e2f86a2797384c2">halBLEInit</a> (uint8_t deviceIdentifier)</td></tr>
+<tr class="memitem:a8ad6c50e81bae3e24e2f86a2797384c2"><td class="memItemLeft" align="right" valign="top">esp_err_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="hal__ble_8h.html#a8ad6c50e81bae3e24e2f86a2797384c2">halBLEInit</a> (uint8_t <a class="el" href="hal__ble_8c.html#ad7175895c8cabb280bb57de009caf91a">deviceIdentifier</a>)</td></tr>
 <tr class="separator:a8ad6c50e81bae3e24e2f86a2797384c2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:accf307974a0046bce38582d0260bf841"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="hal__ble_8h.html#accf307974a0046bce38582d0260bf841">halBLEReset</a> (uint8_t exceptDevice)</td></tr>
 <tr class="separator:accf307974a0046bce38582d0260bf841"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -101,6 +101,8 @@ Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p class="definition">Definition at line <a class="el" href="hal__ble_8h_source.html#l00040">40</a> of file <a class="el" href="hal__ble_8h_source.html">hal_ble.h</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="hal__ble_8c_source.html#l00426">halBLEInit()</a>.</p>
 
 </div>
 </div>
@@ -153,6 +155,27 @@ Functions</h2></td></tr>
 
 <p class="reference">Referenced by <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c_source.html#l00073">app_main()</a>.</p>
 <div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="hal__ble_8h_a8ad6c50e81bae3e24e2f86a2797384c2_cgraph.png" border="0" usemap="#hal__ble_8h_a8ad6c50e81bae3e24e2f86a2797384c2_cgraph" alt=""/></div>
+<map name="hal__ble_8h_a8ad6c50e81bae3e24e2f86a2797384c2_cgraph" id="hal__ble_8h_a8ad6c50e81bae3e24e2f86a2797384c2_cgraph">
+<area shape="rect" id="node2" href="config__switcher_8c.html#a921538bec34d128a44a748fd5a2c391f" title="Get the current config struct. " alt="" coords="169,5,290,32"/>
+<area shape="rect" id="node3" href="hid__device__le__prf_8c.html#afa62ba26a48e429b592a9e5be49778d8" title="hidd_set_countrycode" alt="" coords="155,56,304,83"/>
+<area shape="rect" id="node4" href="keyboard_8c.html#a5d5bd056cc1731c96de8522b7040f5f1" title="Getting the HID country code for a given locale. " alt="" coords="155,107,304,133"/>
+<area shape="rect" id="node5" href="esp__hidd__prf__api_8c.html#a4c4c8031f1e6ea5615c28b98d46d6232" title="This function is called to initialize hid device profile. " alt="" coords="159,157,299,184"/>
+<area shape="rect" id="node6" href="hal__ble_8c.html#a50ba83bf77cdec4ac247bf44f357f310" title="gap_event_handler" alt="" coords="164,208,295,235"/>
+<area shape="rect" id="node7" href="esp__hidd__prf__api_8c.html#a5256c1f0eb079f624ce5e09a47d5b89c" title="This function is called to receive hid device callback event. " alt="" coords="136,259,323,285"/>
+<area shape="rect" id="node15" href="hal__ble_8c.html#af6354ad49deff7e2dfb1b8e9072660ee" title="hidd_event_callback" alt="" coords="159,309,299,336"/>
+<area shape="rect" id="node8" href="hid__device__le__prf_8c.html#acb0d2b8e95e7bbabf1e3bdab379d18d5" title="hidd_register_cb" alt="" coords="371,259,488,285"/>
+<area shape="rect" id="node9" href="hid__device__le__prf_8c.html#add8f27ab149175c58a8bced1016df5a6" title="esp_hidd_prf_cb_hdl" alt="" coords="536,259,677,285"/>
+<area shape="rect" id="node10" href="hid__device__le__prf_8c.html#a479cfaafdbd41501ccd953c0abfc8ca6" title="hidd_le_create_service" alt="" coords="725,183,880,209"/>
+<area shape="rect" id="node11" href="hid__device__le__prf_8c.html#a4e7096230eedcf2dbc89351ea636677d" title="hidd_clcb_alloc" alt="" coords="747,233,858,260"/>
+<area shape="rect" id="node12" href="hid__device__le__prf_8c.html#a74aa695557816b038ff9847860291fa2" title="hidd_clcb_dealloc" alt="" coords="740,284,865,311"/>
+<area shape="rect" id="node13" href="hid__device__le__prf_8c.html#ac68d934280b657bfef845f9186a34fe8" title="hid_add_id_tbl" alt="" coords="750,335,855,361"/>
+<area shape="rect" id="node14" href="hid__dev_8c.html#a6df72a6bb64d5c8cd7490eb11617b7ab" title="hid_dev_register_reports" alt="" coords="928,335,1092,361"/>
+</map>
+</div>
+<div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="hal__ble_8h_a8ad6c50e81bae3e24e2f86a2797384c2_icgraph.png" border="0" usemap="#hal__ble_8h_a8ad6c50e81bae3e24e2f86a2797384c2_icgraph" alt=""/></div>
@@ -190,6 +213,17 @@ Here is the caller graph for this function:</div>
 
 <p class="reference">Referenced by <a class="el" href="config__switcher_8c_source.html#l00198">configSwitcherTask()</a>, and <a class="el" href="task__commands_8c_source.html#l00613">doGeneralCmdParsing()</a>.</p>
 <div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="hal__ble_8h_accf307974a0046bce38582d0260bf841_cgraph.png" border="0" usemap="#hal__ble_8h_accf307974a0046bce38582d0260bf841_cgraph" alt=""/></div>
+<map name="hal__ble_8h_accf307974a0046bce38582d0260bf841_cgraph" id="hal__ble_8h_accf307974a0046bce38582d0260bf841_cgraph">
+<area shape="rect" id="node2" href="esp__hidd__prf__api_8c.html#a0e953976c5ad30d8508ac11bc61cb6b2" title="esp_hidd_send_mouse\l_value" alt="" coords="159,5,314,47"/>
+<area shape="rect" id="node5" href="esp__hidd__prf__api_8c.html#a694ff6418e79f3372b3feba7483e3222" title="esp_hidd_send_keyboard\l_value" alt="" coords="152,71,321,112"/>
+<area shape="rect" id="node3" href="hid__dev_8c.html#a8ae7c69dfd4b740534df123a303a8832" title="hid_dev_send_report" alt="" coords="369,46,512,73"/>
+<area shape="rect" id="node4" href="hid__dev_8c.html#a1a247bc038a3368cea0bde2303aa8301" title="hid_dev_rpt_by_id" alt="" coords="560,46,687,73"/>
+</map>
+</div>
+<div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="hal__ble_8h_accf307974a0046bce38582d0260bf841_icgraph.png" border="0" usemap="#hal__ble_8h_accf307974a0046bce38582d0260bf841_icgraph" alt=""/></div>
@@ -197,7 +231,10 @@ Here is the caller graph for this function:</div>
 <area shape="rect" id="node2" href="config__switcher_8c.html#af5af5079d1982d42e165039e6de7e40a" title="CONTINOUS TASK &#45; Config switcher task, internal config reloading. " alt="" coords="160,5,297,32"/>
 <area shape="rect" id="node5" href="task__commands_8c.html#a7f6500be563a3dce7f0854fceed02fab" title="doGeneralCmdParsing" alt="" coords="152,56,305,83"/>
 <area shape="rect" id="node3" href="config__switcher_8h.html#aafed047c8d04b814a85239e031cbad7b" title="Initializing the config switching functionality. " alt="" coords="353,5,480,32"/>
-<area shape="rect" id="node4" href="flipmouse__fabi__esp32__kbdmouse__main_8c.html#abce06be17fc37d675118a678a8100a36" title="Main task, created by esp&#45;idf. " alt="" coords="528,5,607,32"/>
+<area shape="rect" id="node4" href="flipmouse__fabi__esp32__kbdmouse__main_8c.html#abce06be17fc37d675118a678a8100a36" title="Main task, created by esp&#45;idf. " alt="" coords="733,31,812,57"/>
+<area shape="rect" id="node6" href="task__commands_8c.html#a7b36c39275d773aaedcb327ef4e1516f" title="task_commands" alt="" coords="357,56,476,83"/>
+<area shape="rect" id="node7" href="task__commands_8h.html#aedb896e40753227f80768e09d3748419" title="Init the command parser. " alt="" coords="541,56,673,83"/>
+<area shape="rect" id="node8" href="task__commands_8h.html#a26091155b4d85093239033d689f363d0" title="Restart the command parser task. " alt="" coords="528,107,685,133"/>
 </map>
 </div>
 

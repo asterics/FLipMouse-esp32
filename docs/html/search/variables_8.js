@@ -4,6 +4,7 @@ var searchData=
   ['idletimeout',['idleTimeout',['../structhid__dev__cfg__t.html#a5079bf74447d0a8b33e9db4ea9788bb6',1,'hid_dev_cfg_t']]],
   ['in_5fuse',['in_use',['../structhidd__clcb__t.html#aa7f4716107ea37701cfd5d97a96d6fbc',1,'hidd_clcb_t']]],
   ['incl_5fsvc',['incl_svc',['../hid__device__le__prf_8c.html#acc79618f323c3868b5c3ddde94482bb0',1,'hid_device_le_prf.c']]],
+  ['include_5fservice_5fuuid',['include_service_uuid',['../hid__device__le__prf_8c.html#adc6e894d122567caf42e17340513cb43',1,'hid_device_le_prf.c']]],
   ['init_5ffinish',['init_finish',['../unionesp__hidd__cb__param__t.html#ae8d840a7abce7fcdaf029d57764fcf81',1,'esp_hidd_cb_param_t']]],
   ['inst_5fid',['inst_id',['../structhidd__le__env__t.html#a4103c29a8c2e95d569a065255d470a23',1,'hidd_le_env_t']]],
   ['irtimeout',['irtimeout',['../structgeneralConfig.html#a88673af628a8671eddf9052d151256b8',1,'generalConfig']]],

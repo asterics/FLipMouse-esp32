@@ -140,6 +140,10 @@ Variables</h2></td></tr>
 <tr class="separator:a70c255d6fc596127309462e944fd47b1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a29552c7e29f877a9bd6ed4e3827696e4"><td class="memItemLeft" align="right" valign="top">esp_adc_cal_characteristics_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="hal__adc_8c.html#a29552c7e29f877a9bd6ed4e3827696e4">characteristics</a></td></tr>
 <tr class="separator:a29552c7e29f877a9bd6ed4e3827696e4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a09fd9437086e2ce093f17d2e5307d558"><td class="memItemLeft" align="right" valign="top">static int32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="hal__adc_8c.html#a09fd9437086e2ce093f17d2e5307d558">offsetx</a></td></tr>
+<tr class="separator:a09fd9437086e2ce093f17d2e5307d558"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adfa9736517012e1163de22f6efb4d58f"><td class="memItemLeft" align="right" valign="top">static int32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="hal__adc_8c.html#adfa9736517012e1163de22f6efb4d58f">offsety</a></td></tr>
+<tr class="separator:adfa9736517012e1163de22f6efb4d58f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>HAL TASK + FUNCTIONAL TASK - This module contains the hardware abstraction as well as the calculations of the ADC. </p>
@@ -155,7 +159,7 @@ Variables</h2></td></tr>
 <p>These tasks are HAL tasks, which means they might be reloaded/changed, but they are not managed outside this module.<br />
  In addition, the FUNCTIONAL task task_calibration can be used to trigger a zero-point calibration of the mouthpiece.</p>
 <dl class="section see"><dt>See also</dt><dd><a class="el" href="common_8h.html#a08f9b338fac73a54ad3d0810c270614f">adc_config_t</a> </dd></dl>
-<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000015">Todo:</a></b></dt><dd><p class="startdd">Add CIM reporting... </p>
+<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000016">Todo:</a></b></dt><dd><p class="startdd">Add CIM reporting... </p>
 <p class="enddd">Do Strong&lt;Sip/puff&gt;+&lt;UP/DOWN/LEFT/RIGHT&gt; </p>
 </dd></dl>
 
@@ -239,11 +243,14 @@ Here is the caller graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="hal__adc_8c_ae549c157d94729e8b06cb391f0f2c97b_icgraph.png" border="0" usemap="#hal__adc_8c_ae549c157d94729e8b06cb391f0f2c97b_icgraph" alt=""/></div>
 <map name="hal__adc_8c_ae549c157d94729e8b06cb391f0f2c97b_icgraph" id="hal__adc_8c_ae549c157d94729e8b06cb391f0f2c97b_icgraph">
-<area shape="rect" id="node2" href="flipmouse__fabi__esp32__kbdmouse__main_8c.html#abce06be17fc37d675118a678a8100a36" title="Main task, created by esp&#45;idf. " alt="" coords="747,5,825,32"/>
-<area shape="rect" id="node3" href="hal__adc_8h.html#a3217185bc86562dee8617ded3872022f" title="FUNCTIONAL TASK &#45; Trigger zero&#45;point calibration of mouthpiece. " alt="" coords="168,31,281,57"/>
-<area shape="rect" id="node4" href="config__switcher_8c.html#af5af5079d1982d42e165039e6de7e40a" title="CONTINOUS TASK &#45; Config switcher task, internal config reloading. " alt="" coords="358,31,495,57"/>
-<area shape="rect" id="node6" href="task__commands_8c.html#a2ad28759e53bb5082853d8d004767115" title="doMouthpieceSettingsParsing" alt="" coords="329,81,524,108"/>
-<area shape="rect" id="node5" href="config__switcher_8h.html#aafed047c8d04b814a85239e031cbad7b" title="Initializing the config switching functionality. " alt="" coords="572,31,699,57"/>
+<area shape="rect" id="node2" href="flipmouse__fabi__esp32__kbdmouse__main_8c.html#abce06be17fc37d675118a678a8100a36" title="Main task, created by esp&#45;idf. " alt="" coords="952,43,1031,69"/>
+<area shape="rect" id="node3" href="hal__adc_8h.html#a3217185bc86562dee8617ded3872022f" title="FUNCTIONAL TASK &#45; Trigger zero&#45;point calibration of mouthpiece. " alt="" coords="168,43,281,69"/>
+<area shape="rect" id="node4" href="config__switcher_8c.html#af5af5079d1982d42e165039e6de7e40a" title="CONTINOUS TASK &#45; Config switcher task, internal config reloading. " alt="" coords="358,43,495,69"/>
+<area shape="rect" id="node6" href="task__commands_8c.html#a2ad28759e53bb5082853d8d004767115" title="doMouthpieceSettingsParsing" alt="" coords="329,93,524,120"/>
+<area shape="rect" id="node5" href="config__switcher_8h.html#aafed047c8d04b814a85239e031cbad7b" title="Initializing the config switching functionality. " alt="" coords="572,43,699,69"/>
+<area shape="rect" id="node7" href="task__commands_8c.html#a7b36c39275d773aaedcb327ef4e1516f" title="task_commands" alt="" coords="576,93,695,120"/>
+<area shape="rect" id="node8" href="task__commands_8h.html#aedb896e40753227f80768e09d3748419" title="Init the command parser. " alt="" coords="759,93,891,120"/>
+<area shape="rect" id="node9" href="task__commands_8h.html#a26091155b4d85093239033d689f363d0" title="Restart the command parser task. " alt="" coords="747,144,904,171"/>
 </map>
 </div>
 
@@ -283,14 +290,15 @@ Here is the call graph for this function:</div>
 <div class="center"><img src="hal__adc_8c_a6f0d302f35e5b7f7a1144f0ddace35d2_cgraph.png" border="0" usemap="#hal__adc_8c_a6f0d302f35e5b7f7a1144f0ddace35d2_cgraph" alt=""/></div>
 <map name="hal__adc_8c_a6f0d302f35e5b7f7a1144f0ddace35d2_cgraph" id="hal__adc_8c_a6f0d302f35e5b7f7a1144f0ddace35d2_cgraph">
 <area shape="rect" id="node2" href="hal__adc_8c.html#a4135bb73c2271b4a27db8d8d81884de7" title="Reload ADC config. " alt="" coords="133,56,276,83"/>
-<area shape="rect" id="node3" href="hal__adc_8c.html#aadc294c08df0386572ffdc8e7228f6b4" title="HAL TASK &#45; Mouse task for ADC. " alt="" coords="333,107,463,133"/>
-<area shape="rect" id="node9" href="hal__adc_8c.html#a452077aaa6a576304708d00d4ec439f1" title="HAL TASK &#45; Joystick task for ADC. " alt="" coords="328,5,468,32"/>
-<area shape="rect" id="node10" href="hal__adc_8c.html#aee719704e643d27c1faab768cf4bc22e" title="HAL TASK &#45; Threshold task for ADC. " alt="" coords="324,56,472,83"/>
+<area shape="rect" id="node3" href="hal__adc_8c.html#aadc294c08df0386572ffdc8e7228f6b4" title="HAL TASK &#45; Mouse task for ADC. " alt="" coords="333,5,463,32"/>
+<area shape="rect" id="node10" href="hal__adc_8c.html#a452077aaa6a576304708d00d4ec439f1" title="HAL TASK &#45; Joystick task for ADC. " alt="" coords="328,56,468,83"/>
+<area shape="rect" id="node11" href="hal__adc_8c.html#aee719704e643d27c1faab768cf4bc22e" title="HAL TASK &#45; Threshold task for ADC. " alt="" coords="324,107,472,133"/>
 <area shape="rect" id="node4" href="hal__adc_8c.html#a5e0d74baf098e774b0e3aa0dab621987" title="Read out analog voltages, apply sensor gain and deadzone. " alt="" coords="541,5,662,32"/>
-<area shape="rect" id="node5" href="hal__adc_8c.html#a8743abcde6f190545c429f072c16106d" title="Report raw values via serial interface. " alt="" coords="537,107,665,133"/>
-<area shape="rect" id="node7" href="hal__adc_8c.html#acd8f9f6194ebeaa854a791879382b515" title="Process pressure sensor (sip &amp; puff) " alt="" coords="520,56,683,83"/>
-<area shape="rect" id="node6" href="hal__serial_8c.html#a8f987ba001c2a39c959a551a94b5df43" title="halSerialSendUSBSerial" alt="" coords="731,107,893,133"/>
-<area shape="rect" id="node8" href="config__switcher_8c.html#a921538bec34d128a44a748fd5a2c391f" title="Get the current config struct. " alt="" coords="751,56,873,83"/>
+<area shape="rect" id="node5" href="hal__adc_8c.html#a8743abcde6f190545c429f072c16106d" title="Report raw values via serial interface. " alt="" coords="537,56,665,83"/>
+<area shape="rect" id="node8" href="hal__adc_8c.html#acd8f9f6194ebeaa854a791879382b515" title="Process pressure sensor (sip &amp; puff) " alt="" coords="520,107,683,133"/>
+<area shape="rect" id="node6" href="hal__serial_8c.html#a8f987ba001c2a39c959a551a94b5df43" title="Send serial bytes to USB&#45;Serial (USB&#45;CDC) " alt="" coords="731,56,893,83"/>
+<area shape="rect" id="node7" href="hal__serial_8c.html#a132de0978f07044a393cc1f3b5276ced" title="halSerialSwitchTXChannel" alt="" coords="941,56,1119,83"/>
+<area shape="rect" id="node9" href="config__switcher_8c.html#a921538bec34d128a44a748fd5a2c391f" title="Get the current config struct. " alt="" coords="751,107,873,133"/>
 </map>
 </div>
 <div class="dynheader">
@@ -321,7 +329,7 @@ Here is the caller graph for this function:</div>
 </div><div class="memdoc">
 
 <p>Process pressure sensor (sip &amp; puff) </p>
-<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000017">Todo:</a></b></dt><dd>Do everything here, no sip&amp;puff currently available. </dd></dl>
+<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000018">Todo:</a></b></dt><dd>Do everything here, no sip&amp;puff currently available. </dd></dl>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">pressurevalue</td><td>Currently measured pressure. </td></tr>
@@ -331,7 +339,7 @@ Here is the caller graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="hal__adc_8c_source.html#l00217">217</a> of file <a class="el" href="hal__adc_8c_source.html">hal_adc.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="hal__adc_8c_source.html#l00286">halAdcTaskMouse()</a>, and <a class="el" href="hal__adc_8c_source.html#l00574">halAdcTaskThreshold()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="hal__adc_8c_source.html#l00393">halAdcTaskJoystick()</a>, <a class="el" href="hal__adc_8c_source.html#l00286">halAdcTaskMouse()</a>, and <a class="el" href="hal__adc_8c_source.html#l00574">halAdcTaskThreshold()</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -345,13 +353,14 @@ Here is the caller graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="hal__adc_8c_acd8f9f6194ebeaa854a791879382b515_icgraph.png" border="0" usemap="#hal__adc_8c_acd8f9f6194ebeaa854a791879382b515_icgraph" alt=""/></div>
 <map name="hal__adc_8c_acd8f9f6194ebeaa854a791879382b515_icgraph" id="hal__adc_8c_acd8f9f6194ebeaa854a791879382b515_icgraph">
-<area shape="rect" id="node2" href="hal__adc_8c.html#aadc294c08df0386572ffdc8e7228f6b4" title="HAL TASK &#45; Mouse task for ADC. " alt="" coords="225,5,355,32"/>
-<area shape="rect" id="node8" href="hal__adc_8c.html#aee719704e643d27c1faab768cf4bc22e" title="HAL TASK &#45; Threshold task for ADC. " alt="" coords="216,56,364,83"/>
-<area shape="rect" id="node3" href="hal__adc_8h.html#a4135bb73c2271b4a27db8d8d81884de7" title="Reload ADC config. " alt="" coords="412,31,555,57"/>
-<area shape="rect" id="node4" href="config__switcher_8c.html#af5af5079d1982d42e165039e6de7e40a" title="CONTINOUS TASK &#45; Config switcher task, internal config reloading. " alt="" coords="603,5,740,32"/>
-<area shape="rect" id="node7" href="hal__adc_8h.html#a6f0d302f35e5b7f7a1144f0ddace35d2" title="Init the ADC driver module. " alt="" coords="811,56,891,83"/>
-<area shape="rect" id="node5" href="config__switcher_8h.html#aafed047c8d04b814a85239e031cbad7b" title="Initializing the config switching functionality. " alt="" coords="788,5,915,32"/>
-<area shape="rect" id="node6" href="flipmouse__fabi__esp32__kbdmouse__main_8c.html#abce06be17fc37d675118a678a8100a36" title="Main task, created by esp&#45;idf. " alt="" coords="963,31,1041,57"/>
+<area shape="rect" id="node2" href="hal__adc_8c.html#a452077aaa6a576304708d00d4ec439f1" title="HAL TASK &#45; Joystick task for ADC. " alt="" coords="220,5,360,32"/>
+<area shape="rect" id="node8" href="hal__adc_8c.html#aadc294c08df0386572ffdc8e7228f6b4" title="HAL TASK &#45; Mouse task for ADC. " alt="" coords="225,56,355,83"/>
+<area shape="rect" id="node9" href="hal__adc_8c.html#aee719704e643d27c1faab768cf4bc22e" title="HAL TASK &#45; Threshold task for ADC. " alt="" coords="216,107,364,133"/>
+<area shape="rect" id="node3" href="hal__adc_8h.html#a4135bb73c2271b4a27db8d8d81884de7" title="Reload ADC config. " alt="" coords="412,56,555,83"/>
+<area shape="rect" id="node4" href="config__switcher_8c.html#af5af5079d1982d42e165039e6de7e40a" title="CONTINOUS TASK &#45; Config switcher task, internal config reloading. " alt="" coords="603,31,740,57"/>
+<area shape="rect" id="node7" href="hal__adc_8h.html#a6f0d302f35e5b7f7a1144f0ddace35d2" title="Init the ADC driver module. " alt="" coords="811,81,891,108"/>
+<area shape="rect" id="node5" href="config__switcher_8h.html#aafed047c8d04b814a85239e031cbad7b" title="Initializing the config switching functionality. " alt="" coords="788,31,915,57"/>
+<area shape="rect" id="node6" href="flipmouse__fabi__esp32__kbdmouse__main_8c.html#abce06be17fc37d675118a678a8100a36" title="Main task, created by esp&#45;idf. " alt="" coords="963,56,1041,83"/>
 </map>
 </div>
 
@@ -475,17 +484,18 @@ Here is the caller graph for this function:</div>
   </table>
   </dd>
 </dl>
-<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000016">Todo:</a></b></dt><dd>change back to 32 </dd></dl>
+<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000017">Todo:</a></b></dt><dd>change back to 32 </dd></dl>
 
 <p class="definition">Definition at line <a class="el" href="hal__adc_8c_source.html#l00103">103</a> of file <a class="el" href="hal__adc_8c_source.html">hal_adc.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="hal__adc_8c_source.html#l00286">halAdcTaskMouse()</a>, and <a class="el" href="hal__adc_8c_source.html#l00574">halAdcTaskThreshold()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="hal__adc_8c_source.html#l00393">halAdcTaskJoystick()</a>, <a class="el" href="hal__adc_8c_source.html#l00286">halAdcTaskMouse()</a>, and <a class="el" href="hal__adc_8c_source.html#l00574">halAdcTaskThreshold()</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="hal__adc_8c_a8743abcde6f190545c429f072c16106d_cgraph.png" border="0" usemap="#hal__adc_8c_a8743abcde6f190545c429f072c16106d_cgraph" alt=""/></div>
 <map name="hal__adc_8c_a8743abcde6f190545c429f072c16106d_cgraph" id="hal__adc_8c_a8743abcde6f190545c429f072c16106d_cgraph">
-<area shape="rect" id="node2" href="hal__serial_8c.html#a8f987ba001c2a39c959a551a94b5df43" title="halSerialSendUSBSerial" alt="" coords="181,5,344,32"/>
+<area shape="rect" id="node2" href="hal__serial_8c.html#a8f987ba001c2a39c959a551a94b5df43" title="Send serial bytes to USB&#45;Serial (USB&#45;CDC) " alt="" coords="181,5,344,32"/>
+<area shape="rect" id="node3" href="hal__serial_8c.html#a132de0978f07044a393cc1f3b5276ced" title="halSerialSwitchTXChannel" alt="" coords="392,5,569,32"/>
 </map>
 </div>
 <div class="dynheader">
@@ -493,13 +503,14 @@ Here is the caller graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="hal__adc_8c_a8743abcde6f190545c429f072c16106d_icgraph.png" border="0" usemap="#hal__adc_8c_a8743abcde6f190545c429f072c16106d_icgraph" alt=""/></div>
 <map name="hal__adc_8c_a8743abcde6f190545c429f072c16106d_icgraph" id="hal__adc_8c_a8743abcde6f190545c429f072c16106d_icgraph">
-<area shape="rect" id="node2" href="hal__adc_8c.html#aadc294c08df0386572ffdc8e7228f6b4" title="HAL TASK &#45; Mouse task for ADC. " alt="" coords="190,5,321,32"/>
-<area shape="rect" id="node8" href="hal__adc_8c.html#aee719704e643d27c1faab768cf4bc22e" title="HAL TASK &#45; Threshold task for ADC. " alt="" coords="181,56,329,83"/>
-<area shape="rect" id="node3" href="hal__adc_8h.html#a4135bb73c2271b4a27db8d8d81884de7" title="Reload ADC config. " alt="" coords="377,31,520,57"/>
-<area shape="rect" id="node4" href="config__switcher_8c.html#af5af5079d1982d42e165039e6de7e40a" title="CONTINOUS TASK &#45; Config switcher task, internal config reloading. " alt="" coords="568,5,705,32"/>
-<area shape="rect" id="node7" href="hal__adc_8h.html#a6f0d302f35e5b7f7a1144f0ddace35d2" title="Init the ADC driver module. " alt="" coords="777,56,857,83"/>
-<area shape="rect" id="node5" href="config__switcher_8h.html#aafed047c8d04b814a85239e031cbad7b" title="Initializing the config switching functionality. " alt="" coords="753,5,880,32"/>
-<area shape="rect" id="node6" href="flipmouse__fabi__esp32__kbdmouse__main_8c.html#abce06be17fc37d675118a678a8100a36" title="Main task, created by esp&#45;idf. " alt="" coords="928,31,1007,57"/>
+<area shape="rect" id="node2" href="hal__adc_8c.html#a452077aaa6a576304708d00d4ec439f1" title="HAL TASK &#45; Joystick task for ADC. " alt="" coords="185,5,325,32"/>
+<area shape="rect" id="node8" href="hal__adc_8c.html#aadc294c08df0386572ffdc8e7228f6b4" title="HAL TASK &#45; Mouse task for ADC. " alt="" coords="190,56,321,83"/>
+<area shape="rect" id="node9" href="hal__adc_8c.html#aee719704e643d27c1faab768cf4bc22e" title="HAL TASK &#45; Threshold task for ADC. " alt="" coords="181,107,329,133"/>
+<area shape="rect" id="node3" href="hal__adc_8h.html#a4135bb73c2271b4a27db8d8d81884de7" title="Reload ADC config. " alt="" coords="377,56,520,83"/>
+<area shape="rect" id="node4" href="config__switcher_8c.html#af5af5079d1982d42e165039e6de7e40a" title="CONTINOUS TASK &#45; Config switcher task, internal config reloading. " alt="" coords="568,31,705,57"/>
+<area shape="rect" id="node7" href="hal__adc_8h.html#a6f0d302f35e5b7f7a1144f0ddace35d2" title="Init the ADC driver module. " alt="" coords="777,81,857,108"/>
+<area shape="rect" id="node5" href="config__switcher_8h.html#aafed047c8d04b814a85239e031cbad7b" title="Initializing the config switching functionality. " alt="" coords="753,31,880,57"/>
+<area shape="rect" id="node6" href="flipmouse__fabi__esp32__kbdmouse__main_8c.html#abce06be17fc37d675118a678a8100a36" title="Main task, created by esp&#45;idf. " alt="" coords="928,56,1007,83"/>
 </map>
 </div>
 
@@ -524,7 +535,7 @@ Here is the caller graph for this function:</div>
 <p>HAL TASK - Joystick task for ADC. </p>
 <p>This task is used for the joystick mode of the moutpiece. It is invoked on config changes and reads out all 4 sensors, calculates 2 axis values (depending on config which ones) for processing with sensitivity</p>
 <p>The calculated joystick movements are sent to the corresponding joystick command queues (either BLE, USB or BOTH).</p>
-<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000018">Todo:</a></b></dt><dd>Implement the full joystick interface. Currently completely unimplemented.</dd></dl>
+<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000019">Todo:</a></b></dt><dd>Implement the full joystick interface. Currently completely unimplemented.</dd></dl>
 
 <p class="definition">Definition at line <a class="el" href="hal__adc_8c_source.html#l00393">393</a> of file <a class="el" href="hal__adc_8c_source.html">hal_adc.c</a>.</p>
 
@@ -534,7 +545,12 @@ Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="hal__adc_8c_a452077aaa6a576304708d00d4ec439f1_cgraph.png" border="0" usemap="#hal__adc_8c_a452077aaa6a576304708d00d4ec439f1_cgraph" alt=""/></div>
 <map name="hal__adc_8c_a452077aaa6a576304708d00d4ec439f1_cgraph" id="hal__adc_8c_a452077aaa6a576304708d00d4ec439f1_cgraph">
-<area shape="rect" id="node2" href="hal__adc_8c.html#a5e0d74baf098e774b0e3aa0dab621987" title="Read out analog voltages, apply sensor gain and deadzone. " alt="" coords="193,5,315,32"/>
+<area shape="rect" id="node2" href="hal__adc_8c.html#a5e0d74baf098e774b0e3aa0dab621987" title="Read out analog voltages, apply sensor gain and deadzone. " alt="" coords="214,5,335,32"/>
+<area shape="rect" id="node3" href="hal__adc_8c.html#a8743abcde6f190545c429f072c16106d" title="Report raw values via serial interface. " alt="" coords="211,56,339,83"/>
+<area shape="rect" id="node6" href="hal__adc_8c.html#acd8f9f6194ebeaa854a791879382b515" title="Process pressure sensor (sip &amp; puff) " alt="" coords="193,107,356,133"/>
+<area shape="rect" id="node4" href="hal__serial_8c.html#a8f987ba001c2a39c959a551a94b5df43" title="Send serial bytes to USB&#45;Serial (USB&#45;CDC) " alt="" coords="404,56,567,83"/>
+<area shape="rect" id="node5" href="hal__serial_8c.html#a132de0978f07044a393cc1f3b5276ced" title="halSerialSwitchTXChannel" alt="" coords="615,56,792,83"/>
+<area shape="rect" id="node7" href="config__switcher_8c.html#a921538bec34d128a44a748fd5a2c391f" title="Get the current config struct. " alt="" coords="425,107,546,133"/>
 </map>
 </div>
 <div class="dynheader">
@@ -582,9 +598,10 @@ Here is the call graph for this function:</div>
 <map name="hal__adc_8c_aadc294c08df0386572ffdc8e7228f6b4_cgraph" id="hal__adc_8c_aadc294c08df0386572ffdc8e7228f6b4_cgraph">
 <area shape="rect" id="node2" href="hal__adc_8c.html#a5e0d74baf098e774b0e3aa0dab621987" title="Read out analog voltages, apply sensor gain and deadzone. " alt="" coords="205,5,326,32"/>
 <area shape="rect" id="node3" href="hal__adc_8c.html#a8743abcde6f190545c429f072c16106d" title="Report raw values via serial interface. " alt="" coords="201,56,329,83"/>
-<area shape="rect" id="node5" href="hal__adc_8c.html#acd8f9f6194ebeaa854a791879382b515" title="Process pressure sensor (sip &amp; puff) " alt="" coords="184,107,347,133"/>
-<area shape="rect" id="node4" href="hal__serial_8c.html#a8f987ba001c2a39c959a551a94b5df43" title="halSerialSendUSBSerial" alt="" coords="395,56,557,83"/>
-<area shape="rect" id="node6" href="config__switcher_8c.html#a921538bec34d128a44a748fd5a2c391f" title="Get the current config struct. " alt="" coords="415,107,537,133"/>
+<area shape="rect" id="node6" href="hal__adc_8c.html#acd8f9f6194ebeaa854a791879382b515" title="Process pressure sensor (sip &amp; puff) " alt="" coords="184,107,347,133"/>
+<area shape="rect" id="node4" href="hal__serial_8c.html#a8f987ba001c2a39c959a551a94b5df43" title="Send serial bytes to USB&#45;Serial (USB&#45;CDC) " alt="" coords="395,56,557,83"/>
+<area shape="rect" id="node5" href="hal__serial_8c.html#a132de0978f07044a393cc1f3b5276ced" title="halSerialSwitchTXChannel" alt="" coords="605,56,783,83"/>
+<area shape="rect" id="node7" href="config__switcher_8c.html#a921538bec34d128a44a748fd5a2c391f" title="Get the current config struct. " alt="" coords="415,107,537,133"/>
 </map>
 </div>
 <div class="dynheader">
@@ -632,9 +649,10 @@ Here is the call graph for this function:</div>
 <map name="hal__adc_8c_aee719704e643d27c1faab768cf4bc22e_cgraph" id="hal__adc_8c_aee719704e643d27c1faab768cf4bc22e_cgraph">
 <area shape="rect" id="node2" href="hal__adc_8c.html#a5e0d74baf098e774b0e3aa0dab621987" title="Read out analog voltages, apply sensor gain and deadzone. " alt="" coords="222,5,343,32"/>
 <area shape="rect" id="node3" href="hal__adc_8c.html#a8743abcde6f190545c429f072c16106d" title="Report raw values via serial interface. " alt="" coords="219,56,347,83"/>
-<area shape="rect" id="node5" href="hal__adc_8c.html#acd8f9f6194ebeaa854a791879382b515" title="Process pressure sensor (sip &amp; puff) " alt="" coords="201,107,364,133"/>
-<area shape="rect" id="node4" href="hal__serial_8c.html#a8f987ba001c2a39c959a551a94b5df43" title="halSerialSendUSBSerial" alt="" coords="412,56,575,83"/>
-<area shape="rect" id="node6" href="config__switcher_8c.html#a921538bec34d128a44a748fd5a2c391f" title="Get the current config struct. " alt="" coords="433,107,554,133"/>
+<area shape="rect" id="node6" href="hal__adc_8c.html#acd8f9f6194ebeaa854a791879382b515" title="Process pressure sensor (sip &amp; puff) " alt="" coords="201,107,364,133"/>
+<area shape="rect" id="node4" href="hal__serial_8c.html#a8f987ba001c2a39c959a551a94b5df43" title="Send serial bytes to USB&#45;Serial (USB&#45;CDC) " alt="" coords="412,56,575,83"/>
+<area shape="rect" id="node5" href="hal__serial_8c.html#a132de0978f07044a393cc1f3b5276ced" title="halSerialSwitchTXChannel" alt="" coords="623,56,800,83"/>
+<area shape="rect" id="node7" href="config__switcher_8c.html#a921538bec34d128a44a748fd5a2c391f" title="Get the current config struct. " alt="" coords="433,107,554,133"/>
 </map>
 </div>
 <div class="dynheader">
@@ -675,7 +693,7 @@ Here is the caller graph for this function:</div>
   </table>
   </dd>
 </dl>
-<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000019">Todo:</a></b></dt><dd>Clear pending VB flags on a config switch </dd></dl>
+<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000020">Todo:</a></b></dt><dd>Clear pending VB flags on a config switch </dd></dl>
 <dl class="section return"><dt>Returns</dt><dd>ESP_OK on success, ESP_FAIL otherwise (wrong config, out of memory) </dd></dl>
 
 <p class="definition">Definition at line <a class="el" href="hal__adc_8c_source.html#l00676">676</a> of file <a class="el" href="hal__adc_8c_source.html">hal_adc.c</a>.</p>
@@ -686,14 +704,15 @@ Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="hal__adc_8c_a4135bb73c2271b4a27db8d8d81884de7_cgraph.png" border="0" usemap="#hal__adc_8c_a4135bb73c2271b4a27db8d8d81884de7_cgraph" alt=""/></div>
 <map name="hal__adc_8c_a4135bb73c2271b4a27db8d8d81884de7_cgraph" id="hal__adc_8c_a4135bb73c2271b4a27db8d8d81884de7_cgraph">
-<area shape="rect" id="node2" href="hal__adc_8c.html#aadc294c08df0386572ffdc8e7228f6b4" title="HAL TASK &#45; Mouse task for ADC. " alt="" coords="205,107,335,133"/>
-<area shape="rect" id="node8" href="hal__adc_8c.html#a452077aaa6a576304708d00d4ec439f1" title="HAL TASK &#45; Joystick task for ADC. " alt="" coords="200,5,340,32"/>
-<area shape="rect" id="node9" href="hal__adc_8c.html#aee719704e643d27c1faab768cf4bc22e" title="HAL TASK &#45; Threshold task for ADC. " alt="" coords="196,56,344,83"/>
+<area shape="rect" id="node2" href="hal__adc_8c.html#aadc294c08df0386572ffdc8e7228f6b4" title="HAL TASK &#45; Mouse task for ADC. " alt="" coords="205,5,335,32"/>
+<area shape="rect" id="node9" href="hal__adc_8c.html#a452077aaa6a576304708d00d4ec439f1" title="HAL TASK &#45; Joystick task for ADC. " alt="" coords="200,56,340,83"/>
+<area shape="rect" id="node10" href="hal__adc_8c.html#aee719704e643d27c1faab768cf4bc22e" title="HAL TASK &#45; Threshold task for ADC. " alt="" coords="196,107,344,133"/>
 <area shape="rect" id="node3" href="hal__adc_8c.html#a5e0d74baf098e774b0e3aa0dab621987" title="Read out analog voltages, apply sensor gain and deadzone. " alt="" coords="413,5,534,32"/>
-<area shape="rect" id="node4" href="hal__adc_8c.html#a8743abcde6f190545c429f072c16106d" title="Report raw values via serial interface. " alt="" coords="409,107,537,133"/>
-<area shape="rect" id="node6" href="hal__adc_8c.html#acd8f9f6194ebeaa854a791879382b515" title="Process pressure sensor (sip &amp; puff) " alt="" coords="392,56,555,83"/>
-<area shape="rect" id="node5" href="hal__serial_8c.html#a8f987ba001c2a39c959a551a94b5df43" title="halSerialSendUSBSerial" alt="" coords="603,107,765,133"/>
-<area shape="rect" id="node7" href="config__switcher_8c.html#a921538bec34d128a44a748fd5a2c391f" title="Get the current config struct. " alt="" coords="623,56,745,83"/>
+<area shape="rect" id="node4" href="hal__adc_8c.html#a8743abcde6f190545c429f072c16106d" title="Report raw values via serial interface. " alt="" coords="409,56,537,83"/>
+<area shape="rect" id="node7" href="hal__adc_8c.html#acd8f9f6194ebeaa854a791879382b515" title="Process pressure sensor (sip &amp; puff) " alt="" coords="392,107,555,133"/>
+<area shape="rect" id="node5" href="hal__serial_8c.html#a8f987ba001c2a39c959a551a94b5df43" title="Send serial bytes to USB&#45;Serial (USB&#45;CDC) " alt="" coords="603,56,765,83"/>
+<area shape="rect" id="node6" href="hal__serial_8c.html#a132de0978f07044a393cc1f3b5276ced" title="halSerialSwitchTXChannel" alt="" coords="813,56,991,83"/>
+<area shape="rect" id="node8" href="config__switcher_8c.html#a921538bec34d128a44a748fd5a2c391f" title="Get the current config struct. " alt="" coords="623,107,745,133"/>
 </map>
 </div>
 <div class="dynheader">
@@ -757,7 +776,10 @@ Here is the caller graph for this function:</div>
 <area shape="rect" id="node2" href="config__switcher_8c.html#af5af5079d1982d42e165039e6de7e40a" title="CONTINOUS TASK &#45; Config switcher task, internal config reloading. " alt="" coords="195,5,333,32"/>
 <area shape="rect" id="node5" href="task__commands_8c.html#a2ad28759e53bb5082853d8d004767115" title="doMouthpieceSettingsParsing" alt="" coords="167,56,361,83"/>
 <area shape="rect" id="node3" href="config__switcher_8h.html#aafed047c8d04b814a85239e031cbad7b" title="Initializing the config switching functionality. " alt="" coords="409,5,536,32"/>
-<area shape="rect" id="node4" href="flipmouse__fabi__esp32__kbdmouse__main_8c.html#abce06be17fc37d675118a678a8100a36" title="Main task, created by esp&#45;idf. " alt="" coords="584,5,663,32"/>
+<area shape="rect" id="node4" href="flipmouse__fabi__esp32__kbdmouse__main_8c.html#abce06be17fc37d675118a678a8100a36" title="Main task, created by esp&#45;idf. " alt="" coords="789,31,868,57"/>
+<area shape="rect" id="node6" href="task__commands_8c.html#a7b36c39275d773aaedcb327ef4e1516f" title="task_commands" alt="" coords="413,56,532,83"/>
+<area shape="rect" id="node7" href="task__commands_8h.html#aedb896e40753227f80768e09d3748419" title="Init the command parser. " alt="" coords="597,56,729,83"/>
+<area shape="rect" id="node8" href="task__commands_8h.html#a26091155b4d85093239033d689f363d0" title="Restart the command parser task. " alt="" coords="584,107,741,133"/>
 </map>
 </div>
 
@@ -840,7 +862,60 @@ Here is the caller graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="hal__adc_8c_source.html#l00080">80</a> of file <a class="el" href="hal__adc_8c_source.html">hal_adc.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="hal__adc_8c_source.html#l00752">halAdcInit()</a>, and <a class="el" href="hal__adc_8c_source.html#l00132">halAdcReadData()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="hal__adc_8c_source.html#l00452">halAdcCalibrate()</a>, <a class="el" href="hal__adc_8c_source.html#l00752">halAdcInit()</a>, and <a class="el" href="hal__adc_8c_source.html#l00132">halAdcReadData()</a>.</p>
+
+</div>
+</div>
+<a id="a09fd9437086e2ce093f17d2e5307d558"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a09fd9437086e2ce093f17d2e5307d558">&#9670;&nbsp;</a></span>offsetx</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int32_t offsetx</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>offset values, calibrated via "Calibration middle position" </p>
+
+<p class="definition">Definition at line <a class="el" href="hal__adc_8c_source.html#l00083">83</a> of file <a class="el" href="hal__adc_8c_source.html">hal_adc.c</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="hal__adc_8c_source.html#l00452">halAdcCalibrate()</a>, <a class="el" href="hal__adc_8c_source.html#l00132">halAdcReadData()</a>, and <a class="el" href="hal__adc_8c_source.html#l00393">halAdcTaskJoystick()</a>.</p>
+
+</div>
+</div>
+<a id="adfa9736517012e1163de22f6efb4d58f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adfa9736517012e1163de22f6efb4d58f">&#9670;&nbsp;</a></span>offsety</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int32_t offsety</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="hal__adc_8c_source.html#l00083">83</a> of file <a class="el" href="hal__adc_8c_source.html">hal_adc.c</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="hal__adc_8c_source.html#l00452">halAdcCalibrate()</a>, <a class="el" href="hal__adc_8c_source.html#l00132">halAdcReadData()</a>, and <a class="el" href="hal__adc_8c_source.html#l00393">halAdcTaskJoystick()</a>.</p>
 
 </div>
 </div>

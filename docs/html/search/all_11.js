@@ -1,12 +1,15 @@
 var searchData=
 [
+  ['s_5fwl_5fhandle',['s_wl_handle',['../hal__storage_8c.html#a9d1f6636715d2cd2af21e20bc5e26afa',1,'hal_storage.c']]],
   ['save',['SAVE',['../keyboard_8c.html#a74737b7419bce75262b34ece12a7f7eb',1,'keyboard.c']]],
+  ['sec_5fconn',['sec_conn',['../hal__ble_8c.html#a11274ca008e2a3199074e7037c665a38',1,'hal_ble.c']]],
   ['senderrorback',['sendErrorBack',['../task__commands_8c.html#acea81ba8a182ae78feb2db6418fc1806',1,'task_commands.c']]],
   ['sendir',['SENDIR',['../hal__io_8h.html#a57492bb37c5bc8edb8f7165f1c00082e',1,'hal_io.h']]],
   ['sendirstruct',['SENDIRSTRUCT',['../hal__io_8h.html#ac51510bf1295d5e23fb68d84d67dadcd',1,'hal_io.h']]],
   ['sendkbd',['sendKbd',['../task__kbd_8c.html#a7d605cb2407a7a7309911c70e28a9884',1,'task_kbd.c']]],
   ['sensitivity_5fx',['sensitivity_x',['../structadc__config.html#a81465c39748fa52d1b773f34ad4ee435',1,'adc_config']]],
   ['sensitivity_5fy',['sensitivity_y',['../structadc__config.html#adbfe1bd3388e5274fd37ffb27c6a719a',1,'adc_config']]],
+  ['serialsendingsem',['serialsendingsem',['../hal__serial_8c.html#af8aa2305d1905c876a30e25bf34cc480',1,'hal_serial.c']]],
   ['setvb_5fpress',['SETVB_PRESS',['../common_8h.html#a05b9e4a4f2cb30e2a5916e623e4b8f90',1,'common.h']]],
   ['setvb_5frelease',['SETVB_RELEASE',['../common_8h.html#a117d08f16e88970948fd596be80d845b',1,'common.h']]],
   ['slider_5fleft',['slider_left',['../structjoystick__data.html#a4a807700ce03cf13b94cf8b97c744653',1,'joystick_data']]],
@@ -18,5 +21,8 @@ var searchData=
   ['state',['state',['../structesp__hidd__cb__param__t_1_1hidd__init__finish__evt__param.html#a33c7c87def3302bcaa923c620d31b1d9',1,'esp_hidd_cb_param_t::hidd_init_finish_evt_param::state()'],['../structesp__hidd__cb__param__t_1_1hidd__deinit__finish__evt__param.html#aead8cf8834062cfa90a418aeb7dd7a71',1,'esp_hidd_cb_param_t::hidd_deinit_finish_evt_param::state()']]],
   ['status',['status',['../structhalIOIR.html#acc1ca503a0bbc3afd243a97708623157',1,'halIOIR']]],
   ['storage_5fid',['STORAGE_ID',['../common_8h.html#a600cc24764111d572c05ab8a985de463',1,'common.h']]],
+  ['storagecurrentslotnumber',['storageCurrentSlotNumber',['../hal__storage_8c.html#a5c097404b5dfa34bdac65865586dac5a',1,'hal_storage.c']]],
+  ['storagecurrenttid',['storageCurrentTID',['../hal__storage_8c.html#ab7bc6f83a4f91dba2d5b3d1edeedf4b1',1,'hal_storage.c']]],
+  ['storagecurrentvbnumber',['storageCurrentVBNumber',['../hal__storage_8c.html#ab5f3387fe559c96c7523a59e28b0a74b',1,'hal_storage.c']]],
   ['svc_5ffeatures',['svc_features',['../structhidd__feature__t.html#a254c99f1e3115e399a088611e1e93123',1,'hidd_feature_t']]]
 ];

@@ -20,6 +20,7 @@ var searchData=
   ['task_5finfrared_5fstacksize',['TASK_INFRARED_STACKSIZE',['../task__infrared_8h.html#a1e25b21a41d65d0626e0a54ad0abe641',1,'task_infrared.h']]],
   ['task_5fkeyboard_5fparameterlength',['TASK_KEYBOARD_PARAMETERLENGTH',['../task__kbd_8h.html#af1d6b3680a52c16cd778420b8953eab7',1,'task_kbd.h']]],
   ['task_5fkeyboard_5fstacksize',['TASK_KEYBOARD_STACKSIZE',['../task__kbd_8h.html#a0a795efc5a0066d74b5855a17665203e',1,'task_kbd.h']]],
+  ['task_5fmacros_5fstacksize',['TASK_MACROS_STACKSIZE',['../task__macros_8h.html#adddae57d03a652655d4422042c1c8518',1,'task_macros.h']]],
   ['task_5fmouse_5fstacksize',['TASK_MOUSE_STACKSIZE',['../task__mouse_8h.html#a973cc4e605db58f328ffe52fcdbb4d45',1,'task_mouse.h']]],
   ['timeout',['TIMEOUT',['../task__kbd_8h.html#a45ba202b05caf39795aeca91b0ae547e',1,'TIMEOUT():&#160;task_kbd.h'],['../task__mouse_8h.html#a45ba202b05caf39795aeca91b0ae547e',1,'TIMEOUT():&#160;task_mouse.h']]],
   ['timer_5fdeadtime',['TIMER_DEADTIME',['../task__debouncer_8c.html#a2136a894816ebf7179ed937f43d22fe2',1,'task_debouncer.c']]],

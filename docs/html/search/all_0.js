@@ -17,7 +17,7 @@ var searchData=
   ['app_5fmain',['app_main',['../flipmouse__fabi__esp32__kbdmouse__main_8c.html#abce06be17fc37d675118a678a8100a36',1,'flipmouse_fabi_esp32_kbdmouse_main.c']]],
   ['atcmd',['atcmd',['../structatcmd.html',1,'']]],
   ['atcmd_5flength',['ATCMD_LENGTH',['../common_8h.html#a0a9fad923b344cf2efca72441a81817a',1,'common.h']]],
-  ['atcmd_5ft',['atcmd_t',['../hal__serial_8c.html#a1929a11fd2a8ebc7e1182bfaf19d5d74',1,'hal_serial.c']]],
+  ['atcmd_5ft',['atcmd_t',['../hal__serial_8h.html#a1929a11fd2a8ebc7e1182bfaf19d5d74',1,'hal_serial.h']]],
   ['att_5fsvc_5fhid',['ATT_SVC_HID',['../hidd__le__prf__int_8h.html#a120ccad3a7e1b92bda154619fbb25ea8',1,'hidd_le_prf_int.h']]],
   ['att_5ftbl',['att_tbl',['../structhidd__inst__t.html#aa9c02a26d9d8ad56449dcf038394275d',1,'hidd_inst_t']]],
   ['axis',['axis',['../structadc__config.html#a79ae56f983038a1020fbf9d5dc725f78',1,'adc_config']]],

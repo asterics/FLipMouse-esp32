@@ -111,6 +111,8 @@ Enumerations</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
+<tr class="memitem:ac68d934280b657bfef845f9186a34fe8"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="hid__device__le__prf_8c.html#ac68d934280b657bfef845f9186a34fe8">hid_add_id_tbl</a> (void)</td></tr>
+<tr class="separator:ac68d934280b657bfef845f9186a34fe8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:add8f27ab149175c58a8bced1016df5a6"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="hid__device__le__prf_8c.html#add8f27ab149175c58a8bced1016df5a6">esp_hidd_prf_cb_hdl</a> (esp_gatts_cb_event_t event, esp_gatt_if_t gatts_if, esp_ble_gatts_cb_param_t *param)</td></tr>
 <tr class="separator:add8f27ab149175c58a8bced1016df5a6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a479cfaafdbd41501ccd953c0abfc8ca6"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="hid__device__le__prf_8c.html#a479cfaafdbd41501ccd953c0abfc8ca6">hidd_le_create_service</a> (esp_gatt_if_t gatts_if)</td></tr>
@@ -132,16 +134,94 @@ Functions</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="var-members"></a>
 Variables</h2></td></tr>
+<tr class="memitem:a3862f5175659860b42934e81a0e9bb02"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="structhid__report__map__t.html">hid_report_map_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="hid__device__le__prf_8c.html#a3862f5175659860b42934e81a0e9bb02">hid_rpt_map</a> [<a class="el" href="hidd__le__prf__int_8h.html#a46dda3faf94c8eafa2218e14c8d1e2be">HID_NUM_REPORTS</a>]</td></tr>
+<tr class="separator:a3862f5175659860b42934e81a0e9bb02"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8fb6489bfedb7d288643295c3a78b421"><td class="memItemLeft" align="right" valign="top">static const uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="hid__device__le__prf_8c.html#a8fb6489bfedb7d288643295c3a78b421">hidReportMap</a> []</td></tr>
+<tr class="separator:a8fb6489bfedb7d288643295c3a78b421"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a91d82217264ad84483e4f8f0c644d6cf"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structhidd__le__env__t.html">hidd_le_env_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="hid__device__le__prf_8c.html#a91d82217264ad84483e4f8f0c644d6cf">hidd_le_env</a></td></tr>
 <tr class="separator:a91d82217264ad84483e4f8f0c644d6cf"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0b7cc6e74ea0a16819c1665e6118294c"><td class="memItemLeft" align="right" valign="top">uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="hid__device__le__prf_8c.html#a0b7cc6e74ea0a16819c1665e6118294c">hidReportMapLen</a> = sizeof(hidReportMap)</td></tr>
+<tr class="memitem:a0b7cc6e74ea0a16819c1665e6118294c"><td class="memItemLeft" align="right" valign="top">uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="hid__device__le__prf_8c.html#a0b7cc6e74ea0a16819c1665e6118294c">hidReportMapLen</a> = sizeof(<a class="el" href="hid__device__le__prf_8c.html#a8fb6489bfedb7d288643295c3a78b421">hidReportMap</a>)</td></tr>
 <tr class="separator:a0b7cc6e74ea0a16819c1665e6118294c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a18824297d97ae42a7da587d9752002fe"><td class="memItemLeft" align="right" valign="top">uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="hid__device__le__prf_8c.html#a18824297d97ae42a7da587d9752002fe">hidProtocolMode</a> = <a class="el" href="hidd__le__prf__int_8h.html#a998ca749aef167d8f61d12d5c0a89963">HID_PROTOCOL_MODE_REPORT</a></td></tr>
 <tr class="separator:a18824297d97ae42a7da587d9752002fe"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a817338db41363318e803110ac5393d03"><td class="memItemLeft" align="right" valign="top">static uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="hid__device__le__prf_8c.html#a817338db41363318e803110ac5393d03">hidInfo</a> [<a class="el" href="hidd__le__prf__int_8h.html#a7903484b0c009cdbe58d2e0fda8c5ca8">HID_INFORMATION_LEN</a>]</td></tr>
+<tr class="separator:a817338db41363318e803110ac5393d03"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa0f7f180a1dbc3739656c02e83727e36"><td class="memItemLeft" align="right" valign="top">static uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="hid__device__le__prf_8c.html#aa0f7f180a1dbc3739656c02e83727e36">hidExtReportRefDesc</a> = ESP_GATT_UUID_BATTERY_LEVEL</td></tr>
+<tr class="separator:aa0f7f180a1dbc3739656c02e83727e36"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ada5f5d46c997233c58aed5c4f39c241a"><td class="memItemLeft" align="right" valign="top">static uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="hid__device__le__prf_8c.html#ada5f5d46c997233c58aed5c4f39c241a">hidReportRefMouseIn</a> [<a class="el" href="hidd__le__prf__int_8h.html#a9e214dcdc0faba83d46da253cf90250f">HID_REPORT_REF_LEN</a>]</td></tr>
+<tr class="separator:ada5f5d46c997233c58aed5c4f39c241a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a407982c8cf184bd0c74e94d8c8503548"><td class="memItemLeft" align="right" valign="top">static uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="hid__device__le__prf_8c.html#a407982c8cf184bd0c74e94d8c8503548">hidReportRefKeyIn</a> [<a class="el" href="hidd__le__prf__int_8h.html#a9e214dcdc0faba83d46da253cf90250f">HID_REPORT_REF_LEN</a>]</td></tr>
+<tr class="separator:a407982c8cf184bd0c74e94d8c8503548"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5aeadf9795c7446979495b0c555733f7"><td class="memItemLeft" align="right" valign="top">static uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="hid__device__le__prf_8c.html#a5aeadf9795c7446979495b0c555733f7">hidReportRefLedOut</a> [<a class="el" href="hidd__le__prf__int_8h.html#a9e214dcdc0faba83d46da253cf90250f">HID_REPORT_REF_LEN</a>]</td></tr>
+<tr class="separator:a5aeadf9795c7446979495b0c555733f7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abb2474564e2648feca89b9aa8c86bf3f"><td class="memItemLeft" align="right" valign="top">static uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="hid__device__le__prf_8c.html#abb2474564e2648feca89b9aa8c86bf3f">hidReportRefFeature</a> [<a class="el" href="hidd__le__prf__int_8h.html#a9e214dcdc0faba83d46da253cf90250f">HID_REPORT_REF_LEN</a>]</td></tr>
+<tr class="separator:abb2474564e2648feca89b9aa8c86bf3f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a69384e648c92e4e7dcf9db1b72f3c149"><td class="memItemLeft" align="right" valign="top">static uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="hid__device__le__prf_8c.html#a69384e648c92e4e7dcf9db1b72f3c149">hidReportRefCCIn</a> [<a class="el" href="hidd__le__prf__int_8h.html#a9e214dcdc0faba83d46da253cf90250f">HID_REPORT_REF_LEN</a>]</td></tr>
+<tr class="separator:a69384e648c92e4e7dcf9db1b72f3c149"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abd977b9bfe0e657eedfc2fd13645dc47"><td class="memItemLeft" align="right" valign="top">static uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="hid__device__le__prf_8c.html#abd977b9bfe0e657eedfc2fd13645dc47">hid_le_svc</a> = <a class="el" href="hidd__le__prf__int_8h.html#a120ccad3a7e1b92bda154619fbb25ea8">ATT_SVC_HID</a></td></tr>
+<tr class="memdesc:abd977b9bfe0e657eedfc2fd13645dc47"><td class="mdescLeft">&#160;</td><td class="mdescRight">hid Service uuid  <a href="#abd977b9bfe0e657eedfc2fd13645dc47">More...</a><br /></td></tr>
+<tr class="separator:abd977b9bfe0e657eedfc2fd13645dc47"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2723374c79e85f2899bba93932ee37c3"><td class="memItemLeft" align="right" valign="top">uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="hid__device__le__prf_8c.html#a2723374c79e85f2899bba93932ee37c3">hid_count</a> = 0</td></tr>
 <tr class="separator:a2723374c79e85f2899bba93932ee37c3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:acc79618f323c3868b5c3ddde94482bb0"><td class="memItemLeft" align="right" valign="top">esp_gatts_incl_svc_desc_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="hid__device__le__prf_8c.html#acc79618f323c3868b5c3ddde94482bb0">incl_svc</a> = {0}</td></tr>
 <tr class="separator:acc79618f323c3868b5c3ddde94482bb0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a906dfab674e5b65aa8b2020087e66c50"><td class="memItemLeft" align="right" valign="top">static const uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="hid__device__le__prf_8c.html#a906dfab674e5b65aa8b2020087e66c50">primary_service_uuid</a> = ESP_GATT_UUID_PRI_SERVICE</td></tr>
+<tr class="memdesc:a906dfab674e5b65aa8b2020087e66c50"><td class="mdescLeft">&#160;</td><td class="mdescRight">the uuid definition  <a href="#a906dfab674e5b65aa8b2020087e66c50">More...</a><br /></td></tr>
+<tr class="separator:a906dfab674e5b65aa8b2020087e66c50"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adc6e894d122567caf42e17340513cb43"><td class="memItemLeft" align="right" valign="top">static const uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="hid__device__le__prf_8c.html#adc6e894d122567caf42e17340513cb43">include_service_uuid</a> = ESP_GATT_UUID_INCLUDE_SERVICE</td></tr>
+<tr class="separator:adc6e894d122567caf42e17340513cb43"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8dbb0e6a5920e94c0473e375558f7265"><td class="memItemLeft" align="right" valign="top">static const uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="hid__device__le__prf_8c.html#a8dbb0e6a5920e94c0473e375558f7265">character_declaration_uuid</a> = ESP_GATT_UUID_CHAR_DECLARE</td></tr>
+<tr class="separator:a8dbb0e6a5920e94c0473e375558f7265"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:add4f5ff5fc585021ed07e339b0ef936f"><td class="memItemLeft" align="right" valign="top">static const uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="hid__device__le__prf_8c.html#add4f5ff5fc585021ed07e339b0ef936f">character_client_config_uuid</a> = ESP_GATT_UUID_CHAR_CLIENT_CONFIG</td></tr>
+<tr class="separator:add4f5ff5fc585021ed07e339b0ef936f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a36b8d9c835882883efd10a4bf056c972"><td class="memItemLeft" align="right" valign="top">static const uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="hid__device__le__prf_8c.html#a36b8d9c835882883efd10a4bf056c972">hid_info_char_uuid</a> = ESP_GATT_UUID_HID_INFORMATION</td></tr>
+<tr class="separator:a36b8d9c835882883efd10a4bf056c972"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0c0f721b519368bbdab8821fbe85c8b4"><td class="memItemLeft" align="right" valign="top">static const uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="hid__device__le__prf_8c.html#a0c0f721b519368bbdab8821fbe85c8b4">hid_report_map_uuid</a> = ESP_GATT_UUID_HID_REPORT_MAP</td></tr>
+<tr class="separator:a0c0f721b519368bbdab8821fbe85c8b4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af92112ac5cac8de2b131ec32dc279451"><td class="memItemLeft" align="right" valign="top">static const uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="hid__device__le__prf_8c.html#af92112ac5cac8de2b131ec32dc279451">hid_control_point_uuid</a> = ESP_GATT_UUID_HID_CONTROL_POINT</td></tr>
+<tr class="separator:af92112ac5cac8de2b131ec32dc279451"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a90bed26ebc7a44684af95696a240a5a1"><td class="memItemLeft" align="right" valign="top">static const uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="hid__device__le__prf_8c.html#a90bed26ebc7a44684af95696a240a5a1">hid_report_uuid</a> = ESP_GATT_UUID_HID_REPORT</td></tr>
+<tr class="separator:a90bed26ebc7a44684af95696a240a5a1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a692d364f68a58a906e3745df5f77b795"><td class="memItemLeft" align="right" valign="top">static const uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="hid__device__le__prf_8c.html#a692d364f68a58a906e3745df5f77b795">hid_proto_mode_uuid</a> = ESP_GATT_UUID_HID_PROTO_MODE</td></tr>
+<tr class="separator:a692d364f68a58a906e3745df5f77b795"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a595b302b8e7be7606da6dfc2b564831e"><td class="memItemLeft" align="right" valign="top">static const uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="hid__device__le__prf_8c.html#a595b302b8e7be7606da6dfc2b564831e">hid_kb_input_uuid</a> = ESP_GATT_UUID_HID_BT_KB_INPUT</td></tr>
+<tr class="separator:a595b302b8e7be7606da6dfc2b564831e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1a5c5f6a0e6ed2fb26e1d273a8c4bdfc"><td class="memItemLeft" align="right" valign="top">static const uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="hid__device__le__prf_8c.html#a1a5c5f6a0e6ed2fb26e1d273a8c4bdfc">hid_kb_output_uuid</a> = ESP_GATT_UUID_HID_BT_KB_OUTPUT</td></tr>
+<tr class="separator:a1a5c5f6a0e6ed2fb26e1d273a8c4bdfc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aeb8172439813b057cddfac32032ea334"><td class="memItemLeft" align="right" valign="top">static const uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="hid__device__le__prf_8c.html#aeb8172439813b057cddfac32032ea334">hid_mouse_input_uuid</a> = ESP_GATT_UUID_HID_BT_MOUSE_INPUT</td></tr>
+<tr class="separator:aeb8172439813b057cddfac32032ea334"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad33e0092dc6a877a9bacddc1cf9f9342"><td class="memItemLeft" align="right" valign="top">static const uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="hid__device__le__prf_8c.html#ad33e0092dc6a877a9bacddc1cf9f9342">hid_repot_map_ext_desc_uuid</a> = ESP_GATT_UUID_EXT_RPT_REF_DESCR</td></tr>
+<tr class="separator:ad33e0092dc6a877a9bacddc1cf9f9342"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aad95e7ea589d07fcecdac08565e16b0c"><td class="memItemLeft" align="right" valign="top">static const uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="hid__device__le__prf_8c.html#aad95e7ea589d07fcecdac08565e16b0c">hid_report_ref_descr_uuid</a> = ESP_GATT_UUID_RPT_REF_DESCR</td></tr>
+<tr class="separator:aad95e7ea589d07fcecdac08565e16b0c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a07f91dcd65b074bba3109909472de22b"><td class="memItemLeft" align="right" valign="top">static const uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="hid__device__le__prf_8c.html#a07f91dcd65b074bba3109909472de22b">char_prop_notify</a> = ESP_GATT_CHAR_PROP_BIT_NOTIFY</td></tr>
+<tr class="memdesc:a07f91dcd65b074bba3109909472de22b"><td class="mdescLeft">&#160;</td><td class="mdescRight">the propoty definition  <a href="#a07f91dcd65b074bba3109909472de22b">More...</a><br /></td></tr>
+<tr class="separator:a07f91dcd65b074bba3109909472de22b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a93ed1e1e88387eca03ec9ab7107ad0af"><td class="memItemLeft" align="right" valign="top">static const uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="hid__device__le__prf_8c.html#a93ed1e1e88387eca03ec9ab7107ad0af">char_prop_read</a> = ESP_GATT_CHAR_PROP_BIT_READ</td></tr>
+<tr class="separator:a93ed1e1e88387eca03ec9ab7107ad0af"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae0084bfaea604b4314d50272a61970d7"><td class="memItemLeft" align="right" valign="top">static const uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="hid__device__le__prf_8c.html#ae0084bfaea604b4314d50272a61970d7">char_prop_write</a> = ESP_GATT_CHAR_PROP_BIT_WRITE</td></tr>
+<tr class="separator:ae0084bfaea604b4314d50272a61970d7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a046152d2a65198a8b4b03bd9b8e8e14f"><td class="memItemLeft" align="right" valign="top">static const uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="hid__device__le__prf_8c.html#a046152d2a65198a8b4b03bd9b8e8e14f">char_prop_read_write</a> = ESP_GATT_CHAR_PROP_BIT_WRITE|ESP_GATT_CHAR_PROP_BIT_READ</td></tr>
+<tr class="separator:a046152d2a65198a8b4b03bd9b8e8e14f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aafa2eb9bb370d02b100f269d37690173"><td class="memItemLeft" align="right" valign="top">static const uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="hid__device__le__prf_8c.html#aafa2eb9bb370d02b100f269d37690173">char_prop_read_notify</a> = ESP_GATT_CHAR_PROP_BIT_READ|ESP_GATT_CHAR_PROP_BIT_NOTIFY</td></tr>
+<tr class="separator:aafa2eb9bb370d02b100f269d37690173"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac9c12bad32fa4f1020cc0778832c4689"><td class="memItemLeft" align="right" valign="top">static const uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="hid__device__le__prf_8c.html#ac9c12bad32fa4f1020cc0778832c4689">battary_svc</a> = ESP_GATT_UUID_BATTERY_SERVICE_SVC</td></tr>
+<tr class="memdesc:ac9c12bad32fa4f1020cc0778832c4689"><td class="mdescLeft">&#160;</td><td class="mdescRight">battary Service  <a href="#ac9c12bad32fa4f1020cc0778832c4689">More...</a><br /></td></tr>
+<tr class="separator:ac9c12bad32fa4f1020cc0778832c4689"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad35b5b1922bf984bdf3dcdd6cf6c03fa"><td class="memItemLeft" align="right" valign="top">static const uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="hid__device__le__prf_8c.html#ad35b5b1922bf984bdf3dcdd6cf6c03fa">bat_lev_uuid</a> = ESP_GATT_UUID_BATTERY_LEVEL</td></tr>
+<tr class="separator:ad35b5b1922bf984bdf3dcdd6cf6c03fa"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aed743857fa2e7262f4615eb7b6d80334"><td class="memItemLeft" align="right" valign="top">static const uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="hid__device__le__prf_8c.html#aed743857fa2e7262f4615eb7b6d80334">bat_lev_ccc</a> [2] ={ 0x00, 0x00}</td></tr>
+<tr class="separator:aed743857fa2e7262f4615eb7b6d80334"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a64a43d7ce97d3b3136fc924ed52a1e89"><td class="memItemLeft" align="right" valign="top">static const uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="hid__device__le__prf_8c.html#a64a43d7ce97d3b3136fc924ed52a1e89">char_format_uuid</a> = ESP_GATT_UUID_CHAR_PRESENT_FORMAT</td></tr>
+<tr class="separator:a64a43d7ce97d3b3136fc924ed52a1e89"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1d66b8fc957598cde35fd4a681843791"><td class="memItemLeft" align="right" valign="top">static uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="hid__device__le__prf_8c.html#a1d66b8fc957598cde35fd4a681843791">battary_lev</a> = 50</td></tr>
+<tr class="separator:a1d66b8fc957598cde35fd4a681843791"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a835f6080e0bb9974f8add0e19a5d0d0f"><td class="memItemLeft" align="right" valign="top">static const esp_gatts_attr_db_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="hid__device__le__prf_8c.html#a835f6080e0bb9974f8add0e19a5d0d0f">bas_att_db</a> [<a class="el" href="hid__device__le__prf_8c.html#a06fc87d81c62e9abb8790b6e5713c55ba19e275118a6ba770b54344df5d74cc65">BAS_IDX_NB</a>]</td></tr>
+<tr class="memdesc:a835f6080e0bb9974f8add0e19a5d0d0f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Full HRS Database Description - Used to add attributes into the database.  <a href="#a835f6080e0bb9974f8add0e19a5d0d0f">More...</a><br /></td></tr>
+<tr class="separator:a835f6080e0bb9974f8add0e19a5d0d0f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a68663af02f816293555f6b0b03b65139"><td class="memItemLeft" align="right" valign="top">static esp_gatts_attr_db_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="hid__device__le__prf_8c.html#a68663af02f816293555f6b0b03b65139">hidd_le_gatt_db</a> [<a class="el" href="hidd__le__prf__int_8h.html#adf764cbdea00d65edcd07bb9953ad2b7a36d89e035162ba80365c8bd1ed53043e">HIDD_LE_IDX_NB</a>]</td></tr>
+<tr class="memdesc:a68663af02f816293555f6b0b03b65139"><td class="mdescLeft">&#160;</td><td class="mdescRight">Full Hid device Database Description - Used to add attributes into the database.  <a href="#a68663af02f816293555f6b0b03b65139">More...</a><br /></td></tr>
+<tr class="separator:a68663af02f816293555f6b0b03b65139"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Macro Definition Documentation</h2>
 <a id="a36dab879c60ad380569b702ffb0caabf"></a>
@@ -271,6 +351,8 @@ Here is the call graph for this function:</div>
 <area shape="rect" id="node2" href="hid__device__le__prf_8c.html#a479cfaafdbd41501ccd953c0abfc8ca6" title="hidd_le_create_service" alt="" coords="195,5,349,32"/>
 <area shape="rect" id="node3" href="hid__device__le__prf_8c.html#a4e7096230eedcf2dbc89351ea636677d" title="hidd_clcb_alloc" alt="" coords="217,56,327,83"/>
 <area shape="rect" id="node4" href="hid__device__le__prf_8c.html#a74aa695557816b038ff9847860291fa2" title="hidd_clcb_dealloc" alt="" coords="209,107,335,133"/>
+<area shape="rect" id="node5" href="hid__device__le__prf_8c.html#ac68d934280b657bfef845f9186a34fe8" title="hid_add_id_tbl" alt="" coords="219,157,325,184"/>
+<area shape="rect" id="node6" href="hid__dev_8c.html#a6df72a6bb64d5c8cd7490eb11617b7ab" title="hid_dev_register_reports" alt="" coords="397,157,561,184"/>
 </map>
 </div>
 <div class="dynheader">
@@ -280,6 +362,58 @@ Here is the caller graph for this function:</div>
 <map name="hid__device__le__prf_8c_add8f27ab149175c58a8bced1016df5a6_icgraph" id="hid__device__le__prf_8c_add8f27ab149175c58a8bced1016df5a6_icgraph">
 <area shape="rect" id="node2" href="hidd__le__prf__int_8h.html#acb0d2b8e95e7bbabf1e3bdab379d18d5" title="hidd_register_cb" alt="" coords="195,5,312,32"/>
 <area shape="rect" id="node3" href="esp__hidd__prf__api_8h.html#a5256c1f0eb079f624ce5e09a47d5b89c" title="This function is called to receive hid device callback event. " alt="" coords="360,5,547,32"/>
+<area shape="rect" id="node4" href="hal__ble_8h.html#a8ad6c50e81bae3e24e2f86a2797384c2" title="halBLEInit" alt="" coords="595,5,677,32"/>
+<area shape="rect" id="node5" href="flipmouse__fabi__esp32__kbdmouse__main_8c.html#abce06be17fc37d675118a678a8100a36" title="Main task, created by esp&#45;idf. " alt="" coords="725,5,804,32"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="ac68d934280b657bfef845f9186a34fe8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac68d934280b657bfef845f9186a34fe8">&#9670;&nbsp;</a></span>hid_add_id_tbl()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static void hid_add_id_tbl </td>
+          <td>(</td>
+          <td class="paramtype">void&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="hid__device__le__prf_8c_source.html#l00673">673</a> of file <a class="el" href="hid__device__le__prf_8c_source.html">hid_device_le_prf.c</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="hid__device__le__prf_8c_source.html#l00505">esp_hidd_prf_cb_hdl()</a>.</p>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="hid__device__le__prf_8c_ac68d934280b657bfef845f9186a34fe8_cgraph.png" border="0" usemap="#hid__device__le__prf_8c_ac68d934280b657bfef845f9186a34fe8_cgraph" alt=""/></div>
+<map name="hid__device__le__prf_8c_ac68d934280b657bfef845f9186a34fe8_cgraph" id="hid__device__le__prf_8c_ac68d934280b657bfef845f9186a34fe8_cgraph">
+<area shape="rect" id="node2" href="hid__dev_8c.html#a6df72a6bb64d5c8cd7490eb11617b7ab" title="hid_dev_register_reports" alt="" coords="159,5,323,32"/>
+</map>
+</div>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="hid__device__le__prf_8c_ac68d934280b657bfef845f9186a34fe8_icgraph.png" border="0" usemap="#hid__device__le__prf_8c_ac68d934280b657bfef845f9186a34fe8_icgraph" alt=""/></div>
+<map name="hid__device__le__prf_8c_ac68d934280b657bfef845f9186a34fe8_icgraph" id="hid__device__le__prf_8c_ac68d934280b657bfef845f9186a34fe8_icgraph">
+<area shape="rect" id="node2" href="hid__device__le__prf_8c.html#add8f27ab149175c58a8bced1016df5a6" title="esp_hidd_prf_cb_hdl" alt="" coords="159,5,300,32"/>
+<area shape="rect" id="node3" href="hidd__le__prf__int_8h.html#acb0d2b8e95e7bbabf1e3bdab379d18d5" title="hidd_register_cb" alt="" coords="348,5,465,32"/>
+<area shape="rect" id="node4" href="esp__hidd__prf__api_8h.html#a5256c1f0eb079f624ce5e09a47d5b89c" title="This function is called to receive hid device callback event. " alt="" coords="513,5,700,32"/>
+<area shape="rect" id="node5" href="hal__ble_8h.html#a8ad6c50e81bae3e24e2f86a2797384c2" title="halBLEInit" alt="" coords="748,5,831,32"/>
+<area shape="rect" id="node6" href="flipmouse__fabi__esp32__kbdmouse__main_8c.html#abce06be17fc37d675118a678a8100a36" title="Main task, created by esp&#45;idf. " alt="" coords="879,5,957,32"/>
 </map>
 </div>
 
@@ -322,6 +456,8 @@ Here is the caller graph for this function:</div>
 <area shape="rect" id="node2" href="hid__device__le__prf_8c.html#add8f27ab149175c58a8bced1016df5a6" title="esp_hidd_prf_cb_hdl" alt="" coords="164,5,305,32"/>
 <area shape="rect" id="node3" href="hidd__le__prf__int_8h.html#acb0d2b8e95e7bbabf1e3bdab379d18d5" title="hidd_register_cb" alt="" coords="353,5,471,32"/>
 <area shape="rect" id="node4" href="esp__hidd__prf__api_8h.html#a5256c1f0eb079f624ce5e09a47d5b89c" title="This function is called to receive hid device callback event. " alt="" coords="519,5,705,32"/>
+<area shape="rect" id="node5" href="hal__ble_8h.html#a8ad6c50e81bae3e24e2f86a2797384c2" title="halBLEInit" alt="" coords="753,5,836,32"/>
+<area shape="rect" id="node6" href="flipmouse__fabi__esp32__kbdmouse__main_8c.html#abce06be17fc37d675118a678a8100a36" title="Main task, created by esp&#45;idf. " alt="" coords="884,5,963,32"/>
 </map>
 </div>
 
@@ -354,6 +490,8 @@ Here is the caller graph for this function:</div>
 <area shape="rect" id="node2" href="hid__device__le__prf_8c.html#add8f27ab149175c58a8bced1016df5a6" title="esp_hidd_prf_cb_hdl" alt="" coords="179,5,320,32"/>
 <area shape="rect" id="node3" href="hidd__le__prf__int_8h.html#acb0d2b8e95e7bbabf1e3bdab379d18d5" title="hidd_register_cb" alt="" coords="368,5,485,32"/>
 <area shape="rect" id="node4" href="esp__hidd__prf__api_8h.html#a5256c1f0eb079f624ce5e09a47d5b89c" title="This function is called to receive hid device callback event. " alt="" coords="533,5,720,32"/>
+<area shape="rect" id="node5" href="hal__ble_8h.html#a8ad6c50e81bae3e24e2f86a2797384c2" title="halBLEInit" alt="" coords="768,5,851,32"/>
+<area shape="rect" id="node6" href="flipmouse__fabi__esp32__kbdmouse__main_8c.html#abce06be17fc37d675118a678a8100a36" title="Main task, created by esp&#45;idf. " alt="" coords="899,5,977,32"/>
 </map>
 </div>
 
@@ -422,6 +560,8 @@ Here is the caller graph for this function:</div>
 <area shape="rect" id="node2" href="hid__device__le__prf_8c.html#add8f27ab149175c58a8bced1016df5a6" title="esp_hidd_prf_cb_hdl" alt="" coords="208,5,349,32"/>
 <area shape="rect" id="node3" href="hidd__le__prf__int_8h.html#acb0d2b8e95e7bbabf1e3bdab379d18d5" title="hidd_register_cb" alt="" coords="397,5,515,32"/>
 <area shape="rect" id="node4" href="esp__hidd__prf__api_8h.html#a5256c1f0eb079f624ce5e09a47d5b89c" title="This function is called to receive hid device callback event. " alt="" coords="563,5,749,32"/>
+<area shape="rect" id="node5" href="hal__ble_8h.html#a8ad6c50e81bae3e24e2f86a2797384c2" title="halBLEInit" alt="" coords="797,5,880,32"/>
+<area shape="rect" id="node6" href="flipmouse__fabi__esp32__kbdmouse__main_8c.html#abce06be17fc37d675118a678a8100a36" title="Main task, created by esp&#45;idf. " alt="" coords="928,5,1007,32"/>
 </map>
 </div>
 
@@ -471,10 +611,12 @@ Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="hid__device__le__prf_8c_acb0d2b8e95e7bbabf1e3bdab379d18d5_cgraph.png" border="0" usemap="#hid__device__le__prf_8c_acb0d2b8e95e7bbabf1e3bdab379d18d5_cgraph" alt=""/></div>
 <map name="hid__device__le__prf_8c_acb0d2b8e95e7bbabf1e3bdab379d18d5_cgraph" id="hid__device__le__prf_8c_acb0d2b8e95e7bbabf1e3bdab379d18d5_cgraph">
-<area shape="rect" id="node2" href="hid__device__le__prf_8c.html#add8f27ab149175c58a8bced1016df5a6" title="esp_hidd_prf_cb_hdl" alt="" coords="171,56,312,83"/>
+<area shape="rect" id="node2" href="hid__device__le__prf_8c.html#add8f27ab149175c58a8bced1016df5a6" title="esp_hidd_prf_cb_hdl" alt="" coords="171,81,312,108"/>
 <area shape="rect" id="node3" href="hid__device__le__prf_8c.html#a479cfaafdbd41501ccd953c0abfc8ca6" title="hidd_le_create_service" alt="" coords="360,5,515,32"/>
 <area shape="rect" id="node4" href="hid__device__le__prf_8c.html#a4e7096230eedcf2dbc89351ea636677d" title="hidd_clcb_alloc" alt="" coords="382,56,493,83"/>
 <area shape="rect" id="node5" href="hid__device__le__prf_8c.html#a74aa695557816b038ff9847860291fa2" title="hidd_clcb_dealloc" alt="" coords="375,107,500,133"/>
+<area shape="rect" id="node6" href="hid__device__le__prf_8c.html#ac68d934280b657bfef845f9186a34fe8" title="hid_add_id_tbl" alt="" coords="385,157,490,184"/>
+<area shape="rect" id="node7" href="hid__dev_8c.html#a6df72a6bb64d5c8cd7490eb11617b7ab" title="hid_dev_register_reports" alt="" coords="563,157,727,184"/>
 </map>
 </div>
 <div class="dynheader">
@@ -483,6 +625,8 @@ Here is the caller graph for this function:</div>
 <div class="center"><img src="hid__device__le__prf_8c_acb0d2b8e95e7bbabf1e3bdab379d18d5_icgraph.png" border="0" usemap="#hid__device__le__prf_8c_acb0d2b8e95e7bbabf1e3bdab379d18d5_icgraph" alt=""/></div>
 <map name="hid__device__le__prf_8c_acb0d2b8e95e7bbabf1e3bdab379d18d5_icgraph" id="hid__device__le__prf_8c_acb0d2b8e95e7bbabf1e3bdab379d18d5_icgraph">
 <area shape="rect" id="node2" href="esp__hidd__prf__api_8h.html#a5256c1f0eb079f624ce5e09a47d5b89c" title="This function is called to receive hid device callback event. " alt="" coords="171,5,357,32"/>
+<area shape="rect" id="node3" href="hal__ble_8h.html#a8ad6c50e81bae3e24e2f86a2797384c2" title="halBLEInit" alt="" coords="405,5,488,32"/>
+<area shape="rect" id="node4" href="flipmouse__fabi__esp32__kbdmouse__main_8c.html#abce06be17fc37d675118a678a8100a36" title="Main task, created by esp&#45;idf. " alt="" coords="536,5,615,32"/>
 </map>
 </div>
 
@@ -543,9 +687,380 @@ Here is the caller graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="hid__device__le__prf_8c_source.html#l00599">599</a> of file <a class="el" href="hid__device__le__prf_8c_source.html">hid_device_le_prf.c</a>.</p>
 
+<p class="reference">Referenced by <a class="el" href="hal__ble_8c_source.html#l00426">halBLEInit()</a>.</p>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="hid__device__le__prf_8c_afa62ba26a48e429b592a9e5be49778d8_icgraph.png" border="0" usemap="#hid__device__le__prf_8c_afa62ba26a48e429b592a9e5be49778d8_icgraph" alt=""/></div>
+<map name="hid__device__le__prf_8c_afa62ba26a48e429b592a9e5be49778d8_icgraph" id="hid__device__le__prf_8c_afa62ba26a48e429b592a9e5be49778d8_icgraph">
+<area shape="rect" id="node2" href="hal__ble_8h.html#a8ad6c50e81bae3e24e2f86a2797384c2" title="halBLEInit" alt="" coords="203,5,285,32"/>
+<area shape="rect" id="node3" href="flipmouse__fabi__esp32__kbdmouse__main_8c.html#abce06be17fc37d675118a678a8100a36" title="Main task, created by esp&#45;idf. " alt="" coords="333,5,412,32"/>
+</map>
+</div>
+
 </div>
 </div>
 <h2 class="groupheader">Variable Documentation</h2>
+<a id="a835f6080e0bb9974f8add0e19a5d0d0f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a835f6080e0bb9974f8add0e19a5d0d0f">&#9670;&nbsp;</a></span>bas_att_db</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const esp_gatts_attr_db_t bas_att_db[<a class="el" href="hid__device__le__prf_8c.html#a06fc87d81c62e9abb8790b6e5713c55ba19e275118a6ba770b54344df5d74cc65">BAS_IDX_NB</a>]</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<b>Initial value:</b><div class="fragment"><div class="line">=</div><div class="line">{</div><div class="line">    </div><div class="line">    [<a class="code" href="hid__device__le__prf_8c.html#a06fc87d81c62e9abb8790b6e5713c55ba5e37b489592eff7e74260064d69ba09e">BAS_IDX_SVC</a>]               =  {{ESP_GATT_AUTO_RSP}, {ESP_UUID_LEN_16, (uint8_t *)&amp;<a class="code" href="hid__device__le__prf_8c.html#a906dfab674e5b65aa8b2020087e66c50">primary_service_uuid</a>, ESP_GATT_PERM_READ,</div><div class="line">                                            <span class="keyword">sizeof</span>(uint16_t), <span class="keyword">sizeof</span>(<a class="code" href="hid__device__le__prf_8c.html#ac9c12bad32fa4f1020cc0778832c4689">battary_svc</a>), (uint8_t *)&amp;<a class="code" href="hid__device__le__prf_8c.html#ac9c12bad32fa4f1020cc0778832c4689">battary_svc</a>}},</div><div class="line"></div><div class="line">    </div><div class="line">    [<a class="code" href="hid__device__le__prf_8c.html#a06fc87d81c62e9abb8790b6e5713c55ba98baadc8c6d9636f171027aef2b27ff2">BAS_IDX_BATT_LVL_CHAR</a>]    = {{ESP_GATT_AUTO_RSP}, {ESP_UUID_LEN_16, (uint8_t *)&amp;<a class="code" href="hid__device__le__prf_8c.html#a8dbb0e6a5920e94c0473e375558f7265">character_declaration_uuid</a>, ESP_GATT_PERM_READ,</div><div class="line">                                                   <a class="code" href="hid__device__le__prf_8c.html#a36dab879c60ad380569b702ffb0caabf">CHAR_DECLARATION_SIZE</a>,<a class="code" href="hid__device__le__prf_8c.html#a36dab879c60ad380569b702ffb0caabf">CHAR_DECLARATION_SIZE</a>, (uint8_t *)&amp;<a class="code" href="hid__device__le__prf_8c.html#aafa2eb9bb370d02b100f269d37690173">char_prop_read_notify</a>}},</div><div class="line">      </div><div class="line">    </div><div class="line">    [<a class="code" href="hid__device__le__prf_8c.html#a06fc87d81c62e9abb8790b6e5713c55ba28831413b9397355fb1c0afaa32fe3b0">BAS_IDX_BATT_LVL_VAL</a>]              = {{ESP_GATT_AUTO_RSP}, {ESP_UUID_LEN_16, (uint8_t *)&amp;<a class="code" href="hid__device__le__prf_8c.html#ad35b5b1922bf984bdf3dcdd6cf6c03fa">bat_lev_uuid</a>, ESP_GATT_PERM_READ,</div><div class="line">                                                                <span class="keyword">sizeof</span>(uint8_t),<span class="keyword">sizeof</span>(uint8_t), &amp;<a class="code" href="hid__device__le__prf_8c.html#a1d66b8fc957598cde35fd4a681843791">battary_lev</a>}},</div><div class="line"></div><div class="line">    </div><div class="line">    [<a class="code" href="hid__device__le__prf_8c.html#a06fc87d81c62e9abb8790b6e5713c55baa406834fc2cd715ff14dbdbbf73d667e">BAS_IDX_BATT_LVL_NTF_CFG</a>]      =  {{ESP_GATT_AUTO_RSP}, {ESP_UUID_LEN_16, (uint8_t *)&amp;<a class="code" href="hid__device__le__prf_8c.html#add4f5ff5fc585021ed07e339b0ef936f">character_client_config_uuid</a>, ESP_GATT_PERM_READ|ESP_GATT_PERM_WRITE,</div><div class="line">                                                          <span class="keyword">sizeof</span>(uint16_t),<span class="keyword">sizeof</span>(<a class="code" href="hid__device__le__prf_8c.html#aed743857fa2e7262f4615eb7b6d80334">bat_lev_ccc</a>), (uint8_t *)<a class="code" href="hid__device__le__prf_8c.html#aed743857fa2e7262f4615eb7b6d80334">bat_lev_ccc</a>}},</div><div class="line"></div><div class="line">    </div><div class="line">    [<a class="code" href="hid__device__le__prf_8c.html#a06fc87d81c62e9abb8790b6e5713c55ba4a542f1468e8fab6b000ce3da30c41c2">BAS_IDX_BATT_LVL_PRES_FMT</a>]  = {{ESP_GATT_AUTO_RSP}, {ESP_UUID_LEN_16, (uint8_t *)&amp;<a class="code" href="hid__device__le__prf_8c.html#a64a43d7ce97d3b3136fc924ed52a1e89">char_format_uuid</a>, ESP_GATT_PERM_READ,</div><div class="line">                                                        <span class="keyword">sizeof</span>(<span class="keyword">struct</span> <a class="code" href="structprf__char__pres__fmt.html">prf_char_pres_fmt</a>), 0, NULL}},</div><div class="line">}</div><div class="ttc" id="hid__device__le__prf_8c_html_a906dfab674e5b65aa8b2020087e66c50"><div class="ttname"><a href="hid__device__le__prf_8c.html#a906dfab674e5b65aa8b2020087e66c50">primary_service_uuid</a></div><div class="ttdeci">static const uint16_t primary_service_uuid</div><div class="ttdoc">the uuid definition </div><div class="ttdef"><b>Definition:</b> <a href="hid__device__le__prf_8c_source.html#l00249">hid_device_le_prf.c:249</a></div></div>
+<div class="ttc" id="hid__device__le__prf_8c_html_a1d66b8fc957598cde35fd4a681843791"><div class="ttname"><a href="hid__device__le__prf_8c.html#a1d66b8fc957598cde35fd4a681843791">battary_lev</a></div><div class="ttdeci">static uint8_t battary_lev</div><div class="ttdef"><b>Definition:</b> <a href="hid__device__le__prf_8c_source.html#l00277">hid_device_le_prf.c:277</a></div></div>
+<div class="ttc" id="hid__device__le__prf_8c_html_aafa2eb9bb370d02b100f269d37690173"><div class="ttname"><a href="hid__device__le__prf_8c.html#aafa2eb9bb370d02b100f269d37690173">char_prop_read_notify</a></div><div class="ttdeci">static const uint8_t char_prop_read_notify</div><div class="ttdef"><b>Definition:</b> <a href="hid__device__le__prf_8c_source.html#l00268">hid_device_le_prf.c:268</a></div></div>
+<div class="ttc" id="hid__device__le__prf_8c_html_a06fc87d81c62e9abb8790b6e5713c55ba28831413b9397355fb1c0afaa32fe3b0"><div class="ttname"><a href="hid__device__le__prf_8c.html#a06fc87d81c62e9abb8790b6e5713c55ba28831413b9397355fb1c0afaa32fe3b0">BAS_IDX_BATT_LVL_VAL</a></div><div class="ttdef"><b>Definition:</b> <a href="hid__device__le__prf_8c_source.html#l00184">hid_device_le_prf.c:184</a></div></div>
+<div class="ttc" id="hid__device__le__prf_8c_html_add4f5ff5fc585021ed07e339b0ef936f"><div class="ttname"><a href="hid__device__le__prf_8c.html#add4f5ff5fc585021ed07e339b0ef936f">character_client_config_uuid</a></div><div class="ttdeci">static const uint16_t character_client_config_uuid</div><div class="ttdef"><b>Definition:</b> <a href="hid__device__le__prf_8c_source.html#l00252">hid_device_le_prf.c:252</a></div></div>
+<div class="ttc" id="hid__device__le__prf_8c_html_ad35b5b1922bf984bdf3dcdd6cf6c03fa"><div class="ttname"><a href="hid__device__le__prf_8c.html#ad35b5b1922bf984bdf3dcdd6cf6c03fa">bat_lev_uuid</a></div><div class="ttdeci">static const uint16_t bat_lev_uuid</div><div class="ttdef"><b>Definition:</b> <a href="hid__device__le__prf_8c_source.html#l00273">hid_device_le_prf.c:273</a></div></div>
+<div class="ttc" id="hid__device__le__prf_8c_html_a06fc87d81c62e9abb8790b6e5713c55ba5e37b489592eff7e74260064d69ba09e"><div class="ttname"><a href="hid__device__le__prf_8c.html#a06fc87d81c62e9abb8790b6e5713c55ba5e37b489592eff7e74260064d69ba09e">BAS_IDX_SVC</a></div><div class="ttdef"><b>Definition:</b> <a href="hid__device__le__prf_8c_source.html#l00181">hid_device_le_prf.c:181</a></div></div>
+<div class="ttc" id="hid__device__le__prf_8c_html_ac9c12bad32fa4f1020cc0778832c4689"><div class="ttname"><a href="hid__device__le__prf_8c.html#ac9c12bad32fa4f1020cc0778832c4689">battary_svc</a></div><div class="ttdeci">static const uint16_t battary_svc</div><div class="ttdoc">battary Service </div><div class="ttdef"><b>Definition:</b> <a href="hid__device__le__prf_8c_source.html#l00271">hid_device_le_prf.c:271</a></div></div>
+<div class="ttc" id="hid__device__le__prf_8c_html_a06fc87d81c62e9abb8790b6e5713c55baa406834fc2cd715ff14dbdbbf73d667e"><div class="ttname"><a href="hid__device__le__prf_8c.html#a06fc87d81c62e9abb8790b6e5713c55baa406834fc2cd715ff14dbdbbf73d667e">BAS_IDX_BATT_LVL_NTF_CFG</a></div><div class="ttdef"><b>Definition:</b> <a href="hid__device__le__prf_8c_source.html#l00185">hid_device_le_prf.c:185</a></div></div>
+<div class="ttc" id="hid__device__le__prf_8c_html_a36dab879c60ad380569b702ffb0caabf"><div class="ttname"><a href="hid__device__le__prf_8c.html#a36dab879c60ad380569b702ffb0caabf">CHAR_DECLARATION_SIZE</a></div><div class="ttdeci">#define CHAR_DECLARATION_SIZE</div><div class="ttdef"><b>Definition:</b> <a href="hid__device__le__prf_8c_source.html#l00247">hid_device_le_prf.c:247</a></div></div>
+<div class="ttc" id="hid__device__le__prf_8c_html_a06fc87d81c62e9abb8790b6e5713c55ba98baadc8c6d9636f171027aef2b27ff2"><div class="ttname"><a href="hid__device__le__prf_8c.html#a06fc87d81c62e9abb8790b6e5713c55ba98baadc8c6d9636f171027aef2b27ff2">BAS_IDX_BATT_LVL_CHAR</a></div><div class="ttdef"><b>Definition:</b> <a href="hid__device__le__prf_8c_source.html#l00183">hid_device_le_prf.c:183</a></div></div>
+<div class="ttc" id="hid__device__le__prf_8c_html_a8dbb0e6a5920e94c0473e375558f7265"><div class="ttname"><a href="hid__device__le__prf_8c.html#a8dbb0e6a5920e94c0473e375558f7265">character_declaration_uuid</a></div><div class="ttdeci">static const uint16_t character_declaration_uuid</div><div class="ttdef"><b>Definition:</b> <a href="hid__device__le__prf_8c_source.html#l00251">hid_device_le_prf.c:251</a></div></div>
+<div class="ttc" id="hid__device__le__prf_8c_html_a64a43d7ce97d3b3136fc924ed52a1e89"><div class="ttname"><a href="hid__device__le__prf_8c.html#a64a43d7ce97d3b3136fc924ed52a1e89">char_format_uuid</a></div><div class="ttdeci">static const uint16_t char_format_uuid</div><div class="ttdef"><b>Definition:</b> <a href="hid__device__le__prf_8c_source.html#l00275">hid_device_le_prf.c:275</a></div></div>
+<div class="ttc" id="hid__device__le__prf_8c_html_aed743857fa2e7262f4615eb7b6d80334"><div class="ttname"><a href="hid__device__le__prf_8c.html#aed743857fa2e7262f4615eb7b6d80334">bat_lev_ccc</a></div><div class="ttdeci">static const uint8_t bat_lev_ccc[2]</div><div class="ttdef"><b>Definition:</b> <a href="hid__device__le__prf_8c_source.html#l00274">hid_device_le_prf.c:274</a></div></div>
+<div class="ttc" id="structprf__char__pres__fmt_html"><div class="ttname"><a href="structprf__char__pres__fmt.html">prf_char_pres_fmt</a></div><div class="ttdoc">characteristic presentation information </div><div class="ttdef"><b>Definition:</b> <a href="hid__device__le__prf_8c_source.html#l00023">hid_device_le_prf.c:23</a></div></div>
+<div class="ttc" id="hid__device__le__prf_8c_html_a06fc87d81c62e9abb8790b6e5713c55ba4a542f1468e8fab6b000ce3da30c41c2"><div class="ttname"><a href="hid__device__le__prf_8c.html#a06fc87d81c62e9abb8790b6e5713c55ba4a542f1468e8fab6b000ce3da30c41c2">BAS_IDX_BATT_LVL_PRES_FMT</a></div><div class="ttdef"><b>Definition:</b> <a href="hid__device__le__prf_8c_source.html#l00186">hid_device_le_prf.c:186</a></div></div>
+</div><!-- fragment -->
+<p>Full HRS Database Description - Used to add attributes into the database. </p>
+
+<p class="definition">Definition at line <a class="el" href="hid__device__le__prf_8c_source.html#l00279">279</a> of file <a class="el" href="hid__device__le__prf_8c_source.html">hid_device_le_prf.c</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="hid__device__le__prf_8c_source.html#l00588">hidd_le_create_service()</a>.</p>
+
+</div>
+</div>
+<a id="aed743857fa2e7262f4615eb7b6d80334"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aed743857fa2e7262f4615eb7b6d80334">&#9670;&nbsp;</a></span>bat_lev_ccc</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const uint8_t bat_lev_ccc[2] ={ 0x00, 0x00}</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="hid__device__le__prf_8c_source.html#l00274">274</a> of file <a class="el" href="hid__device__le__prf_8c_source.html">hid_device_le_prf.c</a>.</p>
+
+</div>
+</div>
+<a id="ad35b5b1922bf984bdf3dcdd6cf6c03fa"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad35b5b1922bf984bdf3dcdd6cf6c03fa">&#9670;&nbsp;</a></span>bat_lev_uuid</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const uint16_t bat_lev_uuid = ESP_GATT_UUID_BATTERY_LEVEL</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="hid__device__le__prf_8c_source.html#l00273">273</a> of file <a class="el" href="hid__device__le__prf_8c_source.html">hid_device_le_prf.c</a>.</p>
+
+</div>
+</div>
+<a id="a1d66b8fc957598cde35fd4a681843791"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1d66b8fc957598cde35fd4a681843791">&#9670;&nbsp;</a></span>battary_lev</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint8_t battary_lev = 50</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="hid__device__le__prf_8c_source.html#l00277">277</a> of file <a class="el" href="hid__device__le__prf_8c_source.html">hid_device_le_prf.c</a>.</p>
+
+</div>
+</div>
+<a id="ac9c12bad32fa4f1020cc0778832c4689"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac9c12bad32fa4f1020cc0778832c4689">&#9670;&nbsp;</a></span>battary_svc</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const uint16_t battary_svc = ESP_GATT_UUID_BATTERY_SERVICE_SVC</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>battary Service </p>
+
+<p class="definition">Definition at line <a class="el" href="hid__device__le__prf_8c_source.html#l00271">271</a> of file <a class="el" href="hid__device__le__prf_8c_source.html">hid_device_le_prf.c</a>.</p>
+
+</div>
+</div>
+<a id="a64a43d7ce97d3b3136fc924ed52a1e89"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a64a43d7ce97d3b3136fc924ed52a1e89">&#9670;&nbsp;</a></span>char_format_uuid</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const uint16_t char_format_uuid = ESP_GATT_UUID_CHAR_PRESENT_FORMAT</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="hid__device__le__prf_8c_source.html#l00275">275</a> of file <a class="el" href="hid__device__le__prf_8c_source.html">hid_device_le_prf.c</a>.</p>
+
+</div>
+</div>
+<a id="a07f91dcd65b074bba3109909472de22b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a07f91dcd65b074bba3109909472de22b">&#9670;&nbsp;</a></span>char_prop_notify</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const uint8_t char_prop_notify = ESP_GATT_CHAR_PROP_BIT_NOTIFY</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>the propoty definition </p>
+
+<p class="definition">Definition at line <a class="el" href="hid__device__le__prf_8c_source.html#l00264">264</a> of file <a class="el" href="hid__device__le__prf_8c_source.html">hid_device_le_prf.c</a>.</p>
+
+</div>
+</div>
+<a id="a93ed1e1e88387eca03ec9ab7107ad0af"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a93ed1e1e88387eca03ec9ab7107ad0af">&#9670;&nbsp;</a></span>char_prop_read</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const uint8_t char_prop_read = ESP_GATT_CHAR_PROP_BIT_READ</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="hid__device__le__prf_8c_source.html#l00265">265</a> of file <a class="el" href="hid__device__le__prf_8c_source.html">hid_device_le_prf.c</a>.</p>
+
+</div>
+</div>
+<a id="aafa2eb9bb370d02b100f269d37690173"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aafa2eb9bb370d02b100f269d37690173">&#9670;&nbsp;</a></span>char_prop_read_notify</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const uint8_t char_prop_read_notify = ESP_GATT_CHAR_PROP_BIT_READ|ESP_GATT_CHAR_PROP_BIT_NOTIFY</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="hid__device__le__prf_8c_source.html#l00268">268</a> of file <a class="el" href="hid__device__le__prf_8c_source.html">hid_device_le_prf.c</a>.</p>
+
+</div>
+</div>
+<a id="a046152d2a65198a8b4b03bd9b8e8e14f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a046152d2a65198a8b4b03bd9b8e8e14f">&#9670;&nbsp;</a></span>char_prop_read_write</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const uint8_t char_prop_read_write = ESP_GATT_CHAR_PROP_BIT_WRITE|ESP_GATT_CHAR_PROP_BIT_READ</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="hid__device__le__prf_8c_source.html#l00267">267</a> of file <a class="el" href="hid__device__le__prf_8c_source.html">hid_device_le_prf.c</a>.</p>
+
+</div>
+</div>
+<a id="ae0084bfaea604b4314d50272a61970d7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae0084bfaea604b4314d50272a61970d7">&#9670;&nbsp;</a></span>char_prop_write</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const uint8_t char_prop_write = ESP_GATT_CHAR_PROP_BIT_WRITE</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="hid__device__le__prf_8c_source.html#l00266">266</a> of file <a class="el" href="hid__device__le__prf_8c_source.html">hid_device_le_prf.c</a>.</p>
+
+</div>
+</div>
+<a id="add4f5ff5fc585021ed07e339b0ef936f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#add4f5ff5fc585021ed07e339b0ef936f">&#9670;&nbsp;</a></span>character_client_config_uuid</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const uint16_t character_client_config_uuid = ESP_GATT_UUID_CHAR_CLIENT_CONFIG</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="hid__device__le__prf_8c_source.html#l00252">252</a> of file <a class="el" href="hid__device__le__prf_8c_source.html">hid_device_le_prf.c</a>.</p>
+
+</div>
+</div>
+<a id="a8dbb0e6a5920e94c0473e375558f7265"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8dbb0e6a5920e94c0473e375558f7265">&#9670;&nbsp;</a></span>character_declaration_uuid</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const uint16_t character_declaration_uuid = ESP_GATT_UUID_CHAR_DECLARE</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="hid__device__le__prf_8c_source.html#l00251">251</a> of file <a class="el" href="hid__device__le__prf_8c_source.html">hid_device_le_prf.c</a>.</p>
+
+</div>
+</div>
+<a id="af92112ac5cac8de2b131ec32dc279451"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af92112ac5cac8de2b131ec32dc279451">&#9670;&nbsp;</a></span>hid_control_point_uuid</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const uint16_t hid_control_point_uuid = ESP_GATT_UUID_HID_CONTROL_POINT</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="hid__device__le__prf_8c_source.html#l00255">255</a> of file <a class="el" href="hid__device__le__prf_8c_source.html">hid_device_le_prf.c</a>.</p>
+
+</div>
+</div>
 <a id="a2723374c79e85f2899bba93932ee37c3"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a2723374c79e85f2899bba93932ee37c3">&#9670;&nbsp;</a></span>hid_count</h2>
 
@@ -559,6 +1074,272 @@ Here is the caller graph for this function:</div>
 </div><div class="memdoc">
 
 <p class="definition">Definition at line <a class="el" href="hid__device__le__prf_8c_source.html#l00244">244</a> of file <a class="el" href="hid__device__le__prf_8c_source.html">hid_device_le_prf.c</a>.</p>
+
+</div>
+</div>
+<a id="a36b8d9c835882883efd10a4bf056c972"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a36b8d9c835882883efd10a4bf056c972">&#9670;&nbsp;</a></span>hid_info_char_uuid</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const uint16_t hid_info_char_uuid = ESP_GATT_UUID_HID_INFORMATION</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="hid__device__le__prf_8c_source.html#l00253">253</a> of file <a class="el" href="hid__device__le__prf_8c_source.html">hid_device_le_prf.c</a>.</p>
+
+</div>
+</div>
+<a id="a595b302b8e7be7606da6dfc2b564831e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a595b302b8e7be7606da6dfc2b564831e">&#9670;&nbsp;</a></span>hid_kb_input_uuid</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const uint16_t hid_kb_input_uuid = ESP_GATT_UUID_HID_BT_KB_INPUT</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="hid__device__le__prf_8c_source.html#l00258">258</a> of file <a class="el" href="hid__device__le__prf_8c_source.html">hid_device_le_prf.c</a>.</p>
+
+</div>
+</div>
+<a id="a1a5c5f6a0e6ed2fb26e1d273a8c4bdfc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1a5c5f6a0e6ed2fb26e1d273a8c4bdfc">&#9670;&nbsp;</a></span>hid_kb_output_uuid</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const uint16_t hid_kb_output_uuid = ESP_GATT_UUID_HID_BT_KB_OUTPUT</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="hid__device__le__prf_8c_source.html#l00259">259</a> of file <a class="el" href="hid__device__le__prf_8c_source.html">hid_device_le_prf.c</a>.</p>
+
+</div>
+</div>
+<a id="abd977b9bfe0e657eedfc2fd13645dc47"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abd977b9bfe0e657eedfc2fd13645dc47">&#9670;&nbsp;</a></span>hid_le_svc</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint16_t hid_le_svc = <a class="el" href="hidd__le__prf__int_8h.html#a120ccad3a7e1b92bda154619fbb25ea8">ATT_SVC_HID</a></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>hid Service uuid </p>
+
+<p class="definition">Definition at line <a class="el" href="hid__device__le__prf_8c_source.html#l00243">243</a> of file <a class="el" href="hid__device__le__prf_8c_source.html">hid_device_le_prf.c</a>.</p>
+
+</div>
+</div>
+<a id="aeb8172439813b057cddfac32032ea334"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aeb8172439813b057cddfac32032ea334">&#9670;&nbsp;</a></span>hid_mouse_input_uuid</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const uint16_t hid_mouse_input_uuid = ESP_GATT_UUID_HID_BT_MOUSE_INPUT</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="hid__device__le__prf_8c_source.html#l00260">260</a> of file <a class="el" href="hid__device__le__prf_8c_source.html">hid_device_le_prf.c</a>.</p>
+
+</div>
+</div>
+<a id="a692d364f68a58a906e3745df5f77b795"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a692d364f68a58a906e3745df5f77b795">&#9670;&nbsp;</a></span>hid_proto_mode_uuid</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const uint16_t hid_proto_mode_uuid = ESP_GATT_UUID_HID_PROTO_MODE</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="hid__device__le__prf_8c_source.html#l00257">257</a> of file <a class="el" href="hid__device__le__prf_8c_source.html">hid_device_le_prf.c</a>.</p>
+
+</div>
+</div>
+<a id="a0c0f721b519368bbdab8821fbe85c8b4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0c0f721b519368bbdab8821fbe85c8b4">&#9670;&nbsp;</a></span>hid_report_map_uuid</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const uint16_t hid_report_map_uuid = ESP_GATT_UUID_HID_REPORT_MAP</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="hid__device__le__prf_8c_source.html#l00254">254</a> of file <a class="el" href="hid__device__le__prf_8c_source.html">hid_device_le_prf.c</a>.</p>
+
+</div>
+</div>
+<a id="aad95e7ea589d07fcecdac08565e16b0c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aad95e7ea589d07fcecdac08565e16b0c">&#9670;&nbsp;</a></span>hid_report_ref_descr_uuid</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const uint16_t hid_report_ref_descr_uuid = ESP_GATT_UUID_RPT_REF_DESCR</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="hid__device__le__prf_8c_source.html#l00262">262</a> of file <a class="el" href="hid__device__le__prf_8c_source.html">hid_device_le_prf.c</a>.</p>
+
+</div>
+</div>
+<a id="a90bed26ebc7a44684af95696a240a5a1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a90bed26ebc7a44684af95696a240a5a1">&#9670;&nbsp;</a></span>hid_report_uuid</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const uint16_t hid_report_uuid = ESP_GATT_UUID_HID_REPORT</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="hid__device__le__prf_8c_source.html#l00256">256</a> of file <a class="el" href="hid__device__le__prf_8c_source.html">hid_device_le_prf.c</a>.</p>
+
+</div>
+</div>
+<a id="ad33e0092dc6a877a9bacddc1cf9f9342"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad33e0092dc6a877a9bacddc1cf9f9342">&#9670;&nbsp;</a></span>hid_repot_map_ext_desc_uuid</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const uint16_t hid_repot_map_ext_desc_uuid = ESP_GATT_UUID_EXT_RPT_REF_DESCR</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="hid__device__le__prf_8c_source.html#l00261">261</a> of file <a class="el" href="hid__device__le__prf_8c_source.html">hid_device_le_prf.c</a>.</p>
+
+</div>
+</div>
+<a id="a3862f5175659860b42934e81a0e9bb02"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3862f5175659860b42934e81a0e9bb02">&#9670;&nbsp;</a></span>hid_rpt_map</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structhid__report__map__t.html">hid_report_map_t</a> hid_rpt_map[<a class="el" href="hidd__le__prf__int_8h.html#a46dda3faf94c8eafa2218e14c8d1e2be">HID_NUM_REPORTS</a>]</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="hid__device__le__prf_8c_source.html#l00038">38</a> of file <a class="el" href="hid__device__le__prf_8c_source.html">hid_device_le_prf.c</a>.</p>
 
 </div>
 </div>
@@ -580,6 +1361,87 @@ Here is the caller graph for this function:</div>
 
 </div>
 </div>
+<a id="a68663af02f816293555f6b0b03b65139"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a68663af02f816293555f6b0b03b65139">&#9670;&nbsp;</a></span>hidd_le_gatt_db</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">esp_gatts_attr_db_t hidd_le_gatt_db[<a class="el" href="hidd__le__prf__int_8h.html#adf764cbdea00d65edcd07bb9953ad2b7a36d89e035162ba80365c8bd1ed53043e">HIDD_LE_IDX_NB</a>]</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Full Hid device Database Description - Used to add attributes into the database. </p>
+
+<p class="definition">Definition at line <a class="el" href="hid__device__le__prf_8c_source.html#l00304">304</a> of file <a class="el" href="hid__device__le__prf_8c_source.html">hid_device_le_prf.c</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="hid__device__le__prf_8c_source.html#l00505">esp_hidd_prf_cb_hdl()</a>.</p>
+
+</div>
+</div>
+<a id="aa0f7f180a1dbc3739656c02e83727e36"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa0f7f180a1dbc3739656c02e83727e36">&#9670;&nbsp;</a></span>hidExtReportRefDesc</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint16_t hidExtReportRefDesc = ESP_GATT_UUID_BATTERY_LEVEL</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="hid__device__le__prf_8c_source.html#l00213">213</a> of file <a class="el" href="hid__device__le__prf_8c_source.html">hid_device_le_prf.c</a>.</p>
+
+</div>
+</div>
+<a id="a817338db41363318e803110ac5393d03"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a817338db41363318e803110ac5393d03">&#9670;&nbsp;</a></span>hidInfo</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint8_t hidInfo[<a class="el" href="hidd__le__prf__int_8h.html#a7903484b0c009cdbe58d2e0fda8c5ca8">HID_INFORMATION_LEN</a>]</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<b>Initial value:</b><div class="fragment"><div class="line">= {</div><div class="line">    <a class="code" href="hid__device__le__prf_8c.html#ab2b94e11f455d94fd743666d4f1364d7">LO_UINT16</a>(0x0111), <a class="code" href="hid__device__le__prf_8c.html#a869398c9f0eb7bcf1c8e101b052eed07">HI_UINT16</a>(0x0111),             </div><div class="line">    </div><div class="line">    0x00,                                             </div><div class="line">    <a class="code" href="hidd__le__prf__int_8h.html#a88317e70320544b82dfb2dabf5b2dfde">HID_KBD_FLAGS</a>                                     </div><div class="line">}</div><div class="ttc" id="hid__device__le__prf_8c_html_a869398c9f0eb7bcf1c8e101b052eed07"><div class="ttname"><a href="hid__device__le__prf_8c.html#a869398c9f0eb7bcf1c8e101b052eed07">HI_UINT16</a></div><div class="ttdeci">#define HI_UINT16(a)</div><div class="ttdef"><b>Definition:</b> <a href="hid__device__le__prf_8c_source.html#l00191">hid_device_le_prf.c:191</a></div></div>
+<div class="ttc" id="hid__device__le__prf_8c_html_ab2b94e11f455d94fd743666d4f1364d7"><div class="ttname"><a href="hid__device__le__prf_8c.html#ab2b94e11f455d94fd743666d4f1364d7">LO_UINT16</a></div><div class="ttdeci">#define LO_UINT16(a)</div><div class="ttdef"><b>Definition:</b> <a href="hid__device__le__prf_8c_source.html#l00192">hid_device_le_prf.c:192</a></div></div>
+<div class="ttc" id="hidd__le__prf__int_8h_html_a88317e70320544b82dfb2dabf5b2dfde"><div class="ttname"><a href="hidd__le__prf__int_8h.html#a88317e70320544b82dfb2dabf5b2dfde">HID_KBD_FLAGS</a></div><div class="ttdeci">#define HID_KBD_FLAGS</div><div class="ttdef"><b>Definition:</b> <a href="hidd__le__prf__int_8h_source.html#l00094">hidd_le_prf_int.h:94</a></div></div>
+</div><!-- fragment -->
+<p class="definition">Definition at line <a class="el" href="hid__device__le__prf_8c_source.html#l00204">204</a> of file <a class="el" href="hid__device__le__prf_8c_source.html">hid_device_le_prf.c</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="hid__device__le__prf_8c_source.html#l00599">hidd_set_countrycode()</a>.</p>
+
+</div>
+</div>
 <a id="a18824297d97ae42a7da587d9752002fe"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a18824297d97ae42a7da587d9752002fe">&#9670;&nbsp;</a></span>hidProtocolMode</h2>
 
@@ -594,6 +1456,32 @@ Here is the caller graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="hid__device__le__prf_8c_source.html#l00198">198</a> of file <a class="el" href="hid__device__le__prf_8c_source.html">hid_device_le_prf.c</a>.</p>
 
+<p class="reference">Referenced by <a class="el" href="hid__dev_8c_source.html#l00033">hid_dev_rpt_by_id()</a>.</p>
+
+</div>
+</div>
+<a id="a8fb6489bfedb7d288643295c3a78b421"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8fb6489bfedb7d288643295c3a78b421">&#9670;&nbsp;</a></span>hidReportMap</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const uint8_t hidReportMap[]</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="hid__device__le__prf_8c_source.html#l00043">43</a> of file <a class="el" href="hid__device__le__prf_8c_source.html">hid_device_le_prf.c</a>.</p>
+
 </div>
 </div>
 <a id="a0b7cc6e74ea0a16819c1665e6118294c"></a>
@@ -603,12 +1491,152 @@ Here is the caller graph for this function:</div>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">uint8_t hidReportMapLen = sizeof(hidReportMap)</td>
+          <td class="memname">uint8_t hidReportMapLen = sizeof(<a class="el" href="hid__device__le__prf_8c.html#a8fb6489bfedb7d288643295c3a78b421">hidReportMap</a>)</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
 <p class="definition">Definition at line <a class="el" href="hid__device__le__prf_8c_source.html#l00197">197</a> of file <a class="el" href="hid__device__le__prf_8c_source.html">hid_device_le_prf.c</a>.</p>
+
+</div>
+</div>
+<a id="a69384e648c92e4e7dcf9db1b72f3c149"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a69384e648c92e4e7dcf9db1b72f3c149">&#9670;&nbsp;</a></span>hidReportRefCCIn</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint8_t hidReportRefCCIn[<a class="el" href="hidd__le__prf__int_8h.html#a9e214dcdc0faba83d46da253cf90250f">HID_REPORT_REF_LEN</a>]</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<b>Initial value:</b><div class="fragment"><div class="line">=</div><div class="line">             { <a class="code" href="hidd__le__prf__int_8h.html#a294d77f599410cdc8c71da07fa67020f">HID_RPT_ID_CC_IN</a>, <a class="code" href="hidd__le__prf__int_8h.html#a8c2f36273741e160a071ead66cc36da2">HID_REPORT_TYPE_INPUT</a> }</div><div class="ttc" id="hidd__le__prf__int_8h_html_a294d77f599410cdc8c71da07fa67020f"><div class="ttname"><a href="hidd__le__prf__int_8h.html#a294d77f599410cdc8c71da07fa67020f">HID_RPT_ID_CC_IN</a></div><div class="ttdeci">#define HID_RPT_ID_CC_IN</div><div class="ttdef"><b>Definition:</b> <a href="hidd__le__prf__int_8h_source.html#l00045">hidd_le_prf_int.h:45</a></div></div>
+<div class="ttc" id="hidd__le__prf__int_8h_html_a8c2f36273741e160a071ead66cc36da2"><div class="ttname"><a href="hidd__le__prf__int_8h.html#a8c2f36273741e160a071ead66cc36da2">HID_REPORT_TYPE_INPUT</a></div><div class="ttdeci">#define HID_REPORT_TYPE_INPUT</div><div class="ttdef"><b>Definition:</b> <a href="hidd__le__prf__int_8h_source.html#l00097">hidd_le_prf_int.h:97</a></div></div>
+</div><!-- fragment -->
+<p class="definition">Definition at line <a class="el" href="hid__device__le__prf_8c_source.html#l00233">233</a> of file <a class="el" href="hid__device__le__prf_8c_source.html">hid_device_le_prf.c</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="hid__device__le__prf_8c_source.html#l00673">hid_add_id_tbl()</a>.</p>
+
+</div>
+</div>
+<a id="abb2474564e2648feca89b9aa8c86bf3f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abb2474564e2648feca89b9aa8c86bf3f">&#9670;&nbsp;</a></span>hidReportRefFeature</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint8_t hidReportRefFeature[<a class="el" href="hidd__le__prf__int_8h.html#a9e214dcdc0faba83d46da253cf90250f">HID_REPORT_REF_LEN</a>]</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<b>Initial value:</b><div class="fragment"><div class="line">=</div><div class="line">             { <a class="code" href="hidd__le__prf__int_8h.html#a1c9299b131a3e8d3e0ac8f803321d51d">HID_RPT_ID_FEATURE</a>, <a class="code" href="hidd__le__prf__int_8h.html#ab2122756f77c390357c5b86f1b69faa6">HID_REPORT_TYPE_FEATURE</a> }</div><div class="ttc" id="hidd__le__prf__int_8h_html_ab2122756f77c390357c5b86f1b69faa6"><div class="ttname"><a href="hidd__le__prf__int_8h.html#ab2122756f77c390357c5b86f1b69faa6">HID_REPORT_TYPE_FEATURE</a></div><div class="ttdeci">#define HID_REPORT_TYPE_FEATURE</div><div class="ttdef"><b>Definition:</b> <a href="hidd__le__prf__int_8h_source.html#l00099">hidd_le_prf_int.h:99</a></div></div>
+<div class="ttc" id="hidd__le__prf__int_8h_html_a1c9299b131a3e8d3e0ac8f803321d51d"><div class="ttname"><a href="hidd__le__prf__int_8h.html#a1c9299b131a3e8d3e0ac8f803321d51d">HID_RPT_ID_FEATURE</a></div><div class="ttdeci">#define HID_RPT_ID_FEATURE</div><div class="ttdef"><b>Definition:</b> <a href="hidd__le__prf__int_8h_source.html#l00047">hidd_le_prf_int.h:47</a></div></div>
+</div><!-- fragment -->
+<p class="definition">Definition at line <a class="el" href="hid__device__le__prf_8c_source.html#l00229">229</a> of file <a class="el" href="hid__device__le__prf_8c_source.html">hid_device_le_prf.c</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="hid__device__le__prf_8c_source.html#l00673">hid_add_id_tbl()</a>.</p>
+
+</div>
+</div>
+<a id="a407982c8cf184bd0c74e94d8c8503548"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a407982c8cf184bd0c74e94d8c8503548">&#9670;&nbsp;</a></span>hidReportRefKeyIn</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint8_t hidReportRefKeyIn[<a class="el" href="hidd__le__prf__int_8h.html#a9e214dcdc0faba83d46da253cf90250f">HID_REPORT_REF_LEN</a>]</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<b>Initial value:</b><div class="fragment"><div class="line">=</div><div class="line">             { <a class="code" href="hidd__le__prf__int_8h.html#ae275c1d382448411ee0441d55a970569">HID_RPT_ID_KEY_IN</a>, <a class="code" href="hidd__le__prf__int_8h.html#a8c2f36273741e160a071ead66cc36da2">HID_REPORT_TYPE_INPUT</a> }</div><div class="ttc" id="hidd__le__prf__int_8h_html_ae275c1d382448411ee0441d55a970569"><div class="ttname"><a href="hidd__le__prf__int_8h.html#ae275c1d382448411ee0441d55a970569">HID_RPT_ID_KEY_IN</a></div><div class="ttdeci">#define HID_RPT_ID_KEY_IN</div><div class="ttdef"><b>Definition:</b> <a href="hidd__le__prf__int_8h_source.html#l00044">hidd_le_prf_int.h:44</a></div></div>
+<div class="ttc" id="hidd__le__prf__int_8h_html_a8c2f36273741e160a071ead66cc36da2"><div class="ttname"><a href="hidd__le__prf__int_8h.html#a8c2f36273741e160a071ead66cc36da2">HID_REPORT_TYPE_INPUT</a></div><div class="ttdeci">#define HID_REPORT_TYPE_INPUT</div><div class="ttdef"><b>Definition:</b> <a href="hidd__le__prf__int_8h_source.html#l00097">hidd_le_prf_int.h:97</a></div></div>
+</div><!-- fragment -->
+<p class="definition">Definition at line <a class="el" href="hid__device__le__prf_8c_source.html#l00221">221</a> of file <a class="el" href="hid__device__le__prf_8c_source.html">hid_device_le_prf.c</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="hid__device__le__prf_8c_source.html#l00673">hid_add_id_tbl()</a>.</p>
+
+</div>
+</div>
+<a id="a5aeadf9795c7446979495b0c555733f7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5aeadf9795c7446979495b0c555733f7">&#9670;&nbsp;</a></span>hidReportRefLedOut</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint8_t hidReportRefLedOut[<a class="el" href="hidd__le__prf__int_8h.html#a9e214dcdc0faba83d46da253cf90250f">HID_REPORT_REF_LEN</a>]</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<b>Initial value:</b><div class="fragment"><div class="line">=</div><div class="line">             { <a class="code" href="hidd__le__prf__int_8h.html#aefc58b8c80aecc52a0712efa3c820063">HID_RPT_ID_LED_OUT</a>, <a class="code" href="hidd__le__prf__int_8h.html#afc5ff29118405a5851471ccdc991b1be">HID_REPORT_TYPE_OUTPUT</a> }</div><div class="ttc" id="hidd__le__prf__int_8h_html_afc5ff29118405a5851471ccdc991b1be"><div class="ttname"><a href="hidd__le__prf__int_8h.html#afc5ff29118405a5851471ccdc991b1be">HID_REPORT_TYPE_OUTPUT</a></div><div class="ttdeci">#define HID_REPORT_TYPE_OUTPUT</div><div class="ttdef"><b>Definition:</b> <a href="hidd__le__prf__int_8h_source.html#l00098">hidd_le_prf_int.h:98</a></div></div>
+<div class="ttc" id="hidd__le__prf__int_8h_html_aefc58b8c80aecc52a0712efa3c820063"><div class="ttname"><a href="hidd__le__prf__int_8h.html#aefc58b8c80aecc52a0712efa3c820063">HID_RPT_ID_LED_OUT</a></div><div class="ttdeci">#define HID_RPT_ID_LED_OUT</div><div class="ttdef"><b>Definition:</b> <a href="hidd__le__prf__int_8h_source.html#l00046">hidd_le_prf_int.h:46</a></div></div>
+</div><!-- fragment -->
+<p class="definition">Definition at line <a class="el" href="hid__device__le__prf_8c_source.html#l00225">225</a> of file <a class="el" href="hid__device__le__prf_8c_source.html">hid_device_le_prf.c</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="hid__device__le__prf_8c_source.html#l00673">hid_add_id_tbl()</a>.</p>
+
+</div>
+</div>
+<a id="ada5f5d46c997233c58aed5c4f39c241a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ada5f5d46c997233c58aed5c4f39c241a">&#9670;&nbsp;</a></span>hidReportRefMouseIn</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint8_t hidReportRefMouseIn[<a class="el" href="hidd__le__prf__int_8h.html#a9e214dcdc0faba83d46da253cf90250f">HID_REPORT_REF_LEN</a>]</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<b>Initial value:</b><div class="fragment"><div class="line">=</div><div class="line">             { <a class="code" href="hidd__le__prf__int_8h.html#adcc36a227f5386df1faaf120ae4fc0c8">HID_RPT_ID_MOUSE_IN</a>, <a class="code" href="hidd__le__prf__int_8h.html#a8c2f36273741e160a071ead66cc36da2">HID_REPORT_TYPE_INPUT</a> }</div><div class="ttc" id="hidd__le__prf__int_8h_html_a8c2f36273741e160a071ead66cc36da2"><div class="ttname"><a href="hidd__le__prf__int_8h.html#a8c2f36273741e160a071ead66cc36da2">HID_REPORT_TYPE_INPUT</a></div><div class="ttdeci">#define HID_REPORT_TYPE_INPUT</div><div class="ttdef"><b>Definition:</b> <a href="hidd__le__prf__int_8h_source.html#l00097">hidd_le_prf_int.h:97</a></div></div>
+<div class="ttc" id="hidd__le__prf__int_8h_html_adcc36a227f5386df1faaf120ae4fc0c8"><div class="ttname"><a href="hidd__le__prf__int_8h.html#adcc36a227f5386df1faaf120ae4fc0c8">HID_RPT_ID_MOUSE_IN</a></div><div class="ttdeci">#define HID_RPT_ID_MOUSE_IN</div><div class="ttdef"><b>Definition:</b> <a href="hidd__le__prf__int_8h_source.html#l00043">hidd_le_prf_int.h:43</a></div></div>
+</div><!-- fragment -->
+<p class="definition">Definition at line <a class="el" href="hid__device__le__prf_8c_source.html#l00216">216</a> of file <a class="el" href="hid__device__le__prf_8c_source.html">hid_device_le_prf.c</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="hid__device__le__prf_8c_source.html#l00673">hid_add_id_tbl()</a>.</p>
 
 </div>
 </div>
@@ -627,6 +1655,56 @@ Here is the caller graph for this function:</div>
 <p class="definition">Definition at line <a class="el" href="hid__device__le__prf_8c_source.html#l00245">245</a> of file <a class="el" href="hid__device__le__prf_8c_source.html">hid_device_le_prf.c</a>.</p>
 
 <p class="reference">Referenced by <a class="el" href="hid__device__le__prf_8c_source.html#l00505">esp_hidd_prf_cb_hdl()</a>.</p>
+
+</div>
+</div>
+<a id="adc6e894d122567caf42e17340513cb43"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adc6e894d122567caf42e17340513cb43">&#9670;&nbsp;</a></span>include_service_uuid</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const uint16_t include_service_uuid = ESP_GATT_UUID_INCLUDE_SERVICE</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="hid__device__le__prf_8c_source.html#l00250">250</a> of file <a class="el" href="hid__device__le__prf_8c_source.html">hid_device_le_prf.c</a>.</p>
+
+</div>
+</div>
+<a id="a906dfab674e5b65aa8b2020087e66c50"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a906dfab674e5b65aa8b2020087e66c50">&#9670;&nbsp;</a></span>primary_service_uuid</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const uint16_t primary_service_uuid = ESP_GATT_UUID_PRI_SERVICE</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>the uuid definition </p>
+
+<p class="definition">Definition at line <a class="el" href="hid__device__le__prf_8c_source.html#l00249">249</a> of file <a class="el" href="hid__device__le__prf_8c_source.html">hid_device_le_prf.c</a>.</p>
 
 </div>
 </div>

@@ -39,6 +39,18 @@ window.tabSip.sipPuffValueHandler = function (data) {
     L('#sippuff-value-bar').style = 'width: ' + percent + '%;';
     L('#guide-current').style = 'width: ' + percent + '%;';
 
+    //color thumbs if over/under configured value
+    [flip.SIP_THRESHOLD, flip.SIP_STRONG_THRESHOLD].forEach(function (c) {
+        var configValue = flip.getConfig(c);
+        var configPercent = L.getPercentage(configValue, currentMinRange, currentMaxRange);
+        L('#' + c + '_WRAPPER').className = (percent <= configPercent) ? 'row colored-thumb' : 'row';
+    });
+    [flip.PUFF_THRESHOLD, flip.PUFF_STRONG_THRESHOLD].forEach(function (c) {
+        var configValue = flip.getConfig(c);
+        var configPercent = L.getPercentage(configValue, currentMinRange, currentMaxRange);
+        L('#' + c + '_WRAPPER').className = (percent >= configPercent) ? 'row colored-thumb' : 'row';
+    });
+
     //set slider ranges
     flip.SIP_PUFF_IDS.forEach(function (id) {
         L(id).min = currentMinRange;

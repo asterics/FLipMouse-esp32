@@ -171,14 +171,14 @@
 
                 <br/>
                 <label for="SIP_THRESHOLD" i18n>Sip Threshold: // Schwellenwert Saugen:</label>
-                <div class="row">
+                <div id="SIP_THRESHOLD_WRAPPER" class="row">
                     <span id="SIP_THRESHOLD_VAL" class="text-center two columns">0</span>
                     <input type="range" oninput="tabSip.sipSliderChanged(this)" onchange="tabSip.sipSliderChanged(this)"
                            id="SIP_THRESHOLD" min="0" max="1023" class="ten columns"/>
                 </div>
                 <label for="SIP_STRONG_THRESHOLD" i18n>Strong Sip Threshold: // Schwellenwert Saugen
                     stark:</label>
-                <div class="row">
+                <div id="SIP_STRONG_THRESHOLD_WRAPPER" class="row">
                     <span id="SIP_STRONG_THRESHOLD_VAL" class="text-center two columns">0</span>
                     <input type="range" oninput="tabSip.sipSliderChanged(this)" onchange="tabSip.sipSliderChanged(this)"
                            id="SIP_STRONG_THRESHOLD" min="0" max="1023" class="ten columns"/>
@@ -200,14 +200,14 @@
                 <br/>
                 <br/>
                 <label for="PUFF_THRESHOLD" i18n>Puff Threshold: // Schwellenwert Blasen:</label>
-                <div class="row">
+                <div id="PUFF_THRESHOLD_WRAPPER" class="row">
                     <span id="PUFF_THRESHOLD_VAL" class="text-center two columns">0</span>
                     <input type="range" oninput="tabSip.sipSliderChanged(this)" onchange="tabSip.sipSliderChanged(this)"
                            id="PUFF_THRESHOLD" min="0" max="1023" class="ten columns">
                 </div>
                 <label for="PUFF_STRONG_THRESHOLD" i18n>Strong Puff Threshold: // Schwellenwert Blasen
                     stark:</label>
-                <div class="row">
+                <div id="PUFF_STRONG_THRESHOLD_WRAPPER" class="row">
                     <span id="PUFF_STRONG_THRESHOLD_VAL" class="text-center two columns">0</span>
                     <input type="range" oninput="tabSip.sipSliderChanged(this)" onchange="tabSip.sipSliderChanged(this)"
                            id="PUFF_STRONG_THRESHOLD" min="0" max="1023" class="ten columns">

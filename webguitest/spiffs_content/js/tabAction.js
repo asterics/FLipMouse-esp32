@@ -42,7 +42,6 @@ window.tabAction.startRec = function () {
         document.onkeydown = function(e) {
             e = e || window.event;
             e.preventDefault();
-            var last = L.getLastElement(window.tabAction.queue);
             if(!e.repeat && C.SUPPORTED_KEYCODES.includes(getKeycode(e))) {
                 if(getKeycode(e) != C.JS_KEYCODE_BACKSPACE || !getText(tabAction.queue)) {
                     tabAction.queue.push(e);
@@ -52,7 +51,6 @@ window.tabAction.startRec = function () {
                         tabAction.queue = [];
                     }
                 }
-                console.log(e);
                 var atCmd = getAtCmd(tabAction.queue);
                 L('#recordedAction').innerHTML = getReadable(atCmd);
                 L('#recordedAtCmd').innerHTML = atCmd;
@@ -69,6 +67,23 @@ window.tabAction.startRec = function () {
 };
 
 function getKeycode(e) {
+    if(L.equalIgnoreCase(e.key, 'ö')) {
+        return C.JS_KEYCODE_OE;
+    } else if (L.equalIgnoreCase(e.key, 'ü')) {
+        return C.JS_KEYCODE_UE;
+    } else if (L.equalIgnoreCase(e.key, 'ä')) {
+        return C.JS_KEYCODE_AE;
+    } else if (['ß', '?', '\\'].includes(e.key)) {
+        return C.JS_KEYCODE_SHARP_S;
+    } else if (['+', '*', '~'].includes(e.key)) {
+        return C.JS_KEYCODE_PLUS;
+    } else if (['#', "'"].includes(e.key)) {
+        return C.JS_KEYCODE_HASH;
+    } else if (['-', '_'].includes(e.key)) {
+        return C.JS_KEYCODE_DASH;
+    } else if (['<', '>', '|'].includes(e.key)) {
+        return C.JS_KEYCODE_ANGLE_BRACKET_L;
+    }
     return e.keyCode || e.which;
 }
 

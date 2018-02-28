@@ -54,7 +54,8 @@ function FlipMouse(initFinished) {
     thiz.LEARN_CAT_FLIPACTIONS = 'LEARN_CAT_FLIPACTIONS';
     thiz.LEARN_CATEGORIES = [thiz.LEARN_CAT_KEYBOARD, thiz.LEARN_CAT_MOUSE, thiz.LEARN_CAT_FLIPACTIONS];
 
-    var are = new ARECommunicator();
+    var communicator = new ARECommunicator();
+    //var communicator = new MockCommunicator();
     var _config = {};
     var _liveData = {};
     var AT_CMD_LENGTH = 5;
@@ -123,7 +124,7 @@ function FlipMouse(initFinished) {
             setTimeout(function () {
                 _timestampLastAtCmd = new Date().getTime();
                 console.log("sending to FlipMouse: " + nextCmd.cmd);
-                are.sendDataToInputPort('LipMouse.1', 'send', nextCmd.cmd).then(nextCmd.resolveFn);
+                communicator.sendData(nextCmd.cmd).then(nextCmd.resolveFn);
                 sendNext();
             }, timeout);
         }
@@ -354,6 +355,7 @@ function FlipMouse(initFinished) {
         var promises = [];
         var progress = 0;
         var progressPerItem = 100/C.DEFAULT_CONFIGURATION.length;
+        promises.push(thiz.sendATCmd('AT DE')); //delete all slots
         C.DEFAULT_CONFIGURATION.forEach(function (cmd) {
             var promise = thiz.sendATCmd(cmd);
             promises.push(promise);
@@ -364,6 +366,8 @@ function FlipMouse(initFinished) {
                 }
             });
         });
+        promises.push(thiz.sendATCmd('AT SA ' + C.DEFAULT_SLOTNAME)); //save slot
+        promises.push(thiz.calibrate());
 
         return new Promise(function (resolve) {
             Promise.all(promises).then(function () {
@@ -388,7 +392,7 @@ function FlipMouse(initFinished) {
         _valueHandler = handler;
         if (L.isFunction(_valueHandler)) {
             sendAtCmdNoResultHandling('AT SR');
-            are.setValueHandler(parseLiveValues);
+            communicator.setValueHandler(parseLiveValues);
         } else {
             sendAtCmdNoResultHandling('AT ER');
         }
@@ -396,7 +400,7 @@ function FlipMouse(initFinished) {
 
     function parseLiveValues(data) {
         if (!L.isFunction(_valueHandler)) {
-            are.setValueHandler(null);
+            communicator.setValueHandler(null);
             return;
         }
         if (!data || data.indexOf('VALUES') == -1) {

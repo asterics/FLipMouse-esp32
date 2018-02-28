@@ -367,6 +367,7 @@ function FlipMouse(initFinished) {
             });
         });
         promises.push(thiz.sendATCmd('AT SA ' + C.DEFAULT_SLOTNAME)); //save slot
+        promises.push(thiz.calibrate());
 
         return new Promise(function (resolve) {
             Promise.all(promises).then(function () {

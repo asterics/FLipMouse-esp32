@@ -73,14 +73,18 @@
 #define HAL_SERIAL_UART_TIMEOUT_MS 5000
 
 static const int BUF_SIZE_RX = 512;
+
 /** @brief Length of queue for AT commands
- * @note A maximum of CMDQUEUE_SIZE x ATCMD_LENGTH will be allocated. 
- * @see cmds
+ * @note A maximum of CMDQUEUE_SIZE x ATCMD_LENGTH can be allocated (if
+ * no task receives the commands)
+ * @see halSerialATCmds
  * */
 static const int CMDQUEUE_SIZE = 16;
+
 static const int BUF_SIZE_TX = 512;
 static uint8_t keycode_modifier;
 static uint8_t keycode_arr[8] = {'K',0,0,0,0,0,0,0};
+
 /** @brief Queue for parsed AT commands
  * 
  * This queue is read by halSerialReceiveUSBSerial (which receives
@@ -92,10 +96,22 @@ static uint8_t keycode_arr[8] = {'K',0,0,0,0,0,0,0};
  * @see CMDQUEUE_SIZE
  * @see atcmd_t
  * */
-QueueHandle_t cmds;
+QueueHandle_t halSerialATCmds;
 
+/** @brief AT command type for halSerialATCmds queue
+ * 
+ * This type of data is used to pass one AT command (in format
+ * of "AT MX 100") to any pending task.
+ * @see halSerialATCmds
+ * */
 typedef struct atcmd {
+  /** @brief Buffer pointer for the AT command 
+   * @note Buffer needs to be freed in pending/receiving functions
+   * (currently this is halSerialReceiveUSBSerial)
+   * @see halSerialReceiveUSBSerial
+   * */
   uint8_t *buf;
+  /** @brief Length of the corresponding AT command string */
   uint16_t len;
 } atcmd_t;
 
@@ -148,11 +164,16 @@ void halSerialFlushRX(void)
   uart_flush(HAL_SERIAL_UART);
 }
 
-/** @brief Event task for pattern (\n) detection
+/** @brief UART RX task for AT command pattern detection and parsing
  * 
- * @todo write docs new
+ * This task is used to pend on any incoming UART bytes.
+ * After receiving bytes, the incoming data is put together into AT commands.
+ * On a fully received AT command (terminated either by '\\r' or '\\n'),
+ * the buffer will be sent to the halSerialATCmds queue.
+ * 
+ * @see halSerialATCmds
  * */
-static void halSerialRXTask(void *pvParameters)
+void halSerialRXTask(void *pvParameters)
 {
   uint16_t cmdoffset;
   uint8_t *buf;
@@ -219,9 +240,9 @@ static void halSerialRXTask(void *pvParameters)
             //send buffer to queue
             currentcmd.buf = buf;
             currentcmd.len = cmdoffset+1;
-            if(cmds != NULL)
+            if(halSerialATCmds != NULL)
             {
-              if(xQueueSend(cmds,(void*)&currentcmd,10) != pdTRUE)
+              if(xQueueSend(halSerialATCmds,(void*)&currentcmd,10) != pdTRUE)
               {
                 ESP_LOGE(LOG_TAG,"AT cmd queue is full, cannot send cmd");
                 free(buf);
@@ -460,12 +481,12 @@ void halSerialTaskJoystick(void *param)
  * @param data Data to be sent
  * @param length Number of maximum bytes to read
  * @see HAL_SERIAL_UART_TIMEOUT_MS
- * @see cmds
+ * @see halSerialATCmds
  * */
 int halSerialReceiveUSBSerial(uint8_t *data, uint32_t length)
 {
   atcmd_t recv;
-  if(xQueueReceive(cmds,&recv,HAL_SERIAL_UART_TIMEOUT_MS / portTICK_PERIOD_MS))
+  if(xQueueReceive(halSerialATCmds,&recv,HAL_SERIAL_UART_TIMEOUT_MS / portTICK_PERIOD_MS))
   {
     //test for valid buffer
     if(recv.buf == NULL)
@@ -645,7 +666,7 @@ esp_err_t halSerialInit(void)
   }
 
   //create the AT command queue
-  cmds = xQueueCreate(CMDQUEUE_SIZE,sizeof(atcmd_t));
+  halSerialATCmds = xQueueCreate(CMDQUEUE_SIZE,sizeof(atcmd_t));
   
   //Set uart pattern detect function.
   //uart_enable_pattern_det_intr(HAL_SERIAL_UART, '\r', 1, 10000, 10, 10);

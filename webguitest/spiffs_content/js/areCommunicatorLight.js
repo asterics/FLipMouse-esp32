@@ -6,6 +6,8 @@ function ARECommunicator() {
     var _websocketUrl = 'ws://' + window.location.hostname + ':8092/ws/astericsData';
     var _websocket = null;
     var _valueHandler = null;
+    var _component = 'LipMouse.1';
+    var _inputPort = 'send';
 
     //encodes PathParametes
     function encodeParam(text) {
@@ -20,11 +22,11 @@ function ARECommunicator() {
         _valueHandler = handler;
     };
 
-    this.sendDataToInputPort = function (componentId, portId, value) {
-        if (!componentId || !portId || !value) return;
+    this.sendData = function (value) {
+        if (!value) return;
 
         //use GET sendDataToInputPort() for legacy reasons (phones that do only support GET requests)
-        var url = _baseURI + "runtime/model/components/" + encodeParam(componentId) + "/ports/" + encodeParam(portId) + "/data/" + encodeParam(value);
+        var url = _baseURI + "runtime/model/components/" + encodeParam(_component) + "/ports/" + encodeParam(_inputPort) + "/data/" + encodeParam(value);
         var xmlHttp = new XMLHttpRequest();
         xmlHttp.open("GET", url); // false for synchronous request
         xmlHttp.send(value);
@@ -36,8 +38,8 @@ function ARECommunicator() {
                     resolve(result);
                 }, 3000);
                 _websocket.onmessage = function (evt) {
-                    if(evt.data && evt.data.indexOf(VALUE_CONSTANT) > -1) {
-                        if(L.isFunction(_valueHandler)) {
+                    if (evt.data && evt.data.indexOf(VALUE_CONSTANT) > -1) {
+                        if (L.isFunction(_valueHandler)) {
                             _valueHandler(evt.data);
                         }
                         return;

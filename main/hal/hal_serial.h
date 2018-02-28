@@ -76,7 +76,7 @@
  * According to FLipMouse GUI PortIO.cs, \r is used */
 #define HAL_SERIAL_LINE_ENDING '\r'
 
-/** Initialize the serial HAL
+/** @brief Initialize the serial HAL
  * 
  * This method initializes the serial interface & creates
  * all necessary tasks
@@ -99,7 +99,7 @@ esp_err_t halSerialInit(void);
  * */
 void halSerialReset(uint8_t exceptDevice);
 
-/** Send serial bytes to USB-Serial (USB-CDC)
+/** @brief Send serial bytes to USB-Serial (USB-CDC)
  * 
  * This method sends bytes to the UART.
  * In addition, the GPIO signal pin is set to route this data
@@ -121,7 +121,7 @@ int halSerialSendUSBSerial(uint8_t channel, char *data, uint32_t length, TickTyp
 void halSerialFlushRX(void);
 
 
-/** Read serial bytes from USB-Serial (USB-CDC)
+/** @brief Read serial bytes from USB-Serial (USB-CDC)
  * 
  * This method reads bytes from the UART, which receives all data
  * from USB-CDC.

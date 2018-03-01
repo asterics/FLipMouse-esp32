@@ -282,18 +282,18 @@
                 <label class="three columns text-right text-normal" i18n>Action category // Aktions-Kategorie</label>
                 <div class="eight columns">
                     <div class="hide-tablet">
-                        <button class="three columns" onchange="tabAction.selectActionCategory(C.LEARN_CAT_KEYBOARD)" i18n>Keyboard // Tastatur</button>
-                        <button class="three columns" onchange="tabAction.selectActionCategory(C.LEARN_CAT_MOUSE)" i18n>Mouse // Maus</button>
-                        <button class="three columns" onchange="tabAction.selectActionCategory(C.LEARN_CAT_FLIPACTIONS)">Flip</button>
-                        <button class="three columns" onchange="tabAction.selectActionCategory(C.LEARN_CAT_CUSTOM)">Custom</button>
+                        <button class="three columns sABtn" onclick="tabAction.selectActionCategory(C.LEARN_CAT_KEYBOARD, this)" i18n>Keyboard // Tastatur</button>
+                        <button class="three columns sABtn" onclick="tabAction.selectActionCategory(C.LEARN_CAT_MOUSE, this)" i18n>Mouse // Maus</button>
+                        <button class="three columns sABtn" onclick="tabAction.selectActionCategory(C.LEARN_CAT_FLIPACTIONS, this)">Flip</button>
+                        <button class="three columns sABtn" onclick="tabAction.selectActionCategory(C.LEARN_CAT_CUSTOM, this)">Custom</button>
                     </div>
                     <div>
-                        <button class="show-tablet-inline half-width" style="margin-right: 4%" onchange="tabAction.selectActionCategory(C.LEARN_CAT_KEYBOARD)" i18n>Keyboard // Tastatur</button>
-                        <button class="show-tablet-inline half-width" onchange="tabAction.selectActionCategory(C.LEARN_CAT_MOUSE)" i18n>Mouse // Maus</button>
+                        <button class="show-tablet-inline half-width sABtn" style="margin-right: 4%" onclick="tabAction.selectActionCategory(C.LEARN_CAT_KEYBOARD, this)" i18n>Keyboard // Tastatur</button>
+                        <button class="show-tablet-inline half-width sABtn" onclick="tabAction.selectActionCategory(C.LEARN_CAT_MOUSE, this)" i18n>Mouse // Maus</button>
                     </div>
                     <div>
-                        <button class="show-tablet-inline half-width" style="margin-right: 4%" onchange="tabAction.selectActionCategory(C.LEARN_CAT_FLIPACTIONS)">Flip</button>
-                        <button class="show-tablet-inline half-width" onchange="tabAction.selectActionCategory(C.LEARN_CAT_CUSTOM)">Custom</button>
+                        <button class="show-tablet-inline half-width sABtn" style="margin-right: 4%" onclick="tabAction.selectActionCategory(C.LEARN_CAT_FLIPACTIONS, this)">Flip</button>
+                        <button class="show-tablet-inline half-width sABtn" onclick="tabAction.selectActionCategory(C.LEARN_CAT_CUSTOM, this)">Custom</button>
                     </div>
                 </div>
             </div>

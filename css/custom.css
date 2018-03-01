@@ -28,6 +28,10 @@ br {
     line-height: 250%;
 }
 
+.space-bottom {
+    margin-bottom: 0.5em;
+}
+
 .headerConnectIndicator {
     float: right;
     font-size: 1.5em;

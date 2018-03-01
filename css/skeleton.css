@@ -406,10 +406,10 @@ there.
   .show-mobile {
     display: block;
   }
-  .hide-mobile {
-    display: none;
+  .show-tablet-inline {
+    display: inline;
   }
-  .show-desktop {
+  .hide-mobile, .hide-mobile-inline, .show-desktop, .hide-tablet, .hide-tablet-inline {
     display: none;
   }
   .text-right {
@@ -435,13 +435,26 @@ there.
   .hide-mobile {
     display: block;
   }
+  .hide-mobile-inline{
+    display: inline;
+  }
   .text-right {
     text-align: right;
   }
 }
 
 /* Larger than tablet */
-@media (min-width: 750px) {}
+@media (min-width: 750px) {
+  .hide-tablet-inline {
+    display: inline;
+  }
+  .hide-tablet {
+    display: block;
+  }
+  .show-tablet-inline {
+    display: none;
+  }
+}
 
 /* Larger than desktop */
 @media (min-width: 1000px) {

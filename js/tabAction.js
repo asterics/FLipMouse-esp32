@@ -30,18 +30,13 @@ window.tabAction.initCombos = function () {
         option.value = btnMode;
         L('#selectActionButton').appendChild(option);
     });
-    L('#selectActionButton').value = '';
-    flip.LEARN_CATEGORIES.forEach(function (cat) {
-        var option = L.createElement('option', '', cat);
-        option.value = cat;
-        L('#selectActionCategory').appendChild(option);
-    });
-    L('#selectActionCategory').value = '';
+    L('#currentAction').innerHTML = getReadable(flip.getConfig(C.BTN_MODES[0]));
 };
 
 window.tabAction.selectActionButton = function (btnMode) {
     console.log(btnMode);
     L('#selectActionButton').value = btnMode;
+    L('#currentAction').innerHTML = getReadable(flip.getConfig(btnMode));
 };
 
 window.tabAction.startRec = function () {

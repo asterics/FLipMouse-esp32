@@ -35,20 +35,6 @@ function FlipMouse(initFinished) {
         L.getIDSelector(thiz.PUFF_STRONG_THRESHOLD)
     ];
 
-    thiz.BTN_MODE_BUTTON_1 = 'BTN_MODE_BUTTON_1';
-    thiz.BTN_MODE_BUTTON_2 = 'BTN_MODE_BUTTON_2';
-    thiz.BTN_MODE_BUTTON_3 = 'BTN_MODE_BUTTON_3';
-    thiz.BTN_MODE_STICK_UP = 'BTN_MODE_STICK_UP';
-    thiz.BTN_MODE_STICK_DOWN = 'BTN_MODE_STICK_DOWN';
-    thiz.BTN_MODE_STICK_LEFT = 'BTN_MODE_STICK_LEFT';
-    thiz.BTN_MODE_STICK_RIGHT = 'BTN_MODE_STICK_RIGHT';
-    thiz.BTN_MODE_SIP = 'BTN_MODE_SIP';
-    thiz.BTN_MODE_PUFF = 'BTN_MODE_PUFF';
-    thiz.BTN_MODES = [thiz.BTN_MODE_BUTTON_1, thiz.BTN_MODE_BUTTON_2, thiz.BTN_MODE_BUTTON_3,
-        thiz.BTN_MODE_STICK_UP, thiz.BTN_MODE_STICK_DOWN, thiz.BTN_MODE_STICK_LEFT, thiz.BTN_MODE_STICK_RIGHT,
-        thiz.BTN_MODE_SIP, thiz.BTN_MODE_PUFF];
-    var AT_CMD_BTN_MODE = 'AT BM';
-
     thiz.LEARN_CAT_KEYBOARD = 'LEARN_CAT_KEYBOARD';
     thiz.LEARN_CAT_MOUSE = 'LEARN_CAT_MOUSE';
     thiz.LEARN_CAT_FLIPACTIONS = 'LEARN_CAT_FLIPACTIONS';
@@ -333,7 +319,7 @@ function FlipMouse(initFinished) {
     };
 
     thiz.setButtonAction = function(buttonModeConstant, atCmd, dontSetConfig) {
-        var index = thiz.BTN_MODES.indexOf(buttonModeConstant) + 1;
+        var index = C.BTN_MODES.indexOf(buttonModeConstant) + 1;
         var indexFormatted = ("0" + index).slice(-2); //1 => 01
         if(!index || !atCmd) {
             return;
@@ -343,7 +329,7 @@ function FlipMouse(initFinished) {
         }
         return new Promise(function (resolve) {
             var promises = [];
-            promises.push(thiz.sendATCmd(AT_CMD_BTN_MODE + ' ' + indexFormatted));
+            promises.push(thiz.sendATCmd(C.AT_CMD_BTN_MODE + ' ' + indexFormatted));
             promises.push(thiz.sendATCmd(atCmd));
             Promise.all(promises).then(function () {
                 resolve();
@@ -455,10 +441,10 @@ function FlipMouse(initFinished) {
             var currentAtCmd = currentElement.substring(0, AT_CMD_LENGTH);
             if (VALUE_AT_CMDS.includes(currentAtCmd)) {
                 config[L.val2key(currentAtCmd, AT_CMD_MAPPING)] = parseInt(currentElement.substring(AT_CMD_LENGTH));
-            } else if(currentAtCmd.indexOf(AT_CMD_BTN_MODE) > -1) {
+            } else if(currentAtCmd.indexOf(C.AT_CMD_BTN_MODE) > -1) {
                 var buttonModeIndex = parseInt(currentElement.substring(AT_CMD_LENGTH));
-                if(thiz.BTN_MODES[buttonModeIndex-1]) {
-                    config[thiz.BTN_MODES[buttonModeIndex-1]] = nextElement.trim();
+                if(C.BTN_MODES[buttonModeIndex-1]) {
+                    config[C.BTN_MODES[buttonModeIndex-1]] = nextElement.trim();
                 }
             }
         }
@@ -471,7 +457,7 @@ function FlipMouse(initFinished) {
             var promises = [];
             Object.keys(config).forEach(function (key) {
                 var atCmd = AT_CMD_MAPPING[key];
-                if(thiz.BTN_MODES.includes(key)) {
+                if(C.BTN_MODES.includes(key)) {
                     promises.push(thiz.setButtonAction(key, config[key]), true);
                 } else {
                     promises.push(thiz.sendATCmd(atCmd + ' ' + config[key]));

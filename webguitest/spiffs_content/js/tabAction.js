@@ -39,6 +39,12 @@ window.tabAction.selectActionButton = function (btnMode) {
     L('#currentAction').innerHTML = getReadable(flip.getConfig(btnMode));
 };
 
+window.tabAction.selectActionCategory = function (category, button) {
+    console.log(category);
+    L.removeClass('.sABtn', 'color-lightercyan');
+    L.addClass(button, 'color-lightercyan');
+};
+
 window.tabAction.startRec = function () {
     if(!document.onkeydown) {
         L('#recordedAction').innerHTML = '';
@@ -154,5 +160,8 @@ function getAtCmd(queue) {
 }
 
 function getReadable(atCmd) {
+    if(!atCmd) {
+        return '';
+    }
     return L.translate(atCmd.substring(0, C.LENGTH_ATCMD_PREFIX-1), atCmd.substring(C.LENGTH_ATCMD_PREFIX));
 }

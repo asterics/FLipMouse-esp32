@@ -1,0 +1,21 @@
+window.i18n = {
+    'CONFIRM_DELETE_SLOT': 'Möchten Sie den Slot "{?}" wirklich löschen?',
+    'CONFIRM_RESET_SLOTS': 'Möchten Sie die FLipMouse wirklich auf die Standardeinstellungen zurücksetzen?'
+};
+
+i18n[C.BTN_MODE_BUTTON_1] = 'Button 1';
+i18n[C.BTN_MODE_BUTTON_2] = 'Button 2';
+i18n[C.BTN_MODE_BUTTON_3] = 'Button 3';
+i18n[C.BTN_MODE_STICK_UP] = 'Stick nach oben';
+i18n[C.BTN_MODE_STICK_DOWN] = 'Stick nach unten';
+i18n[C.BTN_MODE_STICK_LEFT] = 'Stick nach links';
+i18n[C.BTN_MODE_STICK_RIGHT] = 'Stick nach rechts';
+i18n[C.BTN_MODE_SIP] = 'Funktion ansaugen';
+i18n[C.BTN_MODE_PUFF] = 'Funktion blasen';
+
+i18n[C.AT_CMD_WRITEWORD] = 'Schreibe Wort: {?}';
+i18n[C.AT_CMD_KEYPRESS] = 'Drücke Tasten: {?}';
+i18n[C.AT_CMD_NO_CMD] = '(nicht belegt)';
+i18n[C.AT_CMD_PRESSHOLD_MOUSE_L] = 'Klicken + Halten linke Maustaste';
+i18n[C.AT_CMD_PRESSHOLD_MOUSE_R] = 'Klicken + Halten rechte Maustaste';
+i18n[C.AT_CMD_NEXT_SLOT] = 'Nächsten Slot laden';

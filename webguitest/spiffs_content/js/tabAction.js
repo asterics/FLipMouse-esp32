@@ -1,13 +1,13 @@
 window.tabAction = {};
 window.tabAction.initBtnModeActionTable = function () {
     L.removeAllChildren('#currentConfigTb');
-    flip.BTN_MODES.forEach(function (btnMode) {
+    C.BTN_MODES.forEach(function (btnMode) {
         var liElm = L.createElement('li', 'row');
-        var currentActionDiv = L.createElement('div', 'eight columns', L.createElement('span', '', flip.getConfig(btnMode) + ' '));
+        var currentActionDiv = L.createElement('div', 'eight columns', L.createElement('span', '', getReadable(flip.getConfig(btnMode)) + ' '));
         var changeA = L.createElement('a', '', 'change');
         changeA.href = 'javascript:tabAction.selectActionButton("' + btnMode + '")';
         currentActionDiv.appendChild(changeA);
-        liElm.appendChild(L.createElement('div', 'two columns', btnMode));
+        liElm.appendChild(L.createElement('div', 'two columns', L.translate(btnMode)));
         liElm.appendChild(currentActionDiv);
         L('#currentConfigTb').appendChild(liElm);
     });
@@ -15,8 +15,8 @@ window.tabAction.initBtnModeActionTable = function () {
 
 window.tabAction.initCombos = function () {
     L.removeAllChildren('#selectActionButton');
-    flip.BTN_MODES.forEach(function (btnMode) {
-        var option = L.createElement('option', '', btnMode);
+    C.BTN_MODES.forEach(function (btnMode) {
+        var option = L.createElement('option', '', L.translate(btnMode));
         option.value = btnMode;
         L('#selectActionButton').appendChild(option);
     });
@@ -149,12 +149,5 @@ function getAtCmd(queue) {
 }
 
 function getReadable(atCmd) {
-    if(atCmd.indexOf(C.AT_CMD_WRITEWORD) > -1) {
-        var s = L.translate("Write word:", "Schreibe Wort:");
-        return s + " '" + atCmd.substring(C.LENGTH_ATCMD_PREFIX) + "'";
-    } else if(atCmd.indexOf(C.AT_CMD_KEYPRESS) > -1) {
-        var s = L.translate("Press keys: ", "Drücke Tasten: ");
-        return s + L.replaceAll(atCmd.substring(C.LENGTH_ATCMD_PREFIX), ' ', ' + ');
-    }
-    return '';
+    return L.translate(atCmd.substring(0, C.LENGTH_ATCMD_PREFIX-1), atCmd.substring(C.LENGTH_ATCMD_PREFIX));
 }

@@ -50,6 +50,8 @@
  * @see task_mouse
  * @see task_configswitcher
  * @see task_calibration
+ * @see task_macros
+ * @see task_infrared
  * 
  * The loading/unloading is done by the config switcher task
  * @see configSwitcherTask
@@ -68,12 +70,13 @@
  @todo Configswitcher NEXT increments slot number, even if not possible. Also check for turn-around. & missing slots.
  @todo Clarify AT KP/KR/KH commands on original FlipMouse, to be compatible... (especially for press/release with buttons & with multiple key identifiers)
  @todo Debouncer testing...
- @todo Debouncer: add macro for easily setting/clearing a VB (in IN and OUT)
  @todo Implement buzzer in remaining task_* functions (infrared, strongsip/puff exit)
  
- 
+ @todo Test AT MA (macros).
  @todo Test whole IR stuff
  
  @todo add AT FR to hal_storage & task_commands
  @todo ADC_TASK triggers watchdog...
+ 
+ @todo Implement long press for virtual buttons (new VBs).
 */

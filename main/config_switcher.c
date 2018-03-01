@@ -319,6 +319,13 @@ void configSwitcherTask(void * params)
             stacksize = TASK_MOUSE_STACKSIZE; 
             ESP_LOGD(LOG_TAG,"creating new mouse task on VB %d",i);
             break;
+          case T_MACRO: 
+            newTaskCode = (TaskFunction_t)task_macro; 
+            currentTaskParameters[i] = malloc(sizeof(taskMacrosConfig_t));
+            vbparametersize = sizeof(taskMacrosConfig_t);
+            stacksize = TASK_MACROS_STACKSIZE; 
+            ESP_LOGD(LOG_TAG,"creating new macro task on VB %d",i);
+            break;
           case T_KEYBOARD: 
             newTaskCode = (TaskFunction_t)task_keyboard; 
             currentTaskParameters[i] = malloc(sizeof(taskKeyboardConfig_t));

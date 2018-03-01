@@ -352,6 +352,7 @@ typedef enum {
   T_CONFIGCHANGE,
   T_CALIBRATE,
   T_SENDIR,
+  T_MACRO,
   T_NOFUNCTION
 } command_type_t;
 

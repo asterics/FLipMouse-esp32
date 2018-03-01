@@ -89,6 +89,9 @@ Macros</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
+<tr class="memitem:addfc4a2f0cb7848979817346b6f53afc"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="hal__io_8c.html#addfc4a2f0cb7848979817346b6f53afc">gpio_isr_handler</a> (void *arg)</td></tr>
+<tr class="memdesc:addfc4a2f0cb7848979817346b6f53afc"><td class="mdescLeft">&#160;</td><td class="mdescRight">GPIO ISR handler for buttons (internal/external)  <a href="#addfc4a2f0cb7848979817346b6f53afc">More...</a><br /></td></tr>
+<tr class="separator:addfc4a2f0cb7848979817346b6f53afc"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac042a2c8cb99fa3ba52f8e494c1bbe13"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="hal__io_8c.html#ac042a2c8cb99fa3ba52f8e494c1bbe13">halIOIRFree</a> (rmt_channel_t channel, void *arg)</td></tr>
 <tr class="memdesc:ac042a2c8cb99fa3ba52f8e494c1bbe13"><td class="mdescLeft">&#160;</td><td class="mdescRight">Callback to free the memory after finished transmission.  <a href="#ac042a2c8cb99fa3ba52f8e494c1bbe13">More...</a><br /></td></tr>
 <tr class="separator:ac042a2c8cb99fa3ba52f8e494c1bbe13"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -125,7 +128,7 @@ Variables</h2></td></tr>
 <li>Buzzer</li>
 </ul>
 <dl class="section note"><dt>Note</dt><dd>Compared to the tasks in the folder "function_tasks" all HAL tasks are singletons. Call init to initialize every necessary data structure.</dd></dl>
-<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000021">Todo:</a></b></dt><dd>Test LED driver, Buzzer &amp; IR </dd></dl>
+<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000022">Todo:</a></b></dt><dd>Test LED driver, Buzzer &amp; IR </dd></dl>
 
 <p class="definition">Definition in file <a class="el" href="hal__io_8c_source.html">hal_io.c</a>.</p>
 </div><h2 class="groupheader">Macro Definition Documentation</h2>
@@ -164,6 +167,8 @@ Variables</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="hal__io_8c_source.html#l00355">355</a> of file <a class="el" href="hal__io_8c_source.html">hal_io.c</a>.</p>
 
+<p class="reference">Referenced by <a class="el" href="hal__io_8c_source.html#l00365">halIOInit()</a>.</p>
+
 </div>
 </div>
 <a id="acfe8de99b8ccf08b2d34c25bac254f21"></a>
@@ -181,9 +186,54 @@ Variables</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="hal__io_8c_source.html#l00354">354</a> of file <a class="el" href="hal__io_8c_source.html">hal_io.c</a>.</p>
 
+<p class="reference">Referenced by <a class="el" href="hal__io_8c_source.html#l00365">halIOInit()</a>.</p>
+
 </div>
 </div>
 <h2 class="groupheader">Function Documentation</h2>
+<a id="addfc4a2f0cb7848979817346b6f53afc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#addfc4a2f0cb7848979817346b6f53afc">&#9670;&nbsp;</a></span>gpio_isr_handler()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static void gpio_isr_handler </td>
+          <td>(</td>
+          <td class="paramtype">void *&#160;</td>
+          <td class="paramname"><em>arg</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>GPIO ISR handler for buttons (internal/external) </p>
+<p>This ISR handler is called on rising&amp;falling edge of each button GPIO.</p>
+<p>It sets and clears the VB flags accordingly on each call. These flags are used for button debouncing. </p><dl class="section see"><dt>See also</dt><dd><a class="el" href="task__debouncer_8h.html#a79d88e490be7198b9cc37556c66b837b" title="Debouncing main task. ">task_debouncer</a> </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="hal__io_8c_source.html#l00065">65</a> of file <a class="el" href="hal__io_8c_source.html">hal_io.c</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="hal__io_8c_source.html#l00365">halIOInit()</a>.</p>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="hal__io_8c_addfc4a2f0cb7848979817346b6f53afc_icgraph.png" border="0" usemap="#hal__io_8c_addfc4a2f0cb7848979817346b6f53afc_icgraph" alt=""/></div>
+<map name="hal__io_8c_addfc4a2f0cb7848979817346b6f53afc_icgraph" id="hal__io_8c_addfc4a2f0cb7848979817346b6f53afc_icgraph">
+<area shape="rect" id="node2" href="hal__io_8h.html#aa5ee74913a09cba6dca62bfdc9f8342b" title="Initializing IO HAL. " alt="" coords="169,5,240,32"/>
+<area shape="rect" id="node3" href="flipmouse__fabi__esp32__kbdmouse__main_8c.html#abce06be17fc37d675118a678a8100a36" title="Main task, created by esp&#45;idf. " alt="" coords="288,5,367,32"/>
+</map>
+</div>
+
+</div>
+</div>
 <a id="a5c30b3b4a88e8f23489485659d53c7c0"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a5c30b3b4a88e8f23489485659d53c7c0">&#9670;&nbsp;</a></span>halIOBuzzerTask()</h2>
 
@@ -213,12 +263,23 @@ Variables</h2></td></tr>
 </dl>
 
 <p class="definition">Definition at line <a class="el" href="hal__io_8c_source.html#l00241">241</a> of file <a class="el" href="hal__io_8c_source.html">hal_io.c</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="hal__io_8c_source.html#l00365">halIOInit()</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="hal__io_8c_a5c30b3b4a88e8f23489485659d53c7c0_cgraph.png" border="0" usemap="#hal__io_8c_a5c30b3b4a88e8f23489485659d53c7c0_cgraph" alt=""/></div>
 <map name="hal__io_8c_a5c30b3b4a88e8f23489485659d53c7c0_cgraph" id="hal__io_8c_a5c30b3b4a88e8f23489485659d53c7c0_cgraph">
 <area shape="rect" id="node2" href="config__switcher_8c.html#a921538bec34d128a44a748fd5a2c391f" title="Get the current config struct. " alt="" coords="176,5,297,32"/>
+</map>
+</div>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="hal__io_8c_a5c30b3b4a88e8f23489485659d53c7c0_icgraph.png" border="0" usemap="#hal__io_8c_a5c30b3b4a88e8f23489485659d53c7c0_icgraph" alt=""/></div>
+<map name="hal__io_8c_a5c30b3b4a88e8f23489485659d53c7c0_icgraph" id="hal__io_8c_a5c30b3b4a88e8f23489485659d53c7c0_icgraph">
+<area shape="rect" id="node2" href="hal__io_8h.html#aa5ee74913a09cba6dca62bfdc9f8342b" title="Initializing IO HAL. " alt="" coords="176,5,247,32"/>
+<area shape="rect" id="node3" href="flipmouse__fabi__esp32__kbdmouse__main_8c.html#abce06be17fc37d675118a678a8100a36" title="Main task, created by esp&#45;idf. " alt="" coords="295,5,373,32"/>
 </map>
 </div>
 
@@ -257,7 +318,13 @@ Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="hal__io_8c_aa5ee74913a09cba6dca62bfdc9f8342b_cgraph.png" border="0" usemap="#hal__io_8c_aa5ee74913a09cba6dca62bfdc9f8342b_cgraph" alt=""/></div>
 <map name="hal__io_8c_aa5ee74913a09cba6dca62bfdc9f8342b_cgraph" id="hal__io_8c_aa5ee74913a09cba6dca62bfdc9f8342b_cgraph">
-<area shape="rect" id="node2" href="config__switcher_8c.html#a921538bec34d128a44a748fd5a2c391f" title="Get the current config struct. " alt="" coords="124,5,245,32"/>
+<area shape="rect" id="node2" href="config__switcher_8c.html#a921538bec34d128a44a748fd5a2c391f" title="Get the current config struct. " alt="" coords="299,208,420,235"/>
+<area shape="rect" id="node3" href="hal__io_8c.html#addfc4a2f0cb7848979817346b6f53afc" title="GPIO ISR handler for buttons (internal/external) " alt="" coords="129,56,245,83"/>
+<area shape="rect" id="node4" href="hal__io_8c.html#a2c496a858bfe63759ccc520a2add4963" title="HAL TASK &#45; IR sending task. " alt="" coords="124,5,251,32"/>
+<area shape="rect" id="node6" href="hal__io_8c.html#af049ec6b187a1b5b1575120758561ae8" title="HAL TASK &#45; IR receiving (recording) task. " alt="" coords="124,157,251,184"/>
+<area shape="rect" id="node7" href="hal__io_8c.html#ad83b58c9ee836526a874392c0757f42d" title="HAL TASK &#45; LED update task. " alt="" coords="133,208,241,235"/>
+<area shape="rect" id="node8" href="hal__io_8c.html#a5c30b3b4a88e8f23489485659d53c7c0" title="HAL TASK &#45; Buzzer update task. " alt="" coords="126,107,249,133"/>
+<area shape="rect" id="node5" href="hal__io_8c.html#ac042a2c8cb99fa3ba52f8e494c1bbe13" title="Callback to free the memory after finished transmission. " alt="" coords="313,5,406,32"/>
 </map>
 </div>
 <div class="dynheader">
@@ -315,6 +382,8 @@ Here is the caller graph for this function:</div>
 <div class="center"><img src="hal__io_8c_ac042a2c8cb99fa3ba52f8e494c1bbe13_icgraph.png" border="0" usemap="#hal__io_8c_ac042a2c8cb99fa3ba52f8e494c1bbe13_icgraph" alt=""/></div>
 <map name="hal__io_8c_ac042a2c8cb99fa3ba52f8e494c1bbe13_icgraph" id="hal__io_8c_ac042a2c8cb99fa3ba52f8e494c1bbe13_icgraph">
 <area shape="rect" id="node2" href="hal__io_8c.html#a2c496a858bfe63759ccc520a2add4963" title="HAL TASK &#45; IR sending task. " alt="" coords="147,5,273,32"/>
+<area shape="rect" id="node3" href="hal__io_8h.html#aa5ee74913a09cba6dca62bfdc9f8342b" title="Initializing IO HAL. " alt="" coords="321,5,392,32"/>
+<area shape="rect" id="node4" href="flipmouse__fabi__esp32__kbdmouse__main_8c.html#abce06be17fc37d675118a678a8100a36" title="Main task, created by esp&#45;idf. " alt="" coords="440,5,519,32"/>
 </map>
 </div>
 
@@ -341,7 +410,7 @@ Here is the caller graph for this function:</div>
 <dl class="section see"><dt>See also</dt><dd><a class="el" href="common_8h.html#af531911959683790ca7ae870f8462a16" title="Output buzzer noise. ">halIOIR_t</a> </dd>
 <dd>
 <a class="el" href="hal__io_8h.html#a528414effa3559daeccac2474c3835ed" title="Queue to pend for any incoming infrared remote commands. ">halIOIRRecvQueue</a> </dd></dl>
-<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000022">Todo:</a></b></dt><dd>How to start the receiver? </dd></dl>
+<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000023">Todo:</a></b></dt><dd>How to start the receiver? </dd></dl>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">param</td><td>Unused. </td></tr>
@@ -350,6 +419,17 @@ Here is the caller graph for this function:</div>
 </dl>
 
 <p class="definition">Definition at line <a class="el" href="hal__io_8c_source.html#l00161">161</a> of file <a class="el" href="hal__io_8c_source.html">hal_io.c</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="hal__io_8c_source.html#l00365">halIOInit()</a>.</p>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="hal__io_8c_af049ec6b187a1b5b1575120758561ae8_icgraph.png" border="0" usemap="#hal__io_8c_af049ec6b187a1b5b1575120758561ae8_icgraph" alt=""/></div>
+<map name="hal__io_8c_af049ec6b187a1b5b1575120758561ae8_icgraph" id="hal__io_8c_af049ec6b187a1b5b1575120758561ae8_icgraph">
+<area shape="rect" id="node2" href="hal__io_8h.html#aa5ee74913a09cba6dca62bfdc9f8342b" title="Initializing IO HAL. " alt="" coords="180,5,251,32"/>
+<area shape="rect" id="node3" href="flipmouse__fabi__esp32__kbdmouse__main_8c.html#abce06be17fc37d675118a678a8100a36" title="Main task, created by esp&#45;idf. " alt="" coords="299,5,377,32"/>
+</map>
+</div>
 
 </div>
 </div>
@@ -382,12 +462,23 @@ Here is the caller graph for this function:</div>
 </dl>
 
 <p class="definition">Definition at line <a class="el" href="hal__io_8c_source.html#l00118">118</a> of file <a class="el" href="hal__io_8c_source.html">hal_io.c</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="hal__io_8c_source.html#l00365">halIOInit()</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="hal__io_8c_a2c496a858bfe63759ccc520a2add4963_cgraph.png" border="0" usemap="#hal__io_8c_a2c496a858bfe63759ccc520a2add4963_cgraph" alt=""/></div>
 <map name="hal__io_8c_a2c496a858bfe63759ccc520a2add4963_cgraph" id="hal__io_8c_a2c496a858bfe63759ccc520a2add4963_cgraph">
 <area shape="rect" id="node2" href="hal__io_8c.html#ac042a2c8cb99fa3ba52f8e494c1bbe13" title="Callback to free the memory after finished transmission. " alt="" coords="180,5,273,32"/>
+</map>
+</div>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="hal__io_8c_a2c496a858bfe63759ccc520a2add4963_icgraph.png" border="0" usemap="#hal__io_8c_a2c496a858bfe63759ccc520a2add4963_icgraph" alt=""/></div>
+<map name="hal__io_8c_a2c496a858bfe63759ccc520a2add4963_icgraph" id="hal__io_8c_a2c496a858bfe63759ccc520a2add4963_icgraph">
+<area shape="rect" id="node2" href="hal__io_8h.html#aa5ee74913a09cba6dca62bfdc9f8342b" title="Initializing IO HAL. " alt="" coords="180,5,251,32"/>
+<area shape="rect" id="node3" href="flipmouse__fabi__esp32__kbdmouse__main_8c.html#abce06be17fc37d675118a678a8100a36" title="Main task, created by esp&#45;idf. " alt="" coords="299,5,377,32"/>
 </map>
 </div>
 
@@ -420,12 +511,23 @@ Here is the call graph for this function:</div>
 </dl>
 
 <p class="definition">Definition at line <a class="el" href="hal__io_8c_source.html#l00294">294</a> of file <a class="el" href="hal__io_8c_source.html">hal_io.c</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="hal__io_8c_source.html#l00365">halIOInit()</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="hal__io_8c_ad83b58c9ee836526a874392c0757f42d_cgraph.png" border="0" usemap="#hal__io_8c_ad83b58c9ee836526a874392c0757f42d_cgraph" alt=""/></div>
 <map name="hal__io_8c_ad83b58c9ee836526a874392c0757f42d_cgraph" id="hal__io_8c_ad83b58c9ee836526a874392c0757f42d_cgraph">
 <area shape="rect" id="node2" href="config__switcher_8c.html#a921538bec34d128a44a748fd5a2c391f" title="Get the current config struct. " alt="" coords="161,5,283,32"/>
+</map>
+</div>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="hal__io_8c_ad83b58c9ee836526a874392c0757f42d_icgraph.png" border="0" usemap="#hal__io_8c_ad83b58c9ee836526a874392c0757f42d_icgraph" alt=""/></div>
+<map name="hal__io_8c_ad83b58c9ee836526a874392c0757f42d_icgraph" id="hal__io_8c_ad83b58c9ee836526a874392c0757f42d_icgraph">
+<area shape="rect" id="node2" href="hal__io_8h.html#aa5ee74913a09cba6dca62bfdc9f8342b" title="Initializing IO HAL. " alt="" coords="161,5,232,32"/>
+<area shape="rect" id="node3" href="flipmouse__fabi__esp32__kbdmouse__main_8c.html#abce06be17fc37d675118a678a8100a36" title="Main task, created by esp&#45;idf. " alt="" coords="280,5,359,32"/>
 </map>
 </div>
 
@@ -456,7 +558,7 @@ Here is the call graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="hal__io_8c_source.html#l00054">54</a> of file <a class="el" href="hal__io_8c_source.html">hal_io.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="hal__io_8c_source.html#l00294">halIOLEDTask()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="hal__io_8c_source.html#l00365">halIOInit()</a>, and <a class="el" href="hal__io_8c_source.html#l00294">halIOLEDTask()</a>.</p>
 
 </div>
 </div>

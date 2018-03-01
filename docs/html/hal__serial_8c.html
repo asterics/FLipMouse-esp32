@@ -63,9 +63,7 @@ $(function() {
 </div><!-- top -->
 <div class="header">
   <div class="summary">
-<a href="#nested-classes">Data Structures</a> &#124;
 <a href="#define-members">Macros</a> &#124;
-<a href="#typedef-members">Typedefs</a> &#124;
 <a href="#func-members">Functions</a> &#124;
 <a href="#var-members">Variables</a>  </div>
   <div class="headertitle">
@@ -79,11 +77,6 @@ $(function() {
 </div>
 <p><a href="hal__serial_8c_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
-Data Structures</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structatcmd.html">atcmd</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="define-members"></a>
 Macros</h2></td></tr>
 <tr class="memitem:a7ce0df38eb467e59f209470c8f5ac4e6"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="hal__serial_8c.html#a7ce0df38eb467e59f209470c8f5ac4e6">LOG_TAG</a>&#160;&#160;&#160;&quot;hal_serial&quot;</td></tr>
@@ -94,11 +87,6 @@ Macros</h2></td></tr>
 <tr class="memdesc:a8ed6a618f134d6b923ba216de84253f6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Ticks until the UART receive function has a timeout and gives back received data.*.  <a href="#a8ed6a618f134d6b923ba216de84253f6">More...</a><br /></td></tr>
 <tr class="separator:a8ed6a618f134d6b923ba216de84253f6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="typedef-members"></a>
-Typedefs</h2></td></tr>
-<tr class="memitem:a1929a11fd2a8ebc7e1182bfaf19d5d74"><td class="memItemLeft" align="right" valign="top">typedef struct <a class="el" href="structatcmd.html">atcmd</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="hal__serial_8c.html#a1929a11fd2a8ebc7e1182bfaf19d5d74">atcmd_t</a></td></tr>
-<tr class="separator:a1929a11fd2a8ebc7e1182bfaf19d5d74"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
 <tr class="memitem:a132de0978f07044a393cc1f3b5276ced"><td class="memItemLeft" align="right" valign="top">esp_err_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="hal__serial_8c.html#a132de0978f07044a393cc1f3b5276ced">halSerialSwitchTXChannel</a> (uint8_t target_level, TickType_t ticks_to_wait)</td></tr>
@@ -106,6 +94,9 @@ Functions</h2></td></tr>
 <tr class="memitem:a995c536b9e0d279066d893c6a3dfce4e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="hal__serial_8c.html#a995c536b9e0d279066d893c6a3dfce4e">halSerialFlushRX</a> (void)</td></tr>
 <tr class="memdesc:a995c536b9e0d279066d893c6a3dfce4e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Flush Serial RX input buffer.  <a href="#a995c536b9e0d279066d893c6a3dfce4e">More...</a><br /></td></tr>
 <tr class="separator:a995c536b9e0d279066d893c6a3dfce4e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab3a538fb88a9732f0afc0188cc3c9c38"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="hal__serial_8c.html#ab3a538fb88a9732f0afc0188cc3c9c38">halSerialRXTask</a> (void *pvParameters)</td></tr>
+<tr class="memdesc:ab3a538fb88a9732f0afc0188cc3c9c38"><td class="mdescLeft">&#160;</td><td class="mdescRight">UART RX task for AT command pattern detection and parsing.  <a href="#ab3a538fb88a9732f0afc0188cc3c9c38">More...</a><br /></td></tr>
+<tr class="separator:ab3a538fb88a9732f0afc0188cc3c9c38"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad5198af46e2ca012d539fba22094f581"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="hal__serial_8c.html#ad5198af46e2ca012d539fba22094f581">halSerialTaskKeyboardPress</a> (void *param)</td></tr>
 <tr class="separator:ad5198af46e2ca012d539fba22094f581"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac5c6fb8edd37d249a19e6150e16c0239"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="hal__serial_8c.html#ac5c6fb8edd37d249a19e6150e16c0239">halSerialTaskKeyboardRelease</a> (void *param)</td></tr>
@@ -115,20 +106,33 @@ Functions</h2></td></tr>
 <tr class="memitem:af24cc3b9c361b110e30ecdbdc9c4e7bd"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="hal__serial_8c.html#af24cc3b9c361b110e30ecdbdc9c4e7bd">halSerialTaskJoystick</a> (void *param)</td></tr>
 <tr class="separator:af24cc3b9c361b110e30ecdbdc9c4e7bd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a131377105453d5b94f02f977ff454613"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="hal__serial_8c.html#a131377105453d5b94f02f977ff454613">halSerialReceiveUSBSerial</a> (uint8_t *data, uint32_t length)</td></tr>
+<tr class="memdesc:a131377105453d5b94f02f977ff454613"><td class="mdescLeft">&#160;</td><td class="mdescRight">Read serial bytes from USB-Serial (USB-CDC)  <a href="#a131377105453d5b94f02f977ff454613">More...</a><br /></td></tr>
 <tr class="separator:a131377105453d5b94f02f977ff454613"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8f987ba001c2a39c959a551a94b5df43"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="hal__serial_8c.html#a8f987ba001c2a39c959a551a94b5df43">halSerialSendUSBSerial</a> (uint8_t channel, char *data, uint32_t length, TickType_t ticks_to_wait)</td></tr>
+<tr class="memdesc:a8f987ba001c2a39c959a551a94b5df43"><td class="mdescLeft">&#160;</td><td class="mdescRight">Send serial bytes to USB-Serial (USB-CDC)  <a href="#a8f987ba001c2a39c959a551a94b5df43">More...</a><br /></td></tr>
 <tr class="separator:a8f987ba001c2a39c959a551a94b5df43"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab2261f95747ee5806ebdec880d09ca89"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="hal__serial_8c.html#ab2261f95747ee5806ebdec880d09ca89">halSerialReset</a> (uint8_t exceptDevice)</td></tr>
 <tr class="memdesc:ab2261f95747ee5806ebdec880d09ca89"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reset the serial HID report data.  <a href="#ab2261f95747ee5806ebdec880d09ca89">More...</a><br /></td></tr>
 <tr class="separator:ab2261f95747ee5806ebdec880d09ca89"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2d03c06463b09e33d87d90eb273819b0"><td class="memItemLeft" align="right" valign="top">esp_err_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="hal__serial_8c.html#a2d03c06463b09e33d87d90eb273819b0">halSerialInit</a> (void)</td></tr>
+<tr class="memdesc:a2d03c06463b09e33d87d90eb273819b0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initialize the serial HAL.  <a href="#a2d03c06463b09e33d87d90eb273819b0">More...</a><br /></td></tr>
 <tr class="separator:a2d03c06463b09e33d87d90eb273819b0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="var-members"></a>
 Variables</h2></td></tr>
-<tr class="memitem:aba40b92cce52984f8003f0ac11b1094b"><td class="memItemLeft" align="right" valign="top">QueueHandle_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="hal__serial_8c.html#aba40b92cce52984f8003f0ac11b1094b">cmds</a></td></tr>
-<tr class="memdesc:aba40b92cce52984f8003f0ac11b1094b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Queue for parsed AT commands.  <a href="#aba40b92cce52984f8003f0ac11b1094b">More...</a><br /></td></tr>
-<tr class="separator:aba40b92cce52984f8003f0ac11b1094b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adc58a36fa37939826c6e9b29549b55a6"><td class="memItemLeft" align="right" valign="top">static const int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="hal__serial_8c.html#adc58a36fa37939826c6e9b29549b55a6">BUF_SIZE_RX</a> = 512</td></tr>
+<tr class="separator:adc58a36fa37939826c6e9b29549b55a6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad0911c183882187e70480f1925cc0c55"><td class="memItemLeft" align="right" valign="top">static const int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="hal__serial_8c.html#ad0911c183882187e70480f1925cc0c55">CMDQUEUE_SIZE</a> = 16</td></tr>
+<tr class="memdesc:ad0911c183882187e70480f1925cc0c55"><td class="mdescLeft">&#160;</td><td class="mdescRight">Length of queue for AT commands.  <a href="#ad0911c183882187e70480f1925cc0c55">More...</a><br /></td></tr>
+<tr class="separator:ad0911c183882187e70480f1925cc0c55"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8742cd480180fcaba3079eb3c707bb0e"><td class="memItemLeft" align="right" valign="top">static const int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="hal__serial_8c.html#a8742cd480180fcaba3079eb3c707bb0e">BUF_SIZE_TX</a> = 512</td></tr>
+<tr class="separator:a8742cd480180fcaba3079eb3c707bb0e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0c7a67b22eaf97b79ee4a9eb7264ff1d"><td class="memItemLeft" align="right" valign="top">static uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="hal__serial_8c.html#a0c7a67b22eaf97b79ee4a9eb7264ff1d">keycode_modifier</a></td></tr>
+<tr class="separator:a0c7a67b22eaf97b79ee4a9eb7264ff1d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad1166880215085313402bbc253b781e5"><td class="memItemLeft" align="right" valign="top">static uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="hal__serial_8c.html#ad1166880215085313402bbc253b781e5">keycode_arr</a> [8] = {'K',0,0,0,0,0,0,0}</td></tr>
+<tr class="separator:ad1166880215085313402bbc253b781e5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af8aa2305d1905c876a30e25bf34cc480"><td class="memItemLeft" align="right" valign="top">static SemaphoreHandle_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="hal__serial_8c.html#af8aa2305d1905c876a30e25bf34cc480">serialsendingsem</a></td></tr>
+<tr class="separator:af8aa2305d1905c876a30e25bf34cc480"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>CONTINOUS TASK - This module contains the hardware abstraction for the serial interface to the USB support chip. </p>
@@ -170,6 +174,8 @@ Variables</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="hal__serial_8c_source.html#l00056">56</a> of file <a class="el" href="hal__serial_8c_source.html">hal_serial.c</a>.</p>
 
+<p class="reference">Referenced by <a class="el" href="hal__serial_8c_source.html#l00585">halSerialInit()</a>.</p>
+
 </div>
 </div>
 <a id="a8ed6a618f134d6b923ba216de84253f6"></a>
@@ -193,11 +199,11 @@ Variables</h2></td></tr>
 </ul>
 <p>-&gt; next bigger value reflectable in ticks is 30ms.</p>
 <dl class="section see"><dt>See also</dt><dd><a class="el" href="common_8h.html#a0a9fad923b344cf2efca72441a81817a" title="maximum length for an AT command (including parameters &amp; &#39;AT &#39;, e.g., macro text) ...">ATCMD_LENGTH</a> </dd></dl>
-<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000024">Todo:</a></b></dt><dd>Documentation updates, this define is now used differently... </dd></dl>
+<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000025">Todo:</a></b></dt><dd>Documentation updates, this define is now used differently... </dd></dl>
 
 <p class="definition">Definition at line <a class="el" href="hal__serial_8c_source.html#l00073">73</a> of file <a class="el" href="hal__serial_8c_source.html">hal_serial.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="hal__serial_8c_source.html#l00465">halSerialReceiveUSBSerial()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="hal__serial_8c_source.html#l00456">halSerialReceiveUSBSerial()</a>.</p>
 
 </div>
 </div>
@@ -215,22 +221,7 @@ Variables</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="hal__serial_8c_source.html#l00055">55</a> of file <a class="el" href="hal__serial_8c_source.html">hal_serial.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="hal__serial_8c_source.html#l00594">halSerialInit()</a>, <a class="el" href="hal__serial_8c_source.html#l00465">halSerialReceiveUSBSerial()</a>, <a class="el" href="hal__serial_8c_source.html#l00555">halSerialReset()</a>, <a class="el" href="hal__serial_8c_source.html#l00123">halSerialSwitchTXChannel()</a>, <a class="el" href="hal__serial_8c_source.html#l00432">halSerialTaskJoystick()</a>, and <a class="el" href="hal__serial_8c_source.html#l00363">halSerialTaskMouse()</a>.</p>
-
-</div>
-</div>
-<h2 class="groupheader">Typedef Documentation</h2>
-<a id="a1929a11fd2a8ebc7e1182bfaf19d5d74"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a1929a11fd2a8ebc7e1182bfaf19d5d74">&#9670;&nbsp;</a></span>atcmd_t</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">typedef struct <a class="el" href="structatcmd.html">atcmd</a>  <a class="el" href="hal__serial_8c.html#a1929a11fd2a8ebc7e1182bfaf19d5d74">atcmd_t</a></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
+<p class="reference">Referenced by <a class="el" href="hal__serial_8c_source.html#l00585">halSerialInit()</a>, <a class="el" href="hal__serial_8c_source.html#l00456">halSerialReceiveUSBSerial()</a>, <a class="el" href="hal__serial_8c_source.html#l00546">halSerialReset()</a>, <a class="el" href="hal__serial_8c_source.html#l00146">halSerialRXTask()</a>, <a class="el" href="hal__serial_8c_source.html#l00504">halSerialSendUSBSerial()</a>, <a class="el" href="hal__serial_8c_source.html#l00109">halSerialSwitchTXChannel()</a>, <a class="el" href="hal__serial_8c_source.html#l00423">halSerialTaskJoystick()</a>, <a class="el" href="hal__serial_8c_source.html#l00255">halSerialTaskKeyboardPress()</a>, <a class="el" href="hal__serial_8c_source.html#l00305">halSerialTaskKeyboardRelease()</a>, and <a class="el" href="hal__serial_8c_source.html#l00354">halSerialTaskMouse()</a>.</p>
 
 </div>
 </div>
@@ -253,7 +244,7 @@ Variables</h2></td></tr>
 
 <p>Flush Serial RX input buffer. </p>
 
-<p class="definition">Definition at line <a class="el" href="hal__serial_8c_source.html#l00146">146</a> of file <a class="el" href="hal__serial_8c_source.html">hal_serial.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="hal__serial_8c_source.html#l00132">132</a> of file <a class="el" href="hal__serial_8c_source.html">hal_serial.c</a>.</p>
 
 </div>
 </div>
@@ -272,12 +263,30 @@ Variables</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Initialize the serial HAL. </p>
 <p>Initialize the serial HAL</p>
 <p>This method initializes the serial interface &amp; creates all necessary tasks </p>
 
-<p class="definition">Definition at line <a class="el" href="hal__serial_8c_source.html#l00594">594</a> of file <a class="el" href="hal__serial_8c_source.html">hal_serial.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="hal__serial_8c_source.html#l00585">585</a> of file <a class="el" href="hal__serial_8c_source.html">hal_serial.c</a>.</p>
 
 <p class="reference">Referenced by <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c_source.html#l00073">app_main()</a>.</p>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="hal__serial_8c_a2d03c06463b09e33d87d90eb273819b0_cgraph.png" border="0" usemap="#hal__serial_8c_a2d03c06463b09e33d87d90eb273819b0_cgraph" alt=""/></div>
+<map name="hal__serial_8c_a2d03c06463b09e33d87d90eb273819b0_cgraph" id="hal__serial_8c_a2d03c06463b09e33d87d90eb273819b0_cgraph">
+<area shape="rect" id="node2" href="hal__serial_8c.html#ad5198af46e2ca012d539fba22094f581" title="halSerialTaskKeyboardPress" alt="" coords="151,5,341,32"/>
+<area shape="rect" id="node6" href="hal__serial_8c.html#ac5c6fb8edd37d249a19e6150e16c0239" title="halSerialTaskKeyboardRelease" alt="" coords="144,107,348,133"/>
+<area shape="rect" id="node8" href="hal__serial_8c.html#a4135f4381e4995152515091845c50c8f" title="halSerialTaskMouse" alt="" coords="176,56,316,83"/>
+<area shape="rect" id="node9" href="hal__serial_8c.html#af24cc3b9c361b110e30ecdbdc9c4e7bd" title="halSerialTaskJoystick" alt="" coords="171,157,321,184"/>
+<area shape="rect" id="node10" href="hal__serial_8c.html#ab3a538fb88a9732f0afc0188cc3c9c38" title="UART RX task for AT command pattern detection and parsing. " alt="" coords="186,208,306,235"/>
+<area shape="rect" id="node3" href="keyboard_8c.html#a5aebbf68f68f1d3212fb187ff156e5c1" title="Add a keycode to the given HID keycode array. " alt="" coords="428,5,527,32"/>
+<area shape="rect" id="node4" href="hal__serial_8c.html#a8f987ba001c2a39c959a551a94b5df43" title="Send serial bytes to USB&#45;Serial (USB&#45;CDC) " alt="" coords="396,56,559,83"/>
+<area shape="rect" id="node5" href="hal__serial_8c.html#a132de0978f07044a393cc1f3b5276ced" title="halSerialSwitchTXChannel" alt="" coords="607,56,784,83"/>
+<area shape="rect" id="node7" href="keyboard_8c.html#a999cf21107da9c1a7e3797e72d95045b" title="Remove a keycode from the given HID keycode array. " alt="" coords="417,107,538,133"/>
+</map>
+</div>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
@@ -314,6 +323,8 @@ Here is the caller graph for this function:</div>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Read serial bytes from USB-Serial (USB-CDC) </p>
 <p>Read serial bytes from USB-Serial (USB-CDC)</p>
 <p>This method reads bytes from the UART, which receives all data from USB-CDC.</p>
 <dl class="section return"><dt>Returns</dt><dd>-1 on error, number of read bytes otherwise </dd></dl>
@@ -326,9 +337,22 @@ Here is the caller graph for this function:</div>
 </dl>
 <dl class="section see"><dt>See also</dt><dd><a class="el" href="hal__serial_8c.html#a8ed6a618f134d6b923ba216de84253f6" title="Ticks until the UART receive function has a timeout and gives back received data.*. ">HAL_SERIAL_UART_TIMEOUT_MS</a> </dd>
 <dd>
-<a class="el" href="hal__serial_8c.html#aba40b92cce52984f8003f0ac11b1094b" title="Queue for parsed AT commands. ">cmds</a> </dd></dl>
+<a class="el" href="hal__serial_8h.html#a57deadb7de70a0230474a4680cc0e2d9" title="Queue for parsed AT commands. ">halSerialATCmds</a> </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="hal__serial_8c_source.html#l00465">465</a> of file <a class="el" href="hal__serial_8c_source.html">hal_serial.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="hal__serial_8c_source.html#l00456">456</a> of file <a class="el" href="hal__serial_8c_source.html">hal_serial.c</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="task__commands_8c_source.html#l01181">task_commands()</a>.</p>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="hal__serial_8c_a131377105453d5b94f02f977ff454613_icgraph.png" border="0" usemap="#hal__serial_8c_a131377105453d5b94f02f977ff454613_icgraph" alt=""/></div>
+<map name="hal__serial_8c_a131377105453d5b94f02f977ff454613_icgraph" id="hal__serial_8c_a131377105453d5b94f02f977ff454613_icgraph">
+<area shape="rect" id="node2" href="task__commands_8c.html#a7b36c39275d773aaedcb327ef4e1516f" title="task_commands" alt="" coords="235,31,353,57"/>
+<area shape="rect" id="node3" href="task__commands_8h.html#aedb896e40753227f80768e09d3748419" title="Init the command parser. " alt="" coords="414,5,546,32"/>
+<area shape="rect" id="node5" href="task__commands_8h.html#a26091155b4d85093239033d689f363d0" title="Restart the command parser task. " alt="" coords="401,56,559,83"/>
+<area shape="rect" id="node4" href="flipmouse__fabi__esp32__kbdmouse__main_8c.html#abce06be17fc37d675118a678a8100a36" title="Main task, created by esp&#45;idf. " alt="" coords="607,5,685,32"/>
+</map>
+</div>
 
 </div>
 </div>
@@ -357,7 +381,7 @@ Here is the caller graph for this function:</div>
 </dl>
 <p>(1&lt;&lt;0) excepts keyboard (1&lt;&lt;1) excepts joystick (1&lt;&lt;2) excepts mouse If nothing is set (exceptDevice = 0) all are reset </p>
 
-<p class="definition">Definition at line <a class="el" href="hal__serial_8c_source.html#l00555">555</a> of file <a class="el" href="hal__serial_8c_source.html">hal_serial.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="hal__serial_8c_source.html#l00546">546</a> of file <a class="el" href="hal__serial_8c_source.html">hal_serial.c</a>.</p>
 
 <p class="reference">Referenced by <a class="el" href="config__switcher_8c_source.html#l00198">configSwitcherTask()</a>, and <a class="el" href="task__commands_8c_source.html#l00613">doGeneralCmdParsing()</a>.</p>
 <div class="dynheader">
@@ -365,7 +389,8 @@ Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="hal__serial_8c_ab2261f95747ee5806ebdec880d09ca89_cgraph.png" border="0" usemap="#hal__serial_8c_ab2261f95747ee5806ebdec880d09ca89_cgraph" alt=""/></div>
 <map name="hal__serial_8c_ab2261f95747ee5806ebdec880d09ca89_cgraph" id="hal__serial_8c_ab2261f95747ee5806ebdec880d09ca89_cgraph">
-<area shape="rect" id="node2" href="hal__serial_8c.html#a8f987ba001c2a39c959a551a94b5df43" title="halSerialSendUSBSerial" alt="" coords="160,5,323,32"/>
+<area shape="rect" id="node2" href="hal__serial_8c.html#a8f987ba001c2a39c959a551a94b5df43" title="Send serial bytes to USB&#45;Serial (USB&#45;CDC) " alt="" coords="160,5,323,32"/>
+<area shape="rect" id="node3" href="hal__serial_8c.html#a132de0978f07044a393cc1f3b5276ced" title="halSerialSwitchTXChannel" alt="" coords="371,5,548,32"/>
 </map>
 </div>
 <div class="dynheader">
@@ -376,7 +401,47 @@ Here is the caller graph for this function:</div>
 <area shape="rect" id="node2" href="config__switcher_8c.html#af5af5079d1982d42e165039e6de7e40a" title="CONTINOUS TASK &#45; Config switcher task, internal config reloading. " alt="" coords="168,5,305,32"/>
 <area shape="rect" id="node5" href="task__commands_8c.html#a7f6500be563a3dce7f0854fceed02fab" title="doGeneralCmdParsing" alt="" coords="160,56,313,83"/>
 <area shape="rect" id="node3" href="config__switcher_8h.html#aafed047c8d04b814a85239e031cbad7b" title="Initializing the config switching functionality. " alt="" coords="361,5,488,32"/>
-<area shape="rect" id="node4" href="flipmouse__fabi__esp32__kbdmouse__main_8c.html#abce06be17fc37d675118a678a8100a36" title="Main task, created by esp&#45;idf. " alt="" coords="536,5,615,32"/>
+<area shape="rect" id="node4" href="flipmouse__fabi__esp32__kbdmouse__main_8c.html#abce06be17fc37d675118a678a8100a36" title="Main task, created by esp&#45;idf. " alt="" coords="741,31,820,57"/>
+<area shape="rect" id="node6" href="task__commands_8c.html#a7b36c39275d773aaedcb327ef4e1516f" title="task_commands" alt="" coords="365,56,484,83"/>
+<area shape="rect" id="node7" href="task__commands_8h.html#aedb896e40753227f80768e09d3748419" title="Init the command parser. " alt="" coords="549,56,681,83"/>
+<area shape="rect" id="node8" href="task__commands_8h.html#a26091155b4d85093239033d689f363d0" title="Restart the command parser task. " alt="" coords="536,107,693,133"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="ab3a538fb88a9732f0afc0188cc3c9c38"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab3a538fb88a9732f0afc0188cc3c9c38">&#9670;&nbsp;</a></span>halSerialRXTask()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void halSerialRXTask </td>
+          <td>(</td>
+          <td class="paramtype">void *&#160;</td>
+          <td class="paramname"><em>pvParameters</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>UART RX task for AT command pattern detection and parsing. </p>
+<p>This task is used to pend on any incoming UART bytes. After receiving bytes, the incoming data is put together into AT commands. On a fully received AT command (terminated either by '\r' or '\n'), the buffer will be sent to the halSerialATCmds queue.</p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="hal__serial_8h.html#a57deadb7de70a0230474a4680cc0e2d9" title="Queue for parsed AT commands. ">halSerialATCmds</a> </dd></dl>
+<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000026">Todo:</a></b></dt><dd>When CIM mode is active, switch back here to AT mode </dd></dl>
+<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000027">Todo:</a></b></dt><dd>Activate CIM mode here. </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="hal__serial_8c_source.html#l00146">146</a> of file <a class="el" href="hal__serial_8c_source.html">hal_serial.c</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="hal__serial_8c_source.html#l00585">halSerialInit()</a>.</p>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="hal__serial_8c_ab3a538fb88a9732f0afc0188cc3c9c38_icgraph.png" border="0" usemap="#hal__serial_8c_ab3a538fb88a9732f0afc0188cc3c9c38_icgraph" alt=""/></div>
+<map name="hal__serial_8c_ab3a538fb88a9732f0afc0188cc3c9c38_icgraph" id="hal__serial_8c_ab3a538fb88a9732f0afc0188cc3c9c38_icgraph">
+<area shape="rect" id="node2" href="hal__serial_8h.html#a2d03c06463b09e33d87d90eb273819b0" title="Initialize the serial HAL. " alt="" coords="173,5,264,32"/>
+<area shape="rect" id="node3" href="flipmouse__fabi__esp32__kbdmouse__main_8c.html#abce06be17fc37d675118a678a8100a36" title="Main task, created by esp&#45;idf. " alt="" coords="312,5,391,32"/>
 </map>
 </div>
 
@@ -419,6 +484,8 @@ Here is the caller graph for this function:</div>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Send serial bytes to USB-Serial (USB-CDC) </p>
 <p>Send serial bytes to USB-Serial (USB-CDC)</p>
 <p>This method sends bytes to the UART. In addition, the GPIO signal pin is set to route this data to the USB Serial instead of USB-HID. After finishing this transmission, the GPIO is set back to USB-HID</p>
 <dl class="section return"><dt>Returns</dt><dd>-1 on error, number of read bytes otherwise </dd></dl>
@@ -435,31 +502,46 @@ Here is the caller graph for this function:</div>
 <dd>
 <a class="el" href="hal__serial_8h.html#a0e1b67327e40ee6b1c3870be9b842546">HAL_SERIAL_TX_TO_CDC</a> </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="hal__serial_8c_source.html#l00513">513</a> of file <a class="el" href="hal__serial_8c_source.html">hal_serial.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="hal__serial_8c_source.html#l00504">504</a> of file <a class="el" href="hal__serial_8c_source.html">hal_serial.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="task__commands_8c_source.html#l00613">doGeneralCmdParsing()</a>, <a class="el" href="task__commands_8c_source.html#l00478">doInfraredParsing()</a>, <a class="el" href="hal__adc_8c_source.html#l00103">halAdcReportRaw()</a>, <a class="el" href="hal__serial_8c_source.html#l00555">halSerialReset()</a>, <a class="el" href="hal__serial_8c_source.html#l00363">halSerialTaskMouse()</a>, <a class="el" href="task__commands_8c_source.html#l01339">printAllSlots()</a>, and <a class="el" href="task__commands_8c_source.html#l00108">sendErrorBack()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="task__commands_8c_source.html#l00613">doGeneralCmdParsing()</a>, <a class="el" href="task__commands_8c_source.html#l00478">doInfraredParsing()</a>, <a class="el" href="hal__adc_8c_source.html#l00103">halAdcReportRaw()</a>, <a class="el" href="hal__serial_8c_source.html#l00546">halSerialReset()</a>, <a class="el" href="hal__serial_8c_source.html#l00255">halSerialTaskKeyboardPress()</a>, <a class="el" href="hal__serial_8c_source.html#l00305">halSerialTaskKeyboardRelease()</a>, <a class="el" href="hal__serial_8c_source.html#l00354">halSerialTaskMouse()</a>, <a class="el" href="task__commands_8c_source.html#l01369">printAllSlots()</a>, <a class="el" href="task__commands_8c_source.html#l00108">sendErrorBack()</a>, and <a class="el" href="task__commands_8c_source.html#l01181">task_commands()</a>.</p>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="hal__serial_8c_a8f987ba001c2a39c959a551a94b5df43_cgraph.png" border="0" usemap="#hal__serial_8c_a8f987ba001c2a39c959a551a94b5df43_cgraph" alt=""/></div>
+<map name="hal__serial_8c_a8f987ba001c2a39c959a551a94b5df43_cgraph" id="hal__serial_8c_a8f987ba001c2a39c959a551a94b5df43_cgraph">
+<area shape="rect" id="node2" href="hal__serial_8c.html#a132de0978f07044a393cc1f3b5276ced" title="halSerialSwitchTXChannel" alt="" coords="216,5,393,32"/>
+</map>
+</div>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="hal__serial_8c_a8f987ba001c2a39c959a551a94b5df43_icgraph.png" border="0" usemap="#hal__serial_8c_a8f987ba001c2a39c959a551a94b5df43_icgraph" alt=""/></div>
 <map name="hal__serial_8c_a8f987ba001c2a39c959a551a94b5df43_icgraph" id="hal__serial_8c_a8f987ba001c2a39c959a551a94b5df43_icgraph">
-<area shape="rect" id="node2" href="task__commands_8c.html#a7f6500be563a3dce7f0854fceed02fab" title="doGeneralCmdParsing" alt="" coords="621,58,774,85"/>
-<area shape="rect" id="node3" href="task__commands_8c.html#a937cdeb2f02b0c5d9a0f94a0f69e9328" title="doInfraredParsing" alt="" coords="224,261,348,287"/>
-<area shape="rect" id="node4" href="hal__adc_8c.html#a8743abcde6f190545c429f072c16106d" title="Report raw values via serial interface. " alt="" coords="222,210,350,237"/>
-<area shape="rect" id="node12" href="hal__serial_8h.html#ab2261f95747ee5806ebdec880d09ca89" title="Reset the serial HID report data. " alt="" coords="425,7,531,34"/>
-<area shape="rect" id="node13" href="hal__serial_8c.html#a4135f4381e4995152515091845c50c8f" title="halSerialTaskMouse" alt="" coords="216,311,356,338"/>
-<area shape="rect" id="node14" href="task__commands_8c.html#ad59215648a26578c22baa7ceae099e0e" title="Print the current slot configurations (general settings + VBs) " alt="" coords="240,109,332,135"/>
-<area shape="rect" id="node15" href="task__commands_8c.html#acea81ba8a182ae78feb2db6418fc1806" title="sendErrorBack" alt="" coords="424,159,532,186"/>
-<area shape="rect" id="node5" href="hal__adc_8c.html#aadc294c08df0386572ffdc8e7228f6b4" title="HAL TASK &#45; Mouse task for ADC. " alt="" coords="413,210,543,237"/>
-<area shape="rect" id="node11" href="hal__adc_8c.html#aee719704e643d27c1faab768cf4bc22e" title="HAL TASK &#45; Threshold task for ADC. " alt="" coords="404,261,552,287"/>
-<area shape="rect" id="node6" href="hal__adc_8h.html#a4135bb73c2271b4a27db8d8d81884de7" title="Reload ADC config. " alt="" coords="626,261,769,287"/>
-<area shape="rect" id="node7" href="config__switcher_8c.html#af5af5079d1982d42e165039e6de7e40a" title="CONTINOUS TASK &#45; Config switcher task, internal config reloading. " alt="" coords="843,210,980,237"/>
-<area shape="rect" id="node10" href="hal__adc_8h.html#a6f0d302f35e5b7f7a1144f0ddace35d2" title="Init the ADC driver module. " alt="" coords="1051,261,1131,287"/>
-<area shape="rect" id="node8" href="config__switcher_8h.html#aafed047c8d04b814a85239e031cbad7b" title="Initializing the config switching functionality. " alt="" coords="1028,210,1155,237"/>
-<area shape="rect" id="node9" href="flipmouse__fabi__esp32__kbdmouse__main_8c.html#abce06be17fc37d675118a678a8100a36" title="Main task, created by esp&#45;idf. " alt="" coords="1203,235,1281,262"/>
-<area shape="rect" id="node16" href="task__commands_8c.html#ac3c72c089d32dea93c45f4f9f8d1f244" title="doKeyboardParsing" alt="" coords="630,109,765,135"/>
-<area shape="rect" id="node17" href="task__commands_8c.html#a580d9f6a840975525358033a35f761d0" title="doMouseParsing" alt="" coords="638,159,757,186"/>
-<area shape="rect" id="node18" href="task__commands_8c.html#a2ad28759e53bb5082853d8d004767115" title="doMouthpieceSettingsParsing" alt="" coords="600,210,795,237"/>
+<area shape="rect" id="node2" href="task__commands_8c.html#a7f6500be563a3dce7f0854fceed02fab" title="doGeneralCmdParsing" alt="" coords="685,208,838,235"/>
+<area shape="rect" id="node3" href="task__commands_8c.html#a7b36c39275d773aaedcb327ef4e1516f" title="task_commands" alt="" coords="916,157,1035,184"/>
+<area shape="rect" id="node7" href="task__commands_8c.html#a937cdeb2f02b0c5d9a0f94a0f69e9328" title="doInfraredParsing" alt="" coords="699,5,823,32"/>
+<area shape="rect" id="node8" href="hal__adc_8c.html#a8743abcde6f190545c429f072c16106d" title="Report raw values via serial interface. " alt="" coords="254,512,382,539"/>
+<area shape="rect" id="node16" href="hal__serial_8h.html#ab2261f95747ee5806ebdec880d09ca89" title="Reset the serial HID report data. " alt="" coords="489,309,595,336"/>
+<area shape="rect" id="node17" href="hal__serial_8c.html#ad5198af46e2ca012d539fba22094f581" title="halSerialTaskKeyboardPress" alt="" coords="223,411,413,437"/>
+<area shape="rect" id="node19" href="hal__serial_8c.html#ac5c6fb8edd37d249a19e6150e16c0239" title="halSerialTaskKeyboardRelease" alt="" coords="216,461,420,488"/>
+<area shape="rect" id="node20" href="hal__serial_8c.html#a4135f4381e4995152515091845c50c8f" title="halSerialTaskMouse" alt="" coords="248,360,388,387"/>
+<area shape="rect" id="node21" href="task__commands_8c.html#ad59215648a26578c22baa7ceae099e0e" title="Print the current slot configurations (general settings + VBs) " alt="" coords="272,157,364,184"/>
+<area shape="rect" id="node22" href="task__commands_8c.html#acea81ba8a182ae78feb2db6418fc1806" title="sendErrorBack" alt="" coords="488,107,596,133"/>
+<area shape="rect" id="node4" href="task__commands_8h.html#aedb896e40753227f80768e09d3748419" title="Init the command parser. " alt="" coords="1105,157,1237,184"/>
+<area shape="rect" id="node6" href="task__commands_8h.html#a26091155b4d85093239033d689f363d0" title="Restart the command parser task. " alt="" coords="1092,208,1249,235"/>
+<area shape="rect" id="node5" href="flipmouse__fabi__esp32__kbdmouse__main_8c.html#abce06be17fc37d675118a678a8100a36" title="Main task, created by esp&#45;idf. " alt="" coords="1297,423,1376,449"/>
+<area shape="rect" id="node9" href="hal__adc_8c.html#a452077aaa6a576304708d00d4ec439f1" title="HAL TASK &#45; Joystick task for ADC. " alt="" coords="472,556,612,583"/>
+<area shape="rect" id="node14" href="hal__adc_8c.html#aadc294c08df0386572ffdc8e7228f6b4" title="HAL TASK &#45; Mouse task for ADC. " alt="" coords="477,455,607,481"/>
+<area shape="rect" id="node15" href="hal__adc_8c.html#aee719704e643d27c1faab768cf4bc22e" title="HAL TASK &#45; Threshold task for ADC. " alt="" coords="468,505,616,532"/>
+<area shape="rect" id="node10" href="hal__adc_8h.html#a4135bb73c2271b4a27db8d8d81884de7" title="Reload ADC config. " alt="" coords="690,499,833,525"/>
+<area shape="rect" id="node11" href="config__switcher_8c.html#af5af5079d1982d42e165039e6de7e40a" title="CONTINOUS TASK &#45; Config switcher task, internal config reloading. " alt="" coords="907,448,1044,475"/>
+<area shape="rect" id="node13" href="hal__adc_8h.html#a6f0d302f35e5b7f7a1144f0ddace35d2" title="Init the ADC driver module. " alt="" coords="935,499,1015,525"/>
+<area shape="rect" id="node12" href="config__switcher_8h.html#aafed047c8d04b814a85239e031cbad7b" title="Initializing the config switching functionality. " alt="" coords="1107,448,1234,475"/>
+<area shape="rect" id="node18" href="hal__serial_8h.html#a2d03c06463b09e33d87d90eb273819b0" title="Initialize the serial HAL. " alt="" coords="497,397,587,424"/>
+<area shape="rect" id="node23" href="task__commands_8c.html#ac3c72c089d32dea93c45f4f9f8d1f244" title="doKeyboardParsing" alt="" coords="694,107,829,133"/>
+<area shape="rect" id="node24" href="task__commands_8c.html#a580d9f6a840975525358033a35f761d0" title="doMouseParsing" alt="" coords="702,157,821,184"/>
+<area shape="rect" id="node25" href="task__commands_8c.html#a2ad28759e53bb5082853d8d004767115" title="doMouthpieceSettingsParsing" alt="" coords="664,56,859,83"/>
 </map>
 </div>
 
@@ -502,7 +584,41 @@ Here is the caller graph for this function:</div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>ESP_OK if change was fine (or already done before), ESP_FAIL on a timeout </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="hal__serial_8c_source.html#l00123">123</a> of file <a class="el" href="hal__serial_8c_source.html">hal_serial.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="hal__serial_8c_source.html#l00109">109</a> of file <a class="el" href="hal__serial_8c_source.html">hal_serial.c</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="hal__serial_8c_source.html#l00504">halSerialSendUSBSerial()</a>.</p>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="hal__serial_8c_a132de0978f07044a393cc1f3b5276ced_icgraph.png" border="0" usemap="#hal__serial_8c_a132de0978f07044a393cc1f3b5276ced_icgraph" alt=""/></div>
+<map name="hal__serial_8c_a132de0978f07044a393cc1f3b5276ced_icgraph" id="hal__serial_8c_a132de0978f07044a393cc1f3b5276ced_icgraph">
+<area shape="rect" id="node2" href="hal__serial_8h.html#a8f987ba001c2a39c959a551a94b5df43" title="Send serial bytes to USB&#45;Serial (USB&#45;CDC) " alt="" coords="231,284,393,311"/>
+<area shape="rect" id="node3" href="task__commands_8c.html#acea81ba8a182ae78feb2db6418fc1806" title="sendErrorBack" alt="" coords="713,107,821,133"/>
+<area shape="rect" id="node4" href="task__commands_8c.html#a7f6500be563a3dce7f0854fceed02fab" title="doGeneralCmdParsing" alt="" coords="910,208,1063,235"/>
+<area shape="rect" id="node5" href="task__commands_8c.html#a7b36c39275d773aaedcb327ef4e1516f" title="task_commands" alt="" coords="1141,157,1260,184"/>
+<area shape="rect" id="node12" href="task__commands_8c.html#a937cdeb2f02b0c5d9a0f94a0f69e9328" title="doInfraredParsing" alt="" coords="925,5,1049,32"/>
+<area shape="rect" id="node13" href="task__commands_8c.html#ad59215648a26578c22baa7ceae099e0e" title="Print the current slot configurations (general settings + VBs) " alt="" coords="497,157,589,184"/>
+<area shape="rect" id="node14" href="hal__adc_8c.html#a8743abcde6f190545c429f072c16106d" title="Report raw values via serial interface. " alt="" coords="479,512,607,539"/>
+<area shape="rect" id="node22" href="hal__serial_8c.html#ad5198af46e2ca012d539fba22094f581" title="halSerialTaskKeyboardPress" alt="" coords="448,411,639,437"/>
+<area shape="rect" id="node24" href="hal__serial_8c.html#ac5c6fb8edd37d249a19e6150e16c0239" title="halSerialTaskKeyboardRelease" alt="" coords="441,461,645,488"/>
+<area shape="rect" id="node25" href="hal__serial_8c.html#a4135f4381e4995152515091845c50c8f" title="halSerialTaskMouse" alt="" coords="473,360,613,387"/>
+<area shape="rect" id="node26" href="hal__serial_8h.html#ab2261f95747ee5806ebdec880d09ca89" title="Reset the serial HID report data. " alt="" coords="714,309,821,336"/>
+<area shape="rect" id="node9" href="task__commands_8c.html#ac3c72c089d32dea93c45f4f9f8d1f244" title="doKeyboardParsing" alt="" coords="919,157,1054,184"/>
+<area shape="rect" id="node10" href="task__commands_8c.html#a580d9f6a840975525358033a35f761d0" title="doMouseParsing" alt="" coords="927,56,1046,83"/>
+<area shape="rect" id="node11" href="task__commands_8c.html#a2ad28759e53bb5082853d8d004767115" title="doMouthpieceSettingsParsing" alt="" coords="889,107,1084,133"/>
+<area shape="rect" id="node6" href="task__commands_8h.html#aedb896e40753227f80768e09d3748419" title="Init the command parser. " alt="" coords="1330,157,1462,184"/>
+<area shape="rect" id="node8" href="task__commands_8h.html#a26091155b4d85093239033d689f363d0" title="Restart the command parser task. " alt="" coords="1317,208,1475,235"/>
+<area shape="rect" id="node7" href="flipmouse__fabi__esp32__kbdmouse__main_8c.html#abce06be17fc37d675118a678a8100a36" title="Main task, created by esp&#45;idf. " alt="" coords="1523,385,1601,412"/>
+<area shape="rect" id="node15" href="hal__adc_8c.html#a452077aaa6a576304708d00d4ec439f1" title="HAL TASK &#45; Joystick task for ADC. " alt="" coords="697,512,837,539"/>
+<area shape="rect" id="node20" href="hal__adc_8c.html#aadc294c08df0386572ffdc8e7228f6b4" title="HAL TASK &#45; Mouse task for ADC. " alt="" coords="702,411,833,437"/>
+<area shape="rect" id="node21" href="hal__adc_8c.html#aee719704e643d27c1faab768cf4bc22e" title="HAL TASK &#45; Threshold task for ADC. " alt="" coords="693,461,841,488"/>
+<area shape="rect" id="node16" href="hal__adc_8h.html#a4135bb73c2271b4a27db8d8d81884de7" title="Reload ADC config. " alt="" coords="915,461,1058,488"/>
+<area shape="rect" id="node17" href="config__switcher_8c.html#af5af5079d1982d42e165039e6de7e40a" title="CONTINOUS TASK &#45; Config switcher task, internal config reloading. " alt="" coords="1132,411,1269,437"/>
+<area shape="rect" id="node19" href="hal__adc_8h.html#a6f0d302f35e5b7f7a1144f0ddace35d2" title="Init the ADC driver module. " alt="" coords="1161,461,1241,488"/>
+<area shape="rect" id="node18" href="config__switcher_8h.html#aafed047c8d04b814a85239e031cbad7b" title="Initializing the config switching functionality. " alt="" coords="1333,411,1459,437"/>
+<area shape="rect" id="node23" href="hal__serial_8h.html#a2d03c06463b09e33d87d90eb273819b0" title="Initialize the serial HAL. " alt="" coords="722,360,813,387"/>
+</map>
+</div>
 
 </div>
 </div>
@@ -522,7 +638,18 @@ Here is the caller graph for this function:</div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="hal__serial_8c_source.html#l00432">432</a> of file <a class="el" href="hal__serial_8c_source.html">hal_serial.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="hal__serial_8c_source.html#l00423">423</a> of file <a class="el" href="hal__serial_8c_source.html">hal_serial.c</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="hal__serial_8c_source.html#l00585">halSerialInit()</a>.</p>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="hal__serial_8c_af24cc3b9c361b110e30ecdbdc9c4e7bd_icgraph.png" border="0" usemap="#hal__serial_8c_af24cc3b9c361b110e30ecdbdc9c4e7bd_icgraph" alt=""/></div>
+<map name="hal__serial_8c_af24cc3b9c361b110e30ecdbdc9c4e7bd_icgraph" id="hal__serial_8c_af24cc3b9c361b110e30ecdbdc9c4e7bd_icgraph">
+<area shape="rect" id="node2" href="hal__serial_8h.html#a2d03c06463b09e33d87d90eb273819b0" title="Initialize the serial HAL. " alt="" coords="204,5,295,32"/>
+<area shape="rect" id="node3" href="flipmouse__fabi__esp32__kbdmouse__main_8c.html#abce06be17fc37d675118a678a8100a36" title="Main task, created by esp&#45;idf. " alt="" coords="343,5,421,32"/>
+</map>
+</div>
 
 </div>
 </div>
@@ -542,7 +669,28 @@ Here is the caller graph for this function:</div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="hal__serial_8c_source.html#l00264">264</a> of file <a class="el" href="hal__serial_8c_source.html">hal_serial.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="hal__serial_8c_source.html#l00255">255</a> of file <a class="el" href="hal__serial_8c_source.html">hal_serial.c</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="hal__serial_8c_source.html#l00585">halSerialInit()</a>.</p>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="hal__serial_8c_ad5198af46e2ca012d539fba22094f581_cgraph.png" border="0" usemap="#hal__serial_8c_ad5198af46e2ca012d539fba22094f581_cgraph" alt=""/></div>
+<map name="hal__serial_8c_ad5198af46e2ca012d539fba22094f581_cgraph" id="hal__serial_8c_ad5198af46e2ca012d539fba22094f581_cgraph">
+<area shape="rect" id="node2" href="keyboard_8c.html#a5aebbf68f68f1d3212fb187ff156e5c1" title="Add a keycode to the given HID keycode array. " alt="" coords="276,5,375,32"/>
+<area shape="rect" id="node3" href="hal__serial_8c.html#a8f987ba001c2a39c959a551a94b5df43" title="Send serial bytes to USB&#45;Serial (USB&#45;CDC) " alt="" coords="244,56,407,83"/>
+<area shape="rect" id="node4" href="hal__serial_8c.html#a132de0978f07044a393cc1f3b5276ced" title="halSerialSwitchTXChannel" alt="" coords="455,56,632,83"/>
+</map>
+</div>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="hal__serial_8c_ad5198af46e2ca012d539fba22094f581_icgraph.png" border="0" usemap="#hal__serial_8c_ad5198af46e2ca012d539fba22094f581_icgraph" alt=""/></div>
+<map name="hal__serial_8c_ad5198af46e2ca012d539fba22094f581_icgraph" id="hal__serial_8c_ad5198af46e2ca012d539fba22094f581_icgraph">
+<area shape="rect" id="node2" href="hal__serial_8h.html#a2d03c06463b09e33d87d90eb273819b0" title="Initialize the serial HAL. " alt="" coords="244,5,335,32"/>
+<area shape="rect" id="node3" href="flipmouse__fabi__esp32__kbdmouse__main_8c.html#abce06be17fc37d675118a678a8100a36" title="Main task, created by esp&#45;idf. " alt="" coords="383,5,461,32"/>
+</map>
+</div>
 
 </div>
 </div>
@@ -562,7 +710,28 @@ Here is the caller graph for this function:</div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="hal__serial_8c_source.html#l00314">314</a> of file <a class="el" href="hal__serial_8c_source.html">hal_serial.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="hal__serial_8c_source.html#l00305">305</a> of file <a class="el" href="hal__serial_8c_source.html">hal_serial.c</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="hal__serial_8c_source.html#l00585">halSerialInit()</a>.</p>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="hal__serial_8c_ac5c6fb8edd37d249a19e6150e16c0239_cgraph.png" border="0" usemap="#hal__serial_8c_ac5c6fb8edd37d249a19e6150e16c0239_cgraph" alt=""/></div>
+<map name="hal__serial_8c_ac5c6fb8edd37d249a19e6150e16c0239_cgraph" id="hal__serial_8c_ac5c6fb8edd37d249a19e6150e16c0239_cgraph">
+<area shape="rect" id="node2" href="keyboard_8c.html#a999cf21107da9c1a7e3797e72d95045b" title="Remove a keycode from the given HID keycode array. " alt="" coords="278,5,399,32"/>
+<area shape="rect" id="node3" href="hal__serial_8c.html#a8f987ba001c2a39c959a551a94b5df43" title="Send serial bytes to USB&#45;Serial (USB&#45;CDC) " alt="" coords="257,56,420,83"/>
+<area shape="rect" id="node4" href="hal__serial_8c.html#a132de0978f07044a393cc1f3b5276ced" title="halSerialSwitchTXChannel" alt="" coords="468,56,645,83"/>
+</map>
+</div>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="hal__serial_8c_ac5c6fb8edd37d249a19e6150e16c0239_icgraph.png" border="0" usemap="#hal__serial_8c_ac5c6fb8edd37d249a19e6150e16c0239_icgraph" alt=""/></div>
+<map name="hal__serial_8c_ac5c6fb8edd37d249a19e6150e16c0239_icgraph" id="hal__serial_8c_ac5c6fb8edd37d249a19e6150e16c0239_icgraph">
+<area shape="rect" id="node2" href="hal__serial_8h.html#a2d03c06463b09e33d87d90eb273819b0" title="Initialize the serial HAL. " alt="" coords="257,5,348,32"/>
+<area shape="rect" id="node3" href="flipmouse__fabi__esp32__kbdmouse__main_8c.html#abce06be17fc37d675118a678a8100a36" title="Main task, created by esp&#45;idf. " alt="" coords="396,5,475,32"/>
+</map>
+</div>
 
 </div>
 </div>
@@ -582,44 +751,189 @@ Here is the caller graph for this function:</div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="hal__serial_8c_source.html#l00363">363</a> of file <a class="el" href="hal__serial_8c_source.html">hal_serial.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="hal__serial_8c_source.html#l00354">354</a> of file <a class="el" href="hal__serial_8c_source.html">hal_serial.c</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="hal__serial_8c_source.html#l00585">halSerialInit()</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="hal__serial_8c_a4135f4381e4995152515091845c50c8f_cgraph.png" border="0" usemap="#hal__serial_8c_a4135f4381e4995152515091845c50c8f_cgraph" alt=""/></div>
 <map name="hal__serial_8c_a4135f4381e4995152515091845c50c8f_cgraph" id="hal__serial_8c_a4135f4381e4995152515091845c50c8f_cgraph">
-<area shape="rect" id="node2" href="hal__serial_8c.html#a8f987ba001c2a39c959a551a94b5df43" title="halSerialSendUSBSerial" alt="" coords="193,5,356,32"/>
+<area shape="rect" id="node2" href="hal__serial_8c.html#a8f987ba001c2a39c959a551a94b5df43" title="Send serial bytes to USB&#45;Serial (USB&#45;CDC) " alt="" coords="193,5,356,32"/>
+<area shape="rect" id="node3" href="hal__serial_8c.html#a132de0978f07044a393cc1f3b5276ced" title="halSerialSwitchTXChannel" alt="" coords="404,5,581,32"/>
+</map>
+</div>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="hal__serial_8c_a4135f4381e4995152515091845c50c8f_icgraph.png" border="0" usemap="#hal__serial_8c_a4135f4381e4995152515091845c50c8f_icgraph" alt=""/></div>
+<map name="hal__serial_8c_a4135f4381e4995152515091845c50c8f_icgraph" id="hal__serial_8c_a4135f4381e4995152515091845c50c8f_icgraph">
+<area shape="rect" id="node2" href="hal__serial_8h.html#a2d03c06463b09e33d87d90eb273819b0" title="Initialize the serial HAL. " alt="" coords="193,5,284,32"/>
+<area shape="rect" id="node3" href="flipmouse__fabi__esp32__kbdmouse__main_8c.html#abce06be17fc37d675118a678a8100a36" title="Main task, created by esp&#45;idf. " alt="" coords="332,5,411,32"/>
 </map>
 </div>
 
 </div>
 </div>
 <h2 class="groupheader">Variable Documentation</h2>
-<a id="aba40b92cce52984f8003f0ac11b1094b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aba40b92cce52984f8003f0ac11b1094b">&#9670;&nbsp;</a></span>cmds</h2>
+<a id="adc58a36fa37939826c6e9b29549b55a6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adc58a36fa37939826c6e9b29549b55a6">&#9670;&nbsp;</a></span>BUF_SIZE_RX</h2>
 
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">QueueHandle_t cmds</td>
+          <td class="memname">const int BUF_SIZE_RX = 512</td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 
-<p>Queue for parsed AT commands. </p>
-<p>This queue is read by halSerialReceiveUSBSerial (which receives from the queue and frees the memory afterwards). AT commands are sent by halSerialRXTask, which parses each byte. </p><dl class="section note"><dt>Note</dt><dd>Pass structs of type atcmd_t, no pointer! </dd></dl>
-<dl class="section see"><dt>See also</dt><dd>halSerialRXTask </dd>
-<dd>
-<a class="el" href="hal__serial_8c.html#a131377105453d5b94f02f977ff454613">halSerialReceiveUSBSerial</a> </dd>
-<dd>
-CMDQUEUE_SIZE </dd>
-<dd>
-<a class="el" href="hal__serial_8c.html#a1929a11fd2a8ebc7e1182bfaf19d5d74">atcmd_t</a> </dd></dl>
+<p class="definition">Definition at line <a class="el" href="hal__serial_8c_source.html#l00075">75</a> of file <a class="el" href="hal__serial_8c_source.html">hal_serial.c</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="hal__serial_8c_source.html#l00095">95</a> of file <a class="el" href="hal__serial_8c_source.html">hal_serial.c</a>.</p>
+<p class="reference">Referenced by <a class="el" href="hal__serial_8c_source.html#l00585">halSerialInit()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="hal__serial_8c_source.html#l00465">halSerialReceiveUSBSerial()</a>.</p>
+</div>
+</div>
+<a id="a8742cd480180fcaba3079eb3c707bb0e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8742cd480180fcaba3079eb3c707bb0e">&#9670;&nbsp;</a></span>BUF_SIZE_TX</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const int BUF_SIZE_TX = 512</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="hal__serial_8c_source.html#l00084">84</a> of file <a class="el" href="hal__serial_8c_source.html">hal_serial.c</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="hal__serial_8c_source.html#l00585">halSerialInit()</a>.</p>
+
+</div>
+</div>
+<a id="ad0911c183882187e70480f1925cc0c55"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad0911c183882187e70480f1925cc0c55">&#9670;&nbsp;</a></span>CMDQUEUE_SIZE</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const int CMDQUEUE_SIZE = 16</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Length of queue for AT commands. </p>
+<dl class="section note"><dt>Note</dt><dd>A maximum of CMDQUEUE_SIZE x ATCMD_LENGTH can be allocated (if no task receives the commands) </dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="hal__serial_8h.html#a57deadb7de70a0230474a4680cc0e2d9" title="Queue for parsed AT commands. ">halSerialATCmds</a> </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="hal__serial_8c_source.html#l00082">82</a> of file <a class="el" href="hal__serial_8c_source.html">hal_serial.c</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="hal__serial_8c_source.html#l00585">halSerialInit()</a>.</p>
+
+</div>
+</div>
+<a id="ad1166880215085313402bbc253b781e5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad1166880215085313402bbc253b781e5">&#9670;&nbsp;</a></span>keycode_arr</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint8_t keycode_arr[8] = {'K',0,0,0,0,0,0,0}</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="hal__serial_8c_source.html#l00086">86</a> of file <a class="el" href="hal__serial_8c_source.html">hal_serial.c</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="hal__serial_8c_source.html#l00546">halSerialReset()</a>, <a class="el" href="hal__serial_8c_source.html#l00255">halSerialTaskKeyboardPress()</a>, and <a class="el" href="hal__serial_8c_source.html#l00305">halSerialTaskKeyboardRelease()</a>.</p>
+
+</div>
+</div>
+<a id="a0c7a67b22eaf97b79ee4a9eb7264ff1d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0c7a67b22eaf97b79ee4a9eb7264ff1d">&#9670;&nbsp;</a></span>keycode_modifier</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint8_t keycode_modifier</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="hal__serial_8c_source.html#l00085">85</a> of file <a class="el" href="hal__serial_8c_source.html">hal_serial.c</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="hal__serial_8c_source.html#l00546">halSerialReset()</a>, <a class="el" href="hal__serial_8c_source.html#l00255">halSerialTaskKeyboardPress()</a>, and <a class="el" href="hal__serial_8c_source.html#l00305">halSerialTaskKeyboardRelease()</a>.</p>
+
+</div>
+</div>
+<a id="af8aa2305d1905c876a30e25bf34cc480"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af8aa2305d1905c876a30e25bf34cc480">&#9670;&nbsp;</a></span>serialsendingsem</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">SemaphoreHandle_t serialsendingsem</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>mutex for sending to serial port. Used to avoid wrong set signal pin on different UART sent bytes (either USB-HID or USB-Serial) </p>
+
+<p class="definition">Definition at line <a class="el" href="hal__serial_8c_source.html#l00091">91</a> of file <a class="el" href="hal__serial_8c_source.html">hal_serial.c</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="hal__serial_8c_source.html#l00585">halSerialInit()</a>, and <a class="el" href="hal__serial_8c_source.html#l00504">halSerialSendUSBSerial()</a>.</p>
 
 </div>
 </div>

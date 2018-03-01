@@ -85,36 +85,6 @@ static const int BUF_SIZE_TX = 512;
 static uint8_t keycode_modifier;
 static uint8_t keycode_arr[8] = {'K',0,0,0,0,0,0,0};
 
-/** @brief Queue for parsed AT commands
- * 
- * This queue is read by halSerialReceiveUSBSerial (which receives
- * from the queue and frees the memory afterwards).
- * AT commands are sent by halSerialRXTask, which parses each byte.
- * @note Pass structs of type atcmd_t, no pointer!
- * @see halSerialRXTask
- * @see halSerialReceiveUSBSerial
- * @see CMDQUEUE_SIZE
- * @see atcmd_t
- * */
-QueueHandle_t halSerialATCmds;
-
-/** @brief AT command type for halSerialATCmds queue
- * 
- * This type of data is used to pass one AT command (in format
- * of "AT MX 100") to any pending task.
- * @see halSerialATCmds
- * */
-typedef struct atcmd {
-  /** @brief Buffer pointer for the AT command 
-   * @note Buffer needs to be freed in pending/receiving functions
-   * (currently this is halSerialReceiveUSBSerial)
-   * @see halSerialReceiveUSBSerial
-   * */
-  uint8_t *buf;
-  /** @brief Length of the corresponding AT command string */
-  uint16_t len;
-} atcmd_t;
-
 /** mutex for sending to serial port. Used to avoid wrong set signal pin
  * on different UART sent bytes (either USB-HID or USB-Serial)
  * */

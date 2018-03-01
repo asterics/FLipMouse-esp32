@@ -64,17 +64,26 @@ $(function() {
 <div class="title">atcmd Struct Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
+
+<p>AT command type for halSerialATCmds queue.  
+ <a href="structatcmd.html#details">More...</a></p>
+
+<p><code>#include &lt;<a class="el" href="hal__serial_8h_source.html">hal_serial.h</a>&gt;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
 Data Fields</h2></td></tr>
 <tr class="memitem:a51596a774c660087fa29028aa2f72942"><td class="memItemLeft" align="right" valign="top">uint8_t *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structatcmd.html#a51596a774c660087fa29028aa2f72942">buf</a></td></tr>
+<tr class="memdesc:a51596a774c660087fa29028aa2f72942"><td class="mdescLeft">&#160;</td><td class="mdescRight">Buffer pointer for the AT command.  <a href="#a51596a774c660087fa29028aa2f72942">More...</a><br /></td></tr>
 <tr class="separator:a51596a774c660087fa29028aa2f72942"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4ad6f059af1f26830a7f89f48dad6de5"><td class="memItemLeft" align="right" valign="top">uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structatcmd.html#a4ad6f059af1f26830a7f89f48dad6de5">len</a></td></tr>
+<tr class="memdesc:a4ad6f059af1f26830a7f89f48dad6de5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Length of the corresponding AT command string.  <a href="#a4ad6f059af1f26830a7f89f48dad6de5">More...</a><br /></td></tr>
 <tr class="separator:a4ad6f059af1f26830a7f89f48dad6de5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock">
-<p class="definition">Definition at line <a class="el" href="hal__serial_8c_source.html#l00097">97</a> of file <a class="el" href="hal__serial_8c_source.html">hal_serial.c</a>.</p>
+<div class="textblock"><p>AT command type for halSerialATCmds queue. </p>
+<p>This type of data is used to pass one AT command (in format of "AT MX 100") to any pending task. </p><dl class="section see"><dt>See also</dt><dd><a class="el" href="hal__serial_8h.html#a57deadb7de70a0230474a4680cc0e2d9" title="Queue for parsed AT commands. ">halSerialATCmds</a> </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="hal__serial_8h_source.html#l00098">98</a> of file <a class="el" href="hal__serial_8h_source.html">hal_serial.h</a>.</p>
 </div><h2 class="groupheader">Field Documentation</h2>
 <a id="a51596a774c660087fa29028aa2f72942"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a51596a774c660087fa29028aa2f72942">&#9670;&nbsp;</a></span>buf</h2>
@@ -88,9 +97,13 @@ Data Fields</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="hal__serial_8c_source.html#l00098">98</a> of file <a class="el" href="hal__serial_8c_source.html">hal_serial.c</a>.</p>
+<p>Buffer pointer for the AT command. </p>
+<dl class="section note"><dt>Note</dt><dd>Buffer needs to be freed in pending/receiving functions (currently this is halSerialReceiveUSBSerial) </dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="hal__serial_8h.html#a131377105453d5b94f02f977ff454613" title="Read serial bytes from USB-Serial (USB-CDC) ">halSerialReceiveUSBSerial</a> </dd></dl>
 
-<p class="reference">Referenced by <a class="el" href="hal__serial_8c_source.html#l00465">halSerialReceiveUSBSerial()</a>.</p>
+<p class="definition">Definition at line <a class="el" href="hal__serial_8h_source.html#l00104">104</a> of file <a class="el" href="hal__serial_8h_source.html">hal_serial.h</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="hal__serial_8c_source.html#l00456">halSerialReceiveUSBSerial()</a>, <a class="el" href="hal__serial_8c_source.html#l00146">halSerialRXTask()</a>, and <a class="el" href="task__macros_8c_source.html#l00050">task_macro()</a>.</p>
 
 </div>
 </div>
@@ -106,14 +119,16 @@ Data Fields</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="hal__serial_8c_source.html#l00099">99</a> of file <a class="el" href="hal__serial_8c_source.html">hal_serial.c</a>.</p>
+<p>Length of the corresponding AT command string. </p>
 
-<p class="reference">Referenced by <a class="el" href="hal__serial_8c_source.html#l00465">halSerialReceiveUSBSerial()</a>.</p>
+<p class="definition">Definition at line <a class="el" href="hal__serial_8h_source.html#l00106">106</a> of file <a class="el" href="hal__serial_8h_source.html">hal_serial.h</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="hal__serial_8c_source.html#l00456">halSerialReceiveUSBSerial()</a>, <a class="el" href="hal__serial_8c_source.html#l00146">halSerialRXTask()</a>, and <a class="el" href="task__macros_8c_source.html#l00050">task_macro()</a>.</p>
 
 </div>
 </div>
 <hr/>The documentation for this struct was generated from the following file:<ul>
-<li>/home/beni/sync/Projects/FH/FLipMouse-esp32/main/hal/<a class="el" href="hal__serial_8c_source.html">hal_serial.c</a></li>
+<li>/home/beni/sync/Projects/FH/FLipMouse-esp32/main/hal/<a class="el" href="hal__serial_8h_source.html">hal_serial.h</a></li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->

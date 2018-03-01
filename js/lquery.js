@@ -1,6 +1,9 @@
 //very lightweight replacement for jquery,
 //see https://blog.garstasio.com/you-dont-need-jquery/selectors/#multiple-selectors
 window.L = function (selector) {
+    if(selector instanceof Node) {
+        return selector;
+    }
     var selectorType = 'querySelectorAll';
 
     if (selector.indexOf('#') === 0) {
@@ -17,22 +20,14 @@ window.L.toggle = function () {
     }
     for (var i = 0; i < arguments.length; i++) {
         var selector = arguments[i];
-        var elems = L(selector);
-        if(elems.length) {
-            elems.forEach(function (x) {
-                toggle(x);
-            });
-        } else if(elems.style) {
-            toggle(elems);
-        }
-
-        function toggle(x) {
+        var elems = L.selectAsList(selector);
+        elems.forEach(function (x) {
             if (x.style && x.style.display === "none") {
                 x.style.display = "block";
             } else {
                 x.style.display = "none";
             }
-        }
+        });
     }
 };
 
@@ -42,22 +37,36 @@ window.L.isVisible = function (selector) {
 };
 
 window.L.setVisible = function (selector, visible) {
-    var elems = L(selector);
-    if(elems.length) {
-        elems.forEach(function (x) {
-            setVisible(x);
-        });
-    } else if(elems.style) {
-        setVisible(elems);
-    }
-
-    function setVisible(x) {
+    var elems = L.selectAsList(selector);
+    elems.forEach(function (x) {
         if(visible == false) {
             x.style.display = "none";
         } else {
             x.style.display = "block";
         }
+    });
+};
+
+window.L.selectAsList = function (selector) {
+    var result = L(selector);
+    if(result && result.length) {
+        return result;
     }
+    return result ? [result]: [];
+};
+
+window.L.addClass = function (selector, className) {
+    var list = L.selectAsList(selector);
+    list.forEach(function (elem) {
+        elem.className += ' ' + className;
+    });
+};
+
+window.L.removeClass = function (selector, className) {
+    var list = L.selectAsList(selector);
+    list.forEach(function (elem) {
+        elem.className = L.replaceAll(elem.className, className, '');
+    });
 };
 
 window.L.val2key = function (val, array) {

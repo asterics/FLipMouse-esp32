@@ -35,11 +35,6 @@ function FlipMouse(initFinished) {
         L.getIDSelector(thiz.PUFF_STRONG_THRESHOLD)
     ];
 
-    thiz.LEARN_CAT_KEYBOARD = 'LEARN_CAT_KEYBOARD';
-    thiz.LEARN_CAT_MOUSE = 'LEARN_CAT_MOUSE';
-    thiz.LEARN_CAT_FLIPACTIONS = 'LEARN_CAT_FLIPACTIONS';
-    thiz.LEARN_CATEGORIES = [thiz.LEARN_CAT_KEYBOARD, thiz.LEARN_CAT_MOUSE, thiz.LEARN_CAT_FLIPACTIONS];
-
     var communicator = new ARECommunicator();
     //var communicator = new MockCommunicator();
     var _config = {};

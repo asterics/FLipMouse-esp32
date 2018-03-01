@@ -75,6 +75,11 @@ br {
     width: 100%;
 }
 
+.half-width {
+    width: 48%; !important;
+    float: left;
+}
+
 .tbody li {
     list-style-type: none;
     margin: 0; !important;

@@ -270,17 +270,35 @@
         <div data-tabs-pane class="tabs-pane" id="tabActions">
             <label i18n>Change actions // Aktionen ändern</label>
             <div class="row">
-                <label class="three columns text-right text-normal" i18n>Action to define // Zu belegende Funktion</label>
-                <select id="selectActionButton" class="eight columns" onchange="tabAction.selectActionButton(this.value)">
+                <label class="three columns text-right text-normal" for="selectActionButton" i18n>Action to define // Zu belegende Funktion</label>
+                <select id="selectActionButton" class="five columns" onchange="tabAction.selectActionButton(this.value)">
                 </select>
+                <div class="four columns">
+                    <span id="currentActionLabel" class="hide-tablet-inline" i18n>Current action: // Aktuelle Aktion:</span>
+                    <span id="currentAction" class="hide-mobile-inline"/>
+                </div>
             </div>
-            <div class="row" style="display: none">
+            <div class="row" style="margin: 0.5em 0 0.5em 0">
                 <label class="three columns text-right text-normal" i18n>Action category // Aktions-Kategorie</label>
-                <select id="selectActionCategory" class="eight columns" disabled="true">
-                </select>
+                <div class="eight columns">
+                    <div class="hide-tablet">
+                        <button class="three columns" onchange="tabAction.selectActionCategory(C.LEARN_CAT_KEYBOARD)" i18n>Keyboard // Tastatur</button>
+                        <button class="three columns" onchange="tabAction.selectActionCategory(C.LEARN_CAT_MOUSE)" i18n>Mouse // Maus</button>
+                        <button class="three columns" onchange="tabAction.selectActionCategory(C.LEARN_CAT_FLIPACTIONS)">Flip</button>
+                        <button class="three columns" onchange="tabAction.selectActionCategory(C.LEARN_CAT_CUSTOM)">Custom</button>
+                    </div>
+                    <div>
+                        <button class="show-tablet-inline half-width" style="margin-right: 4%" onchange="tabAction.selectActionCategory(C.LEARN_CAT_KEYBOARD)" i18n>Keyboard // Tastatur</button>
+                        <button class="show-tablet-inline half-width" onchange="tabAction.selectActionCategory(C.LEARN_CAT_MOUSE)" i18n>Mouse // Maus</button>
+                    </div>
+                    <div>
+                        <button class="show-tablet-inline half-width" style="margin-right: 4%" onchange="tabAction.selectActionCategory(C.LEARN_CAT_FLIPACTIONS)">Flip</button>
+                        <button class="show-tablet-inline half-width" onchange="tabAction.selectActionCategory(C.LEARN_CAT_CUSTOM)">Custom</button>
+                    </div>
+                </div>
             </div>
             <div class="row" style="display: none">
-                <label class="three columns text-right text-normal" i18n>Action // Aktion</label>
+                <label class="three columns text-right text-normal" for="selectAction" i18n>Action // Aktion</label>
                 <select id="selectAction" class="eight columns" disabled="true">
                 </select>
             </div>

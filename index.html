@@ -320,22 +320,23 @@
             separator: ' // ',
             languages: ['en', 'de']
         });
-        var flip = new FlipMouse(function (config) {
-            initWithConfig(config);
-            initSlots();
-            toTab(getCurrentTabId());
-            testConnection();
-            setInterval(function () {
+        L.loadScript('js/i18n/i18n_' + L.getLang() + '.js', 'js/i18n/i18n_en.js').then(function () {
+            window.flip = new FlipMouse(function (config) {
+                initWithConfig(config);
+                initSlots();
+                toTab(getCurrentTabId());
                 testConnection();
-            }, 10000);
-            function testConnection() {
-                flip.testConnection(true).then(function (isConnected) {
-                    L.setVisible('.connectedIndicator', isConnected);
-                    L.setVisible('.disconnectedIndicator', !isConnected);
-                });
-            }
+                setInterval(function () {
+                    testConnection();
+                }, 10000);
+                function testConnection() {
+                    flip.testConnection(true).then(function (isConnected) {
+                        L.setVisible('.connectedIndicator', isConnected);
+                        L.setVisible('.disconnectedIndicator', !isConnected);
+                    });
+                }
+            });
         });
-        window.flip = flip;
     };
 
     function initWithConfig(config) {

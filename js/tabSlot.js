@@ -21,7 +21,7 @@ window.tabSlot.createSlot = function (toggleElementList, progressBarId) {
 
 window.tabSlot.deleteSlot = function (toggleElementList, progressBarId) {
     var slotName = L('#selectSlotDelete').value;
-    var confirmMessage = L.translate('Do you really want to delete the slot "' + slotName + '"?', 'Möchten Sie den Slot "' + slotName + '" wirklich löschen?');
+    var confirmMessage = L.translate('CONFIRM_DELETE_SLOT', slotName);
     if(!window.confirm(confirmMessage)){
         return;
     }
@@ -32,7 +32,7 @@ window.tabSlot.deleteSlot = function (toggleElementList, progressBarId) {
 };
 
 window.tabSlot.resetConfig = function (toggleElementList, progressBarId) {
-    var confirmMessage = L.translate('Do you really want to reset the FLipMouse to the default configuration?', 'Möchten Sie die FLipMouse wirklich auf die Standardeinstellungen zurücksetzen?');
+    var confirmMessage = L.translate('CONFIRM_RESET_SLOTS');
     if(!window.confirm(confirmMessage)){
         return;
     }

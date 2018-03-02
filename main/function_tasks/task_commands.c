@@ -642,6 +642,23 @@ parserstate_t doGeneralCmdParsing(uint8_t *cmdBuffer)
     return NOACTION;  
   }
   
+  /*++++ AT BL; button learning ++++*/
+  if(CMD("AT BL")) {
+    switch(cmdBuffer[6])
+    {
+      case '0':
+      case '1':
+        currentcfg->button_learn = cmdBuffer[6] - '0';
+        ESP_LOGD(LOG_TAG,"Setting button learn mode to %d",currentcfg->button_learn);
+        break;
+      default:
+        sendErrorBack("Parameter out of range (0-1)");
+        return UNKNOWNCMD;
+    }
+    requestUpdate = 1;
+    return NOACTION;  
+  }
+  
   ///@todo hier den AT AI,AP,AR commands hinzufügen. Achtung auf requestVBUpdate: wenn gesetzt, wieder zurücksetzen & entsprechend die Zeit speichern.
   /*++++ AT AP,AR,AI; anti-tremor ++++*/
   if(CMD4("AT A")) {

@@ -139,6 +139,31 @@ int8_t cancelTimer(uint8_t virtualButton)
   return -1;
 }
 
+/** @brief Send feedback on pressed buttons to host (for button learning)
+ * 
+ * This method sends back to the host which buttons are pressed, if enabled.
+ * Can be enabled by "AT BL 1" and disabled by "AT BL 0".
+ * 
+ * @param vb Virtual button which was triggered
+ * @param press 0 for release action, 1 for press action
+ * @param cfg Pointer to current config
+ * @see generalConfig_t.button_learn
+ * */
+void sendButtonLearn(uint8_t vb, uint8_t press, generalConfig_t *cfg)
+{
+  if(cfg == NULL) return;
+  char str[13];
+  
+  //send only if enabled 
+  if(cfg->button_learn != 0)
+  {
+    if(press) sprintf(str,"%d PRESS",vb);
+    else sprintf(str,"%d RELEASE",vb);
+    halSerialSendUSBSerial(HAL_SERIAL_TX_TO_CDC,str,strlen(str),20);
+  }
+  return;
+}
+
 /** @brief Timer callback for debouncing
  * 
  * This callback is executed on an expired debounce timer.
@@ -185,17 +210,24 @@ void debouncerCallback(TimerHandle_t xTimer) {
       return;
     case TIMER_PRESS:
       ESP_LOGD(LOG_TAG,"Debounce finished, map in to out for press VB%d",virtualButton);
+      //map in to out and clear from in...
       xEventGroupSetBits(virtualButtonsOut[virtualButton/4],(1<<(virtualButton%4)));
       xEventGroupClearBits(virtualButtonsIn[virtualButton/4],(1<<(virtualButton%4)));
+      //stop timer
       if(cancelTimer(virtualButton) == -1) ESP_LOGE(LOG_TAG,"Cannot cancel timer!");
-      
+      //send feedback to host, if enabled
+      sendButtonLearn(virtualButton,0,cfg);
       break;
     case TIMER_RELEASE:
       ESP_LOGD(LOG_TAG,"Debounce finished, map in to out for release VB%d",virtualButton);
+      //map in to out and clear from in...
       xEventGroupSetBits(virtualButtonsOut[virtualButton/4],(1<<((virtualButton%4)+4)));
       xEventGroupClearBits(virtualButtonsIn[virtualButton/4],(1<<((virtualButton%4)+4)));
+      //stop timer
       if(cancelTimer(virtualButton) == -1) ESP_LOGE(LOG_TAG,"Cannot cancel timer!");
-      return;;
+      //send feedback to host, if enabled
+      sendButtonLearn(virtualButton,1,cfg);
+      return;
     case TIMER_DEADTIME:
       ESP_LOGE(LOG_TAG,"Deadtime finished, ready");
       if(cancelTimer(virtualButton) == -1) ESP_LOGE(LOG_TAG,"Cannot cancel timer!");

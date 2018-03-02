@@ -349,6 +349,7 @@ typedef struct adc_config {
 typedef enum {
   T_MOUSE,
   T_KEYBOARD,
+  T_JOYSTICK,
   T_CONFIGCHANGE,
   T_CALIBRATE,
   T_SENDIR,

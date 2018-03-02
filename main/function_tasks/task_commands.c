@@ -475,6 +475,98 @@ parserstate_t doStorageParsing(uint8_t *cmdBuffer, taskConfigSwitcherConfig_t *i
   return UNKNOWNCMD;
 }
 
+parserstate_t doJoystickParsing(uint8_t *cmdBuffer, taskJoystickConfig_t *instance, int length)
+{
+  if(CMD4("AT J"))
+  {
+    //clear any previous data
+    memset(instance,0,sizeof(taskJoystickConfig_t));
+    //save to config
+    instance->virtualButton = requestVBUpdate;
+    //just to clear following checks a little bit.
+    char t = cmdBuffer[4];
+    
+    //param 1
+    int32_t param1 = strtol((char*)&(cmdBuffer[5]),NULL,10);
+    //param 2 (release mode for commands)
+    ///@todo Is this offset from the end sufficient to detect param2 (release mode) for joystick?
+    unsigned int param2 = strtol((char*)&(cmdBuffer[length - 3]),NULL,10);
+    
+    //parameter checks - buttons
+    if(t == 'P' || t == 'C' || t == 'R')
+    {
+      if(param1 > 32 || param1 < 1)
+      {
+        ESP_LOGE(LOG_TAG,"Joystick button out of range: %d",param1);
+        sendErrorBack("Joystick button invalid");
+        return UNKNOWNCMD;
+      }
+    }
+    
+    //parameter checks - hat
+    if(t == 'H')
+    {
+      if(param1 > 315 || param1 < -1)
+      {
+        ESP_LOGE(LOG_TAG,"Joystick hat out of range: %d",param1);
+        sendErrorBack("Joystick hat value invalid");
+        return UNKNOWNCMD;
+      }
+    }
+    
+    //parameter checks - axis
+    if(t == 'X' || t == 'Y' || t == 'Z' || t == 'T' || t == 'S' || t == 'U')
+    {
+      if(param1 > 1023 || param1 < 0)
+      {
+        ESP_LOGE(LOG_TAG,"Joystick axis out of range: %d",param1);
+        sendErrorBack("Joystick axis value invalid");
+        return UNKNOWNCMD;
+      } else {
+        instance->value = param1;
+      }
+    }
+    
+    //test release mode, but only if not a button.
+    if(!(t=='P' || t=='C' || t=='R'))
+    {
+      if(param2 > 1)
+      {
+        ESP_LOGE(LOG_TAG,"Joystick release mode invalid: %d",param2);
+        sendErrorBack("Joystick release mode invalid");
+        return UNKNOWNCMD;
+      } else {
+        instance->mode = param2;
+      }
+    } else {
+      //just set to 0 for buttons
+      instance->mode = 0;
+    }
+    
+    //map AT command (5th character) to joystick command
+    switch(t)
+    {
+      case 'X': instance->type = XAXIS; break;
+      case 'Y': instance->type = YAXIS; break;
+      case 'Z': instance->type = ZAXIS; break;
+      case 'T': instance->type = ZROTATE; break;
+      case 'S': instance->type = SLIDER_LEFT; break;
+      case 'U': instance->type = SLIDER_RIGHT; break;
+      case 'H': instance->type = HAT; break;
+      case 'P': instance->type = BUTTON_PRESS; break;
+      //AT JC -> button press but with release flag set.
+      case 'C': instance->type = BUTTON_PRESS; instance->mode = 1; break;
+      case 'R': instance->type = BUTTON_RELEASE; break;
+      default: return UNKNOWNCMD;
+    }
+    
+    //we want to have the config sent to the task (or mapped to a VB)
+    return TRIGGERTASK;
+  }
+  //not consumed, no command found for storage
+  return UNKNOWNCMD;
+}
+
 parserstate_t doInfraredParsing(uint8_t *cmdBuffer, taskInfraredConfig_t *instance)
 {
   uint32_t tid;
@@ -1210,10 +1302,10 @@ void task_commands(void *params)
   taskConfigSwitcherConfig_t *cmdCfgSwitcher = malloc(sizeof(taskConfigSwitcherConfig_t));
   taskMacrosConfig_t *cmdMacros = malloc(sizeof(taskMacrosConfig_t));
   taskInfraredConfig_t *cmdInfrared = malloc(sizeof(taskInfraredConfig_t));
-  //taskJoystickConfig_t *cmdJoystick = malloc(sizeof(taskJoystickConfig_t));
+  taskJoystickConfig_t *cmdJoystick = malloc(sizeof(taskJoystickConfig_t));
   
   //check if we have all our pointers
-  if(cmdMouse == NULL || cmdKeyboard == NULL /*|| cmdJoystick == NULL */ || \
+  if(cmdMouse == NULL || cmdKeyboard == NULL || cmdJoystick == NULL || \
     cmdNoConfig == NULL || cmdCfgSwitcher == NULL || cmdMacros == NULL || \
     cmdInfrared == NULL)
   {
@@ -1256,6 +1348,7 @@ void task_commands(void *params)
       if(parserstate == UNKNOWNCMD) { parserstate = doKeyboardParsing(commandBuffer,cmdKeyboard,received); }
       if(parserstate == UNKNOWNCMD) { parserstate = doGeneralCmdParsing(commandBuffer); }
       if(parserstate == UNKNOWNCMD) { parserstate = doInfraredParsing(commandBuffer,cmdInfrared); }
+      if(parserstate == UNKNOWNCMD) { parserstate = doJoystickParsing(commandBuffer,cmdJoystick,received); }
       if(parserstate == UNKNOWNCMD) { parserstate = doMouthpieceSettingsParsing(commandBuffer,cmdNoConfig); }
       if(parserstate == UNKNOWNCMD) { parserstate = doMacroParsing(commandBuffer,cmdMacros,received); }
       
@@ -1494,31 +1587,32 @@ void printAllSlots(uint8_t printconfig)
         {
           case T_MOUSE:
             task_mouse_getAT(outputstring,currentcfg->virtualButtonConfig[j]);
-            halSerialSendUSBSerial(HAL_SERIAL_TX_TO_CDC,outputstring,strlen(outputstring),10);
             break;
           case T_KEYBOARD:
             task_keyboard_getAT(outputstring,currentcfg->virtualButtonConfig[j]);
-            halSerialSendUSBSerial(HAL_SERIAL_TX_TO_CDC,outputstring,strlen(outputstring),10);
+            break;
+          case T_JOYSTICK:
+            task_joystick_getAT(outputstring,currentcfg->virtualButtonConfig[j]);
             break;
           case T_CONFIGCHANGE:
             task_configswitcher_getAT(outputstring,currentcfg->virtualButtonConfig[j]);
-            halSerialSendUSBSerial(HAL_SERIAL_TX_TO_CDC,outputstring,strlen(outputstring),10);
+            break;
+          case T_MACRO:
+            task_macro_getAT(outputstring,currentcfg->virtualButtonConfig[j]);
             break;
           case T_CALIBRATE:
             //no reverse parsing, no parameter...
             sprintf(outputstring,"AT CA\r\n");
-            halSerialSendUSBSerial(HAL_SERIAL_TX_TO_CDC,outputstring,strlen(outputstring),10);
             break;
           case T_SENDIR:
             task_infrared_getAT(outputstring,currentcfg->virtualButtonConfig[j]);
-            halSerialSendUSBSerial(HAL_SERIAL_TX_TO_CDC,outputstring,strlen(outputstring),10);
             break;
           case T_NOFUNCTION:
           default:
             sprintf(outputstring,"AT NC\r\n");
-            halSerialSendUSBSerial(HAL_SERIAL_TX_TO_CDC,outputstring,strlen(outputstring),10);
             break;
         }
+        halSerialSendUSBSerial(HAL_SERIAL_TX_TO_CDC,outputstring,strlen(outputstring),10);
         ESP_LOGD(LOG_TAG,"%s",outputstring);
       }
     }

@@ -22,13 +22,13 @@ Following commands are currently available:
 | AT    | --  | returns OK   | v2 | yes | no |
 | AT ID | --  | returns the current version string  | v2 | yes | no |
 | AT BM | number (0-VB_MAX-1)  | set the button, which corresponds to the next command. The button assignments are described on the bottom | v2 | yes | no |
-| AT BL | -- | enable/disable output of triggered virtual buttons. Is used with AT BM for command learning | v3 | no | ? |
+| AT BL | number (0,1) | enable/disable output of triggered virtual buttons. Is used with AT BM for command learning | v3 | untested | no (handled in task_debouncer) |
 | AT MA | string | execute macro (space separated list of commands, see [Macros](https://github.com/asterics/FLipMouse/wiki/macros)) | v2 | untested | yes (task_macro) |
 | AT WA | number (0-30000) | wait/delay (ms); useful for macros. Does nothing if not used in macros. | v2 | untested | yes/no <sup>[A](#footnoteA)</sup> |
 | AT RO | number (0,90,180,270) | orientation (0 => LEDs on top) | v2 | yes | no |
 | AT KL | number | Set keyboard locale (locale defines are listed below) | v3 | yes | no |
 | AT BT | number (0,1,2,3) | Bluetooth mode, 0=no HID output, 1=USB only, 2=BT only, 3=both(default) | v2 | Working for USB, untested for BLE | no |
-| AT TT | number (100-5000) | Threshold time ([ms]) between short and long press actions. Set to 5000 to disable. | v3 | no | no |
+| AT TT | number (100-5000) | Threshold time ([ms]) between short and long press actions. Set to 5000 to disable. | v3 | no | no (handled in task_debouncer)  |
 | AT AP | number (1-500) | Antitremor delay for button press ([ms]) <sup>[B](#footnoteB)</sup> | v3 | untested | no |
 | AT AR | number (1-500) | Antitremor delay for button release ([ms]) <sup>[B](#footnoteB)</sup>| v3 | untested | no |
 | AT AI | number (1-500) | Antitremor delay for button idle ([ms]) <sup>[B](#footnoteB)</sup>| v3 | untested | no |
@@ -110,14 +110,25 @@ individually to set a global value.
 **Joystick settings**
 | Command | Parameter | Description | Available since | Implemented in v3 | FUNCTIONAL task |
 |:--------|:----------|:------------|:--------------|:--------------------|:----------------|
-| AT JX | number (0-1023)  | Joystick X-axis  | v2 | no | yes (task_joystick) |
-| AT JY | number (0-1023)  | Joystick Y-axis  | v2 | no | yes (task_joystick) |
-| AT JZ | number (0-1023)  | Joystick Z-axis  | v2 | no | yes (task_joystick) |
-| AT JT | number (0-1023)  | Joystick Z-rotate  | v2 | no | yes (task_joystick) |
-| AT JS | number (0-1023)  | Joystick Slider left  | v2 | no | yes (task_joystick) |
-| AT JP | number (1-32)  | Button press | v2 | no | yes (task_joystick) |
-| AT JR | number (1-32)  | Button release | v2 | no | yes (task_joystick) |
-| AT JH | number (-1, 0-315) | Joystick hat (rest position: -1, 0-315 in 45° steps) | v2 | no | yes (task_joystick) |
+| AT JX | number (0-1023) + number(0,1)  | Joystick X-axis <sup>[D](#footnoteD)</sup> | v2 | untested | yes (task_joystick) |
+| AT JY | number (0-1023) + number(0,1)  | Joystick Y-axis <sup>[D](#footnoteD)</sup> | v2 | untested | yes (task_joystick) |
+| AT JZ | number (0-1023) + number(0,1)  | Joystick Z-axis <sup>[D](#footnoteD)</sup> | v2 | untested | yes (task_joystick) |
+| AT JT | number (0-1023) + number(0,1)  | Joystick Z-rotate <sup>[D](#footnoteD)</sup> | v2 | untested | yes (task_joystick) |
+| AT JS | number (0-1023) + number(0,1)  | Joystick Slider left <sup>[D](#footnoteD)</sup> | v2 | untested | yes (task_joystick) |
+| AT JU | number (0-1023) + number(0,1)  | Joystick Slider right <sup>[D](#footnoteD)</sup> | v3 | untested | yes (task_joystick) |
+| AT JP | number (1-32)  | Button press | v2 | untested | yes (task_joystick) |
+| AT JC | number (1-32)  | Button press & release (on VB press & release) | v3 | untested | yes (task_joystick) |
+| AT JR | number (1-32)  | Button release | v2 | untested | yes (task_joystick) |
+| AT JH | number (-1, 0-315) + number(0,1) | Joystick hat (rest position: -1, 0-315 in 45° steps) <sup>[D](#footnoteD)</sup> | v2 | untested | yes (task_joystick) |
+
+Please note, that joystick is currently not available for Bluetooth connections.
+
+<a name="footnoteD">D</a>: The second parameter sets the release mode of this command. 
+
+If set to 0 (or no parameter given, compatible to v2), the axis/slider/hat won't be set to a different value except another VB is used to set it differently. 
+
+If set to 1, the axis/slider/hat will be released to its idle position on a VB release action (idle values: axis - 512; slider - 0; hat - -1).
+
 **Infrared commands** 
 | Command | Parameter | Description | Available since | Implemented in v3 | FUNCTIONAL task |
 |:--------|:----------|:------------|:--------------|:--------------------|:----------------|

@@ -60,6 +60,7 @@
 #include "task_debouncer.h"
 #include "task_infrared.h"
 #include "task_macros.h"
+#include "task_joystick.h"
 
 
 /** Stacksize for functional task task_configswitcher.

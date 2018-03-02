@@ -10,7 +10,7 @@ var searchData=
   ['halserialatcmds',['halSerialATCmds',['../hal__serial_8h.html#a57deadb7de70a0230474a4680cc0e2d9',1,'hal_serial.h']]],
   ['halstoragemutex',['halStorageMutex',['../hal__storage_8c.html#afe54e8f771b85765a57fb799302f2a09',1,'hal_storage.c']]],
   ['handle',['handle',['../structhid__report__map__t.html#aeb8592d58f344c97f105c45b5565a27b',1,'hid_report_map_t::handle()'],['../structhidRptMap__t.html#ae381ed8df03d72c0c1fee2165c5ca16f',1,'hidRptMap_t::handle()']]],
-  ['hat',['hat',['../structjoystick__data.html#ad557e516f2e51201d40a2c4763133afc',1,'joystick_data']]],
+  ['hat',['hat',['../structjoystick__data.html#ad557e516f2e51201d40a2c4763133afc',1,'joystick_data::hat()'],['../structjoystick__command.html#a6e12e92f960ddcf08e0e43d34cfd3592',1,'joystick_command::hat()']]],
   ['hid_5fconn_5fid',['hid_conn_id',['../hal__ble_8c.html#acf63d81e5e92daa2fea46597280eac6d',1,'hal_ble.c']]],
   ['hid_5fcontrol_5fpoint_5fuuid',['hid_control_point_uuid',['../hid__device__le__prf_8c.html#af92112ac5cac8de2b131ec32dc279451',1,'hid_device_le_prf.c']]],
   ['hid_5fcount',['hid_count',['../hid__device__le__prf_8c.html#a2723374c79e85f2899bba93932ee37c3',1,'hid_device_le_prf.c']]],

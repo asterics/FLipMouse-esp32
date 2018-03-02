@@ -9,7 +9,5 @@ var searchData=
   ['adcsem',['adcSem',['../hal__adc_8c.html#a70c255d6fc596127309462e944fd47b1',1,'hal_adc.c']]],
   ['app_5fid',['app_id',['../structhidd__inst__t.html#ae2fbd36c4b2598940c376f3113b03618',1,'hidd_inst_t']]],
   ['att_5ftbl',['att_tbl',['../structhidd__inst__t.html#aa9c02a26d9d8ad56449dcf038394275d',1,'hidd_inst_t']]],
-  ['axis',['axis',['../structadc__config.html#a79ae56f983038a1020fbf9d5dc725f78',1,'adc_config']]],
-  ['axis1',['axis1',['../structjoystick__command.html#a6bb2baad8f66ca70748abb7bb7dae444',1,'joystick_command']]],
-  ['axis2',['axis2',['../structjoystick__command.html#ae6cbee226c06ba3fadea3741bacbad78',1,'joystick_command']]]
+  ['axis',['axis',['../structadc__config.html#a79ae56f983038a1020fbf9d5dc725f78',1,'adc_config']]]
 ];

@@ -99,6 +99,7 @@ var searchData=
   ['hid_5freport_5ftype_5foutput',['HID_REPORT_TYPE_OUTPUT',['../hidd__le__prf__int_8h.html#afc5ff29118405a5851471ccdc991b1be',1,'hidd_le_prf_int.h']]],
   ['hid_5frpt_5fid_5fcc_5fin',['HID_RPT_ID_CC_IN',['../hidd__le__prf__int_8h.html#a294d77f599410cdc8c71da07fa67020f',1,'hidd_le_prf_int.h']]],
   ['hid_5frpt_5fid_5ffeature',['HID_RPT_ID_FEATURE',['../hidd__le__prf__int_8h.html#a1c9299b131a3e8d3e0ac8f803321d51d',1,'hidd_le_prf_int.h']]],
+  ['hid_5frpt_5fid_5fjoy_5fin',['HID_RPT_ID_JOY_IN',['../hidd__le__prf__int_8h.html#a43a44391511792e17cfe3eac3fb1a4d3',1,'hidd_le_prf_int.h']]],
   ['hid_5frpt_5fid_5fkey_5fin',['HID_RPT_ID_KEY_IN',['../hidd__le__prf__int_8h.html#ae275c1d382448411ee0441d55a970569',1,'hidd_le_prf_int.h']]],
   ['hid_5frpt_5fid_5fled_5fout',['HID_RPT_ID_LED_OUT',['../hidd__le__prf__int_8h.html#aefc58b8c80aecc52a0712efa3c820063',1,'hidd_le_prf_int.h']]],
   ['hid_5frpt_5fid_5fmouse_5fin',['HID_RPT_ID_MOUSE_IN',['../hidd__le__prf__int_8h.html#adcc36a227f5386df1faaf120ae4fc0c8',1,'hidd_le_prf_int.h']]],

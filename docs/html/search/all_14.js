@@ -1,5 +1,7 @@
 var searchData=
 [
+  ['value',['value',['../structtaskJoystickConfig.html#ae18bad953cd8aabe23f15899a3daf353',1,'taskJoystickConfig']]],
+  ['values',['valueS',['../structtaskJoystickConfig.html#a4430e2c8ce7d902743a3a7d41bdae309',1,'taskJoystickConfig']]],
   ['vb_5fdown',['VB_DOWN',['../common_8h.html#ae632adac4c2cbf494b5e27503aeb10e6',1,'common.h']]],
   ['vb_5fexternal1',['VB_EXTERNAL1',['../common_8h.html#a60dd10a4dea05105f297d604f1d7ba4e',1,'common.h']]],
   ['vb_5fexternal2',['VB_EXTERNAL2',['../common_8h.html#a998d2a4a3ffc3ae563e85e4e80dd9d9e',1,'common.h']]],
@@ -27,7 +29,7 @@ var searchData=
   ['vb_5fstrongsip_5fright',['VB_STRONGSIP_RIGHT',['../common_8h.html#aab9c9881e5418ab71f5641c18d1009d9',1,'common.h']]],
   ['vb_5fstrongsip_5fup',['VB_STRONGSIP_UP',['../common_8h.html#a8ace42783967b4342b05b6c0770890ad',1,'common.h']]],
   ['vb_5fup',['VB_UP',['../common_8h.html#ac9e5139cb56568693244c234d156f76b',1,'common.h']]],
-  ['virtualbutton',['virtualButton',['../structtaskConfigSwitcherConfig.html#acf206e3d16ac612266677ae74fb39b92',1,'taskConfigSwitcherConfig::virtualButton()'],['../structtaskNoParameterConfig.html#ae7e56968b4aa5b8b0f0a4e8b9eb5c645',1,'taskNoParameterConfig::virtualButton()'],['../structtaskInfraredConfig.html#a871be820b32558da7fc06caf82cbed2d',1,'taskInfraredConfig::virtualButton()'],['../structtaskKeyboardConfig.html#aae706eddea395cbff84ab46814bcc9ae',1,'taskKeyboardConfig::virtualButton()'],['../structtaskMacrosConfig.html#a90172887c433e7a4d098ef1c8e37e53d',1,'taskMacrosConfig::virtualButton()'],['../structtaskMouseConfig.html#a3bb6fa49c72ff534b4178abf12b213f6',1,'taskMouseConfig::virtualButton()']]],
+  ['virtualbutton',['virtualButton',['../structtaskConfigSwitcherConfig.html#acf206e3d16ac612266677ae74fb39b92',1,'taskConfigSwitcherConfig::virtualButton()'],['../structtaskNoParameterConfig.html#ae7e56968b4aa5b8b0f0a4e8b9eb5c645',1,'taskNoParameterConfig::virtualButton()'],['../structtaskInfraredConfig.html#a871be820b32558da7fc06caf82cbed2d',1,'taskInfraredConfig::virtualButton()'],['../structtaskJoystickConfig.html#a6732297a0a6980e348c034a5333e16e0',1,'taskJoystickConfig::virtualButton()'],['../structtaskKeyboardConfig.html#aae706eddea395cbff84ab46814bcc9ae',1,'taskKeyboardConfig::virtualButton()'],['../structtaskMacrosConfig.html#a90172887c433e7a4d098ef1c8e37e53d',1,'taskMacrosConfig::virtualButton()'],['../structtaskMouseConfig.html#a3bb6fa49c72ff534b4178abf12b213f6',1,'taskMouseConfig::virtualButton()']]],
   ['virtualbuttoncommand',['virtualButtonCommand',['../structgeneralConfig.html#a98d9a4aa6f20d96934a99e63f280e429',1,'generalConfig']]],
   ['virtualbuttonconfig',['virtualButtonConfig',['../structgeneralConfig.html#ad54324c99dcd927be3cd155a0ee64dfa',1,'generalConfig']]],
   ['virtualbuttonsin',['virtualButtonsIn',['../flipmouse__fabi__esp32__kbdmouse__main_8c.html#a591ffaa399081915a0eab951f83f93e2',1,'virtualButtonsIn():&#160;flipmouse_fabi_esp32_kbdmouse_main.c'],['../common_8h.html#a591ffaa399081915a0eab951f83f93e2',1,'virtualButtonsIn():&#160;flipmouse_fabi_esp32_kbdmouse_main.c']]],

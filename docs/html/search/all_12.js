@@ -2,6 +2,7 @@ var searchData=
 [
   ['t_5fcalibrate',['T_CALIBRATE',['../common_8h.html#ac27b6f4710923c6689834e86aea228aca788417f1dce5bcbd1c068047b9ea9c01',1,'common.h']]],
   ['t_5fconfigchange',['T_CONFIGCHANGE',['../common_8h.html#ac27b6f4710923c6689834e86aea228acaef5d43daff3e932bbc610563bc1fe83e',1,'common.h']]],
+  ['t_5fjoystick',['T_JOYSTICK',['../common_8h.html#ac27b6f4710923c6689834e86aea228acae5171232d19b9f86c7cb8c768acbfc58',1,'common.h']]],
   ['t_5fkeyboard',['T_KEYBOARD',['../common_8h.html#ac27b6f4710923c6689834e86aea228aca6ba7a3076b8a61933f9558075d22ae22',1,'common.h']]],
   ['t_5fmacro',['T_MACRO',['../common_8h.html#ac27b6f4710923c6689834e86aea228acaab8657ed558d395316f022c407b26c79',1,'common.h']]],
   ['t_5fmouse',['T_MOUSE',['../common_8h.html#ac27b6f4710923c6689834e86aea228aca641942cf217e5ff4dd65ff9a699d9d45',1,'common.h']]],
@@ -40,6 +41,11 @@ var searchData=
   ['task_5finfrared_2eh',['task_infrared.h',['../task__infrared_8h.html',1,'']]],
   ['task_5finfrared_5fgetat',['task_infrared_getAT',['../task__infrared_8c.html#a1e71679519e33c714fcdf3ce9023191e',1,'task_infrared_getAT(char *output, void *cfg):&#160;task_infrared.c'],['../task__infrared_8h.html#a1e71679519e33c714fcdf3ce9023191e',1,'task_infrared_getAT(char *output, void *cfg):&#160;task_infrared.c']]],
   ['task_5finfrared_5fstacksize',['TASK_INFRARED_STACKSIZE',['../task__infrared_8h.html#a1e25b21a41d65d0626e0a54ad0abe641',1,'task_infrared.h']]],
+  ['task_5fjoystick',['task_joystick',['../task__joystick_8c.html#a3040132b9cef8e73060fcd9c17dc116b',1,'task_joystick(taskJoystickConfig_t *param):&#160;task_joystick.c'],['../task__joystick_8h.html#a3040132b9cef8e73060fcd9c17dc116b',1,'task_joystick(taskJoystickConfig_t *param):&#160;task_joystick.c']]],
+  ['task_5fjoystick_2ec',['task_joystick.c',['../task__joystick_8c.html',1,'']]],
+  ['task_5fjoystick_2eh',['task_joystick.h',['../task__joystick_8h.html',1,'']]],
+  ['task_5fjoystick_5fgetat',['task_joystick_getAT',['../task__joystick_8c.html#a129da97dc396e856bc83c34c49f267a7',1,'task_joystick_getAT(char *output, void *cfg):&#160;task_joystick.c'],['../task__joystick_8h.html#a129da97dc396e856bc83c34c49f267a7',1,'task_joystick_getAT(char *output, void *cfg):&#160;task_joystick.c']]],
+  ['task_5fjoystick_5fstacksize',['TASK_JOYSTICK_STACKSIZE',['../task__joystick_8h.html#a271d67183f41277b3811937676a11eac',1,'task_joystick.h']]],
   ['task_5fkbd_2ec',['task_kbd.c',['../task__kbd_8c.html',1,'']]],
   ['task_5fkbd_2eh',['task_kbd.h',['../task__kbd_8h.html',1,'']]],
   ['task_5fkeyboard',['task_keyboard',['../task__kbd_8c.html#a8ff4618047a049178bfb1d60abfefb5d',1,'task_keyboard(taskKeyboardConfig_t *param):&#160;task_kbd.c'],['../task__kbd_8h.html#a8ff4618047a049178bfb1d60abfefb5d',1,'task_keyboard(taskKeyboardConfig_t *param):&#160;task_kbd.c']]],
@@ -62,6 +68,8 @@ var searchData=
   ['taskconfigswitcherconfig_5ft',['taskConfigSwitcherConfig_t',['../config__switcher_8h.html#aa6d38946df351bfaec1994fdb081e7db',1,'config_switcher.h']]],
   ['taskinfraredconfig',['taskInfraredConfig',['../structtaskInfraredConfig.html',1,'']]],
   ['taskinfraredconfig_5ft',['taskInfraredConfig_t',['../task__infrared_8h.html#ae79eca562c950fdefa5b55c65e44c1f4',1,'task_infrared.h']]],
+  ['taskjoystickconfig',['taskJoystickConfig',['../structtaskJoystickConfig.html',1,'']]],
+  ['taskjoystickconfig_5ft',['taskJoystickConfig_t',['../task__joystick_8h.html#aed3c0e0d7e7152cbf835beec3ae45bb9',1,'task_joystick.h']]],
   ['taskkeyboardconfig',['taskKeyboardConfig',['../structtaskKeyboardConfig.html',1,'']]],
   ['taskkeyboardconfig_5ft',['taskKeyboardConfig_t',['../task__kbd_8h.html#a1ea00a7b13dc2b804f53e6f79cb89f2c',1,'task_kbd.h']]],
   ['taskmacrosconfig',['taskMacrosConfig',['../structtaskMacrosConfig.html',1,'']]],
@@ -107,5 +115,5 @@ var searchData=
   ['tones_2eh',['tones.h',['../tones_8h.html',1,'']]],
   ['trans_5fid',['trans_id',['../structhidd__clcb__t.html#afb84f454f4b4003af634bb8eca597834',1,'hidd_clcb_t']]],
   ['triggertask',['TRIGGERTASK',['../task__commands_8c.html#a7860b6904b2ba2dd906d189ada5f1e17a50c64ae796b6cf92c249f1a90f98a992',1,'task_commands.c']]],
-  ['type',['type',['../structhid__report__map__t.html#af18e90bd29fbc1e4c729604b320584f7',1,'hid_report_map_t::type()'],['../structhidRptMap__t.html#a42e8284ef1e7aa903a10c034e3aa716a',1,'hidRptMap_t::type()'],['../structtaskKeyboardConfig.html#adca07379749166ca12eb631f84a727dd',1,'taskKeyboardConfig::type()'],['../structtaskMouseConfig.html#a7f48393904d131e50914afdf637a76be',1,'taskMouseConfig::type()']]]
+  ['type',['type',['../structhid__report__map__t.html#af18e90bd29fbc1e4c729604b320584f7',1,'hid_report_map_t::type()'],['../structhidRptMap__t.html#a42e8284ef1e7aa903a10c034e3aa716a',1,'hidRptMap_t::type()'],['../structtaskJoystickConfig.html#acb07402bd16f33e0d51000846973622a',1,'taskJoystickConfig::type()'],['../structtaskKeyboardConfig.html#adca07379749166ca12eb631f84a727dd',1,'taskKeyboardConfig::type()'],['../structtaskMouseConfig.html#a7f48393904d131e50914afdf637a76be',1,'taskMouseConfig::type()']]]
 ];

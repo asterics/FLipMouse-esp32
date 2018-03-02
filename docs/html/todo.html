@@ -67,55 +67,59 @@ $(function() {
 <dd>Add __RESTOREFACTORY...  </dd>
 <dt><a class="anchor" id="_todo000001"></a>Global <a class="el" href="config__switcher_8c.html#aceb033b9bef9bb354a3b2c4734b4ec9d">currentTaskParametersUpdate</a>  [NUMBER_VIRTUALBUTTONS *4]</dt>
 <dd>Maybe this information should be moved to the corresponding function.  </dd>
-<dt><a class="anchor" id="_todo000012"></a>Global <a class="el" href="task__debouncer_8c.html#a4a76abdbb849aa0bbc66aa001c6f4af9">debouncerCallback</a>  (TimerHandle_t xTimer)</dt>
+<dt><a class="anchor" id="_todo000013"></a>Global <a class="el" href="task__debouncer_8c.html#a4a76abdbb849aa0bbc66aa001c6f4af9">debouncerCallback</a>  (TimerHandle_t xTimer)</dt>
 <dd>Add the deadtime functionality here  </dd>
-<dt><a class="anchor" id="_todo000014"></a>Global <a class="el" href="task__debouncer_8h.html#adb027d7ba5fa2f4d411182ff9bbe735a">DEBOUNCETIME_MS</a>  </dt>
+<dt><a class="anchor" id="_todo000015"></a>Global <a class="el" href="task__debouncer_8h.html#adb027d7ba5fa2f4d411182ff9bbe735a">DEBOUNCETIME_MS</a>  </dt>
 <dd>Change this value from testing (500ms) to production (~50-100ms)  </dd>
-<dt><a class="anchor" id="_todo000010"></a>Global <a class="el" href="task__commands_8c.html#a7f6500be563a3dce7f0854fceed02fab">doGeneralCmdParsing</a>  (uint8_t *cmdBuffer)</dt>
+<dt><a class="anchor" id="_todo000011"></a>Global <a class="el" href="task__commands_8c.html#a7f6500be563a3dce7f0854fceed02fab">doGeneralCmdParsing</a>  (uint8_t *cmdBuffer)</dt>
 <dd>hier den AT AI,AP,AR commands hinzufügen. Achtung auf requestVBUpdate: wenn gesetzt, wieder zurücksetzen &amp; entsprechend die Zeit speichern.  </dd>
-<dt><a class="anchor" id="_todo000016"></a>File <a class="el" href="hal__adc_8c.html">hal_adc.c</a>  </dt>
+<dt><a class="anchor" id="_todo000010"></a>Global <a class="el" href="task__commands_8c.html#afc7ebe31a124c2102f8b41577b6dc5b0">doJoystickParsing</a>  (uint8_t *cmdBuffer, taskJoystickConfig_t *instance, int length)</dt>
+<dd>Is this offset from the end sufficient to detect param2 (release mode) for joystick?  </dd>
+<dt><a class="anchor" id="_todo000018"></a>File <a class="el" href="hal__adc_8c.html">hal_adc.c</a>  </dt>
 <dd><p class="startdd">Add CIM reporting... </p>
 <p class="enddd">Do Strong&lt;Sip/puff&gt;+&lt;UP/DOWN/LEFT/RIGHT&gt;  </p>
 </dd>
-<dt><a class="anchor" id="_todo000021"></a>File <a class="el" href="hal__adc_8h.html">hal_adc.h</a>  </dt>
+<dt><a class="anchor" id="_todo000023"></a>File <a class="el" href="hal__adc_8h.html">hal_adc.h</a>  </dt>
 <dd>Add raw value reporting for: CIM mode and serial interface  </dd>
-<dt><a class="anchor" id="_todo000022"></a>File <a class="el" href="hal__io_8c.html">hal_io.c</a>  </dt>
+<dt><a class="anchor" id="_todo000024"></a>File <a class="el" href="hal__io_8c.html">hal_io.c</a>  </dt>
 <dd>Test LED driver, Buzzer &amp; IR  </dd>
-<dt><a class="anchor" id="_todo000024"></a>File <a class="el" href="hal__io_8h.html">hal_io.h</a>  </dt>
+<dt><a class="anchor" id="_todo000026"></a>File <a class="el" href="hal__io_8h.html">hal_io.h</a>  </dt>
 <dd>Test LED driver, Buzzer &amp; IR  </dd>
-<dt><a class="anchor" id="_todo000025"></a>Global <a class="el" href="hal__serial_8c.html#a8ed6a618f134d6b923ba216de84253f6">HAL_SERIAL_UART_TIMEOUT_MS</a>  </dt>
+<dt><a class="anchor" id="_todo000027"></a>Global <a class="el" href="hal__serial_8c.html#a8ed6a618f134d6b923ba216de84253f6">HAL_SERIAL_UART_TIMEOUT_MS</a>  </dt>
 <dd>Documentation updates, this define is now used differently...  </dd>
-<dt><a class="anchor" id="_todo000018"></a>Global <a class="el" href="hal__adc_8c.html#acd8f9f6194ebeaa854a791879382b515">halAdcProcessPressure</a>  (uint32_t pressurevalue)</dt>
+<dt><a class="anchor" id="_todo000020"></a>Global <a class="el" href="hal__adc_8c.html#acd8f9f6194ebeaa854a791879382b515">halAdcProcessPressure</a>  (uint32_t pressurevalue)</dt>
 <dd>Do everything here, no sip&amp;puff currently available.  </dd>
-<dt><a class="anchor" id="_todo000017"></a>Global <a class="el" href="hal__adc_8c.html#a8743abcde6f190545c429f072c16106d">halAdcReportRaw</a>  (uint32_t up, uint32_t down, uint32_t left, uint32_t right, uint32_t pressure, int32_t x, int32_t y)</dt>
+<dt><a class="anchor" id="_todo000019"></a>Global <a class="el" href="hal__adc_8c.html#a8743abcde6f190545c429f072c16106d">halAdcReportRaw</a>  (uint32_t up, uint32_t down, uint32_t left, uint32_t right, uint32_t pressure, int32_t x, int32_t y)</dt>
 <dd>change back to 32  </dd>
-<dt><a class="anchor" id="_todo000019"></a>Global <a class="el" href="hal__adc_8c.html#a452077aaa6a576304708d00d4ec439f1">halAdcTaskJoystick</a>  (void *pvParameters)</dt>
+<dt><a class="anchor" id="_todo000021"></a>Global <a class="el" href="hal__adc_8c.html#a452077aaa6a576304708d00d4ec439f1">halAdcTaskJoystick</a>  (void *pvParameters)</dt>
 <dd>Implement the full joystick interface. Currently completely unimplemented. </dd>
-<dt><a class="anchor" id="_todo000020"></a>Global <a class="el" href="hal__adc_8h.html#a4135bb73c2271b4a27db8d8d81884de7">halAdcUpdateConfig</a>  (adc_config_t *params)</dt>
+<dt><a class="anchor" id="_todo000022"></a>Global <a class="el" href="hal__adc_8h.html#a4135bb73c2271b4a27db8d8d81884de7">halAdcUpdateConfig</a>  (adc_config_t *params)</dt>
 <dd>Clear pending VB flags on a config switch  </dd>
-<dt><a class="anchor" id="_todo000023"></a>Global <a class="el" href="hal__io_8c.html#af049ec6b187a1b5b1575120758561ae8">halIOIRRecvTask</a>  (void *param)</dt>
+<dt><a class="anchor" id="_todo000025"></a>Global <a class="el" href="hal__io_8c.html#af049ec6b187a1b5b1575120758561ae8">halIOIRRecvTask</a>  (void *param)</dt>
 <dd>How to start the receiver?  </dd>
-<dt><a class="anchor" id="_todo000026"></a>Global <a class="el" href="hal__serial_8c.html#ab3a538fb88a9732f0afc0188cc3c9c38">halSerialRXTask</a>  (void *pvParameters)</dt>
+<dt><a class="anchor" id="_todo000028"></a>Global <a class="el" href="hal__serial_8c.html#ab3a538fb88a9732f0afc0188cc3c9c38">halSerialRXTask</a>  (void *pvParameters)</dt>
 <dd><p class="startdd">When CIM mode is active, switch back here to AT mode </p>
 <p class="enddd">Activate CIM mode here.  </p>
 </dd>
-<dt><a class="anchor" id="_todo000029"></a>Global <a class="el" href="hal__storage_8h.html#aed4beb2e1bd8cd78a201fbcb49958cba">halStorageCreateDefault</a>  (uint32_t tid)</dt>
+<dt><a class="anchor" id="_todo000031"></a>Global <a class="el" href="hal__storage_8h.html#aed4beb2e1bd8cd78a201fbcb49958cba">halStorageCreateDefault</a>  (uint32_t tid)</dt>
 <dd>Change this default slot to usable settings  </dd>
-<dt><a class="anchor" id="_todo000028"></a>Global <a class="el" href="hal__storage_8c.html#a99b92cc0fe132ea97f9a391e26a8c3ee">halStorageGetFree</a>  ()</dt>
+<dt><a class="anchor" id="_todo000030"></a>Global <a class="el" href="hal__storage_8c.html#a99b92cc0fe132ea97f9a391e26a8c3ee">halStorageGetFree</a>  ()</dt>
 <dd>Implement "getFree" for FAT, or wait for esp-idf to implement.  </dd>
 <dt><a class="anchor" id="_todo000007"></a>Global <a class="el" href="common_8h.html#a194a1686b5b17e701b526563e89e096e">IDSTRING</a>  </dt>
 <dd>Change this back to new version, when GUI is compatible  </dd>
-<dt><a class="anchor" id="_todo000030"></a>Global <a class="el" href="keyboard_8h.html#acdbf297ed74d4534f035e0732c2f1081">keycode_to_modifier</a>  (uint16_t keycode, uint8_t locale)</dt>
+<dt><a class="anchor" id="_todo000017"></a>Global <a class="el" href="task__joystick_8h.html#a57e155c9f454a8df37b90ee76b430f28">joystick_update</a>  (int32_t value1, joystick_action axis1, int32_t value2, joystick_action axis2)</dt>
+<dd>Update the global values here and send the joystick state  </dd>
+<dt><a class="anchor" id="_todo000032"></a>Global <a class="el" href="keyboard_8h.html#acdbf297ed74d4534f035e0732c2f1081">keycode_to_modifier</a>  (uint16_t keycode, uint8_t locale)</dt>
 <dd>Add remaining modifier keys (according to keylayouts.h, for example KEY_GUI)  </dd>
 <dt><a class="anchor" id="_todo000008"></a>Global <a class="el" href="task__commands_8c.html#a7ce0df38eb467e59f209470c8f5ac4e6">LOG_TAG</a>  </dt>
 <dd>CIM switching </dd>
 <dt><a class="anchor" id="_todo000009"></a>Global <a class="el" href="task__commands_8c.html#a9c73c48b3f99599795437a9a22ed98d5">requestVBTask</a>  )(void *)</dt>
 <dd>documentate this stuff  </dd>
-<dt><a class="anchor" id="_todo000013"></a>Global <a class="el" href="task__debouncer_8c.html#a79d88e490be7198b9cc37556c66b837b">task_debouncer</a>  (void *param)</dt>
+<dt><a class="anchor" id="_todo000014"></a>Global <a class="el" href="task__debouncer_8c.html#a79d88e490be7198b9cc37556c66b837b">task_debouncer</a>  (void *param)</dt>
 <dd><p class="startdd">Add anti-tremor &amp; deadtime functionality </p>
 <p class="enddd">Add anti-tremor &amp; deadtime functionality  </p>
 </dd>
-<dt><a class="anchor" id="_todo000011"></a>Global <a class="el" href="task__debouncer_8c.html#a2136a894816ebf7179ed937f43d22fe2">TIMER_DEADTIME</a>  </dt>
+<dt><a class="anchor" id="_todo000012"></a>Global <a class="el" href="task__debouncer_8c.html#a2136a894816ebf7179ed937f43d22fe2">TIMER_DEADTIME</a>  </dt>
 <dd>Implement the deadtime &amp; anti-tremor functions </dd>
 </dl>
 </div></div><!-- contents -->

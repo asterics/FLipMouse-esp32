@@ -28,6 +28,10 @@ br {
     line-height: 250%;
 }
 
+.space-bottom {
+    margin-bottom: 0.5em;
+}
+
 .headerConnectIndicator {
     float: right;
     font-size: 1.5em;
@@ -69,6 +73,11 @@ br {
 
 .full-width {
     width: 100%;
+}
+
+.half-width {
+    width: 48%; !important;
+    float: left;
 }
 
 .tbody li {

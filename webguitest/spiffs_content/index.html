@@ -270,17 +270,35 @@
         <div data-tabs-pane class="tabs-pane" id="tabActions">
             <label i18n>Change actions // Aktionen ändern</label>
             <div class="row">
-                <label class="three columns text-right text-normal" i18n>Action to define // Zu belegende Funktion</label>
-                <select id="selectActionButton" class="eight columns" onchange="tabAction.selectActionButton(this.value)">
+                <label class="three columns text-right text-normal" for="selectActionButton" i18n>Action to define // Zu belegende Funktion</label>
+                <select id="selectActionButton" class="five columns" onchange="tabAction.selectActionButton(this.value)">
                 </select>
+                <div class="four columns">
+                    <span id="currentActionLabel" class="hide-tablet-inline" i18n>Current action: // Aktuelle Aktion:</span>
+                    <span id="currentAction" class="hide-mobile-inline"/>
+                </div>
             </div>
-            <div class="row" style="display: none">
+            <div class="row" style="margin: 0.5em 0 0.5em 0">
                 <label class="three columns text-right text-normal" i18n>Action category // Aktions-Kategorie</label>
-                <select id="selectActionCategory" class="eight columns" disabled="true">
-                </select>
+                <div class="eight columns">
+                    <div class="hide-tablet">
+                        <button class="three columns sABtn" onclick="tabAction.selectActionCategory(C.LEARN_CAT_KEYBOARD, this)" i18n>Keyboard // Tastatur</button>
+                        <button class="three columns sABtn" onclick="tabAction.selectActionCategory(C.LEARN_CAT_MOUSE, this)" i18n>Mouse // Maus</button>
+                        <button class="three columns sABtn" onclick="tabAction.selectActionCategory(C.LEARN_CAT_FLIPACTIONS, this)">Flip</button>
+                        <button class="three columns sABtn" onclick="tabAction.selectActionCategory(C.LEARN_CAT_CUSTOM, this)">Custom</button>
+                    </div>
+                    <div>
+                        <button class="show-tablet-inline half-width sABtn" style="margin-right: 4%" onclick="tabAction.selectActionCategory(C.LEARN_CAT_KEYBOARD, this)" i18n>Keyboard // Tastatur</button>
+                        <button class="show-tablet-inline half-width sABtn" onclick="tabAction.selectActionCategory(C.LEARN_CAT_MOUSE, this)" i18n>Mouse // Maus</button>
+                    </div>
+                    <div>
+                        <button class="show-tablet-inline half-width sABtn" style="margin-right: 4%" onclick="tabAction.selectActionCategory(C.LEARN_CAT_FLIPACTIONS, this)">Flip</button>
+                        <button class="show-tablet-inline half-width sABtn" onclick="tabAction.selectActionCategory(C.LEARN_CAT_CUSTOM, this)">Custom</button>
+                    </div>
+                </div>
             </div>
             <div class="row" style="display: none">
-                <label class="three columns text-right text-normal" i18n>Action // Aktion</label>
+                <label class="three columns text-right text-normal" for="selectAction" i18n>Action // Aktion</label>
                 <select id="selectAction" class="eight columns" disabled="true">
                 </select>
             </div>
@@ -305,7 +323,8 @@
             <label i18n>Current mapping // Aktuelle Konfiguration</label>
             <div id="currentConfigTh" class="hide-mobile row thead" aria-hidden="true">
                 <div class="two columns" i18n>Description // Bezeichnung</div>
-                <div class="eight columns" i18n>Current action // aktuelle Aktion</div>
+                <div class="four columns" i18n>Current action // aktuelle Aktion</div>
+                <div class="four columns" i18n>Current AT command // aktuelles AT Kommando</div>
             </div>
             <ol id="currentConfigTb" class="tbody"></ol>
         </div>
@@ -320,22 +339,23 @@
             separator: ' // ',
             languages: ['en', 'de']
         });
-        var flip = new FlipMouse(function (config) {
-            initWithConfig(config);
-            initSlots();
-            toTab(getCurrentTabId());
-            testConnection();
-            setInterval(function () {
+        L.loadScript('js/i18n/i18n_' + L.getLang() + '.js', 'js/i18n/i18n_en.js').then(function () {
+            window.flip = new FlipMouse(function (config) {
+                initWithConfig(config);
+                initSlots();
+                toTab(getCurrentTabId());
                 testConnection();
-            }, 10000);
-            function testConnection() {
-                flip.testConnection(true).then(function (isConnected) {
-                    L.setVisible('.connectedIndicator', isConnected);
-                    L.setVisible('.disconnectedIndicator', !isConnected);
-                });
-            }
+                setInterval(function () {
+                    testConnection();
+                }, 10000);
+                function testConnection() {
+                    flip.testConnection(true).then(function (isConnected) {
+                        L.setVisible('.connectedIndicator', isConnected);
+                        L.setVisible('.disconnectedIndicator', !isConnected);
+                    });
+                }
+            });
         });
-        window.flip = flip;
     };
 
     function initWithConfig(config) {

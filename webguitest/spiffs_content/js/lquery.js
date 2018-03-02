@@ -1,6 +1,9 @@
 //very lightweight replacement for jquery,
 //see https://blog.garstasio.com/you-dont-need-jquery/selectors/#multiple-selectors
 window.L = function (selector) {
+    if(selector instanceof Node) {
+        return selector;
+    }
     var selectorType = 'querySelectorAll';
 
     if (selector.indexOf('#') === 0) {
@@ -17,22 +20,14 @@ window.L.toggle = function () {
     }
     for (var i = 0; i < arguments.length; i++) {
         var selector = arguments[i];
-        var elems = L(selector);
-        if(elems.length) {
-            elems.forEach(function (x) {
-                toggle(x);
-            });
-        } else if(elems.style) {
-            toggle(elems);
-        }
-
-        function toggle(x) {
+        var elems = L.selectAsList(selector);
+        elems.forEach(function (x) {
             if (x.style && x.style.display === "none") {
                 x.style.display = "block";
             } else {
                 x.style.display = "none";
             }
-        }
+        });
     }
 };
 
@@ -42,22 +37,36 @@ window.L.isVisible = function (selector) {
 };
 
 window.L.setVisible = function (selector, visible) {
-    var elems = L(selector);
-    if(elems.length) {
-        elems.forEach(function (x) {
-            setVisible(x);
-        });
-    } else if(elems.style) {
-        setVisible(elems);
-    }
-
-    function setVisible(x) {
+    var elems = L.selectAsList(selector);
+    elems.forEach(function (x) {
         if(visible == false) {
             x.style.display = "none";
         } else {
             x.style.display = "block";
         }
+    });
+};
+
+window.L.selectAsList = function (selector) {
+    var result = L(selector);
+    if(result && result.length) {
+        return result;
     }
+    return result ? [result]: [];
+};
+
+window.L.addClass = function (selector, className) {
+    var list = L.selectAsList(selector);
+    list.forEach(function (elem) {
+        elem.className += ' ' + className;
+    });
+};
+
+window.L.removeClass = function (selector, className) {
+    var list = L.selectAsList(selector);
+    list.forEach(function (elem) {
+        elem.className = L.replaceAll(elem.className, className, '');
+    });
 };
 
 window.L.val2key = function (val, array) {
@@ -119,8 +128,27 @@ window.L.isLang = function (localeString) {
     return lang.indexOf(localeString) > -1;
 };
 
-window.L.translate = function(enString, deString) {
-    return L.isLang('de') ? deString : enString;
+window.L.getLang = function () {
+    var lang = window.navigator.userLanguage || window.navigator.language;
+    return lang.substring(0,2);
+};
+
+/**
+ * translates an translation key. More arguments can be passed in order to replace placeholders ("{?}") in the translated texts.
+ * e.g.
+ * var key = 'SAY_HELLO_KEY'
+ * translation: 'SAY_HELLO_KEY' -> 'Hello {?} {?}'
+ * L.translate(key, 'Tom', 'Mayer') == 'Hello Tom Mayer'
+ *
+ * @param translationKey the key to translate
+ * @return {*}
+ */
+window.L.translate = function(translationKey) {
+    var translated = i18n[translationKey] ? i18n[translationKey] : translationKey;
+    for(var i=1; i<arguments.length; i++) {
+        translated = translated.replace('{?}', arguments[i]);
+    }
+    return translated;
 };
 
 window.L.getLastElement = function(array) {
@@ -133,4 +161,25 @@ window.L.replaceAll = function(string, search, replace) {
 
 window.L.equalIgnoreCase = function (str1, str2) {
     return str1.toUpperCase() === str2.toUpperCase();
+};
+
+window.L.loadScript = function (source, fallbackSource) {
+    console.log("loading script: " + source);
+    var script = document.createElement('script');
+    return new Promise(function (resolve) {
+        script.onload = function () {
+            console.log("loaded: " + source);
+            resolve(true);
+        };
+        script.onerror = function () {
+            console.log("error loading: " + source);
+            if(fallbackSource) {
+                L.loadScript(fallbackSource).then(resolve);
+            } else {
+                resolve(false);
+            }
+        };
+        script.src = source;
+        document.head.appendChild(script);
+    });
 };

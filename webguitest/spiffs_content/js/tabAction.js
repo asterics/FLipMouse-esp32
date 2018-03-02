@@ -1,37 +1,48 @@
 window.tabAction = {};
 window.tabAction.initBtnModeActionTable = function () {
     L.removeAllChildren('#currentConfigTb');
-    flip.BTN_MODES.forEach(function (btnMode) {
+    var backColor = false;
+    C.BTN_MODES.forEach(function (btnMode) {
         var liElm = L.createElement('li', 'row');
-        var currentActionDiv = L.createElement('div', 'eight columns', L.createElement('span', '', flip.getConfig(btnMode) + ' '));
-        var changeA = L.createElement('a', '', 'change');
+        var changeA = L.createElement('a', '', L.translate(btnMode));
         changeA.href = 'javascript:tabAction.selectActionButton("' + btnMode + '")';
-        currentActionDiv.appendChild(changeA);
-        liElm.appendChild(L.createElement('div', 'two columns', btnMode));
+        changeA.title = L.translate('CHANGE_TOOLTIP', L.translate(btnMode));
+        var descriptionDiv = L.createElement('div', 'two columns', changeA);
+        var currentActionDiv = L.createElement('div', 'four columns', getReadable(flip.getConfig(btnMode)));
+        var currentAtCmdDiv = L.createElement('div', 'four columns', flip.getConfig(btnMode));
+        var spacerDiv = L.createElement('div', 'one column show-mobile space-bottom');
+        liElm.appendChild(descriptionDiv);
         liElm.appendChild(currentActionDiv);
+        liElm.appendChild(currentAtCmdDiv);
+        liElm.appendChild(spacerDiv);
+        if(backColor) {
+            liElm.style = 'background-color: #e0e0e0;';
+        }
         L('#currentConfigTb').appendChild(liElm);
+        backColor = !backColor;
     });
 };
 
 window.tabAction.initCombos = function () {
     L.removeAllChildren('#selectActionButton');
-    flip.BTN_MODES.forEach(function (btnMode) {
-        var option = L.createElement('option', '', btnMode);
+    C.BTN_MODES.forEach(function (btnMode) {
+        var option = L.createElement('option', '', L.translate(btnMode));
         option.value = btnMode;
         L('#selectActionButton').appendChild(option);
     });
-    L('#selectActionButton').value = '';
-    flip.LEARN_CATEGORIES.forEach(function (cat) {
-        var option = L.createElement('option', '', cat);
-        option.value = cat;
-        L('#selectActionCategory').appendChild(option);
-    });
-    L('#selectActionCategory').value = '';
+    L('#currentAction').innerHTML = getReadable(flip.getConfig(C.BTN_MODES[0]));
 };
 
 window.tabAction.selectActionButton = function (btnMode) {
     console.log(btnMode);
     L('#selectActionButton').value = btnMode;
+    L('#currentAction').innerHTML = getReadable(flip.getConfig(btnMode));
+};
+
+window.tabAction.selectActionCategory = function (category, button) {
+    console.log(category);
+    L.removeClass('.sABtn', 'color-lightercyan');
+    L.addClass(button, 'color-lightercyan');
 };
 
 window.tabAction.startRec = function () {
@@ -149,12 +160,8 @@ function getAtCmd(queue) {
 }
 
 function getReadable(atCmd) {
-    if(atCmd.indexOf(C.AT_CMD_WRITEWORD) > -1) {
-        var s = L.translate("Write word:", "Schreibe Wort:");
-        return s + " '" + atCmd.substring(C.LENGTH_ATCMD_PREFIX) + "'";
-    } else if(atCmd.indexOf(C.AT_CMD_KEYPRESS) > -1) {
-        var s = L.translate("Press keys: ", "Drücke Tasten: ");
-        return s + L.replaceAll(atCmd.substring(C.LENGTH_ATCMD_PREFIX), ' ', ' + ');
+    if(!atCmd) {
+        return '';
     }
-    return '';
+    return L.translate(atCmd.substring(0, C.LENGTH_ATCMD_PREFIX-1), atCmd.substring(C.LENGTH_ATCMD_PREFIX));
 }

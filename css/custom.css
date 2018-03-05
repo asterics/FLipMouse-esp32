@@ -165,3 +165,8 @@ label {
 input[type="radio"].hide-toggle {
     display: none;
 }
+
+label.button.selected {
+    border-width: 0.2em;
+    border-color: #33C3F0;
+}

@@ -423,6 +423,7 @@ void halSerialTaskMouse(void *param)
 void halSerialTaskJoystick(void *param)
 {
   joystick_command_t rxJ;
+  uint8_t report[13];
   
   while(1)
   {
@@ -432,7 +433,78 @@ void halSerialTaskJoystick(void *param)
       //pend on MQ, if timeout triggers, just wait again.
       if(xQueueReceive(joystick_movement_usb,&rxJ,300))
       {
-        ESP_LOGE(LOG_TAG,"Joystick over USB not implemented yet");
+        //limit values
+        if(rxJ.Xaxis > 1023) rxJ.Xaxis = 1023;
+        if(rxJ.Yaxis > 1023) rxJ.Yaxis = 1023;
+        if(rxJ.Zaxis > 1023) rxJ.Zaxis = 1023;
+        if(rxJ.Zrotate > 1023) rxJ.Zrotate = 1023;
+        if(rxJ.sliderLeft > 1023) rxJ.sliderLeft = 1023;
+        if(rxJ.sliderRight > 1023) rxJ.sliderRight = 1023;
+        
+        /*++++ build report ++++*/
+        
+        //13 bytes:
+        //'J'                                     0
+        //buttonmask                              1
+        //buttonmask                              2
+        //buttonmask                              3
+        //buttonmask                              4
+        
+        //hat [b0-b3]. Xaxis [b4-b7]              5
+        //Xaxis [b0-b5], Yaxis[b6-b7]             6
+        //Yaxis [b0-b7]                           7
+        //Zaxis [b0-b7]                           8
+        
+        //Zaxis [b0-b1], zrotate [b2-b7]          9
+        //zrotate[b0-b3],sliderleft[b4-b7]        10
+        //sliderLeft[b0-b5],sliderRight[b6-b7]    11
+        //sliderRight                             12
+        
+        report[0] = 'J';
+        
+        //button mask
+        report[1] = rxJ.buttonmask & 0x000000FF;
+        report[2] = (rxJ.buttonmask & 0x0000FF00) >> 8;
+        report[3] = (rxJ.buttonmask & 0x00FF0000) >> 16;
+        report[4] = (rxJ.buttonmask & 0xFF000000) >> 24;
+        
+        //map hat to 4bits
+        if (rxJ.hat < 0) report[5] = 15;
+        else if (rxJ.hat < 23) report[5] = 0;
+        else if (rxJ.hat < 68) report[5] = 1;
+        else if (rxJ.hat < 113) report[5] = 2;
+        else if (rxJ.hat < 158) report[5] = 3;
+        else if (rxJ.hat < 203) report[5] = 4;
+        else if (rxJ.hat < 245) report[5] = 5;
+        else if (rxJ.hat < 293) report[5] = 6;
+        else if (rxJ.hat < 338) report[5] = 7;
+        //add Xaxis
+        report[5] |= (rxJ.Xaxis & 0x000F) << 4;
+        report[6] =  (rxJ.Xaxis & 0x03F0) >> 4;
+        //add Yaxis
+        report[6] |= (rxJ.Yaxis & 0x0003) << 6;
+        report[7] =  (rxJ.Yaxis & 0x03FC) >> 2;
+        //add Zaxis
+        report[8] = rxJ.Zaxis & 0x00FF;
+        report[9] = (rxJ.Zaxis & 0x0300) >> 8;
+        //add zrotate
+        report[9] |= (rxJ.Zrotate & 0x003F) << 2;
+        report[10] = (rxJ.Zrotate & 0x03C0) >> 6;
+        //add sliderLeft
+        report[10] |= (rxJ.sliderLeft & 0x000F) << 4;
+        report[11] = (rxJ.sliderLeft & 0x03F0) >> 4;
+        //add sliderRight
+        report[11] |= rxJ.sliderRight & 0x0003;
+        report[12] = (rxJ.sliderRight & 0x03FC) >> 2;
+        
+        //log buffer
+        ESP_LOGD(LOG_TAG,"HID joystick report:");
+        esp_log_buffer_hex(LOG_TAG,report,13);
+        
+        //send it to serial port
+        uint8_t sent = 0;
+        for(uint8_t i = 0; i<13; i++) { sent+= halSerialSendUSBSerial(HAL_SERIAL_TX_TO_HID,(char *)&report[i], 1, 30); }
+        if(sent != 13) ESP_LOGE(LOG_TAG,"Error sending joystick HID report");
       }
     } else {
       ESP_LOGE(LOG_TAG,"joystick_movement_usb queue not initialized, retry in 1s");
@@ -442,16 +514,16 @@ void halSerialTaskJoystick(void *param)
 }
 
 
-/** Read serial bytes from USB-Serial (USB-CDC)
+/** @brief Read parsed AT commands from USB-Serial (USB-CDC)
  * 
- * This method reads bytes from the UART, which receives all data
- * from USB-CDC.
+ * This method reads full AT commands from the halSerialATCmds queue.
  * 
  * @return -1 on error, number of read bytes otherwise
- * @param data Data to be sent
+ * @param data Buffer for received data
  * @param length Number of maximum bytes to read
  * @see HAL_SERIAL_UART_TIMEOUT_MS
  * @see halSerialATCmds
+ * @see halSerialRXTask
  * */
 int halSerialReceiveUSBSerial(uint8_t *data, uint32_t length)
 {
@@ -485,7 +557,7 @@ int halSerialReceiveUSBSerial(uint8_t *data, uint32_t length)
   }
 }
 
-/** Send serial bytes to USB-Serial (USB-CDC)
+/** @brief Send serial bytes to USB-Serial (USB-CDC)
  * 
  * This method sends bytes to the UART.
  * In addition, the GPIO signal pin is set to route this data
@@ -545,7 +617,7 @@ int halSerialSendUSBSerial(uint8_t channel, char *data, uint32_t length, TickTyp
  * */
 void halSerialReset(uint8_t exceptDevice)
 {
-  ESP_LOGD(LOG_TAG,"BLE reset reports");
+  ESP_LOGD(LOG_TAG,"BLE reset reports, except mask: %d",exceptDevice);
   //reset mouse
   if(!(exceptDevice & (1<<2))) 
   {
@@ -573,6 +645,17 @@ void halSerialReset(uint8_t exceptDevice)
     if(halSerialSendUSBSerial(HAL_SERIAL_TX_TO_HID,(char *)keycode_arr, 8, 30) != 8)
     {
       ESP_LOGE(LOG_TAG,"Error resetting keyboard HID report");
+    }
+  }
+  //reset joystick
+  if(!(exceptDevice & (1<<1)))
+  {
+    uint8_t report[13];
+    for(uint8_t i=0;i<13;i++) report[i] = 0;
+    report[0] = 'J';
+    if(halSerialSendUSBSerial(HAL_SERIAL_TX_TO_HID,(char *)report, 13, 50) != 13)
+    {
+      ESP_LOGE(LOG_TAG,"Error resetting joystick HID report");
     }
   }
 }

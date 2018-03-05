@@ -87,6 +87,7 @@ $(function() {
 <code>#include &quot;<a class="el" href="task__debouncer_8h_source.html">task_debouncer.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="task__infrared_8h_source.html">task_infrared.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="task__macros_8h_source.html">task_macros.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="task__joystick_8h_source.html">task_joystick.h</a>&quot;</code><br />
 </div>
 <p><a href="config__switcher_8h_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
@@ -150,7 +151,7 @@ Functions</h2></td></tr>
 </div><div class="memdoc">
 <p>Stacksize for functional task task_configswitcher. </p><dl class="section see"><dt>See also</dt><dd><a class="el" href="config__switcher_8h.html#a083adf41746c3380dcc6dbc099047f2e" title="FUNCTIONAL TASK - Load another slot. ">task_configswitcher</a> </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="config__switcher_8h_source.html#l00067">67</a> of file <a class="el" href="config__switcher_8h_source.html">config_switcher.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="config__switcher_8h_source.html#l00068">68</a> of file <a class="el" href="config__switcher_8h_source.html">config_switcher.h</a>.</p>
 
 <p class="reference">Referenced by <a class="el" href="config__switcher_8c_source.html#l00198">configSwitcherTask()</a>.</p>
 
@@ -207,44 +208,45 @@ currentConfig </dd></dl>
 
 <p class="definition">Definition at line <a class="el" href="config__switcher_8c_source.html#l00098">98</a> of file <a class="el" href="config__switcher_8c_source.html">config_switcher.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="task__debouncer_8c_source.html#l00156">debouncerCallback()</a>, <a class="el" href="task__commands_8c_source.html#l00613">doGeneralCmdParsing()</a>, <a class="el" href="task__commands_8c_source.html#l00478">doInfraredParsing()</a>, <a class="el" href="task__commands_8c_source.html#l00852">doKeyboardParsing()</a>, <a class="el" href="task__commands_8c_source.html#l00154">doMouthpieceSettingsParsing()</a>, <a class="el" href="task__commands_8c_source.html#l00392">doStorageParsing()</a>, <a class="el" href="hal__adc_8c_source.html#l00217">halAdcProcessPressure()</a>, <a class="el" href="hal__ble_8c_source.html#l00426">halBLEInit()</a>, <a class="el" href="hal__ble_8c_source.html#l00181">halBleTaskKeyboardPress()</a>, <a class="el" href="hal__ble_8c_source.html#l00253">halBleTaskKeyboardRelease()</a>, <a class="el" href="hal__io_8c_source.html#l00241">halIOBuzzerTask()</a>, <a class="el" href="hal__io_8c_source.html#l00365">halIOInit()</a>, <a class="el" href="hal__io_8c_source.html#l00294">halIOLEDTask()</a>, <a class="el" href="task__infrared_8c_source.html#l00229">infrared_set_edge_timeout()</a>, <a class="el" href="task__mouse_8c_source.html#l00062">mouse_get_wheel()</a>, <a class="el" href="task__mouse_8c_source.html#l00044">mouse_set_wheel()</a>, <a class="el" href="task__commands_8c_source.html#l01369">printAllSlots()</a>, and <a class="el" href="task__debouncer_8c_source.html#l00274">task_debouncer()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="task__debouncer_8c_source.html#l00181">debouncerCallback()</a>, <a class="el" href="task__commands_8c_source.html#l00705">doGeneralCmdParsing()</a>, <a class="el" href="task__commands_8c_source.html#l00570">doInfraredParsing()</a>, <a class="el" href="task__commands_8c_source.html#l00961">doKeyboardParsing()</a>, <a class="el" href="task__commands_8c_source.html#l00154">doMouthpieceSettingsParsing()</a>, <a class="el" href="task__commands_8c_source.html#l00392">doStorageParsing()</a>, <a class="el" href="hal__adc_8c_source.html#l00217">halAdcProcessPressure()</a>, <a class="el" href="hal__ble_8c_source.html#l00426">halBLEInit()</a>, <a class="el" href="hal__ble_8c_source.html#l00181">halBleTaskKeyboardPress()</a>, <a class="el" href="hal__ble_8c_source.html#l00253">halBleTaskKeyboardRelease()</a>, <a class="el" href="hal__io_8c_source.html#l00241">halIOBuzzerTask()</a>, <a class="el" href="hal__io_8c_source.html#l00365">halIOInit()</a>, <a class="el" href="hal__io_8c_source.html#l00294">halIOLEDTask()</a>, <a class="el" href="task__infrared_8c_source.html#l00229">infrared_set_edge_timeout()</a>, <a class="el" href="task__mouse_8c_source.html#l00062">mouse_get_wheel()</a>, <a class="el" href="task__mouse_8c_source.html#l00044">mouse_set_wheel()</a>, <a class="el" href="task__commands_8c_source.html#l01479">printAllSlots()</a>, and <a class="el" href="task__debouncer_8c_source.html#l00306">task_debouncer()</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="config__switcher_8h_a921538bec34d128a44a748fd5a2c391f_icgraph.png" border="0" usemap="#config__switcher_8h_a921538bec34d128a44a748fd5a2c391f_icgraph" alt=""/></div>
 <map name="config__switcher_8h_a921538bec34d128a44a748fd5a2c391f_icgraph" id="config__switcher_8h_a921538bec34d128a44a748fd5a2c391f_icgraph">
-<area shape="rect" id="node2" href="task__debouncer_8c.html#a4a76abdbb849aa0bbc66aa001c6f4af9" title="Timer callback for debouncing. " alt="" coords="203,824,337,850"/>
-<area shape="rect" id="node4" href="task__debouncer_8h.html#a79d88e490be7198b9cc37556c66b837b" title="Debouncing main task. " alt="" coords="649,773,764,800"/>
-<area shape="rect" id="node6" href="task__commands_8c.html#a7f6500be563a3dce7f0854fceed02fab" title="doGeneralCmdParsing" alt="" coords="630,545,783,572"/>
-<area shape="rect" id="node10" href="task__commands_8c.html#a937cdeb2f02b0c5d9a0f94a0f69e9328" title="doInfraredParsing" alt="" coords="645,317,769,344"/>
-<area shape="rect" id="node11" href="task__commands_8c.html#ac3c72c089d32dea93c45f4f9f8d1f244" title="doKeyboardParsing" alt="" coords="639,609,774,636"/>
-<area shape="rect" id="node12" href="task__commands_8c.html#a2ad28759e53bb5082853d8d004767115" title="doMouthpieceSettingsParsing" alt="" coords="609,660,804,686"/>
-<area shape="rect" id="node13" href="task__commands_8c.html#a69b0c55558b32caa21407de8e2277be9" title="doStorageParsing" alt="" coords="644,393,769,420"/>
-<area shape="rect" id="node14" href="hal__adc_8c.html#acd8f9f6194ebeaa854a791879382b515" title="Process pressure sensor (sip &amp; puff) " alt="" coords="189,266,351,293"/>
-<area shape="rect" id="node22" href="hal__ble_8h.html#a8ad6c50e81bae3e24e2f86a2797384c2" title="halBLEInit" alt="" coords="879,70,962,97"/>
-<area shape="rect" id="node23" href="hal__ble_8c.html#af6a15e1396cb358cd7f1eb6a2a7045a9" title="halBleTaskKeyboardPress" alt="" coords="182,874,358,901"/>
-<area shape="rect" id="node24" href="hal__ble_8c.html#adbfa982381d6d09432d7ba1961846b32" title="halBleTaskKeyboardRelease" alt="" coords="175,925,365,952"/>
-<area shape="rect" id="node25" href="hal__io_8c.html#a5c30b3b4a88e8f23489485659d53c7c0" title="HAL TASK &#45; Buzzer update task. " alt="" coords="209,114,331,141"/>
-<area shape="rect" id="node26" href="hal__io_8h.html#aa5ee74913a09cba6dca62bfdc9f8342b" title="Initializing IO HAL. " alt="" coords="452,114,523,141"/>
-<area shape="rect" id="node27" href="hal__io_8c.html#ad83b58c9ee836526a874392c0757f42d" title="HAL TASK &#45; LED update task. " alt="" coords="216,165,324,192"/>
-<area shape="rect" id="node28" href="task__infrared_8h.html#a085c1313247cfb56fc663527aa3bdb49" title="Set the time between two IR edges which will trigger the timeout (end of received command) ..." alt="" coords="183,976,357,1002"/>
-<area shape="rect" id="node29" href="task__mouse_8h.html#ab5cfaaac2cd4ec6fc79546f847db96de" title="Get the current mouse wheel step size. " alt="" coords="424,418,551,445"/>
-<area shape="rect" id="node31" href="task__mouse_8h.html#ac5aaa616044b7bef9f75347719181dbe" title="Set current mouse wheel step size. " alt="" coords="424,469,551,496"/>
-<area shape="rect" id="node32" href="task__commands_8c.html#ad59215648a26578c22baa7ceae099e0e" title="Print the current slot configurations (general settings + VBs) " alt="" coords="224,570,316,597"/>
-<area shape="rect" id="node3" href="task__debouncer_8c.html#a2d41ed2a246a1b8d4ee5510262001e50" title="Start a debouncing timer with given debounce time and VB number. " alt="" coords="447,824,528,850"/>
-<area shape="rect" id="node5" href="flipmouse__fabi__esp32__kbdmouse__main_8c.html#abce06be17fc37d675118a678a8100a36" title="Main task, created by esp&#45;idf. " alt="" coords="1243,234,1321,261"/>
-<area shape="rect" id="node7" href="task__commands_8c.html#a7b36c39275d773aaedcb327ef4e1516f" title="task_commands" alt="" coords="861,469,980,496"/>
-<area shape="rect" id="node8" href="task__commands_8h.html#aedb896e40753227f80768e09d3748419" title="Init the command parser. " alt="" coords="1050,364,1182,390"/>
-<area shape="rect" id="node9" href="task__commands_8h.html#a26091155b4d85093239033d689f363d0" title="Restart the command parser task. " alt="" coords="1037,469,1195,496"/>
-<area shape="rect" id="node15" href="hal__adc_8c.html#aadc294c08df0386572ffdc8e7228f6b4" title="HAL TASK &#45; Mouse task for ADC. " alt="" coords="422,266,553,293"/>
-<area shape="rect" id="node20" href="hal__adc_8c.html#a452077aaa6a576304708d00d4ec439f1" title="HAL TASK &#45; Joystick task for ADC. " alt="" coords="417,165,557,192"/>
-<area shape="rect" id="node21" href="hal__adc_8c.html#aee719704e643d27c1faab768cf4bc22e" title="HAL TASK &#45; Threshold task for ADC. " alt="" coords="413,216,561,242"/>
-<area shape="rect" id="node16" href="hal__adc_8h.html#a4135bb73c2271b4a27db8d8d81884de7" title="Reload ADC config. " alt="" coords="635,216,778,242"/>
-<area shape="rect" id="node17" href="config__switcher_8c.html#af5af5079d1982d42e165039e6de7e40a" title="CONTINOUS TASK &#45; Config switcher task, internal config reloading. " alt="" coords="852,260,989,286"/>
-<area shape="rect" id="node19" href="hal__adc_8h.html#a6f0d302f35e5b7f7a1144f0ddace35d2" title="Init the ADC driver module. " alt="" coords="881,209,961,236"/>
-<area shape="rect" id="node18" href="config__switcher_8h.html#aafed047c8d04b814a85239e031cbad7b" title="Initializing the config switching functionality. " alt="" coords="1053,260,1179,286"/>
-<area shape="rect" id="node30" href="task__commands_8c.html#a580d9f6a840975525358033a35f761d0" title="doMouseParsing" alt="" coords="647,469,766,496"/>
-<area shape="rect" id="node33" href="task__commands_8c.html#acea81ba8a182ae78feb2db6418fc1806" title="sendErrorBack" alt="" coords="433,621,541,648"/>
+<area shape="rect" id="node2" href="task__debouncer_8c.html#a4a76abdbb849aa0bbc66aa001c6f4af9" title="Timer callback for debouncing. " alt="" coords="203,822,337,848"/>
+<area shape="rect" id="node4" href="task__debouncer_8h.html#a79d88e490be7198b9cc37556c66b837b" title="Debouncing main task. " alt="" coords="649,771,764,798"/>
+<area shape="rect" id="node6" href="task__commands_8c.html#a7f6500be563a3dce7f0854fceed02fab" title="doGeneralCmdParsing" alt="" coords="630,619,783,646"/>
+<area shape="rect" id="node10" href="task__commands_8c.html#a937cdeb2f02b0c5d9a0f94a0f69e9328" title="doInfraredParsing" alt="" coords="645,467,769,494"/>
+<area shape="rect" id="node11" href="task__commands_8c.html#ac3c72c089d32dea93c45f4f9f8d1f244" title="doKeyboardParsing" alt="" coords="639,670,774,696"/>
+<area shape="rect" id="node12" href="task__commands_8c.html#a2ad28759e53bb5082853d8d004767115" title="doMouthpieceSettingsParsing" alt="" coords="609,518,804,544"/>
+<area shape="rect" id="node13" href="task__commands_8c.html#a69b0c55558b32caa21407de8e2277be9" title="doStorageParsing" alt="" coords="425,315,550,342"/>
+<area shape="rect" id="node14" href="hal__adc_8c.html#acd8f9f6194ebeaa854a791879382b515" title="Process pressure sensor (sip &amp; puff) " alt="" coords="189,264,351,291"/>
+<area shape="rect" id="node22" href="hal__ble_8h.html#a8ad6c50e81bae3e24e2f86a2797384c2" title="halBLEInit" alt="" coords="879,74,962,100"/>
+<area shape="rect" id="node23" href="hal__ble_8c.html#af6a15e1396cb358cd7f1eb6a2a7045a9" title="halBleTaskKeyboardPress" alt="" coords="182,872,358,899"/>
+<area shape="rect" id="node24" href="hal__ble_8c.html#adbfa982381d6d09432d7ba1961846b32" title="halBleTaskKeyboardRelease" alt="" coords="175,923,365,950"/>
+<area shape="rect" id="node25" href="hal__io_8c.html#a5c30b3b4a88e8f23489485659d53c7c0" title="HAL TASK &#45; Buzzer update task. " alt="" coords="209,112,331,139"/>
+<area shape="rect" id="node26" href="hal__io_8h.html#aa5ee74913a09cba6dca62bfdc9f8342b" title="Initializing IO HAL. " alt="" coords="452,112,523,139"/>
+<area shape="rect" id="node27" href="hal__io_8c.html#ad83b58c9ee836526a874392c0757f42d" title="HAL TASK &#45; LED update task. " alt="" coords="216,163,324,190"/>
+<area shape="rect" id="node28" href="task__infrared_8h.html#a085c1313247cfb56fc663527aa3bdb49" title="Set the time between two IR edges which will trigger the timeout (end of received command) ..." alt="" coords="183,974,357,1000"/>
+<area shape="rect" id="node29" href="task__mouse_8h.html#ab5cfaaac2cd4ec6fc79546f847db96de" title="Get the current mouse wheel step size. " alt="" coords="424,366,551,392"/>
+<area shape="rect" id="node31" href="task__mouse_8h.html#ac5aaa616044b7bef9f75347719181dbe" title="Set current mouse wheel step size. " alt="" coords="424,416,551,443"/>
+<area shape="rect" id="node32" href="task__commands_8c.html#ad59215648a26578c22baa7ceae099e0e" title="Print the current slot configurations (general settings + VBs) " alt="" coords="224,568,316,595"/>
+<area shape="rect" id="node3" href="task__debouncer_8c.html#a2d41ed2a246a1b8d4ee5510262001e50" title="Start a debouncing timer with given debounce time and VB number. " alt="" coords="447,822,528,848"/>
+<area shape="rect" id="node5" href="flipmouse__fabi__esp32__kbdmouse__main_8c.html#abce06be17fc37d675118a678a8100a36" title="Main task, created by esp&#45;idf. " alt="" coords="1243,227,1321,254"/>
+<area shape="rect" id="node7" href="task__commands_8c.html#a7b36c39275d773aaedcb327ef4e1516f" title="task_commands" alt="" coords="861,492,980,519"/>
+<area shape="rect" id="node8" href="task__commands_8h.html#aedb896e40753227f80768e09d3748419" title="Init the command parser. " alt="" coords="1050,492,1182,519"/>
+<area shape="rect" id="node9" href="task__commands_8h.html#a26091155b4d85093239033d689f363d0" title="Restart the command parser task. " alt="" coords="1037,442,1195,468"/>
+<area shape="rect" id="node15" href="hal__adc_8c.html#aadc294c08df0386572ffdc8e7228f6b4" title="HAL TASK &#45; Mouse task for ADC. " alt="" coords="422,214,553,240"/>
+<area shape="rect" id="node20" href="hal__adc_8c.html#a452077aaa6a576304708d00d4ec439f1" title="HAL TASK &#45; Joystick task for ADC. " alt="" coords="417,264,557,291"/>
+<area shape="rect" id="node21" href="hal__adc_8c.html#aee719704e643d27c1faab768cf4bc22e" title="HAL TASK &#45; Threshold task for ADC. " alt="" coords="413,163,561,190"/>
+<area shape="rect" id="node16" href="hal__adc_8h.html#a4135bb73c2271b4a27db8d8d81884de7" title="Reload ADC config. " alt="" coords="635,214,778,240"/>
+<area shape="rect" id="node17" href="config__switcher_8c.html#af5af5079d1982d42e165039e6de7e40a" title="CONTINOUS TASK &#45; Config switcher task, internal config reloading. " alt="" coords="852,252,989,279"/>
+<area shape="rect" id="node19" href="hal__adc_8h.html#a6f0d302f35e5b7f7a1144f0ddace35d2" title="Init the ADC driver module. " alt="" coords="881,202,961,228"/>
+<area shape="rect" id="node18" href="config__switcher_8h.html#aafed047c8d04b814a85239e031cbad7b" title="Initializing the config switching functionality. " alt="" coords="1053,252,1179,279"/>
+<area shape="rect" id="node30" href="task__commands_8c.html#a580d9f6a840975525358033a35f761d0" title="doMouseParsing" alt="" coords="647,416,766,443"/>
+<area shape="rect" id="node33" href="task__commands_8c.html#acea81ba8a182ae78feb2db6418fc1806" title="sendErrorBack" alt="" coords="433,568,541,595"/>
+<area shape="rect" id="node34" href="task__commands_8c.html#afc7ebe31a124c2102f8b41577b6dc5b0" title="doJoystickParsing" alt="" coords="642,568,771,595"/>
 </map>
 </div>
 
@@ -269,7 +271,7 @@ Here is the caller graph for this function:</div>
 <p>Initializing the config switching functionality. </p>
 <p>The CONTINOUS task will be loaded to enable slot switches via the task_configswitcher FUNCTIONAL task. </p><dl class="section return"><dt>Returns</dt><dd>ESP_OK if everything is fined, ESP_FAIL otherwise </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="config__switcher_8c_source.html#l00506">506</a> of file <a class="el" href="config__switcher_8c_source.html">config_switcher.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="config__switcher_8c_source.html#l00513">513</a> of file <a class="el" href="config__switcher_8c_source.html">config_switcher.c</a>.</p>
 
 <p class="reference">Referenced by <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c_source.html#l00073">app_main()</a>.</p>
 <div class="dynheader">
@@ -277,45 +279,46 @@ Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="config__switcher_8h_aafed047c8d04b814a85239e031cbad7b_cgraph.png" border="0" usemap="#config__switcher_8h_aafed047c8d04b814a85239e031cbad7b_cgraph" alt=""/></div>
 <map name="config__switcher_8h_aafed047c8d04b814a85239e031cbad7b_cgraph" id="config__switcher_8h_aafed047c8d04b814a85239e031cbad7b_cgraph">
-<area shape="rect" id="node2" href="config__switcher_8c.html#af5af5079d1982d42e165039e6de7e40a" title="CONTINOUS TASK &#45; Config switcher task, internal config reloading. " alt="" coords="180,436,317,463"/>
+<area shape="rect" id="node2" href="config__switcher_8c.html#af5af5079d1982d42e165039e6de7e40a" title="CONTINOUS TASK &#45; Config switcher task, internal config reloading. " alt="" coords="180,476,317,503"/>
 <area shape="rect" id="node3" href="hal__storage_8c.html#ac67aaf5a3af4140bff3d7c134b9d771f" title="Start a storage transaction. " alt="" coords="369,5,549,32"/>
-<area shape="rect" id="node5" href="hal__storage_8c.html#aad5b764e7c611ff24dbcdd872dc9ae76" title="Load a slot by an action. " alt="" coords="403,208,515,235"/>
+<area shape="rect" id="node5" href="hal__storage_8c.html#aad5b764e7c611ff24dbcdd872dc9ae76" title="Load a slot by an action. " alt="" coords="403,157,515,184"/>
 <area shape="rect" id="node9" href="hal__storage_8c.html#aed4beb2e1bd8cd78a201fbcb49958cba" title="Create a new default slot. " alt="" coords="832,259,997,285"/>
-<area shape="rect" id="node12" href="hal__storage_8c.html#a5fe9e276fd05e50e4ab9d554ef6f58ca" title="Delete one or all slots. " alt="" coords="842,107,987,133"/>
-<area shape="rect" id="node13" href="hal__storage_8c.html#a00b5db14e24d7ada8a42aa6b3f1a1cb7" title="Finish a storage transaction. " alt="" coords="365,360,552,387"/>
-<area shape="rect" id="node14" href="hal__storage_8c.html#a75596c64adaa2b8d9104530acc94b094" title="Load a slot by a slot name. " alt="" coords="385,309,532,336"/>
-<area shape="rect" id="node16" href="hal__adc_8c.html#a4135bb73c2271b4a27db8d8d81884de7" title="Reload ADC config. " alt="" coords="387,461,530,488"/>
-<area shape="rect" id="node26" href="hal__ble_8c.html#accf307974a0046bce38582d0260bf841" title="halBLEReset" alt="" coords="409,512,508,539"/>
-<area shape="rect" id="node31" href="hal__serial_8c.html#ab2261f95747ee5806ebdec880d09ca89" title="Reset the serial HID report data. " alt="" coords="861,411,968,437"/>
-<area shape="rect" id="node32" href="task__mouse_8c.html#aa8f5c0436e569589e735c419fc3d0ed8" title="FUNCTIONAL TASK &#45; Trigger mouse action. " alt="" coords="412,563,505,589"/>
-<area shape="rect" id="node33" href="task__macros_8c.html#a7acda2dcac23ebfffade8a15b40d219f" title="FUNCTIONAL TASK &#45; Macro execution. " alt="" coords="413,613,504,640"/>
-<area shape="rect" id="node34" href="task__kbd_8c.html#a8ff4618047a049178bfb1d60abfefb5d" title="FUNCTIONAL TASK &#45; trigger keyboard actions. " alt="" coords="405,664,512,691"/>
-<area shape="rect" id="node36" href="config__switcher_8c.html#a083adf41746c3380dcc6dbc099047f2e" title="FUNCTIONAL TASK &#45; Load another slot. " alt="" coords="389,715,528,741"/>
-<area shape="rect" id="node37" href="hal__adc_8c.html#a3217185bc86562dee8617ded3872022f" title="FUNCTIONAL TASK &#45; Trigger zero&#45;point calibration of mouthpiece. " alt="" coords="402,765,515,792"/>
-<area shape="rect" id="node39" href="hal__storage_8c.html#abc699ff3996d12d3e6bcc9e372b277e0" title="Load one virtual button config for currently loaded slot. " alt="" coords="1065,56,1261,83"/>
-<area shape="rect" id="node40" href="hal__storage_8c.html#aa5da838bef47becbd2b5bd96a60c75b3" title="Get number of currently loaded slot. " alt="" coords="373,817,544,858"/>
+<area shape="rect" id="node12" href="hal__storage_8c.html#a5fe9e276fd05e50e4ab9d554ef6f58ca" title="Delete one or all slots. " alt="" coords="842,309,987,336"/>
+<area shape="rect" id="node13" href="hal__storage_8c.html#a00b5db14e24d7ada8a42aa6b3f1a1cb7" title="Finish a storage transaction. " alt="" coords="365,375,552,401"/>
+<area shape="rect" id="node14" href="hal__storage_8c.html#a75596c64adaa2b8d9104530acc94b094" title="Load a slot by a slot name. " alt="" coords="385,208,532,235"/>
+<area shape="rect" id="node16" href="hal__adc_8c.html#a4135bb73c2271b4a27db8d8d81884de7" title="Reload ADC config. " alt="" coords="387,425,530,452"/>
+<area shape="rect" id="node26" href="hal__ble_8c.html#accf307974a0046bce38582d0260bf841" title="halBLEReset" alt="" coords="409,527,508,553"/>
+<area shape="rect" id="node31" href="hal__serial_8c.html#ab2261f95747ee5806ebdec880d09ca89" title="Reset the serial HID report data. " alt="" coords="861,512,968,539"/>
+<area shape="rect" id="node32" href="task__mouse_8c.html#aa8f5c0436e569589e735c419fc3d0ed8" title="FUNCTIONAL TASK &#45; Trigger mouse action. " alt="" coords="412,577,505,604"/>
+<area shape="rect" id="node33" href="task__macros_8c.html#a7acda2dcac23ebfffade8a15b40d219f" title="FUNCTIONAL TASK &#45; Macro execution. " alt="" coords="413,628,504,655"/>
+<area shape="rect" id="node34" href="task__kbd_8c.html#a8ff4618047a049178bfb1d60abfefb5d" title="FUNCTIONAL TASK &#45; trigger keyboard actions. " alt="" coords="405,679,512,705"/>
+<area shape="rect" id="node36" href="task__joystick_8c.html#a3040132b9cef8e73060fcd9c17dc116b" title="FUNCTIONAL TASK &#45; Trigger joystick action. " alt="" coords="409,729,508,756"/>
+<area shape="rect" id="node37" href="config__switcher_8c.html#a083adf41746c3380dcc6dbc099047f2e" title="FUNCTIONAL TASK &#45; Load another slot. " alt="" coords="389,780,528,807"/>
+<area shape="rect" id="node38" href="hal__adc_8c.html#a3217185bc86562dee8617ded3872022f" title="FUNCTIONAL TASK &#45; Trigger zero&#45;point calibration of mouthpiece. " alt="" coords="402,831,515,857"/>
+<area shape="rect" id="node40" href="hal__storage_8c.html#abc699ff3996d12d3e6bcc9e372b277e0" title="Load one virtual button config for currently loaded slot. " alt="" coords="1065,56,1261,83"/>
+<area shape="rect" id="node41" href="hal__storage_8c.html#aa5da838bef47becbd2b5bd96a60c75b3" title="Get number of currently loaded slot. " alt="" coords="373,882,544,923"/>
 <area shape="rect" id="node4" href="hal__storage_8c.html#a606e5842dd354f1fb4a738ba95c6d5d1" title="internal function to init the filesystem if handle is invalid " alt="" coords="633,5,736,32"/>
-<area shape="rect" id="node6" href="hal__storage_8c.html#a7e0a934f829b47e2445189dd95e962d6" title="Get the number of stored slots. " alt="" coords="817,157,1012,184"/>
-<area shape="rect" id="node8" href="hal__storage_8c.html#a3b1b266074bd493fe43dcf980852a422" title="Load a slot by a slot number (starting with 1, 0 is default slot) " alt="" coords="605,208,764,235"/>
+<area shape="rect" id="node6" href="hal__storage_8c.html#a7e0a934f829b47e2445189dd95e962d6" title="Get the number of stored slots. " alt="" coords="817,107,1012,133"/>
+<area shape="rect" id="node8" href="hal__storage_8c.html#a3b1b266074bd493fe43dcf980852a422" title="Load a slot by a slot number (starting with 1, 0 is default slot) " alt="" coords="605,157,764,184"/>
 <area shape="rect" id="node7" href="hal__storage_8c.html#a4b6566ef5b69c85d422df52435c95d36" title="Internal helper to check for a valid WL handle and the correct tid. " alt="" coords="1337,233,1467,260"/>
 <area shape="rect" id="node10" href="hal__storage_8c.html#aadf9ff06990d0f0af2eea2e6f2b8082a" title="Store a generalConfig_t struct. " alt="" coords="1105,360,1220,387"/>
 <area shape="rect" id="node11" href="hal__storage_8c.html#a1503debb336ea2d708e4e0884c7aa6a3" title="Store a virtual button config struct. " alt="" coords="1063,259,1262,285"/>
-<area shape="rect" id="node15" href="hal__storage_8c.html#aae19bcf97360ccd7af4ddf906ff85141" title="Get the number of a slotname. " alt="" coords="1060,411,1265,437"/>
-<area shape="rect" id="node17" href="hal__adc_8c.html#aadc294c08df0386572ffdc8e7228f6b4" title="HAL TASK &#45; Mouse task for ADC. " alt="" coords="619,512,750,539"/>
-<area shape="rect" id="node24" href="hal__adc_8c.html#a452077aaa6a576304708d00d4ec439f1" title="HAL TASK &#45; Joystick task for ADC. " alt="" coords="615,563,755,589"/>
-<area shape="rect" id="node25" href="hal__adc_8c.html#aee719704e643d27c1faab768cf4bc22e" title="HAL TASK &#45; Threshold task for ADC. " alt="" coords="611,461,759,488"/>
-<area shape="rect" id="node18" href="hal__adc_8c.html#a5e0d74baf098e774b0e3aa0dab621987" title="Read out analog voltages, apply sensor gain and deadzone. " alt="" coords="854,512,975,539"/>
+<area shape="rect" id="node15" href="hal__storage_8c.html#aae19bcf97360ccd7af4ddf906ff85141" title="Get the number of a slotname. " alt="" coords="1060,208,1265,235"/>
+<area shape="rect" id="node17" href="hal__adc_8c.html#aadc294c08df0386572ffdc8e7228f6b4" title="HAL TASK &#45; Mouse task for ADC. " alt="" coords="619,461,750,488"/>
+<area shape="rect" id="node24" href="hal__adc_8c.html#a452077aaa6a576304708d00d4ec439f1" title="HAL TASK &#45; Joystick task for ADC. " alt="" coords="615,360,755,387"/>
+<area shape="rect" id="node25" href="hal__adc_8c.html#aee719704e643d27c1faab768cf4bc22e" title="HAL TASK &#45; Threshold task for ADC. " alt="" coords="611,411,759,437"/>
+<area shape="rect" id="node18" href="hal__adc_8c.html#a5e0d74baf098e774b0e3aa0dab621987" title="Read out analog voltages, apply sensor gain and deadzone. " alt="" coords="854,360,975,387"/>
 <area shape="rect" id="node19" href="hal__adc_8c.html#a8743abcde6f190545c429f072c16106d" title="Report raw values via serial interface. " alt="" coords="851,461,979,488"/>
-<area shape="rect" id="node22" href="hal__adc_8c.html#acd8f9f6194ebeaa854a791879382b515" title="Process pressure sensor (sip &amp; puff) " alt="" coords="833,563,996,589"/>
-<area shape="rect" id="node20" href="hal__serial_8c.html#a8f987ba001c2a39c959a551a94b5df43" title="Send serial bytes to USB&#45;Serial (USB&#45;CDC) " alt="" coords="1081,461,1244,488"/>
-<area shape="rect" id="node21" href="hal__serial_8c.html#a132de0978f07044a393cc1f3b5276ced" title="halSerialSwitchTXChannel" alt="" coords="1313,461,1491,488"/>
-<area shape="rect" id="node23" href="config__switcher_8c.html#a921538bec34d128a44a748fd5a2c391f" title="Get the current config struct. " alt="" coords="1102,563,1223,589"/>
-<area shape="rect" id="node27" href="esp__hidd__prf__api_8c.html#a0e953976c5ad30d8508ac11bc61cb6b2" title="esp_hidd_send_mouse\l_value" alt="" coords="607,614,762,655"/>
-<area shape="rect" id="node30" href="esp__hidd__prf__api_8c.html#a694ff6418e79f3372b3feba7483e3222" title="esp_hidd_send_keyboard\l_value" alt="" coords="600,679,769,721"/>
-<area shape="rect" id="node28" href="hid__dev_8c.html#a8ae7c69dfd4b740534df123a303a8832" title="hid_dev_send_report" alt="" coords="843,653,986,680"/>
-<area shape="rect" id="node29" href="hid__dev_8c.html#a1a247bc038a3368cea0bde2303aa8301" title="hid_dev_rpt_by_id" alt="" coords="1099,653,1226,680"/>
-<area shape="rect" id="node35" href="task__kbd_8c.html#a7d605cb2407a7a7309911c70e28a9884" title="Helper function sending to queues depending on connection type. " alt="" coords="648,745,721,772"/>
-<area shape="rect" id="node38" href="hal__adc_8c.html#ae549c157d94729e8b06cb391f0f2c97b" title="Calibration function. " alt="" coords="627,796,742,823"/>
+<area shape="rect" id="node22" href="hal__adc_8c.html#acd8f9f6194ebeaa854a791879382b515" title="Process pressure sensor (sip &amp; puff) " alt="" coords="833,411,996,437"/>
+<area shape="rect" id="node20" href="hal__serial_8c.html#a8f987ba001c2a39c959a551a94b5df43" title="Send serial bytes to USB&#45;Serial (USB&#45;CDC) " alt="" coords="1081,512,1244,539"/>
+<area shape="rect" id="node21" href="hal__serial_8c.html#a132de0978f07044a393cc1f3b5276ced" title="halSerialSwitchTXChannel" alt="" coords="1313,512,1491,539"/>
+<area shape="rect" id="node23" href="config__switcher_8c.html#a921538bec34d128a44a748fd5a2c391f" title="Get the current config struct. " alt="" coords="1102,461,1223,488"/>
+<area shape="rect" id="node27" href="esp__hidd__prf__api_8c.html#a0e953976c5ad30d8508ac11bc61cb6b2" title="esp_hidd_send_mouse\l_value" alt="" coords="607,563,762,605"/>
+<area shape="rect" id="node30" href="esp__hidd__prf__api_8c.html#a694ff6418e79f3372b3feba7483e3222" title="esp_hidd_send_keyboard\l_value" alt="" coords="600,629,769,670"/>
+<area shape="rect" id="node28" href="hid__dev_8c.html#a8ae7c69dfd4b740534df123a303a8832" title="hid_dev_send_report" alt="" coords="843,603,986,629"/>
+<area shape="rect" id="node29" href="hid__dev_8c.html#a1a247bc038a3368cea0bde2303aa8301" title="hid_dev_rpt_by_id" alt="" coords="1099,603,1226,629"/>
+<area shape="rect" id="node35" href="task__kbd_8c.html#a7d605cb2407a7a7309911c70e28a9884" title="Helper function sending to queues depending on connection type. " alt="" coords="648,695,721,721"/>
+<area shape="rect" id="node39" href="hal__adc_8c.html#ae549c157d94729e8b06cb391f0f2c97b" title="Calibration function. " alt="" coords="627,831,742,857"/>
 </map>
 </div>
 <div class="dynheader">
@@ -354,7 +357,7 @@ currentConfig </dd></dl>
 
 <p class="definition">Definition at line <a class="el" href="config__switcher_8c_source.html#l00131">131</a> of file <a class="el" href="config__switcher_8c_source.html">config_switcher.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="config__switcher_8c_source.html#l00163">configUpdateVB()</a>, and <a class="el" href="task__commands_8c_source.html#l01181">task_commands()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="config__switcher_8c_source.html#l00163">configUpdateVB()</a>, and <a class="el" href="task__commands_8c_source.html#l01290">task_commands()</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
@@ -418,7 +421,7 @@ Here is the caller graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="config__switcher_8c_source.html#l00163">163</a> of file <a class="el" href="config__switcher_8c_source.html">config_switcher.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="task__commands_8c_source.html#l01181">task_commands()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="task__commands_8c_source.html#l01290">task_commands()</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -467,7 +470,7 @@ Here is the caller graph for this function:</div>
 </dl>
 <dl class="section see"><dt>See also</dt><dd><a class="el" href="config__switcher_8h.html#aa6d38946df351bfaec1994fdb081e7db" title="Parameter for functional task task_configswitcher. ">taskConfigSwitcherConfig_t</a> </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="config__switcher_8c_source.html#l00440">440</a> of file <a class="el" href="config__switcher_8c_source.html">config_switcher.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="config__switcher_8c_source.html#l00447">447</a> of file <a class="el" href="config__switcher_8c_source.html">config_switcher.c</a>.</p>
 
 <p class="reference">Referenced by <a class="el" href="config__switcher_8c_source.html#l00198">configSwitcherTask()</a>, and <a class="el" href="task__commands_8c_source.html#l00392">doStorageParsing()</a>.</p>
 <div class="dynheader">
@@ -525,22 +528,23 @@ Here is the caller graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="config__switcher_8c_source.html#l00111">111</a> of file <a class="el" href="config__switcher_8c_source.html">config_switcher.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="task__commands_8c_source.html#l01369">printAllSlots()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="task__commands_8c_source.html#l01479">printAllSlots()</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="config__switcher_8h_a68e6ddb2557b0bf3e2d84952feb0b5a5_icgraph.png" border="0" usemap="#config__switcher_8h_a68e6ddb2557b0bf3e2d84952feb0b5a5_icgraph" alt=""/></div>
 <map name="config__switcher_8h_a68e6ddb2557b0bf3e2d84952feb0b5a5_icgraph" id="config__switcher_8h_a68e6ddb2557b0bf3e2d84952feb0b5a5_icgraph">
-<area shape="rect" id="node2" href="task__commands_8c.html#ad59215648a26578c22baa7ceae099e0e" title="Print the current slot configurations (general settings + VBs) " alt="" coords="192,31,284,57"/>
-<area shape="rect" id="node3" href="task__commands_8c.html#acea81ba8a182ae78feb2db6418fc1806" title="sendErrorBack" alt="" coords="332,56,440,83"/>
-<area shape="rect" id="node9" href="task__commands_8c.html#a7f6500be563a3dce7f0854fceed02fab" title="doGeneralCmdParsing" alt="" coords="509,5,662,32"/>
-<area shape="rect" id="node4" href="task__commands_8c.html#a2ad28759e53bb5082853d8d004767115" title="doMouthpieceSettingsParsing" alt="" coords="488,56,683,83"/>
-<area shape="rect" id="node10" href="task__commands_8c.html#ac3c72c089d32dea93c45f4f9f8d1f244" title="doKeyboardParsing" alt="" coords="518,107,653,133"/>
-<area shape="rect" id="node11" href="task__commands_8c.html#a580d9f6a840975525358033a35f761d0" title="doMouseParsing" alt="" coords="526,157,645,184"/>
-<area shape="rect" id="node5" href="task__commands_8c.html#a7b36c39275d773aaedcb327ef4e1516f" title="task_commands" alt="" coords="731,81,849,108"/>
-<area shape="rect" id="node6" href="task__commands_8h.html#aedb896e40753227f80768e09d3748419" title="Init the command parser. " alt="" coords="910,56,1042,83"/>
-<area shape="rect" id="node8" href="task__commands_8h.html#a26091155b4d85093239033d689f363d0" title="Restart the command parser task. " alt="" coords="897,107,1055,133"/>
-<area shape="rect" id="node7" href="flipmouse__fabi__esp32__kbdmouse__main_8c.html#abce06be17fc37d675118a678a8100a36" title="Main task, created by esp&#45;idf. " alt="" coords="1103,56,1181,83"/>
+<area shape="rect" id="node2" href="task__commands_8c.html#ad59215648a26578c22baa7ceae099e0e" title="Print the current slot configurations (general settings + VBs) " alt="" coords="192,159,284,185"/>
+<area shape="rect" id="node3" href="task__commands_8c.html#acea81ba8a182ae78feb2db6418fc1806" title="sendErrorBack" alt="" coords="332,120,440,147"/>
+<area shape="rect" id="node10" href="task__commands_8c.html#a7f6500be563a3dce7f0854fceed02fab" title="doGeneralCmdParsing" alt="" coords="509,208,662,235"/>
+<area shape="rect" id="node4" href="task__commands_8c.html#a2ad28759e53bb5082853d8d004767115" title="doMouthpieceSettingsParsing" alt="" coords="488,5,683,32"/>
+<area shape="rect" id="node9" href="task__commands_8c.html#afc7ebe31a124c2102f8b41577b6dc5b0" title="doJoystickParsing" alt="" coords="521,56,650,83"/>
+<area shape="rect" id="node11" href="task__commands_8c.html#ac3c72c089d32dea93c45f4f9f8d1f244" title="doKeyboardParsing" alt="" coords="518,107,653,133"/>
+<area shape="rect" id="node12" href="task__commands_8c.html#a580d9f6a840975525358033a35f761d0" title="doMouseParsing" alt="" coords="526,157,645,184"/>
+<area shape="rect" id="node5" href="task__commands_8c.html#a7b36c39275d773aaedcb327ef4e1516f" title="task_commands" alt="" coords="731,107,849,133"/>
+<area shape="rect" id="node6" href="task__commands_8h.html#aedb896e40753227f80768e09d3748419" title="Init the command parser. " alt="" coords="910,81,1042,108"/>
+<area shape="rect" id="node8" href="task__commands_8h.html#a26091155b4d85093239033d689f363d0" title="Restart the command parser task. " alt="" coords="897,132,1055,159"/>
+<area shape="rect" id="node7" href="flipmouse__fabi__esp32__kbdmouse__main_8c.html#abce06be17fc37d675118a678a8100a36" title="Main task, created by esp&#45;idf. " alt="" coords="1103,81,1181,108"/>
 </map>
 </div>
 

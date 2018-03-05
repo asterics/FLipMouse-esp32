@@ -333,6 +333,13 @@ void configSwitcherTask(void * params)
             stacksize = TASK_KEYBOARD_STACKSIZE; 
             ESP_LOGD(LOG_TAG,"creating new keyboard task on VB %d",i);
             break;
+          case T_JOYSTICK: 
+            newTaskCode = (TaskFunction_t)task_joystick; 
+            currentTaskParameters[i] = malloc(sizeof(taskJoystickConfig_t));
+            vbparametersize = sizeof(taskJoystickConfig_t);
+            stacksize = TASK_JOYSTICK_STACKSIZE; 
+            ESP_LOGD(LOG_TAG,"creating new joystick task on VB %d",i);
+            break;
           case T_CONFIGCHANGE: 
             newTaskCode = (TaskFunction_t)task_configswitcher; 
             currentTaskParameters[i] = malloc(sizeof(taskConfigSwitcherConfig_t));

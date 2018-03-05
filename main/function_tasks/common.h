@@ -349,6 +349,7 @@ typedef struct adc_config {
 typedef enum {
   T_MOUSE,
   T_KEYBOARD,
+  T_JOYSTICK,
   T_CONFIGCHANGE,
   T_CALIBRATE,
   T_SENDIR,
@@ -379,6 +380,8 @@ typedef struct generalConfig {
   uint16_t debounce_release;
   /** @brief Global anti-tremor time for idle */
   uint16_t debounce_idle;
+  /** @brief Enable/disable button learning mode */
+  uint8_t button_learn;
   /** @brief Feedback mode.
    * 
    * * 0 disables LED and buzzer
@@ -409,9 +412,22 @@ typedef struct mouse_command {
 
 /**++++ TODO: move to task_joystick.h ++++*/
 typedef struct joystick_command {
-  int16_t axis1;
-  int16_t axis2;
-  uint32_t buttons;
+  /** @brief Button mask, allows up to 32 different buttons */
+  uint32_t buttonmask;
+  /** @brief X-axis value, 0-1023 */
+  uint16_t Xaxis;
+  /** @brief Y-axis value, 0-1023 */
+  uint16_t Yaxis;
+  /** @brief Z-axis value, 0-1023 */
+  uint16_t Zaxis;
+  /** @brief Z-rotate value, 0-1023 */
+  uint16_t Zrotate;
+  /** @brief Slider left value, 0-1023 */
+  uint16_t sliderLeft;
+  /** @brief Slider right value, 0-1023 */
+  uint16_t sliderRight;
+  /** @brief Hat position (0-360), mapped to 8 directions. Use <0 for no pressing*/
+  int16_t hat;
 } joystick_command_t;
 
 typedef struct taskNoParameterConfig {

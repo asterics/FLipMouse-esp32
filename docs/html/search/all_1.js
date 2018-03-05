@@ -20,7 +20,11 @@ var searchData=
   ['buf_5fsize_5frx',['BUF_SIZE_RX',['../hal__serial_8c.html#adc58a36fa37939826c6e9b29549b55a6',1,'hal_serial.c']]],
   ['buf_5fsize_5ftx',['BUF_SIZE_TX',['../hal__serial_8c.html#a8742cd480180fcaba3079eb3c707bb0e',1,'hal_serial.c']]],
   ['buffer',['buffer',['../structhalIOIR.html#a10f36898f86566eb85d3ea20ef447cec',1,'halIOIR']]],
-  ['buttons',['buttons',['../structmouse__command.html#afbf7acf4a966848d57312cbaed9896e1',1,'mouse_command::buttons()'],['../structjoystick__command.html#a385fe49f00ae494fb8f72091000e709b',1,'joystick_command::buttons()']]],
+  ['button_5flearn',['button_learn',['../structgeneralConfig.html#a5604b791b1617a88bc4b93558ffb3233',1,'generalConfig']]],
+  ['button_5fpress',['BUTTON_PRESS',['../task__joystick_8h.html#abf75ccdaa7e07cca73bb6a704a317a91aef062423a6ea66123856696e5af3cbff',1,'task_joystick.h']]],
+  ['button_5frelease',['BUTTON_RELEASE',['../task__joystick_8h.html#abf75ccdaa7e07cca73bb6a704a317a91aea2b5dae08e5a11bd2c23252c11497da',1,'task_joystick.h']]],
+  ['buttonmask',['buttonmask',['../structjoystick__command.html#a0ae14864387d5bf1661ce7b4b971c546',1,'joystick_command']]],
+  ['buttons',['buttons',['../structmouse__command.html#afbf7acf4a966848d57312cbaed9896e1',1,'mouse_command']]],
   ['buttons1',['buttons1',['../structjoystick__data.html#ae89042e1655f553f3edf02ba5d86533c',1,'joystick_data']]],
   ['buttons2',['buttons2',['../structjoystick__data.html#a7b1f1f0db9ff22424623b9564ff7f6d0',1,'joystick_data']]],
   ['blockdiagram_20of_20v3',['Blockdiagram of v3',['../md__home_beni_sync_Projects_FH_FLipMouse-esp32_main_README_blockdiagram.html',1,'']]]

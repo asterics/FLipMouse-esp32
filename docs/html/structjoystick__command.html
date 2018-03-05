@@ -69,63 +69,193 @@ $(function() {
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
 Data Fields</h2></td></tr>
-<tr class="memitem:a6bb2baad8f66ca70748abb7bb7dae444"><td class="memItemLeft" align="right" valign="top">int16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structjoystick__command.html#a6bb2baad8f66ca70748abb7bb7dae444">axis1</a></td></tr>
-<tr class="separator:a6bb2baad8f66ca70748abb7bb7dae444"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae6cbee226c06ba3fadea3741bacbad78"><td class="memItemLeft" align="right" valign="top">int16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structjoystick__command.html#ae6cbee226c06ba3fadea3741bacbad78">axis2</a></td></tr>
-<tr class="separator:ae6cbee226c06ba3fadea3741bacbad78"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a385fe49f00ae494fb8f72091000e709b"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structjoystick__command.html#a385fe49f00ae494fb8f72091000e709b">buttons</a></td></tr>
-<tr class="separator:a385fe49f00ae494fb8f72091000e709b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0ae14864387d5bf1661ce7b4b971c546"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structjoystick__command.html#a0ae14864387d5bf1661ce7b4b971c546">buttonmask</a></td></tr>
+<tr class="memdesc:a0ae14864387d5bf1661ce7b4b971c546"><td class="mdescLeft">&#160;</td><td class="mdescRight">Button mask, allows up to 32 different buttons.  <a href="#a0ae14864387d5bf1661ce7b4b971c546">More...</a><br /></td></tr>
+<tr class="separator:a0ae14864387d5bf1661ce7b4b971c546"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a937843a36ba52d109090944f9954f785"><td class="memItemLeft" align="right" valign="top">uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structjoystick__command.html#a937843a36ba52d109090944f9954f785">Xaxis</a></td></tr>
+<tr class="memdesc:a937843a36ba52d109090944f9954f785"><td class="mdescLeft">&#160;</td><td class="mdescRight">X-axis value, 0-1023.  <a href="#a937843a36ba52d109090944f9954f785">More...</a><br /></td></tr>
+<tr class="separator:a937843a36ba52d109090944f9954f785"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0ad527c0e88d339e35ae95fca7d20d5d"><td class="memItemLeft" align="right" valign="top">uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structjoystick__command.html#a0ad527c0e88d339e35ae95fca7d20d5d">Yaxis</a></td></tr>
+<tr class="memdesc:a0ad527c0e88d339e35ae95fca7d20d5d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Y-axis value, 0-1023.  <a href="#a0ad527c0e88d339e35ae95fca7d20d5d">More...</a><br /></td></tr>
+<tr class="separator:a0ad527c0e88d339e35ae95fca7d20d5d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae0129a8dfbc174406ad5b893733806c8"><td class="memItemLeft" align="right" valign="top">uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structjoystick__command.html#ae0129a8dfbc174406ad5b893733806c8">Zaxis</a></td></tr>
+<tr class="memdesc:ae0129a8dfbc174406ad5b893733806c8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Z-axis value, 0-1023.  <a href="#ae0129a8dfbc174406ad5b893733806c8">More...</a><br /></td></tr>
+<tr class="separator:ae0129a8dfbc174406ad5b893733806c8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5157c085e921e2efb810b5b0e3ae5313"><td class="memItemLeft" align="right" valign="top">uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structjoystick__command.html#a5157c085e921e2efb810b5b0e3ae5313">Zrotate</a></td></tr>
+<tr class="memdesc:a5157c085e921e2efb810b5b0e3ae5313"><td class="mdescLeft">&#160;</td><td class="mdescRight">Z-rotate value, 0-1023.  <a href="#a5157c085e921e2efb810b5b0e3ae5313">More...</a><br /></td></tr>
+<tr class="separator:a5157c085e921e2efb810b5b0e3ae5313"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2639bb410d9dfe09a897cf7903595fbd"><td class="memItemLeft" align="right" valign="top">uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structjoystick__command.html#a2639bb410d9dfe09a897cf7903595fbd">sliderLeft</a></td></tr>
+<tr class="memdesc:a2639bb410d9dfe09a897cf7903595fbd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Slider left value, 0-1023.  <a href="#a2639bb410d9dfe09a897cf7903595fbd">More...</a><br /></td></tr>
+<tr class="separator:a2639bb410d9dfe09a897cf7903595fbd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa9700f0cb798326dfed3a28c1e8f5793"><td class="memItemLeft" align="right" valign="top">uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structjoystick__command.html#aa9700f0cb798326dfed3a28c1e8f5793">sliderRight</a></td></tr>
+<tr class="memdesc:aa9700f0cb798326dfed3a28c1e8f5793"><td class="mdescLeft">&#160;</td><td class="mdescRight">Slider right value, 0-1023.  <a href="#aa9700f0cb798326dfed3a28c1e8f5793">More...</a><br /></td></tr>
+<tr class="separator:aa9700f0cb798326dfed3a28c1e8f5793"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6e12e92f960ddcf08e0e43d34cfd3592"><td class="memItemLeft" align="right" valign="top">int16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structjoystick__command.html#a6e12e92f960ddcf08e0e43d34cfd3592">hat</a></td></tr>
+<tr class="memdesc:a6e12e92f960ddcf08e0e43d34cfd3592"><td class="mdescLeft">&#160;</td><td class="mdescRight">Hat position (0-360), mapped to 8 directions. Use &lt;0 for no pressing.  <a href="#a6e12e92f960ddcf08e0e43d34cfd3592">More...</a><br /></td></tr>
+<tr class="separator:a6e12e92f960ddcf08e0e43d34cfd3592"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>++++ TODO: move to task_joystick.h ++++ </p>
-
-<p class="definition">Definition at line <a class="el" href="common_8h_source.html#l00411">411</a> of file <a class="el" href="common_8h_source.html">common.h</a>.</p>
-</div><h2 class="groupheader">Field Documentation</h2>
-<a id="a6bb2baad8f66ca70748abb7bb7dae444"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a6bb2baad8f66ca70748abb7bb7dae444">&#9670;&nbsp;</a></span>axis1</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">int16_t joystick_command::axis1</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p class="definition">Definition at line <a class="el" href="common_8h_source.html#l00412">412</a> of file <a class="el" href="common_8h_source.html">common.h</a>.</p>
-
-</div>
-</div>
-<a id="ae6cbee226c06ba3fadea3741bacbad78"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae6cbee226c06ba3fadea3741bacbad78">&#9670;&nbsp;</a></span>axis2</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">int16_t joystick_command::axis2</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p class="definition">Definition at line <a class="el" href="common_8h_source.html#l00413">413</a> of file <a class="el" href="common_8h_source.html">common.h</a>.</p>
-
-</div>
-</div>
-<a id="a385fe49f00ae494fb8f72091000e709b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a385fe49f00ae494fb8f72091000e709b">&#9670;&nbsp;</a></span>buttons</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">uint32_t joystick_command::buttons</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
+<div class="textblock"><p>++++ TODO: move to <a class="el" href="task__joystick_8h.html" title="FUNCTIONAL TASK - joystick handling. ">task_joystick.h</a> ++++ </p>
 
 <p class="definition">Definition at line <a class="el" href="common_8h_source.html#l00414">414</a> of file <a class="el" href="common_8h_source.html">common.h</a>.</p>
+</div><h2 class="groupheader">Field Documentation</h2>
+<a id="a0ae14864387d5bf1661ce7b4b971c546"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0ae14864387d5bf1661ce7b4b971c546">&#9670;&nbsp;</a></span>buttonmask</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint32_t joystick_command::buttonmask</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Button mask, allows up to 32 different buttons. </p>
+
+<p class="definition">Definition at line <a class="el" href="common_8h_source.html#l00416">416</a> of file <a class="el" href="common_8h_source.html">common.h</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="hal__serial_8c_source.html#l00423">halSerialTaskJoystick()</a>, and <a class="el" href="task__joystick_8c_source.html#l00053">task_joystick()</a>.</p>
+
+</div>
+</div>
+<a id="a6e12e92f960ddcf08e0e43d34cfd3592"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6e12e92f960ddcf08e0e43d34cfd3592">&#9670;&nbsp;</a></span>hat</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int16_t joystick_command::hat</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Hat position (0-360), mapped to 8 directions. Use &lt;0 for no pressing. </p>
+
+<p class="definition">Definition at line <a class="el" href="common_8h_source.html#l00430">430</a> of file <a class="el" href="common_8h_source.html">common.h</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="hal__serial_8c_source.html#l00423">halSerialTaskJoystick()</a>, and <a class="el" href="task__joystick_8c_source.html#l00053">task_joystick()</a>.</p>
+
+</div>
+</div>
+<a id="a2639bb410d9dfe09a897cf7903595fbd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2639bb410d9dfe09a897cf7903595fbd">&#9670;&nbsp;</a></span>sliderLeft</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint16_t joystick_command::sliderLeft</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Slider left value, 0-1023. </p>
+
+<p class="definition">Definition at line <a class="el" href="common_8h_source.html#l00426">426</a> of file <a class="el" href="common_8h_source.html">common.h</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="hal__serial_8c_source.html#l00423">halSerialTaskJoystick()</a>, and <a class="el" href="task__joystick_8c_source.html#l00053">task_joystick()</a>.</p>
+
+</div>
+</div>
+<a id="aa9700f0cb798326dfed3a28c1e8f5793"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa9700f0cb798326dfed3a28c1e8f5793">&#9670;&nbsp;</a></span>sliderRight</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint16_t joystick_command::sliderRight</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Slider right value, 0-1023. </p>
+
+<p class="definition">Definition at line <a class="el" href="common_8h_source.html#l00428">428</a> of file <a class="el" href="common_8h_source.html">common.h</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="hal__serial_8c_source.html#l00423">halSerialTaskJoystick()</a>, and <a class="el" href="task__joystick_8c_source.html#l00053">task_joystick()</a>.</p>
+
+</div>
+</div>
+<a id="a937843a36ba52d109090944f9954f785"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a937843a36ba52d109090944f9954f785">&#9670;&nbsp;</a></span>Xaxis</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint16_t joystick_command::Xaxis</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>X-axis value, 0-1023. </p>
+
+<p class="definition">Definition at line <a class="el" href="common_8h_source.html#l00418">418</a> of file <a class="el" href="common_8h_source.html">common.h</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="hal__serial_8c_source.html#l00423">halSerialTaskJoystick()</a>, and <a class="el" href="task__joystick_8c_source.html#l00053">task_joystick()</a>.</p>
+
+</div>
+</div>
+<a id="a0ad527c0e88d339e35ae95fca7d20d5d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0ad527c0e88d339e35ae95fca7d20d5d">&#9670;&nbsp;</a></span>Yaxis</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint16_t joystick_command::Yaxis</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Y-axis value, 0-1023. </p>
+
+<p class="definition">Definition at line <a class="el" href="common_8h_source.html#l00420">420</a> of file <a class="el" href="common_8h_source.html">common.h</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="hal__serial_8c_source.html#l00423">halSerialTaskJoystick()</a>, and <a class="el" href="task__joystick_8c_source.html#l00053">task_joystick()</a>.</p>
+
+</div>
+</div>
+<a id="ae0129a8dfbc174406ad5b893733806c8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae0129a8dfbc174406ad5b893733806c8">&#9670;&nbsp;</a></span>Zaxis</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint16_t joystick_command::Zaxis</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Z-axis value, 0-1023. </p>
+
+<p class="definition">Definition at line <a class="el" href="common_8h_source.html#l00422">422</a> of file <a class="el" href="common_8h_source.html">common.h</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="hal__serial_8c_source.html#l00423">halSerialTaskJoystick()</a>, and <a class="el" href="task__joystick_8c_source.html#l00053">task_joystick()</a>.</p>
+
+</div>
+</div>
+<a id="a5157c085e921e2efb810b5b0e3ae5313"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5157c085e921e2efb810b5b0e3ae5313">&#9670;&nbsp;</a></span>Zrotate</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint16_t joystick_command::Zrotate</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Z-rotate value, 0-1023. </p>
+
+<p class="definition">Definition at line <a class="el" href="common_8h_source.html#l00424">424</a> of file <a class="el" href="common_8h_source.html">common.h</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="hal__serial_8c_source.html#l00423">halSerialTaskJoystick()</a>, and <a class="el" href="task__joystick_8c_source.html#l00053">task_joystick()</a>.</p>
 
 </div>
 </div>

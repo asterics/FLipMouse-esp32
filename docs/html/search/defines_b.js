@@ -18,6 +18,7 @@ var searchData=
   ['task_5fhal_5fled_5fstacksize',['TASK_HAL_LED_STACKSIZE',['../hal__io_8h.html#af104025de9174910a63b2a995c55efcb',1,'hal_io.h']]],
   ['task_5fhalble_5fstacksize',['TASK_HALBLE_STACKSIZE',['../hal__ble_8h.html#ae755abe4e9fee17dd29035a97ea7d87a',1,'hal_ble.h']]],
   ['task_5finfrared_5fstacksize',['TASK_INFRARED_STACKSIZE',['../task__infrared_8h.html#a1e25b21a41d65d0626e0a54ad0abe641',1,'task_infrared.h']]],
+  ['task_5fjoystick_5fstacksize',['TASK_JOYSTICK_STACKSIZE',['../task__joystick_8h.html#a271d67183f41277b3811937676a11eac',1,'task_joystick.h']]],
   ['task_5fkeyboard_5fparameterlength',['TASK_KEYBOARD_PARAMETERLENGTH',['../task__kbd_8h.html#af1d6b3680a52c16cd778420b8953eab7',1,'task_kbd.h']]],
   ['task_5fkeyboard_5fstacksize',['TASK_KEYBOARD_STACKSIZE',['../task__kbd_8h.html#a0a795efc5a0066d74b5855a17665203e',1,'task_kbd.h']]],
   ['task_5fmacros_5fstacksize',['TASK_MACROS_STACKSIZE',['../task__macros_8h.html#adddae57d03a652655d4422042c1c8518',1,'task_macros.h']]],

@@ -12,7 +12,7 @@ the task is NOT allowed to block the caller, because there should be triggered a
 
 The parameters for your function task need to have at least an uint8_t field for the virtual button number.
 
-## Add a nwe command type and config
+## Add a new command type and config
 
 If necessary add your new type of function to the command_type_t enum. This enum is used to group functions. For example, all mouse related commands and actions are covered by "T_MOUSE".
 In addition, if you want to store config settings, add it to the generalConfig_t struct. Everything in this struct is stored as general settings for this slot. The current config can
@@ -38,6 +38,7 @@ Do following steps to enable parsing of your new command:
 
 * Add a new parameter memory allocate to the beginning of task_commands. In addition, add a check if the pointer is valid (directly below)!
 * Add your do<Name>Parsing method to the list of all parsers, around line 1400.
+* Add your reverse parser to the method printAllSlots.
 
 A few additional infos:
 

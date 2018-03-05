@@ -21,7 +21,5 @@ var searchData=
   ['att_5fsvc_5fhid',['ATT_SVC_HID',['../hidd__le__prf__int_8h.html#a120ccad3a7e1b92bda154619fbb25ea8',1,'hidd_le_prf_int.h']]],
   ['att_5ftbl',['att_tbl',['../structhidd__inst__t.html#aa9c02a26d9d8ad56449dcf038394275d',1,'hidd_inst_t']]],
   ['axis',['axis',['../structadc__config.html#a79ae56f983038a1020fbf9d5dc725f78',1,'adc_config']]],
-  ['axis1',['axis1',['../structjoystick__command.html#a6bb2baad8f66ca70748abb7bb7dae444',1,'joystick_command']]],
-  ['axis2',['axis2',['../structjoystick__command.html#ae6cbee226c06ba3fadea3741bacbad78',1,'joystick_command']]],
   ['at_2dcommands_20_2f_20communication_20api',['AT-commands / Communication API',['../md__home_beni_sync_Projects_FH_FLipMouse-esp32_main_README_AT_command_API.html',1,'']]]
 ];

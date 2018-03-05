@@ -164,6 +164,7 @@ void halStorageCreateDefault(uint32_t tid)
   defaultCfg->locale = LAYOUT_GERMAN;
   defaultCfg->wheel_stepsize = 3;
   defaultCfg->irtimeout = 10;
+  defaultCfg->button_learn = 0;
   
   //set any debounce time to 0 (use default)
   defaultCfg->debounce_press = 0;

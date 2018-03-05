@@ -58,6 +58,8 @@ function FlipMouse(initFinished) {
     var _valueHandler = null;
     var _currentSlot = null;
     var _SLOT_CONSTANT = 'Slot:';
+    var _AT_CMD_BUSY_RESPONSE = 'BUSY';
+    var _AT_CMD_OK_RESPONSE = 'OK';
     var _AT_CMD_MIN_WAITTIME_MS = 50;
     var _timestampLastAtCmd = new Date().getTime();
     var _atCmdQueue = [];
@@ -75,8 +77,8 @@ function FlipMouse(initFinished) {
     thiz.sendATCmd = function (atCmd, onlyIfEmptyQueue) {
         if(onlyIfEmptyQueue && _atCmdQueue.length > 0) {
             console.log('did not send cmd: "' + atCmd + "' because another command is executing.");
-            return new Promise(function (resolve) {
-                resolve('');
+            return new Promise(function (resolve, reject) {
+                reject(_AT_CMD_BUSY_RESPONSE);
             });
         }
         var promise = new Promise((resolve) => {
@@ -121,9 +123,9 @@ function FlipMouse(initFinished) {
     thiz.testConnection = function (onlyIfEmptyQueue) {
         return new Promise((resolve) => {
             thiz.sendATCmd('AT', onlyIfEmptyQueue).then(function (response) {
-                resolve(response.indexOf('OK') > -1 ? true : false);
-            }, function () {
-                resolve(false);
+                resolve(response && response.indexOf(_AT_CMD_OK_RESPONSE) > -1 ? true : false);
+            }, function (response) {
+                resolve(response && response.indexOf(_AT_CMD_BUSY_RESPONSE) > -1 ? true : false);
             });
         });
     };
@@ -320,7 +322,7 @@ function FlipMouse(initFinished) {
             return;
         }
         if(!dontSetConfig) {
-            _config[_currentSlot][buttonModeConstant] = atCmd;
+            thiz.setConfig(buttonModeConstant, atCmd);
         }
         return new Promise(function (resolve) {
             var promises = [];
@@ -453,7 +455,7 @@ function FlipMouse(initFinished) {
             Object.keys(config).forEach(function (key) {
                 var atCmd = AT_CMD_MAPPING[key];
                 if(C.BTN_MODES.includes(key)) {
-                    promises.push(thiz.setButtonAction(key, config[key]), true);
+                    promises.push(thiz.setButtonAction(key, config[key], true));
                 } else {
                     promises.push(thiz.sendATCmd(atCmd + ' ' + config[key]));
                 }

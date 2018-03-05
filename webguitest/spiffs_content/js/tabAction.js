@@ -23,7 +23,7 @@ window.tabAction.initBtnModeActionTable = function () {
     });
 };
 
-window.tabAction.initCombos = function () {
+window.tabAction.init = function () {
     L.removeAllChildren('#selectActionButton');
     C.BTN_MODES.forEach(function (btnMode) {
         var option = L.createElement('option', '', L.translate(btnMode));
@@ -31,6 +31,7 @@ window.tabAction.initCombos = function () {
         L('#selectActionButton').appendChild(option);
     });
     L('#currentAction').innerHTML = getReadable(flip.getConfig(C.BTN_MODES[0]));
+    L('#' + C.LEARN_CAT_KEYBOARD).click();
 };
 
 window.tabAction.selectActionButton = function (btnMode) {

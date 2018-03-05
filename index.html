@@ -282,18 +282,22 @@
                 <label class="three columns text-right text-normal" i18n>Action category // Aktions-Kategorie</label>
                 <div class="eight columns">
                     <div class="hide-tablet">
-                        <button class="three columns sABtn" onclick="tabAction.selectActionCategory(C.LEARN_CAT_KEYBOARD, this)" i18n>Keyboard // Tastatur</button>
-                        <button class="three columns sABtn" onclick="tabAction.selectActionCategory(C.LEARN_CAT_MOUSE, this)" i18n>Mouse // Maus</button>
-                        <button class="three columns sABtn" onclick="tabAction.selectActionCategory(C.LEARN_CAT_FLIPACTIONS, this)">Flip</button>
-                        <button class="three columns sABtn" onclick="tabAction.selectActionCategory(C.LEARN_CAT_CUSTOM, this)">Custom</button>
+                        <label for="LEARN_CAT_KEYBOARD" class="button three columns " i18n>Keyboard // Tastatur</label>
+                        <input type="radio" name="actCatRadio" id="LEARN_CAT_KEYBOARD" class="hide-toggle" onchange="tabAction.selectActionCategory(this.id)"/>
+                        <label for="LEARN_CAT_MOUSE" class="button three columns " i18n>Mouse // Maus</label>
+                        <input type="radio" name="actCatRadio" id="LEARN_CAT_MOUSE" class="hide-toggle" onchange="tabAction.selectActionCategory(this.id)"/>
+                        <label for="LEARN_CAT_FLIPACTIONS" class="button three columns ">Flip</label>
+                        <input type="radio" name="actCatRadio" id="LEARN_CAT_FLIPACTIONS" class="hide-toggle" onchange="tabAction.selectActionCategory(this.id)"/>
+                        <label for="LEARN_CAT_CUSTOM" class="button three columns " i18n>Custom</label>
+                        <input type="radio" name="actCatRadio" id="LEARN_CAT_CUSTOM" class="hide-toggle" onchange="tabAction.selectActionCategory(this.id)"/>
                     </div>
                     <div>
-                        <button class="show-tablet-inline half-width sABtn" style="margin-right: 4%" onclick="tabAction.selectActionCategory(C.LEARN_CAT_KEYBOARD, this)" i18n>Keyboard // Tastatur</button>
-                        <button class="show-tablet-inline half-width sABtn" onclick="tabAction.selectActionCategory(C.LEARN_CAT_MOUSE, this)" i18n>Mouse // Maus</button>
+                        <label for="LEARN_CAT_KEYBOARD" class="button show-tablet-inline half-width" style="margin-right: 4%" i18n>Keyboard // Tastatur</label>
+                        <label for="LEARN_CAT_MOUSE" class="button show-tablet-inline half-width" i18n>Mouse // Maus</label>
                     </div>
                     <div>
-                        <button class="show-tablet-inline half-width sABtn" style="margin-right: 4%" onclick="tabAction.selectActionCategory(C.LEARN_CAT_FLIPACTIONS, this)">Flip</button>
-                        <button class="show-tablet-inline half-width sABtn" onclick="tabAction.selectActionCategory(C.LEARN_CAT_CUSTOM, this)">Custom</button>
+                        <label for="LEARN_CAT_FLIPACTIONS" class="button show-tablet-inline half-width" style="margin-right: 4%">Flip</label>
+                        <label for="LEARN_CAT_CUSTOM" class="button show-tablet-inline half-width" i18n>Custom</label>
                     </div>
                 </div>
             </div>

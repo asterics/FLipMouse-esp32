@@ -49,10 +49,10 @@ window.L.setVisible = function (selector, visible) {
 
 window.L.selectAsList = function (selector) {
     var result = L(selector);
-    if(result && result.length) {
+    if(result && result.length > 0) {
         return result;
     }
-    return result ? [result]: [];
+    return result && !(result instanceof NodeList) ? [result]: [];
 };
 
 window.L.addClass = function (selector, className) {

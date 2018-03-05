@@ -39,10 +39,10 @@ window.tabAction.selectActionButton = function (btnMode) {
     L('#currentAction').innerHTML = getReadable(flip.getConfig(btnMode));
 };
 
-window.tabAction.selectActionCategory = function (category, button) {
+window.tabAction.selectActionCategory = function (category) {
     console.log(category);
-    L.removeClass('.sABtn', 'color-lightercyan');
-    L.addClass(button, 'color-lightercyan');
+    L.removeClass('[for*=LEARN_CAT_]', 'color-lightercyan');
+    L.addClass('[for=' + category + ']', 'color-lightercyan');
 };
 
 window.tabAction.startRec = function () {

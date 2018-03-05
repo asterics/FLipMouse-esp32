@@ -42,8 +42,8 @@ window.tabAction.selectActionButton = function (btnMode) {
 
 window.tabAction.selectActionCategory = function (category) {
     console.log(category);
-    L.removeClass('[for*=LEARN_CAT_]', 'color-lightercyan');
-    L.addClass('[for=' + category + ']', 'color-lightercyan');
+    L.removeClass('[for*=LEARN_CAT_]', 'color-lightercyan selected');
+    L.addClass('[for=' + category + ']', 'color-lightercyan selected');
 };
 
 window.tabAction.startRec = function () {

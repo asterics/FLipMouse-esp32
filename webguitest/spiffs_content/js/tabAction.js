@@ -1,4 +1,18 @@
 window.tabAction = {};
+
+window.tabAction.init = function () {
+    tabAction.initBtnModeActionTable();
+    L.removeAllChildren('#selectActionButton');
+    C.BTN_MODES.forEach(function (btnMode) {
+        var option = L.createElement('option', '', L.translate(btnMode));
+        option.value = btnMode;
+        L('#selectActionButton').appendChild(option);
+    });
+    L('#currentAction').innerHTML = getReadable(flip.getConfig(C.BTN_MODES[0]));
+    L('#' + C.LEARN_CAT_KEYBOARD).click();
+    tabAction.selectMode(flip.getConfig(flip.FLIPMOUSE_MODE), true);
+};
+
 window.tabAction.initBtnModeActionTable = function () {
     L.removeAllChildren('#currentConfigTb');
     var backColor = false;
@@ -23,26 +37,26 @@ window.tabAction.initBtnModeActionTable = function () {
     });
 };
 
-window.tabAction.initCombos = function () {
-    L.removeAllChildren('#selectActionButton');
-    C.BTN_MODES.forEach(function (btnMode) {
-        var option = L.createElement('option', '', L.translate(btnMode));
-        option.value = btnMode;
-        L('#selectActionButton').appendChild(option);
-    });
-    L('#currentAction').innerHTML = getReadable(flip.getConfig(C.BTN_MODES[0]));
-};
-
 window.tabAction.selectActionButton = function (btnMode) {
     console.log(btnMode);
     L('#selectActionButton').value = btnMode;
     L('#currentAction').innerHTML = getReadable(flip.getConfig(btnMode));
 };
 
-window.tabAction.selectActionCategory = function (category, button) {
+window.tabAction.selectActionCategory = function (category) {
     console.log(category);
-    L.removeClass('.sABtn', 'color-lightercyan');
-    L.addClass(button, 'color-lightercyan');
+    L.removeClass('[for*=LEARN_CAT_]', 'color-lightercyan selected');
+    L.addClass('[for=' + category + ']', 'color-lightercyan selected');
+};
+
+window.tabAction.selectMode = function (mode, dontSend) {
+    console.log(mode);
+    L.removeClass('[for*=MODE_]', 'color-lightercyan selected');
+    L.addClass('[for=' + mode + ']', 'color-lightercyan selected');
+    L('#' + mode).checked = true;
+    if(!dontSend) {
+        flip.setFlipmouseMode(mode);
+    }
 };
 
 window.tabAction.startRec = function () {

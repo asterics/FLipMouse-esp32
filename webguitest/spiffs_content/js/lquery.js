@@ -15,21 +15,34 @@ window.L = function (selector) {
 };
 
 window.L.toggle = function () {
-    if (!arguments || arguments.length < 1) {
+    var mainArguments = Array.prototype.slice.call(arguments);
+    mainArguments.unshift("block");
+    toggleInternal(mainArguments);
+};
+
+window.L.toggleInline = function () {
+    var mainArguments = Array.prototype.slice.call(arguments);
+    mainArguments.unshift("inline");
+    toggleInternal(mainArguments);
+};
+
+function toggleInternal(arguments) {
+    var displayModeShown = arguments[0];
+    if (!arguments || arguments.length < 2) {
         return;
     }
-    for (var i = 0; i < arguments.length; i++) {
+    for (var i = 1; i < arguments.length; i++) {
         var selector = arguments[i];
         var elems = L.selectAsList(selector);
         elems.forEach(function (x) {
             if (x.style && x.style.display === "none") {
-                x.style.display = "block";
+                x.style.display = displayModeShown;
             } else {
                 x.style.display = "none";
             }
         });
     }
-};
+}
 
 window.L.isVisible = function (selector) {
     var x = L(selector);

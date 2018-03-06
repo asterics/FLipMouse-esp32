@@ -1,4 +1,18 @@
 window.tabAction = {};
+
+window.tabAction.init = function () {
+    tabAction.initBtnModeActionTable();
+    L.removeAllChildren('#selectActionButton');
+    C.BTN_MODES.forEach(function (btnMode) {
+        var option = L.createElement('option', '', L.translate(btnMode));
+        option.value = btnMode;
+        L('#selectActionButton').appendChild(option);
+    });
+    L('#currentAction').innerHTML = getReadable(flip.getConfig(C.BTN_MODES[0]));
+    L('#' + C.LEARN_CAT_KEYBOARD).click();
+    tabAction.selectMode(flip.getConfig(flip.FLIPMOUSE_MODE), true);
+};
+
 window.tabAction.initBtnModeActionTable = function () {
     L.removeAllChildren('#currentConfigTb');
     var backColor = false;
@@ -21,18 +35,6 @@ window.tabAction.initBtnModeActionTable = function () {
         L('#currentConfigTb').appendChild(liElm);
         backColor = !backColor;
     });
-};
-
-window.tabAction.init = function () {
-    L.removeAllChildren('#selectActionButton');
-    C.BTN_MODES.forEach(function (btnMode) {
-        var option = L.createElement('option', '', L.translate(btnMode));
-        option.value = btnMode;
-        L('#selectActionButton').appendChild(option);
-    });
-    L('#currentAction').innerHTML = getReadable(flip.getConfig(C.BTN_MODES[0]));
-    L('#' + C.LEARN_CAT_KEYBOARD).click();
-    tabAction.selectMode(flip.getConfig(flip.FLIPMOUSE_MODE), true);
 };
 
 window.tabAction.selectActionButton = function (btnMode) {

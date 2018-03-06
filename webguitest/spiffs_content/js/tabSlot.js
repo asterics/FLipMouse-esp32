@@ -4,6 +4,7 @@ window.tabSlot.selectSlot = function (select) {
     L('.slot-select').forEach(function (elem) {
         elem.value = select.value;
     });
+    tabAction.init();
     initWithConfig(config);
 };
 

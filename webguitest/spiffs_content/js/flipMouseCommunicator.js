@@ -27,6 +27,7 @@ function FlipMouse(initFinished) {
     thiz.LIVE_PRESSURE_MIN = 'LIVE_PRESSURE_MIN';
     thiz.LIVE_PRESSURE_MIN = 'LIVE_PRESSURE_MIN';
     thiz.LIVE_PRESSURE_MAX = 'LIVE_PRESSURE_MAX';
+    thiz.FLIPMOUSE_MODE = 'FLIPMOUSE_MODE';
 
     thiz.SIP_PUFF_IDS = [
         L.getIDSelector(thiz.SIP_THRESHOLD),
@@ -53,6 +54,7 @@ function FlipMouse(initFinished) {
     AT_CMD_MAPPING[thiz.PUFF_THRESHOLD] = 'AT TP';
     AT_CMD_MAPPING[thiz.PUFF_STRONG_THRESHOLD] = 'AT SP';
     AT_CMD_MAPPING[thiz.ORIENTATION_ANGLE] = 'AT RO';
+    AT_CMD_MAPPING[thiz.FLIPMOUSE_MODE] = 'AT MM';
     var VALUE_AT_CMDS = Object.values(AT_CMD_MAPPING);
     var debouncers = {};
     var _valueHandler = null;
@@ -359,6 +361,14 @@ function FlipMouse(initFinished) {
         });
     };
 
+    thiz.setFlipmouseMode = function (modeConstant) {
+        if(!C.FLIPMOUSE_MODES.includes(modeConstant)) {
+            return;
+        }
+        var index = C.FLIPMOUSE_MODES.indexOf(modeConstant);
+        sendAtCmdNoResultHandling(AT_CMD_MAPPING[thiz.FLIPMOUSE_MODE] + ' ' + index);
+    };
+
     init();
 
     function init() {
@@ -437,7 +447,13 @@ function FlipMouse(initFinished) {
         } else {
             var currentAtCmd = currentElement.substring(0, AT_CMD_LENGTH);
             if (VALUE_AT_CMDS.includes(currentAtCmd)) {
-                config[L.val2key(currentAtCmd, AT_CMD_MAPPING)] = parseInt(currentElement.substring(AT_CMD_LENGTH));
+                var key = L.val2key(currentAtCmd, AT_CMD_MAPPING);
+                if(key == thiz.FLIPMOUSE_MODE) {
+                    var index = parseInt(currentElement.substring(AT_CMD_LENGTH));
+                    config[key] = C.FLIPMOUSE_MODES[index];
+                } else {
+                    config[key] = parseInt(currentElement.substring(AT_CMD_LENGTH));
+                }
             } else if(currentAtCmd.indexOf(C.AT_CMD_BTN_MODE) > -1) {
                 var buttonModeIndex = parseInt(currentElement.substring(AT_CMD_LENGTH));
                 if(C.BTN_MODES[buttonModeIndex-1]) {

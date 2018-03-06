@@ -32,15 +32,13 @@ Following commands are currently available:
 | AT AP | number (1-500) | Antitremor delay for button press ([ms]) <sup>[B](#footnoteB)</sup> | v3 | untested | no |
 | AT AR | number (1-500) | Antitremor delay for button release ([ms]) <sup>[B](#footnoteB)</sup>| v3 | untested | no |
 | AT AI | number (1-500) | Antitremor delay for button idle ([ms]) <sup>[B](#footnoteB)</sup>| v3 | untested | no |
-| AT FR | -- | Reports free, used and available config storage space (e.g., "FREE:10%,9000,1000")| v3 | no<sup>[C](#footnoteC)</sup> | no |
+| AT FR | -- | Reports free, used and available config storage space (e.g., "FREE:10%,9000,1000")| v3 | yes | no |
 | AT FB | number (0,1,2,3) | Feedback mode, 0=no LED/no buzzer, 1=LED/no buzzer, 2=no LED/buzzer, 3= LED + buzzer | v3 | untested | no |
 
 <a name="footnoteB">A</a>: AT WA is done in task_macro, but cannot be used in any other way except a macro ( _AT MA_ ).
 
 <a name="footnoteB">B</a>: Either combine the anti-tremor time settings with a previously sent _AT BM_ command to set a debouncing time for an individual virtual button **OR** use this command
 individually to set a global value.
-
-<a name="footnoteC">C</a>: Cannot implement until available in ESP-IDF.
 
 **USB HID Commands**
 | Command | Parameter | Description | Available since | Implemented in v3 | FUNCTIONAL task |
@@ -110,20 +108,20 @@ individually to set a global value.
 **Joystick settings**
 | Command | Parameter | Description | Available since | Implemented in v3 | FUNCTIONAL task |
 |:--------|:----------|:------------|:--------------|:--------------------|:----------------|
-| AT JX | number (0-1023) + number(0,1)  | Joystick X-axis <sup>[D](#footnoteD)</sup> | v2 | untested | yes (task_joystick) |
-| AT JY | number (0-1023) + number(0,1)  | Joystick Y-axis <sup>[D](#footnoteD)</sup> | v2 | untested | yes (task_joystick) |
-| AT JZ | number (0-1023) + number(0,1)  | Joystick Z-axis <sup>[D](#footnoteD)</sup> | v2 | untested | yes (task_joystick) |
-| AT JT | number (0-1023) + number(0,1)  | Joystick Z-rotate <sup>[D](#footnoteD)</sup> | v2 | untested | yes (task_joystick) |
-| AT JS | number (0-1023) + number(0,1)  | Joystick Slider left <sup>[D](#footnoteD)</sup> | v2 | untested | yes (task_joystick) |
-| AT JU | number (0-1023) + number(0,1)  | Joystick Slider right <sup>[D](#footnoteD)</sup> | v3 | untested | yes (task_joystick) |
+| AT JX | number (0-1023) + number(0,1)  | Joystick X-axis <sup>[C](#footnoteC)</sup> | v2 | untested | yes (task_joystick) |
+| AT JY | number (0-1023) + number(0,1)  | Joystick Y-axis <sup>[C](#footnoteC)</sup> | v2 | untested | yes (task_joystick) |
+| AT JZ | number (0-1023) + number(0,1)  | Joystick Z-axis <sup>[C](#footnoteC)</sup> | v2 | untested | yes (task_joystick) |
+| AT JT | number (0-1023) + number(0,1)  | Joystick Z-rotate <sup>[C](#footnoteC)</sup> | v2 | untested | yes (task_joystick) |
+| AT JS | number (0-1023) + number(0,1)  | Joystick Slider left <sup>[C](#footnoteC)</sup> | v2 | untested | yes (task_joystick) |
+| AT JU | number (0-1023) + number(0,1)  | Joystick Slider right <sup>[C](#footnoteC)</sup> | v3 | untested | yes (task_joystick) |
 | AT JP | number (1-32)  | Button press | v2 | untested | yes (task_joystick) |
 | AT JC | number (1-32)  | Button press & release (on VB press & release) | v3 | untested | yes (task_joystick) |
 | AT JR | number (1-32)  | Button release | v2 | untested | yes (task_joystick) |
-| AT JH | number (-1, 0-315) + number(0,1) | Joystick hat (rest position: -1, 0-315 in 45° steps) <sup>[D](#footnoteD)</sup> | v2 | untested | yes (task_joystick) |
+| AT JH | number (-1, 0-315) + number(0,1) | Joystick hat (rest position: -1, 0-315 in 45° steps) <sup>[C](#footnoteC)</sup> | v2 | untested | yes (task_joystick) |
 
 Please note, that joystick is currently not available for Bluetooth connections.
 
-<a name="footnoteD">D</a>: The second parameter sets the release mode of this command. 
+<a name="footnoteC">D</a>: The second parameter sets the release mode of this command. 
 
 If set to 0 (or no parameter given, compatible to v2), the axis/slider/hat won't be set to a different value except another VB is used to set it differently. 
 

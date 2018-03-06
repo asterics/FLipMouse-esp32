@@ -361,9 +361,12 @@ function FlipMouse(initFinished) {
         });
     };
 
-    thiz.setFlipmouseMode = function (modeConstant) {
+    thiz.setFlipmouseMode = function (modeConstant, dontSetConfig) {
         if(!C.FLIPMOUSE_MODES.includes(modeConstant)) {
             return;
+        }
+        if(!dontSetConfig) {
+            thiz.setConfig(thiz.FLIPMOUSE_MODE, modeConstant);
         }
         var index = C.FLIPMOUSE_MODES.indexOf(modeConstant);
         sendAtCmdNoResultHandling(AT_CMD_MAPPING[thiz.FLIPMOUSE_MODE] + ' ' + index);
@@ -472,6 +475,8 @@ function FlipMouse(initFinished) {
                 var atCmd = AT_CMD_MAPPING[key];
                 if(C.BTN_MODES.includes(key)) {
                     promises.push(thiz.setButtonAction(key, config[key], true));
+                } else if(key == thiz.FLIPMOUSE_MODE) {
+                    promises.push(thiz.setFlipmouseMode(config[key], true));
                 } else {
                     promises.push(thiz.sendATCmd(atCmd + ' ' + config[key]));
                 }

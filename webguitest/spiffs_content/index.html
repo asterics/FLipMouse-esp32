@@ -268,6 +268,17 @@
             </div>
         </div>
         <div data-tabs-pane class="tabs-pane" id="tabActions">
+            <label i18n>FlipMouse mode // FlipMouse Modus</label> <a id="showModeHelpTextA" i18n href="javascript:L.toggleInline('#showModeHelpTextA', '#hideModeHelpTextA');L.toggle('#modeHelpText');">show info // zeige Info</a><a id="hideModeHelpTextA" i18n style="display: none" href="javascript:L.toggleInline('#showModeHelpTextA', '#hideModeHelpTextA');L.toggle('#modeHelpText');">hide info // verstecke Info</a>
+            <div i18n id="modeHelpText" class="space-bottom" style="display: none">
+                <span>Select the mode of the FLipMouse. In "Mouse" Mode the stick is used to move the mouse, in "Alternative" mode the stick can be used to trigger custom actions.</span>
+                <span>Wähle den FLipMouse Modus. Im "Maus" Modus bewegt der Stick die Maus, im "Alternative" Modus kann der Stick verwendet werden um benutzerdefinierte Aktionen auszulösen.</span>
+            </div>
+            <div class="row space-bottom">
+                <label for="MODE_MOUSE" class="button half-width" style="margin-right: 4%" i18n>Mouse // Maus</label>
+                <input type="radio" name="actModeRadio" id="MODE_MOUSE" class="hide-toggle" onchange="tabAction.selectMode(this.id)"/>
+                <label for="MODE_ALTERNATIVE" class="button half-width" i18n>Alternative</label>
+                <input type="radio" name="actModeRadio" id="MODE_ALTERNATIVE" class="hide-toggle" onchange="tabAction.selectMode(this.id)"/>
+            </div>
             <label i18n>Change actions // Aktionen ändern</label>
             <div class="row">
                 <label class="three columns text-right text-normal" for="selectActionButton" i18n>Action to define // Zu belegende Funktion</label>
@@ -282,13 +293,13 @@
                 <label class="three columns text-right text-normal" i18n>Action category // Aktions-Kategorie</label>
                 <div class="eight columns">
                     <div class="hide-tablet">
-                        <label for="LEARN_CAT_KEYBOARD" class="button three columns " i18n>Keyboard // Tastatur</label>
+                        <label for="LEARN_CAT_KEYBOARD" class="button three columns" i18n>Keyboard // Tastatur</label>
                         <input type="radio" name="actCatRadio" id="LEARN_CAT_KEYBOARD" class="hide-toggle" onchange="tabAction.selectActionCategory(this.id)"/>
-                        <label for="LEARN_CAT_MOUSE" class="button three columns " i18n>Mouse // Maus</label>
+                        <label for="LEARN_CAT_MOUSE" class="button three columns" i18n>Mouse // Maus</label>
                         <input type="radio" name="actCatRadio" id="LEARN_CAT_MOUSE" class="hide-toggle" onchange="tabAction.selectActionCategory(this.id)"/>
-                        <label for="LEARN_CAT_FLIPACTIONS" class="button three columns ">Flip</label>
+                        <label for="LEARN_CAT_FLIPACTIONS" class="button three columns">Flip</label>
                         <input type="radio" name="actCatRadio" id="LEARN_CAT_FLIPACTIONS" class="hide-toggle" onchange="tabAction.selectActionCategory(this.id)"/>
-                        <label for="LEARN_CAT_CUSTOM" class="button three columns " i18n>Custom</label>
+                        <label for="LEARN_CAT_CUSTOM" class="button three columns" i18n>Custom</label>
                         <input type="radio" name="actCatRadio" id="LEARN_CAT_CUSTOM" class="hide-toggle" onchange="tabAction.selectActionCategory(this.id)"/>
                     </div>
                     <div>

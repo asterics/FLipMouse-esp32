@@ -32,6 +32,7 @@ window.tabAction.init = function () {
     });
     L('#currentAction').innerHTML = getReadable(flip.getConfig(C.BTN_MODES[0]));
     L('#' + C.LEARN_CAT_KEYBOARD).click();
+    tabAction.selectMode(flip.getConfig(flip.FLIPMOUSE_MODE), true);
 };
 
 window.tabAction.selectActionButton = function (btnMode) {
@@ -44,6 +45,16 @@ window.tabAction.selectActionCategory = function (category) {
     console.log(category);
     L.removeClass('[for*=LEARN_CAT_]', 'color-lightercyan selected');
     L.addClass('[for=' + category + ']', 'color-lightercyan selected');
+};
+
+window.tabAction.selectMode = function (mode, dontSend) {
+    console.log(mode);
+    L.removeClass('[for*=MODE_]', 'color-lightercyan selected');
+    L.addClass('[for=' + mode + ']', 'color-lightercyan selected');
+    L('#' + mode).checked = true;
+    if(!dontSend) {
+        flip.setFlipmouseMode(mode);
+    }
 };
 
 window.tabAction.startRec = function () {

@@ -47,6 +47,8 @@ window.tabAction.selectActionCategory = function (category) {
     console.log(category);
     L.removeClass('[for*=LEARN_CAT_]', 'color-lightercyan selected');
     L.addClass('[for=' + category + ']', 'color-lightercyan selected');
+    L.setVisible('[id^=WRAPPER_LEARN_CAT]', false);
+    L.setVisible('#WRAPPER_' + category);
 };
 
 window.tabAction.selectMode = function (mode, dontSend) {

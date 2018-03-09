@@ -33,7 +33,7 @@ Following commands are currently available:
 | AT AR | number (1-500) | Antitremor delay for button release ([ms]) <sup>[B](#footnoteB)</sup>| v3 | untested | no |
 | AT AI | number (1-500) | Antitremor delay for button idle ([ms]) <sup>[B](#footnoteB)</sup>| v3 | untested | no |
 | AT FR | -- | Reports free, used and available config storage space (e.g., "FREE:10%,9000,1000")| v3 | yes | no |
-| AT FB | number (0,1,2,3) | Feedback mode, 0=no LED/no buzzer, 1=LED/no buzzer, 2=no LED/buzzer, 3= LED + buzzer | v3 | untested | no |
+| AT FB | number (0,1,2,3) | Feedback mode, 0=no LED/no buzzer, 1=LED/no buzzer, 2=no LED/buzzer, 3= LED + buzzer | v3 | yes | no |
 
 <a name="footnoteB">A</a>: AT WA is done in task_macro, but cannot be used in any other way except a macro ( _AT MA_ ).
 

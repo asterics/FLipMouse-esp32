@@ -259,26 +259,30 @@ void halIOBuzzerTask(void * param)
   while(1)
   {
     //wait for updates
-    if(xQueueReceive(halIOBuzzerQueue,(void*)&recv,10000))
+    if(xQueueReceive(halIOBuzzerQueue,(void*)&recv,10000) == pdTRUE)
     {
+      
       //check if feedback mode is set to buzzer output. If not: do nothing
       if((cfg->feedback & 0x02) == 0) continue;
+      
+      ESP_LOGD(LOG_TAG,"Buzz: freq %d, duration %d",recv.frequency,recv.duration);
       
       //set duty, set frequency
       //do a tone only if frequency is != 0, otherwise it is just a pause
       if(recv.frequency != 0)
       {
-        ledc_set_freq(LEDC_LOW_SPEED_MODE, LEDC_TIMER_0, recv.frequency);
-        ledc_set_duty(LEDC_LOW_SPEED_MODE, LEDC_CHANNEL_0, 512);
-        ledc_update_duty(LEDC_LOW_SPEED_MODE, LEDC_CHANNEL_0);
+        //multiply by 2, otherwise it would be half the frequency...
+        ledc_set_freq(LEDC_LOW_SPEED_MODE, LEDC_TIMER_1, recv.frequency*2);
+        ledc_set_duty(LEDC_LOW_SPEED_MODE, LEDC_CHANNEL_3, 512);
+        ledc_update_duty(LEDC_LOW_SPEED_MODE, LEDC_CHANNEL_3);
       }
       
       //delay for duration
       vTaskDelay(recv.duration / portTICK_PERIOD_MS);
       
       //set duty to 0
-      ledc_set_duty(LEDC_LOW_SPEED_MODE, LEDC_CHANNEL_0, 0);
-      ledc_update_duty(LEDC_LOW_SPEED_MODE, LEDC_CHANNEL_0);
+      ledc_set_duty(LEDC_LOW_SPEED_MODE, LEDC_CHANNEL_3, 0);
+      ledc_update_duty(LEDC_LOW_SPEED_MODE, LEDC_CHANNEL_3);
     }
   }
 }
@@ -332,16 +336,19 @@ void halIOLEDTask(void * param)
       duty = (recv & 0x000000FF) * 2 * 2; 
       ledc_set_fade_with_time(LEDC_HIGH_SPEED_MODE,LEDC_CHANNEL_0, \
         duty, fade);
+      ESP_LOGI(LOG_TAG,"LED R: %d",duty);
       
       //2.) GREEN: map to 10bit and set to fading unit
       duty = ((recv & 0x0000FF00) >> 8) * 2 * 2; 
       ledc_set_fade_with_time(LEDC_HIGH_SPEED_MODE,LEDC_CHANNEL_1, \
         duty, fade);
+      ESP_LOGI(LOG_TAG,"LED G: %d",duty);
       
       //3.) BLUE: map to 10bit and set to fading unit
       duty = ((recv & 0x00FF0000) >> 16) * 2 * 2; 
       ledc_set_fade_with_time(LEDC_HIGH_SPEED_MODE,LEDC_CHANNEL_2, \
         duty, fade);
+      ESP_LOGI(LOG_TAG,"LED B: %d",duty);
       
       //start fading for RGB
       ledc_fade_start(LEDC_HIGH_SPEED_MODE, LEDC_CHANNEL_0, LEDC_FADE_NO_WAIT);
@@ -512,15 +519,15 @@ esp_err_t halIOInit(void)
     .duty_resolution = LEDC_TIMER_10_BIT, // resolution of PWM duty
     .freq_hz = 100,                      // frequency of PWM signal
     .speed_mode = LEDC_LOW_SPEED_MODE,           // timer mode
-    .timer_num = LEDC_TIMER_0            // timer index
+    .timer_num = LEDC_TIMER_1            // timer index
   };
   ledc_timer_config(&buzzer_timer);
   ledc_channel_config_t buzzer_channel = {
-    .channel    = LEDC_CHANNEL_0,
+    .channel    = LEDC_CHANNEL_3,
     .duty       = 0,
     .gpio_num   = HAL_IO_PIN_BUZZER,
     .speed_mode = LEDC_LOW_SPEED_MODE,
-    .timer_sel  = LEDC_TIMER_0
+    .timer_sel  = LEDC_TIMER_1
   };
   ledc_channel_config(&buzzer_channel);
   

@@ -135,22 +135,22 @@ extern QueueHandle_t halIOLEDQueue;
 #define TASK_HAL_IR_RECV_MAXIMUM_EDGES 256
 
 /** @brief Task stacksize for LED update task */
-#define TASK_HAL_LED_STACKSIZE 1024
+#define TASK_HAL_LED_STACKSIZE 2048
 
 /** @brief Task priority for LED update task */
 #define TASK_HAL_LED_PRIORITY (tskIDLE_PRIORITY + 2)
 
 /** @brief Task stacksize for buzzer update task */
-#define TASK_HAL_BUZZER_STACKSIZE 1024
+#define TASK_HAL_BUZZER_STACKSIZE 2048
 
 /** @brief Task stacksize for IR send task */
-#define TASK_HAL_IR_SEND_STACKSIZE 1024
+#define TASK_HAL_IR_SEND_STACKSIZE 2048
 
 /** @brief Task priority for IR send task */
 #define TASK_HAL_IR_SEND_PRIORITY (tskIDLE_PRIORITY + 2)
 
 /** @brief Task stacksize for IR receive task */
-#define TASK_HAL_IR_RECV_STACKSIZE 1024
+#define TASK_HAL_IR_RECV_STACKSIZE 2048
 
 /** @brief Task priority for IR receive task */
 #define TASK_HAL_IR_RECV_PRIORITY (tskIDLE_PRIORITY + 2)

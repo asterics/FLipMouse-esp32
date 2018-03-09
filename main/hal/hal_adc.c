@@ -212,6 +212,7 @@ void halAdcReadData(adcData_t *values)
 
 /** @brief Process pressure sensor (sip & puff)
  * @todo Do everything here, no sip&puff currently available.
+ * @todo Activate tones again if working...
  * @param pressurevalue Currently measured pressure.
  * */
 void halAdcProcessPressure(uint32_t pressurevalue)
@@ -227,7 +228,7 @@ void halAdcProcessPressure(uint32_t pressurevalue)
         CLEARVB_RELEASE(VB_SIP);
         SETVB_PRESS(VB_SIP);
         //create a tone
-        TONE(TONE_SIP_FREQ,TONE_SIP_DURATION);
+        //TONE(TONE_SIP_FREQ,TONE_SIP_DURATION);
     } else {
         //set/clear VBs
         CLEARVB_PRESS(VB_SIP);
@@ -237,7 +238,7 @@ void halAdcProcessPressure(uint32_t pressurevalue)
     //STRONGSIP triggered
     if(pressurevalue < cfg->adc.threshold_strongsip)
     {
-        TONE(TONE_STRONGSIP_ENTER_FREQ,TONE_STRONGSIP_ENTER_DURATION);
+        //TONE(TONE_STRONGSIP_ENTER_FREQ,TONE_STRONGSIP_ENTER_DURATION);
         //TODO: how to disable other data & get up/down/left/right?
     } else {
         //set/clear VBs
@@ -253,7 +254,7 @@ void halAdcProcessPressure(uint32_t pressurevalue)
         CLEARVB_RELEASE(VB_PUFF);
         SETVB_PRESS(VB_PUFF);
         //create a tone
-        TONE(TONE_PUFF_FREQ,TONE_PUFF_DURATION);
+        //TONE(TONE_PUFF_FREQ,TONE_PUFF_DURATION);
     } else {
         //set/clear VBs
         CLEARVB_PRESS(VB_PUFF);
@@ -263,7 +264,7 @@ void halAdcProcessPressure(uint32_t pressurevalue)
     //STRONGPUFF triggered
     if(pressurevalue > cfg->adc.threshold_strongpuff)
     {
-        TONE(TONE_STRONGPUFF_ENTER_FREQ,TONE_STRONGPUFF_ENTER_DURATION);
+        //TONE(TONE_STRONGPUFF_ENTER_FREQ,TONE_STRONGPUFF_ENTER_DURATION);
         //TODO: how to disable other data & get up/down/left/right?
     } else {
         //set/clear VBs

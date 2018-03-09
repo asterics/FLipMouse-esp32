@@ -276,7 +276,7 @@
             <div class="row space-bottom">
                 <label for="MODE_MOUSE" class="button half-width" style="margin-right: 4%" i18n>Mouse // Maus</label>
                 <input type="radio" name="actModeRadio" id="MODE_MOUSE" class="hide-toggle" onchange="tabAction.selectMode(this.id)"/>
-                <label for="MODE_ALTERNATIVE" class="button half-width" i18n>Alternative</label>
+                <label for="MODE_ALTERNATIVE" class="button half-width" i18n>Alternative // Alternativ</label>
                 <input type="radio" name="actModeRadio" id="MODE_ALTERNATIVE" class="hide-toggle" onchange="tabAction.selectMode(this.id)"/>
             </div>
             <label i18n>Change actions // Aktionen ändern</label>
@@ -318,21 +318,32 @@
                 </select>
             </div>
 
-            <div class="row">
-                <label class="three columns"></label>
-                <button id="start-rec-button" onclick="actionAndToggle(tabAction.startRec, [], ['#start-rec-button-normal', '#start-rec-button-rec'])" class="eight columns" style="position: relative;">
-                    <div id="start-rec-button-normal" style="position: relative" i18n>Start recording actions // Aufnahme Aktionen starten</div>
-                    <div id="start-rec-button-rec" style="display: none" i18n>Now press keys to record... (click here to stop) // Jetzt Tasten zum Aufnehmen drücken... (zum Stoppen klicken)</div>
-                </button>
+            <div id="WRAPPER_LEARN_CAT_KEYBOARD">
+                <div class="row">
+                    <button id="start-rec-button" onclick="actionAndToggle(tabAction.startRec, [], ['#start-rec-button-normal', '#start-rec-button-rec'])" class="eight columns offset-by-three" style="position: relative;">
+                        <div id="start-rec-button-normal" style="position: relative" i18n>Start recording actions // Aufnahme Aktionen starten</div>
+                        <div id="start-rec-button-rec" style="display: none" i18n>Now press keys to record... (click here to stop) // Jetzt Tasten zum Aufnehmen drücken... (zum Stoppen klicken)</div>
+                    </button>
+                </div>
+                <div class="row">
+                    <label class="three columns text-right text-normal" i18n>Recorded Action // Aufgenommene Aktion</label>
+                    <span id="recordedAction" style="font-weight: bold" class="eight columns"/>
+                </div>
+                <div class="row">
+                    <label class="three columns text-right text-normal" i18n>Recorded AT Command // Aufgenommenes AT Kommando</label>
+                    <span id="recordedAtCmd" class="eight columns"/>
+                </div>
             </div>
-            <div class="row">
-                <label class="three columns text-right text-normal" i18n>Recorded Action // Aufgenommene Aktion</label>
-                <span id="recordedAction" style="font-weight: bold" class="eight columns"/>
+            <div id="WRAPPER_LEARN_CAT_MOUSE">
+                MOUSE
             </div>
-            <div class="row">
-                <label class="three columns text-right text-normal" i18n>Recorded AT Command // Aufgenommenes AT Kommando</label>
-                <span id="recordedAtCmd" class="eight columns"/>
+            <div id="WRAPPER_LEARN_CAT_FLIPACTIONS">
+                LEARN_CAT_FLIPACTIONS
             </div>
+            <div id="WRAPPER_LEARN_CAT_CUSTOM">
+                LEARN_CAT_CUSTOM
+            </div>
+
 
             <br/>
             <label i18n>Current mapping // Aktuelle Konfiguration</label>

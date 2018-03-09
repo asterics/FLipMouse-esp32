@@ -15,24 +15,24 @@ window.L = function (selector) {
 };
 
 window.L.toggle = function () {
-    var mainArguments = Array.prototype.slice.call(arguments);
-    mainArguments.unshift("block");
-    toggleInternal(mainArguments);
+    var args = Array.prototype.slice.call(arguments);
+    args.unshift("block");
+    toggleInternal(args);
 };
 
 window.L.toggleInline = function () {
-    var mainArguments = Array.prototype.slice.call(arguments);
-    mainArguments.unshift("inline");
-    toggleInternal(mainArguments);
+    var args = Array.prototype.slice.call(arguments);
+    args.unshift("inline");
+    toggleInternal(args);
 };
 
-function toggleInternal(arguments) {
-    var displayModeShown = arguments[0];
-    if (!arguments || arguments.length < 2) {
+function toggleInternal(args) {
+    var displayModeShown = args[0];
+    if (!args || args.length < 2) {
         return;
     }
-    for (var i = 1; i < arguments.length; i++) {
-        var selector = arguments[i];
+    for (var i = 1; i < args.length; i++) {
+        var selector = args[i];
         var elems = L.selectAsList(selector);
         elems.forEach(function (x) {
             if (x.style && x.style.display === "none") {

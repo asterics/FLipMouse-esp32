@@ -837,6 +837,8 @@ parserstate_t doGeneralCmdParsing(uint8_t *cmdBuffer)
       char str[32];
       sprintf(str,"FREE:%d%%,%d,%d\r\n",(uint8_t)(1-fre_sect/tot_sect)*100,(uint32_t)(tot_sect-fre_sect)*512,(uint32_t)fre_sect*512);
       halSerialSendUSBSerial(HAL_SERIAL_TX_TO_CDC,str,strlen(str),20);
+      //remove \r\n for ESP_LOG
+      str[strlen(str)] = '\0';
       ESP_LOGI(LOG_TAG,"Free space: %s",str);
     } else {
       ESP_LOGE(LOG_TAG,"Cannot get free space...");

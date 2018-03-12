@@ -104,7 +104,7 @@ void task_infrared(taskInfraredConfig_t *param)
       if((uxBits & (1<<evGroupShift)) || vb == VB_SINGLESHOT)
       {
         //local IR struct
-        halIOIR_t *cfg = NULL;
+        halIOIR_t *cfg = malloc(sizeof(halIOIR_t));
         //transaction ID for IR data
         uint32_t tid;
         if(halStorageStartTransaction(&tid,20) == ESP_OK)
@@ -114,7 +114,10 @@ void task_infrared(taskInfraredConfig_t *param)
             //send pointer to IR send queue
             if(cfg != NULL)
             {
+              ESP_LOGI(LOG_TAG,"Triggering IR cmd, length %d",cfg->count);
               SENDIRSTRUCT(cfg);
+              //free config afterwards (whole config is saved to queue)
+              free(cfg);
             } else {
               ESP_LOGE(LOG_TAG,"IR cfg is NULL!");
             }
@@ -196,7 +199,6 @@ esp_err_t infrared_record(char* cmdName)
         ESP_LOGE(LOG_TAG,"Cannot store IR cmd");
       }
       halStorageFinishTransaction(tid);
-      free(cfg);
       break;
     case IR_OVERFLOW:
       ESP_LOGW(LOG_TAG,"IR cmd too long");

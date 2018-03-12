@@ -128,6 +128,9 @@ extern QueueHandle_t halIOLEDQueue;
  * If no edges are detected in this time, the record will be canceled*/
 #define TASK_HAL_IR_RECV_TIMEOUT 10000
 
+/** @brief Timeout between two IR edges, determining end of command after received edges */
+#define TASK_HAL_IR_RECV_EDGE_TIMEOUT 20
+
 /**@brief How many edges are necessary to declare a command valid? */
 #define TASK_HAL_IR_RECV_MINIMUM_EDGES 5
 

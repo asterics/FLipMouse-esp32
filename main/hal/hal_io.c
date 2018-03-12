@@ -155,7 +155,6 @@ void halIOIRSendTask(void * param)
  * 
  * @see halIOIR_t
  * @see halIOIRRecvQueue
- * @todo How to start the receiver?
  * @param param Unused.
  */
 void halIOIRRecvTask(void * param)
@@ -176,10 +175,13 @@ void halIOIRRecvTask(void * param)
     //wait for updates (triggered receiving)
     if(xQueueReceive(halIOIRRecvQueue,&recv,10000))
     {
-      //acquire buffer for ALL receiving elements
+      ESP_LOGI(LOG_TAG,"IR recv triggered.");
+      
+      //acquire buffer for ALL possible receiving elements
       rmt_item32_t *buf = malloc(sizeof(rmt_item32_t)*TASK_HAL_IR_RECV_MAXIMUM_EDGES);
       uint16_t offset = 0;
       size_t rx_size = 0;
+      uint16_t local_timeout = 0;
       
       //check buffer
       if(buf == NULL)
@@ -192,38 +194,60 @@ void halIOIRRecvTask(void * param)
       rmt_rx_start(4, 1);
       //set target struct
       recv->status = IR_RECEIVING;
-      //wait for one item until timeout or data is valid
-      rmt_item32_t* item = (rmt_item32_t*) xRingbufferReceive(rb, &rx_size, TASK_HAL_IR_RECV_TIMEOUT/portTICK_PERIOD_MS);
-      //got one item
-      if(item) {
-        //put data into buffer
-        memcpy(&buf[offset], item, sizeof(rmt_item32_t)*rx_size);
-        offset+= rx_size;
-        //give item back to ringbuffer
-        vRingbufferReturnItem(rb, (void*) item);
-        //too much
-        if(offset == TASK_HAL_IR_RECV_MAXIMUM_EDGES)
-        {
-          ESP_LOGE(LOG_TAG,"Too much IR edges, finished");
-          recv->status = IR_OVERFLOW;
-          continue;
-        }
-      } else {
-        //timeout, cancel
-        rmt_rx_stop(4);
-        //update status accordingly
-        if(offset > TASK_HAL_IR_RECV_MINIMUM_EDGES)
-        {
-          //save everything necessary to pointer from queue
-          recv->buffer = buf;
-          recv->count = offset;
-          recv->status = IR_FINISHED;
+      
+      do{
+        //wait for one item until timeout or data is valid
+        rmt_item32_t* item = (rmt_item32_t*) xRingbufferReceive(rb, &rx_size, TASK_HAL_IR_RECV_EDGE_TIMEOUT/portTICK_PERIOD_MS);
+        //got one item
+        if(item != NULL) {
+          //put data into buffer
+          ///@todo I don't know why, but we need to set rx_size, otherwise it is always 0, see: https://github.com/espressif/esp-idf/issues/1709
+          rx_size++;
+          memcpy(&buf[offset], item, sizeof(rmt_item32_t)*rx_size);
+          offset+= rx_size;
+          
+          //give item back to ringbuffer
+          vRingbufferReturnItem(rb, (void*) item);
+          //too much
+          if(offset >= TASK_HAL_IR_RECV_MAXIMUM_EDGES)
+          {
+            ESP_LOGE(LOG_TAG,"Too much IR edges, finished");
+            recv->status = IR_OVERFLOW;
+            break;
+          }
         } else {
-          recv->status = IR_TOOSHORT;
-          ESP_LOGE(LOG_TAG,"Too short, no cmd");
-          continue;
+          local_timeout += TASK_HAL_IR_RECV_EDGE_TIMEOUT;
+          //check if timeout is the long one and no edges received...
+          if(local_timeout >= TASK_HAL_IR_RECV_TIMEOUT && offset == 0)
+          {
+            //timeout, cancel
+            rmt_rx_stop(4);
+            recv->status = IR_TOOSHORT;
+            ESP_LOGE(LOG_TAG,"No cmd");
+            break;
+          }
+          //if we received already something and timeout triggers ->
+          //command finished
+          if(offset != 0) 
+          {
+            //update status accordingly
+            if(offset > TASK_HAL_IR_RECV_MINIMUM_EDGES)
+            {
+              //save everything necessary to pointer from queue
+              recv->buffer = buf;
+              recv->count = offset;
+              recv->status = IR_FINISHED;
+              ESP_LOGI(LOG_TAG,"Recorded @%d %d edges",(uint32_t) buf,offset);
+            } else {
+              //timeout, cancel
+              recv->status = IR_TOOSHORT;
+              ESP_LOGE(LOG_TAG,"IR cmd too short");
+            }
+            rmt_rx_stop(4);
+            break;
+          }
         }
-      }
+      } while(1);
     }
   }
 }
@@ -449,7 +473,7 @@ esp_err_t halIOInit(void)
   rmt_rx.rx_config.filter_ticks_thresh = 100;
   rmt_rx.rx_config.idle_threshold = cfg->irtimeout * 100 * (RMT_TICK_10_US);
   rmt_config(&rmt_rx);
-  rmt_driver_install(rmt_rx.channel, 1000, 0);
+  rmt_driver_install(rmt_rx.channel, 1024, 0);
   if(xTaskCreate(halIOIRRecvTask,"irrecv",TASK_HAL_IR_RECV_STACKSIZE, 
     (void*)NULL,TASK_HAL_IR_RECV_PRIORITY, NULL) == pdPASS)
   {

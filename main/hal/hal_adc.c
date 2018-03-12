@@ -132,13 +132,30 @@ void halAdcReportRaw(uint32_t up, uint32_t down, uint32_t left, uint32_t right, 
 void halAdcReadData(adcData_t *values)
 {
     //read all sensors
-    uint32_t tmp = 0;
+    int32_t tmp = 0;
     int32_t x,y;
-    uint32_t up = adc1_to_voltage(HAL_IO_ADC_CHANNEL_UP, &characteristics);
-    uint32_t down = adc1_to_voltage(HAL_IO_ADC_CHANNEL_DOWN, &characteristics);
-    uint32_t left = adc1_to_voltage(HAL_IO_ADC_CHANNEL_LEFT, &characteristics);
-    uint32_t right = adc1_to_voltage(HAL_IO_ADC_CHANNEL_RIGHT, &characteristics);
-    values->pressure = adc1_to_voltage(HAL_IO_ADC_CHANNEL_PRESSURE, &characteristics);
+    
+    //read sensor data & apply characteristics
+    int32_t up = adc1_get_raw(HAL_IO_ADC_CHANNEL_UP);
+    if(up == -1) { ESP_LOGE(LOG_TAG,"Cannot read channel up"); return; }
+    up = esp_adc_cal_raw_to_voltage(up,&characteristics);
+    int32_t down = adc1_get_raw(HAL_IO_ADC_CHANNEL_DOWN);
+    if(down == -1) { ESP_LOGE(LOG_TAG,"Cannot read channel down"); return; }
+    down = esp_adc_cal_raw_to_voltage(down,&characteristics);
+    int32_t left = adc1_get_raw(HAL_IO_ADC_CHANNEL_LEFT);
+    if(left == -1) { ESP_LOGE(LOG_TAG,"Cannot read channel left"); return; }
+    left = esp_adc_cal_raw_to_voltage(left,&characteristics);
+    int32_t right = adc1_get_raw(HAL_IO_ADC_CHANNEL_RIGHT);
+    if(right == -1) { ESP_LOGE(LOG_TAG,"Cannot read channel right"); return; }
+    right = esp_adc_cal_raw_to_voltage(right,&characteristics);
+    int32_t pressure = adc1_get_raw(HAL_IO_ADC_CHANNEL_PRESSURE);
+    if(pressure == -1) 
+    { 
+        ESP_LOGE(LOG_TAG,"Cannot read channel pressure"); return;
+    } else { 
+        pressure = esp_adc_cal_raw_to_voltage(pressure,&characteristics); 
+        values->pressure = pressure;
+    }
 
     //do the mouse rotation
     switch (adc_conf.orientation) {
@@ -460,13 +477,23 @@ void halAdcCalibrate(void)
         uint32_t down = 0;
         uint32_t left = 0;
         uint32_t right = 0;
+        int32_t temp;
+        
         //read values itself & accumulate (8sensor readings)
         for(uint8_t i = 0; i<8; i++)
         {
-            up += adc1_to_voltage(HAL_IO_ADC_CHANNEL_UP, &characteristics);
-            down += adc1_to_voltage(HAL_IO_ADC_CHANNEL_DOWN, &characteristics);
-            left += adc1_to_voltage(HAL_IO_ADC_CHANNEL_LEFT, &characteristics);
-            right += adc1_to_voltage(HAL_IO_ADC_CHANNEL_RIGHT, &characteristics);
+            temp = adc1_get_raw(HAL_IO_ADC_CHANNEL_UP);
+            if(temp == -1) { ESP_LOGE(LOG_TAG,"Cannot read channel up"); continue; }
+            up += esp_adc_cal_raw_to_voltage(temp, &characteristics);
+            temp = adc1_get_raw(HAL_IO_ADC_CHANNEL_DOWN);
+            if(temp == -1) { ESP_LOGE(LOG_TAG,"Cannot read channel down"); continue; }
+            down += esp_adc_cal_raw_to_voltage(temp, &characteristics);
+            temp = adc1_get_raw(HAL_IO_ADC_CHANNEL_LEFT);
+            if(temp == -1) { ESP_LOGE(LOG_TAG,"Cannot read channel left"); continue; }
+            left += esp_adc_cal_raw_to_voltage(temp, &characteristics);
+            temp = adc1_get_raw(HAL_IO_ADC_CHANNEL_RIGHT);
+            if(temp == -1) { ESP_LOGE(LOG_TAG,"Cannot read channel right"); continue; }
+            right += esp_adc_cal_raw_to_voltage(temp, &characteristics);
             vTaskDelay(2);
         }
         
@@ -766,7 +793,9 @@ esp_err_t halAdcInit(adc_config_t* params)
     if(ret != ESP_OK) { ESP_LOGE("hal_adc","Error setting atten on channel %d",HAL_IO_ADC_CHANNEL_RIGHT); return ret; }
     ret = adc1_config_channel_atten(HAL_IO_ADC_CHANNEL_PRESSURE, ADC_ATTEN_DB_11);
     if(ret != ESP_OK) { ESP_LOGE("hal_adc","Error setting atten on channel %d",HAL_IO_ADC_CHANNEL_PRESSURE); return ret; }
-    esp_adc_cal_get_characteristics(ADC_CAL_IDEAL_V_REF, ADC_ATTEN_DB_11, ADC_WIDTH_BIT_12, &characteristics);
+    
+    //esp_adc_cal_get_characteristics(ADC_CAL_IDEAL_V_REF, ADC_ATTEN_DB_11, ADC_WIDTH_BIT_12, &characteristics);
+    esp_adc_cal_characterize(ADC_UNIT_1,ADC_ATTEN_DB_11,ADC_WIDTH_BIT_12,0,&characteristics);
     
     //check if every queue is already initialized
     for(uint8_t i = 0; i<NUMBER_VIRTUALBUTTONS; i++)

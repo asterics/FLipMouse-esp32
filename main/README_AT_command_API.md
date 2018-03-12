@@ -130,12 +130,12 @@ If set to 1, the axis/slider/hat will be released to its idle position on a VB r
 **Infrared commands** 
 | Command | Parameter | Description | Available since | Implemented in v3 | FUNCTIONAL task |
 |:--------|:----------|:------------|:--------------|:--------------------|:----------------|
-| AT IR | string  | record a new infrared command, store it with the given name  | v2 | untested | no |
+| AT IR | string  | record a new infrared command, store it with the given name  | v2 | yes | no |
 | AT IP | string  | replay a recorded IR command, stored with the given name  | v2 | untested | yes (task_infrared) |
 | AT IC | string  | clear an IR command, defined by the name  | v2 | untested | no |
 | AT IW | --  | wipe all IR commands  | v2 | untested | no |
 | AT IT | number (2-100) | timeout for recording IR commands (time[ms] between 2 edges) | v2 | untested | no |
-| AT IL |   | list all available stored IR commands  | v2 | untested | no |
+| AT IL |   | list all available stored IR commands  | v2 | yes | no |
 
 
 ## Button assignments - FLipMouse

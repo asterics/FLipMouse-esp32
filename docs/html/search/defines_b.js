@@ -7,6 +7,7 @@ var searchData=
   ['task_5fdebouncer_5fstacksize',['TASK_DEBOUNCER_STACKSIZE',['../task__debouncer_8h.html#ac755d224eea4f51dbb1b9ad3bef592ab',1,'task_debouncer.h']]],
   ['task_5fhal_5fbuzzer_5fpriority',['TASK_HAL_BUZZER_PRIORITY',['../hal__io_8h.html#acfd4b7201f62b306aa9dad3d066d0b1e',1,'TASK_HAL_BUZZER_PRIORITY():&#160;hal_io.h'],['../hal__io_8h.html#acfd4b7201f62b306aa9dad3d066d0b1e',1,'TASK_HAL_BUZZER_PRIORITY():&#160;hal_io.h']]],
   ['task_5fhal_5fbuzzer_5fstacksize',['TASK_HAL_BUZZER_STACKSIZE',['../hal__io_8h.html#a65e122600e76ce127a8b7529358755cd',1,'hal_io.h']]],
+  ['task_5fhal_5fir_5frecv_5fedge_5ftimeout',['TASK_HAL_IR_RECV_EDGE_TIMEOUT',['../hal__io_8h.html#a62369be96ad8e3d1c156ed8afe1f5164',1,'hal_io.h']]],
   ['task_5fhal_5fir_5frecv_5fmaximum_5fedges',['TASK_HAL_IR_RECV_MAXIMUM_EDGES',['../hal__io_8h.html#a259cfb8eceafdeb6b0340ebea1fe9db6',1,'hal_io.h']]],
   ['task_5fhal_5fir_5frecv_5fminimum_5fedges',['TASK_HAL_IR_RECV_MINIMUM_EDGES',['../hal__io_8h.html#a740f0b5db7e80c5412b7fbf626313256',1,'hal_io.h']]],
   ['task_5fhal_5fir_5frecv_5fpriority',['TASK_HAL_IR_RECV_PRIORITY',['../hal__io_8h.html#a4d64c888f0bc8c76c597ec8e51217e2c',1,'hal_io.h']]],

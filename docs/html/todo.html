@@ -98,7 +98,7 @@ $(function() {
 <dt><a class="anchor" id="_todo000022"></a>Global <a class="el" href="hal__adc_8h.html#a4135bb73c2271b4a27db8d8d81884de7">halAdcUpdateConfig</a>  (adc_config_t *params)</dt>
 <dd>Clear pending VB flags on a config switch  </dd>
 <dt><a class="anchor" id="_todo000025"></a>Global <a class="el" href="hal__io_8c.html#af049ec6b187a1b5b1575120758561ae8">halIOIRRecvTask</a>  (void *param)</dt>
-<dd>How to start the receiver?  </dd>
+<dd>I don't know why, but we need to set rx_size, otherwise it is always 0, see: <a href="https://github.com/espressif/esp-idf/issues/1709">https://github.com/espressif/esp-idf/issues/1709</a>  </dd>
 <dt><a class="anchor" id="_todo000028"></a>Global <a class="el" href="hal__serial_8c.html#ab3a538fb88a9732f0afc0188cc3c9c38">halSerialRXTask</a>  (void *pvParameters)</dt>
 <dd><p class="startdd">When CIM mode is active, switch back here to AT mode </p>
 <p class="enddd">Activate CIM mode here.  </p>

@@ -199,6 +199,8 @@ esp_err_t infrared_record(char* cmdName)
         ESP_LOGE(LOG_TAG,"Cannot store IR cmd");
       }
       halStorageFinishTransaction(tid);
+      //create tone
+      TONE(TONE_IR_RECV_FREQ,TONE_IR_RECV_DURATION);
       break;
     case IR_OVERFLOW:
       ESP_LOGW(LOG_TAG,"IR cmd too long");

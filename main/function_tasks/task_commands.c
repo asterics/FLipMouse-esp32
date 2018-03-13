@@ -651,7 +651,7 @@ parserstate_t doInfraredParsing(uint8_t *cmdBuffer, taskInfraredConfig_t *instan
   /*++++ AT IR ++++*/
   if(CMD("AT IR")) {
     //trigger record
-    if(infrared_record((char*)&cmdBuffer[6]) == ESP_OK)
+    if(infrared_record((char*)&cmdBuffer[6],1) == ESP_OK)
     {
       ESP_LOGD(LOG_TAG,"Recorded IR cmd %s",&cmdBuffer[6]);
       return NOACTION;

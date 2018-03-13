@@ -147,9 +147,10 @@ void task_infrared(taskInfraredConfig_t *param)
  * @see halStorageStoreIR
  * @see TASK_HAL_IR_RECV_TIMEOUT
  * @param cmdName Name of command which will be used to store.
+ * @param outputtoserial If set to !=0, the hex stream will be sent to the serial interface.
  * @return ESP_OK if command was stored, ESP_FAIL otherwise (timeout)
  * */
-esp_err_t infrared_record(char* cmdName)
+esp_err_t infrared_record(char* cmdName, uint8_t outputtoserial)
 {
   uint16_t timeout = 0;
   if(strlen(cmdName) > SLOTNAME_LENGTH)
@@ -201,6 +202,16 @@ esp_err_t infrared_record(char* cmdName)
       halStorageFinishTransaction(tid);
       //create tone
       TONE(TONE_IR_RECV_FREQ,TONE_IR_RECV_DURATION);
+      //send out a hex stream, if enabled
+      if(outputtoserial != 0)
+      {
+        char output[8*cfg->count + 4];
+        for(uint16_t i = 0; i<cfg->count; i++)
+        {
+          sprintf(&output[i*8],"%08X\r\n",cfg->buffer[i].val);
+        }
+        halSerialSendUSBSerial(HAL_SERIAL_TX_TO_CDC,output,strlen(output),10);
+      }
       break;
     case IR_OVERFLOW:
       ESP_LOGW(LOG_TAG,"IR cmd too long");

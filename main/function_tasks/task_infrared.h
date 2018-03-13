@@ -88,9 +88,10 @@ esp_err_t infrared_set_edge_timeout(uint8_t timeout);
  * @see halStorageStoreIR
  * @see TASK_HAL_IR_RECV_TIMEOUT
  * @param cmdName Name of command which will be used to store.
+ * @param outputtoserial If set to !=0, the hex stream will be sent to the serial interface.
  * @return ESP_OK if command was stored, ESP_FAIL otherwise (timeout)
  * */
-esp_err_t infrared_record(char* cmdName);
+esp_err_t infrared_record(char* cmdName, uint8_t outputtoserial);
 
 /**@brief FUNCTIONAL TASK - Infrared command sending
  * 

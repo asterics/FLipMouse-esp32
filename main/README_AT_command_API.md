@@ -132,6 +132,7 @@ If set to 1, the axis/slider/hat will be released to its idle position on a VB r
 |:--------|:----------|:------------|:--------------|:--------------------|:----------------|
 | AT IR | string  | record a new infrared command, store it with the given name  | v2 | yes | no |
 | AT IP | string  | replay a recorded IR command, stored with the given name  | v2 | untested | yes (task_infrared) |
+| AT IH | string  | play a hex string (replay a given hex string sent by "AT IR") | v3 | no | yes (task_infrared) |
 | AT IC | string  | clear an IR command, defined by the name  | v2 | untested | no |
 | AT IW | --  | wipe all IR commands  | v2 | yes | no |
 | AT IT | number (2-100) | timeout for recording IR commands (time[ms] between 2 edges) | v2 | untested | no |

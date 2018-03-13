@@ -152,6 +152,18 @@ esp_err_t halStorageGetNumberForName(uint32_t tid, uint8_t *slotnumber, char *sl
  * */
 esp_err_t halStorageGetNumberOfSlots(uint32_t tid, uint8_t *slotsavailable);
 
+/** @brief Get free memory (IR & slot storage)
+ * 
+ * This method returns the number of total and free bytes in current
+ * used persistant memory (used for storing IR commands and slot
+ * storage).
+ * 
+ * @param total Pointer where the number of total possible bytes is stored
+ * @param free Pointer where the number of free bytes is stored
+ * @return ESP_OK if reading is valid, ESP_FAIL otherwise
+ * */
+esp_err_t halStorageGetFree(uint32_t *total, uint32_t *free);
+
 /** @brief Load a slot by an action
  * 
  * This method loads a slot & saves the general config to the given

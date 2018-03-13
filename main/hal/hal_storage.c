@@ -86,11 +86,36 @@ static wl_handle_t s_wl_handle = WL_INVALID_HANDLE;
 /** @brief Partition name (used to define different memory types) */
 const char *base_path = "/spiflash";
 
-uint16_t halStorageGetFree()
+/** @brief Get free memory (IR & slot storage)
+ * 
+ * This method returns the number of total and free bytes in current
+ * used persistant memory (used for storing IR commands and slot
+ * storage).
+ * 
+ * @param total Pointer where the number of total possible bytes is stored
+ * @param free Pointer where the number of free bytes is stored
+ * @return ESP_OK if reading is valid, ESP_FAIL otherwise
+ * */
+esp_err_t halStorageGetFree(uint32_t *total, uint32_t *free)
 {
-  //f_getfree (const TCHAR* path, DWORD* nclst, FATFS** fatfs);
-  ///@todo Implement "getFree" for FAT, or wait for esp-idf to implement.
-  return 0;
+  FATFS *fs;
+  DWORD fre_clust, fre_sect, tot_sect;
+  
+  //thanks to Ivan Grokhotkov, according to:
+  //https://github.com/espressif/esp-idf/issues/1660
+  /* Get volume information and free clusters of drive 0 */
+  int res = f_getfree("0:", &fre_clust, &fs);
+  if(res == 0)
+  {
+    /* Get total sectors and free sectors */
+    tot_sect = (fs->n_fatent - 2) * fs->csize;
+    fre_sect = fre_clust * fs->csize;
+    *free = fre_sect*512;
+    *total = tot_sect*512;
+    return ESP_OK;
+  } else {
+    return ESP_FAIL;
+  }
 }
 
 
@@ -610,10 +635,9 @@ esp_err_t halStorageGetFreeIRCmdSlot(uint32_t tid, uint8_t *slotavailable)
     //check if this file is available
     if(f == NULL)
     {
-      fclose(f);
       *slotavailable = current;
       return ESP_OK;
-    }
+    } else fclose(f);
     current++;
     if(current == 100) break;
   } while(1);
@@ -792,7 +816,6 @@ esp_err_t halStorageGetNumberForNameIR(uint32_t tid, uint8_t *slotnumber, char *
     //TODO: should we re-arrange slots if one is deleted or should we
     //search through all 255 possible slots? (might be slow if the slot
     //is not found)
-    //Currently: return ESP_FAIL for first not found file
     if(f == NULL)
     {
       currentSlot++;
@@ -1547,6 +1570,9 @@ esp_err_t halStorageLoadIR(char *cmdName, halIOIR_t *cfg, uint32_t tid)
           }
           //save length to struct as well
           cfg->count = irlength;
+          
+          //debug output
+          ESP_LOG_BUFFER_HEXDUMP(LOG_TAG,cfg->buffer,sizeof(rmt_item32_t)*cfg->count,ESP_LOG_DEBUG);
       } else {
         //didn't get a buffer pointer
         ESP_LOGE(LOG_TAG,"No memory for IR command");

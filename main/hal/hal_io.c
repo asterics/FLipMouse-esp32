@@ -100,10 +100,7 @@ static void gpio_isr_handler(void* arg)
  * */
 void halIOIRFree(rmt_channel_t channel, void *arg)
 {
-  if(arg != NULL)
-  {
-    free((rmt_item32_t*)arg);
-  }
+  if(arg != NULL) free((rmt_item32_t*)arg);
 }
 
 /** @brief HAL TASK - IR sending task
@@ -128,15 +125,18 @@ void halIOIRSendTask(void * param)
   while(1)
   {
     //wait for updates
-    if(xQueueReceive(halIOIRSendQueue,&recv,10000))
+    if(xQueueReceive(halIOIRSendQueue,&recv,portMAX_DELAY))
     {
       if(recv.buffer == NULL) continue;
       //check if there is an ongoing transmission. If yes, block.
       rmt_wait_tx_done(0, portMAX_DELAY);
       
+      ESP_LOGD(LOG_TAG,"RMT is free");
+      
       //register the callback again with the pointer to the buffer
       //after finished transmission, this callback frees this buffer
       rmt_register_tx_end_callback(halIOIRFree,recv.buffer);
+      ESP_LOGD(LOG_TAG,"Sending %d items @%d",recv.count,(uint32_t)recv.buffer);
       //To send data according to the waveform items.
       rmt_write_items(0, recv.buffer, recv.count, false);
     }
@@ -173,7 +173,7 @@ void halIOIRRecvTask(void * param)
   while(1)
   {
     //wait for updates (triggered receiving)
-    if(xQueueReceive(halIOIRRecvQueue,&recv,10000))
+    if(xQueueReceive(halIOIRRecvQueue,&recv,portMAX_DELAY))
     {
       ESP_LOGI(LOG_TAG,"IR recv triggered.");
       
@@ -201,8 +201,6 @@ void halIOIRRecvTask(void * param)
         //got one item
         if(item != NULL) {
           //put data into buffer
-          ///@todo I don't know why, but we need to set rx_size, otherwise it is always 0, see: https://github.com/espressif/esp-idf/issues/1709
-          rx_size++;
           memcpy(&buf[offset], item, sizeof(rmt_item32_t)*rx_size);
           offset+= rx_size;
           
@@ -451,8 +449,14 @@ esp_err_t halIOInit(void)
   rmtcfg.tx_config.idle_level = 0;
   rmtcfg.tx_config.idle_output_en = true;
   rmtcfg.rmt_mode = RMT_MODE_TX;
-  rmt_config(&rmtcfg);
-  rmt_driver_install(rmtcfg.channel, 0, 0);
+  if(rmt_config(&rmtcfg) != ESP_OK)
+  {
+    ESP_LOGE(LOG_TAG,"Error configuring IR TX");
+  }
+  if(rmt_driver_install(rmtcfg.channel, 0, 0) != ESP_OK)
+  {
+    ESP_LOGE(LOG_TAG,"Error installing rmt driver for IR TX");
+  }
   if(xTaskCreate(halIOIRSendTask,"irsend",TASK_HAL_IR_SEND_STACKSIZE, 
     (void*)NULL,TASK_HAL_IR_SEND_PRIORITY, NULL) == pdPASS)
   {
@@ -470,10 +474,22 @@ esp_err_t halIOInit(void)
   rmt_rx.mem_block_num = HAL_IO_IR_MEM_BLOCKS;
   rmt_rx.rmt_mode = RMT_MODE_RX;
   rmt_rx.rx_config.filter_en = true;
-  rmt_rx.rx_config.filter_ticks_thresh = 100;
+  rmt_rx.rx_config.filter_ticks_thresh = RMT_TICK_10_US * 10;
   rmt_rx.rx_config.idle_threshold = cfg->irtimeout * 100 * (RMT_TICK_10_US);
-  rmt_config(&rmt_rx);
-  rmt_driver_install(rmt_rx.channel, 1024, 0);
+  //in case default config is 0, use another value
+  if(rmt_rx.rx_config.idle_threshold == 0)
+  {
+    rmt_rx.rx_config.idle_threshold = 10 * 100 * (RMT_TICK_10_US);
+  }
+  ESP_LOGI(LOG_TAG,"Setting IR RX idle to %d",rmt_rx.rx_config.idle_threshold);
+  if(rmt_config(&rmt_rx) != ESP_OK)
+  {
+    ESP_LOGE(LOG_TAG,"Error configuring IR RX");
+  }
+  if(rmt_driver_install(rmt_rx.channel, 1024, 0) != ESP_OK)
+  {
+    ESP_LOGE(LOG_TAG,"Error installing rmt driver for IR RX");
+  }
   if(xTaskCreate(halIOIRRecvTask,"irrecv",TASK_HAL_IR_RECV_STACKSIZE, 
     (void*)NULL,TASK_HAL_IR_RECV_PRIORITY, NULL) == pdPASS)
   {

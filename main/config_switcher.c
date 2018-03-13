@@ -247,13 +247,17 @@ void configSwitcherTask(void * params)
         ret = halStorageLoad(DEFAULT,&currentConfig,tid);
         //for default, we try here again (in the case we had to build a new
         //fresh default config
-        if(ret != ESP_OK) ret = halStorageLoad(DEFAULT,&currentConfig,tid);
+        if(ret != ESP_OK) 
+        {
+          halStorageCreateDefault(tid);
+          ret = halStorageLoad(DEFAULT,&currentConfig,tid);
+        }
         ESP_LOGD(LOG_TAG,"loading default");
       } else if(strcmp(command,"__RESTOREFACTORY") == 0) {
         ret = halStorageDeleteSlot(0,tid);
         
         halStorageCreateDefault(tid);
-        halStorageFinishTransaction(tid);
+        ret = halStorageLoad(DEFAULT,&currentConfig,tid);
         if(ret != ESP_OK)
         {
           ESP_LOGE(LOG_TAG,"Error deleting all slots");

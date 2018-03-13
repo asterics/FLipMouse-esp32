@@ -660,16 +660,18 @@ void halSerialReset(uint8_t exceptDevice)
   }
 }
 
-/** Initialize the serial HAL
+/** @brief Initialize the serial HAL
  * 
  * This method initializes the serial interface & creates
- * all necessary tasks
+ * all necessary tasks.
+ * 
+ * @todo Due to long wires & bad cables on the dev board, the baudrate is set to 19200 here. Change back after testing.
  * */
 esp_err_t halSerialInit(void)
 {
   esp_err_t ret = ESP_OK;
   const uart_config_t uart_config = {
-    .baud_rate = 115200,
+    .baud_rate = 19200,
     .data_bits = UART_DATA_8_BITS,
     .parity = UART_PARITY_DISABLE,
     .stop_bits = UART_STOP_BITS_1,

@@ -83,9 +83,9 @@ $(function() {
 <dd>Add raw value reporting for: CIM mode and serial interface  </dd>
 <dt><a class="anchor" id="_todo000024"></a>File <a class="el" href="hal__io_8c.html">hal_io.c</a>  </dt>
 <dd>Test LED driver, Buzzer &amp; IR  </dd>
-<dt><a class="anchor" id="_todo000026"></a>File <a class="el" href="hal__io_8h.html">hal_io.h</a>  </dt>
+<dt><a class="anchor" id="_todo000025"></a>File <a class="el" href="hal__io_8h.html">hal_io.h</a>  </dt>
 <dd>Test LED driver, Buzzer &amp; IR  </dd>
-<dt><a class="anchor" id="_todo000027"></a>Global <a class="el" href="hal__serial_8c.html#a8ed6a618f134d6b923ba216de84253f6">HAL_SERIAL_UART_TIMEOUT_MS</a>  </dt>
+<dt><a class="anchor" id="_todo000026"></a>Global <a class="el" href="hal__serial_8c.html#a8ed6a618f134d6b923ba216de84253f6">HAL_SERIAL_UART_TIMEOUT_MS</a>  </dt>
 <dd>Documentation updates, this define is now used differently...  </dd>
 <dt><a class="anchor" id="_todo000020"></a>Global <a class="el" href="hal__adc_8c.html#acd8f9f6194ebeaa854a791879382b515">halAdcProcessPressure</a>  (uint32_t pressurevalue)</dt>
 <dd><p class="startdd">Do everything here, no sip&amp;puff currently available. </p>
@@ -97,21 +97,19 @@ $(function() {
 <dd>Implement the full joystick interface. Currently completely unimplemented. </dd>
 <dt><a class="anchor" id="_todo000022"></a>Global <a class="el" href="hal__adc_8h.html#a4135bb73c2271b4a27db8d8d81884de7">halAdcUpdateConfig</a>  (adc_config_t *params)</dt>
 <dd>Clear pending VB flags on a config switch  </dd>
-<dt><a class="anchor" id="_todo000025"></a>Global <a class="el" href="hal__io_8c.html#af049ec6b187a1b5b1575120758561ae8">halIOIRRecvTask</a>  (void *param)</dt>
-<dd>I don't know why, but we need to set rx_size, otherwise it is always 0, see: <a href="https://github.com/espressif/esp-idf/issues/1709">https://github.com/espressif/esp-idf/issues/1709</a>  </dd>
-<dt><a class="anchor" id="_todo000028"></a>Global <a class="el" href="hal__serial_8c.html#ab3a538fb88a9732f0afc0188cc3c9c38">halSerialRXTask</a>  (void *pvParameters)</dt>
+<dt><a class="anchor" id="_todo000029"></a>Global <a class="el" href="hal__serial_8h.html#a2d03c06463b09e33d87d90eb273819b0">halSerialInit</a>  (void)</dt>
+<dd>Due to long wires &amp; bad cables on the dev board, the baudrate is set to 19200 here. Change back after testing.  </dd>
+<dt><a class="anchor" id="_todo000027"></a>Global <a class="el" href="hal__serial_8c.html#ab3a538fb88a9732f0afc0188cc3c9c38">halSerialRXTask</a>  (void *pvParameters)</dt>
 <dd><p class="startdd">When CIM mode is active, switch back here to AT mode </p>
 <p class="enddd">Activate CIM mode here.  </p>
 </dd>
-<dt><a class="anchor" id="_todo000031"></a>Global <a class="el" href="hal__storage_8h.html#aed4beb2e1bd8cd78a201fbcb49958cba">halStorageCreateDefault</a>  (uint32_t tid)</dt>
+<dt><a class="anchor" id="_todo000030"></a>Global <a class="el" href="hal__storage_8h.html#aed4beb2e1bd8cd78a201fbcb49958cba">halStorageCreateDefault</a>  (uint32_t tid)</dt>
 <dd>Change this default slot to usable settings  </dd>
-<dt><a class="anchor" id="_todo000030"></a>Global <a class="el" href="hal__storage_8c.html#a99b92cc0fe132ea97f9a391e26a8c3ee">halStorageGetFree</a>  ()</dt>
-<dd>Implement "getFree" for FAT, or wait for esp-idf to implement.  </dd>
 <dt><a class="anchor" id="_todo000007"></a>Global <a class="el" href="common_8h.html#a194a1686b5b17e701b526563e89e096e">IDSTRING</a>  </dt>
 <dd>Change this back to new version, when GUI is compatible  </dd>
 <dt><a class="anchor" id="_todo000017"></a>Global <a class="el" href="task__joystick_8h.html#a57e155c9f454a8df37b90ee76b430f28">joystick_update</a>  (int32_t value1, joystick_action axis1, int32_t value2, joystick_action axis2)</dt>
 <dd>Update the global values here and send the joystick state  </dd>
-<dt><a class="anchor" id="_todo000032"></a>Global <a class="el" href="keyboard_8h.html#acdbf297ed74d4534f035e0732c2f1081">keycode_to_modifier</a>  (uint16_t keycode, uint8_t locale)</dt>
+<dt><a class="anchor" id="_todo000031"></a>Global <a class="el" href="keyboard_8h.html#acdbf297ed74d4534f035e0732c2f1081">keycode_to_modifier</a>  (uint16_t keycode, uint8_t locale)</dt>
 <dd>Add remaining modifier keys (according to keylayouts.h, for example KEY_GUI)  </dd>
 <dt><a class="anchor" id="_todo000008"></a>Global <a class="el" href="task__commands_8c.html#a7ce0df38eb467e59f209470c8f5ac4e6">LOG_TAG</a>  </dt>
 <dd>CIM switching </dd>

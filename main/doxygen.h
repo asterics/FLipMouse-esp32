@@ -70,12 +70,9 @@
  @todo Configswitcher NEXT increments slot number, even if not possible. Also check for turn-around. & missing slots.
  @todo Clarify AT KP/KR/KH commands on original FlipMouse, to be compatible... (especially for press/release with buttons & with multiple key identifiers)
  @todo Debouncer testing...
- @todo Implement buzzer in remaining task_* functions (infrared, strongsip/puff exit)
+ @todo Implement buzzer in remaining task_* functions (strongsip/puff exit)
  
  @todo Test AT MA (macros).
- @todo Test whole IR stuff
- 
- @todo add AT FR to hal_storage & task_commands
  @todo ADC_TASK triggers watchdog...
  
  @todo Implement long press for virtual buttons (new VBs).

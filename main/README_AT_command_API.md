@@ -108,16 +108,16 @@ individually to set a global value.
 **Joystick settings**
 | Command | Parameter | Description | Available since | Implemented in v3 | FUNCTIONAL task |
 |:--------|:----------|:------------|:--------------|:--------------------|:----------------|
-| AT JX | number (0-1023) + number(0,1)  | Joystick X-axis <sup>[C](#footnoteC)</sup> | v2 | untested | yes (task_joystick) |
-| AT JY | number (0-1023) + number(0,1)  | Joystick Y-axis <sup>[C](#footnoteC)</sup> | v2 | untested | yes (task_joystick) |
-| AT JZ | number (0-1023) + number(0,1)  | Joystick Z-axis <sup>[C](#footnoteC)</sup> | v2 | untested | yes (task_joystick) |
-| AT JT | number (0-1023) + number(0,1)  | Joystick Z-rotate <sup>[C](#footnoteC)</sup> | v2 | untested | yes (task_joystick) |
-| AT JS | number (0-1023) + number(0,1)  | Joystick Slider left <sup>[C](#footnoteC)</sup> | v2 | untested | yes (task_joystick) |
+| AT JX | number (0-1023) + number(0,1)  | Joystick X-axis <sup>[C](#footnoteC)</sup> | v2 | yes | yes (task_joystick) |
+| AT JY | number (0-1023) + number(0,1)  | Joystick Y-axis <sup>[C](#footnoteC)</sup> | v2 | yes | yes (task_joystick) |
+| AT JZ | number (0-1023) + number(0,1)  | Joystick Z-axis <sup>[C](#footnoteC)</sup> | v2 | yes | yes (task_joystick) |
+| AT JT | number (0-1023) + number(0,1)  | Joystick Z-rotate <sup>[C](#footnoteC)</sup> | v2 | yes | yes (task_joystick) |
+| AT JS | number (0-1023) + number(0,1)  | Joystick Slider left <sup>[C](#footnoteC)</sup> | v2 | yes | yes (task_joystick) |
 | AT JU | number (0-1023) + number(0,1)  | Joystick Slider right <sup>[C](#footnoteC)</sup> | v3 | untested | yes (task_joystick) |
-| AT JP | number (1-32)  | Button press | v2 | untested | yes (task_joystick) |
-| AT JC | number (1-32)  | Button press & release (on VB press & release) | v3 | untested | yes (task_joystick) |
-| AT JR | number (1-32)  | Button release | v2 | untested | yes (task_joystick) |
-| AT JH | number (-1, 0-315) + number(0,1) | Joystick hat (rest position: -1, 0-315 in 45° steps) <sup>[C](#footnoteC)</sup> | v2 | untested | yes (task_joystick) |
+| AT JP | number (1-32)  | Button press | v2 | yes | yes (task_joystick) |
+| AT JC | number (1-32)  | Button press & release (on VB press & release) | v3 | yes | yes (task_joystick) |
+| AT JR | number (1-32)  | Button release | v2 | yes | yes (task_joystick) |
+| AT JH | number (-1, 0-315) + number(0,1) | Joystick hat (rest position: -1, 0-315 in 45° steps) <sup>[C](#footnoteC)</sup> | v2 | yes | yes (task_joystick) |
 
 Please note, that joystick is currently not available for Bluetooth connections.
 

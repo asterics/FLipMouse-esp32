@@ -126,7 +126,7 @@ atcmd_api </dd></dl>
 
 <p class="definition">Definition at line <a class="el" href="task__commands_8h_source.html#l00056">56</a> of file <a class="el" href="task__commands_8h_source.html">task_commands.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="task__commands_8c_source.html#l01649">taskCommandsInit()</a>, and <a class="el" href="task__commands_8c_source.html#l01666">taskCommandsRestart()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="task__commands_8c_source.html#l01650">taskCommandsInit()</a>, and <a class="el" href="task__commands_8c_source.html#l01667">taskCommandsRestart()</a>.</p>
 
 </div>
 </div>
@@ -151,7 +151,7 @@ atcmd_api </dd></dl>
 <p>This method starts the command parser task, which handles incoming UART bytes &amp; responses if necessary. If necessary, this task deletes itself &amp; starts a CIM task (it MUST be the other way as well to restart the AT command parser) </p><dl class="section see"><dt>See also</dt><dd><a class="el" href="task__commands_8h.html#a26091155b4d85093239033d689f363d0" title="Restart the command parser task. ">taskCommandsRestart</a> </dd></dl>
 <dl class="section return"><dt>Returns</dt><dd>ESP_OK on success, ESP_FAIL otherwise </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="task__commands_8c_source.html#l01649">1649</a> of file <a class="el" href="task__commands_8c_source.html">task_commands.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="task__commands_8c_source.html#l01650">1650</a> of file <a class="el" href="task__commands_8c_source.html">task_commands.c</a>.</p>
 
 <p class="reference">Referenced by <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c_source.html#l00073">app_main()</a>.</p>
 <div class="dynheader">
@@ -159,55 +159,55 @@ Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="task__commands_8h_aedb896e40753227f80768e09d3748419_cgraph.png" border="0" usemap="#task__commands_8h_aedb896e40753227f80768e09d3748419_cgraph" alt=""/></div>
 <map name="task__commands_8h_aedb896e40753227f80768e09d3748419_cgraph" id="task__commands_8h_aedb896e40753227f80768e09d3748419_cgraph">
-<area shape="rect" id="node2" href="task__commands_8c.html#a7b36c39275d773aaedcb327ef4e1516f" title="task_commands" alt="" coords="185,1077,304,1103"/>
-<area shape="rect" id="node3" href="task__commands_8c.html#adf3aa67816eecac3e756189c9d61cbd2" title="checkqueues" alt="" coords="400,367,499,394"/>
-<area shape="rect" id="node4" href="hal__serial_8c.html#a131377105453d5b94f02f977ff454613" title="Read parsed AT commands from USB&#45;Serial (USB&#45;CDC) " alt="" coords="359,418,540,445"/>
-<area shape="rect" id="node5" href="hal__serial_8c.html#a8f987ba001c2a39c959a551a94b5df43" title="Send serial bytes to USB&#45;Serial (USB&#45;CDC) " alt="" coords="1101,1026,1264,1053"/>
-<area shape="rect" id="node7" href="task__commands_8c.html#a580d9f6a840975525358033a35f761d0" title="doMouseParsing" alt="" coords="390,1127,509,1154"/>
-<area shape="rect" id="node19" href="task__commands_8c.html#a69b0c55558b32caa21407de8e2277be9" title="doStorageParsing" alt="" coords="860,519,985,546"/>
-<area shape="rect" id="node23" href="task__commands_8c.html#ac3c72c089d32dea93c45f4f9f8d1f244" title="doKeyboardParsing" alt="" coords="382,1406,517,1433"/>
-<area shape="rect" id="node31" href="task__commands_8c.html#a7f6500be563a3dce7f0854fceed02fab" title="doGeneralCmdParsing" alt="" coords="373,747,526,774"/>
-<area shape="rect" id="node37" href="task__commands_8c.html#a937cdeb2f02b0c5d9a0f94a0f69e9328" title="doInfraredParsing" alt="" coords="618,317,742,343"/>
-<area shape="rect" id="node44" href="task__commands_8c.html#afc7ebe31a124c2102f8b41577b6dc5b0" title="doJoystickParsing" alt="" coords="385,1077,514,1103"/>
-<area shape="rect" id="node45" href="task__commands_8c.html#a2ad28759e53bb5082853d8d004767115" title="doMouthpieceSettingsParsing" alt="" coords="352,1026,547,1053"/>
-<area shape="rect" id="node47" href="task__commands_8c.html#acdd5ac250a84f0f62d23f174b7366432" title="doMacroParsing" alt="" coords="391,1735,507,1762"/>
-<area shape="rect" id="node49" href="config__switcher_8c.html#a20db6aabb98f5c9c7cea48e950bada5b" title="Update one virtual button. " alt="" coords="391,1837,508,1863"/>
-<area shape="rect" id="node50" href="config__switcher_8c.html#a4c2e410d8032c65c0700c6ca07429074" title="Trigger a config update. " alt="" coords="631,1811,729,1838"/>
-<area shape="rect" id="node6" href="hal__serial_8c.html#a132de0978f07044a393cc1f3b5276ced" title="halSerialSwitchTXChannel" alt="" coords="1333,1026,1511,1053"/>
-<area shape="rect" id="node8" href="task__mouse_8c.html#aa8f5c0436e569589e735c419fc3d0ed8" title="FUNCTIONAL TASK &#45; Trigger mouse action. " alt="" coords="633,1229,727,1255"/>
-<area shape="rect" id="node9" href="task__mouse_8c.html#ab5cfaaac2cd4ec6fc79546f847db96de" title="Get the current mouse wheel step size. " alt="" coords="859,1026,986,1053"/>
-<area shape="rect" id="node11" href="task__commands_8c.html#acea81ba8a182ae78feb2db6418fc1806" title="sendErrorBack" alt="" coords="626,1077,734,1103"/>
-<area shape="rect" id="node18" href="task__mouse_8c.html#ac5aaa616044b7bef9f75347719181dbe" title="Set current mouse wheel step size. " alt="" coords="859,975,986,1002"/>
-<area shape="rect" id="node10" href="config__switcher_8c.html#a921538bec34d128a44a748fd5a2c391f" title="Get the current config struct. " alt="" coords="1122,849,1243,875"/>
-<area shape="rect" id="node12" href="task__commands_8c.html#ad59215648a26578c22baa7ceae099e0e" title="Print the current slot configurations (general settings + VBs) " alt="" coords="877,671,969,698"/>
-<area shape="rect" id="node13" href="hal__storage_8c.html#ac67aaf5a3af4140bff3d7c134b9d771f" title="Start a storage transaction. " alt="" coords="1093,342,1273,369"/>
-<area shape="rect" id="node15" href="hal__storage_8c.html#a7e0a934f829b47e2445189dd95e962d6" title="Get the number of stored slots. " alt="" coords="1085,671,1280,698"/>
-<area shape="rect" id="node17" href="hal__storage_8c.html#a00b5db14e24d7ada8a42aa6b3f1a1cb7" title="Finish a storage transaction. " alt="" coords="1089,418,1276,445"/>
-<area shape="rect" id="node14" href="hal__storage_8c.html#a606e5842dd354f1fb4a738ba95c6d5d1" title="internal function to init the filesystem if handle is invalid " alt="" coords="1371,342,1473,369"/>
-<area shape="rect" id="node16" href="hal__storage_8c.html#a4b6566ef5b69c85d422df52435c95d36" title="Internal helper to check for a valid WL handle and the correct tid. " alt="" coords="1357,519,1487,546"/>
-<area shape="rect" id="node20" href="config__switcher_8c.html#a083adf41746c3380dcc6dbc099047f2e" title="FUNCTIONAL TASK &#45; Load another slot. " alt="" coords="1113,469,1252,495"/>
-<area shape="rect" id="node21" href="hal__storage_8c.html#aadf9ff06990d0f0af2eea2e6f2b8082a" title="Store a generalConfig_t struct. " alt="" coords="1125,570,1240,597"/>
-<area shape="rect" id="node22" href="hal__storage_8c.html#a1503debb336ea2d708e4e0884c7aa6a3" title="Store a virtual button config struct. " alt="" coords="1083,519,1282,546"/>
-<area shape="rect" id="node24" href="task__kbd_8c.html#a8ff4618047a049178bfb1d60abfefb5d" title="FUNCTIONAL TASK &#45; trigger keyboard actions. " alt="" coords="627,1583,733,1610"/>
-<area shape="rect" id="node25" href="keyboard_8c.html#add849eefda31316c7d22d45f49e261e2" title="Parse a decoded code point to a keycode, step 2. " alt="" coords="609,1634,751,1661"/>
-<area shape="rect" id="node26" href="keyboard_8c.html#a6b593fa493aea40be410640981b1c181" title="Parse a keycode for deadkey input, step 3. " alt="" coords="607,1381,753,1407"/>
-<area shape="rect" id="node27" href="keyboard_8c.html#a464318439ffe82e71e063a5c9582aa69" title="Mask the keycode to get the HID keycode, step 4. " alt="" coords="621,1431,739,1458"/>
-<area shape="rect" id="node28" href="keyboard_8c.html#acdbf297ed74d4534f035e0732c2f1081" title="Mask the keycode to get the modifiers, step 5. " alt="" coords="609,1482,751,1509"/>
-<area shape="rect" id="node29" href="keyboard_8c.html#a74d92b54cde636cae76575e8b0cad378" title="Parse a key identifier to a keycode. " alt="" coords="595,1533,765,1559"/>
-<area shape="rect" id="node30" href="keyboard_8c.html#aa5712a49152638257c16d39ea798a43e" title="Is this keycode a modifier? " alt="" coords="609,1330,751,1357"/>
-<area shape="rect" id="node32" href="hal__ble_8c.html#accf307974a0046bce38582d0260bf841" title="halBLEReset" alt="" coords="631,823,729,850"/>
-<area shape="rect" id="node33" href="hal__serial_8c.html#ab2261f95747ee5806ebdec880d09ca89" title="Reset the serial HID report data. " alt="" coords="869,1127,976,1154"/>
-<area shape="rect" id="node34" href="hal__storage_8c.html#a18ba4afaa3fc6e4c16180a79c330ad41" title="Get free memory (IR &amp; slot storage) " alt="" coords="615,671,745,698"/>
-<area shape="rect" id="node35" href="hal__storage_8c.html#a5fe9e276fd05e50e4ab9d554ef6f58ca" title="Delete one or all slots. " alt="" coords="850,722,995,749"/>
-<area shape="rect" id="node36" href="hal__storage_8c.html#aae19bcf97360ccd7af4ddf906ff85141" title="Get the number of a slotname. " alt="" coords="1080,621,1285,647"/>
-<area shape="rect" id="node38" href="task__infrared_8c.html#a2950159444d03958630c6731bd1600c9" title="FUNCTIONAL TASK &#45; Infrared command sending. " alt="" coords="874,367,971,394"/>
-<area shape="rect" id="node39" href="hal__storage_8c.html#a8347d2c8df82d17bc9af1d007bfd11ae" title="Delete one or all IR commands. " alt="" coords="1101,21,1265,47"/>
-<area shape="rect" id="node40" href="hal__storage_8c.html#a531bc39bc2808762298d14b79ac453cd" title="Get the number of an IR command. " alt="" coords="813,63,1032,90"/>
-<area shape="rect" id="node41" href="task__infrared_8c.html#a6f7bfd75e03bde856f3e5fc9a2391fe3" title="Trigger an IR command recording. " alt="" coords="869,317,977,343"/>
-<area shape="rect" id="node42" href="hal__storage_8c.html#a1495c793604980c76b334f6a6d553c3c" title="Get the number of stored IR commands. " alt="" coords="815,114,1030,141"/>
-<area shape="rect" id="node43" href="hal__storage_8c.html#a53912e9159b29e5fc974a127dbf0982f" title="Get the name of an infrared command stored at the given slot number. " alt="" coords="813,165,1032,191"/>
-<area shape="rect" id="node46" href="hal__adc_8c.html#a3217185bc86562dee8617ded3872022f" title="FUNCTIONAL TASK &#45; Trigger zero&#45;point calibration of mouthpiece. " alt="" coords="623,1026,737,1053"/>
-<area shape="rect" id="node48" href="task__macros_8c.html#a7acda2dcac23ebfffade8a15b40d219f" title="FUNCTIONAL TASK &#45; Macro execution. " alt="" coords="635,1735,725,1762"/>
+<area shape="rect" id="node2" href="task__commands_8c.html#a7b36c39275d773aaedcb327ef4e1516f" title="task_commands" alt="" coords="185,753,304,780"/>
+<area shape="rect" id="node3" href="task__commands_8c.html#adf3aa67816eecac3e756189c9d61cbd2" title="checkqueues" alt="" coords="400,5,499,32"/>
+<area shape="rect" id="node4" href="hal__serial_8c.html#a131377105453d5b94f02f977ff454613" title="Read parsed AT commands from USB&#45;Serial (USB&#45;CDC) " alt="" coords="359,56,540,83"/>
+<area shape="rect" id="node5" href="hal__serial_8c.html#a8f987ba001c2a39c959a551a94b5df43" title="Send serial bytes to USB&#45;Serial (USB&#45;CDC) " alt="" coords="1133,1019,1295,1045"/>
+<area shape="rect" id="node7" href="task__commands_8c.html#a580d9f6a840975525358033a35f761d0" title="doMouseParsing" alt="" coords="390,107,509,133"/>
+<area shape="rect" id="node18" href="task__commands_8c.html#a69b0c55558b32caa21407de8e2277be9" title="doStorageParsing" alt="" coords="895,487,1020,513"/>
+<area shape="rect" id="node22" href="task__commands_8c.html#ac3c72c089d32dea93c45f4f9f8d1f244" title="doKeyboardParsing" alt="" coords="382,436,517,463"/>
+<area shape="rect" id="node30" href="task__commands_8c.html#a7f6500be563a3dce7f0854fceed02fab" title="doGeneralCmdParsing" alt="" coords="373,993,526,1020"/>
+<area shape="rect" id="node36" href="task__commands_8c.html#a937cdeb2f02b0c5d9a0f94a0f69e9328" title="doInfraredParsing" alt="" coords="635,1323,759,1349"/>
+<area shape="rect" id="node43" href="task__commands_8c.html#afc7ebe31a124c2102f8b41577b6dc5b0" title="doJoystickParsing" alt="" coords="385,753,514,780"/>
+<area shape="rect" id="node45" href="task__commands_8c.html#a2ad28759e53bb5082853d8d004767115" title="doMouthpieceSettingsParsing" alt="" coords="352,689,547,716"/>
+<area shape="rect" id="node47" href="task__commands_8c.html#acdd5ac250a84f0f62d23f174b7366432" title="doMacroParsing" alt="" coords="391,1436,507,1463"/>
+<area shape="rect" id="node49" href="config__switcher_8c.html#a20db6aabb98f5c9c7cea48e950bada5b" title="Update one virtual button. " alt="" coords="391,1585,508,1612"/>
+<area shape="rect" id="node50" href="config__switcher_8c.html#a4c2e410d8032c65c0700c6ca07429074" title="Trigger a config update. " alt="" coords="648,1601,747,1628"/>
+<area shape="rect" id="node6" href="hal__serial_8c.html#a132de0978f07044a393cc1f3b5276ced" title="halSerialSwitchTXChannel" alt="" coords="1361,1019,1539,1045"/>
+<area shape="rect" id="node8" href="task__mouse_8c.html#aa8f5c0436e569589e735c419fc3d0ed8" title="FUNCTIONAL TASK &#45; Trigger mouse action. " alt="" coords="651,5,744,32"/>
+<area shape="rect" id="node9" href="task__mouse_8c.html#ab5cfaaac2cd4ec6fc79546f847db96de" title="Get the current mouse wheel step size. " alt="" coords="894,120,1021,147"/>
+<area shape="rect" id="node11" href="task__commands_8c.html#acea81ba8a182ae78feb2db6418fc1806" title="sendErrorBack" alt="" coords="643,715,751,741"/>
+<area shape="rect" id="node17" href="task__mouse_8c.html#ac5aaa616044b7bef9f75347719181dbe" title="Set current mouse wheel step size. " alt="" coords="894,259,1021,285"/>
+<area shape="rect" id="node10" href="config__switcher_8c.html#a921538bec34d128a44a748fd5a2c391f" title="Get the current config struct. " alt="" coords="1153,601,1275,628"/>
+<area shape="rect" id="node12" href="task__commands_8c.html#ad59215648a26578c22baa7ceae099e0e" title="Print the current slot configurations (general settings + VBs) " alt="" coords="911,917,1003,944"/>
+<area shape="rect" id="node13" href="hal__storage_8c.html#ac67aaf5a3af4140bff3d7c134b9d771f" title="Start a storage transaction. " alt="" coords="1124,1323,1304,1349"/>
+<area shape="rect" id="node15" href="hal__storage_8c.html#a7e0a934f829b47e2445189dd95e962d6" title="Get the number of stored slots. " alt="" coords="1117,785,1311,812"/>
+<area shape="rect" id="node16" href="hal__storage_8c.html#a00b5db14e24d7ada8a42aa6b3f1a1cb7" title="Finish a storage transaction. " alt="" coords="1121,1120,1307,1147"/>
+<area shape="rect" id="node14" href="hal__storage_8c.html#a606e5842dd354f1fb4a738ba95c6d5d1" title="internal function to init the filesystem if handle is invalid " alt="" coords="1399,1323,1501,1349"/>
+<area shape="rect" id="node19" href="config__switcher_8c.html#a083adf41746c3380dcc6dbc099047f2e" title="FUNCTIONAL TASK &#45; Load another slot. " alt="" coords="1145,537,1283,564"/>
+<area shape="rect" id="node20" href="hal__storage_8c.html#aadf9ff06990d0f0af2eea2e6f2b8082a" title="Store a generalConfig_t struct. " alt="" coords="1157,436,1271,463"/>
+<area shape="rect" id="node21" href="hal__storage_8c.html#a1503debb336ea2d708e4e0884c7aa6a3" title="Store a virtual button config struct. " alt="" coords="1115,487,1313,513"/>
+<area shape="rect" id="node23" href="task__kbd_8c.html#a8ff4618047a049178bfb1d60abfefb5d" title="FUNCTIONAL TASK &#45; trigger keyboard actions. " alt="" coords="644,563,751,589"/>
+<area shape="rect" id="node24" href="keyboard_8c.html#add849eefda31316c7d22d45f49e261e2" title="Parse a decoded code point to a keycode, step 2. " alt="" coords="627,208,768,235"/>
+<area shape="rect" id="node25" href="keyboard_8c.html#a6b593fa493aea40be410640981b1c181" title="Parse a keycode for deadkey input, step 3. " alt="" coords="625,259,770,285"/>
+<area shape="rect" id="node26" href="keyboard_8c.html#a464318439ffe82e71e063a5c9582aa69" title="Mask the keycode to get the HID keycode, step 4. " alt="" coords="639,309,756,336"/>
+<area shape="rect" id="node27" href="keyboard_8c.html#acdbf297ed74d4534f035e0732c2f1081" title="Mask the keycode to get the modifiers, step 5. " alt="" coords="626,360,769,387"/>
+<area shape="rect" id="node28" href="keyboard_8c.html#a74d92b54cde636cae76575e8b0cad378" title="Parse a key identifier to a keycode. " alt="" coords="612,411,783,437"/>
+<area shape="rect" id="node29" href="keyboard_8c.html#aa5712a49152638257c16d39ea798a43e" title="Is this keycode a modifier? " alt="" coords="627,461,768,488"/>
+<area shape="rect" id="node31" href="hal__ble_8c.html#accf307974a0046bce38582d0260bf841" title="halBLEReset" alt="" coords="648,968,747,995"/>
+<area shape="rect" id="node32" href="hal__serial_8c.html#ab2261f95747ee5806ebdec880d09ca89" title="Reset the serial HID report data. " alt="" coords="904,968,1011,995"/>
+<area shape="rect" id="node33" href="hal__storage_8c.html#a18ba4afaa3fc6e4c16180a79c330ad41" title="Get free memory (IR &amp; slot storage) " alt="" coords="632,1069,763,1096"/>
+<area shape="rect" id="node34" href="hal__storage_8c.html#a5fe9e276fd05e50e4ab9d554ef6f58ca" title="Delete one or all slots. " alt="" coords="625,1120,770,1147"/>
+<area shape="rect" id="node35" href="hal__storage_8c.html#aae19bcf97360ccd7af4ddf906ff85141" title="Get the number of a slotname. " alt="" coords="595,1171,800,1197"/>
+<area shape="rect" id="node37" href="task__infrared_8c.html#a2950159444d03958630c6731bd1600c9" title="FUNCTIONAL TASK &#45; Infrared command sending. " alt="" coords="909,1424,1006,1451"/>
+<area shape="rect" id="node38" href="hal__storage_8c.html#a8347d2c8df82d17bc9af1d007bfd11ae" title="Delete one or all IR commands. " alt="" coords="875,1475,1039,1501"/>
+<area shape="rect" id="node39" href="hal__storage_8c.html#a531bc39bc2808762298d14b79ac453cd" title="Get the number of an IR command. " alt="" coords="848,1525,1067,1552"/>
+<area shape="rect" id="node40" href="task__infrared_8c.html#a3b5b7c90c92398748f28c75b55edccda" title="Trigger an IR command recording. " alt="" coords="903,1221,1011,1248"/>
+<area shape="rect" id="node41" href="hal__storage_8c.html#a1495c793604980c76b334f6a6d553c3c" title="Get the number of stored IR commands. " alt="" coords="850,1272,1065,1299"/>
+<area shape="rect" id="node42" href="hal__storage_8c.html#a53912e9159b29e5fc974a127dbf0982f" title="Get the name of an infrared command stored at the given slot number. " alt="" coords="848,1323,1067,1349"/>
+<area shape="rect" id="node44" href="task__joystick_8c.html#a3040132b9cef8e73060fcd9c17dc116b" title="FUNCTIONAL TASK &#45; Trigger joystick action. " alt="" coords="648,765,747,792"/>
+<area shape="rect" id="node46" href="hal__adc_8c.html#a3217185bc86562dee8617ded3872022f" title="FUNCTIONAL TASK &#45; Trigger zero&#45;point calibration of mouthpiece. " alt="" coords="641,664,754,691"/>
+<area shape="rect" id="node48" href="task__macros_8c.html#a7acda2dcac23ebfffade8a15b40d219f" title="FUNCTIONAL TASK &#45; Macro execution. " alt="" coords="652,1551,743,1577"/>
 </map>
 </div>
 <div class="dynheader">
@@ -242,61 +242,61 @@ Here is the caller graph for this function:</div>
 <p>Restart the command parser task</p>
 <p>This method is used, if the CIM parser detects AT commands and stops itself, providing the AT command set again. </p><dl class="section return"><dt>Returns</dt><dd>ESP_OK on success, ESP_FAIL otherwise (cannot start task, task already running) </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="task__commands_8c_source.html#l01666">1666</a> of file <a class="el" href="task__commands_8c_source.html">task_commands.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="task__commands_8c_source.html#l01667">1667</a> of file <a class="el" href="task__commands_8c_source.html">task_commands.c</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="task__commands_8h_a26091155b4d85093239033d689f363d0_cgraph.png" border="0" usemap="#task__commands_8h_a26091155b4d85093239033d689f363d0_cgraph" alt=""/></div>
 <map name="task__commands_8h_a26091155b4d85093239033d689f363d0_cgraph" id="task__commands_8h_a26091155b4d85093239033d689f363d0_cgraph">
-<area shape="rect" id="node2" href="task__commands_8c.html#a7b36c39275d773aaedcb327ef4e1516f" title="task_commands" alt="" coords="211,1077,329,1103"/>
-<area shape="rect" id="node3" href="task__commands_8c.html#adf3aa67816eecac3e756189c9d61cbd2" title="checkqueues" alt="" coords="425,367,524,394"/>
-<area shape="rect" id="node4" href="hal__serial_8c.html#a131377105453d5b94f02f977ff454613" title="Read parsed AT commands from USB&#45;Serial (USB&#45;CDC) " alt="" coords="384,418,565,445"/>
-<area shape="rect" id="node5" href="hal__serial_8c.html#a8f987ba001c2a39c959a551a94b5df43" title="Send serial bytes to USB&#45;Serial (USB&#45;CDC) " alt="" coords="1127,1026,1289,1053"/>
-<area shape="rect" id="node7" href="task__commands_8c.html#a580d9f6a840975525358033a35f761d0" title="doMouseParsing" alt="" coords="415,1127,534,1154"/>
-<area shape="rect" id="node19" href="task__commands_8c.html#a69b0c55558b32caa21407de8e2277be9" title="doStorageParsing" alt="" coords="885,519,1011,546"/>
-<area shape="rect" id="node23" href="task__commands_8c.html#ac3c72c089d32dea93c45f4f9f8d1f244" title="doKeyboardParsing" alt="" coords="407,1406,542,1433"/>
-<area shape="rect" id="node31" href="task__commands_8c.html#a7f6500be563a3dce7f0854fceed02fab" title="doGeneralCmdParsing" alt="" coords="398,747,551,774"/>
-<area shape="rect" id="node37" href="task__commands_8c.html#a937cdeb2f02b0c5d9a0f94a0f69e9328" title="doInfraredParsing" alt="" coords="643,317,767,343"/>
-<area shape="rect" id="node44" href="task__commands_8c.html#afc7ebe31a124c2102f8b41577b6dc5b0" title="doJoystickParsing" alt="" coords="410,1077,539,1103"/>
-<area shape="rect" id="node45" href="task__commands_8c.html#a2ad28759e53bb5082853d8d004767115" title="doMouthpieceSettingsParsing" alt="" coords="377,1026,572,1053"/>
-<area shape="rect" id="node47" href="task__commands_8c.html#acdd5ac250a84f0f62d23f174b7366432" title="doMacroParsing" alt="" coords="417,1735,533,1762"/>
-<area shape="rect" id="node49" href="config__switcher_8c.html#a20db6aabb98f5c9c7cea48e950bada5b" title="Update one virtual button. " alt="" coords="416,1837,533,1863"/>
-<area shape="rect" id="node50" href="config__switcher_8c.html#a4c2e410d8032c65c0700c6ca07429074" title="Trigger a config update. " alt="" coords="656,1811,755,1838"/>
-<area shape="rect" id="node6" href="hal__serial_8c.html#a132de0978f07044a393cc1f3b5276ced" title="halSerialSwitchTXChannel" alt="" coords="1359,1026,1536,1053"/>
-<area shape="rect" id="node8" href="task__mouse_8c.html#aa8f5c0436e569589e735c419fc3d0ed8" title="FUNCTIONAL TASK &#45; Trigger mouse action. " alt="" coords="659,1229,752,1255"/>
-<area shape="rect" id="node9" href="task__mouse_8c.html#ab5cfaaac2cd4ec6fc79546f847db96de" title="Get the current mouse wheel step size. " alt="" coords="885,1026,1011,1053"/>
-<area shape="rect" id="node11" href="task__commands_8c.html#acea81ba8a182ae78feb2db6418fc1806" title="sendErrorBack" alt="" coords="651,1077,759,1103"/>
-<area shape="rect" id="node18" href="task__mouse_8c.html#ac5aaa616044b7bef9f75347719181dbe" title="Set current mouse wheel step size. " alt="" coords="885,975,1011,1002"/>
-<area shape="rect" id="node10" href="config__switcher_8c.html#a921538bec34d128a44a748fd5a2c391f" title="Get the current config struct. " alt="" coords="1147,849,1269,875"/>
-<area shape="rect" id="node12" href="task__commands_8c.html#ad59215648a26578c22baa7ceae099e0e" title="Print the current slot configurations (general settings + VBs) " alt="" coords="902,671,994,698"/>
-<area shape="rect" id="node13" href="hal__storage_8c.html#ac67aaf5a3af4140bff3d7c134b9d771f" title="Start a storage transaction. " alt="" coords="1118,342,1298,369"/>
-<area shape="rect" id="node15" href="hal__storage_8c.html#a7e0a934f829b47e2445189dd95e962d6" title="Get the number of stored slots. " alt="" coords="1111,671,1305,698"/>
-<area shape="rect" id="node17" href="hal__storage_8c.html#a00b5db14e24d7ada8a42aa6b3f1a1cb7" title="Finish a storage transaction. " alt="" coords="1115,418,1301,445"/>
-<area shape="rect" id="node14" href="hal__storage_8c.html#a606e5842dd354f1fb4a738ba95c6d5d1" title="internal function to init the filesystem if handle is invalid " alt="" coords="1396,342,1499,369"/>
-<area shape="rect" id="node16" href="hal__storage_8c.html#a4b6566ef5b69c85d422df52435c95d36" title="Internal helper to check for a valid WL handle and the correct tid. " alt="" coords="1383,519,1512,546"/>
-<area shape="rect" id="node20" href="config__switcher_8c.html#a083adf41746c3380dcc6dbc099047f2e" title="FUNCTIONAL TASK &#45; Load another slot. " alt="" coords="1139,469,1277,495"/>
-<area shape="rect" id="node21" href="hal__storage_8c.html#aadf9ff06990d0f0af2eea2e6f2b8082a" title="Store a generalConfig_t struct. " alt="" coords="1151,570,1265,597"/>
-<area shape="rect" id="node22" href="hal__storage_8c.html#a1503debb336ea2d708e4e0884c7aa6a3" title="Store a virtual button config struct. " alt="" coords="1109,519,1307,546"/>
-<area shape="rect" id="node24" href="task__kbd_8c.html#a8ff4618047a049178bfb1d60abfefb5d" title="FUNCTIONAL TASK &#45; trigger keyboard actions. " alt="" coords="652,1583,759,1610"/>
-<area shape="rect" id="node25" href="keyboard_8c.html#add849eefda31316c7d22d45f49e261e2" title="Parse a decoded code point to a keycode, step 2. " alt="" coords="635,1634,776,1661"/>
-<area shape="rect" id="node26" href="keyboard_8c.html#a6b593fa493aea40be410640981b1c181" title="Parse a keycode for deadkey input, step 3. " alt="" coords="633,1381,778,1407"/>
-<area shape="rect" id="node27" href="keyboard_8c.html#a464318439ffe82e71e063a5c9582aa69" title="Mask the keycode to get the HID keycode, step 4. " alt="" coords="647,1431,764,1458"/>
-<area shape="rect" id="node28" href="keyboard_8c.html#acdbf297ed74d4534f035e0732c2f1081" title="Mask the keycode to get the modifiers, step 5. " alt="" coords="634,1482,777,1509"/>
-<area shape="rect" id="node29" href="keyboard_8c.html#a74d92b54cde636cae76575e8b0cad378" title="Parse a key identifier to a keycode. " alt="" coords="620,1533,791,1559"/>
-<area shape="rect" id="node30" href="keyboard_8c.html#aa5712a49152638257c16d39ea798a43e" title="Is this keycode a modifier? " alt="" coords="635,1330,776,1357"/>
-<area shape="rect" id="node32" href="hal__ble_8c.html#accf307974a0046bce38582d0260bf841" title="halBLEReset" alt="" coords="656,823,755,850"/>
-<area shape="rect" id="node33" href="hal__serial_8c.html#ab2261f95747ee5806ebdec880d09ca89" title="Reset the serial HID report data. " alt="" coords="895,1127,1001,1154"/>
-<area shape="rect" id="node34" href="hal__storage_8c.html#a18ba4afaa3fc6e4c16180a79c330ad41" title="Get free memory (IR &amp; slot storage) " alt="" coords="640,671,771,698"/>
-<area shape="rect" id="node35" href="hal__storage_8c.html#a5fe9e276fd05e50e4ab9d554ef6f58ca" title="Delete one or all slots. " alt="" coords="875,722,1021,749"/>
-<area shape="rect" id="node36" href="hal__storage_8c.html#aae19bcf97360ccd7af4ddf906ff85141" title="Get the number of a slotname. " alt="" coords="1105,621,1311,647"/>
-<area shape="rect" id="node38" href="task__infrared_8c.html#a2950159444d03958630c6731bd1600c9" title="FUNCTIONAL TASK &#45; Infrared command sending. " alt="" coords="899,367,997,394"/>
-<area shape="rect" id="node39" href="hal__storage_8c.html#a8347d2c8df82d17bc9af1d007bfd11ae" title="Delete one or all IR commands. " alt="" coords="1126,21,1290,47"/>
-<area shape="rect" id="node40" href="hal__storage_8c.html#a531bc39bc2808762298d14b79ac453cd" title="Get the number of an IR command. " alt="" coords="839,63,1057,90"/>
-<area shape="rect" id="node41" href="task__infrared_8c.html#a6f7bfd75e03bde856f3e5fc9a2391fe3" title="Trigger an IR command recording. " alt="" coords="894,317,1002,343"/>
-<area shape="rect" id="node42" href="hal__storage_8c.html#a1495c793604980c76b334f6a6d553c3c" title="Get the number of stored IR commands. " alt="" coords="841,114,1055,141"/>
-<area shape="rect" id="node43" href="hal__storage_8c.html#a53912e9159b29e5fc974a127dbf0982f" title="Get the name of an infrared command stored at the given slot number. " alt="" coords="839,165,1057,191"/>
-<area shape="rect" id="node46" href="hal__adc_8c.html#a3217185bc86562dee8617ded3872022f" title="FUNCTIONAL TASK &#45; Trigger zero&#45;point calibration of mouthpiece. " alt="" coords="649,1026,762,1053"/>
-<area shape="rect" id="node48" href="task__macros_8c.html#a7acda2dcac23ebfffade8a15b40d219f" title="FUNCTIONAL TASK &#45; Macro execution. " alt="" coords="660,1735,751,1762"/>
+<area shape="rect" id="node2" href="task__commands_8c.html#a7b36c39275d773aaedcb327ef4e1516f" title="task_commands" alt="" coords="211,753,329,780"/>
+<area shape="rect" id="node3" href="task__commands_8c.html#adf3aa67816eecac3e756189c9d61cbd2" title="checkqueues" alt="" coords="425,5,524,32"/>
+<area shape="rect" id="node4" href="hal__serial_8c.html#a131377105453d5b94f02f977ff454613" title="Read parsed AT commands from USB&#45;Serial (USB&#45;CDC) " alt="" coords="384,56,565,83"/>
+<area shape="rect" id="node5" href="hal__serial_8c.html#a8f987ba001c2a39c959a551a94b5df43" title="Send serial bytes to USB&#45;Serial (USB&#45;CDC) " alt="" coords="1158,1019,1321,1045"/>
+<area shape="rect" id="node7" href="task__commands_8c.html#a580d9f6a840975525358033a35f761d0" title="doMouseParsing" alt="" coords="415,107,534,133"/>
+<area shape="rect" id="node18" href="task__commands_8c.html#a69b0c55558b32caa21407de8e2277be9" title="doStorageParsing" alt="" coords="920,487,1045,513"/>
+<area shape="rect" id="node22" href="task__commands_8c.html#ac3c72c089d32dea93c45f4f9f8d1f244" title="doKeyboardParsing" alt="" coords="407,436,542,463"/>
+<area shape="rect" id="node30" href="task__commands_8c.html#a7f6500be563a3dce7f0854fceed02fab" title="doGeneralCmdParsing" alt="" coords="398,993,551,1020"/>
+<area shape="rect" id="node36" href="task__commands_8c.html#a937cdeb2f02b0c5d9a0f94a0f69e9328" title="doInfraredParsing" alt="" coords="661,1323,785,1349"/>
+<area shape="rect" id="node43" href="task__commands_8c.html#afc7ebe31a124c2102f8b41577b6dc5b0" title="doJoystickParsing" alt="" coords="410,753,539,780"/>
+<area shape="rect" id="node45" href="task__commands_8c.html#a2ad28759e53bb5082853d8d004767115" title="doMouthpieceSettingsParsing" alt="" coords="377,689,572,716"/>
+<area shape="rect" id="node47" href="task__commands_8c.html#acdd5ac250a84f0f62d23f174b7366432" title="doMacroParsing" alt="" coords="417,1436,533,1463"/>
+<area shape="rect" id="node49" href="config__switcher_8c.html#a20db6aabb98f5c9c7cea48e950bada5b" title="Update one virtual button. " alt="" coords="416,1585,533,1612"/>
+<area shape="rect" id="node50" href="config__switcher_8c.html#a4c2e410d8032c65c0700c6ca07429074" title="Trigger a config update. " alt="" coords="673,1601,772,1628"/>
+<area shape="rect" id="node6" href="hal__serial_8c.html#a132de0978f07044a393cc1f3b5276ced" title="halSerialSwitchTXChannel" alt="" coords="1387,1019,1564,1045"/>
+<area shape="rect" id="node8" href="task__mouse_8c.html#aa8f5c0436e569589e735c419fc3d0ed8" title="FUNCTIONAL TASK &#45; Trigger mouse action. " alt="" coords="676,5,769,32"/>
+<area shape="rect" id="node9" href="task__mouse_8c.html#ab5cfaaac2cd4ec6fc79546f847db96de" title="Get the current mouse wheel step size. " alt="" coords="919,120,1046,147"/>
+<area shape="rect" id="node11" href="task__commands_8c.html#acea81ba8a182ae78feb2db6418fc1806" title="sendErrorBack" alt="" coords="669,715,777,741"/>
+<area shape="rect" id="node17" href="task__mouse_8c.html#ac5aaa616044b7bef9f75347719181dbe" title="Set current mouse wheel step size. " alt="" coords="919,259,1046,285"/>
+<area shape="rect" id="node10" href="config__switcher_8c.html#a921538bec34d128a44a748fd5a2c391f" title="Get the current config struct. " alt="" coords="1179,601,1300,628"/>
+<area shape="rect" id="node12" href="task__commands_8c.html#ad59215648a26578c22baa7ceae099e0e" title="Print the current slot configurations (general settings + VBs) " alt="" coords="937,917,1029,944"/>
+<area shape="rect" id="node13" href="hal__storage_8c.html#ac67aaf5a3af4140bff3d7c134b9d771f" title="Start a storage transaction. " alt="" coords="1149,1323,1329,1349"/>
+<area shape="rect" id="node15" href="hal__storage_8c.html#a7e0a934f829b47e2445189dd95e962d6" title="Get the number of stored slots. " alt="" coords="1142,785,1337,812"/>
+<area shape="rect" id="node16" href="hal__storage_8c.html#a00b5db14e24d7ada8a42aa6b3f1a1cb7" title="Finish a storage transaction. " alt="" coords="1146,1120,1333,1147"/>
+<area shape="rect" id="node14" href="hal__storage_8c.html#a606e5842dd354f1fb4a738ba95c6d5d1" title="internal function to init the filesystem if handle is invalid " alt="" coords="1424,1323,1527,1349"/>
+<area shape="rect" id="node19" href="config__switcher_8c.html#a083adf41746c3380dcc6dbc099047f2e" title="FUNCTIONAL TASK &#45; Load another slot. " alt="" coords="1170,537,1309,564"/>
+<area shape="rect" id="node20" href="hal__storage_8c.html#aadf9ff06990d0f0af2eea2e6f2b8082a" title="Store a generalConfig_t struct. " alt="" coords="1182,436,1297,463"/>
+<area shape="rect" id="node21" href="hal__storage_8c.html#a1503debb336ea2d708e4e0884c7aa6a3" title="Store a virtual button config struct. " alt="" coords="1140,487,1339,513"/>
+<area shape="rect" id="node23" href="task__kbd_8c.html#a8ff4618047a049178bfb1d60abfefb5d" title="FUNCTIONAL TASK &#45; trigger keyboard actions. " alt="" coords="669,563,776,589"/>
+<area shape="rect" id="node24" href="keyboard_8c.html#add849eefda31316c7d22d45f49e261e2" title="Parse a decoded code point to a keycode, step 2. " alt="" coords="652,208,793,235"/>
+<area shape="rect" id="node25" href="keyboard_8c.html#a6b593fa493aea40be410640981b1c181" title="Parse a keycode for deadkey input, step 3. " alt="" coords="650,259,795,285"/>
+<area shape="rect" id="node26" href="keyboard_8c.html#a464318439ffe82e71e063a5c9582aa69" title="Mask the keycode to get the HID keycode, step 4. " alt="" coords="664,309,781,336"/>
+<area shape="rect" id="node27" href="keyboard_8c.html#acdbf297ed74d4534f035e0732c2f1081" title="Mask the keycode to get the modifiers, step 5. " alt="" coords="651,360,794,387"/>
+<area shape="rect" id="node28" href="keyboard_8c.html#a74d92b54cde636cae76575e8b0cad378" title="Parse a key identifier to a keycode. " alt="" coords="637,411,808,437"/>
+<area shape="rect" id="node29" href="keyboard_8c.html#aa5712a49152638257c16d39ea798a43e" title="Is this keycode a modifier? " alt="" coords="652,461,793,488"/>
+<area shape="rect" id="node31" href="hal__ble_8c.html#accf307974a0046bce38582d0260bf841" title="halBLEReset" alt="" coords="673,968,772,995"/>
+<area shape="rect" id="node32" href="hal__serial_8c.html#ab2261f95747ee5806ebdec880d09ca89" title="Reset the serial HID report data. " alt="" coords="929,968,1036,995"/>
+<area shape="rect" id="node33" href="hal__storage_8c.html#a18ba4afaa3fc6e4c16180a79c330ad41" title="Get free memory (IR &amp; slot storage) " alt="" coords="657,1069,788,1096"/>
+<area shape="rect" id="node34" href="hal__storage_8c.html#a5fe9e276fd05e50e4ab9d554ef6f58ca" title="Delete one or all slots. " alt="" coords="650,1120,795,1147"/>
+<area shape="rect" id="node35" href="hal__storage_8c.html#aae19bcf97360ccd7af4ddf906ff85141" title="Get the number of a slotname. " alt="" coords="620,1171,825,1197"/>
+<area shape="rect" id="node37" href="task__infrared_8c.html#a2950159444d03958630c6731bd1600c9" title="FUNCTIONAL TASK &#45; Infrared command sending. " alt="" coords="934,1424,1031,1451"/>
+<area shape="rect" id="node38" href="hal__storage_8c.html#a8347d2c8df82d17bc9af1d007bfd11ae" title="Delete one or all IR commands. " alt="" coords="901,1475,1065,1501"/>
+<area shape="rect" id="node39" href="hal__storage_8c.html#a531bc39bc2808762298d14b79ac453cd" title="Get the number of an IR command. " alt="" coords="873,1525,1092,1552"/>
+<area shape="rect" id="node40" href="task__infrared_8c.html#a3b5b7c90c92398748f28c75b55edccda" title="Trigger an IR command recording. " alt="" coords="929,1221,1037,1248"/>
+<area shape="rect" id="node41" href="hal__storage_8c.html#a1495c793604980c76b334f6a6d553c3c" title="Get the number of stored IR commands. " alt="" coords="875,1272,1090,1299"/>
+<area shape="rect" id="node42" href="hal__storage_8c.html#a53912e9159b29e5fc974a127dbf0982f" title="Get the name of an infrared command stored at the given slot number. " alt="" coords="873,1323,1092,1349"/>
+<area shape="rect" id="node44" href="task__joystick_8c.html#a3040132b9cef8e73060fcd9c17dc116b" title="FUNCTIONAL TASK &#45; Trigger joystick action. " alt="" coords="673,765,772,792"/>
+<area shape="rect" id="node46" href="hal__adc_8c.html#a3217185bc86562dee8617ded3872022f" title="FUNCTIONAL TASK &#45; Trigger zero&#45;point calibration of mouthpiece. " alt="" coords="666,664,779,691"/>
+<area shape="rect" id="node48" href="task__macros_8c.html#a7acda2dcac23ebfffade8a15b40d219f" title="FUNCTIONAL TASK &#45; Macro execution. " alt="" coords="677,1551,768,1577"/>
 </map>
 </div>
 

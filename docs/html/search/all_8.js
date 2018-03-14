@@ -6,7 +6,7 @@ var searchData=
   ['in_5fuse',['in_use',['../structhidd__clcb__t.html#aa7f4716107ea37701cfd5d97a96d6fbc',1,'hidd_clcb_t']]],
   ['incl_5fsvc',['incl_svc',['../hid__device__le__prf_8c.html#acc79618f323c3868b5c3ddde94482bb0',1,'hid_device_le_prf.c']]],
   ['include_5fservice_5fuuid',['include_service_uuid',['../hid__device__le__prf_8c.html#adc6e894d122567caf42e17340513cb43',1,'hid_device_le_prf.c']]],
-  ['infrared_5frecord',['infrared_record',['../task__infrared_8c.html#a6f7bfd75e03bde856f3e5fc9a2391fe3',1,'infrared_record(char *cmdName):&#160;task_infrared.c'],['../task__infrared_8h.html#a6f7bfd75e03bde856f3e5fc9a2391fe3',1,'infrared_record(char *cmdName):&#160;task_infrared.c']]],
+  ['infrared_5frecord',['infrared_record',['../task__infrared_8c.html#a3b5b7c90c92398748f28c75b55edccda',1,'infrared_record(char *cmdName, uint8_t outputtoserial):&#160;task_infrared.c'],['../task__infrared_8h.html#a3b5b7c90c92398748f28c75b55edccda',1,'infrared_record(char *cmdName, uint8_t outputtoserial):&#160;task_infrared.c']]],
   ['infrared_5fset_5fedge_5ftimeout',['infrared_set_edge_timeout',['../task__infrared_8c.html#a085c1313247cfb56fc663527aa3bdb49',1,'infrared_set_edge_timeout(uint8_t timeout):&#160;task_infrared.c'],['../task__infrared_8h.html#a085c1313247cfb56fc663527aa3bdb49',1,'infrared_set_edge_timeout(uint8_t timeout):&#160;task_infrared.c']]],
   ['init_5ffinish',['init_finish',['../unionesp__hidd__cb__param__t.html#ae8d840a7abce7fcdaf029d57764fcf81',1,'esp_hidd_cb_param_t']]],
   ['inst_5fid',['inst_id',['../structhidd__le__env__t.html#a4103c29a8c2e95d569a065255d470a23',1,'hidd_le_env_t']]],

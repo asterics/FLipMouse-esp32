@@ -1026,7 +1026,7 @@ esp_err_t halStorageLoadNumber(uint8_t slotnumber, generalConfig_t *cfg, uint32_
   {
     //did not get a full config, maybe EOF.
     ESP_LOGE(LOG_TAG,"cannot read general config, feof: %d",feof(f));
-    ESP_LOG_BUFFER_HEXDUMP(LOG_TAG,cfg,sizeof(generalConfig_t),ESP_LOG_DEBUG);
+    ESP_LOG_BUFFER_HEXDUMP(LOG_TAG,cfg,sizeof(generalConfig_t),ESP_LOG_VERBOSE);
     fclose(f);
     free(slotname);
     return ESP_FAIL;
@@ -1035,7 +1035,7 @@ esp_err_t halStorageLoadNumber(uint8_t slotnumber, generalConfig_t *cfg, uint32_
   //TODO: check slot storage version, upgrade on any difference
   
   ESP_LOGW(LOG_TAG,"Loaded slot %s,nr: %d",slotname,slotnumber);
-  ESP_LOG_BUFFER_HEXDUMP(LOG_TAG,cfg,sizeof(generalConfig_t),ESP_LOG_DEBUG);
+  ESP_LOG_BUFFER_HEXDUMP(LOG_TAG,cfg,sizeof(generalConfig_t),ESP_LOG_VERBOSE);
   
   //compare checksums
   mbedtls_md5((unsigned char *)cfg, sizeof(generalConfig_t), md5sumstruct);
@@ -1195,7 +1195,7 @@ esp_err_t halStorageLoadGetVBConfigs(uint8_t vb, void * vb_config, size_t vb_con
   
   fclose(f);
   ESP_LOGD(LOG_TAG,"Successfully loaded slotnumber %d, VB%d, payload: %d",storageCurrentSlotNumber,vb,vb_config_size);
-  ESP_LOG_BUFFER_HEXDUMP(LOG_TAG,vb_config,vb_config_size,ESP_LOG_DEBUG);
+  ESP_LOG_BUFFER_HEXDUMP(LOG_TAG,vb_config,vb_config_size,ESP_LOG_VERBOSE);
   return ESP_OK;
 }
 
@@ -1290,7 +1290,7 @@ esp_err_t halStorageStore(uint32_t tid, generalConfig_t *cfg, char *slotname, ui
     return ESP_FAIL;
   } else {
     ESP_LOGD(LOG_TAG,"Successfully stored slotnumber %u with %u bytes payload", slotnumber, sizeof(generalConfig_t));
-    ESP_LOG_BUFFER_HEXDUMP(LOG_TAG,cfg,sizeof(generalConfig_t),ESP_LOG_DEBUG);
+    ESP_LOG_BUFFER_HEXDUMP(LOG_TAG,cfg,sizeof(generalConfig_t),ESP_LOG_VERBOSE);
   }
   
   //clean up
@@ -1384,7 +1384,7 @@ esp_err_t halStorageStoreIR(uint32_t tid, halIOIR_t *cfg, char *cmdName)
   } else {
     ESP_LOGD(LOG_TAG,"Successfully stored IR cmd %u (%s) with %u bytes payload (length %d)", \
       cmdnumber, cmdName, sizeof(rmt_item32_t)*cfg->count, cfg->count);
-    ESP_LOG_BUFFER_HEXDUMP(LOG_TAG,cfg->buffer,sizeof(rmt_item32_t)*cfg->count,ESP_LOG_DEBUG);
+    ESP_LOG_BUFFER_HEXDUMP(LOG_TAG,cfg->buffer,sizeof(rmt_item32_t)*cfg->count,ESP_LOG_VERBOSE);
   }
   
   //clean up
@@ -1478,7 +1478,7 @@ esp_err_t halStorageStoreSetVBConfigs(uint8_t slotnumber, uint8_t vb, void *conf
   
   fclose(f);
   ESP_LOGD(LOG_TAG,"Successfully stored slotnumber %d, VB%d, payload: %d",slotnumber,vb,configsize);
-  ESP_LOG_BUFFER_HEXDUMP(LOG_TAG,config,configsize,ESP_LOG_DEBUG);
+  ESP_LOG_BUFFER_HEXDUMP(LOG_TAG,config,configsize,ESP_LOG_VERBOSE);
   return ESP_OK;
 }
 
@@ -1572,7 +1572,7 @@ esp_err_t halStorageLoadIR(char *cmdName, halIOIR_t *cfg, uint32_t tid)
           cfg->count = irlength;
           
           //debug output
-          ESP_LOG_BUFFER_HEXDUMP(LOG_TAG,cfg->buffer,sizeof(rmt_item32_t)*cfg->count,ESP_LOG_DEBUG);
+          ESP_LOG_BUFFER_HEXDUMP(LOG_TAG,cfg->buffer,sizeof(rmt_item32_t)*cfg->count,ESP_LOG_VERBOSE);
       } else {
         //didn't get a buffer pointer
         ESP_LOGE(LOG_TAG,"No memory for IR command");

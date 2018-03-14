@@ -137,8 +137,13 @@ void halIOIRSendTask(void * param)
       //after finished transmission, this callback frees this buffer
       rmt_register_tx_end_callback(halIOIRFree,recv.buffer);
       ESP_LOGD(LOG_TAG,"Sending %d items @%d",recv.count,(uint32_t)recv.buffer);
+      
+      //debug output
+      ESP_LOG_BUFFER_HEXDUMP(LOG_TAG,recv.buffer,sizeof(rmt_item32_t)*recv.count,ESP_LOG_VERBOSE);
+          
       //To send data according to the waveform items.
-      rmt_write_items(0, recv.buffer, recv.count, false);
+      esp_err_t ret = rmt_write_items(0, recv.buffer, recv.count, false);
+      if(ret != ESP_OK) ESP_LOGE(LOG_TAG,"Error writing RMT items: %d",ret);
     }
   }
 }
@@ -178,15 +183,14 @@ void halIOIRRecvTask(void * param)
       ESP_LOGI(LOG_TAG,"IR recv triggered.");
       
       //acquire buffer for ALL possible receiving elements
-      rmt_item32_t *buf = malloc(sizeof(rmt_item32_t)*TASK_HAL_IR_RECV_MAXIMUM_EDGES);
       uint16_t offset = 0;
       size_t rx_size = 0;
       uint16_t local_timeout = 0;
       
       //check buffer
-      if(buf == NULL)
+      if(recv->buffer == NULL)
       {
-        ESP_LOGE(LOG_TAG,"Not enough memory for receiving IR commands!");
+        ESP_LOGE(LOG_TAG,"Please provide a buffer for receiving IR!");
         continue;
       }
       
@@ -201,7 +205,15 @@ void halIOIRRecvTask(void * param)
         //got one item
         if(item != NULL) {
           //put data into buffer
-          memcpy(&buf[offset], item, sizeof(rmt_item32_t)*rx_size);
+          memcpy(&recv->buffer[offset], item, sizeof(rmt_item32_t)*rx_size);
+
+          //invert active mode by inverting bits level0 and level1 in each item
+          for(size_t i = 0; i<rx_size;i++) 
+          {
+            recv->buffer[offset+i].level0 = !recv->buffer[offset+i].level0;
+            recv->buffer[offset+i].level1 = !recv->buffer[offset+i].level1;
+          }
+          //increase offset for next received item
           offset+= rx_size;
           
           //give item back to ringbuffer
@@ -211,6 +223,7 @@ void halIOIRRecvTask(void * param)
           {
             ESP_LOGE(LOG_TAG,"Too much IR edges, finished");
             recv->status = IR_OVERFLOW;
+            recv->count = 0;
             break;
           }
         } else {
@@ -221,6 +234,7 @@ void halIOIRRecvTask(void * param)
             //timeout, cancel
             rmt_rx_stop(4);
             recv->status = IR_TOOSHORT;
+            recv->count = 0;
             ESP_LOGE(LOG_TAG,"No cmd");
             break;
           }
@@ -232,13 +246,13 @@ void halIOIRRecvTask(void * param)
             if(offset > TASK_HAL_IR_RECV_MINIMUM_EDGES)
             {
               //save everything necessary to pointer from queue
-              recv->buffer = buf;
               recv->count = offset;
               recv->status = IR_FINISHED;
-              ESP_LOGI(LOG_TAG,"Recorded @%d %d edges",(uint32_t) buf,offset);
+              ESP_LOGI(LOG_TAG,"Recorded @%d %d edges",(uint32_t)recv->buffer,offset);
             } else {
               //timeout, cancel
               recv->status = IR_TOOSHORT;
+              recv->count = 0;
               ESP_LOGE(LOG_TAG,"IR cmd too short");
             }
             rmt_rx_stop(4);
@@ -475,11 +489,11 @@ esp_err_t halIOInit(void)
   rmt_rx.rmt_mode = RMT_MODE_RX;
   rmt_rx.rx_config.filter_en = true;
   rmt_rx.rx_config.filter_ticks_thresh = RMT_TICK_10_US * 10;
-  rmt_rx.rx_config.idle_threshold = cfg->irtimeout * 100 * (RMT_TICK_10_US);
+  rmt_rx.rx_config.idle_threshold = cfg->irtimeout * 1000 * (RMT_TICK_10_US);
   //in case default config is 0, use another value
   if(rmt_rx.rx_config.idle_threshold == 0)
   {
-    rmt_rx.rx_config.idle_threshold = 10 * 100 * (RMT_TICK_10_US);
+    rmt_rx.rx_config.idle_threshold = 20 * 100 * (RMT_TICK_10_US);
   }
   ESP_LOGI(LOG_TAG,"Setting IR RX idle to %d",rmt_rx.rx_config.idle_threshold);
   if(rmt_config(&rmt_rx) != ESP_OK)

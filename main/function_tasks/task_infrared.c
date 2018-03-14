@@ -163,7 +163,19 @@ esp_err_t infrared_record(char* cmdName, uint8_t outputtoserial)
   
   //create the IR struct
   halIOIR_t *cfg = malloc(sizeof(halIOIR_t));
+  rmt_item32_t *buf = malloc(sizeof(rmt_item32_t)*TASK_HAL_IR_RECV_MAXIMUM_EDGES);
+  cfg->buffer = buf;
   cfg->status = IR_RECEIVING;
+  
+  //check if memory was allocated
+  if(buf == NULL || cfg == NULL)
+  {
+    ESP_LOGE(LOG_TAG,"Error allocating IR memory");
+    if(buf != NULL) free(buf);
+    if(cfg != NULL) free(cfg);
+    return ESP_FAIL;
+  }
+  
   
   //put it to queue
   //we assume there is space in the queue
@@ -177,6 +189,9 @@ esp_err_t infrared_record(char* cmdName, uint8_t outputtoserial)
     if((timeout/portTICK_PERIOD_MS) > TASK_HAL_IR_RECV_TIMEOUT)
     {
       ESP_LOGW(LOG_TAG,"IR timeout waiting for status change");
+      //free buffers
+      free(cfg);
+      free(buf);
       return ESP_FAIL;
     }
   }
@@ -185,14 +200,18 @@ esp_err_t infrared_record(char* cmdName, uint8_t outputtoserial)
   {
     case IR_TOOSHORT:
       ESP_LOGW(LOG_TAG,"IR cmd too short");
+      //free buffers
       free(cfg);
+      free(buf);
       return ESP_FAIL;
     case IR_FINISHED:
       //finished, storing
       if(halStorageStartTransaction(&tid, 20) != ESP_OK)
       {
         ESP_LOGE(LOG_TAG,"Cannot start transaction");
+        //free buffers
         free(cfg);
+        free(buf);
         return ESP_FAIL;
       }
       if(halStorageStoreIR(tid, cfg, cmdName) != ESP_OK)
@@ -215,16 +234,22 @@ esp_err_t infrared_record(char* cmdName, uint8_t outputtoserial)
       break;
     case IR_OVERFLOW:
       ESP_LOGW(LOG_TAG,"IR cmd too long");
+      //free buffers
       free(cfg);
+      free(buf);
       return ESP_FAIL;
     default:
       ESP_LOGE(LOG_TAG,"Unknown IR recv status");
+      //free buffers
       free(cfg);
+      free(buf);
       return ESP_FAIL;
   }
 
   //everything fine...
+  //free buffers
   free(cfg);
+  free(buf);
   return ESP_OK;
 }
 

@@ -480,6 +480,10 @@ parserstate_t doJoystickParsing(uint8_t *cmdBuffer, taskJoystickConfig_t *instan
   if(CMD4("AT J"))
   {
     //clear any previous data
+    requestVBTask = (void (*)(void *))&task_joystick;
+    requestVBParameterSize = sizeof(taskJoystickConfig_t);
+    requestVBParameter = instance;
+    requestVBType = T_JOYSTICK;
     memset(instance,0,sizeof(taskJoystickConfig_t));
     //save to config
     instance->virtualButton = requestVBUpdate;
@@ -487,10 +491,10 @@ parserstate_t doJoystickParsing(uint8_t *cmdBuffer, taskJoystickConfig_t *instan
     char t = cmdBuffer[4];
     
     //param 1
-    int32_t param1 = strtol((char*)&(cmdBuffer[5]),NULL,10);
-    //param 2 (release mode for commands)
-    ///@todo Is this offset from the end sufficient to detect param2 (release mode) for joystick?
-    unsigned int param2 = strtol((char*)&(cmdBuffer[length - 3]),NULL,10);
+    char *endparam1;
+    int32_t param1 = strtol((char*)&(cmdBuffer[5]),&endparam1,10);
+    //param 2 (release mode for commands), starting with end of param1 parsing
+    unsigned int param2 = strtol(endparam1,NULL,10);
     
     //parameter checks - buttons
     if(t == 'P' || t == 'C' || t == 'R')
@@ -500,7 +504,7 @@ parserstate_t doJoystickParsing(uint8_t *cmdBuffer, taskJoystickConfig_t *instan
         ESP_LOGE(LOG_TAG,"Joystick button out of range: %d",param1);
         sendErrorBack("Joystick button invalid");
         return UNKNOWNCMD;
-      }
+      } else instance->value = param1 - 1;
     }
     
     //parameter checks - hat
@@ -511,7 +515,7 @@ parserstate_t doJoystickParsing(uint8_t *cmdBuffer, taskJoystickConfig_t *instan
         ESP_LOGE(LOG_TAG,"Joystick hat out of range: %d",param1);
         sendErrorBack("Joystick hat value invalid");
         return UNKNOWNCMD;
-      }
+      } else instance->valueS = param1;
     }
     
     //parameter checks - axis
@@ -522,9 +526,7 @@ parserstate_t doJoystickParsing(uint8_t *cmdBuffer, taskJoystickConfig_t *instan
         ESP_LOGE(LOG_TAG,"Joystick axis out of range: %d",param1);
         sendErrorBack("Joystick axis value invalid");
         return UNKNOWNCMD;
-      } else {
-        instance->value = param1;
-      }
+      } else instance->value = param1;
     }
     
     //test release mode, but only if not a button.
@@ -532,9 +534,8 @@ parserstate_t doJoystickParsing(uint8_t *cmdBuffer, taskJoystickConfig_t *instan
     {
       if(param2 > 1)
       {
-        ESP_LOGE(LOG_TAG,"Joystick release mode invalid: %d",param2);
-        sendErrorBack("Joystick release mode invalid");
-        return UNKNOWNCMD;
+        ESP_LOGW(LOG_TAG,"Joystick release mode invalid: %d, reset to 0",param2);
+        instance->mode = 0;
       } else {
         instance->mode = param2;
       }

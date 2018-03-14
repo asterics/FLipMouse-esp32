@@ -441,6 +441,8 @@ void halSerialTaskJoystick(void *param)
         if(rxJ.sliderLeft > 1023) rxJ.sliderLeft = 1023;
         if(rxJ.sliderRight > 1023) rxJ.sliderRight = 1023;
         
+        ///@todo Slider right (AT JU) influences slider left in some minor bits...
+        
         /*++++ build report ++++*/
         
         //13 bytes:
@@ -671,7 +673,7 @@ esp_err_t halSerialInit(void)
 {
   esp_err_t ret = ESP_OK;
   const uart_config_t uart_config = {
-    .baud_rate = 19200,
+    .baud_rate = 38400,
     .data_bits = UART_DATA_8_BITS,
     .parity = UART_PARITY_DISABLE,
     .stop_bits = UART_STOP_BITS_1,

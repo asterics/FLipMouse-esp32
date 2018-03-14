@@ -72,8 +72,11 @@ typedef struct taskInfraredConfig {
  * used to trigger the timeout, therefore the finished signal for an
  * IR command recording.
  * 
- * @see infrared_trigger_record
- * @param timeout Timeout in [ms], 0-200
+ * @see infrared_record
+ * @warning Normal NEC codes use a ~18ms start signal, so it is recommended to this value at least to 20!
+ * @see generalConfig_t
+ * @param timeout Timeout in [ms], 2-100
+ * @return ESP_OK if parameter is set, ESP_FAIL otherwise (out of range)
  * */
 esp_err_t infrared_set_edge_timeout(uint8_t timeout);
 

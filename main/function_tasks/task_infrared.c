@@ -261,7 +261,8 @@ esp_err_t infrared_record(char* cmdName, uint8_t outputtoserial)
  * used to trigger the timeout, therefore the finished signal for an
  * IR command recording.
  * 
- * @see infrared_trigger_record
+ * @see infrared_record
+ * @warning Normal NEC codes use a ~18ms start signal, so it is recommended to this value at least to 20!
  * @see generalConfig_t
  * @param timeout Timeout in [ms], 2-100
  * @return ESP_OK if parameter is set, ESP_FAIL otherwise (out of range)

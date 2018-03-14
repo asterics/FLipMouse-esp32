@@ -1382,7 +1382,7 @@ esp_err_t halStorageStoreIR(uint32_t tid, halIOIR_t *cfg, char *cmdName)
     fclose(f);
     return ESP_FAIL;
   } else {
-    ESP_LOGD(LOG_TAG,"Successfully stored IR cmd %u (%s) with %u bytes payload (length %d)", \
+    ESP_LOGI(LOG_TAG,"Successfully stored IR cmd %u (%s) with %u bytes payload (length %d)", \
       cmdnumber, cmdName, sizeof(rmt_item32_t)*cfg->count, cfg->count);
     ESP_LOG_BUFFER_HEXDUMP(LOG_TAG,cfg->buffer,sizeof(rmt_item32_t)*cfg->count,ESP_LOG_VERBOSE);
   }

@@ -126,8 +126,8 @@ void task_joystick(taskJoystickConfig_t *param)
         //set different values of global joystick state accordingly.
         switch(action)
         {
-          case BUTTON_PRESS: globalJoystickState.buttonmask |= value; break;
-          case BUTTON_RELEASE: globalJoystickState.buttonmask &= ~value; break;
+          case BUTTON_PRESS: globalJoystickState.buttonmask |= (1<<value); break;
+          case BUTTON_RELEASE: globalJoystickState.buttonmask &= ~(1<<value); break;
           case XAXIS: globalJoystickState.Xaxis = value; break;
           case YAXIS: globalJoystickState.Yaxis = value; break;
           case ZAXIS: globalJoystickState.Zaxis = value; break;
@@ -136,6 +136,9 @@ void task_joystick(taskJoystickConfig_t *param)
           case SLIDER_RIGHT: globalJoystickState.sliderRight = value; break;
           case HAT: globalJoystickState.hat = hat; break;
         }
+        
+        ESP_LOGI(LOG_TAG,"Joystick report update");
+        ESP_LOG_BUFFER_HEXDUMP(LOG_TAG,&globalJoystickState,sizeof(joystick_command_t),ESP_LOG_DEBUG);
       
         //send either to USB, BLE, both or none
         if(xEventGroupGetBits(connectionRoutingStatus) & DATATO_USB)
@@ -153,7 +156,7 @@ void task_joystick(taskJoystickConfig_t *param)
           //set different values of global joystick state accordingly.
           switch(action)
           {
-            case BUTTON_PRESS: globalJoystickState.buttonmask &= ~value; break;
+            case BUTTON_PRESS: globalJoystickState.buttonmask &= ~(1<<value); break;
             case BUTTON_RELEASE: break; //this line is needed, otherwise compile error.
             case XAXIS: globalJoystickState.Xaxis = 512; break;
             case YAXIS: globalJoystickState.Yaxis = 512; break;
@@ -164,6 +167,10 @@ void task_joystick(taskJoystickConfig_t *param)
             case HAT: globalJoystickState.hat = -1; break;
           }
           
+          
+          ESP_LOGI(LOG_TAG,"Joystick report update");
+          ESP_LOG_BUFFER_HEXDUMP(LOG_TAG,&globalJoystickState,sizeof(joystick_command_t),ESP_LOG_DEBUG);
+            
           if(xEventGroupGetBits(connectionRoutingStatus) & DATATO_USB)
           { xQueueSend(joystick_movement_usb, &globalJoystickState,10); }
           if(xEventGroupGetBits(connectionRoutingStatus) & DATATO_BLE) 

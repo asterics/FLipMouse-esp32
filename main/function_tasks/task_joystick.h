@@ -66,7 +66,10 @@ typedef struct taskJoystickConfig {
   /** @brief type of this joystick action
    * @see joystick_action **/
   joystick_action type;
-  /** @brief Value of this action, either a button mask or an axis value */
+  /** @brief Value of this action, either a button shift nr or an axis value
+   * 
+   * Range for most axis is 0-1023
+   * Buttons are ranged between 0 and 31 (shift mask) */
   uint32_t value;
   /** @brief Value (signed) of this action, used for hat only. */
   int16_t valueS;

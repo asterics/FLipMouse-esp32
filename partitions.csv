@@ -3,7 +3,10 @@
 nvs,      data, nvs,     0x9000,  0x4000
 otadata,  data, ota,     0xd000,  0x2000
 phy_init, data, phy,     0xf000,  0x1000
-factory,  0,    0,       0x10000, 1M
-ota_0,    0,    ota_0,   ,        1M
-storage,  data, fat,    ,        1500k
-coredump, data, coredump,,        128K
+factory,  0,    0,      0x10000,  1M
+ota_0,    0,    ota_0, 0x110000,  1M
+storage,  data, fat,   0x210000,  1M
+#960K SPIFFS
+storage,  data, spiffs,0x310000,  0xF0000
+#coredump, data, coredump,,        128K
+#upper limit: 0x400000 (@4MB flash)

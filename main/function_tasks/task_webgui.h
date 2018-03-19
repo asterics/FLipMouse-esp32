@@ -17,7 +17,9 @@
  * Copyright 2017 Benjamin Aigner <aignerb@technikum-wien.at,
  * beni@asterics-foundation.org>
  */
-/** @brief CONTINOUS TASK - Web server & WebGUI handling.
+/**
+ * @file 
+ * @brief CONTINOUS TASK - Web server & WebGUI handling.
  * 
  * This module is used to serve the web- & DNS server for captive portal
  * mode and the web configuration GUI.

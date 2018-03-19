@@ -17,7 +17,9 @@
  * Copyright 2017 Benjamin Aigner <aignerb@technikum-wien.at,
  * beni@asterics-foundation.org>
 */
- /** @brief CONTINOUS TASK - Main command parser for serial AT commands.
+ /** 
+ * @file
+ * @brief CONTINOUS TASK - Main command parser for serial AT commands.
  * 
  * This module is used to parse any incoming serial data from hal_serial
  * for valid AT commands.

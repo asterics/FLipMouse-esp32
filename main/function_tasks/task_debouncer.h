@@ -20,8 +20,7 @@
  */
 /**
  * @file
- * 
- * @brief This file contains the task implementation for the virtual button
+ * @brief CONTINOUS TASK - This file contains the task implementation for the virtual button
  * debouncer.
  * 
  * Uses the event flags of virtualButtonsIn and if a flag is set there,

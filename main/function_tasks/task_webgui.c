@@ -18,7 +18,9 @@
  * Copyright 2017 Benjamin Aigner <aignerb@technikum-wien.at,
  * beni@asterics-foundation.org>
  */
-/** @brief CONTINOUS TASK - Web server & WebGUI handling.
+/**
+ * @file 
+ * @brief CONTINOUS TASK - Web server & WebGUI handling.
  * 
  * This module is used to serve the web- & DNS server for captive portal
  * mode and the web configuration GUI.
@@ -34,6 +36,9 @@
  * 
  * @todo Implement everything (or better said: port it from existing demo)
  * @todo How to integrate into hal_serial? Sending commands to task_commands is easy, but the other way round...
+ * @todo Add wifi settings to cfg struct in hal_storage/common; default fallback should be defined
+ * @todo Add start/stop function (for pairing/config button)
+ * @todo After implementing, test everything....
  * */
 
 #include "task_webgui.h"

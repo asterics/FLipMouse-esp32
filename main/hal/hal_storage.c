@@ -273,7 +273,7 @@ void halStorageCreateDefault(uint32_t tid)
     ((taskMouseConfig_t *)pConfig)->virtualButton = VB_INTERNAL2;
     ret = halStorageStoreSetVBConfigs(0,VB_INTERNAL2,pConfig,sizeof(taskMouseConfig_t),tid);
     //wait for 10ticks, to feed the watchdog (file access seems to block the IDLE task)
-    vTaskDelay(10); 
+    //vTaskDelay(10); 
     free(pConfig);
   } else { ESP_LOGE(LOG_TAG,"malloc error VB%u",VB_INTERNAL2); return; }
   if(ret != ESP_OK)
@@ -289,7 +289,7 @@ void halStorageCreateDefault(uint32_t tid)
     ((taskConfigSwitcherConfig_t *)pConfig)->virtualButton = VB_INTERNAL1;
     ret = halStorageStoreSetVBConfigs(0,VB_INTERNAL1,pConfig,sizeof(taskConfigSwitcherConfig_t),tid);
     //wait for 10ticks, to feed the watchdog (file access seems to block the IDLE task)
-    vTaskDelay(10); 
+    //vTaskDelay(10); 
     free(pConfig);
   } else { ESP_LOGE(LOG_TAG,"malloc error VB%u",VB_INTERNAL1); return; }
   if(ret != ESP_OK)
@@ -317,7 +317,7 @@ void halStorageCreateDefault(uint32_t tid)
     ((taskKeyboardConfig_t *)pConfig)->virtualButton = VB_EXTERNAL1;
     ret = halStorageStoreSetVBConfigs(0,VB_EXTERNAL1,pConfig,sizeof(taskKeyboardConfig_t),tid);
     //wait for 10ticks, to feed the watchdog (file access seems to block the IDLE task)
-    vTaskDelay(10); 
+    //vTaskDelay(10); 
     free(pConfig);
   } else { ESP_LOGE(LOG_TAG,"malloc error VB%u",VB_EXTERNAL1); return; }
   if(ret != ESP_OK)
@@ -335,7 +335,7 @@ void halStorageCreateDefault(uint32_t tid)
     ((taskMouseConfig_t *)pConfig)->virtualButton = VB_EXTERNAL2;
     ret = halStorageStoreSetVBConfigs(0,VB_EXTERNAL2,pConfig,sizeof(taskMouseConfig_t),tid);
     //wait for 10ticks, to feed the watchdog (file access seems to block the IDLE task)
-    vTaskDelay(10); 
+    //vTaskDelay(10); 
     free(pConfig);
   } else { ESP_LOGE(LOG_TAG,"malloc error VB%u",VB_EXTERNAL2); return; }
   if(ret != ESP_OK)
@@ -352,7 +352,7 @@ void halStorageCreateDefault(uint32_t tid)
     ((taskMouseConfig_t *)pConfig)->virtualButton = VB_SIP;
     ret = halStorageStoreSetVBConfigs(0,VB_SIP,pConfig,sizeof(taskMouseConfig_t),tid);
     //wait for 10ticks, to feed the watchdog (file access seems to block the IDLE task)
-    vTaskDelay(10); 
+    //vTaskDelay(10); 
     free(pConfig);
   } else { ESP_LOGE(LOG_TAG,"malloc error VB%u",VB_SIP); return; }
   if(ret != ESP_OK)
@@ -369,7 +369,7 @@ void halStorageCreateDefault(uint32_t tid)
     ((taskMouseConfig_t *)pConfig)->virtualButton = VB_PUFF;
     ret = halStorageStoreSetVBConfigs(0,VB_PUFF,pConfig,sizeof(taskMouseConfig_t),tid);
     //wait for 10ticks, to feed the watchdog (file access seems to block the IDLE task)
-    vTaskDelay(10); 
+    //vTaskDelay(10); 
     free(pConfig);
   } else { ESP_LOGE(LOG_TAG,"malloc error VB%u",VB_PUFF); return; }
   if(ret != ESP_OK)
@@ -384,7 +384,7 @@ void halStorageCreateDefault(uint32_t tid)
     ((taskNoParameterConfig_t *)pConfig)->virtualButton = VB_STRONGPUFF;
     ret = halStorageStoreSetVBConfigs(0,VB_STRONGPUFF,pConfig,sizeof(taskNoParameterConfig_t),tid);
     //wait for 10ticks, to feed the watchdog (file access seems to block the IDLE task)
-    vTaskDelay(10); 
+    //vTaskDelay(10); 
     free(pConfig);
   } else { ESP_LOGE(LOG_TAG,"malloc error VB%u",VB_STRONGPUFF); return; }
   if(ret != ESP_OK)
@@ -522,12 +522,15 @@ esp_err_t halStorageGetNameForNumberIR(uint32_t tid, uint8_t slotnumber, char *c
  * parameter slotnr)
  * 
  * @param slotnr Number of slot to be deleted. Use 100 to delete all slots
+ * @note Setting slotnr to 100 deletes all IR slots.
  * @param tid Transaction id
  * @return ESP_OK if everything is fine, ESP_FAIL otherwise
  * */
 esp_err_t halStorageDeleteIRCmd(uint8_t slotnr, uint32_t tid)
 {
   char file[sizeof(base_path)+32];
+  char filenew[sizeof(base_path)+32];
+  int ret;
   
   if(slotnr > 100) 
   {
@@ -554,7 +557,27 @@ esp_err_t halStorageDeleteIRCmd(uint8_t slotnr, uint32_t tid)
   {
     sprintf(file,"%s/IR_%02d.fms",base_path,i); 
     remove(file);
-    vTaskDelay(1);
+    //not necessary, ESP32 uses preemption
+    //taskYIELD();
+  }
+  
+  //re-arrange all following slots (of course, only if not deleting all)
+  if(slotnr != 100)
+  {
+    
+    for(uint8_t i = to+1; i<=99; i++)
+    {
+      sprintf(file,"%s/IR_%02d.fms",base_path,i);
+      sprintf(filenew,"%s/IR_%02d.fms",base_path,i-1);
+      ret = rename(file,filenew);
+      if(ret != 0)
+      {
+        ESP_LOGI(LOG_TAG,"Stopped renaming @ IR cmd %d",i);
+        break;
+      }
+      //not necessary, ESP32 uses preemption
+      //taskYIELD();
+    }
   }
   
   ESP_LOGW(LOG_TAG,"Deleted IR cmd %d (100 means: delete all)",slotnr);
@@ -883,6 +906,7 @@ esp_err_t halStorageGetNumberForNameIR(uint32_t tid, uint8_t *slotnumber, char *
 esp_err_t halStorageLoad(hal_storage_load_action navigate, generalConfig_t *cfg, uint32_t tid)
 {
   uint8_t slotCount = 0;
+  esp_err_t ret;
   
   //fetch current slot count
   if(halStorageGetNumberOfSlots(tid, &slotCount) != ESP_OK)
@@ -898,13 +922,31 @@ esp_err_t halStorageLoad(hal_storage_load_action navigate, generalConfig_t *cfg,
       //check if we are at the last slot, if yes load first, increment otherwise
       if(slotCount == storageCurrentSlotNumber) storageCurrentSlotNumber = 1;
       else storageCurrentSlotNumber++;
-      return halStorageLoadNumber(storageCurrentSlotNumber,cfg,tid);
+      ret = halStorageLoadNumber(storageCurrentSlotNumber,cfg,tid);
+      //if NEXT does not succeed (because of a deleted slot or something else)
+      //retry with storageCurrentSlotNumber = 1;
+      if(ret != ESP_OK)
+      {
+        ESP_LOGI(LOG_TAG,"Resetting current slot number to 1");
+        storageCurrentSlotNumber = 1;
+        ret = halStorageLoadNumber(storageCurrentSlotNumber,cfg,tid);
+      }
+      return ret;
     break;
     case PREV:
       //check if we are at the first slot, if yes load last, decrement otherwise
       if(storageCurrentSlotNumber == 1) storageCurrentSlotNumber = slotCount;
       else storageCurrentSlotNumber--;
-      return halStorageLoadNumber(storageCurrentSlotNumber,cfg,tid);      
+      ret = halStorageLoadNumber(storageCurrentSlotNumber,cfg,tid);
+      //if NEXT does not succeed (because of a deleted slot or something else)
+      //retry with storageCurrentSlotNumber = 1;
+      if(ret != ESP_OK)
+      {
+        ESP_LOGI(LOG_TAG,"Resetting current slot number to 1");
+        storageCurrentSlotNumber = 1;
+        ret = halStorageLoadNumber(storageCurrentSlotNumber,cfg,tid);
+      }
+      return ret;  
     break;
     case DEFAULT:
       if(slotCount == 0)
@@ -1105,11 +1147,14 @@ esp_err_t halStorageLoadName(char *slotname, generalConfig_t *cfg, uint32_t tid)
  * 
  * @param slotnr Number of slot to be deleted. Use 0 to delete all slots
  * @param tid Transaction id
+ * @warning Deleting all slots, means that a complete factory reset is done. Maybe we change this in release versions.
  * @return ESP_OK if everything is fine, ESP_FAIL otherwise
  * */
 esp_err_t halStorageDeleteSlot(uint8_t slotnr, uint32_t tid)
 {
   char file[sizeof(base_path)+32];
+  char filenew[sizeof(base_path)+32];
+  int ret;
   //delete by starting & ending at given slotnumber 
   uint8_t from = slotnr;
   uint8_t to = slotnr;
@@ -1117,7 +1162,7 @@ esp_err_t halStorageDeleteSlot(uint8_t slotnr, uint32_t tid)
   //in case of deleting all slots, start at 1 and delete until 250
   if(slotnr == 0)
   {
-    from = 1;
+    from = 0;
     to = 250;
   }
   
@@ -1131,10 +1176,38 @@ esp_err_t halStorageDeleteSlot(uint8_t slotnr, uint32_t tid)
     remove(file);
     sprintf(file,"%s/%03d_VB.fms",base_path,i); 
     remove(file);
-    vTaskDelay(1);
+    //not necessary, ESP32 uses preemption
+    //taskYIELD();
   }
   
-  ESP_LOGW(LOG_TAG,"Deleted slot %d (0 means delete all)",slotnr);
+  //re-arrange all following slots (of course, only if not deleting all)
+  if(slotnr != 0)
+  {
+    
+    for(uint8_t i = to+1; i<=250; i++)
+    {
+      sprintf(file,"%s/%03d.fms",base_path,i);
+      sprintf(filenew,"%s/%03d.fms",base_path,i-1);
+      ret = rename(file,filenew);
+      if(ret != 0)
+      {
+        ESP_LOGI(LOG_TAG,"Stopped renaming @ slot %d",i);
+        break;
+      }
+      sprintf(file,"%s/%03d_VB.fms",base_path,i); 
+      sprintf(filenew,"%s/%03d_VB.fms",base_path,i-1); 
+      rename(file,filenew);
+      if(ret != 0)
+      {
+        ESP_LOGI(LOG_TAG,"Stopped renaming @ slot %d VBs",i);
+        break;
+      }
+      //not necessary, ESP32 uses preemption
+      //taskYIELD();
+    }
+  }
+
+  ESP_LOGW(LOG_TAG,"Deleted slot %d (0 means delete all), renamed remaining",slotnr);
   return ESP_OK;
 }
 

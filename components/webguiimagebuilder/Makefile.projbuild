@@ -1,0 +1,31 @@
+#new version of this script, using a relative path from here, without a "component"
+FATFS_DATA_PATH = "./webguitest/spiffs_content"
+###WARNING: change this setting according to partition.csv!
+CONFIG_FATFS_SIZE = 0x1F0000
+CONFIG_FATFS_BASE_ADDR = 0x210000
+
+#originally used
+#FATFS_IMAGE_COMPONENT_PATH := $(COMPONENT_PATH)
+ifeq ($(OS),Windows_NT)
+	MKFATFS_BIN="mkfatfs.exe"
+else
+	MKFATFS_BIN="mkfatfs"
+endif
+
+.PHONY: flashfatfs makefatfs copyfatfs
+
+flashfatfs: $(SDKCONFIG_MAKEFILE) mkfatfs
+	@echo "Making fatfs image ..."
+	@echo "$(ESPTOOLPY_WRITE_FLASH)"
+	$(IDF_PATH)/components/mkfatfs/src/$(MKFATFS_BIN) -c $(FATFS_DATA_PATH) -s $(CONFIG_FATFS_SIZE) $(BUILD_DIR_BASE)/fatfs_image.img
+	$(ESPTOOLPY_WRITE_FLASH) $(CONFIG_FATFS_BASE_ADDR) $(BUILD_DIR_BASE)/fatfs_image.img
+
+makefatfs: $(SDKCONFIG_MAKEFILE) mkfatfs
+	@echo "Making fatfs image ..."
+	@echo "$(ESPTOOLPY_WRITE_FLASH)"
+	$(IDF_PATH)/components/mkfatfs/src/$(MKFATFS_BIN) -c $(FATFS_DATA_PATH) -s $(CONFIG_FATFS_SIZE) $(BUILD_DIR_BASE)/fatfs_image.img -d 2
+
+copyfatfs: 
+	@echo "Flashing fatfs image ..."
+	@echo "$(ESPTOOLPY_WRITE_FLASH)"
+	$(ESPTOOLPY_WRITE_FLASH) $(CONFIG_FATFS_BASE_ADDR) $(BUILD_DIR_BASE)/fatfs_image.img

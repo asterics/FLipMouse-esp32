@@ -11,6 +11,11 @@ All configuration is done via the serial interface, which provides the persisten
 The serial port configuration is **115200 8N1** (even these settings are not necessary due to the USB encapsulation).
 
 **Note:**
+
+The ESP32 chip itself does NOT have USB connection. Therefore, we integrated a second USB chip on the FABI/FLipMouse PCB, which handles USB to Serial / Serial to HID translation. The corresponding firmware for this chip
+(LPC11U14) is located here: [usb_bridge repository](https://github.com/benjaminaigner/usb_bridge)
+
+**Note:**
 Please note that all following commands, which do NOT have a FUNCTIONAL task, cannot be assigned to a virtual button (via AT BM).
 These commands can be used to configure the FLipMouse/FABI, in a macro or for slot management.
 

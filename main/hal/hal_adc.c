@@ -138,22 +138,22 @@ void halAdcReadData(adcData_t *values)
     //read sensor data & apply characteristics
     int32_t up = adc1_get_raw(HAL_IO_ADC_CHANNEL_UP);
     if(up == -1) { ESP_LOGE(LOG_TAG,"Cannot read channel up"); return; }
-    up = esp_adc_cal_raw_to_voltage(up,&characteristics);
+    //up = esp_adc_cal_raw_to_voltage(up,&characteristics);
     int32_t down = adc1_get_raw(HAL_IO_ADC_CHANNEL_DOWN);
     if(down == -1) { ESP_LOGE(LOG_TAG,"Cannot read channel down"); return; }
-    down = esp_adc_cal_raw_to_voltage(down,&characteristics);
+    //down = esp_adc_cal_raw_to_voltage(down,&characteristics);
     int32_t left = adc1_get_raw(HAL_IO_ADC_CHANNEL_LEFT);
     if(left == -1) { ESP_LOGE(LOG_TAG,"Cannot read channel left"); return; }
-    left = esp_adc_cal_raw_to_voltage(left,&characteristics);
+    //left = esp_adc_cal_raw_to_voltage(left,&characteristics);
     int32_t right = adc1_get_raw(HAL_IO_ADC_CHANNEL_RIGHT);
     if(right == -1) { ESP_LOGE(LOG_TAG,"Cannot read channel right"); return; }
-    right = esp_adc_cal_raw_to_voltage(right,&characteristics);
+    //right = esp_adc_cal_raw_to_voltage(right,&characteristics);
     int32_t pressure = adc1_get_raw(HAL_IO_ADC_CHANNEL_PRESSURE);
     if(pressure == -1) 
     { 
         ESP_LOGE(LOG_TAG,"Cannot read channel pressure"); return;
     } else { 
-        pressure = esp_adc_cal_raw_to_voltage(pressure,&characteristics); 
+        //pressure = esp_adc_cal_raw_to_voltage(pressure,&characteristics); 
         values->pressure = pressure;
     }
 
@@ -484,16 +484,16 @@ void halAdcCalibrate(void)
         {
             temp = adc1_get_raw(HAL_IO_ADC_CHANNEL_UP);
             if(temp == -1) { ESP_LOGE(LOG_TAG,"Cannot read channel up"); continue; }
-            up += esp_adc_cal_raw_to_voltage(temp, &characteristics);
+            up += temp;
             temp = adc1_get_raw(HAL_IO_ADC_CHANNEL_DOWN);
             if(temp == -1) { ESP_LOGE(LOG_TAG,"Cannot read channel down"); continue; }
-            down += esp_adc_cal_raw_to_voltage(temp, &characteristics);
+            down += temp;
             temp = adc1_get_raw(HAL_IO_ADC_CHANNEL_LEFT);
             if(temp == -1) { ESP_LOGE(LOG_TAG,"Cannot read channel left"); continue; }
-            left += esp_adc_cal_raw_to_voltage(temp, &characteristics);
+            left += temp;
             temp = adc1_get_raw(HAL_IO_ADC_CHANNEL_RIGHT);
             if(temp == -1) { ESP_LOGE(LOG_TAG,"Cannot read channel right"); continue; }
-            right += esp_adc_cal_raw_to_voltage(temp, &characteristics);
+            right += temp;
             vTaskDelay(2);
         }
         
@@ -794,8 +794,10 @@ esp_err_t halAdcInit(adc_config_t* params)
     ret = adc1_config_channel_atten(HAL_IO_ADC_CHANNEL_PRESSURE, ADC_ATTEN_DB_11);
     if(ret != ESP_OK) { ESP_LOGE("hal_adc","Error setting atten on channel %d",HAL_IO_ADC_CHANNEL_PRESSURE); return ret; }
     
+    //ADC characteristics on ESP32 does not work at all...
+    //The only sh**ty part on this MCU :-)
     //esp_adc_cal_get_characteristics(ADC_CAL_IDEAL_V_REF, ADC_ATTEN_DB_11, ADC_WIDTH_BIT_12, &characteristics);
-    esp_adc_cal_characterize(ADC_UNIT_1,ADC_ATTEN_DB_11,ADC_WIDTH_BIT_12,0,&characteristics);
+    //esp_adc_cal_characterize(ADC_UNIT_1,ADC_ATTEN_DB_11,ADC_WIDTH_BIT_12,0,&characteristics);
     
     //check if every queue is already initialized
     for(uint8_t i = 0; i<NUMBER_VIRTUALBUTTONS; i++)

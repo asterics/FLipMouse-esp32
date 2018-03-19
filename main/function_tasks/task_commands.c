@@ -606,6 +606,28 @@ parserstate_t doInfraredParsing(uint8_t *cmdBuffer, taskInfraredConfig_t *instan
     return NOACTION;
   }
   
+  
+  /*++++ AT IX (delete one IR cmd by number) ++++*/
+  if(CMD("AT IX")) {
+    param = strtol((char*)&(cmdBuffer[6]),NULL,10);
+    if(param < 1 || param > 99)
+    {
+      ESP_LOGW(LOG_TAG,"Invalid IR slot nr %d",param)
+      return UNKNOWNCMD;
+    }
+    if(halStorageStartTransaction(&tid,20) == ESP_OK)
+    {
+      if(halStorageDeleteIRCmd(param,tid) != ESP_OK)
+      {
+        ESP_LOGE(LOG_TAG,"Cannot delete IR cmd %d",param);
+      }
+      halStorageFinishTransaction(tid);
+    } else {
+      ESP_LOGE(LOG_TAG,"Cannot start transaction");
+    }
+    return NOACTION;
+  }
+  
   /*++++ AT IT ++++*/
   if(CMD("AT IT")) {
     //set the IR timeout in ms
@@ -631,6 +653,9 @@ parserstate_t doInfraredParsing(uint8_t *cmdBuffer, taskInfraredConfig_t *instan
         if(halStorageDeleteIRCmd(nr,tid) != ESP_OK)
         {
           ESP_LOGE(LOG_TAG,"Cannot delete IR cmd %s",&cmdBuffer[6]);
+        } else {
+          ESP_LOGI(LOG_TAG,"Deleted IR slot %s @%d",&cmdBuffer[6],nr);
+          return NOACTION;
         }
       } else {
         ESP_LOGE(LOG_TAG,"No slot found for IR cmd %s",&cmdBuffer[6]);

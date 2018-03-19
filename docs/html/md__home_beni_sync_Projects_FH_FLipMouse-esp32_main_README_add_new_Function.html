@@ -79,7 +79,7 @@ $(function() {
 <li>In configSwitcherTask, add your command type to switch which is used to determine the parameters to be allocated on a task switch (around line 300-360).</li>
 </ul>
 <h2>Add command to command parser</h2>
-<p>The serial command parsing from the host's commands (based on an AT command set) is done in <a class="el" href="task__commands_8c.html">task_commands.c</a>. Command parsing is split into smaller portions grouped into functions, named do&lt;name&gt;Parsing().</p>
+<p>The serial command parsing from the host's commands (based on an AT command set) is done in <a class="el" href="task__commands_8c.html" title="CONTINOUS TASK - Main command parser for serial AT commands. ">task_commands.c</a>. Command parsing is split into smaller portions grouped into functions, named do&lt;name&gt;Parsing().</p>
 <p>Either you place your new command into one of the existing methods OR you create a new method and add it to the task_commands, which calls each parser.</p>
 <p>Do following steps to enable parsing of your new command:</p>
 <ul>

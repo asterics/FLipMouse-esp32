@@ -1,14 +1,13 @@
 var searchData=
 [
-  ['gain',['gain',['../structadc__config.html#a1ef95e4bb2ef589011d5aa34eb6686e2',1,'adc_config']]],
-  ['gap_5fevent_5fhandler',['gap_event_handler',['../hal__ble_8c.html#a50ba83bf77cdec4ac247bf44f357f310',1,'hal_ble.c']]],
-  ['gatt_5fif',['gatt_if',['../structhidd__le__env__t.html#aecd0c5c0d0e90395704d7b202b126f49',1,'hidd_le_env_t']]],
-  ['gatts_5fif',['gatts_if',['../structesp__hidd__cb__param__t_1_1hidd__init__finish__evt__param.html#ac398ae7a7ff95c856b4963b13d18bf0d',1,'esp_hidd_cb_param_t::hidd_init_finish_evt_param']]],
-  ['generalconfig',['generalConfig',['../structgeneralConfig.html',1,'']]],
-  ['generalconfig_5ft',['generalConfig_t',['../common_8h.html#a1d17932316265a53a6982a2526a4cada',1,'common.h']]],
-  ['get_5fcpoint',['get_cpoint',['../keyboard_8h.html#a10d2ca514d4bfa2fb6585d18a1dadc52',1,'keyboard.h']]],
-  ['get_5fhid_5fcountry_5fcode',['get_hid_country_code',['../keyboard_8c.html#a5d5bd056cc1731c96de8522b7040f5f1',1,'get_hid_country_code(uint8_t locale):&#160;keyboard.c'],['../keyboard_8h.html#a5d5bd056cc1731c96de8522b7040f5f1',1,'get_hid_country_code(uint8_t locale):&#160;keyboard.c']]],
-  ['get_5fkeycode',['get_keycode',['../keyboard_8c.html#af0f4540ba277012b977691ac7416ba96',1,'get_keycode(uint16_t cpoint, uint8_t locale, uint8_t *keycode_modifier, uint8_t *deadkey_first_keystroke):&#160;keyboard.c'],['../keyboard_8h.html#af0f4540ba277012b977691ac7416ba96',1,'get_keycode(uint16_t cpoint, uint8_t locale, uint8_t *keycode_modifier, uint8_t *deadkey_first_keystroke):&#160;keyboard.c']]],
-  ['globaljoystickstate',['globalJoystickState',['../task__joystick_8c.html#a9829fda25d379588b78c335a42964bb1',1,'task_joystick.c']]],
-  ['gpio_5fisr_5fhandler',['gpio_isr_handler',['../hal__io_8c.html#addfc4a2f0cb7848979817346b6f53afc',1,'hal_io.c']]]
+  ['functiontasks',['FunctionTasks',['../group__fcttasks.html',1,'']]],
+  ['feedback',['feedback',['../structgeneralConfig.html#a8952f4485036c89b7131acb77f066736',1,'generalConfig']]],
+  ['flag_5faa',['FLAG_AA',['../captdns_8c.html#aa5ca8b36c28dfc1874f9484c27c8bb3f',1,'captdns.c']]],
+  ['flag_5fqr',['FLAG_QR',['../captdns_8c.html#a8e725ea85b752668819444c39e4f607c',1,'captdns.c']]],
+  ['flag_5frd',['FLAG_RD',['../captdns_8c.html#a9ae8327cbc391245c621bd4e41d67e89',1,'captdns.c']]],
+  ['flag_5ftc',['FLAG_TC',['../captdns_8c.html#acc6e2e07e082c775cd1efaf00bef4256',1,'captdns.c']]],
+  ['flags',['flags',['../structhids__hid__info__t.html#a5175ab79e23e51bc16aef1722d4256c7',1,'hids_hid_info_t']]],
+  ['flipmouse_5ffabi_5fesp32_5fkbdmouse_5fmain_2ec',['flipmouse_fabi_esp32_kbdmouse_main.c',['../flipmouse__fabi__esp32__kbdmouse__main_8c.html',1,'']]],
+  ['format',['format',['../structprf__char__pres__fmt.html#a571d6ee1eda17b6c99968ebf17335bdd',1,'prf_char_pres_fmt']]],
+  ['frequency',['frequency',['../structhalIOBuzzer.html#a85ad12ddaac1e475a3648b0938af436e',1,'halIOBuzzer']]]
 ];

@@ -72,6 +72,9 @@ $(function() {
 <div class="title">task_commands.c File Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
+
+<p>CONTINOUS TASK - Main command parser for serial AT commands.  
+<a href="#details">More...</a></p>
 <div class="textblock"><code>#include &quot;<a class="el" href="task__commands_8h_source.html">task_commands.h</a>&quot;</code><br />
 </div>
 <p><a href="task__commands_8c_source.html">Go to the source code of this file.</a></p>
@@ -79,7 +82,6 @@ $(function() {
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="define-members"></a>
 Macros</h2></td></tr>
 <tr class="memitem:a7ce0df38eb467e59f209470c8f5ac4e6"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="task__commands_8c.html#a7ce0df38eb467e59f209470c8f5ac4e6">LOG_TAG</a>&#160;&#160;&#160;&quot;cmdparser&quot;</td></tr>
-<tr class="memdesc:a7ce0df38eb467e59f209470c8f5ac4e6"><td class="mdescLeft">&#160;</td><td class="mdescRight">CONTINOUS TASK - Main command parser for serial AT commands.  <a href="#a7ce0df38eb467e59f209470c8f5ac4e6">More...</a><br /></td></tr>
 <tr class="separator:a7ce0df38eb467e59f209470c8f5ac4e6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad4d8475ff8191eec64ec75fa4241f187"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="task__commands_8c.html#ad4d8475ff8191eec64ec75fa4241f187">CMD</a>(x)&#160;&#160;&#160;(memcmp(cmdBuffer,x,5) == 0)</td></tr>
 <tr class="separator:ad4d8475ff8191eec64ec75fa4241f187"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -154,7 +156,23 @@ Variables</h2></td></tr>
 <tr class="memdesc:a92f6cea4b2f3b9af0abce6f8fcf3da97"><td class="mdescLeft">&#160;</td><td class="mdescRight">Currently used virtual button number.  <a href="#a92f6cea4b2f3b9af0abce6f8fcf3da97">More...</a><br /></td></tr>
 <tr class="separator:a92f6cea4b2f3b9af0abce6f8fcf3da97"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Macro Definition Documentation</h2>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>CONTINOUS TASK - Main command parser for serial AT commands. </p>
+<p>This module is used to parse any incoming serial data from hal_serial for valid AT commands. If a valid command is detected, the corresponding action is triggered (mostly by invoking a FUNCTIONAL task in singleshot mode).</p>
+<p>By issueing an <b>AT BM</b> command, the next issued AT command will be assigned to a virtual button. This is done via setting the requestVBUpdate variable to the VB number. One time only commands (without AT BM) are defined as VB==VB_SINGLESHOT</p>
+<p>In addition, this parser also takes care of switching to CIM mode if requested. The other way from CIM to AT mode is done by the task_cim module by triggering taskCommandsRestart.</p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="common_8h.html#a784ceb4b2d4c4fb77baa99646c6e5035">VB_SINGLESHOT</a> </dd>
+<dd>
+task_cim </dd>
+<dd>
+hal_serial </dd>
+<dd>
+atcmd_api</dd></dl>
+<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000007">Todo:</a></b></dt><dd>CIM switching</dd></dl>
+<dl class="section note"><dt>Note</dt><dd>Currently we are using unicode_to_keycode, because terminal programs use it this way. For supporting unicode keystreams (UTF-8), the method parse_for_keycode needs to be used </dd></dl>
+
+<p class="definition">Definition in file <a class="el" href="task__commands_8c_source.html">task_commands.c</a>.</p>
+</div><h2 class="groupheader">Macro Definition Documentation</h2>
 <a id="ad4d8475ff8191eec64ec75fa4241f187"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ad4d8475ff8191eec64ec75fa4241f187">&#9670;&nbsp;</a></span>CMD</h2>
 
@@ -172,9 +190,9 @@ Variables</h2></td></tr>
 </div><div class="memdoc">
 <p>Simple macro to short the command comparison (full AT cmd with 5 chars) </p>
 
-<p class="definition">Definition at line <a class="el" href="task__commands_8c_source.html#l00053">53</a> of file <a class="el" href="task__commands_8c_source.html">task_commands.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="task__commands_8c_source.html#l00055">55</a> of file <a class="el" href="task__commands_8c_source.html">task_commands.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="task__commands_8c_source.html#l00706">doGeneralCmdParsing()</a>, <a class="el" href="task__commands_8c_source.html#l00571">doInfraredParsing()</a>, <a class="el" href="task__commands_8c_source.html#l00977">doKeyboardParsing()</a>, <a class="el" href="task__commands_8c_source.html#l01156">doMacroParsing()</a>, <a class="el" href="task__commands_8c_source.html#l00154">doMouthpieceSettingsParsing()</a>, and <a class="el" href="task__commands_8c_source.html#l00392">doStorageParsing()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="task__commands_8c_source.html#l00733">doGeneralCmdParsing()</a>, <a class="el" href="task__commands_8c_source.html#l00573">doInfraredParsing()</a>, <a class="el" href="task__commands_8c_source.html#l01004">doKeyboardParsing()</a>, <a class="el" href="task__commands_8c_source.html#l01183">doMacroParsing()</a>, <a class="el" href="task__commands_8c_source.html#l00156">doMouthpieceSettingsParsing()</a>, and <a class="el" href="task__commands_8c_source.html#l00394">doStorageParsing()</a>.</p>
 
 </div>
 </div>
@@ -195,9 +213,9 @@ Variables</h2></td></tr>
 </div><div class="memdoc">
 <p>Simple macro to short the command comparison (part of AT cmd with 4 chars) </p>
 
-<p class="definition">Definition at line <a class="el" href="task__commands_8c_source.html#l00056">56</a> of file <a class="el" href="task__commands_8c_source.html">task_commands.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="task__commands_8c_source.html#l00058">58</a> of file <a class="el" href="task__commands_8c_source.html">task_commands.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="task__commands_8c_source.html#l00706">doGeneralCmdParsing()</a>, <a class="el" href="task__commands_8c_source.html#l00478">doJoystickParsing()</a>, <a class="el" href="task__commands_8c_source.html#l00977">doKeyboardParsing()</a>, <a class="el" href="task__commands_8c_source.html#l01182">doMouseParsing()</a>, and <a class="el" href="task__commands_8c_source.html#l00154">doMouthpieceSettingsParsing()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="task__commands_8c_source.html#l00733">doGeneralCmdParsing()</a>, <a class="el" href="task__commands_8c_source.html#l00480">doJoystickParsing()</a>, <a class="el" href="task__commands_8c_source.html#l01004">doKeyboardParsing()</a>, <a class="el" href="task__commands_8c_source.html#l01209">doMouseParsing()</a>, and <a class="el" href="task__commands_8c_source.html#l00156">doMouthpieceSettingsParsing()</a>.</p>
 
 </div>
 </div>
@@ -212,24 +230,11 @@ Variables</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Tag for ESP_LOG logging </p>
 
-<p>CONTINOUS TASK - Main command parser for serial AT commands. </p>
-<p>This module is used to parse any incoming serial data from hal_serial for valid AT commands. If a valid command is detected, the corresponding action is triggered (mostly by invoking a FUNCTIONAL task in singleshot mode).</p>
-<p>By issueing an <b>AT BM</b> command, the next issued AT command will be assigned to a virtual button. This is done via setting the requestVBUpdate variable to the VB number. One time only commands (without AT BM) are defined as VB==VB_SINGLESHOT</p>
-<p>In addition, this parser also takes care of switching to CIM mode if requested. The other way from CIM to AT mode is done by the task_cim module by triggering taskCommandsRestart.</p>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="common_8h.html#a784ceb4b2d4c4fb77baa99646c6e5035">VB_SINGLESHOT</a> </dd>
-<dd>
-task_cim </dd>
-<dd>
-hal_serial </dd>
-<dd>
-atcmd_api</dd></dl>
-<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000007">Todo:</a></b></dt><dd>CIM switching</dd></dl>
-<dl class="section note"><dt>Note</dt><dd>Currently we are using unicode_to_keycode, because terminal programs use it this way. For supporting unicode keystreams (UTF-8), the method parse_for_keycode needs to be usedTag for ESP_LOG logging </dd></dl>
+<p class="definition">Definition at line <a class="el" href="task__commands_8c_source.html#l00052">52</a> of file <a class="el" href="task__commands_8c_source.html">task_commands.c</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="task__commands_8c_source.html#l00050">50</a> of file <a class="el" href="task__commands_8c_source.html">task_commands.c</a>.</p>
-
-<p class="reference">Referenced by <a class="el" href="task__commands_8c_source.html#l00706">doGeneralCmdParsing()</a>, <a class="el" href="task__commands_8c_source.html#l00571">doInfraredParsing()</a>, <a class="el" href="task__commands_8c_source.html#l00478">doJoystickParsing()</a>, <a class="el" href="task__commands_8c_source.html#l00977">doKeyboardParsing()</a>, <a class="el" href="task__commands_8c_source.html#l01156">doMacroParsing()</a>, <a class="el" href="task__commands_8c_source.html#l01182">doMouseParsing()</a>, <a class="el" href="task__commands_8c_source.html#l00154">doMouthpieceSettingsParsing()</a>, <a class="el" href="task__commands_8c_source.html#l00392">doStorageParsing()</a>, <a class="el" href="task__commands_8c_source.html#l01495">printAllSlots()</a>, <a class="el" href="task__commands_8c_source.html#l00108">sendErrorBack()</a>, <a class="el" href="task__commands_8c_source.html#l01306">task_commands()</a>, and <a class="el" href="task__commands_8c_source.html#l01650">taskCommandsInit()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="task__commands_8c_source.html#l00733">doGeneralCmdParsing()</a>, <a class="el" href="task__commands_8c_source.html#l00573">doInfraredParsing()</a>, <a class="el" href="task__commands_8c_source.html#l00480">doJoystickParsing()</a>, <a class="el" href="task__commands_8c_source.html#l01004">doKeyboardParsing()</a>, <a class="el" href="task__commands_8c_source.html#l01183">doMacroParsing()</a>, <a class="el" href="task__commands_8c_source.html#l01209">doMouseParsing()</a>, <a class="el" href="task__commands_8c_source.html#l00156">doMouthpieceSettingsParsing()</a>, <a class="el" href="task__commands_8c_source.html#l00394">doStorageParsing()</a>, <a class="el" href="task__commands_8c_source.html#l01522">printAllSlots()</a>, <a class="el" href="task__commands_8c_source.html#l00110">sendErrorBack()</a>, <a class="el" href="task__commands_8c_source.html#l01333">task_commands()</a>, and <a class="el" href="task__commands_8c_source.html#l01677">taskCommandsInit()</a>.</p>
 
 </div>
 </div>
@@ -285,7 +290,7 @@ atcmd_api</dd></dl>
 <tr><td class="fieldname"><a id="a7860b6904b2ba2dd906d189ada5f1e17a50c64ae796b6cf92c249f1a90f98a992"></a>TRIGGERTASK&#160;</td><td class="fielddoc"></td></tr>
 </table>
 
-<p class="definition">Definition at line <a class="el" href="task__commands_8c_source.html#l00104">104</a> of file <a class="el" href="task__commands_8c_source.html">task_commands.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="task__commands_8c_source.html#l00106">106</a> of file <a class="el" href="task__commands_8c_source.html">task_commands.c</a>.</p>
 
 </div>
 </div>
@@ -315,9 +320,9 @@ atcmd_api</dd></dl>
 </div><div class="memdoc">
 <p>just check all queues if they are initialized </p><dl class="section return"><dt>Returns</dt><dd>0 on uninitialized queues, 1 if all are initialized </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="task__commands_8c_source.html#l00125">125</a> of file <a class="el" href="task__commands_8c_source.html">task_commands.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="task__commands_8c_source.html#l00127">127</a> of file <a class="el" href="task__commands_8c_source.html">task_commands.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="task__commands_8c_source.html#l01306">task_commands()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="task__commands_8c_source.html#l01333">task_commands()</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
@@ -349,9 +354,9 @@ Here is the caller graph for this function:</div>
 </div><div class="memdoc">
 <dl class="todo"><dt><b><a class="el" href="todo.html#_todo000009">Todo:</a></b></dt><dd>hier den AT AI,AP,AR commands hinzufügen. Achtung auf requestVBUpdate: wenn gesetzt, wieder zurücksetzen &amp; entsprechend die Zeit speichern. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="task__commands_8c_source.html#l00706">706</a> of file <a class="el" href="task__commands_8c_source.html">task_commands.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="task__commands_8c_source.html#l00733">733</a> of file <a class="el" href="task__commands_8c_source.html">task_commands.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="task__commands_8c_source.html#l01306">task_commands()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="task__commands_8c_source.html#l01333">task_commands()</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -426,9 +431,9 @@ Here is the caller graph for this function:</div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="task__commands_8c_source.html#l00571">571</a> of file <a class="el" href="task__commands_8c_source.html">task_commands.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="task__commands_8c_source.html#l00573">573</a> of file <a class="el" href="task__commands_8c_source.html">task_commands.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="task__commands_8c_source.html#l01306">task_commands()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="task__commands_8c_source.html#l01333">task_commands()</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -498,9 +503,9 @@ Here is the caller graph for this function:</div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="task__commands_8c_source.html#l00478">478</a> of file <a class="el" href="task__commands_8c_source.html">task_commands.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="task__commands_8c_source.html#l00480">480</a> of file <a class="el" href="task__commands_8c_source.html">task_commands.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="task__commands_8c_source.html#l01306">task_commands()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="task__commands_8c_source.html#l01333">task_commands()</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -573,9 +578,9 @@ Here is the caller graph for this function:</div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="task__commands_8c_source.html#l00977">977</a> of file <a class="el" href="task__commands_8c_source.html">task_commands.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="task__commands_8c_source.html#l01004">1004</a> of file <a class="el" href="task__commands_8c_source.html">task_commands.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="task__commands_8c_source.html#l01306">task_commands()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="task__commands_8c_source.html#l01333">task_commands()</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -655,9 +660,9 @@ Here is the caller graph for this function:</div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="task__commands_8c_source.html#l01156">1156</a> of file <a class="el" href="task__commands_8c_source.html">task_commands.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="task__commands_8c_source.html#l01183">1183</a> of file <a class="el" href="task__commands_8c_source.html">task_commands.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="task__commands_8c_source.html#l01306">task_commands()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="task__commands_8c_source.html#l01333">task_commands()</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -706,9 +711,9 @@ Here is the caller graph for this function:</div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="task__commands_8c_source.html#l01182">1182</a> of file <a class="el" href="task__commands_8c_source.html">task_commands.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="task__commands_8c_source.html#l01209">1209</a> of file <a class="el" href="task__commands_8c_source.html">task_commands.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="task__commands_8c_source.html#l01306">task_commands()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="task__commands_8c_source.html#l01333">task_commands()</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -777,9 +782,9 @@ Here is the caller graph for this function:</div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="task__commands_8c_source.html#l00154">154</a> of file <a class="el" href="task__commands_8c_source.html">task_commands.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="task__commands_8c_source.html#l00156">156</a> of file <a class="el" href="task__commands_8c_source.html">task_commands.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="task__commands_8c_source.html#l01306">task_commands()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="task__commands_8c_source.html#l01333">task_commands()</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -847,9 +852,9 @@ Here is the caller graph for this function:</div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="task__commands_8c_source.html#l00392">392</a> of file <a class="el" href="task__commands_8c_source.html">task_commands.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="task__commands_8c_source.html#l00394">394</a> of file <a class="el" href="task__commands_8c_source.html">task_commands.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="task__commands_8c_source.html#l01306">task_commands()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="task__commands_8c_source.html#l01333">task_commands()</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -904,9 +909,9 @@ Here is the caller graph for this function:</div>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="task__commands_8c_source.html#l01495">1495</a> of file <a class="el" href="task__commands_8c_source.html">task_commands.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="task__commands_8c_source.html#l01522">1522</a> of file <a class="el" href="task__commands_8c_source.html">task_commands.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="task__commands_8c_source.html#l00706">doGeneralCmdParsing()</a>, and <a class="el" href="task__commands_8c_source.html#l00108">sendErrorBack()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="task__commands_8c_source.html#l00733">doGeneralCmdParsing()</a>, and <a class="el" href="task__commands_8c_source.html#l00110">sendErrorBack()</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -967,9 +972,9 @@ Here is the caller graph for this function:</div>
 </div><div class="memdoc">
 <p>simple helper function which sends back to the USB host "?" and prints an error on the console with the given extra infos. </p>
 
-<p class="definition">Definition at line <a class="el" href="task__commands_8c_source.html#l00108">108</a> of file <a class="el" href="task__commands_8c_source.html">task_commands.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="task__commands_8c_source.html#l00110">110</a> of file <a class="el" href="task__commands_8c_source.html">task_commands.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="task__commands_8c_source.html#l00706">doGeneralCmdParsing()</a>, <a class="el" href="task__commands_8c_source.html#l00478">doJoystickParsing()</a>, <a class="el" href="task__commands_8c_source.html#l00977">doKeyboardParsing()</a>, <a class="el" href="task__commands_8c_source.html#l01182">doMouseParsing()</a>, and <a class="el" href="task__commands_8c_source.html#l00154">doMouthpieceSettingsParsing()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="task__commands_8c_source.html#l00733">doGeneralCmdParsing()</a>, <a class="el" href="task__commands_8c_source.html#l00480">doJoystickParsing()</a>, <a class="el" href="task__commands_8c_source.html#l01004">doKeyboardParsing()</a>, <a class="el" href="task__commands_8c_source.html#l01209">doMouseParsing()</a>, and <a class="el" href="task__commands_8c_source.html#l00156">doMouthpieceSettingsParsing()</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -1029,9 +1034,9 @@ Here is the caller graph for this function:</div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="task__commands_8c_source.html#l01306">1306</a> of file <a class="el" href="task__commands_8c_source.html">task_commands.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="task__commands_8c_source.html#l01333">1333</a> of file <a class="el" href="task__commands_8c_source.html">task_commands.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="task__commands_8c_source.html#l01650">taskCommandsInit()</a>, and <a class="el" href="task__commands_8c_source.html#l01667">taskCommandsRestart()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="task__commands_8c_source.html#l01677">taskCommandsInit()</a>, and <a class="el" href="task__commands_8c_source.html#l01694">taskCommandsRestart()</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -1121,7 +1126,7 @@ Here is the caller graph for this function:</div>
 <p>This method starts the command parser task, which handles incoming UART bytes &amp; responses if necessary. If necessary, this task deletes itself &amp; starts a CIM task (it MUST be the other way as well to restart the AT command parser) </p><dl class="section see"><dt>See also</dt><dd><a class="el" href="task__commands_8c.html#a26091155b4d85093239033d689f363d0" title="Restart the command parser task. ">taskCommandsRestart</a> </dd></dl>
 <dl class="section return"><dt>Returns</dt><dd>ESP_OK on success, ESP_FAIL otherwise </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="task__commands_8c_source.html#l01650">1650</a> of file <a class="el" href="task__commands_8c_source.html">task_commands.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="task__commands_8c_source.html#l01677">1677</a> of file <a class="el" href="task__commands_8c_source.html">task_commands.c</a>.</p>
 
 <p class="reference">Referenced by <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c_source.html#l00073">app_main()</a>.</p>
 <div class="dynheader">
@@ -1211,7 +1216,7 @@ Here is the caller graph for this function:</div>
 <p>Restart the command parser task</p>
 <p>This method is used, if the CIM parser detects AT commands and stops itself, providing the AT command set again. </p><dl class="section return"><dt>Returns</dt><dd>ESP_OK on success, ESP_FAIL otherwise (cannot start task, task already running) </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="task__commands_8c_source.html#l01667">1667</a> of file <a class="el" href="task__commands_8c_source.html">task_commands.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="task__commands_8c_source.html#l01694">1694</a> of file <a class="el" href="task__commands_8c_source.html">task_commands.c</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -1292,9 +1297,9 @@ Here is the call graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="task__commands_8c_source.html#l00058">58</a> of file <a class="el" href="task__commands_8c_source.html">task_commands.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="task__commands_8c_source.html#l00060">60</a> of file <a class="el" href="task__commands_8c_source.html">task_commands.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="task__commands_8c_source.html#l01650">taskCommandsInit()</a>, and <a class="el" href="task__commands_8c_source.html#l01667">taskCommandsRestart()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="task__commands_8c_source.html#l01677">taskCommandsInit()</a>, and <a class="el" href="task__commands_8c_source.html#l01694">taskCommandsRestart()</a>.</p>
 
 </div>
 </div>
@@ -1311,9 +1316,9 @@ Here is the call graph for this function:</div>
 </div><div class="memdoc">
 <p>If any parsing part requests a general config update, this variable is set to 1. task_commands will reset it to 0 after the update </p>
 
-<p class="definition">Definition at line <a class="el" href="task__commands_8c_source.html#l00076">76</a> of file <a class="el" href="task__commands_8c_source.html">task_commands.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="task__commands_8c_source.html#l00078">78</a> of file <a class="el" href="task__commands_8c_source.html">task_commands.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="task__commands_8c_source.html#l00706">doGeneralCmdParsing()</a>, <a class="el" href="task__commands_8c_source.html#l00571">doInfraredParsing()</a>, <a class="el" href="task__commands_8c_source.html#l00154">doMouthpieceSettingsParsing()</a>, and <a class="el" href="task__commands_8c_source.html#l01306">task_commands()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="task__commands_8c_source.html#l00733">doGeneralCmdParsing()</a>, <a class="el" href="task__commands_8c_source.html#l00573">doInfraredParsing()</a>, <a class="el" href="task__commands_8c_source.html#l00156">doMouthpieceSettingsParsing()</a>, and <a class="el" href="task__commands_8c_source.html#l01333">task_commands()</a>.</p>
 
 </div>
 </div>
@@ -1329,9 +1334,9 @@ Here is the call graph for this function:</div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="task__commands_8c_source.html#l00069">69</a> of file <a class="el" href="task__commands_8c_source.html">task_commands.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="task__commands_8c_source.html#l00071">71</a> of file <a class="el" href="task__commands_8c_source.html">task_commands.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="task__commands_8c_source.html#l00571">doInfraredParsing()</a>, <a class="el" href="task__commands_8c_source.html#l00478">doJoystickParsing()</a>, <a class="el" href="task__commands_8c_source.html#l00977">doKeyboardParsing()</a>, <a class="el" href="task__commands_8c_source.html#l01156">doMacroParsing()</a>, <a class="el" href="task__commands_8c_source.html#l01182">doMouseParsing()</a>, <a class="el" href="task__commands_8c_source.html#l00154">doMouthpieceSettingsParsing()</a>, <a class="el" href="task__commands_8c_source.html#l00392">doStorageParsing()</a>, and <a class="el" href="task__commands_8c_source.html#l01306">task_commands()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="task__commands_8c_source.html#l00573">doInfraredParsing()</a>, <a class="el" href="task__commands_8c_source.html#l00480">doJoystickParsing()</a>, <a class="el" href="task__commands_8c_source.html#l01004">doKeyboardParsing()</a>, <a class="el" href="task__commands_8c_source.html#l01183">doMacroParsing()</a>, <a class="el" href="task__commands_8c_source.html#l01209">doMouseParsing()</a>, <a class="el" href="task__commands_8c_source.html#l00156">doMouthpieceSettingsParsing()</a>, <a class="el" href="task__commands_8c_source.html#l00394">doStorageParsing()</a>, and <a class="el" href="task__commands_8c_source.html#l01333">task_commands()</a>.</p>
 
 </div>
 </div>
@@ -1347,9 +1352,9 @@ Here is the call graph for this function:</div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="task__commands_8c_source.html#l00066">66</a> of file <a class="el" href="task__commands_8c_source.html">task_commands.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="task__commands_8c_source.html#l00068">68</a> of file <a class="el" href="task__commands_8c_source.html">task_commands.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="task__commands_8c_source.html#l00571">doInfraredParsing()</a>, <a class="el" href="task__commands_8c_source.html#l00478">doJoystickParsing()</a>, <a class="el" href="task__commands_8c_source.html#l00977">doKeyboardParsing()</a>, <a class="el" href="task__commands_8c_source.html#l01156">doMacroParsing()</a>, <a class="el" href="task__commands_8c_source.html#l01182">doMouseParsing()</a>, <a class="el" href="task__commands_8c_source.html#l00154">doMouthpieceSettingsParsing()</a>, <a class="el" href="task__commands_8c_source.html#l00392">doStorageParsing()</a>, and <a class="el" href="task__commands_8c_source.html#l01306">task_commands()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="task__commands_8c_source.html#l00573">doInfraredParsing()</a>, <a class="el" href="task__commands_8c_source.html#l00480">doJoystickParsing()</a>, <a class="el" href="task__commands_8c_source.html#l01004">doKeyboardParsing()</a>, <a class="el" href="task__commands_8c_source.html#l01183">doMacroParsing()</a>, <a class="el" href="task__commands_8c_source.html#l01209">doMouseParsing()</a>, <a class="el" href="task__commands_8c_source.html#l00156">doMouthpieceSettingsParsing()</a>, <a class="el" href="task__commands_8c_source.html#l00394">doStorageParsing()</a>, and <a class="el" href="task__commands_8c_source.html#l01333">task_commands()</a>.</p>
 
 </div>
 </div>
@@ -1366,9 +1371,9 @@ Here is the call graph for this function:</div>
 </div><div class="memdoc">
 <dl class="todo"><dt><b><a class="el" href="todo.html#_todo000008">Todo:</a></b></dt><dd>documentate this stuff </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="task__commands_8c_source.html#l00063">63</a> of file <a class="el" href="task__commands_8c_source.html">task_commands.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="task__commands_8c_source.html#l00065">65</a> of file <a class="el" href="task__commands_8c_source.html">task_commands.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="task__commands_8c_source.html#l00571">doInfraredParsing()</a>, <a class="el" href="task__commands_8c_source.html#l00478">doJoystickParsing()</a>, <a class="el" href="task__commands_8c_source.html#l00977">doKeyboardParsing()</a>, <a class="el" href="task__commands_8c_source.html#l01156">doMacroParsing()</a>, <a class="el" href="task__commands_8c_source.html#l01182">doMouseParsing()</a>, <a class="el" href="task__commands_8c_source.html#l00154">doMouthpieceSettingsParsing()</a>, <a class="el" href="task__commands_8c_source.html#l00392">doStorageParsing()</a>, and <a class="el" href="task__commands_8c_source.html#l01306">task_commands()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="task__commands_8c_source.html#l00573">doInfraredParsing()</a>, <a class="el" href="task__commands_8c_source.html#l00480">doJoystickParsing()</a>, <a class="el" href="task__commands_8c_source.html#l01004">doKeyboardParsing()</a>, <a class="el" href="task__commands_8c_source.html#l01183">doMacroParsing()</a>, <a class="el" href="task__commands_8c_source.html#l01209">doMouseParsing()</a>, <a class="el" href="task__commands_8c_source.html#l00156">doMouthpieceSettingsParsing()</a>, <a class="el" href="task__commands_8c_source.html#l00394">doStorageParsing()</a>, and <a class="el" href="task__commands_8c_source.html#l01333">task_commands()</a>.</p>
 
 </div>
 </div>
@@ -1384,9 +1389,9 @@ Here is the call graph for this function:</div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="task__commands_8c_source.html#l00072">72</a> of file <a class="el" href="task__commands_8c_source.html">task_commands.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="task__commands_8c_source.html#l00074">74</a> of file <a class="el" href="task__commands_8c_source.html">task_commands.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="task__commands_8c_source.html#l00571">doInfraredParsing()</a>, <a class="el" href="task__commands_8c_source.html#l00478">doJoystickParsing()</a>, <a class="el" href="task__commands_8c_source.html#l00977">doKeyboardParsing()</a>, <a class="el" href="task__commands_8c_source.html#l01156">doMacroParsing()</a>, <a class="el" href="task__commands_8c_source.html#l01182">doMouseParsing()</a>, <a class="el" href="task__commands_8c_source.html#l00154">doMouthpieceSettingsParsing()</a>, <a class="el" href="task__commands_8c_source.html#l00392">doStorageParsing()</a>, and <a class="el" href="task__commands_8c_source.html#l01306">task_commands()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="task__commands_8c_source.html#l00573">doInfraredParsing()</a>, <a class="el" href="task__commands_8c_source.html#l00480">doJoystickParsing()</a>, <a class="el" href="task__commands_8c_source.html#l01004">doKeyboardParsing()</a>, <a class="el" href="task__commands_8c_source.html#l01183">doMacroParsing()</a>, <a class="el" href="task__commands_8c_source.html#l01209">doMouseParsing()</a>, <a class="el" href="task__commands_8c_source.html#l00156">doMouthpieceSettingsParsing()</a>, <a class="el" href="task__commands_8c_source.html#l00394">doStorageParsing()</a>, and <a class="el" href="task__commands_8c_source.html#l01333">task_commands()</a>.</p>
 
 </div>
 </div>
@@ -1407,9 +1412,9 @@ Here is the call graph for this function:</div>
 <dd>
 <a class="el" href="task__commands_8c.html#a72a3465e14641646907f99794f88e6dc">requestVBParameterSize</a> </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="task__commands_8c_source.html#l00087">87</a> of file <a class="el" href="task__commands_8c_source.html">task_commands.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="task__commands_8c_source.html#l00089">89</a> of file <a class="el" href="task__commands_8c_source.html">task_commands.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="task__commands_8c_source.html#l00706">doGeneralCmdParsing()</a>, <a class="el" href="task__commands_8c_source.html#l00571">doInfraredParsing()</a>, <a class="el" href="task__commands_8c_source.html#l00478">doJoystickParsing()</a>, <a class="el" href="task__commands_8c_source.html#l00977">doKeyboardParsing()</a>, <a class="el" href="task__commands_8c_source.html#l01182">doMouseParsing()</a>, <a class="el" href="task__commands_8c_source.html#l00154">doMouthpieceSettingsParsing()</a>, <a class="el" href="task__commands_8c_source.html#l00392">doStorageParsing()</a>, and <a class="el" href="task__commands_8c_source.html#l01306">task_commands()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="task__commands_8c_source.html#l00733">doGeneralCmdParsing()</a>, <a class="el" href="task__commands_8c_source.html#l00573">doInfraredParsing()</a>, <a class="el" href="task__commands_8c_source.html#l00480">doJoystickParsing()</a>, <a class="el" href="task__commands_8c_source.html#l01004">doKeyboardParsing()</a>, <a class="el" href="task__commands_8c_source.html#l01209">doMouseParsing()</a>, <a class="el" href="task__commands_8c_source.html#l00156">doMouthpieceSettingsParsing()</a>, <a class="el" href="task__commands_8c_source.html#l00394">doStorageParsing()</a>, and <a class="el" href="task__commands_8c_source.html#l01333">task_commands()</a>.</p>
 
 </div>
 </div>

@@ -1,13 +1,13 @@
 var searchData=
 [
-  ['deadkey_5fto_5fkeycode',['deadkey_to_keycode',['../keyboard_8c.html#a6b593fa493aea40be410640981b1c181',1,'deadkey_to_keycode(uint16_t keycode, uint8_t locale):&#160;keyboard.c'],['../keyboard_8h.html#a6b593fa493aea40be410640981b1c181',1,'deadkey_to_keycode(uint16_t keycode, uint8_t locale):&#160;keyboard.c']]],
-  ['debouncercallback',['debouncerCallback',['../task__debouncer_8c.html#a4a76abdbb849aa0bbc66aa001c6f4af9',1,'task_debouncer.c']]],
-  ['dogeneralcmdparsing',['doGeneralCmdParsing',['../task__commands_8c.html#a7f6500be563a3dce7f0854fceed02fab',1,'task_commands.c']]],
-  ['doinfraredparsing',['doInfraredParsing',['../task__commands_8c.html#a937cdeb2f02b0c5d9a0f94a0f69e9328',1,'task_commands.c']]],
-  ['dojoystickparsing',['doJoystickParsing',['../task__commands_8c.html#afc7ebe31a124c2102f8b41577b6dc5b0',1,'task_commands.c']]],
-  ['dokeyboardparsing',['doKeyboardParsing',['../task__commands_8c.html#ac3c72c089d32dea93c45f4f9f8d1f244',1,'task_commands.c']]],
-  ['domacroparsing',['doMacroParsing',['../task__commands_8c.html#acdd5ac250a84f0f62d23f174b7366432',1,'task_commands.c']]],
-  ['domouseparsing',['doMouseParsing',['../task__commands_8c.html#a580d9f6a840975525358033a35f761d0',1,'task_commands.c']]],
-  ['domouthpiecesettingsparsing',['doMouthpieceSettingsParsing',['../task__commands_8c.html#a2ad28759e53bb5082853d8d004767115',1,'task_commands.c']]],
-  ['dostorageparsing',['doStorageParsing',['../task__commands_8c.html#a69b0c55558b32caa21407de8e2277be9',1,'task_commands.c']]]
+  ['canceltimer',['cancelTimer',['../task__debouncer_8c.html#ad6a8419e00b94feeb5177a3570efe6ba',1,'task_debouncer.c']]],
+  ['captdnsinit',['captdnsInit',['../captdns_8c.html#a82f468eb219b14b853eb183149894e92',1,'captdnsInit(void):&#160;captdns.c'],['../captdns_8h.html#a82f468eb219b14b853eb183149894e92',1,'captdnsInit(void):&#160;captdns.c']]],
+  ['captdnsrecv',['captdnsRecv',['../captdns_8c.html#ae3d5d80203823fee0be8b7a591e5a32d',1,'captdns.c']]],
+  ['captdnstask',['captdnsTask',['../captdns_8c.html#afbeefb54f301b1f8179ecb1a6efb69a9',1,'captdns.c']]],
+  ['checkqueues',['checkqueues',['../task__commands_8c.html#adf3aa67816eecac3e756189c9d61cbd2',1,'task_commands.c']]],
+  ['configgetcurrent',['configGetCurrent',['../config__switcher_8c.html#a921538bec34d128a44a748fd5a2c391f',1,'configGetCurrent(void):&#160;config_switcher.c'],['../config__switcher_8h.html#a921538bec34d128a44a748fd5a2c391f',1,'configGetCurrent(void):&#160;config_switcher.c']]],
+  ['configswitcherinit',['configSwitcherInit',['../config__switcher_8c.html#aafed047c8d04b814a85239e031cbad7b',1,'configSwitcherInit(void):&#160;config_switcher.c'],['../config__switcher_8h.html#aafed047c8d04b814a85239e031cbad7b',1,'configSwitcherInit(void):&#160;config_switcher.c']]],
+  ['configswitchertask',['configSwitcherTask',['../config__switcher_8c.html#af5af5079d1982d42e165039e6de7e40a',1,'config_switcher.c']]],
+  ['configupdate',['configUpdate',['../config__switcher_8c.html#a4c2e410d8032c65c0700c6ca07429074',1,'configUpdate(void):&#160;config_switcher.c'],['../config__switcher_8h.html#a4c2e410d8032c65c0700c6ca07429074',1,'configUpdate(void):&#160;config_switcher.c']]],
+  ['configupdatevb',['configUpdateVB',['../config__switcher_8c.html#a20db6aabb98f5c9c7cea48e950bada5b',1,'configUpdateVB(void *param, command_type_t type, uint8_t vb):&#160;config_switcher.c'],['../config__switcher_8h.html#a20db6aabb98f5c9c7cea48e950bada5b',1,'configUpdateVB(void *param, command_type_t type, uint8_t vb):&#160;config_switcher.c']]]
 ];

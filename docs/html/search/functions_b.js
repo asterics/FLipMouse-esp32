@@ -1,4 +1,6 @@
 var searchData=
 [
-  ['remove_5fkeycode',['remove_keycode',['../keyboard_8c.html#a999cf21107da9c1a7e3797e72d95045b',1,'remove_keycode(uint8_t keycode, uint8_t *keycode_arr):&#160;keyboard.c'],['../keyboard_8h.html#a999cf21107da9c1a7e3797e72d95045b',1,'remove_keycode(uint8_t keycode, uint8_t *keycode_arr):&#160;keyboard.c']]]
+  ['mouse_5fget_5fwheel',['mouse_get_wheel',['../task__mouse_8c.html#ab5cfaaac2cd4ec6fc79546f847db96de',1,'mouse_get_wheel(void):&#160;task_mouse.c'],['../task__mouse_8h.html#ab5cfaaac2cd4ec6fc79546f847db96de',1,'mouse_get_wheel(void):&#160;task_mouse.c']]],
+  ['mouse_5fset_5fwheel',['mouse_set_wheel',['../task__mouse_8c.html#ac5aaa616044b7bef9f75347719181dbe',1,'mouse_set_wheel(uint8_t steps):&#160;task_mouse.c'],['../task__mouse_8h.html#ac5aaa616044b7bef9f75347719181dbe',1,'mouse_set_wheel(uint8_t steps):&#160;task_mouse.c']]],
+  ['my_5fntohs',['my_ntohs',['../captdns_8c.html#adec91475451453070cedc420696c90f1',1,'captdns.c']]]
 ];

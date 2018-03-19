@@ -1,7 +1,9 @@
 var searchData=
 [
-  ['waitfornewatcmd',['WAITFORNEWATCMD',['../task__commands_8c.html#a7860b6904b2ba2dd906d189ada5f1e17a8430aa1deedfa38beb0b766f5f2ab411',1,'task_commands.c']]],
-  ['wheel',['wheel',['../structmouse__command.html#a813db5c3e3e2d7f013972f54b8257464',1,'mouse_command::wheel()'],['../task__mouse_8h.html#ad99a95527afeac61cb05911c7695d942ac7b6c6728ce2073ebab56d038205e7b3',1,'WHEEL():&#160;task_mouse.h']]],
-  ['wheel_5fstepsize',['wheel_stepsize',['../structgeneralConfig.html#a36225b09e3c7254252c495c6e36f4c33',1,'generalConfig']]],
-  ['write',['WRITE',['../task__kbd_8h.html#aff3bf982a86299e69b007b0d16a45227a61aa7ff70b76bff0fda378cf61d6afbc',1,'task_kbd.h']]]
+  ['undefkeylayouts_2eh',['undefkeylayouts.h',['../undefkeylayouts_8h.html',1,'']]],
+  ['unicode_5fto_5fkeycode',['unicode_to_keycode',['../keyboard_8c.html#add849eefda31316c7d22d45f49e261e2',1,'unicode_to_keycode(uint16_t cpoint, uint8_t locale):&#160;keyboard.c'],['../keyboard_8h.html#add849eefda31316c7d22d45f49e261e2',1,'unicode_to_keycode(uint16_t cpoint, uint8_t locale):&#160;keyboard.c']]],
+  ['unit',['unit',['../structprf__char__pres__fmt.html#ad62b809a225e2f43b30491ba33e835a1',1,'prf_char_pres_fmt']]],
+  ['unknowncmd',['UNKNOWNCMD',['../task__commands_8c.html#a7860b6904b2ba2dd906d189ada5f1e17a88d52d035be8cb7e2c0c9c3acc76dc6d',1,'task_commands.c']]],
+  ['up',['up',['../structadcData.html#adeac5c55d7b34831cedb2b2adfd82b17',1,'adcData']]],
+  ['usb_5factive',['usb_active',['../structgeneralConfig.html#ae603cecf166e37fe963e124388e30f6a',1,'generalConfig']]]
 ];

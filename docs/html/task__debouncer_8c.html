@@ -71,7 +71,7 @@ $(function() {
 </div><!--header-->
 <div class="contents">
 
-<p>This file contains the task implementation for the virtual button debouncer.  
+<p>CONTINOUS TASK - This file contains the task implementation for the virtual button debouncer.  
 <a href="#details">More...</a></p>
 <div class="textblock"><code>#include &quot;<a class="el" href="task__debouncer_8h_source.html">task_debouncer.h</a>&quot;</code><br />
 </div>
@@ -133,7 +133,7 @@ Variables</h2></td></tr>
 <tr class="separator:a9ccc9e17849266659f211b03861ae038"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>This file contains the task implementation for the virtual button debouncer. </p>
+<div class="textblock"><p>CONTINOUS TASK - This file contains the task implementation for the virtual button debouncer. </p>
 <p>Uses the event flags of virtualButtonsIn and if a flag is set there, the debouncer waits for a defined debouncing time and maps the flags to virtualButtonsOut. </p>
 
 <p class="definition">Definition in file <a class="el" href="task__debouncer_8c_source.html">task_debouncer.c</a>.</p>
@@ -151,9 +151,9 @@ Variables</h2></td></tr>
 </div><div class="memdoc">
 <p>Tag for ESP_LOG logging </p>
 
-<p class="definition">Definition at line <a class="el" href="task__debouncer_8c_source.html#l00036">36</a> of file <a class="el" href="task__debouncer_8c_source.html">task_debouncer.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="task__debouncer_8c_source.html#l00035">35</a> of file <a class="el" href="task__debouncer_8c_source.html">task_debouncer.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="task__debouncer_8c_source.html#l00181">debouncerCallback()</a>, <a class="el" href="task__debouncer_8c_source.html#l00262">startTimer()</a>, and <a class="el" href="task__debouncer_8c_source.html#l00306">task_debouncer()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="task__debouncer_8c_source.html#l00180">debouncerCallback()</a>, <a class="el" href="task__debouncer_8c_source.html#l00261">startTimer()</a>, and <a class="el" href="task__debouncer_8c_source.html#l00305">task_debouncer()</a>.</p>
 
 </div>
 </div>
@@ -172,9 +172,9 @@ Variables</h2></td></tr>
 <p>Debounce timer status - DEADTIME. </p>
 <p>Timer is running &amp; waiting for time to elapse, during this timer is running, VBs are locked and not mapped. </p><dl class="todo"><dt><b><a class="el" href="todo.html#_todo000010">Todo:</a></b></dt><dd>Implement the deadtime &amp; anti-tremor functions </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="task__debouncer_8c_source.html#l00061">61</a> of file <a class="el" href="task__debouncer_8c_source.html">task_debouncer.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="task__debouncer_8c_source.html#l00060">60</a> of file <a class="el" href="task__debouncer_8c_source.html">task_debouncer.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="task__debouncer_8c_source.html#l00181">debouncerCallback()</a>, and <a class="el" href="task__debouncer_8c_source.html#l00306">task_debouncer()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="task__debouncer_8c_source.html#l00180">debouncerCallback()</a>, and <a class="el" href="task__debouncer_8c_source.html#l00305">task_debouncer()</a>.</p>
 
 </div>
 </div>
@@ -193,9 +193,9 @@ Variables</h2></td></tr>
 <p>Debounce timer status - IDLE. </p>
 <p>Timer is not running &amp; waiting for a new command </p>
 
-<p class="definition">Definition at line <a class="el" href="task__debouncer_8c_source.html#l00041">41</a> of file <a class="el" href="task__debouncer_8c_source.html">task_debouncer.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="task__debouncer_8c_source.html#l00040">40</a> of file <a class="el" href="task__debouncer_8c_source.html">task_debouncer.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="task__debouncer_8c_source.html#l00181">debouncerCallback()</a>, and <a class="el" href="task__debouncer_8c_source.html#l00306">task_debouncer()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="task__debouncer_8c_source.html#l00180">debouncerCallback()</a>, and <a class="el" href="task__debouncer_8c_source.html#l00305">task_debouncer()</a>.</p>
 
 </div>
 </div>
@@ -214,9 +214,9 @@ Variables</h2></td></tr>
 <p>Debounce timer status - PRESS. </p>
 <p>Timer is running &amp; waiting for debounce time to elapse, triggering the press flag of a virtual button. </p>
 
-<p class="definition">Definition at line <a class="el" href="task__debouncer_8c_source.html#l00047">47</a> of file <a class="el" href="task__debouncer_8c_source.html">task_debouncer.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="task__debouncer_8c_source.html#l00046">46</a> of file <a class="el" href="task__debouncer_8c_source.html">task_debouncer.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="task__debouncer_8c_source.html#l00181">debouncerCallback()</a>, and <a class="el" href="task__debouncer_8c_source.html#l00306">task_debouncer()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="task__debouncer_8c_source.html#l00180">debouncerCallback()</a>, and <a class="el" href="task__debouncer_8c_source.html#l00305">task_debouncer()</a>.</p>
 
 </div>
 </div>
@@ -235,9 +235,9 @@ Variables</h2></td></tr>
 <p>Debounce timer status - RELEASE. </p>
 <p>Timer is running &amp; waiting for debounce time to elapse, triggering the release flag of a virtual button. </p>
 
-<p class="definition">Definition at line <a class="el" href="task__debouncer_8c_source.html#l00053">53</a> of file <a class="el" href="task__debouncer_8c_source.html">task_debouncer.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="task__debouncer_8c_source.html#l00052">52</a> of file <a class="el" href="task__debouncer_8c_source.html">task_debouncer.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="task__debouncer_8c_source.html#l00181">debouncerCallback()</a>, and <a class="el" href="task__debouncer_8c_source.html#l00306">task_debouncer()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="task__debouncer_8c_source.html#l00180">debouncerCallback()</a>, and <a class="el" href="task__debouncer_8c_source.html#l00305">task_debouncer()</a>.</p>
 
 </div>
 </div>
@@ -258,9 +258,9 @@ Variables</h2></td></tr>
 </div><div class="memdoc">
 <p>Check for both flags, PRESS and RELEASE </p>
 
-<p class="definition">Definition at line <a class="el" href="task__debouncer_8c_source.html#l00066">66</a> of file <a class="el" href="task__debouncer_8c_source.html">task_debouncer.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="task__debouncer_8c_source.html#l00065">65</a> of file <a class="el" href="task__debouncer_8c_source.html">task_debouncer.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="task__debouncer_8c_source.html#l00306">task_debouncer()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="task__debouncer_8c_source.html#l00305">task_debouncer()</a>.</p>
 
 </div>
 </div>
@@ -281,9 +281,9 @@ Variables</h2></td></tr>
 </div><div class="memdoc">
 <p>Check for press flag </p>
 
-<p class="definition">Definition at line <a class="el" href="task__debouncer_8c_source.html#l00068">68</a> of file <a class="el" href="task__debouncer_8c_source.html">task_debouncer.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="task__debouncer_8c_source.html#l00067">67</a> of file <a class="el" href="task__debouncer_8c_source.html">task_debouncer.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="task__debouncer_8c_source.html#l00306">task_debouncer()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="task__debouncer_8c_source.html#l00305">task_debouncer()</a>.</p>
 
 </div>
 </div>
@@ -304,9 +304,9 @@ Variables</h2></td></tr>
 </div><div class="memdoc">
 <p>Check for release flag </p>
 
-<p class="definition">Definition at line <a class="el" href="task__debouncer_8c_source.html#l00070">70</a> of file <a class="el" href="task__debouncer_8c_source.html">task_debouncer.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="task__debouncer_8c_source.html#l00069">69</a> of file <a class="el" href="task__debouncer_8c_source.html">task_debouncer.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="task__debouncer_8c_source.html#l00306">task_debouncer()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="task__debouncer_8c_source.html#l00305">task_debouncer()</a>.</p>
 
 </div>
 </div>
@@ -337,9 +337,9 @@ Variables</h2></td></tr>
 </div><div class="memdoc">
 <p>Define for easy access to number with eventgroup iterator (i) and VB number in group (j, 0-3) </p>
 
-<p class="definition">Definition at line <a class="el" href="task__debouncer_8c_source.html#l00064">64</a> of file <a class="el" href="task__debouncer_8c_source.html">task_debouncer.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="task__debouncer_8c_source.html#l00063">63</a> of file <a class="el" href="task__debouncer_8c_source.html">task_debouncer.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="task__debouncer_8c_source.html#l00306">task_debouncer()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="task__debouncer_8c_source.html#l00305">task_debouncer()</a>.</p>
 
 </div>
 </div>
@@ -369,9 +369,9 @@ Variables</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Array offset where this running timer was found &amp; canceled, -1 if no timer was found </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="task__debouncer_8c_source.html#l00123">123</a> of file <a class="el" href="task__debouncer_8c_source.html">task_debouncer.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="task__debouncer_8c_source.html#l00122">122</a> of file <a class="el" href="task__debouncer_8c_source.html">task_debouncer.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="task__debouncer_8c_source.html#l00181">debouncerCallback()</a>, and <a class="el" href="task__debouncer_8c_source.html#l00306">task_debouncer()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="task__debouncer_8c_source.html#l00180">debouncerCallback()</a>, and <a class="el" href="task__debouncer_8c_source.html#l00305">task_debouncer()</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
@@ -417,9 +417,9 @@ Here is the caller graph for this function:</div>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="task__debouncer_8c_source.html#l00181">181</a> of file <a class="el" href="task__debouncer_8c_source.html">task_debouncer.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="task__debouncer_8c_source.html#l00180">180</a> of file <a class="el" href="task__debouncer_8c_source.html">task_debouncer.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="task__debouncer_8c_source.html#l00262">startTimer()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="task__debouncer_8c_source.html#l00261">startTimer()</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -472,9 +472,9 @@ Here is the caller graph for this function:</div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Array offset used for xTimers array if a running timer is found, -1 if no timer was found </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="task__debouncer_8c_source.html#l00103">103</a> of file <a class="el" href="task__debouncer_8c_source.html">task_debouncer.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="task__debouncer_8c_source.html#l00102">102</a> of file <a class="el" href="task__debouncer_8c_source.html">task_debouncer.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="task__debouncer_8c_source.html#l00181">debouncerCallback()</a>, and <a class="el" href="task__debouncer_8c_source.html#l00306">task_debouncer()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="task__debouncer_8c_source.html#l00180">debouncerCallback()</a>, and <a class="el" href="task__debouncer_8c_source.html#l00305">task_debouncer()</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
@@ -533,9 +533,9 @@ Here is the caller graph for this function:</div>
 </dl>
 <dl class="section see"><dt>See also</dt><dd><a class="el" href="structgeneralConfig.html#a5604b791b1617a88bc4b93558ffb3233" title="Enable/disable button learning mode. ">generalConfig_t.button_learn</a> </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="task__debouncer_8c_source.html#l00152">152</a> of file <a class="el" href="task__debouncer_8c_source.html">task_debouncer.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="task__debouncer_8c_source.html#l00151">151</a> of file <a class="el" href="task__debouncer_8c_source.html">task_debouncer.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="task__debouncer_8c_source.html#l00181">debouncerCallback()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="task__debouncer_8c_source.html#l00180">debouncerCallback()</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -599,9 +599,9 @@ Here is the caller graph for this function:</div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>-1 if no free timer slot was found (DEBOUNCERCHANNELS), the timer array index otherwise </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="task__debouncer_8c_source.html#l00262">262</a> of file <a class="el" href="task__debouncer_8c_source.html">task_debouncer.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="task__debouncer_8c_source.html#l00261">261</a> of file <a class="el" href="task__debouncer_8c_source.html">task_debouncer.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="task__debouncer_8c_source.html#l00181">debouncerCallback()</a>, and <a class="el" href="task__debouncer_8c_source.html#l00306">task_debouncer()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="task__debouncer_8c_source.html#l00180">debouncerCallback()</a>, and <a class="el" href="task__debouncer_8c_source.html#l00305">task_debouncer()</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -663,7 +663,7 @@ Here is the caller graph for this function:</div>
 <dl class="section note"><dt>Note</dt><dd>This task is persistently running </dd></dl>
 <dl class="todo"><dt><b><a class="el" href="todo.html#_todo000012">Todo:</a></b></dt><dd>Add anti-tremor &amp; deadtime functionality </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="task__debouncer_8c_source.html#l00306">306</a> of file <a class="el" href="task__debouncer_8c_source.html">task_debouncer.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="task__debouncer_8c_source.html#l00305">305</a> of file <a class="el" href="task__debouncer_8c_source.html">task_debouncer.c</a>.</p>
 
 <p class="reference">Referenced by <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c_source.html#l00073">app_main()</a>.</p>
 <div class="dynheader">
@@ -717,9 +717,9 @@ Here is the caller graph for this function:</div>
 <dd>
 <a class="el" href="task__debouncer_8c.html#a0bffe5be4386a9d495fa03b02659fd49" title="Debounce timer status - IDLE. ">TIMER_IDLE</a> </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="task__debouncer_8c_source.html#l00094">94</a> of file <a class="el" href="task__debouncer_8c_source.html">task_debouncer.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="task__debouncer_8c_source.html#l00093">93</a> of file <a class="el" href="task__debouncer_8c_source.html">task_debouncer.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="task__debouncer_8c_source.html#l00181">debouncerCallback()</a>, and <a class="el" href="task__debouncer_8c_source.html#l00306">task_debouncer()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="task__debouncer_8c_source.html#l00180">debouncerCallback()</a>, and <a class="el" href="task__debouncer_8c_source.html#l00305">task_debouncer()</a>.</p>
 
 </div>
 </div>
@@ -739,9 +739,9 @@ Here is the caller graph for this function:</div>
 <p>This array contains all possible running timer handles. A maximum of DEBOUNCERCHANNELS timers can be concurrently running.</p>
 <dl class="section see"><dt>See also</dt><dd><a class="el" href="task__debouncer_8h.html#ae55924cae00606d43fce524c9ddfa62e" title="Number of concurrent debouncing channels, each channel represents one software timer handle...">DEBOUNCERCHANNELS</a> </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="task__debouncer_8c_source.html#l00081">81</a> of file <a class="el" href="task__debouncer_8c_source.html">task_debouncer.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="task__debouncer_8c_source.html#l00080">80</a> of file <a class="el" href="task__debouncer_8c_source.html">task_debouncer.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="task__debouncer_8c_source.html#l00123">cancelTimer()</a>, <a class="el" href="task__debouncer_8c_source.html#l00103">isDebouncerActive()</a>, and <a class="el" href="task__debouncer_8c_source.html#l00262">startTimer()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="task__debouncer_8c_source.html#l00122">cancelTimer()</a>, <a class="el" href="task__debouncer_8c_source.html#l00102">isDebouncerActive()</a>, and <a class="el" href="task__debouncer_8c_source.html#l00261">startTimer()</a>.</p>
 
 </div>
 </div>

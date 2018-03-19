@@ -11,6 +11,7 @@ var searchData=
   ['sliderright',['sliderRight',['../structjoystick__command.html#aa9700f0cb798326dfed3a28c1e8f5793',1,'joystick_command']]],
   ['slotname',['slotName',['../structtaskConfigSwitcherConfig.html#a28b1ab4ccf1aa8814a9b81d58d5c7bd5',1,'taskConfigSwitcherConfig::slotName()'],['../structgeneralConfig.html#a1d383c1fdfd705732cac3a1d435078e0',1,'generalConfig::slotName()']]],
   ['slotversion',['slotversion',['../structgeneralConfig.html#a346d50e48981b23684bd04c371212a08',1,'generalConfig']]],
+  ['sockfd',['sockFd',['../captdns_8c.html#a5d4975d0f40bc307555843159c622cb1',1,'captdns.c']]],
   ['state',['state',['../structesp__hidd__cb__param__t_1_1hidd__init__finish__evt__param.html#a33c7c87def3302bcaa923c620d31b1d9',1,'esp_hidd_cb_param_t::hidd_init_finish_evt_param::state()'],['../structesp__hidd__cb__param__t_1_1hidd__deinit__finish__evt__param.html#aead8cf8834062cfa90a418aeb7dd7a71',1,'esp_hidd_cb_param_t::hidd_deinit_finish_evt_param::state()']]],
   ['status',['status',['../structhalIOIR.html#acc1ca503a0bbc3afd243a97708623157',1,'halIOIR']]],
   ['storagecurrentslotnumber',['storageCurrentSlotNumber',['../hal__storage_8c.html#a5c097404b5dfa34bdac65865586dac5a',1,'hal_storage.c']]],

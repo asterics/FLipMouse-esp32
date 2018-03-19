@@ -13,6 +13,11 @@ var searchData=
   ['description',['description',['../structprf__char__pres__fmt.html#acc0aa4c749ac1fb4f7d0416f17b9afbe',1,'prf_char_pres_fmt']]],
   ['deviceidentifier',['deviceIdentifier',['../structgeneralConfig.html#a40cad6af386ec12784926fcc16e0ba24',1,'generalConfig::deviceIdentifier()'],['../hal__ble_8c.html#ad7175895c8cabb280bb57de009caf91a',1,'deviceIdentifier():&#160;hal_ble.c']]],
   ['disconnect',['disconnect',['../unionesp__hidd__cb__param__t.html#a814b1955e8b23567a0fcf6b6e164b30b',1,'esp_hidd_cb_param_t']]],
+  ['dnsheader',['DnsHeader',['../captdns_8c.html#a43123036321354db8c5a5ee5eb3e19a2',1,'captdns.c']]],
+  ['dnslabel',['DnsLabel',['../captdns_8c.html#a3c5913789c2f46752baa880646bba11d',1,'captdns.c']]],
+  ['dnsquestionfooter',['DnsQuestionFooter',['../captdns_8c.html#a35a1b1d68789477988c78a6a94c7d52d',1,'captdns.c']]],
+  ['dnsresourcefooter',['DnsResourceFooter',['../captdns_8c.html#a69e8eb62bae268243c6a1b277d19394c',1,'captdns.c']]],
+  ['dnsurihdr',['DnsUriHdr',['../captdns_8c.html#ada743c33a17ed7ef8a1fa6eb02a7a64e',1,'captdns.c']]],
   ['down',['down',['../structadcData.html#a4a052112c750f6d483eabc08cb43b6c3',1,'adcData']]],
   ['duration',['duration',['../structhalIOBuzzer.html#a6fee679bc63857c97b18a867a8905b61',1,'halIOBuzzer']]]
 ];

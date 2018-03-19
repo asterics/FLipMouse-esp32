@@ -70,6 +70,8 @@ $(function() {
 </ul>
 <p>All configuration is done via the serial interface, which provides the persistent configuration of all functionalities and in addition a live mode (e.g. write "mouse move" to the serial port and the firmware moves the mouse cursor).</p>
 <p>The serial port configuration is <b>115200 8N1</b> (even these settings are not necessary due to the USB encapsulation).</p>
+<p><b>Note:</b></p>
+<p>The ESP32 chip itself does NOT have USB connection. Therefore, we integrated a second USB chip on the FABI/FLipMouse PCB, which handles USB to Serial / Serial to HID translation. The corresponding firmware for this chip (LPC11U14) is located here: <a href="https://github.com/benjaminaigner/usb_bridge">usb_bridge repository</a></p>
 <p><b>Note:</b> Please note that all following commands, which do NOT have a FUNCTIONAL task, cannot be assigned to a virtual button (via AT BM). These commands can be used to configure the FLipMouse/FABI, in a macro or for slot management.</p>
 <p>Following commands are currently available:</p>
 <p><b>General Commands</b> </p><table class="doxtable">
@@ -178,7 +180,7 @@ $(function() {
 <tr>
 <td align="left">AT DE </td><td align="left">&ndash; </td><td align="left">delete all slots </td><td align="left">v2 </td><td align="left">yes </td><td align="left">no </td></tr>
 <tr>
-<td align="left">AT DL </td><td align="left">number (1-) </td><td align="left">delete one slot. </td><td align="left">v3 </td><td align="left">untested </td><td align="left">no </td></tr>
+<td align="left">AT DL </td><td align="left">number (1-) </td><td align="left">delete one slot. </td><td align="left">v3 </td><td align="left">yes </td><td align="left">no </td></tr>
 <tr>
 <td align="left">AT DN </td><td align="left">string </td><td align="left">delete one slot by name </td><td align="left">v3 </td><td align="left">yes </td><td align="left">no </td></tr>
 <tr>
@@ -194,9 +196,9 @@ $(function() {
 <tr>
 <th align="left">Command </th><th align="left">Parameter </th><th align="left">Description </th><th align="left">Available since </th><th align="left">Implemented in v3 </th><th align="left">FUNCTIONAL task  </th></tr>
 <tr>
-<td align="left">AT MM </td><td align="left">number (0,1,2) </td><td align="left">use the mouthpiece either as mouse cursor (AT MM 1), alternative function (AT MM 0) or joystick (AT MM 2) </td><td align="left">v2 </td><td align="left">untested </td><td align="left">no </td></tr>
+<td align="left">AT MM </td><td align="left">number (0,1,2) </td><td align="left">use the mouthpiece either as mouse cursor (AT MM 1), alternative function (AT MM 0) or joystick (AT MM 2) </td><td align="left">v2 </td><td align="left">yes </td><td align="left">no </td></tr>
 <tr>
-<td align="left">AT SW </td><td align="left">&ndash; </td><td align="left">switch between cursor and alternative mode </td><td align="left">v2 </td><td align="left">untested </td><td align="left">no </td></tr>
+<td align="left">AT SW </td><td align="left">&ndash; </td><td align="left">switch between cursor and alternative mode </td><td align="left">v2 </td><td align="left">yes </td><td align="left">no </td></tr>
 <tr>
 <td align="left">AT SR </td><td align="left">&ndash; </td><td align="left">start reporting out the raw sensor values </td><td align="left">v2 </td><td align="left">yes </td><td align="left">no </td></tr>
 <tr>
@@ -266,17 +268,19 @@ $(function() {
 <tr>
 <td align="left">AT IR </td><td align="left">string </td><td align="left">record a new infrared command, store it with the given name </td><td align="left">v2 </td><td align="left">yes </td><td align="left">no </td></tr>
 <tr>
-<td align="left">AT IP </td><td align="left">string </td><td align="left">replay a recorded IR command, stored with the given name </td><td align="left">v2 </td><td align="left">untested </td><td align="left">yes (task_infrared) </td></tr>
+<td align="left">AT IP </td><td align="left">string </td><td align="left">replay a recorded IR command, stored with the given name </td><td align="left">v2 </td><td align="left">yes </td><td align="left">yes (task_infrared) </td></tr>
 <tr>
 <td align="left">AT IH </td><td align="left">string </td><td align="left">play a hex string (replay a given hex string sent by "AT IR") </td><td align="left">v3 </td><td align="left">no </td><td align="left">yes (task_infrared) </td></tr>
 <tr>
-<td align="left">AT IC </td><td align="left">string </td><td align="left">clear an IR command, defined by the name </td><td align="left">v2 </td><td align="left">untested </td><td align="left">no </td></tr>
+<td align="left">AT IC </td><td align="left">string </td><td align="left">clear an IR command, defined by the name </td><td align="left">v2 </td><td align="left">yes </td><td align="left">no </td></tr>
 <tr>
 <td align="left">AT IW </td><td align="left">&ndash; </td><td align="left">wipe all IR commands </td><td align="left">v2 </td><td align="left">yes </td><td align="left">no </td></tr>
 <tr>
-<td align="left">AT IT </td><td align="left">number (2-100) </td><td align="left">timeout for recording IR commands (time[ms] between 2 edges) </td><td align="left">v2 </td><td align="left">untested </td><td align="left">no </td></tr>
+<td align="left">AT IT </td><td align="left">number (2-100) </td><td align="left">timeout for recording IR commands (time[ms] between 2 edges) </td><td align="left">v2 </td><td align="left">yes </td><td align="left">no </td></tr>
 <tr>
 <td align="left">AT IL </td><td align="left"></td><td align="left">list all available stored IR commands </td><td align="left">v2 </td><td align="left">yes </td><td align="left">no </td></tr>
+<tr>
+<td align="left">AT IX </td><td align="left">number (1-99) </td><td align="left">Delete one IR slot. </td><td align="left">v3 </td><td align="left">yes </td><td align="left">no </td></tr>
 </table>
 <h2>Button assignments - FLipMouse</h2>
 <p>The FLipMouse has 1 internal push-button and 2 jack plugs for external buttons. In addition other functions are mapped to virtual buttons, so they can be configured the same. Following number mapping is used for the <b>AT BM</b> command:</p>
@@ -346,7 +350,7 @@ $(function() {
 <tr>
 <td align="left">31 </td><td align="left"></td></tr>
 </table>
-<p>These assignments are declared in file <a class="el" href="common_8h.html">common.h</a>.</p>
+<p>These assignments are declared in file <a class="el" href="common_8h.html" title="Common data structs and IPC pointers for the firmware. ">common.h</a>.</p>
 <h2>Button assignments - FABI</h2>
 <p>The FABI supports up to 9 buttons (normally external, but they can be hardwired like internal buttons). In addition, one analog channel is support for sip/puff functionality. Following number mapping is used for the <b>AT BM</b> command:</p>
 <table class="doxtable">
@@ -417,7 +421,7 @@ $(function() {
 <tr>
 <td align="left">31 </td><td align="left"></td></tr>
 </table>
-<p>These assignments are declared in file <a class="el" href="common_8h.html">common.h</a>.</p>
+<p>These assignments are declared in file <a class="el" href="common_8h.html" title="Common data structs and IPC pointers for the firmware. ">common.h</a>.</p>
 <h2>Key identifiers</h2>
 <p>The key identifiers are necessary to determine which key should be pressed or released by either the <b>AT KP</b> or the <b>AT KR</b> command. Following keys are possible: </p><pre class="fragment">KEY_A   KEY_B   KEY_C   KEY_D    KEY_E   KEY_F   KEY_G   KEY_H   KEY_I   KEY_J    KEY_K    KEY_L
 KEY_M   KEY_N   KEY_O   KEY_P    KEY_Q   KEY_R   KEY_S   KEY_T   KEY_U   KEY_V    KEY_W    KEY_X 

@@ -1,10 +1,5 @@
 var searchData=
 [
-  ['canceltimer',['cancelTimer',['../task__debouncer_8c.html#ad6a8419e00b94feeb5177a3570efe6ba',1,'task_debouncer.c']]],
-  ['checkqueues',['checkqueues',['../task__commands_8c.html#adf3aa67816eecac3e756189c9d61cbd2',1,'task_commands.c']]],
-  ['configgetcurrent',['configGetCurrent',['../config__switcher_8c.html#a921538bec34d128a44a748fd5a2c391f',1,'configGetCurrent(void):&#160;config_switcher.c'],['../config__switcher_8h.html#a921538bec34d128a44a748fd5a2c391f',1,'configGetCurrent(void):&#160;config_switcher.c']]],
-  ['configswitcherinit',['configSwitcherInit',['../config__switcher_8c.html#aafed047c8d04b814a85239e031cbad7b',1,'configSwitcherInit(void):&#160;config_switcher.c'],['../config__switcher_8h.html#aafed047c8d04b814a85239e031cbad7b',1,'configSwitcherInit(void):&#160;config_switcher.c']]],
-  ['configswitchertask',['configSwitcherTask',['../config__switcher_8c.html#af5af5079d1982d42e165039e6de7e40a',1,'config_switcher.c']]],
-  ['configupdate',['configUpdate',['../config__switcher_8c.html#a4c2e410d8032c65c0700c6ca07429074',1,'configUpdate(void):&#160;config_switcher.c'],['../config__switcher_8h.html#a4c2e410d8032c65c0700c6ca07429074',1,'configUpdate(void):&#160;config_switcher.c']]],
-  ['configupdatevb',['configUpdateVB',['../config__switcher_8c.html#a20db6aabb98f5c9c7cea48e950bada5b',1,'configUpdateVB(void *param, command_type_t type, uint8_t vb):&#160;config_switcher.c'],['../config__switcher_8h.html#a20db6aabb98f5c9c7cea48e950bada5b',1,'configUpdateVB(void *param, command_type_t type, uint8_t vb):&#160;config_switcher.c']]]
+  ['add_5fkeycode',['add_keycode',['../keyboard_8c.html#a5aebbf68f68f1d3212fb187ff156e5c1',1,'add_keycode(uint8_t keycode, uint8_t *keycode_arr):&#160;keyboard.c'],['../keyboard_8h.html#a5aebbf68f68f1d3212fb187ff156e5c1',1,'add_keycode(uint8_t keycode, uint8_t *keycode_arr):&#160;keyboard.c']]],
+  ['app_5fmain',['app_main',['../flipmouse__fabi__esp32__kbdmouse__main_8c.html#abce06be17fc37d675118a678a8100a36',1,'flipmouse_fabi_esp32_kbdmouse_main.c']]]
 ];

@@ -16,5 +16,7 @@ var searchData=
   ['task_5fmacros_2eh',['task_macros.h',['../task__macros_8h.html',1,'']]],
   ['task_5fmouse_2ec',['task_mouse.c',['../task__mouse_8c.html',1,'']]],
   ['task_5fmouse_2eh',['task_mouse.h',['../task__mouse_8h.html',1,'']]],
+  ['task_5fwebgui_2ec',['task_webgui.c',['../task__webgui_8c.html',1,'']]],
+  ['task_5fwebgui_2eh',['task_webgui.h',['../task__webgui_8h.html',1,'']]],
   ['tones_2eh',['tones.h',['../tones_8h.html',1,'']]]
 ];

@@ -35,13 +35,29 @@ LPCXpresso development board:
 
 ## Uploading the WebGUI
 
-The FLipMouse with ESP32 contains a web interface for customizing the parameters. The web page itself is located in a SPIFFS image.
+The FLipMouse with ESP32 contains a web interface for customizing the parameters. The web page itself is located in the FAT partition as the config data.
 
-Flashing onto the FLipMouse is done with the script *flashspiffs.sh*. Please note: if you have a different COM port than **ttyUSB0**, you need
-to adjust this setting in the script!
 
-*Note:* This will NOT build a new SPIFFS image. If you want to update the web page, you need to install [mkspiffs](https://github.com/igrr/mkspiffs) and
-execute the script *mkspiffs*
+-----------------------
+
+TBA: I think it is very easy to use mkfats by copying the component into ESP-IDF and simply call **make mkfatfs** to build the tool and **make flashfatfs** to upload the image.
+
+**BUT** we have a 8.3 naming convention here...
+
+Currently proposed workflow:
+
+-----------------------
+
+Please clone/download the [mkfats](https://github.com/jkearins/ESP32_mkfatfs) tool, and copy the folder `ESP32_mkfatfs/components/mkfatfs` into your
+ESP-IDF's components path.
+
+Execute `make mkfatfs` in this repository to build the *mkfatfs* tool.
+
+If you want to update the webpage on the FLipMouse/FABI device, execute:
+
+`make makefatfs flashfatfs`
+
+_WARNING:_** All your slot configuration and IR commands will be deleted by this operation.
 
 
 ## WARNING: THIS IS EARLY WORK IN PROGRESS

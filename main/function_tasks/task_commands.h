@@ -50,7 +50,7 @@
 #include "task_mouse.h"
 #include "task_kbd.h"
 #include "task_infrared.h"
-#include "../keyboard_layout_helper/keyboard.h"
+#include "keyboard.h"
 #include "../config_switcher.h"
 
 #define TASK_COMMANDS_STACKSIZE 4096

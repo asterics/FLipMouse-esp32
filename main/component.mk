@@ -10,13 +10,13 @@
 COMPONENT_SRCDIRS += \
 	ble_hid \
 	hal \
-	keyboard_layout_helper \
+	helper \
 	function_tasks
 
 COMPONENT_ADD_INCLUDEDIRS += \
 	ble_hid \
 	hal \
-	keyboard_layout_helper \
+	helper \
 	function_tasks
 CFLAGS += -D LOG_LOCAL_LEVEL=ESP_LOG_DEBUG
 

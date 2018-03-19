@@ -67,7 +67,6 @@
 /*++++ All global todos, roadmap, ... ++++*/
 /**
  @todo Implement learning mode
- @todo Configswitcher NEXT increments slot number, even if not possible. Also check for turn-around. & missing slots.
  @todo Clarify AT KP/KR/KH commands on original FlipMouse, to be compatible... (especially for press/release with buttons & with multiple key identifiers)
  @todo Debouncer testing...
  @todo Implement buzzer in remaining task_* functions (strongsip/puff exit)

@@ -77,7 +77,7 @@ individually to set a global value.
 | AT LI | --  | list all available slots   | v2 | yes | no |
 | AT NE | --  | load next slot (wrap around after the last slot)  | v2 | yes | yes (task_configswitcher) |
 | AT DE | --  | delete all slots  | v2 | yes | no |
-| AT DL | number (1-) | delete one slot.  | v3 | untested | no |
+| AT DL | number (1-) | delete one slot.  | v3 | yes | no |
 | AT DN | string | delete one slot by name  | v3 | yes | no |
 | AT NC | --  | do nothing  | v2 | yes | no |
 | AT E0 | --  | disable debug output  | v2 | never, use make monitor | - |
@@ -86,8 +86,8 @@ individually to set a global value.
 **Mouthpiece settings** 
 | Command | Parameter | Description | Available since | Implemented in v3 | FUNCTIONAL task |
 |:--------|:----------|:------------|:--------------|:--------------------|:----------------|
-| AT MM | number (0,1,2)  | use the mouthpiece either as mouse cursor (AT MM 1), alternative function (AT MM 0) or joystick (AT MM 2)  | v2 | untested | no |
-| AT SW | --  | switch between cursor and alternative mode  | v2 | untested | no |
+| AT MM | number (0,1,2)  | use the mouthpiece either as mouse cursor (AT MM 1), alternative function (AT MM 0) or joystick (AT MM 2)  | v2 | yes | no |
+| AT SW | --  | switch between cursor and alternative mode  | v2 | yes | no |
 | AT SR | --  | start reporting out the raw sensor values | v2 | yes | no |
 | AT ER | --  | stop reporting the sensor values  | v2 | yes | no |
 | AT CA | --  | trigger zeropoint calibration  | v2 | yes | yes (task_calibration) |
@@ -131,13 +131,13 @@ If set to 1, the axis/slider/hat will be released to its idle position on a VB r
 | Command | Parameter | Description | Available since | Implemented in v3 | FUNCTIONAL task |
 |:--------|:----------|:------------|:--------------|:--------------------|:----------------|
 | AT IR | string  | record a new infrared command, store it with the given name  | v2 | yes | no |
-| AT IP | string  | replay a recorded IR command, stored with the given name  | v2 | untested | yes (task_infrared) |
+| AT IP | string  | replay a recorded IR command, stored with the given name  | v2 | yes | yes (task_infrared) |
 | AT IH | string  | play a hex string (replay a given hex string sent by "AT IR") | v3 | no | yes (task_infrared) |
-| AT IC | string  | clear an IR command, defined by the name  | v2 | untested | no |
+| AT IC | string  | clear an IR command, defined by the name  | v2 | yes | no |
 | AT IW | --  | wipe all IR commands  | v2 | yes | no |
-| AT IT | number (2-100) | timeout for recording IR commands (time[ms] between 2 edges) | v2 | untested | no |
+| AT IT | number (2-100) | timeout for recording IR commands (time[ms] between 2 edges) | v2 | yes | no |
 | AT IL |   | list all available stored IR commands  | v2 | yes | no |
-
+| AT IX | number (1-99) | Delete one IR slot. | v3 | yes | no |
 
 ## Button assignments - FLipMouse
 

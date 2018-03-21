@@ -36,8 +36,6 @@ function FlipMouse(initFinished) {
         L.getIDSelector(thiz.PUFF_STRONG_THRESHOLD)
     ];
 
-    var communicator = new ARECommunicator();
-    //var communicator = new MockCommunicator();
     var _config = {};
     var _liveData = {};
     var AT_CMD_LENGTH = 5;
@@ -66,6 +64,7 @@ function FlipMouse(initFinished) {
     var _timestampLastAtCmd = new Date().getTime();
     var _atCmdQueue = [];
     var _sendingAtCmds = false;
+    var _communicator;
 
     /**
      * sends the given AT command to the FLipMouse. If sending of the last command is not completed yet, the given AT command
@@ -109,7 +108,7 @@ function FlipMouse(initFinished) {
             setTimeout(function () {
                 _timestampLastAtCmd = new Date().getTime();
                 console.log("sending to FlipMouse: " + nextCmd.cmd);
-                communicator.sendData(nextCmd.cmd).then(nextCmd.resolveFn);
+                _communicator.sendData(nextCmd.cmd).then(nextCmd.resolveFn);
                 sendNext();
             }, timeout);
         }
@@ -375,12 +374,29 @@ function FlipMouse(initFinished) {
     init();
 
     function init() {
-        thiz.resetMinMaxLiveValues();
-        thiz.refreshConfig().then(function () {
-            if (L.isFunction(initFinished)) {
-                initFinished(_config[_currentSlot]);
-            }
-        }, function () {
+        var promise = new Promise(resolve => {
+            ws.initWebsocket(C.FLIP_WEBSOCKET_URL).then(function (socket) {
+                _communicator = new WsCommunicator(C.FLIP_WEBSOCKET_URL, socket);
+                resolve();
+            }, function error () {
+                ws.initWebsocket(C.ARE_WEBSOCKET_URL).then(function (socket) {
+                    _communicator = new ARECommunicator(socket);
+                    resolve();
+                }, function error () {
+                    console.warn("could not establish any websocket connection - using mock mode!");
+                    _communicator = new MockCommunicator();
+                    resolve();
+                });
+        })});
+
+        promise.then(function () {
+            thiz.resetMinMaxLiveValues();
+            thiz.refreshConfig().then(function () {
+                if (L.isFunction(initFinished)) {
+                    initFinished(_config[_currentSlot]);
+                }
+            }, function () {
+            });
         });
     }
 
@@ -388,7 +404,7 @@ function FlipMouse(initFinished) {
         _valueHandler = handler;
         if (L.isFunction(_valueHandler)) {
             sendAtCmdNoResultHandling('AT SR');
-            communicator.setValueHandler(parseLiveValues);
+            _communicator.setValueHandler(parseLiveValues);
         } else {
             sendAtCmdNoResultHandling('AT ER');
         }
@@ -396,7 +412,7 @@ function FlipMouse(initFinished) {
 
     function parseLiveValues(data) {
         if (!L.isFunction(_valueHandler)) {
-            communicator.setValueHandler(null);
+            _communicator.setValueHandler(null);
             return;
         }
         if (!data || data.indexOf('VALUES') == -1) {

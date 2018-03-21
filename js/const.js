@@ -1,5 +1,9 @@
 window.C = {};
 
+C.ARE_WEBSOCKET_URL = 'ws://' + window.location.hostname + ':8092/ws/astericsData';
+C.FLIP_WEBSOCKET_URL = 'ws://' + window.location.hostname + ':1804/';
+C.LIVE_VALUE_CONSTANT = 'VALUES:';
+
 C.MAX_LENGTH_ATCMD = 400;
 C.LENGTH_ATCMD_PREFIX = 6; //with space (e.g. "AT KW ")
 C.AT_CMD_KEYPRESS = 'AT KP';

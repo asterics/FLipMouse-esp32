@@ -12,7 +12,7 @@ function MockCommunicator() {
 
         return new Promise(function (resolve) {
             if (value == 'AT') {
-                resolve('OK');
+                resolve('');
             } else if (value.indexOf('AT SR') > -1) {
                 _invervalHandler = setInterval(function () {
                     if (L.isFunction(_valueHandler)) {

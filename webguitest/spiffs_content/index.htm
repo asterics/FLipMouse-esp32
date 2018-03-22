@@ -314,12 +314,6 @@
                     </div>
                 </div>
             </div>
-            <div class="row" style="display: none">
-                <label class="three columns text-right text-normal" for="selectAction" i18n>Action // Aktion</label>
-                <select id="selectAction" class="eight columns" disabled="true">
-                </select>
-            </div>
-
             <div id="WRAPPER_LEARN_CAT_KEYBOARD">
                 <div class="row">
                     <button id="start-rec-button" onclick="actionAndToggle(tabAction.startRec, [], ['#start-rec-button-normal', '#start-rec-button-rec'])" class="eight columns offset-by-three" style="position: relative;">
@@ -336,19 +330,26 @@
                     <span id="recordedAtCmd" class="eight columns"/>
                 </div>
             </div>
-            <div id="WRAPPER_LEARN_CAT_MOUSE">
-                MOUSE
+            <div id="WRAPPER_LEARN_CAT_MOUSE" class="row">
+                <label class="three columns text-right text-normal" for="SELECT_LEARN_CAT_MOUSE" i18n>Action // Aktion</label>
+                <select id="SELECT_LEARN_CAT_MOUSE" class="eight columns" onchange="tabAction.setAtCmd(this.value)">
+                </select>
             </div>
-            <div id="WRAPPER_LEARN_CAT_FLIPACTIONS">
-                LEARN_CAT_FLIPACTIONS
+            <div id="WRAPPER_LEARN_CAT_FLIPACTIONS" class="row">
+                <label class="three columns text-right text-normal" for="SELECT_LEARN_CAT_FLIPACTIONS" i18n>Action // Aktion</label>
+                <select id="SELECT_LEARN_CAT_FLIPACTIONS" class="eight columns" onchange="tabAction.setAtCmd(this.value)">
+                </select>
             </div>
-            <div id="WRAPPER_LEARN_CAT_CUSTOM">
-                LEARN_CAT_CUSTOM
+            <div id="WRAPPER_LEARN_CAT_CUSTOM" class="row">
+                <label class="three columns text-right text-normal" for="INPUT_LEARN_CAT_CUSTOM" i18n>AT command // AT Kommando</label>
+                <input type="text" id="INPUT_LEARN_CAT_CUSTOM" class="six columns">
+                </input>
+                <button class="two columns" onclick="tabAction.setAtCmd(L('#INPUT_LEARN_CAT_CUSTOM').value)">OK</button>
             </div>
 
 
             <br/>
-            <label i18n>Current mapping // Aktuelle Konfiguration</label>
+            <label i18n>Current saved mapping // Aktuelle gespeicherte Konfiguration</label>
             <div id="currentConfigTh" class="hide-mobile row thead" aria-hidden="true">
                 <div class="two columns" i18n>Description // Bezeichnung</div>
                 <div class="four columns" i18n>Current action // aktuelle Aktion</div>
@@ -370,7 +371,7 @@
         L.loadScript('js/i18n/i18n_' + L.getLang() + '.js', 'js/i18n/i18n_en.js').then(function () {
             window.flip = new FlipMouse(function (config) {
                 initWithConfig(config);
-                initSlots();
+                tabSlot.initSlots();
                 toTab(getCurrentTabId());
                 testConnection();
                 setInterval(function () {
@@ -409,22 +410,6 @@
         if (config[flip.DEADZONE_X] != config[flip.DEADZONE_Y]) {
             tabBasic.toggleShowXY('DEADZONE');
         }
-    }
-
-    function initSlots() {
-        var slots = flip.getSlots();
-        L('#delete-slot-button').disabled = slots.length <= 1;
-        L('#create-slot-button').disabled = true;
-        L.removeAllChildren('.slot-select');
-        slots.forEach(function (slot) {
-            var option = document.createElement("option");
-            option.value = slot;
-            option.innerHTML = slot;
-            L('.slot-select').forEach(function (elem) {
-                elem.appendChild(option.cloneNode(true));
-                elem.value = flip.getCurrentSlot();
-            });
-        });
     }
 
     function setSliderValue(constant, value, dontSetSlider) {

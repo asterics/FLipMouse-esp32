@@ -62,3 +62,16 @@ _WARNING:_** All your slot configuration and IR commands will be deleted by this
 
 ## WARNING: THIS IS EARLY WORK IN PROGRESS
 
+# Acknowledgements
+
+Supporters, MA23, people using this device and many more for input.
+
+ESP-IDF developers for HOG testcode
+
+mkfatfs project
+
+thanks to Luca Dentella for the esp32lights demo, see http://www.lucadentella.it/en/2018/01/08/esp32lights/
+
+thanks to Jeroen Domburg and Cornelis for the captive portal DNS code, see: https://github.com/cornelis-61/esp32_Captdns
+
+thanks to Thomas Barth for esp32 Websocket demo code, see https://github.com/ThomasBarth/WebSockets-on-the-ESP32/

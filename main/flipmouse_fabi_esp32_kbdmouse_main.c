@@ -41,6 +41,7 @@
 #include "function_tasks/task_mouse.h"
 #include "function_tasks/task_debouncer.h"
 #include "function_tasks/task_commands.h"
+#include "function_tasks/task_webgui.h"
 #include "hal/hal_adc.h"
 #include "hal/hal_io.h"
 #include "hal/hal_ble.h"
@@ -151,6 +152,14 @@ void app_main()
     } else {
         ESP_LOGE(LOG_TAG,"error initializing taskCommands");
     }
+    
+    //initialize web framework
+    if(taskWebGUIInit() == ESP_OK)
+    {
+        ESP_LOGD(LOG_TAG,"initialized webserver/DNS server/webgui");
+    } else {
+        ESP_LOGE(LOG_TAG,"error initializing webserver/DNS server/webgui");
+    } 
     
     //calibrate directly after start-up
     halAdcCalibrate();

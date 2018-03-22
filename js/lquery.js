@@ -133,6 +133,20 @@ window.L.createElement = function(tagName, className, inner) {
     return e;
 };
 
+L.createSelectItems = function(listValues, listHtml) {
+    var result = '';
+    var hasHtml = listHtml && listHtml.length == listValues.length;
+
+    for(let i=0; i<listValues.length; i++) {
+        var html = hasHtml ? listHtml[i] : L.translate(listValues[i]);
+        var elem = L.createElement('option', '', html);
+        elem.value = listValues[i];
+        result += elem.outerHTML + '\n';
+    }
+
+    return result;
+};
+
 /**
  * returns true if the current browser language contains the given localeString
  */

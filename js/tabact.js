@@ -73,8 +73,6 @@ tabAction.setAtCmd = function (atCmd) {
 
 window.tabAction.startRec = function () {
     if(!document.onkeydown) {
-        L('#recordedAction').innerHTML = '';
-        L('#recordedAtCmd').innerHTML = '';
         window.tabAction.queue = [];
         document.onkeydown = function(e) {
             e = e || window.event;
@@ -88,15 +86,32 @@ window.tabAction.startRec = function () {
                         tabAction.queue = [];
                     }
                 }
-                var atCmd = getAtCmd(tabAction.queue);
-                L('#recordedAction').innerHTML = getReadable(atCmd);
-                L('#recordedAtCmd').innerHTML = atCmd;
+                tabAction.evalRec();
             }
         };
     } else {
-        tabAction.setAtCmd(getAtCmd(tabAction.queue));
         document.onkeydown = null;
     }
+};
+
+tabAction.evalRec = function () {
+    var atCmd = getAtCmd(tabAction.queue);
+    L('#buttonRecOK').disabled = !atCmd;
+    L('#recordedAction').innerHTML = getReadable(atCmd) || L.translate('NONE_BRACKET');
+    L('#recordedAtCmd').innerHTML = atCmd || L.translate('NONE_BRACKET');
+};
+
+tabAction.resetRec = function () {
+    tabAction.queue = [];
+    tabAction.evalRec();
+};
+
+tabAction.saveRec = function () {
+    if(document.onkeydown) {
+        document.onkeydown = null;
+        L.toggle('#start-rec-button-normal', '#start-rec-button-rec');
+    }
+    tabAction.setAtCmd(getAtCmd(tabAction.queue));
 };
 
 function getKeycode(e) {

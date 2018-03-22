@@ -84,7 +84,7 @@ static uint8_t storageCurrentVBNumber = 0;
 static wl_handle_t s_wl_handle = WL_INVALID_HANDLE;
 
 /** @brief Partition name (used to define different memory types) */
-const char *base_path = "/spiflash";
+const static char *base_path = "/spiflash";
 
 /** @brief Get free memory (IR & slot storage)
  * 

@@ -1,5 +1,9 @@
 var searchData=
 [
-  ['unicode_5f20ac',['UNICODE_20AC',['../keyboard_8c.html#acb04a6a3fff699b8af64c078bef234fb',1,'UNICODE_20AC():&#160;keyboard.c'],['../keyboard_8c.html#acb04a6a3fff699b8af64c078bef234fb',1,'UNICODE_20AC():&#160;keyboard.c'],['../keyboard_8c.html#acb04a6a3fff699b8af64c078bef234fb',1,'UNICODE_20AC():&#160;keyboard.c'],['../keyboard_8c.html#acb04a6a3fff699b8af64c078bef234fb',1,'UNICODE_20AC():&#160;keyboard.c']]],
-  ['unicode_5fextra00',['UNICODE_EXTRA00',['../keyboard_8c.html#aff3b130ecbe510c812e725add8aad8cc',1,'UNICODE_EXTRA00():&#160;keyboard.c'],['../keyboard_8c.html#aff3b130ecbe510c812e725add8aad8cc',1,'UNICODE_EXTRA00():&#160;keyboard.c'],['../keyboard_8c.html#aff3b130ecbe510c812e725add8aad8cc',1,'UNICODE_EXTRA00():&#160;keyboard.c'],['../keyboard_8c.html#aff3b130ecbe510c812e725add8aad8cc',1,'UNICODE_EXTRA00():&#160;keyboard.c']]]
+  ['wifi_5factive',['WIFI_ACTIVE',['../common_8h.html#af11bf2c47cd0354ecfee72f9c88a4e2d',1,'common.h']]],
+  ['wifi_5fclient_5fconnected',['WIFI_CLIENT_CONNECTED',['../common_8h.html#a9d086131b0622a8aaeb0db9b1ccbe725',1,'common.h']]],
+  ['ws_5fclient_5fkey_5fl',['WS_CLIENT_KEY_L',['../websocket_8c.html#acc455c54a3617bfc60f6540f3c6876b6',1,'websocket.c']]],
+  ['ws_5fmask_5fl',['WS_MASK_L',['../websocket_8h.html#a927a0a6ec32b8571001ff91b8ea530c2',1,'websocket.h']]],
+  ['ws_5fsprintf_5farg_5fl',['WS_SPRINTF_ARG_L',['../websocket_8c.html#a815b21303d779bb3a46a15dcddccd553',1,'websocket.c']]],
+  ['ws_5fstd_5flen',['WS_STD_LEN',['../websocket_8c.html#a2d2e25cbe6fdbe88b8b24a39d959ee72',1,'websocket.c']]]
 ];

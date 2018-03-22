@@ -1,7 +1,32 @@
 var searchData=
 [
   ['waitfornewatcmd',['WAITFORNEWATCMD',['../task__commands_8c.html#a7860b6904b2ba2dd906d189ada5f1e17a8430aa1deedfa38beb0b766f5f2ab411',1,'task_commands.c']]],
+  ['websocket_2ec',['websocket.c',['../websocket_8c.html',1,'']]],
+  ['websocket_2eh',['websocket.h',['../websocket_8h.html',1,'']]],
+  ['websocket_5fframe_5ft',['WebSocket_frame_t',['../structWebSocket__frame__t.html',1,'']]],
   ['wheel',['wheel',['../structmouse__command.html#a813db5c3e3e2d7f013972f54b8257464',1,'mouse_command::wheel()'],['../task__mouse_8h.html#ad99a95527afeac61cb05911c7695d942ac7b6c6728ce2073ebab56d038205e7b3',1,'WHEEL():&#160;task_mouse.h']]],
   ['wheel_5fstepsize',['wheel_stepsize',['../structgeneralConfig.html#a36225b09e3c7254252c495c6e36f4c33',1,'generalConfig']]],
-  ['write',['WRITE',['../task__kbd_8h.html#aff3bf982a86299e69b007b0d16a45227a61aa7ff70b76bff0fda378cf61d6afbc',1,'task_kbd.h']]]
+  ['wifi_5factive',['WIFI_ACTIVE',['../common_8h.html#af11bf2c47cd0354ecfee72f9c88a4e2d',1,'common.h']]],
+  ['wifi_5fclient_5fconnected',['WIFI_CLIENT_CONNECTED',['../common_8h.html#a9d086131b0622a8aaeb0db9b1ccbe725',1,'common.h']]],
+  ['wifi_5fevent_5fhandler',['wifi_event_handler',['../task__webgui_8c.html#a11dd6a5edc46c297b26382ebce3c34cb',1,'task_webgui.c']]],
+  ['write',['WRITE',['../task__kbd_8h.html#aff3bf982a86299e69b007b0d16a45227a61aa7ff70b76bff0fda378cf61d6afbc',1,'task_kbd.h']]],
+  ['ws_5fclient_5fkey_5fl',['WS_CLIENT_KEY_L',['../websocket_8c.html#acc455c54a3617bfc60f6540f3c6876b6',1,'websocket.c']]],
+  ['ws_5fconn',['WS_conn',['../websocket_8c.html#a8df807500b69b8dc1778ce905e474599',1,'websocket.c']]],
+  ['ws_5fframe_5fheader_5ft',['WS_frame_header_t',['../structWS__frame__header__t.html',1,'']]],
+  ['ws_5fmask_5fl',['WS_MASK_L',['../websocket_8h.html#a927a0a6ec32b8571001ff91b8ea530c2',1,'websocket.h']]],
+  ['ws_5fop_5fbin',['WS_OP_BIN',['../websocket_8c.html#a74506acd552e308a0ab5c85ba9ae391ca2fc624e8d4c66182b6b5eb3408aec245',1,'websocket.c']]],
+  ['ws_5fop_5fcls',['WS_OP_CLS',['../websocket_8c.html#a74506acd552e308a0ab5c85ba9ae391ca5e3e449b01f05b046f52cecdbc975574',1,'websocket.c']]],
+  ['ws_5fop_5fcon',['WS_OP_CON',['../websocket_8c.html#a74506acd552e308a0ab5c85ba9ae391ca97fb5faf7c3d68ec48776c36daa479f5',1,'websocket.c']]],
+  ['ws_5fop_5fpin',['WS_OP_PIN',['../websocket_8c.html#a74506acd552e308a0ab5c85ba9ae391cab751f46a6d3b76678dfe3c07650a0a38',1,'websocket.c']]],
+  ['ws_5fop_5fpon',['WS_OP_PON',['../websocket_8c.html#a74506acd552e308a0ab5c85ba9ae391caab9649827906fdfbf97fb0f3bcbce0a2',1,'websocket.c']]],
+  ['ws_5fop_5ftxt',['WS_OP_TXT',['../websocket_8c.html#a74506acd552e308a0ab5c85ba9ae391caaa5c44a07fa5ecf47b8bb85edf07b24c',1,'websocket.c']]],
+  ['ws_5fopcodes',['WS_OPCODES',['../websocket_8c.html#a74506acd552e308a0ab5c85ba9ae391c',1,'websocket.c']]],
+  ['ws_5fsec_5fconkey',['WS_sec_conKey',['../websocket_8c.html#a8cc98814ac08186b7e1226bd0f5a1892',1,'websocket.c']]],
+  ['ws_5fsec_5fws_5fkeys',['WS_sec_WS_keys',['../websocket_8c.html#ab79338070b1a4fd4f95b944609338bcd',1,'websocket.c']]],
+  ['ws_5fserver',['ws_server',['../task__webgui_8c.html#a5f462e5b8bd4803c256bf22a004eacde',1,'task_webgui.c']]],
+  ['ws_5fserver_5fnetconn_5fserve',['ws_server_netconn_serve',['../websocket_8c.html#afc7ea5da54622021156f0df84063abb4',1,'ws_server_netconn_serve(struct netconn *conn):&#160;websocket.c'],['../websocket_8h.html#afc7ea5da54622021156f0df84063abb4',1,'ws_server_netconn_serve(struct netconn *conn):&#160;websocket.c']]],
+  ['ws_5fsprintf_5farg_5fl',['WS_SPRINTF_ARG_L',['../websocket_8c.html#a815b21303d779bb3a46a15dcddccd553',1,'websocket.c']]],
+  ['ws_5fsrv_5fhs',['WS_srv_hs',['../websocket_8c.html#abe2857dd54127b730bf1ec20fa6625a0',1,'websocket.c']]],
+  ['ws_5fstd_5flen',['WS_STD_LEN',['../websocket_8c.html#a2d2e25cbe6fdbe88b8b24a39d959ee72',1,'websocket.c']]],
+  ['ws_5fwrite_5fdata',['WS_write_data',['../websocket_8c.html#a215997a5d454937f96cf800e1a44e599',1,'WS_write_data(char *p_data, size_t length):&#160;websocket.c'],['../websocket_8h.html#a215997a5d454937f96cf800e1a44e599',1,'WS_write_data(char *p_data, size_t length):&#160;websocket.c']]]
 ];

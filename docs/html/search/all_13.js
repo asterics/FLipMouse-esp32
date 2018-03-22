@@ -10,11 +10,13 @@ var searchData=
   ['sendkbd',['sendKbd',['../task__kbd_8c.html#a7d605cb2407a7a7309911c70e28a9884',1,'task_kbd.c']]],
   ['sensitivity_5fx',['sensitivity_x',['../structadc__config.html#a81465c39748fa52d1b773f34ad4ee435',1,'adc_config']]],
   ['sensitivity_5fy',['sensitivity_y',['../structadc__config.html#adbfe1bd3388e5274fd37ffb27c6a719a',1,'adc_config']]],
+  ['serialoutput_5fh',['serialoutput_h',['../hal__serial_8h.html#a9645a82bf44ac750418a21920614b3f7',1,'hal_serial.h']]],
   ['serialsendingsem',['serialsendingsem',['../hal__serial_8c.html#af8aa2305d1905c876a30e25bf34cc480',1,'hal_serial.c']]],
   ['setn16',['setn16',['../captdns_8c.html#a21dfd38acc9e61af1ce25d3fe687e22f',1,'captdns.c']]],
   ['setn32',['setn32',['../captdns_8c.html#a4868ba2e5fb29569ef87f4d56c52fc5a',1,'captdns.c']]],
   ['setvb_5fpress',['SETVB_PRESS',['../common_8h.html#a05b9e4a4f2cb30e2a5916e623e4b8f90',1,'common.h']]],
   ['setvb_5frelease',['SETVB_RELEASE',['../common_8h.html#a117d08f16e88970948fd596be80d845b',1,'common.h']]],
+  ['sha1_5fres_5fl',['SHA1_RES_L',['../websocket_8c.html#a81915d7dece25e811a10a197e22bc3b5',1,'websocket.c']]],
   ['slider_5fleft',['slider_left',['../structjoystick__data.html#a4a807700ce03cf13b94cf8b97c744653',1,'joystick_data::slider_left()'],['../task__joystick_8h.html#abf75ccdaa7e07cca73bb6a704a317a91a1b8aa5b8164ef7a6fb6e2dd3de3c7f98',1,'SLIDER_LEFT():&#160;task_joystick.h']]],
   ['slider_5fright',['slider_right',['../structjoystick__data.html#a218ba3d9aee6cd81fa8321ba0754fadb',1,'joystick_data::slider_right()'],['../task__joystick_8h.html#abf75ccdaa7e07cca73bb6a704a317a91a1439382645468dbd73fad8ee8b7bfa52',1,'SLIDER_RIGHT():&#160;task_joystick.h']]],
   ['sliderleft',['sliderLeft',['../structjoystick__command.html#a2639bb410d9dfe09a897cf7903595fbd',1,'joystick_command']]],
@@ -29,7 +31,9 @@ var searchData=
   ['storage_5fid',['STORAGE_ID',['../common_8h.html#a600cc24764111d572c05ab8a985de463',1,'common.h']]],
   ['storagecurrentslotnumber',['storageCurrentSlotNumber',['../hal__storage_8c.html#a5c097404b5dfa34bdac65865586dac5a',1,'hal_storage.c']]],
   ['storagecurrenttid',['storageCurrentTID',['../hal__storage_8c.html#ab7bc6f83a4f91dba2d5b3d1edeedf4b1',1,'hal_storage.c']]],
+  ['storagecurrenttidholder',['storageCurrentTIDHolder',['../hal__storage_8c.html#a687cf5b473fc94d8fafca390fcc11a1f',1,'hal_storage.c']]],
   ['storagecurrentvbnumber',['storageCurrentVBNumber',['../hal__storage_8c.html#ab5f3387fe559c96c7523a59e28b0a74b',1,'hal_storage.c']]],
   ['strtolabel',['strToLabel',['../captdns_8c.html#a01294bcdad17e226e50f0c707fee3852',1,'captdns.c']]],
-  ['svc_5ffeatures',['svc_features',['../structhidd__feature__t.html#a254c99f1e3115e399a088611e1e93123',1,'hidd_feature_t']]]
+  ['svc_5ffeatures',['svc_features',['../structhidd__feature__t.html#a254c99f1e3115e399a088611e1e93123',1,'hidd_feature_t']]],
+  ['systemhandler',['systemhandler',['../task__webgui_8c.html#a9bf7c1a6878001fb547fa537f37ad644',1,'task_webgui.c']]]
 ];

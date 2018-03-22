@@ -86,9 +86,9 @@ $(function() {
 <tr>
 <td align="left">AT BL </td><td align="left">number (0,1) </td><td align="left">enable/disable output of triggered virtual buttons. Is used with AT BM for command learning </td><td align="left">v3 </td><td align="left">untested </td><td align="left">no (handled in task_debouncer) </td></tr>
 <tr>
-<td align="left">AT MA </td><td align="left">string </td><td align="left">execute macro (space separated list of commands, see <a href="https://github.com/asterics/FLipMouse/wiki/macros">Macros</a>) </td><td align="left">v2 </td><td align="left">untested </td><td align="left">yes (task_macro) </td></tr>
+<td align="left">AT MA </td><td align="left">string </td><td align="left">execute macro (';' separated list of commands, see <a href="https://github.com/asterics/FLipMouse/wiki/macros">Macros</a>) <sup><a href="#footnoteA">A</a></sup> </td><td align="left">v2 </td><td align="left">untested </td><td align="left">yes (task_macro) </td></tr>
 <tr>
-<td align="left">AT WA </td><td align="left">number (0-30000) </td><td align="left">wait/delay (ms); useful for macros. Does nothing if not used in macros. </td><td align="left">v2 </td><td align="left">untested </td><td align="left">yes/no <sup><a href="#footnoteA">A</a></sup> </td></tr>
+<td align="left">AT WA </td><td align="left">number (0-30000) </td><td align="left">wait/delay (ms); useful for macros. Does nothing if not used in macros. </td><td align="left">v2 </td><td align="left">untested </td><td align="left">yes/no <sup><a href="#footnoteB">B</a></sup> </td></tr>
 <tr>
 <td align="left">AT RO </td><td align="left">number (0,90,180,270) </td><td align="left">orientation (0 =&gt; LEDs on top) </td><td align="left">v2 </td><td align="left">yes </td><td align="left">no </td></tr>
 <tr>
@@ -98,18 +98,19 @@ $(function() {
 <tr>
 <td align="left">AT TT </td><td align="left">number (100-5000) </td><td align="left">Threshold time ([ms]) between short and long press actions. Set to 5000 to disable. </td><td align="left">v3 </td><td align="left">no </td><td align="left">no (handled in task_debouncer) </td></tr>
 <tr>
-<td align="left">AT AP </td><td align="left">number (1-500) </td><td align="left">Antitremor delay for button press ([ms]) <sup><a href="#footnoteB">B</a></sup> </td><td align="left">v3 </td><td align="left">untested </td><td align="left">no </td></tr>
+<td align="left">AT AP </td><td align="left">number (1-500) </td><td align="left">Antitremor delay for button press ([ms]) <sup><a href="#footnoteC">C</a></sup> </td><td align="left">v3 </td><td align="left">untested </td><td align="left">no </td></tr>
 <tr>
-<td align="left">AT AR </td><td align="left">number (1-500) </td><td align="left">Antitremor delay for button release ([ms]) <sup><a href="#footnoteB">B</a></sup></td><td align="left">v3 </td><td align="left">untested </td><td align="left">no </td></tr>
+<td align="left">AT AR </td><td align="left">number (1-500) </td><td align="left">Antitremor delay for button release ([ms]) <sup><a href="#footnoteC">C</a></sup></td><td align="left">v3 </td><td align="left">untested </td><td align="left">no </td></tr>
 <tr>
-<td align="left">AT AI </td><td align="left">number (1-500) </td><td align="left">Antitremor delay for button idle ([ms]) <sup><a href="#footnoteB">B</a></sup></td><td align="left">v3 </td><td align="left">untested </td><td align="left">no </td></tr>
+<td align="left">AT AI </td><td align="left">number (1-500) </td><td align="left">Antitremor delay for button idle ([ms]) <sup><a href="#footnoteC">C</a></sup></td><td align="left">v3 </td><td align="left">untested </td><td align="left">no </td></tr>
 <tr>
 <td align="left">AT FR </td><td align="left">&ndash; </td><td align="left">Reports free, used and available config storage space (e.g., "FREE:10%,9000,1000")</td><td align="left">v3 </td><td align="left">yes </td><td align="left">no </td></tr>
 <tr>
 <td align="left">AT FB </td><td align="left">number (0,1,2,3) </td><td align="left">Feedback mode, 0=no LED/no buzzer, 1=LED/no buzzer, 2=no LED/buzzer, 3= LED + buzzer </td><td align="left">v3 </td><td align="left">yes </td><td align="left">no </td></tr>
 </table>
-<p><a class="anchor" id="footnoteB"></a>A: AT WA is done in task_macro, but cannot be used in any other way except a macro ( <em>AT MA</em> ).</p>
-<p><a class="anchor" id="footnoteB"></a>B: Either combine the anti-tremor time settings with a previously sent <em>AT BM</em> command to set a debouncing time for an individual virtual button <b>OR</b> use this command individually to set a global value.</p>
+<p><a class="anchor" id="footnoteA"></a><b>A</b>: If you want to have a semicolon character WITHIN an AT command, please escape it with a backslash sequence: "\;". All other characters can be used normally.</p>
+<p><a class="anchor" id="footnoteB"></a><b>B</b>: AT WA is done in task_macro, but cannot be used in any other way except a macro ( <em>AT MA</em> ).</p>
+<p><a class="anchor" id="footnoteC"></a><b>C</b>: Either combine the anti-tremor time settings with a previously sent <em>AT BM</em> command to set a debouncing time for an individual virtual button <b>OR</b> use this command individually to set a global value.</p>
 <p><b>USB HID Commands</b> </p><table class="doxtable">
 <tr>
 <th align="left">Command </th><th align="left">Parameter </th><th align="left">Description </th><th align="left">Available since </th><th align="left">Implemented in v3 </th><th align="left">FUNCTIONAL task  </th></tr>
@@ -238,17 +239,17 @@ $(function() {
 <tr>
 <th align="left">Command </th><th align="left">Parameter </th><th align="left">Description </th><th align="left">Available since </th><th align="left">Implemented in v3 </th><th align="left">FUNCTIONAL task  </th></tr>
 <tr>
-<td align="left">AT JX </td><td align="left">number (0-1023) + number(0,1) </td><td align="left">Joystick X-axis <sup><a href="#footnoteC">C</a></sup> </td><td align="left">v2 </td><td align="left">yes </td><td align="left">yes (task_joystick) </td></tr>
+<td align="left">AT JX </td><td align="left">number (0-1023) + number(0,1) </td><td align="left">Joystick X-axis <sup><a href="#footnoteD">D</a></sup> </td><td align="left">v2 </td><td align="left">yes </td><td align="left">yes (task_joystick) </td></tr>
 <tr>
-<td align="left">AT JY </td><td align="left">number (0-1023) + number(0,1) </td><td align="left">Joystick Y-axis <sup><a href="#footnoteC">C</a></sup> </td><td align="left">v2 </td><td align="left">yes </td><td align="left">yes (task_joystick) </td></tr>
+<td align="left">AT JY </td><td align="left">number (0-1023) + number(0,1) </td><td align="left">Joystick Y-axis <sup><a href="#footnoteD">D</a></sup> </td><td align="left">v2 </td><td align="left">yes </td><td align="left">yes (task_joystick) </td></tr>
 <tr>
-<td align="left">AT JZ </td><td align="left">number (0-1023) + number(0,1) </td><td align="left">Joystick Z-axis <sup><a href="#footnoteC">C</a></sup> </td><td align="left">v2 </td><td align="left">yes </td><td align="left">yes (task_joystick) </td></tr>
+<td align="left">AT JZ </td><td align="left">number (0-1023) + number(0,1) </td><td align="left">Joystick Z-axis <sup><a href="#footnoteD">D</a></sup> </td><td align="left">v2 </td><td align="left">yes </td><td align="left">yes (task_joystick) </td></tr>
 <tr>
-<td align="left">AT JT </td><td align="left">number (0-1023) + number(0,1) </td><td align="left">Joystick Z-rotate <sup><a href="#footnoteC">C</a></sup> </td><td align="left">v2 </td><td align="left">yes </td><td align="left">yes (task_joystick) </td></tr>
+<td align="left">AT JT </td><td align="left">number (0-1023) + number(0,1) </td><td align="left">Joystick Z-rotate <sup><a href="#footnoteD">D</a></sup> </td><td align="left">v2 </td><td align="left">yes </td><td align="left">yes (task_joystick) </td></tr>
 <tr>
-<td align="left">AT JS </td><td align="left">number (0-1023) + number(0,1) </td><td align="left">Joystick Slider left <sup><a href="#footnoteC">C</a></sup> </td><td align="left">v2 </td><td align="left">yes </td><td align="left">yes (task_joystick) </td></tr>
+<td align="left">AT JS </td><td align="left">number (0-1023) + number(0,1) </td><td align="left">Joystick Slider left <sup><a href="#footnoteD">D</a></sup> </td><td align="left">v2 </td><td align="left">yes </td><td align="left">yes (task_joystick) </td></tr>
 <tr>
-<td align="left">AT JU </td><td align="left">number (0-1023) + number(0,1) </td><td align="left">Joystick Slider right <sup><a href="#footnoteC">C</a></sup> </td><td align="left">v3 </td><td align="left">untested </td><td align="left">yes (task_joystick) </td></tr>
+<td align="left">AT JU </td><td align="left">number (0-1023) + number(0,1) </td><td align="left">Joystick Slider right <sup><a href="#footnoteD">D</a></sup> </td><td align="left">v3 </td><td align="left">untested </td><td align="left">yes (task_joystick) </td></tr>
 <tr>
 <td align="left">AT JP </td><td align="left">number (1-32) </td><td align="left">Button press </td><td align="left">v2 </td><td align="left">yes </td><td align="left">yes (task_joystick) </td></tr>
 <tr>
@@ -256,10 +257,10 @@ $(function() {
 <tr>
 <td align="left">AT JR </td><td align="left">number (1-32) </td><td align="left">Button release </td><td align="left">v2 </td><td align="left">yes </td><td align="left">yes (task_joystick) </td></tr>
 <tr>
-<td align="left">AT JH </td><td align="left">number (-1, 0-315) + number(0,1) </td><td align="left">Joystick hat (rest position: -1, 0-315 in 45° steps) <sup><a href="#footnoteC">C</a></sup> </td><td align="left">v2 </td><td align="left">yes </td><td align="left">yes (task_joystick) </td></tr>
+<td align="left">AT JH </td><td align="left">number (-1, 0-315) + number(0,1) </td><td align="left">Joystick hat (rest position: -1, 0-315 in 45° steps) <sup><a href="#footnoteD">D</a></sup> </td><td align="left">v2 </td><td align="left">yes </td><td align="left">yes (task_joystick) </td></tr>
 </table>
 <p>Please note, that joystick is currently not available for Bluetooth connections.</p>
-<p><a class="anchor" id="footnoteC"></a>D: The second parameter sets the release mode of this command.</p>
+<p><a class="anchor" id="footnoteD"></a><b>D</b>: The second parameter sets the release mode of this command.</p>
 <p>If set to 0 (or no parameter given, compatible to v2), the axis/slider/hat won't be set to a different value except another VB is used to set it differently.</p>
 <p>If set to 1, the axis/slider/hat will be released to its idle position on a VB release action (idle values: axis - 512; slider - 0; hat - -1).</p>
 <p><b>Infrared commands</b> </p><table class="doxtable">

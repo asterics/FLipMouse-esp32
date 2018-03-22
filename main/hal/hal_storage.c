@@ -1025,9 +1025,14 @@ esp_err_t halStorageLoadNumber(uint8_t slotnumber, generalConfig_t *cfg, uint32_
     if(slotnumber == 0)
     {
       ESP_LOGW(LOG_TAG,"no default config. creating one & retry");
-      free(slotname);
+      
       halStorageCreateDefault(tid);
-      return ESP_FAIL;
+      f = fopen(file, "rb");
+      if(f == NULL)
+      {
+        free(slotname);
+        return ESP_FAIL;
+      }
     } else {
       ESP_LOGE(LOG_TAG,"cannot load requested slot number %u",slotnumber);
       free(slotname);
@@ -1509,7 +1514,7 @@ esp_err_t halStorageStoreSetVBConfigs(uint8_t slotnumber, uint8_t vb, void *conf
   
   if(vb < storageCurrentVBNumber)
   {
-    ESP_LOGE(LOG_TAG,"VB store is only possible in consecutive calls!");
+    ESP_LOGE(LOG_TAG,"VB store is only possible in consecutive calls (current: %d, previous: %d)",vb,storageCurrentVBNumber);
     return ESP_FAIL;
   }
   

@@ -12,5 +12,6 @@ var searchData=
   ['requestvbtask',['requestVBTask',['../task__commands_8c.html#a9c73c48b3f99599795437a9a22ed98d5',1,'task_commands.c']]],
   ['requestvbtype',['requestVBType',['../task__commands_8c.html#af2fcbc3f27a33e58b92d0b0a979a3b33',1,'task_commands.c']]],
   ['requestvbupdate',['requestVBUpdate',['../task__commands_8c.html#a92f6cea4b2f3b9af0abce6f8fcf3da97',1,'task_commands.c']]],
+  ['reserved',['reserved',['../structWS__frame__header__t.html#a2107b57c46141938ba56968c21397046',1,'WS_frame_header_t']]],
   ['right',['right',['../structadcData.html#aac97a6c1840b8874c8fae91265d51707',1,'adcData']]]
 ];

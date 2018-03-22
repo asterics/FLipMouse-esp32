@@ -410,7 +410,7 @@ parserstate_t doStorageParsing(uint8_t *cmdBuffer, taskConfigSwitcherConfig_t *i
   /*++++ save slot ++++*/
   if(CMD("AT SA"))
   {
-    if(halStorageStartTransaction(&tid,10) != ESP_OK)
+    if(halStorageStartTransaction(&tid,10,LOG_TAG) != ESP_OK)
     {
       ESP_LOGE(LOG_TAG,"Cannot start storage transaction");
       return UNKNOWNCMD;
@@ -595,7 +595,7 @@ parserstate_t doInfraredParsing(uint8_t *cmdBuffer, taskInfraredConfig_t *instan
   
   /*++++ AT IW ++++*/
   if(CMD("AT IW")) {
-    if(halStorageStartTransaction(&tid,20) == ESP_OK)
+    if(halStorageStartTransaction(&tid,20,LOG_TAG) == ESP_OK)
     {
       if(halStorageDeleteIRCmd(100,tid) != ESP_OK)
       {
@@ -617,7 +617,7 @@ parserstate_t doInfraredParsing(uint8_t *cmdBuffer, taskInfraredConfig_t *instan
       ESP_LOGW(LOG_TAG,"Invalid IR slot nr %d",param)
       return UNKNOWNCMD;
     }
-    if(halStorageStartTransaction(&tid,20) == ESP_OK)
+    if(halStorageStartTransaction(&tid,20,LOG_TAG) == ESP_OK)
     {
       if(halStorageDeleteIRCmd(param,tid) != ESP_OK)
       {
@@ -647,7 +647,7 @@ parserstate_t doInfraredParsing(uint8_t *cmdBuffer, taskInfraredConfig_t *instan
   
   /*++++ AT IC ++++*/
   if(CMD("AT IC")) {
-    if(halStorageStartTransaction(&tid,20) == ESP_OK)
+    if(halStorageStartTransaction(&tid,20,LOG_TAG) == ESP_OK)
     {
       uint8_t nr = 0;
       if(halStorageGetNumberForNameIR(tid,&nr,(char*)&cmdBuffer[6]) == ESP_OK)
@@ -690,7 +690,7 @@ parserstate_t doInfraredParsing(uint8_t *cmdBuffer, taskInfraredConfig_t *instan
   
   /*++++ AT IL ++++*/
   if(CMD("AT IL")) {
-    if(halStorageStartTransaction(&tid,20) == ESP_OK)
+    if(halStorageStartTransaction(&tid,20,LOG_TAG) == ESP_OK)
     {
       uint8_t count = 0;
       uint8_t printed = 0;
@@ -903,7 +903,7 @@ parserstate_t doGeneralCmdParsing(uint8_t *cmdBuffer)
   /*++++ AT DE ++++*/
   if(CMD("AT DE")) {
     uint32_t tid;
-    if(halStorageStartTransaction(&tid,20) != ESP_OK)
+    if(halStorageStartTransaction(&tid,20,LOG_TAG) != ESP_OK)
     {
       return UNKNOWNCMD;
     } else {
@@ -938,7 +938,7 @@ parserstate_t doGeneralCmdParsing(uint8_t *cmdBuffer)
     uint32_t tid;
     uint8_t slotnumber;
     
-    if(halStorageStartTransaction(&tid,20) != ESP_OK)
+    if(halStorageStartTransaction(&tid,20,LOG_TAG) != ESP_OK)
     {
       return UNKNOWNCMD;
     }
@@ -951,7 +951,9 @@ parserstate_t doGeneralCmdParsing(uint8_t *cmdBuffer)
       case 'N': 
         halStorageGetNumberForName(tid,&slotnumber,(char *)&cmdBuffer[6]); 
         break;
-      default: return UNKNOWNCMD;
+      default: 
+        halStorageFinishTransaction(tid);
+        return UNKNOWNCMD;
     }
     
     if(halStorageDeleteSlot(slotnumber,tid) != ESP_OK)
@@ -1541,7 +1543,7 @@ void printAllSlots(uint8_t printconfig)
     return;
   }
   
-  if(halStorageStartTransaction(&tid, 10)!= ESP_OK)
+  if(halStorageStartTransaction(&tid, 10,LOG_TAG)!= ESP_OK)
   {
     ESP_LOGE(LOG_TAG,"Cannot print slot, unable to obtain storage");
     return;
@@ -1549,6 +1551,7 @@ void printAllSlots(uint8_t printconfig)
   
   if(halStorageGetNumberOfSlots(tid, &slotCount) != ESP_OK)
   {
+    halStorageFinishTransaction(tid);
     ESP_LOGE(LOG_TAG,"Cannot get slotcount");
     return;
   }

@@ -18,6 +18,7 @@ var searchData=
   ['requestvbtask',['requestVBTask',['../task__commands_8c.html#a9c73c48b3f99599795437a9a22ed98d5',1,'task_commands.c']]],
   ['requestvbtype',['requestVBType',['../task__commands_8c.html#af2fcbc3f27a33e58b92d0b0a979a3b33',1,'task_commands.c']]],
   ['requestvbupdate',['requestVBUpdate',['../task__commands_8c.html#a92f6cea4b2f3b9af0abce6f8fcf3da97',1,'task_commands.c']]],
+  ['reserved',['reserved',['../structWS__frame__header__t.html#a2107b57c46141938ba56968c21397046',1,'WS_frame_header_t']]],
   ['restorefactorysettings',['RESTOREFACTORYSETTINGS',['../hal__storage_8h.html#a8a4828abe0b7cd309fba5c2e5e228b95a9e10e3a504fc1980c1866aad86e7f2b6',1,'hal_storage.h']]],
   ['right',['right',['../structadcData.html#aac97a6c1840b8874c8fae91265d51707',1,'adcData::right()'],['../task__mouse_8h.html#ad99a95527afeac61cb05911c7695d942aec8379af7490bb9eaaf579cf17876f38',1,'RIGHT():&#160;task_mouse.h']]],
   ['right_5falt_5fkey_5fmask',['RIGHT_ALT_KEY_MASK',['../esp__hidd__prf__api_8h.html#a122fc4a09870e4f0c3e730ebcc7d58b8',1,'esp_hidd_prf_api.h']]],

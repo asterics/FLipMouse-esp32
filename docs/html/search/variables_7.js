@@ -50,5 +50,7 @@ var searchData=
   ['hidreportrefkeyin',['hidReportRefKeyIn',['../hid__device__le__prf_8c.html#a407982c8cf184bd0c74e94d8c8503548',1,'hid_device_le_prf.c']]],
   ['hidreportrefledout',['hidReportRefLedOut',['../hid__device__le__prf_8c.html#a5aeadf9795c7446979495b0c555733f7',1,'hid_device_le_prf.c']]],
   ['hidreportrefmousein',['hidReportRefMouseIn',['../hid__device__le__prf_8c.html#ada5f5d46c997233c58aed5c4f39c241a',1,'hid_device_le_prf.c']]],
-  ['hids_5fnb',['hids_nb',['../structhidd__inst__t.html#ac791116e6308c4dba843b9f683d992f1',1,'hidd_inst_t']]]
+  ['hids_5fnb',['hids_nb',['../structhidd__inst__t.html#ac791116e6308c4dba843b9f683d992f1',1,'hidd_inst_t']]],
+  ['http_5f404_5fhdr',['http_404_hdr',['../task__webgui_8c.html#adc315946213a381b52f5d88d407f965a',1,'task_webgui.c']]],
+  ['http_5fhtml_5fhdr',['http_html_hdr',['../task__webgui_8c.html#a84019f692b38960767e6beb15d0c4a2b',1,'task_webgui.c']]]
 ];

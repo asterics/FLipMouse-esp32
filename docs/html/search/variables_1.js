@@ -1,7 +1,7 @@
 var searchData=
 [
   ['bas_5fatt_5fdb',['bas_att_db',['../hid__device__le__prf_8c.html#a835f6080e0bb9974f8add0e19a5d0d0f',1,'hid_device_le_prf.c']]],
-  ['base_5fpath',['base_path',['../hal__storage_8c.html#a47050fc742d4864291d317dc39914ad1',1,'hal_storage.c']]],
+  ['base_5fpath',['base_path',['../task__webgui_8c.html#a47050fc742d4864291d317dc39914ad1',1,'base_path():&#160;task_webgui.c'],['../hal__storage_8c.html#a47050fc742d4864291d317dc39914ad1',1,'base_path():&#160;hal_storage.c']]],
   ['bat_5flev_5fccc',['bat_lev_ccc',['../hid__device__le__prf_8c.html#aed743857fa2e7262f4615eb7b6d80334',1,'hid_device_le_prf.c']]],
   ['bat_5flev_5fuuid',['bat_lev_uuid',['../hid__device__le__prf_8c.html#ad35b5b1922bf984bdf3dcdd6cf6c03fa',1,'hid_device_le_prf.c']]],
   ['battary_5flev',['battary_lev',['../hid__device__le__prf_8c.html#a1d66b8fc957598cde35fd4a681843791',1,'hid_device_le_prf.c']]],

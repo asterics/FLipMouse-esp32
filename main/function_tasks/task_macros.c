@@ -121,6 +121,17 @@ void task_macro(taskMacrosConfig_t *param)
           //do we reach a command terminator?
           if(macro[offset] == ';')
           {
+            //check if this character is escaped:
+            if(offset > 0)
+            {
+              if(macro[offset-1] == '\\')
+              {
+                //if it escaped "\;", just continue.
+                offset++;
+                continue;
+              }
+            }
+            
             //check if we hit an AT WA (wait)
             if(memcmp(&macro[start],"AT WA",5) == 0)
             {

@@ -70,7 +70,7 @@
  * @see ATCMD_LENGTH
  * @todo Documentation updates, this define is now used differently...
  */
-#define HAL_SERIAL_UART_TIMEOUT_MS 5000
+#define HAL_SERIAL_UART_TIMEOUT_MS 10000
 
 static const int BUF_SIZE_RX = 512;
 

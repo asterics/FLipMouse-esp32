@@ -365,9 +365,10 @@ esp_err_t halStorageLoadGetVBConfigs(uint8_t vb, void * vb_config, size_t vb_con
  * @see halStorageFinishTransaction
  * @param tid Transaction if this command was successful, 0 if not.
  * @param tickstowait Maximum amount of ticks to wait for this command to be successful
+ * @param caller Name of calling task, used to track storage access
  * @return ESP_OK if the tid is valid, ESP_FAIL if other tasks did not freed the access in time
  * */
-esp_err_t halStorageStartTransaction(uint32_t *tid, TickType_t tickstowait);
+esp_err_t halStorageStartTransaction(uint32_t *tid, TickType_t tickstowait, char* caller);
 
 
 /** @brief Finish a storage transaction

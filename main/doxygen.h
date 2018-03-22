@@ -74,5 +74,8 @@
  @todo Test AT MA (macros).
  @todo ADC_TASK triggers watchdog...
  
+ @todo Wifi/BLE starting stopping? Both is currently not possible...
+ 
  @todo Implement long press for virtual buttons (new VBs).
+ @todo Improve VB storing, currently this takes quite long. Maybe built a header and store only necessary amount? -> write to flash only on halStoragFinishTransaction
 */

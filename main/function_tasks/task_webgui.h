@@ -49,6 +49,7 @@
 #include <inttypes.h>
 
 #include "esp_wifi.h"
+#include "esp_event_loop.h"
 #include "nvs.h"
 #include "nvs_flash.h"
 #include "esp_log.h"
@@ -62,11 +63,17 @@
 #include "lwip/err.h"
 #include "lwip/netdb.h"
 
-#include "cJSON.h"
 #include "captdns.h"
+#include "websocket.h"
 
-#define TASK_WEBGUI_MONITOR_STACKSIZE 4096
-#define TASK_WEBGUI_SERVER_STACKSIZE 16384
+/** @brief Stack size for websocket server task */
+#define TASK_WEBGUI_WEBSOCKET_STACKSIZE 8192
+/** @brief Stack size for web server task */
+//#define TASK_WEBGUI_SERVER_STACKSIZE 16384
+#define TASK_WEBGUI_SERVER_STACKSIZE 8192
+
+/** @brief Websocket port */
+#define TASK_WEBGUI_WSPORT 1804
 
 /** @brief Init the web / DNS server and the web gui
  * 

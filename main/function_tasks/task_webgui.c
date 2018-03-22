@@ -46,15 +46,350 @@
 /** @brief Logging tag for this module */
 #define LOG_TAG "web"
 
+/** @brief Authentication mode for wifi hotspot */
+#define CONFIG_AP_AUTHMODE WIFI_AUTH_WPA2_PSK
+/** @brief Set AP visibility, 1 if it should be hidden */
+#define CONFIG_AP_SSID_HIDDEN 0
+/** @brief Name of the wifi hotspot */
+#define CONFIG_AP_SSID "FLipMouse"
+/** @brief Hotspot password
+ * @todo What to do with the password? Fixed one? Not good... */
+#define CONFIG_AP_PASSWORD "foundation"
+/** @brief Wifi channel to be used, 0 means automatic (right?) */
+#define CONFIG_AP_CHANNEL 0
+/** @brief Wifi max number of connection */
+#define CONFIG_AP_MAX_CONNECTIONS 4
+/** @brief Wifi beacon interval */
+#define CONFIG_AP_BEACON_INTERVAL	100
+
+/** @brief Partition name (used to define different memory types) */
+const static char *base_path = "/spiflash";
+
+/** @brief Static HTTP HTML header */
+const static char http_html_hdr[] = "HTTP/1.1 200 OK\nContent-type: text/html\n\n";
+/** @brief Static HTTP 404 header */
+const static char http_404_hdr[] = "HTTP/1.1 404 NOT FOUND\n\n";
+
+/** @brief Get the number of currently connected Wifi stations
+ * @return Number of connected clients */
+static int8_t getNumberOfWifiStations(void)
+{
+ 	wifi_sta_list_t wifi_sta_list;
+	tcpip_adapter_sta_list_t adapter_sta_list;
+   
+	memset(&wifi_sta_list, 0, sizeof(wifi_sta_list));
+	memset(&adapter_sta_list, 0, sizeof(adapter_sta_list));
+   
+	ESP_ERROR_CHECK(esp_wifi_ap_get_sta_list(&wifi_sta_list));	
+	ESP_ERROR_CHECK(tcpip_adapter_get_sta_list(&wifi_sta_list, &adapter_sta_list));
+  
+  return adapter_sta_list.num;
+} 
+
+/** @brief CONTINOUS TASK - Websocket server task
+ * 
+ * This task is used to handle the websocket on port 1804.
+ * Websocket is used for data transmission between a connected client
+ * and the FLipMouse/FABI. Incoming data is in the same format
+ * as on the serial interface, therefore simply put into the command
+ * queue.
+ * Outgoing data is equally to serial output data.
+ * 
+ * @see halSerialATCmds
+ * @see halSerialSendUSBSerial
+ * */
+void ws_server(void *pvParameters) {
+	//connection references
+	struct netconn *conn, *newconn;
+
+	//set up new TCP listener
+	conn = netconn_new(NETCONN_TCP);
+	netconn_bind(conn, NULL, TASK_WEBGUI_WSPORT);
+	netconn_listen(conn);
+  ESP_LOGI(LOG_TAG,"Websocket server started");
+	//wait for connections
+	while (netconn_accept(conn, &newconn) == ERR_OK)
+  {
+    ESP_LOGI(LOG_TAG,"Incoming WS connection");
+		ws_server_netconn_serve(newconn);
+  }
+	//close connection
+	netconn_close(conn);
+}
+
+
+/** @brief Serve static content from FAT
+ * 
+ * This method is used to send data from the FAT partition to a client
+ * @param resource Name of the resource to be sent
+ * @param conn Currently active connection
+ */
+void fat_serve(char* resource, struct netconn *conn) {
+  //basepath + 8.3 file + folder + margin
+  char file[sizeof(base_path)+32];
+  sprintf(file,"%s%s",base_path,resource);
+  ESP_LOGI(LOG_TAG,"serving from FAT: %s",file);
+  
+  struct stat st;
+	if (stat(file, &st) == 0) {
+		netconn_write(conn, http_html_hdr, sizeof(http_html_hdr) - 1, NETCONN_NOCOPY);
+		
+		// open the file for reading
+		FILE* f = fopen(file, "r");
+		if(f == NULL) {
+			ESP_LOGE(LOG_TAG,"Unable to open the file %s\n", file);
+			return;
+		}
+		
+		//allocate a buffer in size of one FAT block
+		char* buffer = malloc(512);
+    
+		int i=0, len=0;
+    
+    do {
+			len=fread(buffer, 1, 512, f);
+			i+=len;
+			ESP_LOGV(LOG_TAG,"Writing bytes %d\n", i);
+			netconn_write(conn, buffer, len, NETCONN_NOCOPY);
+		} while (len==512);
+		
+    ESP_LOGI(LOG_TAG,"Sent %u bytes",i);
+		fclose(f);
+		fflush(stdout);
+    free(buffer);
+	}
+	else {
+		ESP_LOGW(LOG_TAG,"Resource not found: %s\n", file);
+		netconn_write(conn, http_404_hdr, sizeof(http_404_hdr) - 1, NETCONN_NOCOPY);
+	}
+}
+
+/** @brief Handle an incoming HTTP connection
+ * 
+ * This handler is used to server the webpage to a connected client.
+ * Data is read from the FAT/VFS partition of the flash.
+ * The partition is created and uploaded by *make makefatfs flashfatfs*
+ * @param conn Current active net connection
+ * */
+static void http_server_netconn_serve(struct netconn *conn) {
+
+	struct netbuf *inbuf;
+	char *buf;
+	u16_t buflen;
+	err_t err;
+
+	err = netconn_recv(conn, &inbuf);
+
+	if (err == ERR_OK) {
+	  
+		// get the request and terminate the string
+		netbuf_data(inbuf, (void**)&buf, &buflen);
+		buf[buflen] = '\0';
+    char *request_line = strtok(buf, "\n");
+		
+		if(request_line) {
+			// default page -> redirect to index.html
+			if(strstr(request_line, "GET / ")) {
+				fat_serve("/INDEX.HTM", conn);
+			} else {
+				// get the requested resource
+        char* method = strtok(request_line, " ");
+				char* resource = strtok(NULL, " ");
+				fat_serve(resource, conn);
+			}
+		}
+	}
+	
+	// close the connection and free the buffer
+	netconn_close(conn);
+	netbuf_delete(inbuf);
+}
+
+
+
+/** @brief CONTINOUS TASK - Main webserver task
+ * 
+ * This task is used to handle incoming connections
+ * @todo Improve comments
+ * */
+static void http_server(void *pvParameters) {
+	
+	struct netconn *conn, *newconn;
+	err_t err;
+	conn = netconn_new(NETCONN_TCP);
+	netconn_bind(conn, NULL, 80);
+	netconn_listen(conn);
+	ESP_LOGI(LOG_TAG,"http_server task started");
+	do {
+		err = netconn_accept(conn, &newconn);
+		if (err == ERR_OK) {
+      //server data to this connection
+			http_server_netconn_serve(newconn);
+			netconn_delete(newconn);
+		}
+		vTaskDelay(10); //allows task to be pre-empted
+	} while(err == ERR_OK);
+	netconn_close(conn);
+	netconn_delete(conn);
+}
+
+static esp_err_t systemhandler(system_event_t *event)
+{
+  if(event == NULL) return ESP_FAIL;
+  switch(event->event_id)
+  {
+    case SYSTEM_EVENT_AP_START:                 /**< ESP32 soft-AP start */
+      ESP_LOGI(LOG_TAG,"SEvent AP start");
+      break;
+    case SYSTEM_EVENT_AP_STOP:                  /**< ESP32 soft-AP stop */
+      ESP_LOGI(LOG_TAG,"SEvent AP stop");
+      break;
+    case SYSTEM_EVENT_AP_STACONNECTED:          /**< a station connected to ESP32 soft-AP */
+      ESP_LOGI(LOG_TAG,"SEvent sta conn");
+      break;
+    case SYSTEM_EVENT_AP_STADISCONNECTED:       /**< a station disconnected from ESP32 soft-AP */
+      ESP_LOGI(LOG_TAG,"SEvent sta disconn");
+      break;
+    default:
+      ESP_LOGI(LOG_TAG,"SEvent unknown: %d",event->event_id);
+      break;
+  }
+  return ESP_OK;
+}
+
+/** @brief Event handler for wifi status updates
+ * @todo Document & adapt to firmware!
+ * */
+static esp_err_t wifi_event_handler(void *ctx, system_event_t *event) {
+  //check if event flags are active
+  if(connectionRoutingStatus == NULL)
+  {
+    ESP_LOGE(LOG_TAG,"Status flags for wifi are NULL! Should not receive an event!");
+    return ESP_FAIL;
+  }
+  
+  //determine event: print information and set flags accordingly
+  switch(event->event_id) {
+		
+    case SYSTEM_EVENT_STA_START:
+      esp_wifi_connect();
+      break;
+
+    case SYSTEM_EVENT_AP_START:
+      ESP_LOGD(LOG_TAG,"Access point started");
+      xEventGroupSetBits(connectionRoutingStatus, WIFI_ACTIVE);
+      break;
+		
+    case SYSTEM_EVENT_AP_STOP:
+      ESP_LOGD(LOG_TAG,"Access point stopped");
+      xEventGroupClearBits(connectionRoutingStatus, WIFI_ACTIVE);
+      break;
+		
+    case SYSTEM_EVENT_AP_STACONNECTED:
+      //a new client connected
+      ESP_LOGI(LOG_TAG,"Client connected, currently connected: %d",getNumberOfWifiStations());
+      //set client connected flag
+      xEventGroupSetBits(connectionRoutingStatus, WIFI_CLIENT_CONNECTED);
+            
+      //add the websocket sending functions to hal_serial for getting output data
+      halSerialAddOutputStream(WS_write_data);
+      break;
+
+    case SYSTEM_EVENT_AP_STADISCONNECTED:
+      //a client got disconnected
+      ESP_LOGI(LOG_TAG,"Client disconnected, currently connected: %d",getNumberOfWifiStations());
+      if(getNumberOfWifiStations() == 0)
+      {
+        //remove the callback, not necessary if no client is connected
+        halSerialRemoveOutputStream();
+        //clear client connected flag
+        xEventGroupClearBits(connectionRoutingStatus, WIFI_CLIENT_CONNECTED);
+      }
+      break;		
+    default:
+      break;
+  }  
+	return ESP_OK;
+}
+
 /** @brief Init the web / DNS server and the web gui
  * 
  * TBD: documentation what is done here
  * 
+ * @todo For testing, webserver will be active on startup. In final version, webserver is active on long button press only for 10min (SECURITY!)
  * @return ESP_OK on success, ESP_FAIL otherwise
  * */
 esp_err_t taskWebGUIInit(void)
 {
-  ESP_LOGE(LOG_TAG,"UNIMPLEMENTED");
+  if(connectionRoutingStatus == NULL)
+  {
+    ESP_LOGE(LOG_TAG,"connection queue is uninitialized, please call the web init afterwards!");
+    return ESP_FAIL;
+  }
+  
+  //ESP_LOGE(LOG_TAG,"Currently disabled");
+  //return ESP_OK;
+  
+  /*++++ initialize WiFi (AP-mode) ++++*/
+  esp_log_level_set("wifi", ESP_LOG_VERBOSE); // disable wifi driver logging
+	tcpip_adapter_init();
+  #if 0
+  // stop DHCP server
+	ESP_ERROR_CHECK(tcpip_adapter_dhcps_stop(TCPIP_ADAPTER_IF_AP));
+  //assign new IP address to Wifi interface
+  tcpip_adapter_ip_info_t info;
+  memset(&info, 0, sizeof(info));
+	IP4_ADDR(&info.ip, 192, 168, 10, 1);
+  IP4_ADDR(&info.gw, 192, 168, 10, 1);
+  IP4_ADDR(&info.netmask, 255, 255, 255, 0);
+	ESP_ERROR_CHECK(tcpip_adapter_set_ip_info(TCPIP_ADAPTER_IF_AP, &info));
+  
+  // start the DHCP server   
+  ESP_ERROR_CHECK(tcpip_adapter_dhcps_start(TCPIP_ADAPTER_IF_AP));
+  #endif
+	
+	// initialize the wifi event handler
+	ESP_ERROR_CHECK(esp_event_loop_init(wifi_event_handler, NULL));
+	
+	// initialize the wifi stack in AccessPoint mode with config in RAM
+	wifi_init_config_t wifi_init_config = WIFI_INIT_CONFIG_DEFAULT();
+  //wifi_init_config.event_handler = systemhandler;
+	ESP_ERROR_CHECK(esp_wifi_init(&wifi_init_config));
+	//ESP_ERROR_CHECK(esp_wifi_set_storage(WIFI_STORAGE_RAM));
+	ESP_ERROR_CHECK(esp_wifi_set_mode(WIFI_MODE_AP));
+
+	// configure the wifi connection and start the interface
+	wifi_config_t ap_config = {
+    .ap = {
+      .ssid = CONFIG_AP_SSID,
+      .password = CONFIG_AP_PASSWORD,
+			.ssid_len = strlen(CONFIG_AP_SSID),
+			//.channel = CONFIG_AP_CHANNEL,
+			.authmode = CONFIG_AP_AUTHMODE,
+			.ssid_hidden = CONFIG_AP_SSID_HIDDEN,
+			.max_connection = CONFIG_AP_MAX_CONNECTIONS,
+			.beacon_interval = CONFIG_AP_BEACON_INTERVAL,			
+    },
+  };
+	ESP_ERROR_CHECK(esp_wifi_set_config(WIFI_IF_AP, &ap_config));
+    
+	// start the wifi interface
+	ESP_ERROR_CHECK(esp_wifi_start());
+  
+  /*++++ initialize capitive portal dns server ++++*/
+	//captdnsInit();
+	
+	// print the local IP address
+	/*tcpip_adapter_ip_info_t ip_info;
+	ESP_ERROR_CHECK(tcpip_adapter_get_ip_info(TCPIP_ADAPTER_IF_AP, &ip_info));
+	ESP_LOGI(LOG_TAG,"IP Address:\t%s", ip4addr_ntoa(&ip_info.ip));
+	ESP_LOGI(LOG_TAG," Subnet mask:\t%s", ip4addr_ntoa(&ip_info.netmask));
+	ESP_LOGI(LOG_TAG," Gateway:\t%s", ip4addr_ntoa(&ip_info.gw));	
+	*/
+	// start the HTTP Server task
+  xTaskCreate(&http_server, "http_server", TASK_WEBGUI_SERVER_STACKSIZE, NULL, 5, NULL);
+  xTaskCreate(&ws_server, "ws_server", TASK_WEBGUI_WEBSOCKET_STACKSIZE, NULL, 5, NULL);
+  
   return ESP_OK;
 }
 

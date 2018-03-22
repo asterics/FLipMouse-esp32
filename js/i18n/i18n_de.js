@@ -19,4 +19,20 @@ i18n[C.AT_CMD_KEYPRESS] = 'Drücke Tasten: {?}';
 i18n[C.AT_CMD_NO_CMD] = '(nicht belegt)';
 i18n[C.AT_CMD_PRESSHOLD_MOUSE_L] = 'Klicken + Halten linke Maustaste';
 i18n[C.AT_CMD_PRESSHOLD_MOUSE_R] = 'Klicken + Halten rechte Maustaste';
+
+i18n[C.AT_CMD_CLICK_MOUSE_L] = 'Klick linke Maustaste';
+i18n[C.AT_CMD_CLICK_MOUSE_R] = 'Klick rechte Maustaste';
+i18n[C.AT_CMD_CLICK_MOUSE_M] = 'Klick mittlere Maustaste';
+i18n[C.AT_CMD_DOUBLECLICK_MOUSE_L] = 'Doppelklick linke Maustaste';
+i18n[C.AT_CMD_PRESSHOLD_MOUSE_L] = 'Klicken + Halten linke Maustaste';
+i18n[C.AT_CMD_PRESSHOLD_MOUSE_R] = 'Klicken + Halten rechte Maustaste';
+i18n[C.AT_CMD_PRESSHOLD_MOUSE_M] = 'Klicken + Halten mittlere Maustaste';
+i18n[C.AT_CMD_RELEASE_MOUSE_L] = 'Auslassen linke Maustaste';
+i18n[C.AT_CMD_RELEASE_MOUSE_R] = 'Auslassen rechte Maustaste';
+i18n[C.AT_CMD_RELEASE_MOUSE_M] = 'Auslassen mittlere Maustaste';
+i18n[C.AT_CMD_MOUSEWHEEL_UP] = 'Mausrad nach oben bewegen';
+i18n[C.AT_CMD_MOUSEWHEEL_DOWN] = 'Mausrad nach unten bewegen';
+
+i18n[C.AT_CMD_CALIBRATION] = 'Starte Nullpunkt Kalibrierung';
 i18n[C.AT_CMD_NEXT_SLOT] = 'Nächsten Slot laden';
+i18n[C.AT_CMD_LOAD_SLOT] = 'Slot per Name laden';

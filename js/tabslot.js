@@ -4,15 +4,9 @@ tabSlot.initSlots = function () {
     var slots = flip.getSlots();
     L('#delete-slot-button').disabled = slots.length <= 1;
     L('#create-slot-button').disabled = true;
-    L.removeAllChildren('.slot-select');
-    slots.forEach(function (slot) {
-        var option = document.createElement("option");
-        option.value = slot;
-        option.innerHTML = slot;
-        L('.slot-select').forEach(function (elem) {
-            elem.appendChild(option.cloneNode(true));
-            elem.value = flip.getCurrentSlot();
-        });
+    L('.slot-select').forEach(function (elem) {
+        elem.innerHTML = L.createSelectItems(slots);
+        elem.value = flip.getCurrentSlot();
     });
 };
 

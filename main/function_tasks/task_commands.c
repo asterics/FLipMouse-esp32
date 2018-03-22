@@ -337,7 +337,7 @@ parserstate_t doMouthpieceSettingsParsing(uint8_t *cmdBuffer, taskNoParameterCon
         }
       break;
       
-      case 'T':
+      case 'P':
         if(param < 512 || param > 1023)
         {
           sendErrorBack("Threshold puff is 512-1023");
@@ -1372,6 +1372,12 @@ void task_commands(void *params)
       
       //special command "AT" without further command:
       if(received == 3 && memcmp(commandBuffer,"AT",3) == 0)
+      {
+        halSerialSendUSBSerial(HAL_SERIAL_TX_TO_CDC,"OK\r\n",4,100);
+        continue;
+      }
+      ///@todo Why is this one command different if sent from WS or serial?
+      if(received == 2 && memcmp(commandBuffer,"AT",2) == 0)
       {
         halSerialSendUSBSerial(HAL_SERIAL_TX_TO_CDC,"OK\r\n",4,100);
         continue;

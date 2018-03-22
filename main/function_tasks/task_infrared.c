@@ -107,7 +107,7 @@ void task_infrared(taskInfraredConfig_t *param)
         halIOIR_t *cfg = malloc(sizeof(halIOIR_t));
         //transaction ID for IR data
         uint32_t tid;
-        if(halStorageStartTransaction(&tid,20) == ESP_OK)
+        if(halStorageStartTransaction(&tid,20,LOG_TAG) == ESP_OK)
         {
           if(halStorageLoadIR(cmdName,cfg,tid) == ESP_OK)
           {
@@ -206,7 +206,7 @@ esp_err_t infrared_record(char* cmdName, uint8_t outputtoserial)
       return ESP_FAIL;
     case IR_FINISHED:
       //finished, storing
-      if(halStorageStartTransaction(&tid, 20) != ESP_OK)
+      if(halStorageStartTransaction(&tid, 20,LOG_TAG) != ESP_OK)
       {
         ESP_LOGE(LOG_TAG,"Cannot start transaction");
         //free buffers

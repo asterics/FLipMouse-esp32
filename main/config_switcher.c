@@ -226,7 +226,7 @@ void configSwitcherTask(void * params)
     if(xQueueReceive(config_switcher,command,1000/portTICK_PERIOD_MS) == pdTRUE)
     {
       //request storage access
-      if(halStorageStartTransaction(&tid,20) != ESP_OK)
+      if(halStorageStartTransaction(&tid,20,LOG_TAG) != ESP_OK)
       {
         ESP_LOGE(LOG_TAG,"Cannot start storage transaction");
         continue;
@@ -256,6 +256,7 @@ void configSwitcherTask(void * params)
         } else {
           ESP_LOGW(LOG_TAG,"Deleted all slots");
         }
+        halStorageFinishTransaction(tid);
         continue;
       } else if(strcmp(command,"__UPDATE") == 0) {
         ESP_LOGD(LOG_TAG,"config update");

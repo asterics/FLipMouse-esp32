@@ -86,6 +86,14 @@ static wl_handle_t s_wl_handle = WL_INVALID_HANDLE;
 /** @brief Partition name (used to define different memory types) */
 const static char *base_path = "/spiflash";
 
+/** @brief Current active storage task
+ * 
+ * This string is used to determine the currently active task, which
+ * holds a tid.
+ * @see storageCurrentTID
+ * */
+char storageCurrentTIDHolder[32];
+
 /** @brief Get free memory (IR & slot storage)
  * 
  * This method returns the number of total and free bytes in current
@@ -1686,9 +1694,10 @@ esp_err_t halStorageLoadIR(char *cmdName, halIOIR_t *cfg, uint32_t tid)
  * @see halStorageFinishTransaction
  * @param tid Transaction if this command was successful, 0 if not.
  * @param tickstowait Maximum amount of ticks to wait for this command to be successful
+ * @param caller Name of calling task, used to track storage access
  * @return ESP_OK if the tid is valid, ESP_FAIL if other tasks did not freed the access in time
  * */
-esp_err_t halStorageStartTransaction(uint32_t *tid, TickType_t tickstowait)
+esp_err_t halStorageStartTransaction(uint32_t *tid, TickType_t tickstowait, char* caller)
 {
   //check if mutex is initialized
   if(halStorageMutex == NULL)
@@ -1710,9 +1719,12 @@ esp_err_t halStorageStartTransaction(uint32_t *tid, TickType_t tickstowait)
     do {
       storageCurrentTID = rand();
     } while (storageCurrentTID == 0); //create random numbers until its not 0
+    //save TID to calling task
     *tid = storageCurrentTID;
     //reset current VB number to zero, detecting non-consecutive access in VB write.
     storageCurrentVBNumber = 0;
+    //save caller's name for tracking
+    strncpy(storageCurrentTIDHolder,caller,sizeof(storageCurrentTIDHolder));
     if(s_wl_handle == WL_INVALID_HANDLE)
     {
       if(halStorageInit() != ESP_OK)
@@ -1725,7 +1737,7 @@ esp_err_t halStorageStartTransaction(uint32_t *tid, TickType_t tickstowait)
   } else {
     //cannot obtain mutex, set tid to 0 and return
     *tid = 0;
-    ESP_LOGE(LOG_TAG,"cannot obtain mutex");
+    ESP_LOGE(LOG_TAG,"cannot obtain mutex, currently active: %s",storageCurrentTIDHolder);
     return ESP_FAIL;
   }
 }

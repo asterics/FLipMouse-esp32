@@ -89,6 +89,27 @@
  * */
 QueueHandle_t halSerialATCmds;
 
+/** @brief Function pointer type for an additional output of a serial stream */
+typedef esp_err_t (*serialoutput_h)(char* p_data, size_t length);
+
+/** @brief Set an additional function for outputting the serial data
+ * 
+ * This function sets a callback, which is used if the program needs
+ * an additional output despite the serial interface. In this case,
+ * the webgui registers a callback, which sends all the serial data
+ * to the websocket
+ * @param cb Function callback
+*/
+void halSerialAddOutputStream(serialoutput_h cb);
+
+
+/** @brief Remove the additional function for outputting the serial data
+ * 
+ * This function removes the callback, which is used if the program needs
+ * an additional output despite the serial interface.
+*/
+void halSerialRemoveOutputStream(void);
+
 /** @brief AT command type for halSerialATCmds queue
  * 
  * This type of data is used to pass one AT command (in format

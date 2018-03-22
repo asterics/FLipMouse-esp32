@@ -74,6 +74,15 @@
 
 static const int BUF_SIZE_RX = 512;
 
+/** @brief Output callback
+ * 
+ * If this callback is != NULL, the function halSerialSendUSBSerial
+ * will send data to this callback in addition to the serial interface
+ * @see halSerialSendUSBSerial
+ * @see serialoutput_h
+ * */
+serialoutput_h outputcb = NULL;
+
 /** @brief Length of queue for AT commands
  * @note A maximum of CMDQUEUE_SIZE x ATCMD_LENGTH can be allocated (if
  * no task receives the commands)
@@ -584,6 +593,15 @@ int halSerialSendUSBSerial(uint8_t channel, char *data, uint32_t length, TickTyp
     vTaskDelay(1000/portTICK_PERIOD_MS);
   }
   
+  //if an additional stream is registered, send data there as well
+  if(outputcb != NULL)
+  {
+    if(outputcb(data,length) != ESP_OK)
+    {
+      ESP_LOGE(LOG_TAG,"Additional stream cannot be sent");
+    }
+  }
+  
   //acquire mutex to have TX permission on UART
   if(xSemaphoreTake(serialsendingsem, ticks_to_wait) == pdTRUE)
   {
@@ -660,6 +678,30 @@ void halSerialReset(uint8_t exceptDevice)
       ESP_LOGE(LOG_TAG,"Error resetting joystick HID report");
     }
   }
+}
+
+
+/** @brief Remove the additional function for outputting the serial data
+ * 
+ * This function removes the callback, which is used if the program needs
+ * an additional output despite the serial interface.
+*/
+void halSerialRemoveOutputStream(void)
+{
+  outputcb = NULL;
+}
+
+/** @brief Set an additional function for outputting the serial data
+ * 
+ * This function sets a callback, which is used if the program needs
+ * an additional output despite the serial interface. In this case,
+ * the webgui registers a callback, which sends all the serial data
+ * to the websocket
+ * @param cb Function callback
+*/
+void halSerialAddOutputStream(serialoutput_h cb)
+{
+  outputcb = cb;
 }
 
 /** @brief Initialize the serial HAL

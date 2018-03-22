@@ -11,6 +11,9 @@ window.tabAction.init = function () {
     L('#currentAction').innerHTML = getReadable(flip.getConfig(C.BTN_MODES[0]));
     L('#' + C.LEARN_CAT_KEYBOARD).click();
     tabAction.selectMode(flip.getConfig(flip.FLIPMOUSE_MODE), true);
+
+    L('#SELECT_LEARN_CAT_MOUSE').innerHTML = L.createSelectItems(C.AT_CMDS_MOUSE);
+    L('#SELECT_LEARN_CAT_FLIPACTIONS').innerHTML = L.createSelectItems(C.AT_CMDS_FLIP);
 };
 
 window.tabAction.initBtnModeActionTable = function () {
@@ -38,7 +41,6 @@ window.tabAction.initBtnModeActionTable = function () {
 };
 
 window.tabAction.selectActionButton = function (btnMode) {
-    console.log(btnMode);
     L('#selectActionButton').value = btnMode;
     L('#currentAction').innerHTML = getReadable(flip.getConfig(btnMode));
 };
@@ -58,6 +60,14 @@ window.tabAction.selectMode = function (mode, dontSend) {
     L('#' + mode).checked = true;
     if(!dontSend) {
         flip.setFlipmouseMode(mode);
+    }
+};
+
+tabAction.setAtCmd = function (atCmd) {
+    var selectedButton = L('#selectActionButton').value;
+    if(atCmd && selectedButton) {
+        flip.setButtonAction(selectedButton, atCmd);
+        tabAction.selectActionButton(L('#selectActionButton').value);
     }
 };
 
@@ -84,11 +94,7 @@ window.tabAction.startRec = function () {
             }
         };
     } else {
-        var atCmd = getAtCmd(tabAction.queue);
-        var selectedButton = L('#selectActionButton').value;
-        if(atCmd && selectedButton) {
-            flip.setButtonAction(selectedButton, atCmd);
-        }
+        tabAction.setAtCmd(getAtCmd(tabAction.queue));
         document.onkeydown = null;
     }
 };

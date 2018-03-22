@@ -83,8 +83,12 @@
 #define DATATO_USB (1<<7)
 /** bitmask for testing if a function task should send data to BLE queues */
 #define DATATO_BLE (1<<6)
-/** bitmask used to signal a FLipMouse in CIM mode (no USB/BLE functionality) */
+/** bitmask used to signal a FLipMouse (no FABI!) in CIM mode (no USB/BLE functionality) */
 #define DATATO_CIM (1<<5)
+/** bitmask used to signal a FLipMouse/FABI has an active Wifi server */
+#define WIFI_ACTIVE (1<<4)
+/** bitmask used to signal a FLipMouse/FABI has at least one connected Wifi client */
+#define WIFI_CLIENT_CONNECTED (1<<3)
 
 /** @brief Event group array for all virtual buttons, used by functional tasks to be triggered.
  * 
@@ -132,9 +136,15 @@ extern EventGroupHandle_t virtualButtonsIn[NUMBER_VIRTUALBUTTONS];
  * In addition this flag group contains status information
  * (1<<7) should send data to USB HID?
  * (1<<6) should send data to BLE HID?
+ * (1<<5) is the FLipMouse in CIM mode?
+ * (1<<4) is the wifi active?
+ * (1<<3) is a client connected to wifi?
  * 
  * @see DATATO_USB
  * @see DATATO_BLE
+ * @see DATATO_CIM
+ * @see WIFI_ACTIVE
+ * @see WIFI_CLIENT_CONNECTED
  * */
 extern EventGroupHandle_t connectionRoutingStatus;
 

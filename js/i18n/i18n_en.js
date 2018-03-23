@@ -17,7 +17,7 @@ i18n[C.BTN_MODE_PUFF] = 'Puff function';
 
 i18n[C.AT_CMD_WRITEWORD] = 'Write word: {?}';
 i18n[C.AT_CMD_KEYPRESS] = 'Press keys: {?}';
-i18n[C.AT_CMD_NO_CMD] = '(not configured)';
+i18n[C.AT_CMD_NO_CMD] = 'Do nothing';
 i18n[C.AT_CMD_PRESSHOLD_MOUSE_L] = 'Press + hold left mouse button';
 i18n[C.AT_CMD_PRESSHOLD_MOUSE_R] = 'Press + hold right mouse button';
 

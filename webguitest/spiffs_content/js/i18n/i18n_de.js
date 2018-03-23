@@ -17,7 +17,7 @@ i18n[C.BTN_MODE_PUFF] = 'Funktion blasen';
 
 i18n[C.AT_CMD_WRITEWORD] = 'Schreibe Wort: {?}';
 i18n[C.AT_CMD_KEYPRESS] = 'Drücke Tasten: {?}';
-i18n[C.AT_CMD_NO_CMD] = '(nicht belegt)';
+i18n[C.AT_CMD_NO_CMD] = 'Keine Funktion';
 i18n[C.AT_CMD_PRESSHOLD_MOUSE_L] = 'Klicken + Halten linke Maustaste';
 i18n[C.AT_CMD_PRESSHOLD_MOUSE_R] = 'Klicken + Halten rechte Maustaste';
 

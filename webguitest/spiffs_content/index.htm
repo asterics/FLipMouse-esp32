@@ -334,19 +334,31 @@
             </div>
             <div id="WRAPPER_LEARN_CAT_MOUSE" class="row" style="display: none">
                 <label class="three columns text-right text-normal" for="SELECT_LEARN_CAT_MOUSE" i18n>Action // Aktion</label>
-                <select id="SELECT_LEARN_CAT_MOUSE" class="eight columns" onchange="tabAction.setAtCmd(this.value)">
+                <select id="SELECT_LEARN_CAT_MOUSE" class="eight columns" onchange="tabAction.selectAtCmd(this.value)">
                 </select>
             </div>
             <div id="WRAPPER_LEARN_CAT_FLIPACTIONS" class="row" style="display: none">
                 <label class="three columns text-right text-normal" for="SELECT_LEARN_CAT_FLIPACTIONS" i18n>Action // Aktion</label>
-                <select id="SELECT_LEARN_CAT_FLIPACTIONS" class="eight columns" onchange="tabAction.setAtCmd(this.value)">
+                <select id="SELECT_LEARN_CAT_FLIPACTIONS" class="eight columns" onchange="tabAction.selectAtCmd(this.value)">
                 </select>
             </div>
             <div id="WRAPPER_LEARN_CAT_CUSTOM" class="row" style="display: none">
                 <label class="three columns text-right text-normal" for="INPUT_LEARN_CAT_CUSTOM" i18n>AT command // AT Kommando</label>
                 <input type="text" id="INPUT_LEARN_CAT_CUSTOM" class="six columns">
                 </input>
-                <button class="two columns" onclick="tabAction.setAtCmd(L('#INPUT_LEARN_CAT_CUSTOM').value)">OK</button>
+                <button class="two columns" onclick="tabAction.selectAtCmd(L('#INPUT_LEARN_CAT_CUSTOM').value)">OK</button>
+            </div>
+            <div id="WRAPPER_ADDITIONAL_FIELD_TEXT" class="row" style="display: none">
+                <label class="three columns text-right text-normal" for="ADDITIONAL_FIELD_TEXT" i18n>AT command // AT Kommando</label>
+                <input type="text" id="ADDITIONAL_FIELD_TEXT" class="six columns">
+                </input>
+                <button class="two columns" onclick="tabAction.setAtCmdWithAdditionalData(L('#ADDITIONAL_FIELD_TEXT').value)">OK</button>
+            </div>
+            <div id="WRAPPER_ADDITIONAL_FIELD_SELECT" class="row" style="display: none">
+                <label class="three columns text-right text-normal" for="ADDITIONAL_FIELD_SELECT" i18n></label>
+                <select id="ADDITIONAL_FIELD_SELECT" class="six columns">
+                </select>
+                <button class="two columns" onclick="tabAction.setAtCmdWithAdditionalData(L('#ADDITIONAL_FIELD_SELECT').value)">OK</button>
             </div>
 
 

@@ -42,8 +42,14 @@ window.tabAction.initBtnModeActionTable = function () {
 
 window.tabAction.selectActionButton = function (btnMode) {
     L('#selectActionButton').value = btnMode;
-    L('#currentAction').innerHTML = getReadable(flip.getConfig(btnMode));
+    refreshCurrentAction(btnMode);
+    resetSelects();
+    initAdditionalData();
 };
+
+function refreshCurrentAction(btnMode) {
+    L('#currentAction').innerHTML = getReadable(flip.getConfig(btnMode));
+}
 
 window.tabAction.selectActionCategory = function (category) {
     console.log(category);
@@ -51,6 +57,9 @@ window.tabAction.selectActionCategory = function (category) {
     L.addClass('[for=' + category + ']', 'color-lightercyan selected');
     L.setVisible('[id^=WRAPPER_LEARN_CAT]', false);
     L.setVisible('#WRAPPER_' + category);
+
+    resetSelects();
+    initAdditionalData();
 };
 
 window.tabAction.selectMode = function (mode, dontSend) {
@@ -63,13 +72,44 @@ window.tabAction.selectMode = function (mode, dontSend) {
     }
 };
 
+tabAction.selectAtCmd = function (atCmd) {
+    tabAction.selectedAtCommand = atCmd;
+    initAdditionalData(atCmd);
+    if(!C.ADDITIONAL_DATA_CMDS.includes(atCmd)) {
+        tabAction.setAtCmd(atCmd);
+    }
+};
+
 tabAction.setAtCmd = function (atCmd) {
     var selectedButton = L('#selectActionButton').value;
     if(atCmd && selectedButton) {
         flip.setButtonAction(selectedButton, atCmd);
-        tabAction.selectActionButton(L('#selectActionButton').value);
+        refreshCurrentAction(L('#selectActionButton').value);
     }
 };
+
+tabAction.setAtCmdWithAdditionalData = function (data) {
+    tabAction.setAtCmd(tabAction.selectedAtCommand + ' ' + data);
+};
+
+function initAdditionalData(atCmd) {
+    L.setVisible('#WRAPPER_' + C.ADDITIONAL_FIELD_TEXT, false);
+    L.setVisible('#WRAPPER_' + C.ADDITIONAL_FIELD_SELECT, false);
+    switch (atCmd) {
+        case C.AT_CMD_LOAD_SLOT:
+            L.setVisible('#WRAPPER_' + C.ADDITIONAL_FIELD_SELECT);
+            L('#' + C.ADDITIONAL_FIELD_SELECT).innerHTML = L.createSelectItems(flip.getSlots());
+            L('[for=' + C.ADDITIONAL_FIELD_SELECT + ']')[0].innerHTML = 'Slot';
+            break;
+    }
+}
+
+function resetSelects() {
+    var atCmd = flip.getConfig(L('#selectActionButton').value);
+    //L('#SELECT_'+ C.LEARN_CAT_KEYBOARD).value = atCmd; //TODO add if implemented
+    L('#SELECT_'+ C.LEARN_CAT_MOUSE).value = atCmd;
+    L('#SELECT_'+ C.LEARN_CAT_FLIPACTIONS).value = atCmd;
+}
 
 window.tabAction.startRec = function () {
     if(!document.onkeydown) {

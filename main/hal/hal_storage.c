@@ -43,9 +43,7 @@
  * * get number of stored IR commands
  * * load an IR command
  * * get names for IR commands
- * 
- * This module starts one task on its own for maintaining the storage
- * access.
+ *
  * All methods called from this module will block via a semaphore until
  * the requested operation is finished.
  * 
@@ -251,22 +249,29 @@ void halStorageCreateDefault(uint32_t tid)
     //we don't need this pointer at all, because the relation
     //between VB and corresponding config is done in config_switcher
     defaultCfg->virtualButtonConfig[i] = NULL;
+    defaultCfg->virtualButtonCfgSize[i] = 0;
   }
   
-  //add VB functions for default slot
+  //add VB functions and config sizes for default slot
   defaultCfg->virtualButtonCommand[VB_SIP] = T_MOUSE;
+  defaultCfg->virtualButtonCfgSize[VB_SIP] = sizeof(taskMouseConfig_t);
   defaultCfg->virtualButtonCommand[VB_PUFF] = T_MOUSE;
+  defaultCfg->virtualButtonCfgSize[VB_PUFF] = sizeof(taskMouseConfig_t);
   defaultCfg->virtualButtonCommand[VB_STRONGPUFF] = T_CALIBRATE;
+  defaultCfg->virtualButtonCfgSize[VB_STRONGPUFF] = sizeof(taskNoParameterConfig_t);
   defaultCfg->virtualButtonCommand[VB_INTERNAL1] = T_CONFIGCHANGE;
+  defaultCfg->virtualButtonCfgSize[VB_INTERNAL1] = sizeof(taskConfigSwitcherConfig_t);
   defaultCfg->virtualButtonCommand[VB_EXTERNAL1] = T_KEYBOARD;
+  defaultCfg->virtualButtonCfgSize[VB_EXTERNAL1] = sizeof(taskKeyboardConfig_t);
   /*++++ is not the default slot, just for testing ++++*/
   defaultCfg->virtualButtonCommand[VB_EXTERNAL2] = T_MOUSE;
+  defaultCfg->virtualButtonCfgSize[VB_EXTERNAL2] = sizeof(taskMouseConfig_t);
   defaultCfg->virtualButtonCommand[VB_INTERNAL2] = T_MOUSE;
+  defaultCfg->virtualButtonCfgSize[VB_INTERNAL2] = sizeof(taskMouseConfig_t);
   /*++++ END is not the default slot, just for testing END ++++*/
   
   //store general config
   ret = halStorageStore(tid,defaultCfg,"DEFAULT",0);
-  free(defaultCfg);
   if(ret != ESP_OK)
   {
     ESP_LOGE(LOG_TAG,"Error saving default general config!");
@@ -279,32 +284,16 @@ void halStorageCreateDefault(uint32_t tid)
     ((taskMouseConfig_t *)pConfig)->type = Y;
     ((taskMouseConfig_t *)pConfig)->actionvalue = (int8_t) 10;
     ((taskMouseConfig_t *)pConfig)->virtualButton = VB_INTERNAL2;
-    ret = halStorageStoreSetVBConfigs(0,VB_INTERNAL2,pConfig,sizeof(taskMouseConfig_t),tid);
-    //wait for 10ticks, to feed the watchdog (file access seems to block the IDLE task)
-    //vTaskDelay(10); 
-    free(pConfig);
+    defaultCfg->virtualButtonConfig[VB_INTERNAL2] = pConfig;
   } else { ESP_LOGE(LOG_TAG,"malloc error VB%u",VB_INTERNAL2); return; }
-  if(ret != ESP_OK)
-  {
-    ESP_LOGE(LOG_TAG,"Error saving default VB%u config!",VB_INTERNAL2);
-    return;
-  }
   
   pConfig = malloc(sizeof(taskConfigSwitcherConfig_t));
   if(pConfig != NULL)
   {
     strcpy(((taskConfigSwitcherConfig_t *)pConfig)->slotName, "__NEXT");
     ((taskConfigSwitcherConfig_t *)pConfig)->virtualButton = VB_INTERNAL1;
-    ret = halStorageStoreSetVBConfigs(0,VB_INTERNAL1,pConfig,sizeof(taskConfigSwitcherConfig_t),tid);
-    //wait for 10ticks, to feed the watchdog (file access seems to block the IDLE task)
-    //vTaskDelay(10); 
-    free(pConfig);
+    defaultCfg->virtualButtonConfig[VB_INTERNAL1] = pConfig;;
   } else { ESP_LOGE(LOG_TAG,"malloc error VB%u",VB_INTERNAL1); return; }
-  if(ret != ESP_OK)
-  {
-    ESP_LOGE(LOG_TAG,"Error saving default VB%u config!",VB_INTERNAL1);
-    return;
-  }
 
   //create virtual button configs for each assigned VB
   pConfig = malloc(sizeof(taskKeyboardConfig_t));
@@ -323,16 +312,8 @@ void halStorageCreateDefault(uint32_t tid)
       if(i== 17) break;
     }
     ((taskKeyboardConfig_t *)pConfig)->virtualButton = VB_EXTERNAL1;
-    ret = halStorageStoreSetVBConfigs(0,VB_EXTERNAL1,pConfig,sizeof(taskKeyboardConfig_t),tid);
-    //wait for 10ticks, to feed the watchdog (file access seems to block the IDLE task)
-    //vTaskDelay(10); 
-    free(pConfig);
+    defaultCfg->virtualButtonConfig[VB_EXTERNAL1] = pConfig;
   } else { ESP_LOGE(LOG_TAG,"malloc error VB%u",VB_EXTERNAL1); return; }
-  if(ret != ESP_OK)
-  {
-    ESP_LOGE(LOG_TAG,"Error saving default VB%u config!",VB_EXTERNAL1);
-    return;
-  }
   
   /*++++ is not the default slot, just for testing ++++*/
   pConfig = malloc(sizeof(taskMouseConfig_t));
@@ -341,16 +322,8 @@ void halStorageCreateDefault(uint32_t tid)
     ((taskMouseConfig_t *)pConfig)->type = X;
     ((taskMouseConfig_t *)pConfig)->actionvalue = (int8_t) -10;
     ((taskMouseConfig_t *)pConfig)->virtualButton = VB_EXTERNAL2;
-    ret = halStorageStoreSetVBConfigs(0,VB_EXTERNAL2,pConfig,sizeof(taskMouseConfig_t),tid);
-    //wait for 10ticks, to feed the watchdog (file access seems to block the IDLE task)
-    //vTaskDelay(10); 
-    free(pConfig);
+    defaultCfg->virtualButtonConfig[VB_EXTERNAL2] = pConfig;
   } else { ESP_LOGE(LOG_TAG,"malloc error VB%u",VB_EXTERNAL2); return; }
-  if(ret != ESP_OK)
-  {
-    ESP_LOGE(LOG_TAG,"Error saving default VB%u config!",VB_EXTERNAL2);
-    return;
-  }
   
   pConfig = malloc(sizeof(taskMouseConfig_t));
   if(pConfig != NULL)
@@ -358,16 +331,8 @@ void halStorageCreateDefault(uint32_t tid)
     ((taskMouseConfig_t *)pConfig)->type = LEFT;
     ((taskMouseConfig_t *)pConfig)->actionparam = M_HOLD;
     ((taskMouseConfig_t *)pConfig)->virtualButton = VB_SIP;
-    ret = halStorageStoreSetVBConfigs(0,VB_SIP,pConfig,sizeof(taskMouseConfig_t),tid);
-    //wait for 10ticks, to feed the watchdog (file access seems to block the IDLE task)
-    //vTaskDelay(10); 
-    free(pConfig);
+    defaultCfg->virtualButtonConfig[VB_SIP] = pConfig;
   } else { ESP_LOGE(LOG_TAG,"malloc error VB%u",VB_SIP); return; }
-  if(ret != ESP_OK)
-  {
-    ESP_LOGE(LOG_TAG,"Error saving default VB%u config!",VB_SIP);
-    return;
-  }
   
   pConfig = malloc(sizeof(taskMouseConfig_t));
   if(pConfig != NULL)
@@ -375,33 +340,35 @@ void halStorageCreateDefault(uint32_t tid)
     ((taskMouseConfig_t *)pConfig)->type = RIGHT;
     ((taskMouseConfig_t *)pConfig)->actionparam = M_CLICK;
     ((taskMouseConfig_t *)pConfig)->virtualButton = VB_PUFF;
-    ret = halStorageStoreSetVBConfigs(0,VB_PUFF,pConfig,sizeof(taskMouseConfig_t),tid);
-    //wait for 10ticks, to feed the watchdog (file access seems to block the IDLE task)
-    //vTaskDelay(10); 
-    free(pConfig);
+    defaultCfg->virtualButtonConfig[VB_PUFF] = pConfig;
   } else { ESP_LOGE(LOG_TAG,"malloc error VB%u",VB_PUFF); return; }
-  if(ret != ESP_OK)
-  {
-    ESP_LOGE(LOG_TAG,"Error saving default VB%u config!",VB_PUFF);
-    return;
-  }
   
   pConfig = malloc(sizeof(taskNoParameterConfig_t));
   if(pConfig != NULL)
   {
     ((taskNoParameterConfig_t *)pConfig)->virtualButton = VB_STRONGPUFF;
-    ret = halStorageStoreSetVBConfigs(0,VB_STRONGPUFF,pConfig,sizeof(taskNoParameterConfig_t),tid);
-    //wait for 10ticks, to feed the watchdog (file access seems to block the IDLE task)
-    //vTaskDelay(10); 
-    free(pConfig);
+    defaultCfg->virtualButtonConfig[VB_STRONGPUFF] = pConfig;
   } else { ESP_LOGE(LOG_TAG,"malloc error VB%u",VB_STRONGPUFF); return; }
+  
+  //now save all VB configs
+  ret = halStorageStoreSetVBConfigs(0, defaultCfg, tid);
   if(ret != ESP_OK)
   {
-    ESP_LOGE(LOG_TAG,"Error saving default VB%u config!",VB_STRONGPUFF);
-    return;
+    ESP_LOGE(LOG_TAG,"Error saving default VB configs");
+  } else {
+    ESP_LOGI(LOG_TAG,"Created new default slot");
   }
   
-  ESP_LOGI(LOG_TAG,"Created new default slot");
+  //finally, free configs of VBs
+  for(uint8_t i = 0; i<(NUMBER_VIRTUALBUTTONS * 4); i++)
+  {
+    if(defaultCfg->virtualButtonConfig[i] != NULL)
+    {
+      free(defaultCfg->virtualButtonConfig[i]);
+    }
+  }
+  //finally finally, free general config
+  free(defaultCfg);
 }
 
 /** @brief Get number of currently loaded slot
@@ -1238,7 +1205,7 @@ esp_err_t halStorageDeleteSlot(uint8_t slotnr, uint32_t tid)
  * @see halStorageLoadNumber
  * @param vb Number of virtual button config to be loaded
  * @param vb_config Pointer to config struct which holds the VB config data
- * @param vb_config_size Size of config which will be loaded (differs between functions)
+ * @param vb_config_size Size of config which will be loaded (differs between types of VB actions).
  * @param tid Transaction ID, which must match the one given by halStorageStartTransaction
  * @return ESP_OK if everything is fine, ESP_FAIL if the command was not successful (no config found or no slot loaded)
  * */
@@ -1269,12 +1236,52 @@ esp_err_t halStorageLoadGetVBConfigs(uint8_t vb, void * vb_config, size_t vb_con
     return ESP_FAIL;
   }
   
-  fseek(f,vb*VB_MAXIMUM_PARAMETER_SIZE,SEEK_SET);
+  storageHeader_t hdr;
   
-  //read vb config
-  if(fread(vb_config, vb_config_size, 1, f) != 1)
+  //iterate until VB BEFORE given VB is reached
+  //  actual data is read afterwards, we need just the headers
+  //  via fseek, we will be at needed header after this loop.
+  for(uint8_t i = 0; i<vb; i++)
   {
-    ESP_LOGE(LOG_TAG,"Error reading VB config from %s",file);
+    //read header
+    if(fread(&hdr, sizeof(storageHeader_t), 1, f) != 1)
+    {
+      ESP_LOGE(LOG_TAG,"Error reading VB header %d from %s",i,file);
+      fclose(f);
+      return ESP_FAIL;
+    }
+    //set new offset (via fseek)
+    if(fseek(f,hdr.offsetNext,SEEK_SET) != 0)
+    {
+      ESP_LOGE(LOG_TAG,"Error seeking to VB header %d from %s",i+1,file);
+      fclose(f);
+      return ESP_FAIL;
+    }
+  }
+  
+  //read necessary header for given VB
+  if(fread(&hdr, sizeof(storageHeader_t), 1, f) != 1)
+  {
+    ESP_LOGE(LOG_TAG,"Error reading VB header %d from %s",vb,file);
+    fclose(f);
+    return ESP_FAIL;
+  }
+  
+  //check if given size equals header sizes
+  size_t vblength = hdr.offsetNext - hdr.offsetThis - sizeof(storageHeader_t);
+  if(vblength != vb_config_size)
+  {
+    ESP_LOGE(LOG_TAG,"Given size does not match header size: %d vs %d", \
+      vblength,vb_config_size);
+    fclose(f);
+    return ESP_FAIL;
+  }
+  
+  //we are now at config
+  // read to given pointer
+  if(fread(vb_config, vblength, 1, f) != 1)
+  {
+    ESP_LOGE(LOG_TAG,"Error reading VB config (size %d) from %s",vblength,file);
     fclose(f);
     return ESP_FAIL;
   }
@@ -1480,29 +1487,34 @@ esp_err_t halStorageStoreIR(uint32_t tid, halIOIR_t *cfg, char *cmdName)
 
 /** @brief Store a virtual button config struct
  * 
- * This method stores the config struct for the given virtual button
- * If there is already a config with this given VB, it is overwritten!
+ * This method stores the config structs for virtual buttons.
  * 
- * Due to different sizes of configs for different functionalities,
- * it is necessary to provide the size of the data to be stored.
- * 
+ * Configs are provided via generalConfig struct, which contains
+ * necessary information:
+ * * Size of config
+ * * Pointer to current config
  * 
  * @param tid Transaction id
  * @param slotnumber Number of the slot on which this config is used. Use 0xFF to ignore and use
  * previous set slot number (by halStorageStore)
- * @param config Pointer to the VB config
- * @param vb VirtualButton number
- * @param configsize Size of this configuration which is stored
+ * @param config Pointer to the general config struct (containing pointers/size to VB cfg)
  * @return ESP_OK on success, ESP_FAIL otherwise
  * @see halStorageStore
- * @warning Storing VBs is only in possible consecutive numbers, starting with 0!
- * Any other attempt to store a VB not starting with 0 will fail.
+ * @see storageHeader_t
+ * @warning size element of generalConfig_t MUST be set to have a successful write.
+ * @note This method always overwrites an existing config!
  * */
-esp_err_t halStorageStoreSetVBConfigs(uint8_t slotnumber, uint8_t vb, void *config, size_t configsize, uint32_t tid)
+esp_err_t halStorageStoreSetVBConfigs(uint8_t slotnumber, generalConfig_t *config, uint32_t tid)
 {
   char file[sizeof(base_path)+32];
   
   if(halStorageChecks(tid) != ESP_OK) return ESP_FAIL;
+  
+  if(config == NULL)
+  {
+    ESP_LOGE(LOG_TAG,"Generalconfig == NULL!");
+    return ESP_FAIL;
+  }
   
   //check if we should ignore the slotnumber and take the previously used one
   if(slotnumber == 0xFF) slotnumber = storageCurrentSlotNumber;
@@ -1514,57 +1526,65 @@ esp_err_t halStorageStoreSetVBConfigs(uint8_t slotnumber, uint8_t vb, void *conf
     return ESP_FAIL;
   }
   
-  if(vb >= (NUMBER_VIRTUALBUTTONS*4)) 
-  {
-    ESP_LOGE(LOG_TAG,"VB number too high: %u, maximum %u",slotnumber,(NUMBER_VIRTUALBUTTONS*4));
-    return ESP_FAIL;
-  }
-  
-  if(vb < storageCurrentVBNumber)
-  {
-    ESP_LOGE(LOG_TAG,"VB store is only possible in consecutive calls (current: %d, previous: %d)",vb,storageCurrentVBNumber);
-    return ESP_FAIL;
-  }
-  
   //create filename from slotnumber
   sprintf(file,"%s/%03d_VB.fms",base_path,slotnumber);
   
-  //VB_MAXIMUM_PARAMETER_SIZE
-  
   //open file for writing
   ESP_LOGD(LOG_TAG,"Opening file %s",file);
-  FILE *f = fopen(file, "ab");
+  FILE *f = fopen(file, "wb");
   if(f == NULL)
   {
     ESP_LOGE(LOG_TAG,"cannot open file for writing: %s",file);
     return ESP_FAIL;
   }
-  
-  //set to correct VB position
-  fseek(f,vb*VB_MAXIMUM_PARAMETER_SIZE,SEEK_SET);
 
-  //write vb config
-  if(fwrite(config, configsize, 1, f) != 1)
+  //header for storing a VB
+  storageHeader_t hdr =
   {
-    ESP_LOGE(LOG_TAG,"Error writing VB config on %s",file);
-    fclose(f);
-    return ESP_FAIL;
-  }
+    .offsetNext = 0,
+    .offsetPrev = 0,
+    .offsetThis = 0,
+    .vb = 0
+  };
   
-  //fill up until we reach VB_MAXIMUM_PARAMETER_SIZE
-  uint8_t fill = 0xAB;
-  if(fwrite(&fill, 1, VB_MAXIMUM_PARAMETER_SIZE-configsize, f) != VB_MAXIMUM_PARAMETER_SIZE-configsize)
+  //store each VB with header
+  for(uint8_t i = 0; i<(NUMBER_VIRTUALBUTTONS * 4); i++)
   {
-    ESP_LOGE(LOG_TAG,"Error writing VB fill-pattern on %s",file);
-    fclose(f);
-    return ESP_FAIL;
+    //header: previous offset is former current offset
+    hdr.offsetPrev = hdr.offsetThis;
+    //header: this offset is the next offset of the previous header
+    hdr.offsetThis = hdr.offsetNext;
+    //header: offset for next is current offset + header size + current size + 1B
+    hdr.offsetNext = hdr.offsetThis + sizeof(storageHeader_t) + config->virtualButtonCfgSize[i] + 1;
+    //header. current VB
+    hdr.vb = i;
+    
+    //save header
+    if(fwrite(&hdr, sizeof(storageHeader_t), 1, f) != 1)
+    {
+      ESP_LOGE(LOG_TAG,"Error writing header %d in %s",i,file);
+      fclose(f);
+      return ESP_FAIL;
+    }
+    //check if config for vb is valid
+    if(config->virtualButtonConfig[i] == NULL || config->virtualButtonCfgSize[i] == 0)
+    {
+      ESP_LOGE(LOG_TAG,"VB %d cfg wrong (size %d, pointer %d)",i, \
+        config->virtualButtonCfgSize[i], (uint32_t) config->virtualButtonConfig[i]);
+      fclose(f);
+      return ESP_FAIL;
+    }
+    //save config itself
+    if(fwrite(config->virtualButtonConfig[i], config->virtualButtonCfgSize[i], 1, f) != 1)
+    {
+      ESP_LOGE(LOG_TAG,"Error writing config %d in %s",i,file);
+      fclose(f);
+      return ESP_FAIL;
+    }
   }
-  
-  storageCurrentVBNumber = vb;
-  
+
   fclose(f);
-  ESP_LOGD(LOG_TAG,"Successfully stored slotnumber %d, VB%d, payload: %d",slotnumber,vb,configsize);
-  ESP_LOG_BUFFER_HEXDUMP(LOG_TAG,config,configsize,ESP_LOG_VERBOSE);
+  ESP_LOGD(LOG_TAG,"Successfully stored VBs for %d, payload: %d Bytes",slotnumber,hdr.offsetNext-1);
   return ESP_OK;
 }
 

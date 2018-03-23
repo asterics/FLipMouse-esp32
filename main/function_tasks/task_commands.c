@@ -416,38 +416,50 @@ parserstate_t doStorageParsing(uint8_t *cmdBuffer, taskConfigSwitcherConfig_t *i
       return UNKNOWNCMD;
     }
     strcpy(slotname,(char*)&cmdBuffer[6]);
-    ESP_LOGI(LOG_TAG,"Save slot under name: %s",slotname);
-    halStorageGetNumberOfSlots(tid, &slotnumber);
+    
+    //check if name is already used (returns ESP_OK)
+    if(halStorageGetNumberForName(tid, &slotnumber, slotname) != ESP_OK)
+    {
+      //name not used.
+      //get number of currently active slots, and add one for a new slot
+      halStorageGetNumberOfSlots(tid, &slotnumber);
+      slotnumber++;
+      ESP_LOGI(LOG_TAG,"Save new slot %d under name: %s",slotnumber,slotname);
+    } else {
+      //name is already used, overwrite
+      ESP_LOGI(LOG_TAG,"Overwrite slot %d under name: %s",slotnumber,slotname);
+    }
+    
     //store general config
-    if(halStorageStore(tid,currentcfg,slotname,slotnumber+1) != ESP_OK)
+    if(halStorageStore(tid,currentcfg,slotname,slotnumber) != ESP_OK)
     {
       ESP_LOGE(LOG_TAG,"Cannot store general cfg");
       halStorageFinishTransaction(tid);
       return UNKNOWNCMD;
     }
-    //store each virtual button
+    //update config sizes
     for(uint8_t i = 0; i<(NUMBER_VIRTUALBUTTONS*4); i++)
     {
-      size_t sizevb = 0;
-      
       switch(currentcfg->virtualButtonCommand[i])
       {
-        case T_MOUSE: sizevb = sizeof(taskMouseConfig_t); break;
-        case T_KEYBOARD: sizevb = sizeof(taskKeyboardConfig_t); break;
-        case T_CONFIGCHANGE: sizevb = sizeof(taskConfigSwitcherConfig_t); break;
-        case T_CALIBRATE: sizevb = sizeof(taskNoParameterConfig_t); break;
-        case T_SENDIR: sizevb = sizeof(taskInfraredConfig_t); break;
-        case T_NOFUNCTION: sizevb = sizeof(taskNoParameterConfig_t); break;
+        case T_MOUSE: currentcfg->virtualButtonCfgSize[i] = sizeof(taskMouseConfig_t); break;
+        case T_KEYBOARD: currentcfg->virtualButtonCfgSize[i] = sizeof(taskKeyboardConfig_t); break;
+        case T_CONFIGCHANGE: currentcfg->virtualButtonCfgSize[i] = sizeof(taskConfigSwitcherConfig_t); break;
+        case T_CALIBRATE: currentcfg->virtualButtonCfgSize[i] = sizeof(taskNoParameterConfig_t); break;
+        case T_SENDIR: currentcfg->virtualButtonCfgSize[i] = sizeof(taskInfraredConfig_t); break;
+        case T_NOFUNCTION: currentcfg->virtualButtonCfgSize[i] = sizeof(taskNoParameterConfig_t); break;
         default: break;
       }
-      if(halStorageStoreSetVBConfigs(slotnumber+1,i,currentcfg->virtualButtonConfig[i], \
-        sizevb,tid) != ESP_OK)
-      {
-        ESP_LOGE(LOG_TAG,"Cannot store VB %d",i);
-        halStorageFinishTransaction(tid);
-        return UNKNOWNCMD;
-      }
     }
+    
+    //store config to flash
+    if(halStorageStoreSetVBConfigs(slotnumber,currentcfg,tid) != ESP_OK)
+    {
+      ESP_LOGE(LOG_TAG,"Cannot store VBs");
+      halStorageFinishTransaction(tid);
+      return UNKNOWNCMD;
+    }
+    
     halStorageFinishTransaction(tid);
     return NOACTION;
   }

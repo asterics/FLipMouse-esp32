@@ -97,6 +97,26 @@ typedef enum {
     except the default slot (which can be overwritten as well) **/
 }hal_storage_load_action;
 
+/** @brief Header for a VB config in FAT file
+ * 
+ * This struct is placed in front of each VB config, which is stored
+ * in the VB config file.
+ * 
+ * Used in store/load VBs.
+ * @see halStorageStoreSetVBConfigs
+ * @see halStorageLoadGetVBConfigs
+ * */
+typedef struct storageHeader {
+  /** @brief File offset of previous VB header */
+  int offsetPrev;
+  /** @brief File offset of next VB header */
+  int offsetNext;
+  /** @brief File offset of this VB header */
+  int offsetThis;
+  /** @brief Number of this virtual button config */
+  uint8_t vb;
+} storageHeader_t;
+
 
 /** @brief Get number of currently loaded slot
  * 
@@ -409,23 +429,24 @@ esp_err_t halStorageStore(uint32_t tid,generalConfig_t *cfg, char *slotname, uin
 
 /** @brief Store a virtual button config struct
  * 
- * This method stores the config struct for the given virtual button
- * If there is already a config with this given VB, it is overwritten!
+ * This method stores the config structs for virtual buttons.
  * 
- * Due to different sizes of configs for different functionalities,
- * it is necessary to provide the size of the data to be stored.
- * 
+ * Configs are provided via generalConfig struct, which contains
+ * necessary information:
+ * * Size of config
+ * * Pointer to current config
  * 
  * @param tid Transaction id
  * @param slotnumber Number of the slot on which this config is used. Use 0xFF to ignore and use
  * previous set slot number (by halStorageStore)
- * @param config Pointer to the VB config
- * @param vb VirtualButton number
- * @param configsize Size of this configuration which is stored
+ * @param config Pointer to the general config struct (containing pointers/size to VB cfg)
  * @return ESP_OK on success, ESP_FAIL otherwise
  * @see halStorageStore
+ * @see storageHeader_t
+ * @warning size element of generalConfig_t MUST be set to have a successful write.
+ * @note This method always overwrites an existing config!
  * */
-esp_err_t halStorageStoreSetVBConfigs(uint8_t slotnumber, uint8_t vb, void *config, size_t configsize, uint32_t tid);
+esp_err_t halStorageStoreSetVBConfigs(uint8_t slotnumber, generalConfig_t *config, uint32_t tid);
 
 
 /** @brief Create a new default slot

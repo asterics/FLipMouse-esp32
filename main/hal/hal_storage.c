@@ -43,17 +43,25 @@
  * * get number of stored IR commands
  * * load an IR command
  * * get names for IR commands
- *
+ * 
+ * This module starts one task on its own for maintaining the storage
+ * access.
  * All methods called from this module will block via a semaphore until
  * the requested operation is finished.
  * 
+ * For storing small amounts global, non-volatile data, it is possible
+ * to use halStorageNVSLoad & halStorageNVSStore operations. In this case,
+ * no transaction id is necessary.
+ * 
  * Slots are stored in following naming convention (8.3 rule applies here):
- * * General slot config: xxx.fms (slot number, e.g., 001.fms for slot 1)
- * * Virtual button config for slot xxx: xxx_VB.fms
- * * IR command cfg: IR_xx.fms
+ * general slot config:
+ * xxx.fms (slot number, e.g., 001.fms for slot 1)
+ * virtual button config for slot xxx
+ * xxx_VB.fms
  * 
  * @note Maximum number of slots: 250! (e.g. 250.fms)
  * @note Maximum number of IR commands: 100 (0-100, e.g. IR_99.fms)
+ * @note Use halStorageStartTransaction and halStorageFinishTransaction on begin/end of loading&storing (except for halStorageNVS* operations)
  * @warning Adjust the esp-idf (via "make menuconfig") to use 512B sectors
  * and mode <b>safety</b>!
  * 
@@ -92,6 +100,73 @@ const static char *base_path = "/spiflash";
  * */
 char storageCurrentTIDHolder[32];
 
+/** @brief Load a string from NVS (global, no slot assignment)
+ * 
+ * This method is used to load a string from a non-volatile storage.
+ * No TID is necessary, just call this function.
+ * 
+ * @param key Key to identify this value, same as used on store
+ * @param string Buffer for string to be read from flash/eeprom (flash in ESP32)
+ * @warning Provide sufficient buffer length, otherwise a CPU exception will happen!
+ * @return ESP_OK on success, error codes according to nvs_get_str 
+ * */
+esp_err_t halStorageNVSLoadString(char *key, char *string)
+{
+  nvs_handle my_handle;
+  esp_err_t ret;
+  size_t len;
+  
+  //we won't accept null pointers.
+  if(key == NULL || string == NULL) return ESP_FAIL;
+
+  // Open
+  ret = nvs_open(HAL_STORAGE_NVS_NAMESPACE, NVS_READONLY, &my_handle);
+  if (ret != ESP_OK) return ret;
+
+  // Read
+  ret = nvs_get_str(my_handle, key, string, &len);
+  if (ret != ESP_OK && ret != ESP_ERR_NVS_NOT_FOUND) return ret;
+  
+  // Close
+  nvs_close(my_handle);
+  return ESP_OK;
+}
+
+/** @brief Store a string into NVS (global, no slot assignment)
+ * 
+ * This method is used to store a string in a non-volatile storage.
+ * No TID is necessary, just call this function.
+ * 
+ * @warning NVS is not as big as FAT storage, use with care! (max ~10kB)
+ * @param key Key to identify this value on read.
+ * @param string String to be stored in flash/eeprom (flash in ESP32)
+ * @return ESP_OK on success, error codes according to nvs_set_str 
+ * */
+esp_err_t halStorageNVSStoreString(char *key, char *string)
+{
+  nvs_handle my_handle;
+  esp_err_t ret;
+  
+  //we won't accept null pointers.
+  if(key == NULL || string == NULL) return ESP_FAIL;
+
+  // Open
+  ret = nvs_open(HAL_STORAGE_NVS_NAMESPACE, NVS_READWRITE, &my_handle);
+  if (ret != ESP_OK) return ret;
+
+  // Write
+  ret = nvs_set_str(my_handle, key, string);
+  if (ret != ESP_OK && ret != ESP_ERR_NVS_NOT_FOUND) return ret;
+  
+  // Commit changes to flash
+  ret = nvs_commit(my_handle);
+  if (ret != ESP_OK) return ret;
+  
+  // Close
+  nvs_close(my_handle);
+  return ESP_OK;
+} 
+ 
 /** @brief Get free memory (IR & slot storage)
  * 
  * This method returns the number of total and free bytes in current
@@ -129,6 +204,7 @@ esp_err_t halStorageGetFree(uint32_t *total, uint32_t *free)
  * @return ESP_OK on success, ESP_FAIL otherwise*/
 esp_err_t halStorageInit(void)
 {
+  esp_err_t ret;
   ESP_LOGD(LOG_TAG, "Mounting FATFS for storage");
   // To mount device we need name of device partition, define base_path
   // and allow format partition in case if it is new one and was not formated before
@@ -136,7 +212,20 @@ esp_err_t halStorageInit(void)
           .max_files = 4,
           .format_if_mount_failed = true
   };
-  return esp_vfs_fat_spiflash_mount(base_path, "storage", &mount_config, &s_wl_handle);
+  ret = esp_vfs_fat_spiflash_mount(base_path, "storage", &mount_config, &s_wl_handle);
+  //return on an error
+  if(ret != ESP_OK) { ESP_LOGE(LOG_TAG,"Error mounting FATFS"); return ret; }
+  
+  //initialize nvs
+  ret = nvs_flash_init();
+  
+  if (ret == ESP_ERR_NVS_NO_FREE_PAGES) {
+    // NVS partition was truncated and needs to be erased
+    // Retry nvs_flash_init
+    ESP_ERROR_CHECK(nvs_flash_erase());
+    ret = nvs_flash_init();
+  }
+  return ret;
 }
 
 /** @brief Internal helper to check for a valid WL handle and the correct tid 

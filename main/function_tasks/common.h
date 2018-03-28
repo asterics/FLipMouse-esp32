@@ -503,5 +503,8 @@ typedef struct halIOIR {
   irstate_t status;
 } halIOIR_t;
 
+/** @brief NVS key for wifi password */
+#define NVS_WIFIPW  "nvswifipw"
+
 
 #endif /*FUNCTION_COMMON_H_*/

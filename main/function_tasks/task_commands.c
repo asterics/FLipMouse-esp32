@@ -774,6 +774,19 @@ parserstate_t doGeneralCmdParsing(uint8_t *cmdBuffer)
     return NOACTION;  
   }
   
+  /*++++ AT PW; wifi password ++++*/
+  if(CMD("AT PW")) {
+    if(strlen((char*)&cmdBuffer[6]) >= 8 && strlen((char*)&cmdBuffer[6]) <= 32)
+    {
+      halStorageNVSStoreString(NVS_WIFIPW,(char*)&cmdBuffer[6]);
+    } else {
+      sendErrorBack("Wifi PW len: 8-32 characters");
+      return UNKNOWNCMD;
+    }
+    requestUpdate = 1;
+    return NOACTION;  
+  }
+  
   /*++++ AT BL; button learning ++++*/
   if(CMD("AT BL")) {
     switch(cmdBuffer[6])

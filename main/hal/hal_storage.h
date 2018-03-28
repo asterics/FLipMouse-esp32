@@ -50,6 +50,10 @@
  * All methods called from this module will block via a semaphore until
  * the requested operation is finished.
  * 
+ * For storing small amounts global, non-volatile data, it is possible
+ * to use halStorageNVSLoad & halStorageNVSStore operations. In this case,
+ * no transaction id is necessary.
+ * 
  * Slots are stored in following naming convention (8.3 rule applies here):
  * general slot config:
  * xxx.fms (slot number, e.g., 001.fms for slot 1)
@@ -58,6 +62,7 @@
  * 
  * @note Maximum number of slots: 250! (e.g. 250.fms)
  * @note Maximum number of IR commands: 100 (0-100, e.g. IR_99.fms)
+ * @note Use halStorageStartTransaction and halStorageFinishTransaction on begin/end of loading&storing (except for halStorageNVS* operations)
  * @warning Adjust the esp-idf (via "make menuconfig") to use 512B sectors
  * and mode <b>safety</b>!
  * 
@@ -74,6 +79,8 @@
 #include <mbedtls/md5.h>
 #include "esp_vfs.h"
 #include "esp_vfs_fat.h"
+#include "nvs_flash.h"
+#include "nvs.h"
 
 //common definitions & data for all of these functional tasks
 #include "common.h"
@@ -88,6 +95,11 @@
 
 //for IR stuff
 #include "hal_io.h"
+
+/** @brief Namespace for storing NVS key/value pairs.
+ * @warning If changed, all previously data cannot be used!
+ * */
+#define HAL_STORAGE_NVS_NAMESPACE "devcfg"
 
 typedef enum {
   NEXT, /** load next slot (no name needed) **/
@@ -117,6 +129,29 @@ typedef struct storageHeader {
   uint8_t vb;
 } storageHeader_t;
 
+
+
+/** @brief Load a string from NVS (global, no slot assignment)
+ * 
+ * This method is used to load a string from a non-volatile storage.
+ * No TID is necessary, just call this function.
+ * 
+ * @param key Key to identify this value, same as used on store
+ * @param string Buffer for string to be read from flash/eeprom (flash in ESP32)
+ * @return ESP_OK on success, error codes according to nvs_get_str 
+ * */
+esp_err_t halStorageNVSLoadString(char *key, char *string);
+
+/** @brief Store a string into NVS (global, no slot assignment)
+ * 
+ * This method is used to store a string in a non-volatile storage.
+ * No TID is necessary, just call this function.
+ * 
+ * @param key Key to identify this value on read.
+ * @param string String to be stored in flash/eeprom (flash in ESP32)
+ * @return ESP_OK on success, error codes according to nvs_set_str 
+ * */
+esp_err_t halStorageNVSStoreString(char *key, char *string);
 
 /** @brief Get number of currently loaded slot
  * 

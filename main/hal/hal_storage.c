@@ -1643,8 +1643,8 @@ esp_err_t halStorageStoreSetVBConfigs(uint8_t slotnumber, generalConfig_t *confi
     hdr.offsetPrev = hdr.offsetThis;
     //header: this offset is the next offset of the previous header
     hdr.offsetThis = hdr.offsetNext;
-    //header: offset for next is current offset + header size + current size + 1B
-    hdr.offsetNext = hdr.offsetThis + sizeof(storageHeader_t) + config->virtualButtonCfgSize[i] + 1;
+    //header: offset for next is current offset + header size + current size
+    hdr.offsetNext = hdr.offsetThis + sizeof(storageHeader_t) + config->virtualButtonCfgSize[i];
     //header. current VB
     hdr.vb = i;
     
@@ -1658,10 +1658,9 @@ esp_err_t halStorageStoreSetVBConfigs(uint8_t slotnumber, generalConfig_t *confi
     //check if config for vb is valid
     if(config->virtualButtonConfig[i] == NULL || config->virtualButtonCfgSize[i] == 0)
     {
-      ESP_LOGE(LOG_TAG,"VB %d cfg wrong (size %d, pointer %d)",i, \
+      ESP_LOGW(LOG_TAG,"VB %d cfg not set, normally unused. (size %d, pointer %d)",i, \
         config->virtualButtonCfgSize[i], (uint32_t) config->virtualButtonConfig[i]);
-      fclose(f);
-      return ESP_FAIL;
+      continue;
     }
     //save config itself
     if(fwrite(config->virtualButtonConfig[i], config->virtualButtonCfgSize[i], 1, f) != 1)

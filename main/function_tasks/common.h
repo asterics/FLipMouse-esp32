@@ -441,6 +441,7 @@ typedef struct generalConfig {
   char slotName[SLOTNAME_LENGTH];
   command_type_t virtualButtonCommand[NUMBER_VIRTUALBUTTONS*4];
   void* virtualButtonConfig[NUMBER_VIRTUALBUTTONS*4];
+  size_t virtualButtonCfgSize[NUMBER_VIRTUALBUTTONS*4];
 } generalConfig_t;
 
 /**++++ TODO: move to task_mouse.h ++++*/

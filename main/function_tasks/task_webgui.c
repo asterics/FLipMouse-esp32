@@ -194,6 +194,9 @@ static void http_server_netconn_serve(struct netconn *conn) {
 			} else {
 				// get the requested resource
         char* method = strtok(request_line, " ");
+        //get rid of "unused" variable.
+        //strtok although needs this call.
+        (void)(method);
 				char* resource = strtok(NULL, " ");
 				fat_serve(resource, conn);
 			}
@@ -231,30 +234,6 @@ static void http_server(void *pvParameters) {
 	} while(err == ERR_OK);
 	netconn_close(conn);
 	netconn_delete(conn);
-}
-
-static esp_err_t systemhandler(system_event_t *event)
-{
-  if(event == NULL) return ESP_FAIL;
-  switch(event->event_id)
-  {
-    case SYSTEM_EVENT_AP_START:                 /**< ESP32 soft-AP start */
-      ESP_LOGI(LOG_TAG,"SEvent AP start");
-      break;
-    case SYSTEM_EVENT_AP_STOP:                  /**< ESP32 soft-AP stop */
-      ESP_LOGI(LOG_TAG,"SEvent AP stop");
-      break;
-    case SYSTEM_EVENT_AP_STACONNECTED:          /**< a station connected to ESP32 soft-AP */
-      ESP_LOGI(LOG_TAG,"SEvent sta conn");
-      break;
-    case SYSTEM_EVENT_AP_STADISCONNECTED:       /**< a station disconnected from ESP32 soft-AP */
-      ESP_LOGI(LOG_TAG,"SEvent sta disconn");
-      break;
-    default:
-      ESP_LOGI(LOG_TAG,"SEvent unknown: %d",event->event_id);
-      break;
-  }
-  return ESP_OK;
 }
 
 /** @brief Event handler for wifi status updates

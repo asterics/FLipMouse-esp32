@@ -13,7 +13,9 @@ i18n[C.BTN_MODE_STICK_DOWN] = 'Stick down';
 i18n[C.BTN_MODE_STICK_LEFT] = 'Stick left';
 i18n[C.BTN_MODE_STICK_RIGHT] = 'Stick right';
 i18n[C.BTN_MODE_SIP] = 'Sip function';
+i18n[C.BTN_MODE_STRONG_SIP] = 'Strong Sip function';
 i18n[C.BTN_MODE_PUFF] = 'Puff function';
+i18n[C.BTN_MODE_STRONG_PUFF] = 'Strong Puff function';
 
 i18n[C.AT_CMD_WRITEWORD] = 'Write word: {?}';
 i18n[C.AT_CMD_KEYPRESS] = 'Press keys: {?}';

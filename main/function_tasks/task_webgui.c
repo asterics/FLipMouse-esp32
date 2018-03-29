@@ -52,8 +52,7 @@
 #define CONFIG_AP_SSID_HIDDEN 0
 /** @brief Name of the wifi hotspot */
 #define CONFIG_AP_SSID "FLipMouse"
-/** @brief Hotspot password
- * @todo What to do with the password? Fixed one? Not good... */
+/** @brief Hotspot default password */
 #define CONFIG_AP_PASSWORD "foundation"
 /** @brief Wifi channel to be used, 0 means automatic (right?) */
 #define CONFIG_AP_CHANNEL 0
@@ -64,6 +63,8 @@
 
 /** @brief Partition name (used to define different memory types) */
 const static char *base_path = "/spiflash";
+/** @brief Currently used wifi password */
+static char wifipw[64];
 
 /** @brief Static HTTP HTML header */
 const static char http_html_hdr[] = "HTTP/1.1 200 OK\nContent-type: text/html\n\n";
@@ -305,6 +306,12 @@ esp_err_t taskWebGUIInit(void)
     ESP_LOGE(LOG_TAG,"connection queue is uninitialized, please call the web init afterwards!");
     return ESP_FAIL;
   }
+  halStorageNVSLoadString(NVS_WIFIPW,wifipw);
+  if(strlen(wifipw) < 8 || strlen(wifipw) > 32)
+  {
+    ESP_LOGI(LOG_TAG,"Wifipassword invalid, using default one");
+    strncpy(wifipw,CONFIG_AP_PASSWORD,32);
+  }
   
   //ESP_LOGE(LOG_TAG,"Currently disabled");
   //return ESP_OK;
@@ -341,8 +348,7 @@ esp_err_t taskWebGUIInit(void)
 	wifi_config_t ap_config = {
     .ap = {
       .ssid = CONFIG_AP_SSID,
-      .password = CONFIG_AP_PASSWORD,
-			.ssid_len = strlen(CONFIG_AP_SSID),
+			.ssid_len = strlen(wifipw),
 			//.channel = CONFIG_AP_CHANNEL,
 			.authmode = CONFIG_AP_AUTHMODE,
 			.ssid_hidden = CONFIG_AP_SSID_HIDDEN,
@@ -350,6 +356,7 @@ esp_err_t taskWebGUIInit(void)
 			.beacon_interval = CONFIG_AP_BEACON_INTERVAL,			
     },
   };
+  memcpy(ap_config.ap.password,wifipw,strlen(wifipw)+1);
 	ESP_ERROR_CHECK(esp_wifi_set_config(WIFI_IF_AP, &ap_config));
     
 	// start the wifi interface

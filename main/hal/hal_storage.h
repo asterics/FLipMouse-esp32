@@ -50,6 +50,10 @@
  * All methods called from this module will block via a semaphore until
  * the requested operation is finished.
  * 
+ * For storing small amounts global, non-volatile data, it is possible
+ * to use halStorageNVSLoad & halStorageNVSStore operations. In this case,
+ * no transaction id is necessary.
+ * 
  * Slots are stored in following naming convention (8.3 rule applies here):
  * general slot config:
  * xxx.fms (slot number, e.g., 001.fms for slot 1)
@@ -58,6 +62,7 @@
  * 
  * @note Maximum number of slots: 250! (e.g. 250.fms)
  * @note Maximum number of IR commands: 100 (0-100, e.g. IR_99.fms)
+ * @note Use halStorageStartTransaction and halStorageFinishTransaction on begin/end of loading&storing (except for halStorageNVS* operations)
  * @warning Adjust the esp-idf (via "make menuconfig") to use 512B sectors
  * and mode <b>safety</b>!
  * 
@@ -74,6 +79,8 @@
 #include <mbedtls/md5.h>
 #include "esp_vfs.h"
 #include "esp_vfs_fat.h"
+#include "nvs_flash.h"
+#include "nvs.h"
 
 //common definitions & data for all of these functional tasks
 #include "common.h"
@@ -89,6 +96,11 @@
 //for IR stuff
 #include "hal_io.h"
 
+/** @brief Namespace for storing NVS key/value pairs.
+ * @warning If changed, all previously data cannot be used!
+ * */
+#define HAL_STORAGE_NVS_NAMESPACE "devcfg"
+
 typedef enum {
   NEXT, /** load next slot (no name needed) **/
   PREV, /** load previous slot (no name needed) **/
@@ -97,6 +109,49 @@ typedef enum {
     except the default slot (which can be overwritten as well) **/
 }hal_storage_load_action;
 
+/** @brief Header for a VB config in FAT file
+ * 
+ * This struct is placed in front of each VB config, which is stored
+ * in the VB config file.
+ * 
+ * Used in store/load VBs.
+ * @see halStorageStoreSetVBConfigs
+ * @see halStorageLoadGetVBConfigs
+ * */
+typedef struct storageHeader {
+  /** @brief File offset of previous VB header */
+  int offsetPrev;
+  /** @brief File offset of next VB header */
+  int offsetNext;
+  /** @brief File offset of this VB header */
+  int offsetThis;
+  /** @brief Number of this virtual button config */
+  uint8_t vb;
+} storageHeader_t;
+
+
+
+/** @brief Load a string from NVS (global, no slot assignment)
+ * 
+ * This method is used to load a string from a non-volatile storage.
+ * No TID is necessary, just call this function.
+ * 
+ * @param key Key to identify this value, same as used on store
+ * @param string Buffer for string to be read from flash/eeprom (flash in ESP32)
+ * @return ESP_OK on success, error codes according to nvs_get_str 
+ * */
+esp_err_t halStorageNVSLoadString(char *key, char *string);
+
+/** @brief Store a string into NVS (global, no slot assignment)
+ * 
+ * This method is used to store a string in a non-volatile storage.
+ * No TID is necessary, just call this function.
+ * 
+ * @param key Key to identify this value on read.
+ * @param string String to be stored in flash/eeprom (flash in ESP32)
+ * @return ESP_OK on success, error codes according to nvs_set_str 
+ * */
+esp_err_t halStorageNVSStoreString(char *key, char *string);
 
 /** @brief Get number of currently loaded slot
  * 
@@ -409,23 +464,24 @@ esp_err_t halStorageStore(uint32_t tid,generalConfig_t *cfg, char *slotname, uin
 
 /** @brief Store a virtual button config struct
  * 
- * This method stores the config struct for the given virtual button
- * If there is already a config with this given VB, it is overwritten!
+ * This method stores the config structs for virtual buttons.
  * 
- * Due to different sizes of configs for different functionalities,
- * it is necessary to provide the size of the data to be stored.
- * 
+ * Configs are provided via generalConfig struct, which contains
+ * necessary information:
+ * * Size of config
+ * * Pointer to current config
  * 
  * @param tid Transaction id
  * @param slotnumber Number of the slot on which this config is used. Use 0xFF to ignore and use
  * previous set slot number (by halStorageStore)
- * @param config Pointer to the VB config
- * @param vb VirtualButton number
- * @param configsize Size of this configuration which is stored
+ * @param config Pointer to the general config struct (containing pointers/size to VB cfg)
  * @return ESP_OK on success, ESP_FAIL otherwise
  * @see halStorageStore
+ * @see storageHeader_t
+ * @warning size element of generalConfig_t MUST be set to have a successful write.
+ * @note This method always overwrites an existing config!
  * */
-esp_err_t halStorageStoreSetVBConfigs(uint8_t slotnumber, uint8_t vb, void *config, size_t configsize, uint32_t tid);
+esp_err_t halStorageStoreSetVBConfigs(uint8_t slotnumber, generalConfig_t *config, uint32_t tid);
 
 
 /** @brief Create a new default slot

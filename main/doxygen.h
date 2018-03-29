@@ -66,16 +66,15 @@
 
 /*++++ All global todos, roadmap, ... ++++*/
 /**
- @todo Implement learning mode
- @todo Clarify AT KP/KR/KH commands on original FlipMouse, to be compatible... (especially for press/release with buttons & with multiple key identifiers)
- @todo Debouncer testing...
- @todo Implement buzzer in remaining task_* functions (strongsip/puff exit)
- 
- @todo Test AT MA (macros).
- @todo ADC_TASK triggers watchdog...
- 
- @todo Wifi/BLE starting stopping? Both is currently not possible...
- 
- @todo Implement long press for virtual buttons (new VBs).
- @todo Improve VB storing, currently this takes quite long. Maybe built a header and store only necessary amount? -> write to flash only on halStoragFinishTransaction
+ * @file 
+ * @todo Implement learning mode
+ * @todo Clarify AT KP/KR/KH commands on original FlipMouse, to be compatible... (especially for press/release with buttons & with multiple key identifiers)
+ * @todo Debouncer testing...
+ * @todo Implement buzzer in remaining task_* functions (strongsip/puff exit)
+ *
+ * @todo Test AT MA (macros).
+ * 
+ * @todo Wifi/BLE starting stopping? Both is currently not possible...
+ * 
+ * @todo Implement long press for virtual buttons (new VBs).
 */

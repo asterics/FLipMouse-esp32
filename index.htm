@@ -26,7 +26,7 @@
 <div id="content">
     <div class="row">
         <div>
-            <h1 class="nine columns" i18n>FLipMouse Configuration // FLipMouse Konfiguration</h1>
+            <h1 class="nine columns" i18n>FLipMouse Configuration2 // FLipMouse Konfiguration2</h1>
             <span class="show-mobile headerConnectIndicator green connectedIndicator" style="display: none">&#x2713;</span>
             <span class="show-mobile headerConnectIndicator red disconnectedIndicator">&#x2717;</span>
         </div>
@@ -315,21 +315,26 @@
                 </div>
             </div>
             <div id="WRAPPER_LEARN_CAT_KEYBOARD" style="display: none">
-                <div class="row">
-                    <button id="start-rec-button" onclick="actionAndToggle(tabAction.startRec, [], ['#start-rec-button-normal', '#start-rec-button-rec'])" class="eight columns offset-by-three" style="position: relative;">
-                        <div id="start-rec-button-normal" style="position: relative" i18n>Start recording actions // Aufnahme Aktionen starten</div>
-                        <div id="start-rec-button-rec" style="display: none" i18n>Now press keys to record... (click here to stop) // Jetzt Tasten zum Aufnehmen drücken... (zum Stoppen klicken)</div>
-                    </button>
+                <div id="LEARN_CAT_KEYBOARD_DESKTOP">
+                    <div class="row">
+                        <button id="start-rec-button" onclick="actionAndToggle(tabAction.startRec, [], ['#start-rec-button-normal', '#start-rec-button-rec'])" class="eight columns offset-by-three" style="position: relative;">
+                            <div id="start-rec-button-normal" style="position: relative" i18n>Start recording actions // Aufnahme Aktionen starten</div>
+                            <div id="start-rec-button-rec" style="display: none" i18n>Now press keys to record... (click here to stop) // Jetzt Tasten zum Aufnehmen drücken... (zum Stoppen klicken)</div>
+                        </button>
+                    </div>
+                    <div class="row">
+                        <label class="three columns text-right text-normal" i18n>Recorded Action // Aufgenommene Aktion</label>
+                        <span id="recordedAction" style="font-weight: bold" class="six columns" i18n>(none) // (leer)</span>
+                        <button onclick="tabAction.resetRec()" class="two columns" i18n>Reset // Löschen</button>
+                    </div>
+                    <div class="row">
+                        <label class="three columns text-right text-normal hide-mobile" i18n>Recorded AT Command // Aufgenommenes AT Kommando</label>
+                        <span id="recordedAtCmd" class="six columns hide-mobile" i18n>(none) // (leer)</span>
+                        <button id="buttonRecOK" onclick="tabAction.saveRec()" disabled class="two columns">OK</button>
+                    </div>
                 </div>
-                <div class="row">
-                    <label class="three columns text-right text-normal" i18n>Recorded Action // Aufgenommene Aktion</label>
-                    <span id="recordedAction" style="font-weight: bold" class="six columns" i18n>(none) // (leer)</span>
-                    <button onclick="tabAction.resetRec()" class="two columns" i18n>Reset // Löschen</button>
-                </div>
-                <div class="row">
-                    <label class="three columns text-right text-normal hide-mobile" i18n>Recorded AT Command // Aufgenommenes AT Kommando</label>
-                    <span id="recordedAtCmd" class="six columns hide-mobile" i18n>(none) // (leer)</span>
-                    <button id="buttonRecOK" onclick="tabAction.saveRec()" disabled class="two columns">OK</button>
+                <div id="LEARN_CAT_KEYBOARD_MOBILE">
+                    MOBILE
                 </div>
             </div>
             <div id="WRAPPER_LEARN_CAT_MOUSE" class="row" style="display: none">

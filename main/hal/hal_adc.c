@@ -102,8 +102,7 @@ void halAdcTaskThreshold(void * pvParameters);*/
  * */
 void halAdcReportRaw(uint32_t up, uint32_t down, uint32_t left, uint32_t right, uint32_t pressure, int32_t x, int32_t y)
 {
-    ///@todo change back to 32
-    #define REPORT_RAW_COUNT 2
+    #define REPORT_RAW_COUNT 32
     static int prescaler = 0;
     
     if(adc_conf.reportraw != 0)

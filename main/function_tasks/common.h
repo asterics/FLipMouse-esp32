@@ -220,8 +220,8 @@ extern QueueHandle_t config_switcher;
   #define VB_LEFT         6
   #define VB_RIGHT        7
   #define VB_SIP          8
-  #define VB_PUFF         9
-  #define VB_STRONGSIP    10
+  #define VB_STRONGSIP    9
+  #define VB_PUFF         10
   #define VB_STRONGPUFF   11
   #define VB_STRONGSIP_UP     12
   #define VB_STRONGSIP_DOWN   13

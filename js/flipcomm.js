@@ -82,13 +82,14 @@ function FlipMouse(initFinished) {
                 reject(_AT_CMD_BUSY_RESPONSE);
             });
         }
-        var promise = new Promise((resolve) => {
+        var promise = new Promise((resolve, reject) => {
             if (_atCmdQueue.length > 0) {
                 console.log("adding cmd to queue: " + atCmd);
             }
             _atCmdQueue.push({
                 cmd: atCmd,
-                resolveFn: resolve
+                resolveFn: resolve,
+                rejectFn: reject
             });
         });
         if (!_sendingAtCmds) {
@@ -108,7 +109,7 @@ function FlipMouse(initFinished) {
             setTimeout(function () {
                 _timestampLastAtCmd = new Date().getTime();
                 console.log("sending to FlipMouse: " + nextCmd.cmd);
-                _communicator.sendData(nextCmd.cmd).then(nextCmd.resolveFn);
+                _communicator.sendData(nextCmd.cmd).then(nextCmd.resolveFn, nextCmd.rejectFn);
                 sendNext();
             }, timeout);
         }

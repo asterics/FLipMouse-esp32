@@ -13,7 +13,9 @@ i18n[C.BTN_MODE_STICK_DOWN] = 'Stick nach unten';
 i18n[C.BTN_MODE_STICK_LEFT] = 'Stick nach links';
 i18n[C.BTN_MODE_STICK_RIGHT] = 'Stick nach rechts';
 i18n[C.BTN_MODE_SIP] = 'Funktion ansaugen';
-i18n[C.BTN_MODE_PUFF] = 'Funktion blasen';
+i18n[C.BTN_MODE_STRONG_SIP] = 'Funktion stark ansaugen';
+i18n[C.BTN_MODE_PUFF] = 'Funktion pusten';
+i18n[C.BTN_MODE_STRONG_PUFF] = 'Funktion stark pusten';
 
 i18n[C.AT_CMD_WRITEWORD] = 'Schreibe Wort: {?}';
 i18n[C.AT_CMD_KEYPRESS] = 'Drücke Tasten: {?}';

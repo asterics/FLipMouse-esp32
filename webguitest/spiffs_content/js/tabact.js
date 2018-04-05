@@ -14,6 +14,8 @@ window.tabAction.init = function () {
 
     L('#SELECT_LEARN_CAT_MOUSE').innerHTML = L.createSelectItems(C.AT_CMDS_MOUSE);
     L('#SELECT_LEARN_CAT_FLIPACTIONS').innerHTML = L.createSelectItems(C.AT_CMDS_FLIP);
+    L.setVisible('#LEARN_CAT_KEYBOARD_DESKTOP', !C.IS_MOBILE_DEVICE);
+    L.setVisible('#LEARN_CAT_KEYBOARD_MOBILE', C.IS_MOBILE_DEVICE);
 };
 
 window.tabAction.initBtnModeActionTable = function () {

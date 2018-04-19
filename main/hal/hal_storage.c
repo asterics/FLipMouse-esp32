@@ -341,6 +341,8 @@ void halStorageCreateDefault(uint32_t tid)
     defaultCfg->virtualButtonCfgSize[i] = 0;
   }
   
+  #ifdef DEVICE_FLIPMOUSE
+  
   //add VB functions and config sizes for default slot
   defaultCfg->virtualButtonCommand[VB_SIP] = T_MOUSE;
   defaultCfg->virtualButtonCfgSize[VB_SIP] = sizeof(taskMouseConfig_t);
@@ -359,6 +361,13 @@ void halStorageCreateDefault(uint32_t tid)
   defaultCfg->virtualButtonCfgSize[VB_INTERNAL2] = sizeof(taskMouseConfig_t);
   /*++++ END is not the default slot, just for testing END ++++*/
   
+  #endif
+  
+  
+  #ifdef DEVICE_FABI
+    ///@todo Add default VB config for FABI.
+  #endif
+  
   //store general config
   ret = halStorageStore(tid,defaultCfg,"DEFAULT",0);
   if(ret != ESP_OK)
@@ -366,7 +375,9 @@ void halStorageCreateDefault(uint32_t tid)
     ESP_LOGE(LOG_TAG,"Error saving default general config!");
     return;
   }
-    
+  
+  #ifdef DEVICE_FLIPMOUSE
+  
   pConfig = malloc(sizeof(taskMouseConfig_t));
   if(pConfig != NULL)
   {
@@ -438,6 +449,12 @@ void halStorageCreateDefault(uint32_t tid)
     ((taskNoParameterConfig_t *)pConfig)->virtualButton = VB_STRONGPUFF;
     defaultCfg->virtualButtonConfig[VB_STRONGPUFF] = pConfig;
   } else { ESP_LOGE(LOG_TAG,"malloc error VB%u",VB_STRONGPUFF); return; }
+  
+  #endif
+  
+  #ifdef DEVICE_FABI
+    ///@todo Add default VB config for FABI.
+  #endif
   
   //now save all VB configs
   ret = halStorageStoreSetVBConfigs(0, defaultCfg, tid);

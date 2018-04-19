@@ -14,8 +14,8 @@ window.tabAction.init = function () {
 
     L('#SELECT_LEARN_CAT_MOUSE').innerHTML = L.createSelectItems(C.AT_CMDS_MOUSE);
     L('#SELECT_LEARN_CAT_FLIPACTIONS').innerHTML = L.createSelectItems(C.AT_CMDS_FLIP);
-    L.setVisible('#LEARN_CAT_KEYBOARD_DESKTOP', !C.IS_MOBILE_DEVICE);
-    L.setVisible('#LEARN_CAT_KEYBOARD_MOBILE', C.IS_MOBILE_DEVICE);
+    //L.setVisible('#LEARN_CAT_KEYBOARD_DESKTOP', !C.IS_MOBILE_DEVICE);
+    //L.setVisible('#LEARN_CAT_KEYBOARD_MOBILE', C.IS_MOBILE_DEVICE);
 };
 
 window.tabAction.initBtnModeActionTable = function () {
@@ -113,34 +113,53 @@ function resetSelects() {
     L('#SELECT_'+ C.LEARN_CAT_FLIPACTIONS).value = atCmd;
 }
 
-window.tabAction.startRec = function () {
-    if(!document.onkeydown) {
-        window.tabAction.queue = [];
-        document.onkeydown = function(e) {
-            e = e || window.event;
-            e.preventDefault();
-            if(!e.repeat && C.SUPPORTED_KEYCODES.includes(getKeycode(e))) {
-                if(getKeycode(e) != C.JS_KEYCODE_BACKSPACE || !getText(tabAction.queue)) {
-                    tabAction.queue.push(e);
-                } else {
-                    tabAction.queue.pop();
-                    if(!getText(tabAction.queue)) {
-                        tabAction.queue = [];
-                    }
-                }
-                tabAction.evalRec();
-            }
-        };
-    } else {
-        document.onkeydown = null;
+tabAction.handleKeyBoardEvent = function (event) {
+    window.tabAction.queue = window.tabAction.queue  || [];
+    if(event.keyCode == 229) {
+        tabAction.listenToKeyboardInput = true;
+        return;
     }
+    event = event || window.event;
+    event.preventDefault();
+    var queueElem = getQueueElem(event);
+    if (C.SUPPORTED_KEYCODES.includes(queueElem.keyCode)) {
+        if (!event.repeat && (queueElem.keyCode != C.JS_KEYCODE_BACKSPACE || !getText(tabAction.queue))) {
+            tabAction.queue.push(getQueueElem(event));
+        } else if (queueElem.keyCode == C.JS_KEYCODE_BACKSPACE) {
+            tabAction.queue.pop();
+            if (!getText(tabAction.queue)) {
+                tabAction.queue = [];
+            }
+        }
+        tabAction.evalRec();
+    }
+};
+
+tabAction.handleOnKeyboardInput = function (event) {
+    window.tabAction.queue = window.tabAction.queue  || [];
+    if(!tabAction.listenToKeyboardInput || tabAction.lastInputLength >= event.data.length) {
+        if(tabAction.lastInputLength > event.data.length) {
+            tabAction.lastInputLength = 0;
+            tabAction.resetRec();
+        }
+        return;
+    }
+    tabAction.listenToKeyboardInput = false;
+    var key = event.data.charAt(event.data.length-1);
+    var keyCode = key.toUpperCase().charCodeAt(0);
+    tabAction.queue.push({
+        key: key,
+        keyCode: keyCode
+    });
+    tabAction.evalRec();
+    tabAction.lastInputLength = event.data.length;
 };
 
 tabAction.evalRec = function () {
     var atCmd = getAtCmd(tabAction.queue);
     L('#buttonRecOK').disabled = !atCmd;
-    L('#recordedAction').innerHTML = getReadable(atCmd) || L.translate('NONE_BRACKET');
     L('#recordedAtCmd').innerHTML = atCmd || L.translate('NONE_BRACKET');
+    L('#INPUT_LEARN_CAT_KEYBOARD').value = getReadable(atCmd);
 };
 
 tabAction.resetRec = function () {
@@ -156,49 +175,34 @@ tabAction.saveRec = function () {
     tabAction.setAtCmd(getAtCmd(tabAction.queue));
 };
 
-function getKeycode(e) {
-    if(L.equalIgnoreCase(e.key, 'ö')) {
-        return C.JS_KEYCODE_OE;
-    } else if (L.equalIgnoreCase(e.key, 'ü')) {
-        return C.JS_KEYCODE_UE;
-    } else if (L.equalIgnoreCase(e.key, 'ä')) {
-        return C.JS_KEYCODE_AE;
-    } else if (['ß', '?', '\\'].includes(e.key)) {
-        return C.JS_KEYCODE_SHARP_S;
-    } else if (['+', '*', '~'].includes(e.key)) {
-        return C.JS_KEYCODE_PLUS;
-    } else if (['#', "'"].includes(e.key)) {
-        return C.JS_KEYCODE_HASH;
-    } else if (['-', '_'].includes(e.key)) {
-        return C.JS_KEYCODE_DASH;
-    } else if (['<', '>', '|'].includes(e.key)) {
-        return C.JS_KEYCODE_ANGLE_BRACKET_L;
+function getQueueElem(event) {
+    return {
+        key: event.key,
+        keyCode: event.keyCode || e.which,
+        altKey: event.altKey
     }
-    return e.keyCode || e.which;
 }
 
 function isPrintableKey(e) {
-    var c = getKeycode(e);
-    return C.PRINTABLE_KEYCODES.includes(c);
+    return e.key.length === 1;
 }
 
 function isSpecialKey(e) {
-    var c = getKeycode(e);
-    return C.SPECIAL_KEYCODES.includes(c);
+    return e.key.length !== 1;
 }
 
 /**
- * parses the given eventList and returns the parsed text
- * @param eventList
- * @return the text that is specified by the given eventList, or null if it contains keypress events that do not produce a text
+ * parses the given keyList and returns the parsed text
+ * @param keyList
+ * @return the text that is specified by the given keyList, or null if it contains keypress events that do not produce a text
  */
-function getText(eventList) {
+function getText(keyList) {
     var text = '';
-    for(var i=0; i<eventList.length; i++) {
-        var elm = eventList[i];
-        var code = getKeycode(elm);
+    for(var i=0; i<keyList.length; i++) {
+        var elm = keyList[i];
+        var code = elm.keyCode;
         if(isSpecialKey(elm)) {
-            var isAltGr = isAltGrLetter(elm, eventList[i+1], eventList[i+2]);
+            var isAltGr = isAltGrLetter(elm, keyList[i+1], keyList[i+2]);
             if(code != C.JS_KEYCODE_SHIFT && !isAltGr) {
                 return null;
             }
@@ -214,7 +218,7 @@ function getText(eventList) {
 
 function isAltGrLetter(e1,e2,e3) {
     if(!e1 || !e2 || !e3) return false;
-    return getKeycode(e1) == C.JS_KEYCODE_CTRL && getKeycode(e2) == C.JS_KEYCODE_ALT && isPrintableKey(e3) && e3.ctrlKey && e3.altKey;
+    return e1.keyCode == C.JS_KEYCODE_CTRL && e2.keyCode == C.JS_KEYCODE_ALT && isPrintableKey(e3) && e3.keyCode && e3.altKey;
 }
 
 function getAtCmd(queue) {
@@ -228,7 +232,7 @@ function getAtCmd(queue) {
     } else {
         var postfix = '';
         queue.forEach(function (e) {
-            var code = C.KEYCODE_MAPPING[getKeycode(e)];
+            var code = C.KEYCODE_MAPPING[e.keyCode];
             if(code) {
                 postfix += code + ' ';
             }
@@ -242,5 +246,5 @@ function getReadable(atCmd) {
     if(!atCmd) {
         return '';
     }
-    return L.translate(atCmd.substring(0, C.LENGTH_ATCMD_PREFIX-1), atCmd.substring(C.LENGTH_ATCMD_PREFIX));
+    return L.translate(atCmd.substring(0, C.LENGTH_ATCMD_PREFIX-1), atCmd.substring(C.LENGTH_ATCMD_PREFIX).replace(/ /g, ' + '));
 }

@@ -2,7 +2,8 @@ window.i18n = {
     'CONFIRM_DELETE_SLOT': 'Möchten Sie den Slot "{?}" wirklich löschen?',
     'CONFIRM_RESET_SLOTS': 'Möchten Sie die FLipMouse wirklich auf die Standardeinstellungen zurücksetzen?',
     'CHANGE_TOOLTIP': 'klicken um Aktion für "{?}" zu ändern',
-    'NONE_BRACKET': '(leer)'
+    'NONE_BRACKET': '(leer)',
+    'SELECT_SPECIAL_KEY': 'Wähle Taste'
 };
 
 i18n[C.BTN_MODE_BUTTON_1] = 'Button 1';

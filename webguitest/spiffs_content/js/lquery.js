@@ -133,17 +133,30 @@ window.L.createElement = function(tagName, className, inner) {
     return e;
 };
 
-L.createSelectItems = function(listValues, listHtml) {
+/**
+ * creates a list of <option> elements as innerHTML for an <select> element.
+ *
+ * @param listValues the list of values for the <option> elements
+ * @param listHtml a list of values for the innerHTML of the <option> elements, if a function it is used to translate a
+ * value from the listValues, if not specified L.translate() is used to generate the innerHTML of the option elements.
+ * @param defaultOption if specified a default option with the given innerHTML (or its translation) and value "-1" is added
+ * @return {string}
+ */
+L.createSelectItems = function (listValues, listHtml, defaultOption) {
     var result = '';
     var hasHtml = listHtml && listHtml.length == listValues.length;
+    var hasHtmlFn = L.isFunction(listHtml);
 
-    for(let i=0; i<listValues.length; i++) {
-        var html = hasHtml ? listHtml[i] : L.translate(listValues[i]);
+    for (let i = 0; i < listValues.length; i++) {
+        var html = hasHtmlFn ? listHtml(listValues[i]) : (hasHtml ? listHtml[i] : L.translate(listValues[i]));
         var elem = L.createElement('option', '', html);
         elem.value = listValues[i];
         result += elem.outerHTML + '\n';
     }
 
+    if (defaultOption) {
+        result = '<option value="-1" disabled selected hidden>' + L.translate('SELECT_SPECIAL_KEY') + '</option>\n' + result;
+    }
     return result;
 };
 

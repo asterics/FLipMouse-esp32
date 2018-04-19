@@ -24,6 +24,10 @@ button:disabled, button:disabled div{
     color: lightgray;
 }
 
+.special-key {
+    width: 7em;
+}
+
 br {
     line-height: 250%;
 }

@@ -9,6 +9,7 @@ var searchData=
   ['wifi_5factive',['WIFI_ACTIVE',['../common_8h.html#af11bf2c47cd0354ecfee72f9c88a4e2d',1,'common.h']]],
   ['wifi_5fclient_5fconnected',['WIFI_CLIENT_CONNECTED',['../common_8h.html#a9d086131b0622a8aaeb0db9b1ccbe725',1,'common.h']]],
   ['wifi_5fevent_5fhandler',['wifi_event_handler',['../task__webgui_8c.html#a11dd6a5edc46c297b26382ebce3c34cb',1,'task_webgui.c']]],
+  ['wifipw',['wifipw',['../task__webgui_8c.html#a6fbc89c5167735a2e2b04eebb93bcd34',1,'task_webgui.c']]],
   ['write',['WRITE',['../task__kbd_8h.html#aff3bf982a86299e69b007b0d16a45227a61aa7ff70b76bff0fda378cf61d6afbc',1,'task_kbd.h']]],
   ['ws_5fclient_5fkey_5fl',['WS_CLIENT_KEY_L',['../websocket_8c.html#acc455c54a3617bfc60f6540f3c6876b6',1,'websocket.c']]],
   ['ws_5fconn',['WS_conn',['../websocket_8c.html#a8df807500b69b8dc1778ce905e474599',1,'websocket.c']]],

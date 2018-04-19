@@ -122,7 +122,7 @@ Functions</h2></td></tr>
 <a class="el" href="task__commands_8c.html#a7b36c39275d773aaedcb327ef4e1516f">task_commands</a> </dd>
 <dd>
 atcmd_api</dd></dl>
-<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000023">Todo:</a></b></dt><dd><p class="startdd">Implement everything (or better said: port it from existing demo) </p>
+<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000022">Todo:</a></b></dt><dd><p class="startdd">Implement everything (or better said: port it from existing demo) </p>
 <p class="enddd">How to integrate into hal_serial? Sending commands to task_commands is easy, but the other way round... </p>
 </dd></dl>
 
@@ -144,7 +144,7 @@ atcmd_api</dd></dl>
 
 <p class="definition">Definition at line <a class="el" href="task__webgui_8h_source.html#l00073">73</a> of file <a class="el" href="task__webgui_8h_source.html">task_webgui.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="task__webgui_8c_source.html#l00322">taskWebGUIInit()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="task__webgui_8c_source.html#l00302">taskWebGUIInit()</a>.</p>
 
 </div>
 </div>
@@ -164,7 +164,7 @@ atcmd_api</dd></dl>
 
 <p class="definition">Definition at line <a class="el" href="task__webgui_8h_source.html#l00070">70</a> of file <a class="el" href="task__webgui_8h_source.html">task_webgui.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="task__webgui_8c_source.html#l00322">taskWebGUIInit()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="task__webgui_8c_source.html#l00302">taskWebGUIInit()</a>.</p>
 
 </div>
 </div>
@@ -184,7 +184,7 @@ atcmd_api</dd></dl>
 
 <p class="definition">Definition at line <a class="el" href="task__webgui_8h_source.html#l00076">76</a> of file <a class="el" href="task__webgui_8h_source.html">task_webgui.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="task__webgui_8c_source.html#l00101">ws_server()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="task__webgui_8c_source.html#l00102">ws_server()</a>.</p>
 
 </div>
 </div>
@@ -209,10 +209,10 @@ atcmd_api</dd></dl>
 <p>TBD: documentation what is done here</p>
 <dl class="section return"><dt>Returns</dt><dd>ESP_OK on success, ESP_FAIL otherwise</dd></dl>
 <p>TBD: documentation what is done here</p>
-<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000022">Todo:</a></b></dt><dd>For testing, webserver will be active on startup. In final version, webserver is active on long button press only for 10min (SECURITY!) </dd></dl>
+<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000021">Todo:</a></b></dt><dd>For testing, webserver will be active on startup. In final version, webserver is active on long button press only for 10min (SECURITY!) </dd></dl>
 <dl class="section return"><dt>Returns</dt><dd>ESP_OK on success, ESP_FAIL otherwise </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="task__webgui_8c_source.html#l00322">322</a> of file <a class="el" href="task__webgui_8c_source.html">task_webgui.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="task__webgui_8c_source.html#l00302">302</a> of file <a class="el" href="task__webgui_8c_source.html">task_webgui.c</a>.</p>
 
 <p class="reference">Referenced by <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c_source.html#l00074">app_main()</a>.</p>
 <div class="dynheader">
@@ -220,16 +220,17 @@ Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="task__webgui_8h_a669b9245d5040c0162481f7b24dbeea7_cgraph.png" border="0" usemap="#task__webgui_8h_a669b9245d5040c0162481f7b24dbeea7_cgraph" alt=""/></div>
 <map name="task__webgui_8h_a669b9245d5040c0162481f7b24dbeea7_cgraph" id="task__webgui_8h_a669b9245d5040c0162481f7b24dbeea7_cgraph">
-<area shape="rect" id="node2" href="task__webgui_8c.html#a11dd6a5edc46c297b26382ebce3c34cb" title="Event handler for wifi status updates. " alt="" coords="169,107,300,133"/>
-<area shape="rect" id="node7" href="task__webgui_8c.html#adcc5b062c057f73762b1f19b2f6a8185" title="CONTINOUS TASK &#45; Main webserver task. " alt="" coords="191,216,278,243"/>
-<area shape="rect" id="node10" href="task__webgui_8c.html#a5f462e5b8bd4803c256bf22a004eacde" title="CONTINOUS TASK &#45; Websocket server task. " alt="" coords="193,271,276,297"/>
-<area shape="rect" id="node3" href="task__webgui_8c.html#adf50753dada544362b8f4fb5f8eefde5" title="Get the number of currently connected Wifi stations. " alt="" coords="364,5,535,32"/>
-<area shape="rect" id="node4" href="hal__serial_8c.html#a143968f329a010a1075a81b976579605" title="Set an additional function for outputting the serial data. " alt="" coords="361,56,537,83"/>
-<area shape="rect" id="node5" href="websocket_8c.html#a215997a5d454937f96cf800e1a44e599" title="WS_write_data" alt="" coords="394,107,505,133"/>
-<area shape="rect" id="node6" href="hal__serial_8c.html#a57242c09ec880fbd08e1a4cd5e64d8e5" title="Remove the additional function for outputting the serial data. " alt="" coords="348,157,551,184"/>
-<area shape="rect" id="node8" href="task__webgui_8c.html#ab8747e57d0c6f817143de09e0ac8696d" title="Handle an incoming HTTP connection. " alt="" coords="379,209,519,250"/>
-<area shape="rect" id="node9" href="task__webgui_8c.html#a6602b92d93539366ba1c5535690ebe7e" title="Serve static content from FAT. " alt="" coords="599,216,675,243"/>
-<area shape="rect" id="node11" href="websocket_8c.html#afc7ea5da54622021156f0df84063abb4" title="ws_server_netconn_serve" alt="" coords="362,275,537,301"/>
+<area shape="rect" id="node2" href="hal__storage_8c.html#ac55206dd96a5c50caec96a6f92a17597" title="Load a string from NVS (global, no slot assignment) " alt="" coords="169,81,344,108"/>
+<area shape="rect" id="node3" href="task__webgui_8c.html#a11dd6a5edc46c297b26382ebce3c34cb" title="Event handler for wifi status updates. " alt="" coords="191,132,322,159"/>
+<area shape="rect" id="node8" href="task__webgui_8c.html#adcc5b062c057f73762b1f19b2f6a8185" title="CONTINOUS TASK &#45; Main webserver task. " alt="" coords="213,212,300,239"/>
+<area shape="rect" id="node11" href="task__webgui_8c.html#a5f462e5b8bd4803c256bf22a004eacde" title="CONTINOUS TASK &#45; Websocket server task. " alt="" coords="215,267,298,293"/>
+<area shape="rect" id="node4" href="task__webgui_8c.html#adf50753dada544362b8f4fb5f8eefde5" title="Get the number of currently connected Wifi stations. " alt="" coords="408,5,579,32"/>
+<area shape="rect" id="node5" href="hal__serial_8c.html#a143968f329a010a1075a81b976579605" title="Set an additional function for outputting the serial data. " alt="" coords="405,56,581,83"/>
+<area shape="rect" id="node6" href="websocket_8c.html#a215997a5d454937f96cf800e1a44e599" title="WS_write_data" alt="" coords="438,107,549,133"/>
+<area shape="rect" id="node7" href="hal__serial_8c.html#a57242c09ec880fbd08e1a4cd5e64d8e5" title="Remove the additional function for outputting the serial data. " alt="" coords="392,157,595,184"/>
+<area shape="rect" id="node9" href="task__webgui_8c.html#ab8747e57d0c6f817143de09e0ac8696d" title="Handle an incoming HTTP connection. " alt="" coords="423,209,563,250"/>
+<area shape="rect" id="node10" href="task__webgui_8c.html#a6602b92d93539366ba1c5535690ebe7e" title="Serve static content from FAT. " alt="" coords="643,216,719,243"/>
+<area shape="rect" id="node12" href="websocket_8c.html#afc7ea5da54622021156f0df84063abb4" title="ws_server_netconn_serve" alt="" coords="406,275,581,301"/>
 </map>
 </div>
 <div class="dynheader">

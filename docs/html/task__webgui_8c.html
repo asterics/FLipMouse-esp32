@@ -92,7 +92,7 @@ Macros</h2></td></tr>
 <tr class="memdesc:aa743e2cd271f20dd3d0de77d92af280a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Name of the wifi hotspot.  <a href="#aa743e2cd271f20dd3d0de77d92af280a">More...</a><br /></td></tr>
 <tr class="separator:aa743e2cd271f20dd3d0de77d92af280a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a662ff68ed47fa2c45ce0f2b67f9ef3dc"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="task__webgui_8c.html#a662ff68ed47fa2c45ce0f2b67f9ef3dc">CONFIG_AP_PASSWORD</a>&#160;&#160;&#160;&quot;foundation&quot;</td></tr>
-<tr class="memdesc:a662ff68ed47fa2c45ce0f2b67f9ef3dc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Hotspot password.  <a href="#a662ff68ed47fa2c45ce0f2b67f9ef3dc">More...</a><br /></td></tr>
+<tr class="memdesc:a662ff68ed47fa2c45ce0f2b67f9ef3dc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Hotspot default password.  <a href="#a662ff68ed47fa2c45ce0f2b67f9ef3dc">More...</a><br /></td></tr>
 <tr class="separator:a662ff68ed47fa2c45ce0f2b67f9ef3dc"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac6fa3e4500fd0ed88e2e4ce3d12a89be"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="task__webgui_8c.html#ac6fa3e4500fd0ed88e2e4ce3d12a89be">CONFIG_AP_CHANNEL</a>&#160;&#160;&#160;0</td></tr>
 <tr class="memdesc:ac6fa3e4500fd0ed88e2e4ce3d12a89be"><td class="mdescLeft">&#160;</td><td class="mdescRight">Wifi channel to be used, 0 means automatic (right?)  <a href="#ac6fa3e4500fd0ed88e2e4ce3d12a89be">More...</a><br /></td></tr>
@@ -121,8 +121,6 @@ Functions</h2></td></tr>
 <tr class="memitem:adcc5b062c057f73762b1f19b2f6a8185"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="task__webgui_8c.html#adcc5b062c057f73762b1f19b2f6a8185">http_server</a> (void *pvParameters)</td></tr>
 <tr class="memdesc:adcc5b062c057f73762b1f19b2f6a8185"><td class="mdescLeft">&#160;</td><td class="mdescRight">CONTINOUS TASK - Main webserver task.  <a href="#adcc5b062c057f73762b1f19b2f6a8185">More...</a><br /></td></tr>
 <tr class="separator:adcc5b062c057f73762b1f19b2f6a8185"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9bf7c1a6878001fb547fa537f37ad644"><td class="memItemLeft" align="right" valign="top">static esp_err_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="task__webgui_8c.html#a9bf7c1a6878001fb547fa537f37ad644">systemhandler</a> (system_event_t *event)</td></tr>
-<tr class="separator:a9bf7c1a6878001fb547fa537f37ad644"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a11dd6a5edc46c297b26382ebce3c34cb"><td class="memItemLeft" align="right" valign="top">static esp_err_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="task__webgui_8c.html#a11dd6a5edc46c297b26382ebce3c34cb">wifi_event_handler</a> (void *ctx, system_event_t *event)</td></tr>
 <tr class="memdesc:a11dd6a5edc46c297b26382ebce3c34cb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Event handler for wifi status updates.  <a href="#a11dd6a5edc46c297b26382ebce3c34cb">More...</a><br /></td></tr>
 <tr class="separator:a11dd6a5edc46c297b26382ebce3c34cb"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -135,6 +133,9 @@ Variables</h2></td></tr>
 <tr class="memitem:a47050fc742d4864291d317dc39914ad1"><td class="memItemLeft" align="right" valign="top">static const char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="task__webgui_8c.html#a47050fc742d4864291d317dc39914ad1">base_path</a> = &quot;/spiflash&quot;</td></tr>
 <tr class="memdesc:a47050fc742d4864291d317dc39914ad1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Partition name (used to define different memory types)  <a href="#a47050fc742d4864291d317dc39914ad1">More...</a><br /></td></tr>
 <tr class="separator:a47050fc742d4864291d317dc39914ad1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6fbc89c5167735a2e2b04eebb93bcd34"><td class="memItemLeft" align="right" valign="top">static char&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="task__webgui_8c.html#a6fbc89c5167735a2e2b04eebb93bcd34">wifipw</a> [64]</td></tr>
+<tr class="memdesc:a6fbc89c5167735a2e2b04eebb93bcd34"><td class="mdescLeft">&#160;</td><td class="mdescRight">Currently used wifi password.  <a href="#a6fbc89c5167735a2e2b04eebb93bcd34">More...</a><br /></td></tr>
+<tr class="separator:a6fbc89c5167735a2e2b04eebb93bcd34"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a84019f692b38960767e6beb15d0c4a2b"><td class="memItemLeft" align="right" valign="top">static const char&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="task__webgui_8c.html#a84019f692b38960767e6beb15d0c4a2b">http_html_hdr</a> [] = &quot;HTTP/1.1 200 OK\nContent-type: text/html\n\n&quot;</td></tr>
 <tr class="memdesc:a84019f692b38960767e6beb15d0c4a2b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Static HTTP HTML header.  <a href="#a84019f692b38960767e6beb15d0c4a2b">More...</a><br /></td></tr>
 <tr class="separator:a84019f692b38960767e6beb15d0c4a2b"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -176,7 +177,7 @@ atcmd_api</dd></dl>
 
 <p class="definition">Definition at line <a class="el" href="task__webgui_8c_source.html#l00050">50</a> of file <a class="el" href="task__webgui_8c_source.html">task_webgui.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="task__webgui_8c_source.html#l00322">taskWebGUIInit()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="task__webgui_8c_source.html#l00302">taskWebGUIInit()</a>.</p>
 
 </div>
 </div>
@@ -194,9 +195,9 @@ atcmd_api</dd></dl>
 
 <p>Wifi beacon interval. </p>
 
-<p class="definition">Definition at line <a class="el" href="task__webgui_8c_source.html#l00063">63</a> of file <a class="el" href="task__webgui_8c_source.html">task_webgui.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="task__webgui_8c_source.html#l00062">62</a> of file <a class="el" href="task__webgui_8c_source.html">task_webgui.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="task__webgui_8c_source.html#l00322">taskWebGUIInit()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="task__webgui_8c_source.html#l00302">taskWebGUIInit()</a>.</p>
 
 </div>
 </div>
@@ -214,7 +215,7 @@ atcmd_api</dd></dl>
 
 <p>Wifi channel to be used, 0 means automatic (right?) </p>
 
-<p class="definition">Definition at line <a class="el" href="task__webgui_8c_source.html#l00059">59</a> of file <a class="el" href="task__webgui_8c_source.html">task_webgui.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="task__webgui_8c_source.html#l00058">58</a> of file <a class="el" href="task__webgui_8c_source.html">task_webgui.c</a>.</p>
 
 </div>
 </div>
@@ -232,9 +233,9 @@ atcmd_api</dd></dl>
 
 <p>Wifi max number of connection. </p>
 
-<p class="definition">Definition at line <a class="el" href="task__webgui_8c_source.html#l00061">61</a> of file <a class="el" href="task__webgui_8c_source.html">task_webgui.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="task__webgui_8c_source.html#l00060">60</a> of file <a class="el" href="task__webgui_8c_source.html">task_webgui.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="task__webgui_8c_source.html#l00322">taskWebGUIInit()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="task__webgui_8c_source.html#l00302">taskWebGUIInit()</a>.</p>
 
 </div>
 </div>
@@ -250,12 +251,11 @@ atcmd_api</dd></dl>
       </table>
 </div><div class="memdoc">
 
-<p>Hotspot password. </p>
-<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000019">Todo:</a></b></dt><dd>What to do with the password? Fixed one? Not good... </dd></dl>
+<p>Hotspot default password. </p>
 
-<p class="definition">Definition at line <a class="el" href="task__webgui_8c_source.html#l00057">57</a> of file <a class="el" href="task__webgui_8c_source.html">task_webgui.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="task__webgui_8c_source.html#l00056">56</a> of file <a class="el" href="task__webgui_8c_source.html">task_webgui.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="task__webgui_8c_source.html#l00322">taskWebGUIInit()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="task__webgui_8c_source.html#l00302">taskWebGUIInit()</a>.</p>
 
 </div>
 </div>
@@ -275,7 +275,7 @@ atcmd_api</dd></dl>
 
 <p class="definition">Definition at line <a class="el" href="task__webgui_8c_source.html#l00054">54</a> of file <a class="el" href="task__webgui_8c_source.html">task_webgui.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="task__webgui_8c_source.html#l00322">taskWebGUIInit()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="task__webgui_8c_source.html#l00302">taskWebGUIInit()</a>.</p>
 
 </div>
 </div>
@@ -295,7 +295,7 @@ atcmd_api</dd></dl>
 
 <p class="definition">Definition at line <a class="el" href="task__webgui_8c_source.html#l00052">52</a> of file <a class="el" href="task__webgui_8c_source.html">task_webgui.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="task__webgui_8c_source.html#l00322">taskWebGUIInit()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="task__webgui_8c_source.html#l00302">taskWebGUIInit()</a>.</p>
 
 </div>
 </div>
@@ -315,7 +315,7 @@ atcmd_api</dd></dl>
 
 <p class="definition">Definition at line <a class="el" href="task__webgui_8c_source.html#l00047">47</a> of file <a class="el" href="task__webgui_8c_source.html">task_webgui.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="task__webgui_8c_source.html#l00127">fat_serve()</a>, <a class="el" href="task__webgui_8c_source.html#l00215">http_server()</a>, <a class="el" href="task__webgui_8c_source.html#l00236">systemhandler()</a>, <a class="el" href="task__webgui_8c_source.html#l00322">taskWebGUIInit()</a>, <a class="el" href="task__webgui_8c_source.html#l00263">wifi_event_handler()</a>, and <a class="el" href="task__webgui_8c_source.html#l00101">ws_server()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="task__webgui_8c_source.html#l00128">fat_serve()</a>, <a class="el" href="task__webgui_8c_source.html#l00219">http_server()</a>, <a class="el" href="task__webgui_8c_source.html#l00302">taskWebGUIInit()</a>, <a class="el" href="task__webgui_8c_source.html#l00243">wifi_event_handler()</a>, and <a class="el" href="task__webgui_8c_source.html#l00102">ws_server()</a>.</p>
 
 </div>
 </div>
@@ -355,9 +355,9 @@ atcmd_api</dd></dl>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="task__webgui_8c_source.html#l00127">127</a> of file <a class="el" href="task__webgui_8c_source.html">task_webgui.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="task__webgui_8c_source.html#l00128">128</a> of file <a class="el" href="task__webgui_8c_source.html">task_webgui.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="task__webgui_8c_source.html#l00174">http_server_netconn_serve()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="task__webgui_8c_source.html#l00175">http_server_netconn_serve()</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
@@ -399,9 +399,9 @@ Here is the caller graph for this function:</div>
 <p>Get the number of currently connected Wifi stations. </p>
 <dl class="section return"><dt>Returns</dt><dd>Number of connected clients </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="task__webgui_8c_source.html#l00075">75</a> of file <a class="el" href="task__webgui_8c_source.html">task_webgui.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="task__webgui_8c_source.html#l00076">76</a> of file <a class="el" href="task__webgui_8c_source.html">task_webgui.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="task__webgui_8c_source.html#l00263">wifi_event_handler()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="task__webgui_8c_source.html#l00243">wifi_event_handler()</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
@@ -440,11 +440,11 @@ Here is the caller graph for this function:</div>
 </div><div class="memdoc">
 
 <p>CONTINOUS TASK - Main webserver task. </p>
-<p>This task is used to handle incoming connections </p><dl class="todo"><dt><b><a class="el" href="todo.html#_todo000020">Todo:</a></b></dt><dd>Improve comments </dd></dl>
+<p>This task is used to handle incoming connections </p><dl class="todo"><dt><b><a class="el" href="todo.html#_todo000019">Todo:</a></b></dt><dd>Improve comments </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="task__webgui_8c_source.html#l00215">215</a> of file <a class="el" href="task__webgui_8c_source.html">task_webgui.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="task__webgui_8c_source.html#l00219">219</a> of file <a class="el" href="task__webgui_8c_source.html">task_webgui.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="task__webgui_8c_source.html#l00322">taskWebGUIInit()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="task__webgui_8c_source.html#l00302">taskWebGUIInit()</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -498,9 +498,9 @@ Here is the caller graph for this function:</div>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="task__webgui_8c_source.html#l00174">174</a> of file <a class="el" href="task__webgui_8c_source.html">task_webgui.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="task__webgui_8c_source.html#l00175">175</a> of file <a class="el" href="task__webgui_8c_source.html">task_webgui.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="task__webgui_8c_source.html#l00215">http_server()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="task__webgui_8c_source.html#l00219">http_server()</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -522,38 +522,6 @@ Here is the caller graph for this function:</div>
 
 </div>
 </div>
-<a id="a9bf7c1a6878001fb547fa537f37ad644"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a9bf7c1a6878001fb547fa537f37ad644">&#9670;&nbsp;</a></span>systemhandler()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">static esp_err_t systemhandler </td>
-          <td>(</td>
-          <td class="paramtype">system_event_t *&#160;</td>
-          <td class="paramname"><em>event</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">static</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<p>&lt; ESP32 soft-AP start</p>
-<p>&lt; ESP32 soft-AP stop</p>
-<p>&lt; a station connected to ESP32 soft-AP</p>
-<p>&lt; a station disconnected from ESP32 soft-AP </p>
-
-<p class="definition">Definition at line <a class="el" href="task__webgui_8c_source.html#l00236">236</a> of file <a class="el" href="task__webgui_8c_source.html">task_webgui.c</a>.</p>
-
-</div>
-</div>
 <a id="a669b9245d5040c0162481f7b24dbeea7"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a669b9245d5040c0162481f7b24dbeea7">&#9670;&nbsp;</a></span>taskWebGUIInit()</h2>
 
@@ -572,10 +540,10 @@ Here is the caller graph for this function:</div>
 
 <p>Init the web / DNS server and the web gui. </p>
 <p>TBD: documentation what is done here</p>
-<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000022">Todo:</a></b></dt><dd>For testing, webserver will be active on startup. In final version, webserver is active on long button press only for 10min (SECURITY!) </dd></dl>
+<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000021">Todo:</a></b></dt><dd>For testing, webserver will be active on startup. In final version, webserver is active on long button press only for 10min (SECURITY!) </dd></dl>
 <dl class="section return"><dt>Returns</dt><dd>ESP_OK on success, ESP_FAIL otherwise </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="task__webgui_8c_source.html#l00322">322</a> of file <a class="el" href="task__webgui_8c_source.html">task_webgui.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="task__webgui_8c_source.html#l00302">302</a> of file <a class="el" href="task__webgui_8c_source.html">task_webgui.c</a>.</p>
 
 <p class="reference">Referenced by <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c_source.html#l00074">app_main()</a>.</p>
 <div class="dynheader">
@@ -583,16 +551,17 @@ Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="task__webgui_8c_a669b9245d5040c0162481f7b24dbeea7_cgraph.png" border="0" usemap="#task__webgui_8c_a669b9245d5040c0162481f7b24dbeea7_cgraph" alt=""/></div>
 <map name="task__webgui_8c_a669b9245d5040c0162481f7b24dbeea7_cgraph" id="task__webgui_8c_a669b9245d5040c0162481f7b24dbeea7_cgraph">
-<area shape="rect" id="node2" href="task__webgui_8c.html#a11dd6a5edc46c297b26382ebce3c34cb" title="Event handler for wifi status updates. " alt="" coords="169,107,300,133"/>
-<area shape="rect" id="node7" href="task__webgui_8c.html#adcc5b062c057f73762b1f19b2f6a8185" title="CONTINOUS TASK &#45; Main webserver task. " alt="" coords="191,216,278,243"/>
-<area shape="rect" id="node10" href="task__webgui_8c.html#a5f462e5b8bd4803c256bf22a004eacde" title="CONTINOUS TASK &#45; Websocket server task. " alt="" coords="193,271,276,297"/>
-<area shape="rect" id="node3" href="task__webgui_8c.html#adf50753dada544362b8f4fb5f8eefde5" title="Get the number of currently connected Wifi stations. " alt="" coords="364,5,535,32"/>
-<area shape="rect" id="node4" href="hal__serial_8c.html#a143968f329a010a1075a81b976579605" title="Set an additional function for outputting the serial data. " alt="" coords="361,56,537,83"/>
-<area shape="rect" id="node5" href="websocket_8c.html#a215997a5d454937f96cf800e1a44e599" title="WS_write_data" alt="" coords="394,107,505,133"/>
-<area shape="rect" id="node6" href="hal__serial_8c.html#a57242c09ec880fbd08e1a4cd5e64d8e5" title="Remove the additional function for outputting the serial data. " alt="" coords="348,157,551,184"/>
-<area shape="rect" id="node8" href="task__webgui_8c.html#ab8747e57d0c6f817143de09e0ac8696d" title="Handle an incoming HTTP connection. " alt="" coords="379,209,519,250"/>
-<area shape="rect" id="node9" href="task__webgui_8c.html#a6602b92d93539366ba1c5535690ebe7e" title="Serve static content from FAT. " alt="" coords="599,216,675,243"/>
-<area shape="rect" id="node11" href="websocket_8c.html#afc7ea5da54622021156f0df84063abb4" title="ws_server_netconn_serve" alt="" coords="362,275,537,301"/>
+<area shape="rect" id="node2" href="hal__storage_8c.html#ac55206dd96a5c50caec96a6f92a17597" title="Load a string from NVS (global, no slot assignment) " alt="" coords="169,81,344,108"/>
+<area shape="rect" id="node3" href="task__webgui_8c.html#a11dd6a5edc46c297b26382ebce3c34cb" title="Event handler for wifi status updates. " alt="" coords="191,132,322,159"/>
+<area shape="rect" id="node8" href="task__webgui_8c.html#adcc5b062c057f73762b1f19b2f6a8185" title="CONTINOUS TASK &#45; Main webserver task. " alt="" coords="213,212,300,239"/>
+<area shape="rect" id="node11" href="task__webgui_8c.html#a5f462e5b8bd4803c256bf22a004eacde" title="CONTINOUS TASK &#45; Websocket server task. " alt="" coords="215,267,298,293"/>
+<area shape="rect" id="node4" href="task__webgui_8c.html#adf50753dada544362b8f4fb5f8eefde5" title="Get the number of currently connected Wifi stations. " alt="" coords="408,5,579,32"/>
+<area shape="rect" id="node5" href="hal__serial_8c.html#a143968f329a010a1075a81b976579605" title="Set an additional function for outputting the serial data. " alt="" coords="405,56,581,83"/>
+<area shape="rect" id="node6" href="websocket_8c.html#a215997a5d454937f96cf800e1a44e599" title="WS_write_data" alt="" coords="438,107,549,133"/>
+<area shape="rect" id="node7" href="hal__serial_8c.html#a57242c09ec880fbd08e1a4cd5e64d8e5" title="Remove the additional function for outputting the serial data. " alt="" coords="392,157,595,184"/>
+<area shape="rect" id="node9" href="task__webgui_8c.html#ab8747e57d0c6f817143de09e0ac8696d" title="Handle an incoming HTTP connection. " alt="" coords="423,209,563,250"/>
+<area shape="rect" id="node10" href="task__webgui_8c.html#a6602b92d93539366ba1c5535690ebe7e" title="Serve static content from FAT. " alt="" coords="643,216,719,243"/>
+<area shape="rect" id="node12" href="websocket_8c.html#afc7ea5da54622021156f0df84063abb4" title="ws_server_netconn_serve" alt="" coords="406,275,581,301"/>
 </map>
 </div>
 <div class="dynheader">
@@ -641,11 +610,11 @@ Here is the caller graph for this function:</div>
 </div><div class="memdoc">
 
 <p>Event handler for wifi status updates. </p>
-<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000021">Todo:</a></b></dt><dd>Document &amp; adapt to firmware! </dd></dl>
+<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000020">Todo:</a></b></dt><dd>Document &amp; adapt to firmware! </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="task__webgui_8c_source.html#l00263">263</a> of file <a class="el" href="task__webgui_8c_source.html">task_webgui.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="task__webgui_8c_source.html#l00243">243</a> of file <a class="el" href="task__webgui_8c_source.html">task_webgui.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="task__webgui_8c_source.html#l00322">taskWebGUIInit()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="task__webgui_8c_source.html#l00302">taskWebGUIInit()</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -691,9 +660,9 @@ Here is the caller graph for this function:</div>
 <dd>
 <a class="el" href="hal__serial_8h.html#a8f987ba001c2a39c959a551a94b5df43" title="Send serial bytes to USB-Serial (USB-CDC) ">halSerialSendUSBSerial</a> </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="task__webgui_8c_source.html#l00101">101</a> of file <a class="el" href="task__webgui_8c_source.html">task_webgui.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="task__webgui_8c_source.html#l00102">102</a> of file <a class="el" href="task__webgui_8c_source.html">task_webgui.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="task__webgui_8c_source.html#l00322">taskWebGUIInit()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="task__webgui_8c_source.html#l00302">taskWebGUIInit()</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -737,9 +706,9 @@ Here is the caller graph for this function:</div>
 
 <p>Partition name (used to define different memory types) </p>
 
-<p class="definition">Definition at line <a class="el" href="task__webgui_8c_source.html#l00066">66</a> of file <a class="el" href="task__webgui_8c_source.html">task_webgui.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="task__webgui_8c_source.html#l00065">65</a> of file <a class="el" href="task__webgui_8c_source.html">task_webgui.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="task__webgui_8c_source.html#l00127">fat_serve()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="task__webgui_8c_source.html#l00128">fat_serve()</a>.</p>
 
 </div>
 </div>
@@ -765,9 +734,9 @@ Here is the caller graph for this function:</div>
 
 <p>Static HTTP 404 header. </p>
 
-<p class="definition">Definition at line <a class="el" href="task__webgui_8c_source.html#l00071">71</a> of file <a class="el" href="task__webgui_8c_source.html">task_webgui.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="task__webgui_8c_source.html#l00072">72</a> of file <a class="el" href="task__webgui_8c_source.html">task_webgui.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="task__webgui_8c_source.html#l00127">fat_serve()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="task__webgui_8c_source.html#l00128">fat_serve()</a>.</p>
 
 </div>
 </div>
@@ -793,9 +762,37 @@ Here is the caller graph for this function:</div>
 
 <p>Static HTTP HTML header. </p>
 
-<p class="definition">Definition at line <a class="el" href="task__webgui_8c_source.html#l00069">69</a> of file <a class="el" href="task__webgui_8c_source.html">task_webgui.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="task__webgui_8c_source.html#l00070">70</a> of file <a class="el" href="task__webgui_8c_source.html">task_webgui.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="task__webgui_8c_source.html#l00127">fat_serve()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="task__webgui_8c_source.html#l00128">fat_serve()</a>.</p>
+
+</div>
+</div>
+<a id="a6fbc89c5167735a2e2b04eebb93bcd34"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6fbc89c5167735a2e2b04eebb93bcd34">&#9670;&nbsp;</a></span>wifipw</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">char wifipw[64]</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Currently used wifi password. </p>
+
+<p class="definition">Definition at line <a class="el" href="task__webgui_8c_source.html#l00067">67</a> of file <a class="el" href="task__webgui_8c_source.html">task_webgui.c</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="task__webgui_8c_source.html#l00302">taskWebGUIInit()</a>.</p>
 
 </div>
 </div>

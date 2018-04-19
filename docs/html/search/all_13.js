@@ -33,7 +33,8 @@ var searchData=
   ['storagecurrenttid',['storageCurrentTID',['../hal__storage_8c.html#ab7bc6f83a4f91dba2d5b3d1edeedf4b1',1,'hal_storage.c']]],
   ['storagecurrenttidholder',['storageCurrentTIDHolder',['../hal__storage_8c.html#a687cf5b473fc94d8fafca390fcc11a1f',1,'hal_storage.c']]],
   ['storagecurrentvbnumber',['storageCurrentVBNumber',['../hal__storage_8c.html#ab5f3387fe559c96c7523a59e28b0a74b',1,'hal_storage.c']]],
+  ['storageheader',['storageHeader',['../structstorageHeader.html',1,'']]],
+  ['storageheader_5ft',['storageHeader_t',['../hal__storage_8h.html#ac4672e8f194fe72f4c3f9c4440a907ea',1,'hal_storage.h']]],
   ['strtolabel',['strToLabel',['../captdns_8c.html#a01294bcdad17e226e50f0c707fee3852',1,'captdns.c']]],
-  ['svc_5ffeatures',['svc_features',['../structhidd__feature__t.html#a254c99f1e3115e399a088611e1e93123',1,'hidd_feature_t']]],
-  ['systemhandler',['systemhandler',['../task__webgui_8c.html#a9bf7c1a6878001fb547fa537f37ad644',1,'task_webgui.c']]]
+  ['svc_5ffeatures',['svc_features',['../structhidd__feature__t.html#a254c99f1e3115e399a088611e1e93123',1,'hidd_feature_t']]]
 ];

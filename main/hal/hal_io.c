@@ -72,8 +72,17 @@ static void gpio_isr_handler(void* arg)
   {
     case HAL_IO_PIN_BUTTON_EXT1: vb = VB_EXTERNAL1; break;
     case HAL_IO_PIN_BUTTON_EXT2: vb = VB_EXTERNAL2; break;
+    #ifdef DEVICE_FABI
+      case HAL_IO_PIN_BUTTON_EXT3: vb = VB_EXTERNAL3; break;
+      case HAL_IO_PIN_BUTTON_EXT4: vb = VB_EXTERNAL4; break;
+      case HAL_IO_PIN_BUTTON_EXT5: vb = VB_EXTERNAL5; break;
+      case HAL_IO_PIN_BUTTON_EXT6: vb = VB_EXTERNAL6; break;
+      case HAL_IO_PIN_BUTTON_EXT7: vb = VB_EXTERNAL7; break;
+    #endif
     case HAL_IO_PIN_BUTTON_INT1: vb = VB_INTERNAL1; break;
-    case HAL_IO_PIN_BUTTON_INT2: vb = VB_INTERNAL2; break;
+    #ifdef DEVICE_FLIPMOUSE
+      case HAL_IO_PIN_BUTTON_INT2: vb = VB_INTERNAL2; break;
+    #endif
     default: return;
   }
 
@@ -426,8 +435,16 @@ esp_err_t halIOInit(void)
   //interrupt of rising edge
   io_conf.intr_type = GPIO_PIN_INTR_ANYEDGE;
   //bit mask of the pins
-  io_conf.pin_bit_mask = (1<<HAL_IO_PIN_BUTTON_EXT1) | (1<<HAL_IO_PIN_BUTTON_EXT2) | \
-    (1<<HAL_IO_PIN_BUTTON_INT1) | (1<<HAL_IO_PIN_BUTTON_INT2);
+  io_conf.pin_bit_mask = (1ull<<HAL_IO_PIN_BUTTON_EXT1) | (1ull<<HAL_IO_PIN_BUTTON_EXT2) | \
+    (1ull<<HAL_IO_PIN_BUTTON_INT1);
+  //do differently for FABI/FLipmouse  
+  #ifdef DEVICE_FLIPMOUSE
+    io_conf.pin_bit_mask |= (1ull<<HAL_IO_PIN_BUTTON_INT2);
+  #endif
+  #ifdef DEVICE_FABI
+    io_conf.pin_bit_mask |= (1ull<<HAL_IO_PIN_BUTTON_EXT3) | (1ull<<HAL_IO_PIN_BUTTON_EXT4) | \
+      (1ull<<HAL_IO_PIN_BUTTON_EXT5) | (1ull<<HAL_IO_PIN_BUTTON_EXT6) | (1ull<<HAL_IO_PIN_BUTTON_EXT7);
+  #endif
   //set as input mode    
   io_conf.mode = GPIO_MODE_INPUT;
   //enable pull-up mode
@@ -443,7 +460,16 @@ esp_err_t halIOInit(void)
   gpio_isr_handler_add(HAL_IO_PIN_BUTTON_EXT1, gpio_isr_handler, (void*) HAL_IO_PIN_BUTTON_EXT1);
   gpio_isr_handler_add(HAL_IO_PIN_BUTTON_EXT2, gpio_isr_handler, (void*) HAL_IO_PIN_BUTTON_EXT2);
   gpio_isr_handler_add(HAL_IO_PIN_BUTTON_INT1, gpio_isr_handler, (void*) HAL_IO_PIN_BUTTON_INT1);
-  gpio_isr_handler_add(HAL_IO_PIN_BUTTON_INT2, gpio_isr_handler, (void*) HAL_IO_PIN_BUTTON_INT2);
+  #ifdef DEVICE_FLIPMOUSE
+    gpio_isr_handler_add(HAL_IO_PIN_BUTTON_INT2, gpio_isr_handler, (void*) HAL_IO_PIN_BUTTON_INT2);
+  #endif
+  #ifdef DEVICE_FABI
+    gpio_isr_handler_add(HAL_IO_PIN_BUTTON_EXT3, gpio_isr_handler, (void*) HAL_IO_PIN_BUTTON_EXT3);
+    gpio_isr_handler_add(HAL_IO_PIN_BUTTON_EXT4, gpio_isr_handler, (void*) HAL_IO_PIN_BUTTON_EXT4);
+    gpio_isr_handler_add(HAL_IO_PIN_BUTTON_EXT5, gpio_isr_handler, (void*) HAL_IO_PIN_BUTTON_EXT5);
+    gpio_isr_handler_add(HAL_IO_PIN_BUTTON_EXT6, gpio_isr_handler, (void*) HAL_IO_PIN_BUTTON_EXT6);
+    gpio_isr_handler_add(HAL_IO_PIN_BUTTON_EXT7, gpio_isr_handler, (void*) HAL_IO_PIN_BUTTON_EXT7);
+  #endif
   
   /*++++ init infrared drivers (via RMT engine) ++++*/
   halIOIRRecvQueue = xQueueCreate(8,sizeof(halIOIR_t*));
@@ -515,6 +541,7 @@ esp_err_t halIOInit(void)
   
   
   
+  #ifdef DEVICE_FLIPMOUSE
   /*++++ init RGB LEDc driver ++++*/
   
   //init RGB queue & ledc driver
@@ -564,7 +591,7 @@ esp_err_t halIOInit(void)
     return ESP_FAIL;
   }
   
-  
+  #endif
   /*++++ INIT buzzer ++++*/
   //we will use the LEDC unit for the buzzer
   //because RMT has no lower frequency than 611Hz (according to example)

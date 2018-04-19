@@ -73,33 +73,68 @@
  * @see halIOIR_t */
 #define SENDIRSTRUCT(cfg) { xQueueSend(halIOIRSendQueue, (void*)cfg , (TickType_t) 0 ); }
 
-/** @brief PIN - GPIO pin for external button 1 */
+#ifdef DEVICE_FLIPMOUSE
+
+/** @brief PIN - GPIO pin for external button 1 (FLipMouse) */
 #define HAL_IO_PIN_BUTTON_EXT1  26 
-/** @brief PIN - GPIO pin for external button 2 */
+/** @brief PIN - GPIO pin for external button 2 (FLipMouse) */
 #define HAL_IO_PIN_BUTTON_EXT2  27
-/** @brief PIN - GPIO pin for internal button 1 */
+/** @brief PIN - GPIO pin for internal button 1 (FLipMouse) */
 #define HAL_IO_PIN_BUTTON_INT1  22
-/** @brief PIN - GPIO pin for internal button 2 */
+/** @brief PIN - GPIO pin for internal button 2 (FLipMouse) */
 #define HAL_IO_PIN_BUTTON_INT2  23
-/** @brief PIN - GPIO pin for buzzer
+/** @brief PIN - GPIO pin for buzzer (FLipMouse)
  * @note We will use ledc drivers for the buzzer*/
 #define HAL_IO_PIN_BUZZER       25
-/** @brief PIN - GPIO pin for IR receiver (TSOP) 
+/** @brief PIN - GPIO pin for IR receiver (TSOP) (FLipMouse) 
  * @note IR will be done with the RMT driver*/
 #define HAL_IO_PIN_IR_RECV      19
-/** @brief PIN - GPIO pin for IR sender (IR-LED)
+/** @brief PIN - GPIO pin for IR sender (IR-LED) (FLipMouse)
  * @note IR will be done with the RMT driver */
 #define HAL_IO_PIN_IR_SEND      21
 
-/** @brief PIN - GPIO pin for status LED (RGB) - RED 
+/** @brief PIN - GPIO pin for status LED (RGB) - RED  (FLipMouse)
  * @note LEDs are driven by LEDC driver */
 #define HAL_IO_PIN_LED_RED      12
-/** @brief PIN - GPIO pin for status LED (RGB) - GREEN
+/** @brief PIN - GPIO pin for status LED (RGB) - GREEN (FLipMouse)
  * @note LEDs are driven by LEDC driver */
 #define HAL_IO_PIN_LED_GREEN    13
-/** @brief PIN - GPIO pin for status LED (RGB) - BLUE
+/** @brief PIN - GPIO pin for status LED (RGB) - BLUE (FLipMouse)
  * @note LEDs are driven by LEDC driver */
 #define HAL_IO_PIN_LED_BLUE     14
+
+#endif
+
+#ifdef DEVICE_FABI
+
+/** @brief PIN - GPIO pin for external button 1 (FABI) */
+#define HAL_IO_PIN_BUTTON_EXT1  36 
+/** @brief PIN - GPIO pin for external button 2 (FABI) */
+#define HAL_IO_PIN_BUTTON_EXT2  39
+/** @brief PIN - GPIO pin for external button 3 (FABI) */
+#define HAL_IO_PIN_BUTTON_EXT3  32
+/** @brief PIN - GPIO pin for external button 4 (FABI) */
+#define HAL_IO_PIN_BUTTON_EXT4  33
+/** @brief PIN - GPIO pin for external button 5 (FABI) */
+#define HAL_IO_PIN_BUTTON_EXT5  25
+/** @brief PIN - GPIO pin for external button 6 (FABI) */
+#define HAL_IO_PIN_BUTTON_EXT6  26
+/** @brief PIN - GPIO pin for external button 7 (FABI) */
+#define HAL_IO_PIN_BUTTON_EXT7  27
+/** @brief PIN - GPIO pin for internal button 1 (FABI) */
+#define HAL_IO_PIN_BUTTON_INT1  23
+/** @brief PIN - GPIO pin for buzzer (FABI)
+ * @note We will use ledc drivers for the buzzer*/
+#define HAL_IO_PIN_BUZZER       14
+/** @brief PIN - GPIO pin for IR receiver (TSOP) (FABI) 
+ * @note IR will be done with the RMT driver*/
+#define HAL_IO_PIN_IR_RECV      35
+/** @brief PIN - GPIO pin for IR sender (IR-LED) (FABI)
+ * @note IR will be done with the RMT driver */
+#define HAL_IO_PIN_IR_SEND      19
+
+
+#endif
 
 /** @brief Set the count of memory blocks utilized for IR sending
  * 

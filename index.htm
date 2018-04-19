@@ -315,30 +315,27 @@
                 </div>
             </div>
             <div id="WRAPPER_LEARN_CAT_KEYBOARD" style="display: none">
-                <div id="LEARN_CAT_KEYBOARD_DESKTOP">
-                    <div class="row">
-                        <label class="three columns text-right text-normal" for="INPUT_LEARN_CAT_KEYBOARD" i18n>Action Input // Eingabe Aktion</label>
-                        <input type="text" id="INPUT_LEARN_CAT_KEYBOARD" class="six columns" onkeydown="tabAction.handleKeyBoardEvent(event)" oninput="tabAction.handleOnKeyboardInput(event)" autocomplete="off"/>
-                        <!--<input type="text" id="INPUT_LEARN_CAT_KEYBOARD" class="six columns" onkeyup="javascript:alert('keyup')" onkeydown="javascript:alert('onkeydown')" onkeypress="javascript:alert('onkeypress')" oninput="javascript:alert('oninput')"/>-->
-                        <div id="LEARN_CAT_KEYBOARD_MOBILE_" style="display: none">
-                            <div class="row">
-                                <label class="three columns text-right text-normal" for="SELECT_LEARN_CAT_KEYBOARD_TYPE" i18n>Type // Typ</label>
-                                <select id="SELECT_LEARN_CAT_KEYBOARD_TYPE" class="eight columns" onchange="tabAction.selectAtCmd(this.value)">
-                                </select>
-                            </div>
-                            <div class="row">
-                                <label class="three columns text-right text-normal" for="SELECT_LEARN_CAT_KEYBOARD_KEYS" i18n>Key // Taste</label>
-                                <select id="SELECT_LEARN_CAT_KEYBOARD_KEYS" class="eight columns" onchange="tabAction.selectAtCmd(this.value)">
-                                </select>
-                            </div>
-                        </div>
-                        <button onclick="tabAction.resetRec()" class="two columns" i18n>Reset // Löschen</button>
+                <div class="row">
+                    <label class="three columns text-right text-normal" for="INPUT_LEARN_CAT_KEYBOARD" i18n>Action Input // Eingabe Aktion</label>
+                    <input type="text" id="INPUT_LEARN_CAT_KEYBOARD" class="six columns" onkeydown="tabAction.handleKeyBoardEvent(event)" oninput="tabAction.handleOnKeyboardInput(event)" autocomplete="off"/>
+                   <button onclick="tabAction.resetRec()" class="two columns" i18n>Reset // Löschen</button>
+                </div>
+                <div class="row">
+                    <label class="three columns text-right text-normal" for="SELECT_LEARN_CAT_KEYBOARD_TYPE" i18n>Special Keys // Spezialtasten</label>
+                    <div class="eight columns">
+                        <button class="special-key" i18n onclick="tabAction.addSpecialKey(C.JS_KEYCODE_CTRL)">Ctrl // Strg</button>
+                        <button class="special-key" onclick="tabAction.addSpecialKey(C.JS_KEYCODE_ALT)">Alt</button>
+                        <button class="special-key" onclick="tabAction.addSpecialKey(C.JS_KEYCODE_SHIFT)">Shift</button>
+                        <button class="special-key" onclick="tabAction.addSpecialKey(C.JS_KEYCODE_GUI)">Win</button>
+                        <button class="special-key" onclick="tabAction.addSpecialKey(C.JS_KEYCODE_TAB)">Tab</button>
+                        <select id="SELECT_LEARN_CAT_KEYBOARD_TYPE" onchange="tabAction.selectAtCmd(this.value)">
+                        </select>
                     </div>
-                    <div class="row">
-                        <label class="three columns text-right text-normal hide-mobile" i18n>Recorded AT Command // Aufgenommenes AT Kommando</label>
-                        <span id="recordedAtCmd" class="six columns hide-mobile" i18n>(none) // (leer)</span>
-                        <button id="buttonRecOK" onclick="tabAction.saveRec()" disabled class="two columns">OK</button>
-                    </div>
+                </div>
+                <div class="row">
+                    <label class="three columns text-right text-normal hide-mobile" i18n>Recorded AT Command // Aufgenommenes AT Kommando</label>
+                    <span id="recordedAtCmd" class="six columns hide-mobile" i18n>(none) // (leer)</span>
+                    <button id="buttonRecOK" onclick="tabAction.saveRec()" disabled class="two columns">OK</button>
                 </div>
             </div>
             <div id="WRAPPER_LEARN_CAT_MOUSE" class="row" style="display: none">

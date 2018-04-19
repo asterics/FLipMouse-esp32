@@ -14,8 +14,6 @@ window.tabAction.init = function () {
 
     L('#SELECT_LEARN_CAT_MOUSE').innerHTML = L.createSelectItems(C.AT_CMDS_MOUSE);
     L('#SELECT_LEARN_CAT_FLIPACTIONS').innerHTML = L.createSelectItems(C.AT_CMDS_FLIP);
-    //L.setVisible('#LEARN_CAT_KEYBOARD_DESKTOP', !C.IS_MOBILE_DEVICE);
-    //L.setVisible('#LEARN_CAT_KEYBOARD_MOBILE', C.IS_MOBILE_DEVICE);
 };
 
 window.tabAction.initBtnModeActionTable = function () {
@@ -65,6 +63,7 @@ window.tabAction.selectActionCategory = function (category) {
 };
 
 window.tabAction.selectMode = function (mode, dontSend) {
+    if(!mode) return;
     console.log(mode);
     L.removeClass('[for*=MODE_]', 'color-lightercyan selected');
     L.addClass('[for=' + mode + ']', 'color-lightercyan selected');
@@ -115,6 +114,9 @@ function resetSelects() {
 
 tabAction.handleKeyBoardEvent = function (event) {
     window.tabAction.queue = window.tabAction.queue  || [];
+    if(event.keyCode == C.JS_KEYCODE_TAB) {
+        return; //keyboard navigation should be possible
+    }
     if(event.keyCode == 229) {
         tabAction.listenToKeyboardInput = true;
         return;
@@ -137,32 +139,44 @@ tabAction.handleKeyBoardEvent = function (event) {
 
 tabAction.handleOnKeyboardInput = function (event) {
     window.tabAction.queue = window.tabAction.queue  || [];
-    if(!tabAction.listenToKeyboardInput || tabAction.lastInputLength >= event.data.length) {
-        if(tabAction.lastInputLength > event.data.length) {
-            tabAction.lastInputLength = 0;
+    if(!tabAction.listenToKeyboardInput || tabAction.lastInputLength >= event.target.value.length) {
+        if(tabAction.lastInputLength > event.target.value.length) {
             tabAction.resetRec();
         }
         return;
     }
     tabAction.listenToKeyboardInput = false;
-    var key = event.data.charAt(event.data.length-1);
-    var keyCode = key.toUpperCase().charCodeAt(0);
-    tabAction.queue.push({
-        key: key,
-        keyCode: keyCode
+    Array.from(event.data).forEach(function (char) {
+        var keyCode = char.toUpperCase().charCodeAt(0);
+        tabAction.queue.push({
+            key: char,
+            keyCode: keyCode
+        });
     });
     tabAction.evalRec();
-    tabAction.lastInputLength = event.data.length;
+};
+
+tabAction.addSpecialKey = function (keycode) {
+    window.tabAction.queue = window.tabAction.queue  || [];
+    tabAction.queue.push({
+        key: 'SPECIAL',
+        keyCode: keycode
+    });
+    tabAction.evalRec();
+    L('#INPUT_LEARN_CAT_KEYBOARD').focus();
 };
 
 tabAction.evalRec = function () {
     var atCmd = getAtCmd(tabAction.queue);
     L('#buttonRecOK').disabled = !atCmd;
     L('#recordedAtCmd').innerHTML = atCmd || L.translate('NONE_BRACKET');
-    L('#INPUT_LEARN_CAT_KEYBOARD').value = getReadable(atCmd);
+    var readable = getReadable(atCmd);
+    L('#INPUT_LEARN_CAT_KEYBOARD').value = readable;
+    tabAction.lastInputLength = readable.length;
 };
 
 tabAction.resetRec = function () {
+    tabAction.lastInputLength = 0;
     tabAction.queue = [];
     tabAction.evalRec();
 };
@@ -246,5 +260,10 @@ function getReadable(atCmd) {
     if(!atCmd) {
         return '';
     }
-    return L.translate(atCmd.substring(0, C.LENGTH_ATCMD_PREFIX-1), atCmd.substring(C.LENGTH_ATCMD_PREFIX).replace(/ /g, ' + '));
+    var prefix = atCmd.substring(0, C.LENGTH_ATCMD_PREFIX-1);
+    var postfix = atCmd.substring(C.LENGTH_ATCMD_PREFIX);
+    if(prefix == C.AT_CMD_KEYPRESS) {
+        postfix = postfix.replace(/ /g, ' + ');
+    }
+    return L.translate(prefix, postfix);
 }

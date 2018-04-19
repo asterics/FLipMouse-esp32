@@ -52,8 +52,12 @@
  * @todo Change this back to new version, when GUI is compatible */
 //#define IDSTRING "FLipMouse V3.0\r\n"
 #define IDSTRING "Flipmouse v2.5\n"
+//#define IDSTRING "FABI v3.0\n"
 
-// which device is using this firmware?
+/** @brief Determine used device. Either FABI or FLipMouse.
+ * 
+ * @note Define one of these, otherwise it will result in a compile error.
+ * */
 //#define DEVICE_FABI
 #define DEVICE_FLIPMOUSE
 
@@ -244,11 +248,12 @@ extern QueueHandle_t config_switcher;
   #define VB_EXTERNAL7    6
   #define VB_EXTERNAL8    7
   #define VB_EXTERNAL9    8
-  #define VB_SIP          9
-  #define VB_PUFF         10
-  #define VB_STRONGSIP    11
-  #define VB_STRONGPUFF   12
-  #define VB_MAX          13
+  #define VB_INTERNAL1    9
+  #define VB_SIP          10
+  #define VB_PUFF         11
+  #define VB_STRONGSIP    12
+  #define VB_STRONGPUFF   13
+  #define VB_MAX          14
 #endif
 
 /** special virtual button, which is used to trigger a task immediately.

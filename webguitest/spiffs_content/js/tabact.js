@@ -245,7 +245,7 @@ function getAtCmd(queue) {
     }
     var atCmd;
     var text = getText(queue);
-    if(text) {
+    if(text && text.length > 1) {
         atCmd = C.AT_CMD_WRITEWORD + ' ' + text;
     } else {
         var postfix = '';

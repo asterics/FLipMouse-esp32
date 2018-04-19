@@ -321,14 +321,14 @@
                    <button onclick="tabAction.resetRec()" class="two columns" i18n>Reset // Löschen</button>
                 </div>
                 <div class="row">
-                    <label class="three columns text-right text-normal" for="SELECT_LEARN_CAT_KEYBOARD_TYPE" i18n>Special Keys // Spezialtasten</label>
+                    <label class="three columns text-right text-normal" for="SELECT_LEARN_CAT_KEYBOARD_SPECIAL" i18n>Special Keys // Spezialtasten</label>
                     <div class="eight columns">
                         <button class="special-key" i18n onclick="tabAction.addSpecialKey(C.JS_KEYCODE_CTRL)">Ctrl // Strg</button>
                         <button class="special-key" onclick="tabAction.addSpecialKey(C.JS_KEYCODE_ALT)">Alt</button>
                         <button class="special-key" onclick="tabAction.addSpecialKey(C.JS_KEYCODE_SHIFT)">Shift</button>
                         <button class="special-key" onclick="tabAction.addSpecialKey(C.JS_KEYCODE_GUI)">Win</button>
                         <button class="special-key" onclick="tabAction.addSpecialKey(C.JS_KEYCODE_TAB)">Tab</button>
-                        <select id="SELECT_LEARN_CAT_KEYBOARD_TYPE" onchange="tabAction.selectAtCmd(this.value)">
+                        <select id="SELECT_LEARN_CAT_KEYBOARD_SPECIAL" onchange="tabAction.addSpecialKey(this.value)">
                         </select>
                     </div>
                 </div>

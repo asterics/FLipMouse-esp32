@@ -14,6 +14,9 @@ window.tabAction.init = function () {
 
     L('#SELECT_LEARN_CAT_MOUSE').innerHTML = L.createSelectItems(C.AT_CMDS_MOUSE);
     L('#SELECT_LEARN_CAT_FLIPACTIONS').innerHTML = L.createSelectItems(C.AT_CMDS_FLIP);
+    L('#SELECT_LEARN_CAT_KEYBOARD_SPECIAL').innerHTML = L.createSelectItems(C.SUPPORTED_KEYCODES, function (code) {
+        return C.KEYCODE_MAPPING[code];
+    }, 'SELECT_SPECIAL_KEY');
 };
 
 window.tabAction.initBtnModeActionTable = function () {
@@ -163,6 +166,7 @@ tabAction.addSpecialKey = function (keycode) {
         keyCode: keycode
     });
     tabAction.evalRec();
+    L('#SELECT_LEARN_CAT_KEYBOARD_SPECIAL').value = -1;
     L('#INPUT_LEARN_CAT_KEYBOARD').focus();
 };
 

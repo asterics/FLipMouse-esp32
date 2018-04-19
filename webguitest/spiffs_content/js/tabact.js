@@ -45,6 +45,7 @@ window.tabAction.initBtnModeActionTable = function () {
 
 window.tabAction.selectActionButton = function (btnMode) {
     L('#selectActionButton').value = btnMode;
+    L('#selectActionButton').focus();
     refreshCurrentAction(btnMode);
     resetSelects();
     initAdditionalData();
@@ -115,8 +116,23 @@ function resetSelects() {
     L('#SELECT_'+ C.LEARN_CAT_FLIPACTIONS).value = atCmd;
 }
 
-tabAction.handleKeyBoardEvent = function (event) {
+function processForQueue(queueElem) {
     window.tabAction.queue = window.tabAction.queue  || [];
+    if (C.SUPPORTED_KEYCODES.includes(parseInt(queueElem.keyCode))) {
+        var currentText = getText(tabAction.queue);
+        var isDeleteInstruction = queueElem.keyCode == C.JS_KEYCODE_BACKSPACE && currentText;
+        var isSpecialAfterText = currentText && queueElem.keyCode != C.JS_KEYCODE_SPACE && isSpecialKey(queueElem);
+        var isSameSpecialAsLast = tabAction.queue.length > 0 && tabAction.queue[tabAction.queue.length-1].key == queueElem.key && isSpecialKey(queueElem);
+        if (!isDeleteInstruction && !isSpecialAfterText && !isSameSpecialAsLast) {
+            tabAction.queue.push(queueElem);
+        } else if (isDeleteInstruction || isSameSpecialAsLast) {
+            tabAction.queue.pop();
+        }
+        tabAction.evalRec();
+    }
+}
+
+tabAction.handleKeyBoardEvent = function (event) {
     if(event.keyCode == C.JS_KEYCODE_TAB) {
         return; //keyboard navigation should be possible
     }
@@ -124,48 +140,41 @@ tabAction.handleKeyBoardEvent = function (event) {
         tabAction.listenToKeyboardInput = true;
         return;
     }
-    event = event || window.event;
     event.preventDefault();
-    var queueElem = getQueueElem(event);
-    if (C.SUPPORTED_KEYCODES.includes(queueElem.keyCode)) {
-        if (!event.repeat && (queueElem.keyCode != C.JS_KEYCODE_BACKSPACE || !getText(tabAction.queue))) {
-            tabAction.queue.push(getQueueElem(event));
-        } else if (queueElem.keyCode == C.JS_KEYCODE_BACKSPACE) {
-            tabAction.queue.pop();
-            if (!getText(tabAction.queue)) {
-                tabAction.queue = [];
-            }
-        }
-        tabAction.evalRec();
+    if(event.repeat) {
+        return; //ignore auto-repeated events (long keystroke)
     }
+    processForQueue(getQueueElem(event));
 };
 
 tabAction.handleOnKeyboardInput = function (event) {
-    window.tabAction.queue = window.tabAction.queue  || [];
     if(!tabAction.listenToKeyboardInput || tabAction.lastInputLength >= event.target.value.length) {
         if(tabAction.lastInputLength > event.target.value.length) {
-            tabAction.resetRec();
+            tabAction.queue.pop();
+            tabAction.evalRec();
         }
         return;
     }
     tabAction.listenToKeyboardInput = false;
     Array.from(event.data).forEach(function (char) {
         var keyCode = char.toUpperCase().charCodeAt(0);
-        tabAction.queue.push({
+        var queueElem = {
             key: char,
             keyCode: keyCode
-        });
+        };
+        processForQueue(queueElem);
     });
-    tabAction.evalRec();
 };
 
 tabAction.addSpecialKey = function (keycode) {
     window.tabAction.queue = window.tabAction.queue  || [];
-    tabAction.queue.push({
-        key: 'SPECIAL',
+    if(getText(tabAction.queue)) {
+        tabAction.resetRec();
+    }
+    processForQueue({
+        key: 'SPECIAL_' + keycode,
         keyCode: keycode
     });
-    tabAction.evalRec();
     L('#SELECT_LEARN_CAT_KEYBOARD_SPECIAL').value = -1;
     L('#INPUT_LEARN_CAT_KEYBOARD').focus();
 };
@@ -245,7 +254,7 @@ function getAtCmd(queue) {
     }
     var atCmd;
     var text = getText(queue);
-    if(text) {
+    if(text && text.length > 1) {
         atCmd = C.AT_CMD_WRITEWORD + ' ' + text;
     } else {
         var postfix = '';

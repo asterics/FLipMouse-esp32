@@ -333,8 +333,8 @@
                     </div>
                 </div>
                 <div class="row">
-                    <label class="three columns text-right text-normal hide-mobile" i18n>Recorded AT Command // Aufgenommenes AT Kommando</label>
-                    <span id="recordedAtCmd" class="six columns hide-mobile" i18n>(none) // (leer)</span>
+                    <label class="three columns text-right text-normal" i18n>Recorded AT Command // Aufgenommenes AT Kommando</label>
+                    <div id="recordedAtCmd" class="six columns space-bottom" i18n>(none) // (leer)</div>
                     <button id="buttonRecOK" onclick="tabAction.saveRec()" disabled class="two columns">OK</button>
                 </div>
             </div>
@@ -376,6 +376,15 @@
                 <div class="four columns" i18n>Current AT command // aktuelles AT Kommando</div>
             </div>
             <ol id="currentConfigTb" class="tbody"></ol>
+
+            <br/>
+            <button id="save-action" onclick="actionAndToggle(flip.save, [], ['#save-action-button-normal', '#save-action-button-saving'], '#save-action-value-bar').then(function() {tabAction.init()})" class="u-full-width" style="position: relative;">
+                <div id="save-action-value-bar" class="value-bar color-lightercyan" style="width: 0%;"></div>
+                <div id="save-action-button-normal" style="position: relative" i18n>Save // Speichern</div>
+                <div id="save-action-button-saving" style="display: none" i18n>Saving... // Wird
+                    gespeichert...
+                </div>
+            </button>
         </div>
     </div>
 </div>

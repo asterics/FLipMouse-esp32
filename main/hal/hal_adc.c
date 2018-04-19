@@ -133,21 +133,29 @@ void halAdcReadData(adcData_t *values)
     //read all sensors
     int32_t tmp = 0;
     int32_t x,y;
+    int32_t up,down,left,right,pressure;
+    up = down = left = right = pressure = 0;
     
     //read sensor data & apply characteristics
-    int32_t up = adc1_get_raw(HAL_IO_ADC_CHANNEL_UP);
-    if(up == -1) { ESP_LOGE(LOG_TAG,"Cannot read channel up"); return; }
-    //up = esp_adc_cal_raw_to_voltage(up,&characteristics);
-    int32_t down = adc1_get_raw(HAL_IO_ADC_CHANNEL_DOWN);
-    if(down == -1) { ESP_LOGE(LOG_TAG,"Cannot read channel down"); return; }
-    //down = esp_adc_cal_raw_to_voltage(down,&characteristics);
-    int32_t left = adc1_get_raw(HAL_IO_ADC_CHANNEL_LEFT);
-    if(left == -1) { ESP_LOGE(LOG_TAG,"Cannot read channel left"); return; }
-    //left = esp_adc_cal_raw_to_voltage(left,&characteristics);
-    int32_t right = adc1_get_raw(HAL_IO_ADC_CHANNEL_RIGHT);
-    if(right == -1) { ESP_LOGE(LOG_TAG,"Cannot read channel right"); return; }
-    //right = esp_adc_cal_raw_to_voltage(right,&characteristics);
-    int32_t pressure = adc1_get_raw(HAL_IO_ADC_CHANNEL_PRESSURE);
+    #ifdef HAL_IO_ADC_CHANNEL_UP
+        up = adc1_get_raw(HAL_IO_ADC_CHANNEL_UP);
+        if(up == -1) { ESP_LOGE(LOG_TAG,"Cannot read channel up"); return; }
+    #endif
+    #ifdef HAL_IO_ADC_CHANNEL_DOWN
+        down = adc1_get_raw(HAL_IO_ADC_CHANNEL_DOWN);
+        if(down == -1) { ESP_LOGE(LOG_TAG,"Cannot read channel down"); return; }
+    #endif
+    #ifdef HAL_IO_ADC_CHANNEL_LEFT
+        left = adc1_get_raw(HAL_IO_ADC_CHANNEL_LEFT);
+        if(left == -1) { ESP_LOGE(LOG_TAG,"Cannot read channel left"); return; }
+    #endif
+    #ifdef HAL_IO_ADC_CHANNEL_RIGHT
+        right = adc1_get_raw(HAL_IO_ADC_CHANNEL_RIGHT);
+        if(right == -1) { ESP_LOGE(LOG_TAG,"Cannot read channel right"); return; }
+    #endif
+    #ifdef HAL_IO_ADC_CHANNEL_PRESSURE
+        pressure = adc1_get_raw(HAL_IO_ADC_CHANNEL_PRESSURE);
+    #endif
     if(pressure == -1) 
     { 
         ESP_LOGE(LOG_TAG,"Cannot read channel pressure"); return;
@@ -289,6 +297,7 @@ void halAdcProcessPressure(uint32_t pressurevalue)
     }
 }
 
+#ifdef DEVICE_FLIPMOUSE
 /** @brief HAL TASK - Mouse task for ADC
  * 
  * This task is used for the mouse moving mode of the moutpiece.
@@ -299,6 +308,9 @@ void halAdcProcessPressure(uint32_t pressurevalue)
  * The calculated mouse movements are sent to the corresponding
  * mouse movement queues (either BLE, USB or BOTH).
  * 
+ * @note This task is not available on a FABI device.
+ * @see DEVICE_FABI
+ * @see DEVICE_FLIPMOUSE
  * */
 void halAdcTaskMouse(void * pvParameters)
 {
@@ -380,7 +392,7 @@ void halAdcTaskMouse(void * pvParameters)
             {
                 xQueueSend(mouse_movement_ble,&command,0);
             }
-        }  
+        }
                 
         //pressure sensor is handled in another function
         halAdcProcessPressure(D.pressure);
@@ -394,6 +406,8 @@ void halAdcTaskMouse(void * pvParameters)
     }
 }
 
+#endif
+#ifdef DEVICE_FLIPMOUSE
 /** @brief HAL TASK - Joystick task for ADC
  * 
  * This task is used for the joystick mode of the moutpiece.
@@ -405,7 +419,9 @@ void halAdcTaskMouse(void * pvParameters)
  * joystick command queues (either BLE, USB or BOTH).
  * 
  * @todo Implement the full joystick interface. Currently completely unimplemented.
- * 
+ * @note This task is not available on a FABI device.
+ * @see DEVICE_FABI
+ * @see DEVICE_FLIPMOUSE
  * */
 void halAdcTaskJoystick(void * pvParameters)
 {
@@ -458,6 +474,7 @@ void halAdcTaskJoystick(void * pvParameters)
     }
 }
 
+#endif
 /** @brief Calibration function
  * 
  * This method is called to calibrate the offset value for x and y
@@ -468,6 +485,9 @@ void halAdcTaskJoystick(void * pvParameters)
  **/
 void halAdcCalibrate(void)
 {
+    //check for initialized mutex
+    if(adcSem == NULL) return;
+    
     //get mutex
     if(xSemaphoreTake(adcSem, (TickType_t) 20))
     {
@@ -476,23 +496,34 @@ void halAdcCalibrate(void)
         uint32_t down = 0;
         uint32_t left = 0;
         uint32_t right = 0;
-        int32_t temp;
+        //only necessary if at least one channel is used.
+        #if defined(HAL_IO_ADC_CHANNEL_DOWN) || defined(HAL_IO_ADC_CHANNEL_LEFT) || defined(HAL_IO_ADC_CHANNEL_RIGHT) || defined(HAL_IO_ADC_CHANNEL_UP)
+            int32_t temp;
+        #endif
         
         //read values itself & accumulate (8sensor readings)
         for(uint8_t i = 0; i<8; i++)
         {
-            temp = adc1_get_raw(HAL_IO_ADC_CHANNEL_UP);
-            if(temp == -1) { ESP_LOGE(LOG_TAG,"Cannot read channel up"); continue; }
-            up += temp;
-            temp = adc1_get_raw(HAL_IO_ADC_CHANNEL_DOWN);
-            if(temp == -1) { ESP_LOGE(LOG_TAG,"Cannot read channel down"); continue; }
-            down += temp;
-            temp = adc1_get_raw(HAL_IO_ADC_CHANNEL_LEFT);
-            if(temp == -1) { ESP_LOGE(LOG_TAG,"Cannot read channel left"); continue; }
-            left += temp;
-            temp = adc1_get_raw(HAL_IO_ADC_CHANNEL_RIGHT);
-            if(temp == -1) { ESP_LOGE(LOG_TAG,"Cannot read channel right"); continue; }
-            right += temp;
+            #ifdef HAL_IO_ADC_CHANNEL_UP
+                temp = adc1_get_raw(HAL_IO_ADC_CHANNEL_UP);
+                if(temp == -1) { ESP_LOGE(LOG_TAG,"Cannot read channel up"); continue; }
+                up += temp;
+            #endif
+            #ifdef HAL_IO_ADC_CHANNEL_DOWN
+                temp = adc1_get_raw(HAL_IO_ADC_CHANNEL_DOWN);
+                if(temp == -1) { ESP_LOGE(LOG_TAG,"Cannot read channel down"); continue; }
+                down += temp;
+            #endif
+            #ifdef HAL_IO_ADC_CHANNEL_LEFT
+                temp = adc1_get_raw(HAL_IO_ADC_CHANNEL_LEFT);
+                if(temp == -1) { ESP_LOGE(LOG_TAG,"Cannot read channel left"); continue; }
+                left += temp;
+            #endif
+            #ifdef HAL_IO_ADC_CHANNEL_RIGHT
+                temp = adc1_get_raw(HAL_IO_ADC_CHANNEL_RIGHT);
+                if(temp == -1) { ESP_LOGE(LOG_TAG,"Cannot read channel right"); continue; }
+                right += temp;
+            #endif
             vTaskDelay(2);
         }
         
@@ -602,7 +633,6 @@ void halAdcTaskThreshold(void * pvParameters)
 {
     //analog values
     adcData_t D;
-    uint8_t firedx = 0,firedy = 0;
     TickType_t xLastWakeTime;
     
     while(1)
@@ -616,6 +646,10 @@ void halAdcTaskThreshold(void * pvParameters)
         
         //read out the analog voltages from all 5 channels
         halAdcReadData(&D);
+        
+        //for a FABI device, we do not have 4 channels, so not UP/DOWN/LEFT/RIGHT
+        #ifdef DEVICE_FLIPMOUSE
+        uint8_t firedx = 0,firedy = 0;
         
         //LEFT/RIGHT value exceeds threshold (deadzone) value?
         if(D.x != 0)
@@ -677,6 +711,8 @@ void halAdcTaskThreshold(void * pvParameters)
         
         halAdcReportRaw(D.up, D.down, D.left, D.right, D.pressure, D.x, D.y);
         
+        #endif
+        
         //pressure sensor is handled in another function
         halAdcProcessPressure(D.pressure);
         
@@ -709,6 +745,13 @@ esp_err_t halAdcUpdateConfig(adc_config_t* params)
         return ESP_FAIL;
     }
     
+    //check for initialized mutex
+    if(adcSem == NULL)
+    {
+        ESP_LOGE(LOG_TAG,"Mutex not initialized");
+        return ESP_FAIL;
+    }
+    
     //acquire mutex
     if(xSemaphoreTake(adcSem, (TickType_t) 30) != pdTRUE)
     {
@@ -716,6 +759,7 @@ esp_err_t halAdcUpdateConfig(adc_config_t* params)
         return ESP_FAIL;
     }
     
+    #ifdef DEVICE_FLIPMOUSE
     //if new mode is different, delete previous task
     if(params->mode != adc_conf.mode)
     {
@@ -726,6 +770,7 @@ esp_err_t halAdcUpdateConfig(adc_config_t* params)
             adcHandle = NULL;
         } else ESP_LOGW(LOG_TAG, "no valid task handle, no task deleted");
     }
+    #endif
         
     
     //clear pending button flags
@@ -734,6 +779,7 @@ esp_err_t halAdcUpdateConfig(adc_config_t* params)
     //Just copy content
     memcpy(&adc_conf,params,sizeof(adc_config_t));
     
+    #ifdef DEVICE_FLIPMOUSE
     //start task according to mode
     if(adcHandle == NULL)
     {
@@ -759,6 +805,17 @@ esp_err_t halAdcUpdateConfig(adc_config_t* params)
     } else {
         ESP_LOGI(LOG_TAG,"ADC config reloaded without task switch");
     }
+    #endif
+    
+    #ifdef DEVICE_FABI
+    //start task (independent of mode in FABI)
+    if(adcHandle == NULL)
+    {
+        //just use a threshold task, other channels are masked out in this task.
+        xTaskCreate(halAdcTaskThreshold,"ADC_TASK",4096,NULL,HAL_ADC_TASK_PRIORITY,&adcHandle);
+        ESP_LOGD(LOG_TAG,"created ADC task for threshold, handle %d",(uint32_t)adcHandle); 
+    }
+    #endif
     
     ESP_LOG_BUFFER_HEXDUMP(LOG_TAG,&adc_conf,sizeof(adc_config_t),ESP_LOG_DEBUG);
     //give mutex
@@ -779,19 +836,33 @@ esp_err_t halAdcUpdateConfig(adc_config_t* params)
 esp_err_t halAdcInit(adc_config_t* params)
 {
     esp_err_t ret;
-    //Init ADC and Characteristics
+    
+    //init ADC bit width
     ret = adc1_config_width(ADC_WIDTH_BIT_10);
     if(ret != ESP_OK) { ESP_LOGE("hal_adc","Error setting channel width"); return ret; }
-    ret = adc1_config_channel_atten(HAL_IO_ADC_CHANNEL_UP, ADC_ATTEN_DB_11);
-    if(ret != ESP_OK) { ESP_LOGE("hal_adc","Error setting atten on channel %d",HAL_IO_ADC_CHANNEL_UP); return ret; }
-    ret = adc1_config_channel_atten(HAL_IO_ADC_CHANNEL_DOWN, ADC_ATTEN_DB_11);
-    if(ret != ESP_OK) { ESP_LOGE("hal_adc","Error setting atten on channel %d",HAL_IO_ADC_CHANNEL_DOWN); return ret; }
-    ret = adc1_config_channel_atten(HAL_IO_ADC_CHANNEL_LEFT, ADC_ATTEN_DB_11);
-    if(ret != ESP_OK) { ESP_LOGE("hal_adc","Error setting atten on channel %d",HAL_IO_ADC_CHANNEL_LEFT); return ret; }
-    ret = adc1_config_channel_atten(HAL_IO_ADC_CHANNEL_RIGHT, ADC_ATTEN_DB_11);
-    if(ret != ESP_OK) { ESP_LOGE("hal_adc","Error setting atten on channel %d",HAL_IO_ADC_CHANNEL_RIGHT); return ret; }
-    ret = adc1_config_channel_atten(HAL_IO_ADC_CHANNEL_PRESSURE, ADC_ATTEN_DB_11);
-    if(ret != ESP_OK) { ESP_LOGE("hal_adc","Error setting atten on channel %d",HAL_IO_ADC_CHANNEL_PRESSURE); return ret; }
+    
+    //Init ADC channels for FLipMouse/FABI
+    #ifdef HAL_IO_ADC_CHANNEL_UP
+        ret = adc1_config_channel_atten(HAL_IO_ADC_CHANNEL_UP, ADC_ATTEN_DB_11);
+        if(ret != ESP_OK) { ESP_LOGE("hal_adc","Error setting atten on channel %d",HAL_IO_ADC_CHANNEL_UP); return ret; }
+    #endif
+    #ifdef HAL_IO_ADC_CHANNEL_DOWN
+        ret = adc1_config_channel_atten(HAL_IO_ADC_CHANNEL_DOWN, ADC_ATTEN_DB_11);
+        if(ret != ESP_OK) { ESP_LOGE("hal_adc","Error setting atten on channel %d",HAL_IO_ADC_CHANNEL_DOWN); return ret; }
+    #endif
+    #ifdef HAL_IO_ADC_CHANNEL_LEFT
+        ret = adc1_config_channel_atten(HAL_IO_ADC_CHANNEL_LEFT, ADC_ATTEN_DB_11);
+        if(ret != ESP_OK) { ESP_LOGE("hal_adc","Error setting atten on channel %d",HAL_IO_ADC_CHANNEL_LEFT); return ret; }
+    #endif
+    #ifdef HAL_IO_ADC_CHANNEL_RIGHT
+        ret = adc1_config_channel_atten(HAL_IO_ADC_CHANNEL_RIGHT, ADC_ATTEN_DB_11);
+        if(ret != ESP_OK) { ESP_LOGE("hal_adc","Error setting atten on channel %d",HAL_IO_ADC_CHANNEL_RIGHT); return ret; }
+    #endif
+    #ifdef HAL_IO_ADC_CHANNEL_PRESSURE
+        ret = adc1_config_channel_atten(HAL_IO_ADC_CHANNEL_PRESSURE, ADC_ATTEN_DB_11);
+        if(ret != ESP_OK) { ESP_LOGE("hal_adc","Error setting atten on channel %d",HAL_IO_ADC_CHANNEL_PRESSURE); return ret; }
+    #endif
+    ///@todo init differently for FABI!
     
     //ADC characteristics on ESP32 does not work at all...
     //The only sh**ty part on this MCU :-)

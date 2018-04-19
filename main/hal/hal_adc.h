@@ -54,6 +54,9 @@
 #include "hal_serial.h"
 #include "math.h"
 
+
+#ifdef DEVICE_FLIPMOUSE
+
 /** @brief ADC input pin for "up" channel of FSR
  * @note For adapting this pin, change HAL_IO_ADC_CHANNEL_UP as well!
  * @see HAL_IO_ADC_CHANNEL_UP */
@@ -95,6 +98,22 @@
  * @note For adapting this channel, change HAL_IO_PIN_ADC_PRESSURE as well!
  * @see HAL_IO_PIN_ADC_PRESSURE */
 #define HAL_IO_ADC_CHANNEL_PRESSURE ADC1_CHANNEL_6
+
+#endif 
+
+#ifdef DEVICE_FABI
+
+/** @brief ADC input pin for "left" channel of FSR
+ * @note For adapting this pin, change HAL_IO_ADC_CHANNEL_LEFT as well!
+ * @see HAL_IO_ADC_CHANNEL_LEFT */
+#define HAL_IO_PIN_ADC_PRESSURE     35
+
+/** @brief ADC channel for FSR left
+ * @note For adapting this channel, change HAL_IO_PIN_ADC_LEFT as well!
+ * @see HAL_IO_PIN_ADC_LEFT */
+#define HAL_IO_ADC_CHANNEL_PRESSURE     ADC1_CHANNEL_7
+
+#endif
 
 /** @brief Task priority for ADC task */
 #define HAL_IO_ADC_TASK_PRIORITY 4

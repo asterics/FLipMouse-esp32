@@ -45,6 +45,7 @@ window.tabAction.initBtnModeActionTable = function () {
 
 window.tabAction.selectActionButton = function (btnMode) {
     L('#selectActionButton').value = btnMode;
+    L('#selectActionButton').focus();
     refreshCurrentAction(btnMode);
     resetSelects();
     initAdditionalData();

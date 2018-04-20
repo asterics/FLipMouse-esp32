@@ -9,8 +9,9 @@ window.tabAction.init = function () {
         L('#selectActionButton').appendChild(option);
     });
     L('#currentAction').innerHTML = getReadable(flip.getConfig(C.BTN_MODES[0]));
-    L('#' + C.LEARN_CAT_KEYBOARD).click();
-    tabAction.selectMode(flip.getConfig(flip.FLIPMOUSE_MODE), true);
+
+    L.setSelected('#' + flip.getConfig(flip.FLIPMOUSE_MODE), true);
+    L('#' + flip.getConfig(flip.FLIPMOUSE_MODE)).checked = true;
 
     L('#SELECT_LEARN_CAT_MOUSE').innerHTML = L.createSelectItems(C.AT_CMDS_MOUSE);
     L('#SELECT_LEARN_CAT_FLIPACTIONS').innerHTML = L.createSelectItems(C.AT_CMDS_FLIP);
@@ -55,26 +56,21 @@ function refreshCurrentAction(btnMode) {
     L('#currentAction').innerHTML = getReadable(flip.getConfig(btnMode));
 }
 
-window.tabAction.selectActionCategory = function (category) {
-    console.log(category);
-    L.removeClass('[for*=LEARN_CAT_]', 'color-lightercyan selected');
-    L.addClass('[for=' + category + ']', 'color-lightercyan selected');
+window.tabAction.selectActionCategory = function (elem) {
+    console.log(elem.id);
+    L.setSelected('.learnCatButton', false);
+    L.setSelected(elem, true);
     L.setVisible('[id^=WRAPPER_LEARN_CAT]', false);
-    L.setVisible('#WRAPPER_' + category);
+    L.setVisible('#WRAPPER_' + elem.id);
 
     resetSelects();
     initAdditionalData();
 };
 
-window.tabAction.selectMode = function (mode, dontSend) {
-    if(!mode) return;
-    console.log(mode);
-    L.removeClass('[for*=MODE_]', 'color-lightercyan selected');
-    L.addClass('[for=' + mode + ']', 'color-lightercyan selected');
-    L('#' + mode).checked = true;
-    if(!dontSend) {
-        flip.setFlipmouseMode(mode);
-    }
+window.tabAction.selectMode = function (elem) {
+    L.setSelected('.modeButton', false);
+    L.setSelected(elem, true);
+    flip.setFlipmouseMode(elem.id);
 };
 
 tabAction.selectAtCmd = function (atCmd) {

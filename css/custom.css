@@ -166,11 +166,12 @@ label {
     margin-left: auto;
 }
 
-input[type="radio"].hide-toggle {
+.hidden, input[type="radio"].hidden {
     display: none;
 }
 
-label.button.selected {
+button.selected {
     border-width: 0.2em;
     border-color: #33C3F0;
+    background-color: #cceff9;
 }

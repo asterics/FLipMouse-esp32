@@ -71,7 +71,9 @@ window.L.selectAsList = function (selector) {
 window.L.addClass = function (selector, className) {
     var list = L.selectAsList(selector);
     list.forEach(function (elem) {
-        elem.className += ' ' + className;
+        if(elem.className.indexOf(className) == -1) {
+            elem.className += ' ' + className;
+        }
     });
 };
 
@@ -79,6 +81,19 @@ window.L.removeClass = function (selector, className) {
     var list = L.selectAsList(selector);
     list.forEach(function (elem) {
         elem.className = L.replaceAll(elem.className, className, '');
+    });
+};
+
+window.L.setSelected = function (selector, selected) {
+    if(selected == undefined) selected = true;
+    var list = L.selectAsList(selector);
+    list.forEach(function (elem) {
+        if(selected) {
+            L.addClass(elem, 'selected');
+        } else {
+            L.removeClass(elem, 'selected');
+        }
+        elem.setAttribute('aria-selected', selected);
     });
 };
 

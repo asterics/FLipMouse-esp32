@@ -24,8 +24,8 @@ i18n[C.AT_CMD_NO_CMD] = 'Do nothing';
 i18n[C.AT_CMD_PRESSHOLD_MOUSE_L] = 'Press + hold left mouse button';
 i18n[C.AT_CMD_PRESSHOLD_MOUSE_R] = 'Press + hold right mouse button';
 
-i18n[C.AT_CMD_CLICK_MOUSE_L] = 'Click right mouse button';
-i18n[C.AT_CMD_CLICK_MOUSE_R] = 'Click left mouse button';
+i18n[C.AT_CMD_CLICK_MOUSE_L] = 'Click left mouse button';
+i18n[C.AT_CMD_CLICK_MOUSE_R] = 'Click right mouse button';
 i18n[C.AT_CMD_CLICK_MOUSE_M] = 'Click middle mouse button';
 i18n[C.AT_CMD_DOUBLECLICK_MOUSE_L] = 'Doubleclick left mouse button';
 i18n[C.AT_CMD_PRESSHOLD_MOUSE_L] = 'Press + hold left mouse button';

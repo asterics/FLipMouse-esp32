@@ -64,6 +64,20 @@
 /** number of virtual button event groups. One event group is used for 4 VBs */
 #define NUMBER_VIRTUALBUTTONS 8
 
+/** @brief Use neopixels instead of RGB LEDs on FLipMouse
+ * 
+ * If this define is set, the hal_io RGB LED driver is not used. Instead,
+ * this module assumes a Neopixel string/ring for visual feedback.
+ * */
+#define LED_USE_NEOPIXEL
+
+/** @brief Set count of used Neopixels
+ * 
+ * If LED_USE_NEOPIXEL is set, this define is used to determine the
+ * count of NEOPIXEL LEDs, which are used for color output
+ * */
+#define LED_NEOPIXEL_COUNT  6
+
 
 /** maximum length for a slot name */
 #define SLOTNAME_LENGTH   32

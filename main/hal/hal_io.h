@@ -46,6 +46,7 @@
 #include "driver/ledc.h"
 #include "driver/gpio.h"
 #include "driver/rmt.h"
+#include "led_strip/led_strip.h"
 //common definitions & data for all of these functional tasks
 #include "common.h"
 #include "../config_switcher.h"
@@ -103,6 +104,11 @@
  * @note LEDs are driven by LEDC driver */
 #define HAL_IO_PIN_LED_BLUE     14
 
+#ifdef LED_USE_NEOPIXEL
+/**@brief PIN - GPIO pin for Neopixel LED strip */
+#define HAL_IO_PIN_NEOPIXEL     2
+#endif
+
 #endif
 
 #ifdef DEVICE_FABI
@@ -141,9 +147,15 @@
  * ESP32's RMT unit has 8 64x32bits buffers for IR waveforms.
  * The IR code in FLipMouse/FABI uses RMT channels 0 and 4, therefor
  * both channels (RX&TX) could use up to 4 blocks for saving waveforms.
- * If there is need for a RMT channel for different purposes, reduce
- * this value to 3 to free one buffer for channel 3 and one for channel 7*/
+ * If there is need for a RMT channel for different purposes (e.g. Neopixel output), reduce
+ * this value to 3 to free one buffer for channel 3 and one for channel 7 */
 #define HAL_IO_IR_MEM_BLOCKS    4
+
+//we need an additional RMT block for Neopixel output (if activated)
+#ifdef LED_USE_NEOPIXEL
+  #undef HAL_IO_IR_MEM_BLOCKS
+  #define HAL_IO_IR_MEM_BLOCKS 3
+#endif
 
 /** @brief LED update queue
  * 
@@ -152,10 +164,25 @@
  * * \<bits 0-7\> RED
  * * \<bits 8-15\> GREEN
  * * \<bits 16-23\> BLUE
+ * 
+ * Depending on the LED config (either one RGB LED or Neopixels are used),
+ * bits 24-31 are used differently:
+ * 
+ * <b>RGB LED (LED_USE_NEOPIXEL is NOT defined)</b>:
+ * 
  * * \<bits 24-31\> Fading time ([10¹ms] -> value of 200 is 2s)
+ * 
+ * <b>Neopixels (LED_USE_NEOPIXEL is defined)</b>:
+ * 
+ * * \<bits 24-31\> Animation mode:
+ * * <b>0</b> Steady color on all Neopixels
+ * * <b>1</b> 3 Neopixels have the given color and are circled around
+ * * <b>2-0xFF</b> Currently undefined, further modes might be added.
  * 
  * @note Call halIOInit to initialize this queue.
  * @see halIOInit
+ * @see LED_USE_NEOPIXEL
+ * @see LED_NEOPIXEL_COUNT
  **/
 extern QueueHandle_t halIOLEDQueue;
 

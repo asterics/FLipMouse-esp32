@@ -75,3 +75,5 @@ thanks to Luca Dentella for the esp32lights demo, see http://www.lucadentella.it
 thanks to Jeroen Domburg and Cornelis for the captive portal DNS code, see: https://github.com/cornelis-61/esp32_Captdns
 
 thanks to Thomas Barth for esp32 Websocket demo code, see https://github.com/ThomasBarth/WebSockets-on-the-ESP32/
+
+thanks to Lucas Bruder for the Neopixel library for ESP32, see https://github.com/Lucas-Bruder/ESP32_LED_STRIP/

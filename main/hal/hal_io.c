@@ -46,12 +46,41 @@
  * * \<bits 0-7\> RED
  * * \<bits 8-15\> GREEN
  * * \<bits 16-23\> BLUE
+ * 
+ * Depending on the LED config (either one RGB LED or Neopixels are used),
+ * bits 24-31 are used differently:
+ * 
+ * <b>RGB LED (LED_USE_NEOPIXEL is NOT defined)</b>:
+ * 
  * * \<bits 24-31\> Fading time ([10¹ms] -> value of 200 is 2s)
+ * 
+ * <b>Neopixels (LED_USE_NEOPIXEL is defined)</b>:
+ * 
+ * * \<bits 24-31\> Animation mode:
+ * * <b>0</b> Steady color on all Neopixels
+ * * <b>1</b> 3 Neopixels have the given color and are circled around
+ * * <b>2-0xFF</b> Currently undefined, further modes might be added.
  * 
  * @note Call halIOInit to initialize this queue.
  * @see halIOInit
+ * @see LED_USE_NEOPIXEL
+ * @see LED_NEOPIXEL_COUNT
  **/
 QueueHandle_t halIOLEDQueue = NULL;
+
+#if defined(DEVICE_FLIPMOUSE) && defined(LED_USE_NEOPIXEL)
+/** @brief Double buffering for neopixels - buffer 1 */
+struct led_color_t *neop_buf1 = NULL;
+/** @brief Double buffering for neopixels - buffer 2 */
+struct led_color_t *neop_buf2 = NULL;
+/**@brief Config struct for Neopixel strip */
+struct led_strip_t led_strip = {
+      .rgb_led_type = RGB_LED_TYPE_WS2812,
+      .rmt_channel = RMT_CHANNEL_7,
+      .gpio = HAL_IO_PIN_NEOPIXEL,
+      .led_strip_length = LED_NEOPIXEL_COUNT
+  };
+#endif
 
 /** @brief GPIO ISR handler for buttons (internal/external)
  * 
@@ -344,7 +373,7 @@ void halIOBuzzerTask(void * param)
 void halIOLEDTask(void * param)
 {
   uint32_t recv = 0;
-  #ifdef DEVICE_FLIPMOUSE
+  #if defined(DEVICE_FLIPMOUSE) && !defined(LED_USE_NEOPIXEL)
   uint32_t duty = 0;
   uint32_t fade = 0;
   #endif
@@ -389,7 +418,8 @@ void halIOLEDTask(void * param)
       
       #endif
       
-      #ifdef DEVICE_FLIPMOUSE
+      //FLipMouse with RGB LEDs
+      #if defined(DEVICE_FLIPMOUSE) && !defined(LED_USE_NEOPIXEL)
       
       //updates received, sending to ledc driver
       
@@ -422,6 +452,30 @@ void halIOLEDTask(void * param)
       ledc_fade_start(LEDC_HIGH_SPEED_MODE, LEDC_CHANNEL_2, LEDC_FADE_NO_WAIT);
       
       #endif
+      
+      #if defined(DEVICE_FLIPMOUSE) && defined(LED_USE_NEOPIXEL)
+      //determine mode
+      switch(((recv & 0x00FF0000) >> 16))
+      {
+        //currently not supported, mapping to steady color
+        case 1:
+        
+        //steady color
+        case 0:
+          for(uint8_t i = 0; i<LED_NEOPIXEL_COUNT; i++)
+          {
+              led_strip_set_pixel_rgb(&led_strip, i,(recv & 0x000000FF), \
+                ((recv & 0x0000FF00) >> 8), ((recv & 0x00FF0000) >> 16));
+          }
+          break;
+        default:
+          ESP_LOGE(LOG_TAG,"Unknown Neopixel animation mode");
+          break;
+      }
+      
+      
+      #endif
+      
     }
   }
 }
@@ -564,8 +618,8 @@ esp_err_t halIOInit(void)
   
   
   
-  #ifdef DEVICE_FLIPMOUSE
-  /*++++ init RGB LEDc driver ++++*/
+  #if defined(DEVICE_FLIPMOUSE) && !defined(LED_USE_NEOPIXEL)
+  /*++++ init RGB LEDc driver (only if Neopixels are not used and we have a FLipMouse ++++*/
   
   //init RGB queue & ledc driver
   halIOLEDQueue = xQueueCreate(8,sizeof(uint32_t));
@@ -613,7 +667,28 @@ esp_err_t halIOInit(void)
     ESP_LOGE(LOG_TAG,"error creating task");
     return ESP_FAIL;
   }
+  #endif
   
+  #if defined(DEVICE_FLIPMOUSE) && defined(LED_USE_NEOPIXEL)
+  /*++++ init Neopixel driver (only if we have a FLipMouse configured for Neopixels) ++++*/
+  neop_buf1 = malloc(sizeof(struct led_color_t)*LED_NEOPIXEL_COUNT);
+  neop_buf2 = malloc(sizeof(struct led_color_t)*LED_NEOPIXEL_COUNT);
+  if(neop_buf1 == NULL || neop_buf2 == NULL)
+  {
+    ESP_LOGE(LOG_TAG,"Not enough memory to initialize Neopixel buffer");
+    return ESP_FAIL;
+  }
+  
+  //init remaining stuff of led strip driver struct
+  led_strip.access_semaphore = xSemaphoreCreateBinary();
+  led_strip.led_strip_buf_1 = neop_buf1;
+  led_strip.led_strip_buf_2 = neop_buf2;
+  //initialize module
+  if(led_strip_init(&led_strip) == false)
+  {
+    ESP_LOGE(LOG_TAG,"Error initializing led strip (Neopixels)!");
+    return ESP_FAIL;
+  }
   #endif
   /*++++ INIT buzzer ++++*/
   //we will use the LEDC unit for the buzzer

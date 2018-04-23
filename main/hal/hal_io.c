@@ -464,9 +464,12 @@ void halIOLEDTask(void * param)
         case 0:
           for(uint8_t i = 0; i<LED_NEOPIXEL_COUNT; i++)
           {
-              led_strip_set_pixel_rgb(&led_strip, i,(recv & 0x000000FF), \
-                ((recv & 0x0000FF00) >> 8), ((recv & 0x00FF0000) >> 16));
+            //set the same color for each LED
+            led_strip_set_pixel_rgb(&led_strip, i,(recv & 0x000000FF), \
+              ((recv & 0x0000FF00) >> 8), ((recv & 0x00FF0000) >> 16));
           }
+          //show new color
+          led_strip_show(&led_strip);
           break;
         default:
           ESP_LOGE(LOG_TAG,"Unknown Neopixel animation mode");

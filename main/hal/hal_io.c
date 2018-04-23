@@ -338,13 +338,19 @@ void halIOBuzzerTask(void * param)
  * and calls the ledc_fading_... methods of the esp-idf.
  * 
  * @see halIOLEDQueue
- * @param param Unused.
+ * @param param Unused
+ * @todo It might be possible that we use Neopixel LEDs on the FLipMouse as well. Update if it is known.
  */
 void halIOLEDTask(void * param)
 {
   uint32_t recv = 0;
+  #ifdef DEVICE_FLIPMOUSE
   uint32_t duty = 0;
   uint32_t fade = 0;
+  #endif
+  #ifdef DEVICE_FABI
+  char cmd[5];
+  #endif
   generalConfig_t *cfg = configGetCurrent();
   
   if(halIOLEDQueue == NULL)
@@ -369,6 +375,21 @@ void halIOLEDTask(void * param)
       //check if feedback mode is set to LED output. If not: do nothing
       if((cfg->feedback & 0x01) == 0) continue;
       
+      //one Neopixel LED is mounted on FABI, driven by the USB chip
+      #ifdef DEVICE_FABI
+      
+      //'L' + <red> + <green> + <blue> + '\0'
+      cmd[0] = 'L';
+      cmd[1] = recv & 0x000000FF;
+      cmd[2] = ((recv & 0x0000FF00) >> 8);
+      cmd[3] = ((recv & 0x00FF0000) >> 16);
+      cmd[4] = '\0';
+      //send to USB chip (use HID channel, otherwise it would be sent to USB host)
+      halSerialSendUSBSerial(HAL_SERIAL_TX_TO_HID,cmd,strlen(cmd)+1,20);
+      
+      #endif
+      
+      #ifdef DEVICE_FLIPMOUSE
       
       //updates received, sending to ledc driver
       
@@ -399,6 +420,8 @@ void halIOLEDTask(void * param)
       ledc_fade_start(LEDC_HIGH_SPEED_MODE, LEDC_CHANNEL_0, LEDC_FADE_NO_WAIT);
       ledc_fade_start(LEDC_HIGH_SPEED_MODE, LEDC_CHANNEL_1, LEDC_FADE_NO_WAIT);
       ledc_fade_start(LEDC_HIGH_SPEED_MODE, LEDC_CHANNEL_2, LEDC_FADE_NO_WAIT);
+      
+      #endif
     }
   }
 }

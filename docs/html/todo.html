@@ -63,13 +63,15 @@ $(function() {
 </div><!--header-->
 <div class="contents">
 <div class="textblock"><dl class="reflist">
+<dt><a class="anchor" id="_todo000006"></a>Global <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c.html#abce06be17fc37d675118a678a8100a36">app_main</a>  ()</dt>
+<dd>in release version, Wifi is NOT started automatically!!  </dd>
 <dt><a class="anchor" id="_todo000002"></a>Global <a class="el" href="config__switcher_8c.html#af5af5079d1982d42e165039e6de7e40a">configSwitcherTask</a>  (void *params)</dt>
 <dd>Add __RESTOREFACTORY...  </dd>
 <dt><a class="anchor" id="_todo000001"></a>Global <a class="el" href="config__switcher_8c.html#aceb033b9bef9bb354a3b2c4734b4ec9d">currentTaskParametersUpdate</a>  [NUMBER_VIRTUALBUTTONS *4]</dt>
 <dd>Maybe this information should be moved to the corresponding function.  </dd>
-<dt><a class="anchor" id="_todo000013"></a>Global <a class="el" href="task__debouncer_8c.html#a4a76abdbb849aa0bbc66aa001c6f4af9">debouncerCallback</a>  (TimerHandle_t xTimer)</dt>
+<dt><a class="anchor" id="_todo000012"></a>Global <a class="el" href="task__debouncer_8c.html#a4a76abdbb849aa0bbc66aa001c6f4af9">debouncerCallback</a>  (TimerHandle_t xTimer)</dt>
 <dd>Add the deadtime functionality here  </dd>
-<dt><a class="anchor" id="_todo000015"></a>Global <a class="el" href="task__debouncer_8h.html#adb027d7ba5fa2f4d411182ff9bbe735a">DEBOUNCETIME_MS</a>  </dt>
+<dt><a class="anchor" id="_todo000014"></a>Global <a class="el" href="task__debouncer_8h.html#adb027d7ba5fa2f4d411182ff9bbe735a">DEBOUNCETIME_MS</a>  </dt>
 <dd>Change this value from testing (500ms) to production (~50-100ms)  </dd>
 <dt><a class="anchor" id="_todo000010"></a>Global <a class="el" href="task__commands_8c.html#a7f6500be563a3dce7f0854fceed02fab">doGeneralCmdParsing</a>  (uint8_t *cmdBuffer)</dt>
 <dd>hier den AT AI,AP,AR commands hinzufügen. Achtung auf requestVBUpdate: wenn gesetzt, wieder zurücksetzen &amp; entsprechend die Zeit speichern.  </dd>
@@ -77,80 +79,73 @@ $(function() {
 <dd><p class="startdd">Implement learning mode </p>
 <p>Clarify AT KP/KR/KH commands on original FlipMouse, to be compatible... (especially for press/release with buttons &amp; with multiple key identifiers) </p>
 <p>Debouncer testing... </p>
-<p>Implement buzzer in remaining task_* functions (strongsip/puff exit)</p>
+<p>Implement buzzer in remaining task_* functions (strongsip/puff exit) </p>
+<p>Test Neopixels on FABI &amp; FLipMouse </p>
 <p>Test AT MA (macros).</p>
 <p>Wifi/BLE starting stopping? Both is currently not possible...</p>
 <p class="enddd">Implement long press for virtual buttons (new VBs).  </p>
 </dd>
-<dt><a class="anchor" id="_todo000023"></a>File <a class="el" href="hal__adc_8c.html">hal_adc.c</a>  </dt>
+<dt><a class="anchor" id="_todo000020"></a>File <a class="el" href="hal__adc_8c.html">hal_adc.c</a>  </dt>
 <dd><p class="startdd">Add CIM reporting... </p>
 <p class="enddd">Do Strong&lt;Sip/puff&gt;+&lt;UP/DOWN/LEFT/RIGHT&gt;  </p>
 </dd>
-<dt><a class="anchor" id="_todo000027"></a>File <a class="el" href="hal__adc_8h.html">hal_adc.h</a>  </dt>
+<dt><a class="anchor" id="_todo000024"></a>File <a class="el" href="hal__adc_8h.html">hal_adc.h</a>  </dt>
 <dd>Add raw value reporting for: CIM mode and serial interface  </dd>
-<dt><a class="anchor" id="_todo000029"></a>File <a class="el" href="hal__io_8c.html">hal_io.c</a>  </dt>
+<dt><a class="anchor" id="_todo000026"></a>File <a class="el" href="hal__io_8c.html">hal_io.c</a>  </dt>
 <dd>Test LED driver, Buzzer &amp; IR  </dd>
-<dt><a class="anchor" id="_todo000031"></a>File <a class="el" href="hal__io_8h.html">hal_io.h</a>  </dt>
+<dt><a class="anchor" id="_todo000028"></a>File <a class="el" href="hal__io_8h.html">hal_io.h</a>  </dt>
 <dd>Test LED driver, Buzzer &amp; IR  </dd>
-<dt><a class="anchor" id="_todo000032"></a>Global <a class="el" href="hal__serial_8c.html#a8ed6a618f134d6b923ba216de84253f6">HAL_SERIAL_UART_TIMEOUT_MS</a>  </dt>
+<dt><a class="anchor" id="_todo000029"></a>Global <a class="el" href="hal__serial_8c.html#a8ed6a618f134d6b923ba216de84253f6">HAL_SERIAL_UART_TIMEOUT_MS</a>  </dt>
 <dd>Documentation updates, this define is now used differently...  </dd>
-<dt><a class="anchor" id="_todo000026"></a>Global <a class="el" href="hal__adc_8h.html#a6f0d302f35e5b7f7a1144f0ddace35d2">halAdcInit</a>  (adc_config_t *params)</dt>
+<dt><a class="anchor" id="_todo000023"></a>Global <a class="el" href="hal__adc_8h.html#a6f0d302f35e5b7f7a1144f0ddace35d2">halAdcInit</a>  (adc_config_t *params)</dt>
 <dd>init differently for FABI!  </dd>
-<dt><a class="anchor" id="_todo000024"></a>Global <a class="el" href="hal__adc_8c.html#acd8f9f6194ebeaa854a791879382b515">halAdcProcessPressure</a>  (uint32_t pressurevalue)</dt>
+<dt><a class="anchor" id="_todo000021"></a>Global <a class="el" href="hal__adc_8c.html#acd8f9f6194ebeaa854a791879382b515">halAdcProcessPressure</a>  (uint32_t pressurevalue)</dt>
 <dd><p class="startdd">Do everything here, no sip&amp;puff currently available. </p>
 <p class="enddd">Activate tones again if working...  </p>
 </dd>
-<dt><a class="anchor" id="_todo000025"></a>Global <a class="el" href="hal__adc_8h.html#a4135bb73c2271b4a27db8d8d81884de7">halAdcUpdateConfig</a>  (adc_config_t *params)</dt>
+<dt><a class="anchor" id="_todo000022"></a>Global <a class="el" href="hal__adc_8h.html#a4135bb73c2271b4a27db8d8d81884de7">halAdcUpdateConfig</a>  (adc_config_t *params)</dt>
 <dd>Clear pending VB flags on a config switch  </dd>
-<dt><a class="anchor" id="_todo000028"></a>Global <a class="el" href="hal__ble_8h.html#a8ad6c50e81bae3e24e2f86a2797384c2">halBLEInit</a>  (uint8_t deviceIdentifier)</dt>
+<dt><a class="anchor" id="_todo000025"></a>Global <a class="el" href="hal__ble_8h.html#a8ad6c50e81bae3e24e2f86a2797384c2">halBLEInit</a>  (uint8_t deviceIdentifier)</dt>
 <dd>Switch between BLE &amp; WIFI!  </dd>
-<dt><a class="anchor" id="_todo000030"></a>Global <a class="el" href="hal__io_8c.html#ad83b58c9ee836526a874392c0757f42d">halIOLEDTask</a>  (void *param)</dt>
-<dd>Implement Neopixel from FABI. Send a command to serial interface.  </dd>
-<dt><a class="anchor" id="_todo000036"></a>Global <a class="el" href="hal__serial_8h.html#a2d03c06463b09e33d87d90eb273819b0">halSerialInit</a>  (void)</dt>
+<dt><a class="anchor" id="_todo000027"></a>Global <a class="el" href="hal__io_8c.html#ad83b58c9ee836526a874392c0757f42d">halIOLEDTask</a>  (void *param)</dt>
+<dd>It might be possible that we use Neopixel LEDs on the FLipMouse as well. Update if it is known.  </dd>
+<dt><a class="anchor" id="_todo000033"></a>Global <a class="el" href="hal__serial_8h.html#a2d03c06463b09e33d87d90eb273819b0">halSerialInit</a>  (void)</dt>
 <dd>Due to long wires &amp; bad cables on the dev board, the baudrate is set to 19200 here. Change back after testing.  </dd>
-<dt><a class="anchor" id="_todo000033"></a>Global <a class="el" href="hal__serial_8c.html#ab3a538fb88a9732f0afc0188cc3c9c38">halSerialRXTask</a>  (void *pvParameters)</dt>
+<dt><a class="anchor" id="_todo000030"></a>Global <a class="el" href="hal__serial_8c.html#ab3a538fb88a9732f0afc0188cc3c9c38">halSerialRXTask</a>  (void *pvParameters)</dt>
 <dd><p class="startdd">When CIM mode is active, switch back here to AT mode </p>
 <p class="enddd">Activate CIM mode here.  </p>
 </dd>
-<dt><a class="anchor" id="_todo000035"></a>Global <a class="el" href="hal__serial_8c.html#af24cc3b9c361b110e30ecdbdc9c4e7bd">halSerialTaskJoystick</a>  (void *param)</dt>
+<dt><a class="anchor" id="_todo000032"></a>Global <a class="el" href="hal__serial_8c.html#af24cc3b9c361b110e30ecdbdc9c4e7bd">halSerialTaskJoystick</a>  (void *param)</dt>
 <dd>Slider right (AT JU) influences slider left in some minor bits...  </dd>
-<dt><a class="anchor" id="_todo000037"></a>Global <a class="el" href="hal__storage_8h.html#aed4beb2e1bd8cd78a201fbcb49958cba">halStorageCreateDefault</a>  (uint32_t tid)</dt>
+<dt><a class="anchor" id="_todo000034"></a>Global <a class="el" href="hal__storage_8h.html#aed4beb2e1bd8cd78a201fbcb49958cba">halStorageCreateDefault</a>  (uint32_t tid)</dt>
 <dd>Change this default slot to usable settings  </dd>
-<dt><a class="anchor" id="_todo000019"></a>Global <a class="el" href="task__webgui_8c.html#adcc5b062c057f73762b1f19b2f6a8185">http_server</a>  (void *pvParameters)</dt>
+<dt><a class="anchor" id="_todo000018"></a>Global <a class="el" href="task__webgui_8c.html#adcc5b062c057f73762b1f19b2f6a8185">http_server</a>  (void *pvParameters)</dt>
 <dd>Improve comments  </dd>
 <dt><a class="anchor" id="_todo000007"></a>Global <a class="el" href="common_8h.html#a194a1686b5b17e701b526563e89e096e">IDSTRING</a>  </dt>
 <dd>Change this back to new version, when GUI is compatible  </dd>
-<dt><a class="anchor" id="_todo000017"></a>Global <a class="el" href="task__joystick_8h.html#a57e155c9f454a8df37b90ee76b430f28">joystick_update</a>  (int32_t value1, joystick_action axis1, int32_t value2, joystick_action axis2)</dt>
+<dt><a class="anchor" id="_todo000016"></a>Global <a class="el" href="task__joystick_8h.html#a57e155c9f454a8df37b90ee76b430f28">joystick_update</a>  (int32_t value1, joystick_action axis1, int32_t value2, joystick_action axis2)</dt>
 <dd>Update the global values here and send the joystick state  </dd>
-<dt><a class="anchor" id="_todo000038"></a>Global <a class="el" href="keyboard_8h.html#acdbf297ed74d4534f035e0732c2f1081">keycode_to_modifier</a>  (uint16_t keycode, uint8_t locale)</dt>
+<dt><a class="anchor" id="_todo000035"></a>Global <a class="el" href="keyboard_8h.html#acdbf297ed74d4534f035e0732c2f1081">keycode_to_modifier</a>  (uint16_t keycode, uint8_t locale)</dt>
 <dd>Add remaining modifier keys (according to keylayouts.h, for example KEY_GUI)  </dd>
 <dt><a class="anchor" id="_todo000009"></a>Global <a class="el" href="task__commands_8c.html#a9c73c48b3f99599795437a9a22ed98d5">requestVBTask</a>  )(void *)</dt>
 <dd>documentate this stuff  </dd>
-<dt><a class="anchor" id="_todo000011"></a>Global <a class="el" href="task__commands_8c.html#a7b36c39275d773aaedcb327ef4e1516f">task_commands</a>  (void *params)</dt>
-<dd>Why is this one command different if sent from WS or serial?  </dd>
 <dt><a class="anchor" id="_todo000008"></a>File <a class="el" href="task__commands_8c.html">task_commands.c</a>  </dt>
 <dd>CIM switching </dd>
-<dt><a class="anchor" id="_todo000014"></a>Global <a class="el" href="task__debouncer_8c.html#a79d88e490be7198b9cc37556c66b837b">task_debouncer</a>  (void *param)</dt>
+<dt><a class="anchor" id="_todo000013"></a>Global <a class="el" href="task__debouncer_8c.html#a79d88e490be7198b9cc37556c66b837b">task_debouncer</a>  (void *param)</dt>
 <dd><p class="startdd">Add anti-tremor &amp; deadtime functionality </p>
 <p class="enddd">Add anti-tremor &amp; deadtime functionality  </p>
 </dd>
-<dt><a class="anchor" id="_todo000018"></a>File <a class="el" href="task__webgui_8c.html">task_webgui.c</a>  </dt>
+<dt><a class="anchor" id="_todo000017"></a>File <a class="el" href="task__webgui_8c.html">task_webgui.c</a>  </dt>
 <dd><p class="startdd">Implement everything (or better said: port it from existing demo) </p>
 <p>How to integrate into hal_serial? Sending commands to task_commands is easy, but the other way round... </p>
 <p>Add wifi settings to cfg struct in hal_storage/common; default fallback should be defined </p>
 <p>Add start/stop function (for pairing/config button) </p>
 <p class="enddd">After implementing, test everything....  </p>
 </dd>
-<dt><a class="anchor" id="_todo000022"></a>File <a class="el" href="task__webgui_8h.html">task_webgui.h</a>  </dt>
-<dd><p class="startdd">Implement everything (or better said: port it from existing demo) </p>
-<p class="enddd">How to integrate into hal_serial? Sending commands to task_commands is easy, but the other way round...  </p>
-</dd>
-<dt><a class="anchor" id="_todo000021"></a>Global <a class="el" href="task__webgui_8h.html#a669b9245d5040c0162481f7b24dbeea7">taskWebGUIInit</a>  (void)</dt>
+<dt><a class="anchor" id="_todo000019"></a>Global <a class="el" href="task__webgui_8h.html#a669b9245d5040c0162481f7b24dbeea7">taskWebGUIInit</a>  (void)</dt>
 <dd>For testing, webserver will be active on startup. In final version, webserver is active on long button press only for 10min (SECURITY!)  </dd>
-<dt><a class="anchor" id="_todo000012"></a>Global <a class="el" href="task__debouncer_8c.html#a2136a894816ebf7179ed937f43d22fe2">TIMER_DEADTIME</a>  </dt>
-<dd>Implement the deadtime &amp; anti-tremor functions  </dd>
-<dt><a class="anchor" id="_todo000020"></a>Global <a class="el" href="task__webgui_8c.html#a11dd6a5edc46c297b26382ebce3c34cb">wifi_event_handler</a>  (void *ctx, system_event_t *event)</dt>
-<dd>Document &amp; adapt to firmware! </dd>
+<dt><a class="anchor" id="_todo000011"></a>Global <a class="el" href="task__debouncer_8c.html#a2136a894816ebf7179ed937f43d22fe2">TIMER_DEADTIME</a>  </dt>
+<dd>Implement the deadtime &amp; anti-tremor functions </dd>
 </dl>
 </div></div><!-- contents -->
 <!-- start footer part -->

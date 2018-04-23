@@ -32,9 +32,6 @@
  * @see hal_serial
  * @see task_commands
  * @see atcmd_api
- * 
- * @todo Implement everything (or better said: port it from existing demo)
- * @todo How to integrate into hal_serial? Sending commands to task_commands is easy, but the other way round...
  * */
 #ifndef _TASK_WEBGUI_H
 #define _TASK_WEBGUI_H
@@ -82,5 +79,22 @@
  * @return ESP_OK on success, ESP_FAIL otherwise
  * */
 esp_err_t taskWebGUIInit(void);
+
+/** @brief En- or Disable WiFi interface.
+ * 
+ * This method is used to enable or disable the wifi interface. In order to
+ * provide a safe FLipMouse/FABI device, the Wifi hotspot is for configuration
+ * purposes only. Therefore, an enabled Wifi hotspot will be automatically disabled 
+ * within a defined time (see WIFI_OFF_TIME) after the last client was disconnected.
+ * In addition, other parts of the software might disable the Wifi prior to
+ * the automatic disconnect.
+ * 
+ * @note Calling this method prior to initializing wifi with taskWebGUIInit will
+ * result in an error!
+ * @return ESP_OK on success, ESP_FAIL otherwise
+ * @param onoff If != 0, switch on WiFi, switch off if 0.
+ * @see WIFI_OFF_TIME
+ * */
+esp_err_t taskWebGUIEnDisable(int onoff);
 
 #endif /* _TASK_WEBGUI_H */

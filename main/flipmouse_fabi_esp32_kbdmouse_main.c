@@ -159,7 +159,10 @@ void app_main()
         ESP_LOGD(LOG_TAG,"initialized webserver/DNS server/webgui");
     } else {
         ESP_LOGE(LOG_TAG,"error initializing webserver/DNS server/webgui");
-    } 
+    }
+    //start wifi
+    ///@todo in release version, Wifi is NOT started automatically!!
+    taskWebGUIEnDisable(1);
     
     //calibrate directly after start-up
     halAdcCalibrate();

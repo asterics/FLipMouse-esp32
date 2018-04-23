@@ -511,5 +511,8 @@ typedef struct halIOIR {
 /** @brief NVS key for wifi password */
 #define NVS_WIFIPW  "nvswifipw"
 
+/** @brief Minutes between last client disconnected and WiFi is switched off */
+#define WIFI_OFF_TIME 5
+
 
 #endif /*FUNCTION_COMMON_H_*/

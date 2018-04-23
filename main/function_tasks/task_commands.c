@@ -1398,12 +1398,13 @@ void task_commands(void *params)
       if(received == -1) continue;
       
       //special command "AT" without further command:
+      //this one is used for serial input (with an additional line ending)
       if(received == 3 && memcmp(commandBuffer,"AT",3) == 0)
       {
         halSerialSendUSBSerial(HAL_SERIAL_TX_TO_CDC,"OK\r\n",4,100);
         continue;
       }
-      ///@todo Why is this one command different if sent from WS or serial?
+      //this one is used for websocket input (no line ending)
       if(received == 2 && memcmp(commandBuffer,"AT",2) == 0)
       {
         halSerialSendUSBSerial(HAL_SERIAL_TX_TO_CDC,"OK\r\n",4,100);

@@ -58,7 +58,8 @@
   halIOBuzzer_t tone = {    \
     .frequency = freq,      \
     .duration = length };   \
-  xQueueSend(halIOBuzzerQueue, (void*)&tone , (TickType_t) 0 ); }
+    if(halIOBuzzerQueue != NULL) { \
+  xQueueSend(halIOBuzzerQueue, (void*)&tone , (TickType_t) 0 ); }}
 
 /** @brief Macro to easily send an IR buffer 
  * @param buf rmt_item32_t pointer to the buffer
@@ -67,12 +68,24 @@
   halIOIR_t ir = {    \
     .buffer = buf,      \
     .count = len};   \
-  xQueueSend(halIOIRSendQueue, (void*)&ir , (TickType_t) 0 ); }
+    if(halIOIRSendQueue != NULL) { \
+  xQueueSend(halIOIRSendQueue, (void*)&ir , (TickType_t) 0 ); } }
 
 /** @brief Macro to easily send an halIOIR_t struct to IR hal driver 
  * @param cfg halIOIR_t struct pointer
  * @see halIOIR_t */
 #define SENDIRSTRUCT(cfg) { xQueueSend(halIOIRSendQueue, (void*)cfg , (TickType_t) 0 ); }
+
+/** @brief Macro to easily update the LEDs (RGB or Neopixel, depending on configuration)
+ * @param r 8bit value for red
+ * @param g 8bit value for green
+ * @param b 8bit value for blue
+ * @param m Fade time [10¹ms] or animation mode
+ * @see halIOLEDQueue */
+#define LED(r,g,b,m) { \
+  uint32_t xmit = (r & 0xFF) | ((g & 0xFF) << 8) | ((b & 0xFF) << 16) | ((m & 0xFF) << 24); \
+  if(halIOLEDQueue != NULL) { \
+  xQueueSend(halIOLEDQueue, (void*)&xmit , (TickType_t) 0 ); } }
 
 #ifdef DEVICE_FLIPMOUSE
 

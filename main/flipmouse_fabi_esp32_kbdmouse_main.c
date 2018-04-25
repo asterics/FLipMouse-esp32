@@ -162,7 +162,11 @@ void app_main()
     }
     //start wifi
     ///@todo in release version, Wifi is NOT started automatically!!
+    halBLEEnDisable(0);
     taskWebGUIEnDisable(1);
+    //disable wifi & enable bluetooth
+    //taskWebGUIEnDisable(0);
+    //halBLEEnDisable(1);
     
     //calibrate directly after start-up
     halAdcCalibrate();

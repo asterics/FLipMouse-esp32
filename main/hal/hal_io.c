@@ -463,7 +463,7 @@ void halIOLEDTask(void * param)
       cmd[3] = ((recv & 0x00FF0000) >> 16);
       cmd[4] = '\0';
       //send to USB chip (use HID channel, otherwise it would be sent to USB host)
-      halSerialSendUSBSerial(HAL_SERIAL_TX_TO_HID,cmd,strlen(cmd)+1,20);
+      halSerialSendUSBSerial(HAL_SERIAL_TX_TO_HID,cmd,stnrlen(cmd,6)+1,20);
       
       #endif
       

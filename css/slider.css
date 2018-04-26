@@ -6,6 +6,7 @@ input[type=range] {
     margin-top: 1em;
 }
 input[type=range]:focus {
+    box-shadow: 0 0 10px 2px #33C3F0;
     outline: none;
 }
 input[type=range]::-webkit-slider-runnable-track {

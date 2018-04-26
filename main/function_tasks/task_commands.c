@@ -415,7 +415,7 @@ parserstate_t doStorageParsing(uint8_t *cmdBuffer, taskConfigSwitcherConfig_t *i
       ESP_LOGE(LOG_TAG,"Cannot start storage transaction");
       return UNKNOWNCMD;
     }
-    strcpy(slotname,(char*)&cmdBuffer[6]);
+    strncpy(slotname,(char*)&cmdBuffer[6],SLOTNAME_LENGTH);
     
     //check if name is already used (returns ESP_OK)
     if(halStorageGetNumberForName(tid, &slotnumber, slotname) != ESP_OK)
@@ -480,7 +480,7 @@ parserstate_t doStorageParsing(uint8_t *cmdBuffer, taskConfigSwitcherConfig_t *i
   {
     //save to config
     instance->virtualButton = requestVBUpdate;
-    strcpy(instance->slotName,(char*)&cmdBuffer[6]);
+    strncpy(instance->slotName,(char*)&cmdBuffer[6],SLOTNAME_LENGTH);
     ESP_LOGI(LOG_TAG,"Load slot name: %s",instance->slotName);
     //we want to have the config sent to the task
     return TRIGGERTASK;
@@ -683,7 +683,7 @@ parserstate_t doInfraredParsing(uint8_t *cmdBuffer, taskInfraredConfig_t *instan
   /*++++ AT IP ++++*/
   if(CMD("AT IP")) {
     //save cmd name to config instance
-    strcpy(instance->cmdName,(char*)&cmdBuffer[6]);
+    strncpy(instance->cmdName,(char*)&cmdBuffer[6],SLOTNAME_LENGTH);
     ESP_LOGD(LOG_TAG,"Play IR cmd %s",&cmdBuffer[6]);
     return TRIGGERTASK;
   }

@@ -68,7 +68,7 @@ void task_macro(taskMacrosConfig_t *param)
   EventGroupHandle_t *evGroup = NULL;
   //local copy of macro (much safer, caller might free the config)
   char macro[SLOTNAME_LENGTH];
-  strcpy(macro,param->macro);
+  strncpy(macro,param->macro,SLOTNAME_LENGTH);
   
   //do all the eventgroup checking only if this is a persistent task
   //-> virtualButton is NOT set to VB_SINGLESHOT

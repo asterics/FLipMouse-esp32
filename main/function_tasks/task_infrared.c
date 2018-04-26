@@ -69,7 +69,7 @@ void task_infrared(taskInfraredConfig_t *param)
   EventGroupHandle_t *evGroup = NULL;
   //local copy of IR command name
   char cmdName[SLOTNAME_LENGTH];
-  strcpy(cmdName,param->cmdName);
+  strncpy(cmdName,param->cmdName,SLOTNAME_LENGTH);
   
   //do all the eventgroup checking only if this is a persistent task
   //-> virtualButton is NOT set to VB_SINGLESHOT

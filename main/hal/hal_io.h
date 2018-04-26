@@ -30,10 +30,25 @@
  * * IR LED (sender)
  * * Buzzer
  * 
+ * All assigned buttons are processed via one GPIO ISR, which sets press
+ * and release flags in the VB input event group.
+ * In addition, one button can be configured for executing an extra handler
+ * after a long press (this long press is much longer compared to "long press"
+ * actions handled by task_debouncer). This handler is usually used for
+ * activating and deactivating the WiFi interface.
+ * 
+ * The LED output is configurable either to 3 PWM outputs for RGB LEDs
+ * or a Neopixel string with variable length (RGB LEDs use ledc facilities,
+ * Neopixels use RMT engine). To enable easy color settings, macros are provided
+ * (LED(r,g,b,m)).
+ * 
+ * IR receiving / sending is done via the RMT engine and is supported by macros
+ * as well.
+ * 
  * @note Compared to the tasks in the folder "function_tasks" all HAL tasks are
  * singletons. Call init to initialize every necessary data structure.
  * 
- * @todo Test LED driver, Buzzer & IR
+ * @todo Test LED driver (RGB & Neopixel)
  * */
  
 #include <freertos/FreeRTOS.h>
@@ -152,8 +167,25 @@
  * @note IR will be done with the RMT driver */
 #define HAL_IO_PIN_IR_SEND      19
 
-
 #endif
+
+
+/** @brief PIN - which one is used for Wifi/BLE (long action handler)?
+ * @note MUST be equal to one normally used button. Mostly used: internal button 1
+ * @note This pin will be used for starting a long press timer, where
+ * the handler is called after finished period.
+ * @see halIOAddLongPressHandler
+ * @see HAL_IO_LONGACTION_TIMEOUT
+ */
+#define HAL_IO_PIN_LONGACTION HAL_IO_PIN_BUTTON_INT1
+
+/** @brief Timeout ([ms]) for triggering long press action handler.
+ * 
+ * @note If this value is lower than any long press timeout by 
+ * task_debouncer, the assigned action will be triggered BEFORE handler is called.
+ * @see HAL_IO_PIN_LONGACTION
+ * @see halIOAddLongPressHandler */
+#define HAL_IO_LONGACTION_TIMEOUT  5000
 
 /** @brief Set the count of memory blocks utilized for IR sending
  * 
@@ -248,6 +280,26 @@ extern QueueHandle_t halIOLEDQueue;
  * * PWM for buzzer output
  * */
 esp_err_t halIOInit(void);
+
+/** @brief Add long press handler for Wifi button
+ * 
+ * One button (define by HAL_IO_PIN_LONGACTION) can be used as long press button for enabling/disabling
+ * wifi (in addition to normal press/release actions).
+ * If this functionality should be used, add a handler with this method,
+ * which will be called after the button is pressed longer than
+ * HAL_IO_LONGACTION_TIMEOUT.
+ * 
+ * @note HAL_IO_PIN_LONGACTION cannot be used as individual button.
+ * Use a pin, which is already used for a normal action, otherwise the
+ * handler won't be used (ISR won't get triggered).
+ * 
+ * @note Clear the handler by passing a void function pointer.
+ * 
+ * @see HAL_IO_LONGACTION_TIMEOUT
+ * @see HAL_IO_PIN_LONGACTION
+ * @param longpress_h Handler for long press action, use a null pointer to disable the handler.
+ */
+void halIOAddLongPressHandler(void (*longpress_h)(void));
 
 /** @brief Queue to pend for any incoming infrared remote commands 
  * @see halIOIR_t */

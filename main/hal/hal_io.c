@@ -28,10 +28,25 @@
  * * IR LED (sender)
  * * Buzzer
  * 
+ * All assigned buttons are processed via one GPIO ISR, which sets press
+ * and release flags in the VB input event group.
+ * In addition, one button can be configured for executing an extra handler
+ * after a long press (this long press is much longer compared to "long press"
+ * actions handled by task_debouncer). This handler is usually used for
+ * activating and deactivating the WiFi interface.
+ * 
+ * The LED output is configurable either to 3 PWM outputs for RGB LEDs
+ * or a Neopixel string with variable length (RGB LEDs use ledc facilities,
+ * Neopixels use RMT engine). To enable easy color settings, macros are provided
+ * (LED(r,g,b,m)).
+ * 
+ * IR receiving / sending is done via the RMT engine and is supported by macros
+ * as well.
+ * 
  * @note Compared to the tasks in the folder "function_tasks" all HAL tasks are
  * singletons. Call init to initialize every necessary data structure.
  * 
- * @todo Test LED driver, Buzzer & IR
+ * @todo Test LED driver (RGB & Neopixel)
  * */
  
 #include "hal_io.h"
@@ -82,6 +97,21 @@ struct led_strip_t led_strip = {
   };
 #endif
 
+/** @brief Currently active long press handler, null if not used 
+ * @see halIOAddLongPressHandler*/
+void (*longpress_handler)(void) = NULL;
+
+/**@brief Timer handle for long press action
+ * @see halIOAddLongPressHandler */
+TimerHandle_t longactiontimer = NULL;
+
+/** @brief Clock divider for RMT engine */
+#define RMT_CLK_DIV      100
+
+/** @brief RMT counter value for 10 us.(Source clock is APB clock) */
+#define RMT_TICK_10_US    (80000000/RMT_CLK_DIV/100000)   
+
+
 /** @brief GPIO ISR handler for buttons (internal/external)
  * 
  * This ISR handler is called on rising&falling edge of each button
@@ -97,6 +127,7 @@ static void gpio_isr_handler(void* arg)
   uint8_t vb = 0;
   BaseType_t xResult, xHigherPriorityTaskWoken = pdFALSE;
   
+  //determine pin of ISR reason
   switch(pin)
   {
     case HAL_IO_PIN_BUTTON_EXT1: vb = VB_EXTERNAL1; break;
@@ -115,17 +146,35 @@ static void gpio_isr_handler(void* arg)
     default: return;
   }
 
+  //press or release?
   if(gpio_get_level(pin) == 0)
   {
     //set press flag
     xResult = xEventGroupSetBitsFromISR(virtualButtonsIn[vb/4],(1<<(vb%4)),&xHigherPriorityTaskWoken);
     //clear release flag
     xResult = xEventGroupClearBitsFromISR(virtualButtonsIn[vb/4],(1<<(vb%4 + 4)));
+    
+    //extra handling for long press
+    if(pin == HAL_IO_PIN_LONGACTION)
+    {
+      //check if timer is initialized, if yes reset & start
+      if(longactiontimer != NULL)
+      {
+        xTimerResetFromISR(longactiontimer,&xHigherPriorityTaskWoken);
+        xTimerStartFromISR(longactiontimer,&xHigherPriorityTaskWoken);
+      }
+    }
   } else {
     //set release flag
     xResult = xEventGroupSetBitsFromISR(virtualButtonsIn[vb/4],(1<<(vb%4 + 4)),&xHigherPriorityTaskWoken);
     //clear press flag
     xResult = xEventGroupClearBitsFromISR(virtualButtonsIn[vb/4],(1<<(vb%4)));
+    //extra handling for long press
+    if(pin == HAL_IO_PIN_LONGACTION)
+    {
+      //check if timer is initialized, if yes reset & start
+      if(longactiontimer != NULL) xTimerStopFromISR(longactiontimer,&xHigherPriorityTaskWoken);
+    }
   }
   if(xResult == pdPASS) portYIELD_FROM_ISR();
 }
@@ -483,8 +532,36 @@ void halIOLEDTask(void * param)
   }
 }
 
-#define RMT_TICK_10_US    (80000000/RMT_CLK_DIV/100000)   /*!< RMT counter value for 10 us.(Source clock is APB clock) */
-#define RMT_CLK_DIV      100    /*!< RMT counter clock divider */
+/** @brief Add long press handler for Wifi button
+ * 
+ * One button (define by HAL_IO_PIN_LONGACTION) can be used as long press button for enabling/disabling
+ * wifi (in addition to normal press/release actions).
+ * If this functionality should be used, add a handler with this method,
+ * which will be called after the button is pressed longer than
+ * HAL_IO_LONGACTION_TIMEOUT.
+ * 
+ * @note HAL_IO_PIN_LONGACTION cannot be used as individual button.
+ * Use a pin, which is already used for a normal action, otherwise the
+ * handler won't be used (ISR won't get triggered).
+ * 
+ * @note Clear the handler by passing a void function pointer.
+ * 
+ * @see HAL_IO_LONGACTION_TIMEOUT
+ * @see HAL_IO_PIN_LONGACTION
+ * @param longpress_h Handler for long press action, use a null pointer to disable the handler.
+ */
+void halIOAddLongPressHandler(void (*longpress_h)(void))
+{
+  longpress_handler = longpress_h;
+}
+
+/** @brief Timer callback for calling longpress handler.
+ * @param xTimer Unused */
+void halIOTimerCallback(TimerHandle_t xTimer)
+{
+  if(longpress_handler != NULL) longpress_handler();
+}
+
 
 /** @brief Initializing IO HAL
  * 
@@ -550,6 +627,15 @@ esp_err_t halIOInit(void)
     gpio_isr_handler_add(HAL_IO_PIN_BUTTON_EXT6, gpio_isr_handler, (void*) HAL_IO_PIN_BUTTON_EXT6);
     gpio_isr_handler_add(HAL_IO_PIN_BUTTON_EXT7, gpio_isr_handler, (void*) HAL_IO_PIN_BUTTON_EXT7);
   #endif
+  
+  /*++++ init long press action timer. ++++*/
+  //create a single shot timer with given period (HAL_IO_LONGACTION_TIMEOUT)
+  longactiontimer = xTimerCreate("IO_longaction", HAL_IO_LONGACTION_TIMEOUT/portTICK_PERIOD_MS, \
+    pdFALSE, (void *) 0, halIOTimerCallback);
+  if(longactiontimer == NULL)
+  {
+    ESP_LOGE(LOG_TAG,"Long action timer cannot be initialized, handler won't be called");
+  }
   
   /*++++ init infrared drivers (via RMT engine) ++++*/
   halIOIRRecvQueue = xQueueCreate(8,sizeof(halIOIR_t*));

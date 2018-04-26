@@ -175,3 +175,10 @@ button.selected {
     border-color: #33C3F0;
     background-color: #cceff9;
 }
+
+.button-primary.selected {
+    border-width: 0.2em;
+    border-color: #0c82a6;
+    background-color: #33C3F0;
+    box-shadow: black ;
+}

@@ -64,7 +64,7 @@
         </div>
         <div data-tabs-pane class="tabs-pane" id="tabBasic">
             <div tabindex="-1">
-                <h2 i18n style="display: none" aria-hidden="false" i18n>Tab 1 - Basic FlipMouse Setup // Tab 1 - Basiskonfiguration FlipMouse</h2>
+                <h2 i18n style="display: none" aria-hidden="false" i18n>Tab one - Basic FlipMouse Setup // Tab eins - FlipMouse Basiskonfiguration</h2>
             </div>
             <div id="basic-SENSITIVITY-single">
                 <label for="SENSITIVITY" i18n>Sensitivity: // Sensitivität:</label>
@@ -167,9 +167,8 @@
                 <h2 i18n style="display: none" aria-hidden="false" i18n>Tab 2 - FlipMouse Sip and Puff Configuration // Tab 2 - FlipMouse Konfiguration Saug-/Blassteuerung</h2>
             </div>
             <div id="tab-puff-container" class="relative">
-
                 <div class="row back-layer full-height full-width">
-                    <div class="two columns"><span style="font-size: 1px; color: transparent">_</span></div>
+                    <div aria-hidden="true" class="two columns"><span style="font-size: 1px; color: transparent">_</span></div>
                     <div class="ten columns full-height relative">
                         <div id="guide-current" class="back-layer full-height border-right-gray"
                              style="width: 50%;"></div>
@@ -181,25 +180,28 @@
                 <br/>
                 <label for="SIP_THRESHOLD" i18n>Sip Threshold: // Schwellenwert Saugen:</label>
                 <div id="SIP_THRESHOLD_WRAPPER" class="row">
-                    <span id="SIP_THRESHOLD_VAL" class="text-center two columns">0</span>
+                    <span aria-hidden="true" id="SIP_THRESHOLD_VAL" class="text-center two columns">0</span>
                     <input type="range" oninput="tabSip.sipSliderChanged(this)" onchange="tabSip.sipSliderChanged(this)"
                            id="SIP_THRESHOLD" min="0" max="1023" class="ten columns"/>
                 </div>
                 <label for="SIP_STRONG_THRESHOLD" i18n>Strong Sip Threshold: // Schwellenwert Saugen
                     stark:</label>
                 <div id="SIP_STRONG_THRESHOLD_WRAPPER" class="row">
-                    <span id="SIP_STRONG_THRESHOLD_VAL" class="text-center two columns">0</span>
+                    <span aria-hidden="true" id="SIP_STRONG_THRESHOLD_VAL" class="text-center two columns">0</span>
                     <input type="range" oninput="tabSip.sipSliderChanged(this)" onchange="tabSip.sipSliderChanged(this)"
                            id="SIP_STRONG_THRESHOLD" min="0" max="1023" class="ten columns"/>
                 </div>
 
                 <br/>
-                <label for="value-bar-wrapper" i18n>Live values: // Aktuelle Werte:</label>
+                <label aria-hidden="true" for="value-bar-wrapper" i18n>Live values: // Aktuelle Werte:</label>
+                <span type="range" disabled class="hidden" aria-hidden="false" i18n>Current pressure value // Aktueller Wert Druck</span>
+                <input type="range" id="value-bar-slider" disabled class="hidden" aria-hidden="false"/>
                 <div class="row">
-                    <div id="value-bar-wrapper" class="text-center two columns">
+                    <div aria-hidden="true" id="value-bar-wrapper" class="text-center two columns">
                         <span i18n>current: // aktuell:</span><span id="currentValue">0</span>,
                         <span>max:</span><span id="maxValue">0</span>,
-                        <span>min:</span><span id="minValue">-1</span></div>
+                        <span>min:</span><span id="minValue">-1</span>
+                    </div>
                     <div class="ten columns"
                          style="position:relative; height: 2em; border-style: solid; border-width: thin; background-color: transparent">
                         <div id="sippuff-value-bar" class="value-bar" style="width: 50%;"></div>
@@ -210,14 +212,14 @@
                 <br/>
                 <label for="PUFF_THRESHOLD" i18n>Puff Threshold: // Schwellenwert Blasen:</label>
                 <div id="PUFF_THRESHOLD_WRAPPER" class="row">
-                    <span id="PUFF_THRESHOLD_VAL" class="text-center two columns">0</span>
+                    <span aria-hidden="true" id="PUFF_THRESHOLD_VAL" class="text-center two columns">0</span>
                     <input type="range" oninput="tabSip.sipSliderChanged(this)" onchange="tabSip.sipSliderChanged(this)"
                            id="PUFF_THRESHOLD" min="0" max="1023" class="ten columns">
                 </div>
                 <label for="PUFF_STRONG_THRESHOLD" i18n>Strong Puff Threshold: // Schwellenwert Blasen
                     stark:</label>
                 <div id="PUFF_STRONG_THRESHOLD_WRAPPER" class="row">
-                    <span id="PUFF_STRONG_THRESHOLD_VAL" class="text-center two columns">0</span>
+                    <span aria-hidden="true" id="PUFF_STRONG_THRESHOLD_VAL" class="text-center two columns">0</span>
                     <input type="range" oninput="tabSip.sipSliderChanged(this)" onchange="tabSip.sipSliderChanged(this)"
                            id="PUFF_STRONG_THRESHOLD" min="0" max="1023" class="ten columns">
                 </div>

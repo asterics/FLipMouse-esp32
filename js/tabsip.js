@@ -32,6 +32,9 @@ window.tabSip.sipPuffValueHandler = function (data) {
     L('#maxValue').innerHTML = max;
     L('#minValue').innerHTML = min;
     L('#currentValue').innerHTML = val;
+    L('#value-bar-slider').value = val;
+    L('#value-bar-slider').min = min;
+    L('#value-bar-slider').max = max;
 
     L('#guide-max').style = 'width: ' + percentMax + '%;';
     L('#guide-min').style = 'width: ' + percentMin + '%;';

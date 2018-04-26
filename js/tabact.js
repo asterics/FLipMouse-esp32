@@ -23,14 +23,17 @@ window.tabAction.init = function () {
 window.tabAction.initBtnModeActionTable = function () {
     L.removeAllChildren('#currentConfigTb');
     var backColor = false;
+    var ariaDesc = '<span class="hidden" aria-hidden="false">' + L.translate('DESCRIPTION') + '</span>';
+    var ariaAction = '<span class="hidden" aria-hidden="false">' + L.translate('CURR_ACTION') + '</span>';
+    var ariaAtCmd = '<span class="hidden" aria-hidden="false">' + L.translate('CURR_AT_CMD') + '</span>';
     C.BTN_MODES.forEach(function (btnMode) {
         var liElm = L.createElement('li', 'row');
         var changeA = L.createElement('a', '', L.translate(btnMode));
         changeA.href = 'javascript:tabAction.selectActionButton("' + btnMode + '")';
         changeA.title = L.translate('CHANGE_TOOLTIP', L.translate(btnMode));
-        var descriptionDiv = L.createElement('div', 'two columns', changeA);
-        var currentActionDiv = L.createElement('div', 'four columns', getReadable(flip.getConfig(btnMode)));
-        var currentAtCmdDiv = L.createElement('div', 'four columns', flip.getConfig(btnMode));
+        var descriptionDiv = L.createElement('div', 'two columns', [ariaDesc, changeA]);
+        var currentActionDiv = L.createElement('div', 'four columns', [ariaAction, getReadable(flip.getConfig(btnMode))]);
+        var currentAtCmdDiv = L.createElement('div', 'four columns', [ariaAtCmd, flip.getConfig(btnMode)]);
         var spacerDiv = L.createElement('div', 'one column show-mobile space-bottom');
         liElm.appendChild(descriptionDiv);
         liElm.appendChild(currentActionDiv);

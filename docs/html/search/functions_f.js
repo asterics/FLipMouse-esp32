@@ -6,5 +6,6 @@ var searchData=
   ['setn16',['setn16',['../captdns_8c.html#a21dfd38acc9e61af1ce25d3fe687e22f',1,'captdns.c']]],
   ['setn32',['setn32',['../captdns_8c.html#a4868ba2e5fb29569ef87f4d56c52fc5a',1,'captdns.c']]],
   ['starttimer',['startTimer',['../task__debouncer_8c.html#a2d41ed2a246a1b8d4ee5510262001e50',1,'task_debouncer.c']]],
-  ['strtolabel',['strToLabel',['../captdns_8c.html#a01294bcdad17e226e50f0c707fee3852',1,'captdns.c']]]
+  ['strtolabel',['strToLabel',['../captdns_8c.html#a01294bcdad17e226e50f0c707fee3852',1,'captdns.c']]],
+  ['switch_5fradio',['switch_radio',['../flipmouse__fabi__esp32__kbdmouse__main_8c.html#a93e2ea21db142b4c7172565051a18cb1',1,'flipmouse_fabi_esp32_kbdmouse_main.c']]]
 ];

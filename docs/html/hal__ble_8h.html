@@ -86,6 +86,9 @@ Functions</h2></td></tr>
 <tr class="separator:a8ad6c50e81bae3e24e2f86a2797384c2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:accf307974a0046bce38582d0260bf841"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="hal__ble_8h.html#accf307974a0046bce38582d0260bf841">halBLEReset</a> (uint8_t exceptDevice)</td></tr>
 <tr class="separator:accf307974a0046bce38582d0260bf841"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1ade7df97a34fa89e0f2db7f5d2614de"><td class="memItemLeft" align="right" valign="top">esp_err_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="hal__ble_8h.html#a1ade7df97a34fa89e0f2db7f5d2614de">halBLEEnDisable</a> (int onoff)</td></tr>
+<tr class="memdesc:a1ade7df97a34fa89e0f2db7f5d2614de"><td class="mdescLeft">&#160;</td><td class="mdescRight">En- or Disable BLE interface.  <a href="#a1ade7df97a34fa89e0f2db7f5d2614de">More...</a><br /></td></tr>
+<tr class="separator:a1ade7df97a34fa89e0f2db7f5d2614de"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Macro Definition Documentation</h2>
 <a id="ae755abe4e9fee17dd29035a97ea7d87a"></a>
@@ -102,11 +105,55 @@ Functions</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="hal__ble_8h_source.html#l00040">40</a> of file <a class="el" href="hal__ble_8h_source.html">hal_ble.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="hal__ble_8c_source.html#l00426">halBLEInit()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="hal__ble_8c_source.html#l00449">halBLEInit()</a>.</p>
 
 </div>
 </div>
 <h2 class="groupheader">Function Documentation</h2>
+<a id="a1ade7df97a34fa89e0f2db7f5d2614de"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1ade7df97a34fa89e0f2db7f5d2614de">&#9670;&nbsp;</a></span>halBLEEnDisable()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">esp_err_t halBLEEnDisable </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>onoff</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>En- or Disable BLE interface. </p>
+<p>This method is used to enable or disable the BLE interface. Currently, the ESP32 cannot use WiFi and BLE simultaneously. Therefore, when enabling wifi, it is necessary to disable BLE prior calling taskWebGUIEnDisable.</p>
+<dl class="section note"><dt>Note</dt><dd>Calling this method prior to initializing BLE via halBLEInit will result in an error! </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>ESP_OK on success, ESP_FAIL otherwise </dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">onoff</td><td>If != 0, switch on BLE, switch off if 0. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="hal__ble_8c_source.html#l00426">426</a> of file <a class="el" href="hal__ble_8c_source.html">hal_ble.c</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c_source.html#l00119">app_main()</a>, <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c_source.html#l00082">switch_radio()</a>, and <a class="el" href="task__webgui_8c_source.html#l00427">wifi_timer_cb()</a>.</p>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="hal__ble_8h_a1ade7df97a34fa89e0f2db7f5d2614de_icgraph.png" border="0" usemap="#hal__ble_8h_a1ade7df97a34fa89e0f2db7f5d2614de_icgraph" alt=""/></div>
+<map name="hal__ble_8h_a1ade7df97a34fa89e0f2db7f5d2614de_icgraph" id="hal__ble_8h_a1ade7df97a34fa89e0f2db7f5d2614de_icgraph">
+<area shape="rect" id="node2" href="flipmouse__fabi__esp32__kbdmouse__main_8c.html#abce06be17fc37d675118a678a8100a36" title="Main task, created by esp&#45;idf. " alt="" coords="488,24,567,51"/>
+<area shape="rect" id="node3" href="flipmouse__fabi__esp32__kbdmouse__main_8c.html#a93e2ea21db142b4c7172565051a18cb1" title="Switch radio mode. " alt="" coords="335,24,429,51"/>
+<area shape="rect" id="node4" href="task__webgui_8c.html#ae5ad2f76f20781fd8c89e542bcc8a551" title="Timer callback for disabling wifi. " alt="" coords="177,75,276,101"/>
+<area shape="rect" id="node5" href="task__webgui_8h.html#a669b9245d5040c0162481f7b24dbeea7" title="Init the web / DNS server and the web gui. " alt="" coords="324,75,440,101"/>
+</map>
+</div>
+
+</div>
+</div>
 <a id="a8ad6c50e81bae3e24e2f86a2797384c2"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a8ad6c50e81bae3e24e2f86a2797384c2">&#9670;&nbsp;</a></span>halBLEInit()</h2>
 
@@ -149,12 +196,11 @@ Functions</h2></td></tr>
 <a class="el" href="common_8h.html#ac9a214fe0920b60586b7cd204ad0ce0a" title="Determine used device. Either FABI or FLipMouse. ">DEVICE_FLIPMOUSE</a> </dd></dl>
 </li>
 </ul>
-<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000025">Todo:</a></b></dt><dd>Switch between BLE &amp; WIFI! </dd></dl>
 <p>register the callback function to the gap module </p>
 
-<p class="definition">Definition at line <a class="el" href="hal__ble_8c_source.html#l00426">426</a> of file <a class="el" href="hal__ble_8c_source.html">hal_ble.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="hal__ble_8c_source.html#l00449">449</a> of file <a class="el" href="hal__ble_8c_source.html">hal_ble.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c_source.html#l00074">app_main()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c_source.html#l00119">app_main()</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">

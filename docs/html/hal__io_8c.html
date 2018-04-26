@@ -82,10 +82,12 @@ Macros</h2></td></tr>
 <tr class="memitem:a7ce0df38eb467e59f209470c8f5ac4e6"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="hal__io_8c.html#a7ce0df38eb467e59f209470c8f5ac4e6">LOG_TAG</a>&#160;&#160;&#160;&quot;halIO&quot;</td></tr>
 <tr class="memdesc:a7ce0df38eb467e59f209470c8f5ac4e6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Log tag.  <a href="#a7ce0df38eb467e59f209470c8f5ac4e6">More...</a><br /></td></tr>
 <tr class="separator:a7ce0df38eb467e59f209470c8f5ac4e6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:acfe8de99b8ccf08b2d34c25bac254f21"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="hal__io_8c.html#acfe8de99b8ccf08b2d34c25bac254f21">RMT_TICK_10_US</a>&#160;&#160;&#160;(80000000/<a class="el" href="hal__io_8c.html#a902a07543b8754716667f7d0102ad9af">RMT_CLK_DIV</a>/100000)</td></tr>
-<tr class="separator:acfe8de99b8ccf08b2d34c25bac254f21"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a902a07543b8754716667f7d0102ad9af"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="hal__io_8c.html#a902a07543b8754716667f7d0102ad9af">RMT_CLK_DIV</a>&#160;&#160;&#160;100</td></tr>
+<tr class="memdesc:a902a07543b8754716667f7d0102ad9af"><td class="mdescLeft">&#160;</td><td class="mdescRight">Clock divider for RMT engine.  <a href="#a902a07543b8754716667f7d0102ad9af">More...</a><br /></td></tr>
 <tr class="separator:a902a07543b8754716667f7d0102ad9af"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acfe8de99b8ccf08b2d34c25bac254f21"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="hal__io_8c.html#acfe8de99b8ccf08b2d34c25bac254f21">RMT_TICK_10_US</a>&#160;&#160;&#160;(80000000/<a class="el" href="hal__io_8c.html#a902a07543b8754716667f7d0102ad9af">RMT_CLK_DIV</a>/100000)</td></tr>
+<tr class="memdesc:acfe8de99b8ccf08b2d34c25bac254f21"><td class="mdescLeft">&#160;</td><td class="mdescRight">RMT counter value for 10 us.(Source clock is APB clock)  <a href="#acfe8de99b8ccf08b2d34c25bac254f21">More...</a><br /></td></tr>
+<tr class="separator:acfe8de99b8ccf08b2d34c25bac254f21"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
@@ -107,6 +109,12 @@ Functions</h2></td></tr>
 <tr class="memitem:ad83b58c9ee836526a874392c0757f42d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="hal__io_8c.html#ad83b58c9ee836526a874392c0757f42d">halIOLEDTask</a> (void *param)</td></tr>
 <tr class="memdesc:ad83b58c9ee836526a874392c0757f42d"><td class="mdescLeft">&#160;</td><td class="mdescRight">HAL TASK - LED update task.  <a href="#ad83b58c9ee836526a874392c0757f42d">More...</a><br /></td></tr>
 <tr class="separator:ad83b58c9ee836526a874392c0757f42d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a645ccf6a4abeccd8639c66f11138af4a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="hal__io_8c.html#a645ccf6a4abeccd8639c66f11138af4a">halIOAddLongPressHandler</a> (void(*longpress_h)(void))</td></tr>
+<tr class="memdesc:a645ccf6a4abeccd8639c66f11138af4a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Add long press handler for Wifi button.  <a href="#a645ccf6a4abeccd8639c66f11138af4a">More...</a><br /></td></tr>
+<tr class="separator:a645ccf6a4abeccd8639c66f11138af4a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a410f1d9b7e6031b9e626af17fba411d1"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="hal__io_8c.html#a410f1d9b7e6031b9e626af17fba411d1">halIOTimerCallback</a> (TimerHandle_t xTimer)</td></tr>
+<tr class="memdesc:a410f1d9b7e6031b9e626af17fba411d1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Timer callback for calling longpress handler.  <a href="#a410f1d9b7e6031b9e626af17fba411d1">More...</a><br /></td></tr>
+<tr class="separator:a410f1d9b7e6031b9e626af17fba411d1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa5ee74913a09cba6dca62bfdc9f8342b"><td class="memItemLeft" align="right" valign="top">esp_err_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="hal__io_8c.html#aa5ee74913a09cba6dca62bfdc9f8342b">halIOInit</a> (void)</td></tr>
 <tr class="memdesc:aa5ee74913a09cba6dca62bfdc9f8342b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initializing IO HAL.  <a href="#aa5ee74913a09cba6dca62bfdc9f8342b">More...</a><br /></td></tr>
 <tr class="separator:aa5ee74913a09cba6dca62bfdc9f8342b"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -116,6 +124,12 @@ Variables</h2></td></tr>
 <tr class="memitem:a9e32dec844f77f4ba6f10d4641ef8779"><td class="memItemLeft" align="right" valign="top">QueueHandle_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="hal__io_8c.html#a9e32dec844f77f4ba6f10d4641ef8779">halIOLEDQueue</a> = NULL</td></tr>
 <tr class="memdesc:a9e32dec844f77f4ba6f10d4641ef8779"><td class="mdescLeft">&#160;</td><td class="mdescRight">LED update queue.  <a href="#a9e32dec844f77f4ba6f10d4641ef8779">More...</a><br /></td></tr>
 <tr class="separator:a9e32dec844f77f4ba6f10d4641ef8779"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aba77c006695c650e4f6ff02f4b5c570d"><td class="memItemLeft" align="right" valign="top">void(*&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="hal__io_8c.html#aba77c006695c650e4f6ff02f4b5c570d">longpress_handler</a> )(void) = NULL</td></tr>
+<tr class="memdesc:aba77c006695c650e4f6ff02f4b5c570d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Currently active long press handler, null if not used.  <a href="#aba77c006695c650e4f6ff02f4b5c570d">More...</a><br /></td></tr>
+<tr class="separator:aba77c006695c650e4f6ff02f4b5c570d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abc911bad321a69c16c5e42f196ae6257"><td class="memItemLeft" align="right" valign="top">TimerHandle_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="hal__io_8c.html#abc911bad321a69c16c5e42f196ae6257">longactiontimer</a> = NULL</td></tr>
+<tr class="memdesc:abc911bad321a69c16c5e42f196ae6257"><td class="mdescLeft">&#160;</td><td class="mdescRight">Timer handle for long press action.  <a href="#abc911bad321a69c16c5e42f196ae6257">More...</a><br /></td></tr>
+<tr class="separator:abc911bad321a69c16c5e42f196ae6257"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>HAL TASK - This file contains the hardware abstraction for all IO related stuff (except ADC). </p>
@@ -127,8 +141,11 @@ Variables</h2></td></tr>
 <li>IR LED (sender)</li>
 <li>Buzzer</li>
 </ul>
+<p>All assigned buttons are processed via one GPIO ISR, which sets press and release flags in the VB input event group. In addition, one button can be configured for executing an extra handler after a long press (this long press is much longer compared to "long press" actions handled by task_debouncer). This handler is usually used for activating and deactivating the WiFi interface.</p>
+<p>The LED output is configurable either to 3 PWM outputs for RGB LEDs or a Neopixel string with variable length (RGB LEDs use ledc facilities, Neopixels use RMT engine). To enable easy color settings, macros are provided (<a class="el" href="hal__io_8h.html#a480a15dad4ba5947f98a09220a6c2827" title="Macro to easily update the LEDs (RGB or Neopixel, depending on configuration) ">LED(r,g,b,m)</a>).</p>
+<p>IR receiving / sending is done via the RMT engine and is supported by macros as well.</p>
 <dl class="section note"><dt>Note</dt><dd>Compared to the tasks in the folder "function_tasks" all HAL tasks are singletons. Call init to initialize every necessary data structure.</dd></dl>
-<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000026">Todo:</a></b></dt><dd>Test LED driver, Buzzer &amp; IR </dd></dl>
+<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000025">Todo:</a></b></dt><dd>Test LED driver (RGB &amp; Neopixel) </dd></dl>
 
 <p class="definition">Definition in file <a class="el" href="hal__io_8c_source.html">hal_io.c</a>.</p>
 </div><h2 class="groupheader">Macro Definition Documentation</h2>
@@ -146,9 +163,9 @@ Variables</h2></td></tr>
 
 <p>Log tag. </p>
 
-<p class="definition">Definition at line <a class="el" href="hal__io_8c_source.html#l00040">40</a> of file <a class="el" href="hal__io_8c_source.html">hal_io.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="hal__io_8c_source.html#l00055">55</a> of file <a class="el" href="hal__io_8c_source.html">hal_io.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="hal__io_8c_source.html#l00315">halIOBuzzerTask()</a>, <a class="el" href="hal__io_8c_source.html#l00494">halIOInit()</a>, <a class="el" href="hal__io_8c_source.html#l00203">halIOIRRecvTask()</a>, <a class="el" href="hal__io_8c_source.html#l00153">halIOIRSendTask()</a>, and <a class="el" href="hal__io_8c_source.html#l00373">halIOLEDTask()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="hal__io_8c_source.html#l00364">halIOBuzzerTask()</a>, <a class="el" href="hal__io_8c_source.html#l00574">halIOInit()</a>, <a class="el" href="hal__io_8c_source.html#l00252">halIOIRRecvTask()</a>, <a class="el" href="hal__io_8c_source.html#l00202">halIOIRSendTask()</a>, and <a class="el" href="hal__io_8c_source.html#l00422">halIOLEDTask()</a>.</p>
 
 </div>
 </div>
@@ -163,11 +180,12 @@ Variables</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>RMT counter clock divider </p>
 
-<p class="definition">Definition at line <a class="el" href="hal__io_8c_source.html#l00484">484</a> of file <a class="el" href="hal__io_8c_source.html">hal_io.c</a>.</p>
+<p>Clock divider for RMT engine. </p>
 
-<p class="reference">Referenced by <a class="el" href="hal__io_8c_source.html#l00494">halIOInit()</a>.</p>
+<p class="definition">Definition at line <a class="el" href="hal__io_8c_source.html#l00109">109</a> of file <a class="el" href="hal__io_8c_source.html">hal_io.c</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="hal__io_8c_source.html#l00574">halIOInit()</a>.</p>
 
 </div>
 </div>
@@ -182,11 +200,12 @@ Variables</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
 <p>RMT counter value for 10 us.(Source clock is APB clock) </p>
 
-<p class="definition">Definition at line <a class="el" href="hal__io_8c_source.html#l00483">483</a> of file <a class="el" href="hal__io_8c_source.html">hal_io.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="hal__io_8c_source.html#l00112">112</a> of file <a class="el" href="hal__io_8c_source.html">hal_io.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="hal__io_8c_source.html#l00494">halIOInit()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="hal__io_8c_source.html#l00574">halIOInit()</a>.</p>
 
 </div>
 </div>
@@ -219,9 +238,9 @@ Variables</h2></td></tr>
 <p>This ISR handler is called on rising&amp;falling edge of each button GPIO.</p>
 <p>It sets and clears the VB flags accordingly on each call. These flags are used for button debouncing. </p><dl class="section see"><dt>See also</dt><dd><a class="el" href="task__debouncer_8h.html#a79d88e490be7198b9cc37556c66b837b" title="Debouncing main task. ">task_debouncer</a> </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="hal__io_8c_source.html#l00094">94</a> of file <a class="el" href="hal__io_8c_source.html">hal_io.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="hal__io_8c_source.html#l00124">124</a> of file <a class="el" href="hal__io_8c_source.html">hal_io.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="hal__io_8c_source.html#l00494">halIOInit()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="hal__io_8c_source.html#l00574">halIOInit()</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
@@ -229,6 +248,51 @@ Here is the caller graph for this function:</div>
 <map name="hal__io_8c_addfc4a2f0cb7848979817346b6f53afc_icgraph" id="hal__io_8c_addfc4a2f0cb7848979817346b6f53afc_icgraph">
 <area shape="rect" id="node2" href="hal__io_8h.html#aa5ee74913a09cba6dca62bfdc9f8342b" title="Initializing IO HAL. " alt="" coords="169,5,240,32"/>
 <area shape="rect" id="node3" href="flipmouse__fabi__esp32__kbdmouse__main_8c.html#abce06be17fc37d675118a678a8100a36" title="Main task, created by esp&#45;idf. " alt="" coords="288,5,367,32"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="a645ccf6a4abeccd8639c66f11138af4a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a645ccf6a4abeccd8639c66f11138af4a">&#9670;&nbsp;</a></span>halIOAddLongPressHandler()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void halIOAddLongPressHandler </td>
+          <td>(</td>
+          <td class="paramtype">void(*)(void)&#160;</td>
+          <td class="paramname"><em>longpress_h</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Add long press handler for Wifi button. </p>
+<p>One button (define by HAL_IO_PIN_LONGACTION) can be used as long press button for enabling/disabling wifi (in addition to normal press/release actions). If this functionality should be used, add a handler with this method, which will be called after the button is pressed longer than HAL_IO_LONGACTION_TIMEOUT.</p>
+<dl class="section note"><dt>Note</dt><dd>HAL_IO_PIN_LONGACTION cannot be used as individual button. Use a pin, which is already used for a normal action, otherwise the handler won't be used (ISR won't get triggered).</dd>
+<dd>
+Clear the handler by passing a void function pointer.</dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="hal__io_8h.html#a7501b46689ced3389164f900567a5025" title="Timeout ([ms]) for triggering long press action handler. ">HAL_IO_LONGACTION_TIMEOUT</a> </dd>
+<dd>
+<a class="el" href="hal__io_8h.html#a8db74aa62b01eaaa7e9b0080050d488f" title="PIN - which one is used for Wifi/BLE (long action handler)? ">HAL_IO_PIN_LONGACTION</a> </dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">longpress_h</td><td>Handler for long press action, use a null pointer to disable the handler. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="hal__io_8c_source.html#l00553">553</a> of file <a class="el" href="hal__io_8c_source.html">hal_io.c</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c_source.html#l00119">app_main()</a>.</p>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="hal__io_8c_a645ccf6a4abeccd8639c66f11138af4a_icgraph.png" border="0" usemap="#hal__io_8c_a645ccf6a4abeccd8639c66f11138af4a_icgraph" alt=""/></div>
+<map name="hal__io_8c_a645ccf6a4abeccd8639c66f11138af4a_icgraph" id="hal__io_8c_a645ccf6a4abeccd8639c66f11138af4a_icgraph">
+<area shape="rect" id="node2" href="flipmouse__fabi__esp32__kbdmouse__main_8c.html#abce06be17fc37d675118a678a8100a36" title="Main task, created by esp&#45;idf. " alt="" coords="236,5,315,32"/>
 </map>
 </div>
 
@@ -262,9 +326,9 @@ Here is the caller graph for this function:</div>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="hal__io_8c_source.html#l00315">315</a> of file <a class="el" href="hal__io_8c_source.html">hal_io.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="hal__io_8c_source.html#l00364">364</a> of file <a class="el" href="hal__io_8c_source.html">hal_io.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="hal__io_8c_source.html#l00494">halIOInit()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="hal__io_8c_source.html#l00574">halIOInit()</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -310,23 +374,24 @@ Here is the caller graph for this function:</div>
 <li>PWM for buzzer output </li>
 </ul>
 
-<p class="definition">Definition at line <a class="el" href="hal__io_8c_source.html#l00494">494</a> of file <a class="el" href="hal__io_8c_source.html">hal_io.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="hal__io_8c_source.html#l00574">574</a> of file <a class="el" href="hal__io_8c_source.html">hal_io.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c_source.html#l00074">app_main()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c_source.html#l00119">app_main()</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="hal__io_8c_aa5ee74913a09cba6dca62bfdc9f8342b_cgraph.png" border="0" usemap="#hal__io_8c_aa5ee74913a09cba6dca62bfdc9f8342b_cgraph" alt=""/></div>
 <map name="hal__io_8c_aa5ee74913a09cba6dca62bfdc9f8342b_cgraph" id="hal__io_8c_aa5ee74913a09cba6dca62bfdc9f8342b_cgraph">
-<area shape="rect" id="node2" href="config__switcher_8c.html#a921538bec34d128a44a748fd5a2c391f" title="Get the current config struct. " alt="" coords="319,208,441,235"/>
-<area shape="rect" id="node3" href="hal__io_8c.html#addfc4a2f0cb7848979817346b6f53afc" title="GPIO ISR handler for buttons (internal/external) " alt="" coords="129,56,245,83"/>
-<area shape="rect" id="node4" href="hal__io_8c.html#a2c496a858bfe63759ccc520a2add4963" title="HAL TASK &#45; IR sending task. " alt="" coords="124,5,251,32"/>
-<area shape="rect" id="node6" href="hal__io_8c.html#af049ec6b187a1b5b1575120758561ae8" title="HAL TASK &#45; IR receiving (recording) task. " alt="" coords="124,157,251,184"/>
-<area shape="rect" id="node7" href="hal__io_8c.html#ad83b58c9ee836526a874392c0757f42d" title="HAL TASK &#45; LED update task. " alt="" coords="133,259,241,285"/>
-<area shape="rect" id="node10" href="hal__io_8c.html#a5c30b3b4a88e8f23489485659d53c7c0" title="HAL TASK &#45; Buzzer update task. " alt="" coords="126,107,249,133"/>
-<area shape="rect" id="node5" href="hal__io_8c.html#ac042a2c8cb99fa3ba52f8e494c1bbe13" title="Callback to free the memory after finished transmission. " alt="" coords="333,5,427,32"/>
-<area shape="rect" id="node8" href="hal__serial_8c.html#a8f987ba001c2a39c959a551a94b5df43" title="Send serial bytes to USB&#45;Serial (USB&#45;CDC) " alt="" coords="299,259,461,285"/>
-<area shape="rect" id="node9" href="hal__serial_8c.html#a132de0978f07044a393cc1f3b5276ced" title="halSerialSwitchTXChannel" alt="" coords="509,259,687,285"/>
+<area shape="rect" id="node2" href="config__switcher_8c.html#a921538bec34d128a44a748fd5a2c391f" title="Get the current config struct. " alt="" coords="330,259,451,285"/>
+<area shape="rect" id="node3" href="hal__io_8c.html#addfc4a2f0cb7848979817346b6f53afc" title="GPIO ISR handler for buttons (internal/external) " alt="" coords="135,56,251,83"/>
+<area shape="rect" id="node4" href="hal__io_8c.html#a410f1d9b7e6031b9e626af17fba411d1" title="Timer callback for calling longpress handler. " alt="" coords="124,107,261,133"/>
+<area shape="rect" id="node5" href="hal__io_8c.html#a2c496a858bfe63759ccc520a2add4963" title="HAL TASK &#45; IR sending task. " alt="" coords="129,5,256,32"/>
+<area shape="rect" id="node7" href="hal__io_8c.html#af049ec6b187a1b5b1575120758561ae8" title="HAL TASK &#45; IR receiving (recording) task. " alt="" coords="129,208,256,235"/>
+<area shape="rect" id="node8" href="hal__io_8c.html#ad83b58c9ee836526a874392c0757f42d" title="HAL TASK &#45; LED update task. " alt="" coords="139,309,247,336"/>
+<area shape="rect" id="node11" href="hal__io_8c.html#a5c30b3b4a88e8f23489485659d53c7c0" title="HAL TASK &#45; Buzzer update task. " alt="" coords="131,259,254,285"/>
+<area shape="rect" id="node6" href="hal__io_8c.html#ac042a2c8cb99fa3ba52f8e494c1bbe13" title="Callback to free the memory after finished transmission. " alt="" coords="344,5,437,32"/>
+<area shape="rect" id="node9" href="hal__serial_8c.html#a8f987ba001c2a39c959a551a94b5df43" title="Send serial bytes to USB&#45;Serial (USB&#45;CDC) " alt="" coords="309,309,472,336"/>
+<area shape="rect" id="node10" href="hal__serial_8c.html#a132de0978f07044a393cc1f3b5276ced" title="halSerialSwitchTXChannel" alt="" coords="520,309,697,336"/>
 </map>
 </div>
 <div class="dynheader">
@@ -375,9 +440,9 @@ Here is the caller graph for this function:</div>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="hal__io_8c_source.html#l00139">139</a> of file <a class="el" href="hal__io_8c_source.html">hal_io.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="hal__io_8c_source.html#l00188">188</a> of file <a class="el" href="hal__io_8c_source.html">hal_io.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="hal__io_8c_source.html#l00153">halIOIRSendTask()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="hal__io_8c_source.html#l00202">halIOIRSendTask()</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
@@ -419,9 +484,9 @@ Here is the caller graph for this function:</div>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="hal__io_8c_source.html#l00203">203</a> of file <a class="el" href="hal__io_8c_source.html">hal_io.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="hal__io_8c_source.html#l00252">252</a> of file <a class="el" href="hal__io_8c_source.html">hal_io.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="hal__io_8c_source.html#l00494">halIOInit()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="hal__io_8c_source.html#l00574">halIOInit()</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
@@ -462,9 +527,9 @@ Here is the caller graph for this function:</div>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="hal__io_8c_source.html#l00153">153</a> of file <a class="el" href="hal__io_8c_source.html">hal_io.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="hal__io_8c_source.html#l00202">202</a> of file <a class="el" href="hal__io_8c_source.html">hal_io.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="hal__io_8c_source.html#l00494">halIOInit()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="hal__io_8c_source.html#l00574">halIOInit()</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -510,11 +575,11 @@ Here is the caller graph for this function:</div>
   </table>
   </dd>
 </dl>
-<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000027">Todo:</a></b></dt><dd>It might be possible that we use Neopixel LEDs on the FLipMouse as well. Update if it is known. </dd></dl>
+<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000026">Todo:</a></b></dt><dd>It might be possible that we use Neopixel LEDs on the FLipMouse as well. Update if it is known. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="hal__io_8c_source.html#l00373">373</a> of file <a class="el" href="hal__io_8c_source.html">hal_io.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="hal__io_8c_source.html#l00422">422</a> of file <a class="el" href="hal__io_8c_source.html">hal_io.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="hal__io_8c_source.html#l00494">halIOInit()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="hal__io_8c_source.html#l00574">halIOInit()</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -532,6 +597,45 @@ Here is the caller graph for this function:</div>
 <map name="hal__io_8c_ad83b58c9ee836526a874392c0757f42d_icgraph" id="hal__io_8c_ad83b58c9ee836526a874392c0757f42d_icgraph">
 <area shape="rect" id="node2" href="hal__io_8h.html#aa5ee74913a09cba6dca62bfdc9f8342b" title="Initializing IO HAL. " alt="" coords="161,5,232,32"/>
 <area shape="rect" id="node3" href="flipmouse__fabi__esp32__kbdmouse__main_8c.html#abce06be17fc37d675118a678a8100a36" title="Main task, created by esp&#45;idf. " alt="" coords="280,5,359,32"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="a410f1d9b7e6031b9e626af17fba411d1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a410f1d9b7e6031b9e626af17fba411d1">&#9670;&nbsp;</a></span>halIOTimerCallback()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void halIOTimerCallback </td>
+          <td>(</td>
+          <td class="paramtype">TimerHandle_t&#160;</td>
+          <td class="paramname"><em>xTimer</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Timer callback for calling longpress handler. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">xTimer</td><td>Unused </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="hal__io_8c_source.html#l00560">560</a> of file <a class="el" href="hal__io_8c_source.html">hal_io.c</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="hal__io_8c_source.html#l00574">halIOInit()</a>.</p>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="hal__io_8c_a410f1d9b7e6031b9e626af17fba411d1_icgraph.png" border="0" usemap="#hal__io_8c_a410f1d9b7e6031b9e626af17fba411d1_icgraph" alt=""/></div>
+<map name="hal__io_8c_a410f1d9b7e6031b9e626af17fba411d1_icgraph" id="hal__io_8c_a410f1d9b7e6031b9e626af17fba411d1_icgraph">
+<area shape="rect" id="node2" href="hal__io_8h.html#aa5ee74913a09cba6dca62bfdc9f8342b" title="Initializing IO HAL. " alt="" coords="191,5,261,32"/>
+<area shape="rect" id="node3" href="flipmouse__fabi__esp32__kbdmouse__main_8c.html#abce06be17fc37d675118a678a8100a36" title="Main task, created by esp&#45;idf. " alt="" coords="309,5,388,32"/>
 </map>
 </div>
 
@@ -575,9 +679,51 @@ Here is the caller graph for this function:</div>
 <dd>
 <a class="el" href="common_8h.html#a0bd1824bfb24736925069b2b686f13f3" title="Set count of used Neopixels. ">LED_NEOPIXEL_COUNT</a> </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="hal__io_8c_source.html#l00069">69</a> of file <a class="el" href="hal__io_8c_source.html">hal_io.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="hal__io_8c_source.html#l00084">84</a> of file <a class="el" href="hal__io_8c_source.html">hal_io.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="hal__io_8c_source.html#l00494">halIOInit()</a>, and <a class="el" href="hal__io_8c_source.html#l00373">halIOLEDTask()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="hal__io_8c_source.html#l00574">halIOInit()</a>, and <a class="el" href="hal__io_8c_source.html#l00422">halIOLEDTask()</a>.</p>
+
+</div>
+</div>
+<a id="abc911bad321a69c16c5e42f196ae6257"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abc911bad321a69c16c5e42f196ae6257">&#9670;&nbsp;</a></span>longactiontimer</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">TimerHandle_t longactiontimer = NULL</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Timer handle for long press action. </p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="hal__io_8c.html#a645ccf6a4abeccd8639c66f11138af4a" title="Add long press handler for Wifi button. ">halIOAddLongPressHandler</a> </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="hal__io_8c_source.html#l00106">106</a> of file <a class="el" href="hal__io_8c_source.html">hal_io.c</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="hal__io_8c_source.html#l00124">gpio_isr_handler()</a>, and <a class="el" href="hal__io_8c_source.html#l00574">halIOInit()</a>.</p>
+
+</div>
+</div>
+<a id="aba77c006695c650e4f6ff02f4b5c570d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aba77c006695c650e4f6ff02f4b5c570d">&#9670;&nbsp;</a></span>longpress_handler</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void(* longpress_handler) (void) = NULL</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Currently active long press handler, null if not used. </p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="hal__io_8c.html#a645ccf6a4abeccd8639c66f11138af4a" title="Add long press handler for Wifi button. ">halIOAddLongPressHandler</a> </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="hal__io_8c_source.html#l00102">102</a> of file <a class="el" href="hal__io_8c_source.html">hal_io.c</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="hal__io_8c_source.html#l00553">halIOAddLongPressHandler()</a>, and <a class="el" href="hal__io_8c_source.html#l00560">halIOTimerCallback()</a>.</p>
 
 </div>
 </div>

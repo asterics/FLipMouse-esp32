@@ -1,5 +1,7 @@
 var searchData=
 [
+  ['radio',['radio',['../flipmouse__fabi__esp32__kbdmouse__main_8c.html#af5f9c13fa0128514696997d6dd9694f2',1,'radio():&#160;flipmouse_fabi_esp32_kbdmouse_main.c'],['../common_8h.html#af5f9c13fa0128514696997d6dd9694f2',1,'radio():&#160;flipmouse_fabi_esp32_kbdmouse_main.c']]],
+  ['radio_5fstatus_5ft',['radio_status_t',['../common_8h.html#ab6afacea6a7310707d47839506c30a73',1,'common.h']]],
   ['readme_2emd',['README.md',['../README_8md.html',1,'']]],
   ['readme_5fadd_5fnew_5ffunction_2emd',['README_add_new_Function.md',['../README__add__new__Function_8md.html',1,'']]],
   ['readme_5fat_5fcommand_5fapi_2emd',['README_AT_command_API.md',['../README__AT__command__API_8md.html',1,'']]],

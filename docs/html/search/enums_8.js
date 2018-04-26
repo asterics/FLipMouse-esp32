@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['ws_5fopcodes',['WS_OPCODES',['../websocket_8c.html#a74506acd552e308a0ab5c85ba9ae391c',1,'websocket.c']]]
+  ['radio_5fstatus_5ft',['radio_status_t',['../common_8h.html#ab6afacea6a7310707d47839506c30a73',1,'common.h']]]
 ];

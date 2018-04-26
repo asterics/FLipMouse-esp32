@@ -34,10 +34,7 @@
  * @see task_commands
  * @see atcmd_api
  * 
- * @todo Implement everything (or better said: port it from existing demo)
- * @todo How to integrate into hal_serial? Sending commands to task_commands is easy, but the other way round...
  * @todo Add wifi settings to cfg struct in hal_storage/common; default fallback should be defined
- * @todo Add start/stop function (for pairing/config button)
  * @todo After implementing, test everything....
  * */
 
@@ -219,7 +216,7 @@ static void http_server_netconn_serve(struct netconn *conn) {
 	char *buf;
 	u16_t buflen;
 	err_t err;
-
+  //receive incoming data/request
 	err = netconn_recv(conn, &inbuf);
 
 	if (err == ERR_OK) {
@@ -254,26 +251,36 @@ static void http_server_netconn_serve(struct netconn *conn) {
 
 /** @brief CONTINOUS TASK - Main webserver task
  * 
- * This task is used to handle incoming connections
- * @todo Improve comments
+ * This task is used to handle incoming connections via netconn_accept.
+ * Each time a connection is opened, it will be served by
+ * http_server_netconn_serve.
+ * 
+ * @see http_server_netconn_serve
+ * @param pvParameters Unused.
  * */
 static void http_server(void *pvParameters) {
 	
 	struct netconn *conn, *newconn;
 	err_t err;
+  //create a new TCP connection
 	conn = netconn_new(NETCONN_TCP);
+  //bind it to incoming port 80 (HTTP)
 	netconn_bind(conn, NULL, 80);
+  //LISTEN & wait...
 	netconn_listen(conn);
 	ESP_LOGI(LOG_TAG,"http_server task started");
 	do {
+    //accept connection & save netconn handle
 		err = netconn_accept(conn, &newconn);
 		if (err == ERR_OK) {
-      //server data to this connection
+      //serve data to this connection
 			http_server_netconn_serve(newconn);
+      //close connection if finished
 			netconn_delete(newconn);
 		}
-		vTaskDelay(10); //allows task to be pre-empted
+		vTaskDelay(2); //allows task to be pre-empted
 	} while(err == ERR_OK);
+  //if we run into an error
 	netconn_close(conn);
 	netconn_delete(conn);
 }
@@ -434,9 +441,21 @@ void wifi_timer_cb(TimerHandle_t xTimer)
 
 /** @brief Init the web / DNS server and the web gui
  * 
- * TBD: documentation what is done here
+ * This init function initializes the wifi, web server, dns server (captive portal)
+ * and the websocket.
  * 
- * @todo For testing, webserver will be active on startup. In final version, webserver is active on long button press only for 10min (SECURITY!)
+ * The web page is served from FAT file system (same partition as config
+ * files) via the http_server task. Communication between web page and 
+ * FLipMouse/FABI is done by a websocket, which is provided via the ws_server
+ * task.
+ * 
+ * @todo Activate/fix/test captive portal
+ * 
+ * @note Wifi is not enabled by default (BLE has priority), see taskWebGUIEnDisable
+ * @note IP Adress of the device is <b>192.168.10.1</b>
+ * @see taskWebGUIEnDisable
+ * @see CONFIG_AP_PASSWORD
+ * @see NVS_WIFIPW
  * @return ESP_OK on success, ESP_FAIL otherwise
  * */
 esp_err_t taskWebGUIInit(void)
@@ -459,7 +478,6 @@ esp_err_t taskWebGUIInit(void)
   /*++++ initialize WiFi (AP-mode) ++++*/
   esp_log_level_set("wifi", ESP_LOG_VERBOSE); // disable wifi driver logging
 	tcpip_adapter_init();
-  //#if 0
   // stop DHCP server
 	ESP_ERROR_CHECK(tcpip_adapter_dhcps_stop(TCPIP_ADAPTER_IF_AP));
   //assign new IP address to Wifi interface
@@ -472,7 +490,6 @@ esp_err_t taskWebGUIInit(void)
   
   // start the DHCP server   
   ESP_ERROR_CHECK(tcpip_adapter_dhcps_start(TCPIP_ADAPTER_IF_AP));
-  //#endif
 	
 	// initialize the wifi event handler
 	ESP_ERROR_CHECK(esp_event_loop_init(wifi_event_handler, NULL));
@@ -512,13 +529,6 @@ esp_err_t taskWebGUIInit(void)
     ESP_LOGE(LOG_TAG,"Cannot start wifi disabling timer, no auto disable!");
   }
 	
-	// print the local IP address
-	/*tcpip_adapter_ip_info_t ip_info;
-	ESP_ERROR_CHECK(tcpip_adapter_get_ip_info(TCPIP_ADAPTER_IF_AP, &ip_info));
-	ESP_LOGI(LOG_TAG,"IP Address:\t%s", ip4addr_ntoa(&ip_info.ip));
-	ESP_LOGI(LOG_TAG," Subnet mask:\t%s", ip4addr_ntoa(&ip_info.netmask));
-	ESP_LOGI(LOG_TAG," Gateway:\t%s", ip4addr_ntoa(&ip_info.gw));	
-	*/
 	// start the HTTP Server task
   xTaskCreate(&http_server, "http_server", TASK_WEBGUI_SERVER_STACKSIZE, NULL, 5, NULL);
   xTaskCreate(&ws_server, "ws_server", TASK_WEBGUI_WEBSOCKET_STACKSIZE, NULL, 5, NULL);

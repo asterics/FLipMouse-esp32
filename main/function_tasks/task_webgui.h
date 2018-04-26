@@ -74,8 +74,21 @@
 
 /** @brief Init the web / DNS server and the web gui
  * 
- * TBD: documentation what is done here
+ * This init function initializes the wifi, web server, dns server (captive portal)
+ * and the websocket.
  * 
+ * The web page is served from FAT file system (same partition as config
+ * files) via the http_server task. Communication between web page and 
+ * FLipMouse/FABI is done by a websocket, which is provided via the ws_server
+ * task.
+ * 
+ * @todo Activate/fix/test captive portal
+ * 
+ * @note Wifi is not enabled by default (BLE has priority), see taskWebGUIEnDisable
+ * @note IP Adress of the device is <b>192.168.10.1</b>
+ * @see taskWebGUIEnDisable
+ * @see CONFIG_AP_PASSWORD
+ * @see NVS_WIFIPW
  * @return ESP_OK on success, ESP_FAIL otherwise
  * */
 esp_err_t taskWebGUIInit(void);

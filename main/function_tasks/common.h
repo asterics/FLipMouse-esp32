@@ -195,6 +195,12 @@ extern QueueHandle_t joystick_movement_usb;
 /** queue which receives joystick commands, triggered via BLE */
 extern QueueHandle_t joystick_movement_ble;
 
+
+/** @brief Possible states of the radio (wifi & BLE) */
+typedef enum {UNINITIALIZED,WIFI,BLE,BLE_PAIRING} radio_status_t;
+/** @brief Currently active radio state */
+extern radio_status_t radio;
+
 /** @brief Queue to receive config changing commands. 
  * 
  * A string is passed to this queue with a maximum length of SLOTNAME_LENGTH.

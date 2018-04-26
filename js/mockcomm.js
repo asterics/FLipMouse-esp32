@@ -2,6 +2,7 @@ function MockCommunicator() {
     var VALUE_CONSTANT = 'VALUES:';
     var _valueHandler = null;
     var _invervalHandler = null;
+    var thiz = this;
 
     this.setValueHandler = function (handler) {
         _valueHandler = handler;
@@ -9,6 +10,11 @@ function MockCommunicator() {
 
     this.sendData = function (value) {
         if (!value) return;
+        thiz.pressure = thiz.pressure || 500;
+        thiz.x = thiz.x || 0;
+        thiz.y = thiz.y || 0;
+        thiz.incrementP = thiz.increment || 1;
+        thiz.incrementXY = thiz.increment || 1;
 
         return new Promise(function (resolve) {
             if (value == 'AT') {
@@ -16,10 +22,16 @@ function MockCommunicator() {
             } else if (value.indexOf('AT SR') > -1) {
                 _invervalHandler = setInterval(function () {
                     if (L.isFunction(_valueHandler)) {
-                        var x = getRandomInt2(50);
-                        var y = getRandomInt2(50);
-                        var pressure = getRandomInt(450, 550);
-                        _valueHandler(VALUE_CONSTANT + pressure + ',0,0,0,0,' + x + ',' + y);
+                        thiz.pressure += thiz.increment;
+                        thiz.x += thiz.incrementXY*getRandomInt(-5,5);
+                        thiz.y += thiz.incrementXY*(-1)*getRandomInt(-5,5);
+                        if(thiz.pressure > 550 || thiz.pressure < 450) {
+                            thiz.increment *= -1;
+                        }
+                        if(thiz.y > 100 || thiz.y < -100 || thiz.x > 100 || thiz.x < -100) {
+                            thiz.incrementXY *= -1;
+                        }
+                        _valueHandler(VALUE_CONSTANT + thiz.pressure + ',0,0,0,0,' + thiz.x + ',' + thiz.y);
                     }
                 }, 200);
             } else if (value.indexOf('AT ER') > -1) {
@@ -28,6 +40,9 @@ function MockCommunicator() {
                 var cmds = C.DEFAULT_CONFIGURATION.join('\n');
                 cmds = 'Slot:mouse\n' + cmds + '\nEND';
                 resolve(cmds);
+            } else if (value.indexOf('AT CA') > -1) {
+                thiz.x = 0;
+                thiz.y = 0;
             }
             setTimeout(function () {
                 resolve();

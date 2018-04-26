@@ -6,6 +6,5 @@ var searchData=
   ['setn16',['setn16',['../captdns_8c.html#a21dfd38acc9e61af1ce25d3fe687e22f',1,'captdns.c']]],
   ['setn32',['setn32',['../captdns_8c.html#a4868ba2e5fb29569ef87f4d56c52fc5a',1,'captdns.c']]],
   ['starttimer',['startTimer',['../task__debouncer_8c.html#a2d41ed2a246a1b8d4ee5510262001e50',1,'task_debouncer.c']]],
-  ['strtolabel',['strToLabel',['../captdns_8c.html#a01294bcdad17e226e50f0c707fee3852',1,'captdns.c']]],
-  ['systemhandler',['systemhandler',['../task__webgui_8c.html#a9bf7c1a6878001fb547fa537f37ad644',1,'task_webgui.c']]]
+  ['strtolabel',['strToLabel',['../captdns_8c.html#a01294bcdad17e226e50f0c707fee3852',1,'captdns.c']]]
 ];

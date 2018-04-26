@@ -594,7 +594,8 @@ int halSerialSendUSBSerial(uint8_t channel, char *data, uint32_t length, TickTyp
   }
   
   //if an additional stream is registered, send data there as well
-  if(outputcb != NULL)
+  //no HID commands will be sent there.
+  if(outputcb != NULL && channel != HAL_SERIAL_TX_TO_HID)
   {
     if(outputcb(data,length) != ESP_OK)
     {

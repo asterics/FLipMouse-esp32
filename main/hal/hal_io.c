@@ -28,10 +28,25 @@
  * * IR LED (sender)
  * * Buzzer
  * 
+ * All assigned buttons are processed via one GPIO ISR, which sets press
+ * and release flags in the VB input event group.
+ * In addition, one button can be configured for executing an extra handler
+ * after a long press (this long press is much longer compared to "long press"
+ * actions handled by task_debouncer). This handler is usually used for
+ * activating and deactivating the WiFi interface.
+ * 
+ * The LED output is configurable either to 3 PWM outputs for RGB LEDs
+ * or a Neopixel string with variable length (RGB LEDs use ledc facilities,
+ * Neopixels use RMT engine). To enable easy color settings, macros are provided
+ * (LED(r,g,b,m)).
+ * 
+ * IR receiving / sending is done via the RMT engine and is supported by macros
+ * as well.
+ * 
  * @note Compared to the tasks in the folder "function_tasks" all HAL tasks are
  * singletons. Call init to initialize every necessary data structure.
  * 
- * @todo Test LED driver, Buzzer & IR
+ * @todo Test LED driver (RGB & Neopixel)
  * */
  
 #include "hal_io.h"
@@ -46,12 +61,56 @@
  * * \<bits 0-7\> RED
  * * \<bits 8-15\> GREEN
  * * \<bits 16-23\> BLUE
+ * 
+ * Depending on the LED config (either one RGB LED or Neopixels are used),
+ * bits 24-31 are used differently:
+ * 
+ * <b>RGB LED (LED_USE_NEOPIXEL is NOT defined)</b>:
+ * 
  * * \<bits 24-31\> Fading time ([10¹ms] -> value of 200 is 2s)
+ * 
+ * <b>Neopixels (LED_USE_NEOPIXEL is defined)</b>:
+ * 
+ * * \<bits 24-31\> Animation mode:
+ * * <b>0</b> Steady color on all Neopixels
+ * * <b>1</b> 3 Neopixels have the given color and are circled around
+ * * <b>2-0xFF</b> Currently undefined, further modes might be added.
  * 
  * @note Call halIOInit to initialize this queue.
  * @see halIOInit
+ * @see LED_USE_NEOPIXEL
+ * @see LED_NEOPIXEL_COUNT
  **/
 QueueHandle_t halIOLEDQueue = NULL;
+
+#if defined(DEVICE_FLIPMOUSE) && defined(LED_USE_NEOPIXEL)
+/** @brief Double buffering for neopixels - buffer 1 */
+struct led_color_t *neop_buf1 = NULL;
+/** @brief Double buffering for neopixels - buffer 2 */
+struct led_color_t *neop_buf2 = NULL;
+/**@brief Config struct for Neopixel strip */
+struct led_strip_t led_strip = {
+      .rgb_led_type = RGB_LED_TYPE_WS2812,
+      .rmt_channel = RMT_CHANNEL_7,
+      .gpio = HAL_IO_PIN_NEOPIXEL,
+      .led_strip_length = LED_NEOPIXEL_COUNT
+  };
+#endif
+
+/** @brief Currently active long press handler, null if not used 
+ * @see halIOAddLongPressHandler*/
+void (*longpress_handler)(void) = NULL;
+
+/**@brief Timer handle for long press action
+ * @see halIOAddLongPressHandler */
+TimerHandle_t longactiontimer = NULL;
+
+/** @brief Clock divider for RMT engine */
+#define RMT_CLK_DIV      100
+
+/** @brief RMT counter value for 10 us.(Source clock is APB clock) */
+#define RMT_TICK_10_US    (80000000/RMT_CLK_DIV/100000)   
+
 
 /** @brief GPIO ISR handler for buttons (internal/external)
  * 
@@ -68,6 +127,7 @@ static void gpio_isr_handler(void* arg)
   uint8_t vb = 0;
   BaseType_t xResult, xHigherPriorityTaskWoken = pdFALSE;
   
+  //determine pin of ISR reason
   switch(pin)
   {
     case HAL_IO_PIN_BUTTON_EXT1: vb = VB_EXTERNAL1; break;
@@ -86,17 +146,35 @@ static void gpio_isr_handler(void* arg)
     default: return;
   }
 
+  //press or release?
   if(gpio_get_level(pin) == 0)
   {
     //set press flag
     xResult = xEventGroupSetBitsFromISR(virtualButtonsIn[vb/4],(1<<(vb%4)),&xHigherPriorityTaskWoken);
     //clear release flag
     xResult = xEventGroupClearBitsFromISR(virtualButtonsIn[vb/4],(1<<(vb%4 + 4)));
+    
+    //extra handling for long press
+    if(pin == HAL_IO_PIN_LONGACTION)
+    {
+      //check if timer is initialized, if yes reset & start
+      if(longactiontimer != NULL)
+      {
+        xTimerResetFromISR(longactiontimer,&xHigherPriorityTaskWoken);
+        xTimerStartFromISR(longactiontimer,&xHigherPriorityTaskWoken);
+      }
+    }
   } else {
     //set release flag
     xResult = xEventGroupSetBitsFromISR(virtualButtonsIn[vb/4],(1<<(vb%4 + 4)),&xHigherPriorityTaskWoken);
     //clear press flag
     xResult = xEventGroupClearBitsFromISR(virtualButtonsIn[vb/4],(1<<(vb%4)));
+    //extra handling for long press
+    if(pin == HAL_IO_PIN_LONGACTION)
+    {
+      //check if timer is initialized, if yes reset & start
+      if(longactiontimer != NULL) xTimerStopFromISR(longactiontimer,&xHigherPriorityTaskWoken);
+    }
   }
   if(xResult == pdPASS) portYIELD_FROM_ISR();
 }
@@ -338,13 +416,19 @@ void halIOBuzzerTask(void * param)
  * and calls the ledc_fading_... methods of the esp-idf.
  * 
  * @see halIOLEDQueue
- * @param param Unused.
+ * @param param Unused
+ * @todo It might be possible that we use Neopixel LEDs on the FLipMouse as well. Update if it is known.
  */
 void halIOLEDTask(void * param)
 {
   uint32_t recv = 0;
+  #if defined(DEVICE_FLIPMOUSE) && !defined(LED_USE_NEOPIXEL)
   uint32_t duty = 0;
   uint32_t fade = 0;
+  #endif
+  #ifdef DEVICE_FABI
+  char cmd[5];
+  #endif
   generalConfig_t *cfg = configGetCurrent();
   
   if(halIOLEDQueue == NULL)
@@ -369,6 +453,22 @@ void halIOLEDTask(void * param)
       //check if feedback mode is set to LED output. If not: do nothing
       if((cfg->feedback & 0x01) == 0) continue;
       
+      //one Neopixel LED is mounted on FABI, driven by the USB chip
+      #ifdef DEVICE_FABI
+      
+      //'L' + <red> + <green> + <blue> + '\0'
+      cmd[0] = 'L';
+      cmd[1] = recv & 0x000000FF;
+      cmd[2] = ((recv & 0x0000FF00) >> 8);
+      cmd[3] = ((recv & 0x00FF0000) >> 16);
+      cmd[4] = '\0';
+      //send to USB chip (use HID channel, otherwise it would be sent to USB host)
+      halSerialSendUSBSerial(HAL_SERIAL_TX_TO_HID,cmd,strlen(cmd)+1,20);
+      
+      #endif
+      
+      //FLipMouse with RGB LEDs
+      #if defined(DEVICE_FLIPMOUSE) && !defined(LED_USE_NEOPIXEL)
       
       //updates received, sending to ledc driver
       
@@ -399,12 +499,69 @@ void halIOLEDTask(void * param)
       ledc_fade_start(LEDC_HIGH_SPEED_MODE, LEDC_CHANNEL_0, LEDC_FADE_NO_WAIT);
       ledc_fade_start(LEDC_HIGH_SPEED_MODE, LEDC_CHANNEL_1, LEDC_FADE_NO_WAIT);
       ledc_fade_start(LEDC_HIGH_SPEED_MODE, LEDC_CHANNEL_2, LEDC_FADE_NO_WAIT);
+      
+      #endif
+      
+      #if defined(DEVICE_FLIPMOUSE) && defined(LED_USE_NEOPIXEL)
+      //determine mode
+      switch(((recv & 0x00FF0000) >> 16))
+      {
+        //currently not supported, mapping to steady color
+        case 1:
+        
+        //steady color
+        case 0:
+          for(uint8_t i = 0; i<LED_NEOPIXEL_COUNT; i++)
+          {
+            //set the same color for each LED
+            led_strip_set_pixel_rgb(&led_strip, i,(recv & 0x000000FF), \
+              ((recv & 0x0000FF00) >> 8), ((recv & 0x00FF0000) >> 16));
+          }
+          //show new color
+          led_strip_show(&led_strip);
+          break;
+        default:
+          ESP_LOGE(LOG_TAG,"Unknown Neopixel animation mode");
+          break;
+      }
+      
+      
+      #endif
+      
     }
   }
 }
 
-#define RMT_TICK_10_US    (80000000/RMT_CLK_DIV/100000)   /*!< RMT counter value for 10 us.(Source clock is APB clock) */
-#define RMT_CLK_DIV      100    /*!< RMT counter clock divider */
+/** @brief Add long press handler for Wifi button
+ * 
+ * One button (define by HAL_IO_PIN_LONGACTION) can be used as long press button for enabling/disabling
+ * wifi (in addition to normal press/release actions).
+ * If this functionality should be used, add a handler with this method,
+ * which will be called after the button is pressed longer than
+ * HAL_IO_LONGACTION_TIMEOUT.
+ * 
+ * @note HAL_IO_PIN_LONGACTION cannot be used as individual button.
+ * Use a pin, which is already used for a normal action, otherwise the
+ * handler won't be used (ISR won't get triggered).
+ * 
+ * @note Clear the handler by passing a void function pointer.
+ * 
+ * @see HAL_IO_LONGACTION_TIMEOUT
+ * @see HAL_IO_PIN_LONGACTION
+ * @param longpress_h Handler for long press action, use a null pointer to disable the handler.
+ */
+void halIOAddLongPressHandler(void (*longpress_h)(void))
+{
+  longpress_handler = longpress_h;
+}
+
+/** @brief Timer callback for calling longpress handler.
+ * @param xTimer Unused */
+void halIOTimerCallback(TimerHandle_t xTimer)
+{
+  if(longpress_handler != NULL) longpress_handler();
+}
+
 
 /** @brief Initializing IO HAL
  * 
@@ -470,6 +627,15 @@ esp_err_t halIOInit(void)
     gpio_isr_handler_add(HAL_IO_PIN_BUTTON_EXT6, gpio_isr_handler, (void*) HAL_IO_PIN_BUTTON_EXT6);
     gpio_isr_handler_add(HAL_IO_PIN_BUTTON_EXT7, gpio_isr_handler, (void*) HAL_IO_PIN_BUTTON_EXT7);
   #endif
+  
+  /*++++ init long press action timer. ++++*/
+  //create a single shot timer with given period (HAL_IO_LONGACTION_TIMEOUT)
+  longactiontimer = xTimerCreate("IO_longaction", HAL_IO_LONGACTION_TIMEOUT/portTICK_PERIOD_MS, \
+    pdFALSE, (void *) 0, halIOTimerCallback);
+  if(longactiontimer == NULL)
+  {
+    ESP_LOGE(LOG_TAG,"Long action timer cannot be initialized, handler won't be called");
+  }
   
   /*++++ init infrared drivers (via RMT engine) ++++*/
   halIOIRRecvQueue = xQueueCreate(8,sizeof(halIOIR_t*));
@@ -541,8 +707,8 @@ esp_err_t halIOInit(void)
   
   
   
-  #ifdef DEVICE_FLIPMOUSE
-  /*++++ init RGB LEDc driver ++++*/
+  #if defined(DEVICE_FLIPMOUSE) && !defined(LED_USE_NEOPIXEL)
+  /*++++ init RGB LEDc driver (only if Neopixels are not used and we have a FLipMouse ++++*/
   
   //init RGB queue & ledc driver
   halIOLEDQueue = xQueueCreate(8,sizeof(uint32_t));
@@ -590,7 +756,28 @@ esp_err_t halIOInit(void)
     ESP_LOGE(LOG_TAG,"error creating task");
     return ESP_FAIL;
   }
+  #endif
   
+  #if defined(DEVICE_FLIPMOUSE) && defined(LED_USE_NEOPIXEL)
+  /*++++ init Neopixel driver (only if we have a FLipMouse configured for Neopixels) ++++*/
+  neop_buf1 = malloc(sizeof(struct led_color_t)*LED_NEOPIXEL_COUNT);
+  neop_buf2 = malloc(sizeof(struct led_color_t)*LED_NEOPIXEL_COUNT);
+  if(neop_buf1 == NULL || neop_buf2 == NULL)
+  {
+    ESP_LOGE(LOG_TAG,"Not enough memory to initialize Neopixel buffer");
+    return ESP_FAIL;
+  }
+  
+  //init remaining stuff of led strip driver struct
+  led_strip.access_semaphore = xSemaphoreCreateBinary();
+  led_strip.led_strip_buf_1 = neop_buf1;
+  led_strip.led_strip_buf_2 = neop_buf2;
+  //initialize module
+  if(led_strip_init(&led_strip) == false)
+  {
+    ESP_LOGE(LOG_TAG,"Error initializing led strip (Neopixels)!");
+    return ESP_FAIL;
+  }
   #endif
   /*++++ INIT buzzer ++++*/
   //we will use the LEDC unit for the buzzer

@@ -71,6 +71,9 @@ const static char http_html_hdr[] = "HTTP/1.1 200 OK\nContent-type: text/html\n\
 /** @brief Static HTTP 404 header */
 const static char http_404_hdr[] = "HTTP/1.1 404 NOT FOUND\n\n";
 
+/** @brief Timer handle for auto-disabling wifi */
+TimerHandle_t wifiTimer;
+
 /** @brief Get the number of currently connected Wifi stations
  * @return Number of connected clients */
 static int8_t getNumberOfWifiStations(void)
@@ -85,7 +88,45 @@ static int8_t getNumberOfWifiStations(void)
 	ESP_ERROR_CHECK(tcpip_adapter_get_sta_list(&wifi_sta_list, &adapter_sta_list));
   
   return adapter_sta_list.num;
-} 
+}
+
+/** @brief Simply reset & start OR stop the auto-off timer
+ * @see WIFI_OFF_TIME
+ * @param onoff If 0, timer will be stopped, started otherwise
+ * */
+void wifiStartStopOffTimer(int onoff)
+{
+  if(wifiTimer == NULL)
+  {
+    ESP_LOGE(LOG_TAG,"Wifi timer is NULL, cannot start/stop");
+    return;
+  }
+  
+  if(onoff == 0)
+  {
+    //check if timer is active
+    if(xTimerIsTimerActive(wifiTimer) != pdFALSE)
+    {
+      //check if we can stop the timer
+      if(xTimerStop(wifiTimer,0) != pdPASS)
+      {
+        ESP_LOGE(LOG_TAG,"Error stopping wifi timer, wifi will be disabled automatically!");
+      }
+    }
+  } else {
+    //first, reset the timer (if there was already some time passed)
+    if(xTimerReset(wifiTimer,0) != pdPASS)
+    {
+      ESP_LOGE(LOG_TAG,"could not reset auto-off timer, won't start!");
+    } else {
+      //start timer
+      if(xTimerStart(wifiTimer,0) != pdPASS)
+      {
+        ESP_LOGE(LOG_TAG,"Cannot start auto-off timer!");
+      }
+    }
+  }
+}
 
 /** @brief CONTINOUS TASK - Websocket server task
  * 
@@ -238,7 +279,19 @@ static void http_server(void *pvParameters) {
 }
 
 /** @brief Event handler for wifi status updates
- * @todo Document & adapt to firmware!
+ * 
+ * This handler is used to update flags for connected clients & active
+ * wifi.
+ * In addition, if a client is connected, an additional serial stream is
+ * added to halSerial, which is used to transfer outgoing data to the
+ * websocket (in addition to the normal serial interface).
+ * 
+ * @see connectionRoutingStatus
+ * @see WIFI_ACTIVE
+ * @see WIFI_CLIENT_CONNECTED
+ * @return ESP_OK on success, ESP_FAIL otherwise
+ * @param ctx Unused
+ * @param event Pointer to system event
  * */
 static esp_err_t wifi_event_handler(void *ctx, system_event_t *event) {
   //check if event flags are active
@@ -258,6 +311,8 @@ static esp_err_t wifi_event_handler(void *ctx, system_event_t *event) {
     case SYSTEM_EVENT_AP_START:
       ESP_LOGD(LOG_TAG,"Access point started");
       xEventGroupSetBits(connectionRoutingStatus, WIFI_ACTIVE);
+      //start off timer (switch off wifi, if no client connects in timeout)
+      wifiStartStopOffTimer(1);
       break;
 		
     case SYSTEM_EVENT_AP_STOP:
@@ -273,6 +328,9 @@ static esp_err_t wifi_event_handler(void *ctx, system_event_t *event) {
             
       //add the websocket sending functions to hal_serial for getting output data
       halSerialAddOutputStream(WS_write_data);
+      
+      //if the wifi timer is active, disable the timer (client is connected)
+      wifiStartStopOffTimer(0);
       break;
 
     case SYSTEM_EVENT_AP_STADISCONNECTED:
@@ -284,12 +342,94 @@ static esp_err_t wifi_event_handler(void *ctx, system_event_t *event) {
         halSerialRemoveOutputStream();
         //clear client connected flag
         xEventGroupClearBits(connectionRoutingStatus, WIFI_CLIENT_CONNECTED);
+        //start the auto-disable timer
+        wifiStartStopOffTimer(1);
       }
       break;		
     default:
       break;
   }  
 	return ESP_OK;
+}
+
+/** @brief En- or Disable WiFi interface.
+ * 
+ * This method is used to enable or disable the wifi interface. In order to
+ * provide a safe FLipMouse/FABI device, the Wifi hotspot is for configuration
+ * purposes only. Therefore, an enabled Wifi hotspot will be automatically disabled 
+ * within a defined time (see WIFI_OFF_TIME) after the last client was disconnected.
+ * In addition, other parts of the software might disable the Wifi prior to
+ * the automatic disconnect.
+ * 
+ * @note Calling this method prior to initializing wifi with taskWebGUIInit will
+ * result in an error!
+ * @return ESP_OK on success, ESP_FAIL otherwise
+ * @param onoff If != 0, switch on WiFi, switch off if 0.
+ * @see WIFI_OFF_TIME
+ * */
+esp_err_t taskWebGUIEnDisable(int onoff)
+{
+  esp_err_t ret;
+  //should we enable or disable wifi?
+  if(onoff == 0)
+  {
+    //clear wifi flags
+    xEventGroupClearBits(connectionRoutingStatus, WIFI_ACTIVE | WIFI_CLIENT_CONNECTED);
+    
+    //disable, call wifi_stop
+    ret = esp_wifi_stop();
+    //check return value
+    if(ret != ESP_OK)
+    {
+      ESP_LOGE(LOG_TAG,"Please initialize WiFi prior to enable/disable it!");
+      return ESP_FAIL;
+    } else return ESP_OK;
+  } else {
+    //start wifi
+    ret = esp_wifi_start();
+    switch(ret)
+    {
+      //everything ok
+      case ESP_OK: return ESP_OK;
+      //determine error
+      case ESP_ERR_WIFI_CONN:
+        ESP_LOGE(LOG_TAG,"Wifi internal error, control block invalid");
+        break;
+      case ESP_ERR_NO_MEM:
+        ESP_LOGE(LOG_TAG,"Wifi internal error, out of memory");
+        break;
+      case ESP_ERR_WIFI_NOT_INIT:
+        ESP_LOGE(LOG_TAG,"Please initialize WiFi prior to enable/disable it!");
+        break;
+      case ESP_FAIL:
+      case ESP_ERR_INVALID_ARG:
+      default:
+        ESP_LOGE(LOG_TAG,"Unknown internal Wifi error");
+        break;
+    }
+    return ESP_FAIL;
+  }
+}
+
+/** @brief Timer callback for disabling wifi.
+ * 
+ * This callback is executed, if the time expires after the last client
+ * disconnects. It will disable wifi.
+ * @param xTimer Timer handle which was used for calling this CB
+ * */
+void wifi_timer_cb(TimerHandle_t xTimer)
+{
+  if(taskWebGUIEnDisable(0) != ESP_OK)
+  {
+    ESP_LOGE(LOG_TAG,"Disabling wifi automatically: error!");
+  }
+
+  //if wifi is automatically disabled, we need to enable BLE again
+  //and set global status accordingly
+  if(halBLEEnDisable(1) != ESP_OK)
+  {
+    ESP_LOGE(LOG_TAG,"Error enabling BLE by wifi timer");
+  }
 }
 
 /** @brief Init the web / DNS server and the web gui
@@ -319,7 +459,7 @@ esp_err_t taskWebGUIInit(void)
   /*++++ initialize WiFi (AP-mode) ++++*/
   esp_log_level_set("wifi", ESP_LOG_VERBOSE); // disable wifi driver logging
 	tcpip_adapter_init();
-  #if 0
+  //#if 0
   // stop DHCP server
 	ESP_ERROR_CHECK(tcpip_adapter_dhcps_stop(TCPIP_ADAPTER_IF_AP));
   //assign new IP address to Wifi interface
@@ -332,7 +472,7 @@ esp_err_t taskWebGUIInit(void)
   
   // start the DHCP server   
   ESP_ERROR_CHECK(tcpip_adapter_dhcps_start(TCPIP_ADAPTER_IF_AP));
-  #endif
+  //#endif
 	
 	// initialize the wifi event handler
 	ESP_ERROR_CHECK(esp_event_loop_init(wifi_event_handler, NULL));
@@ -348,7 +488,7 @@ esp_err_t taskWebGUIInit(void)
 	wifi_config_t ap_config = {
     .ap = {
       .ssid = CONFIG_AP_SSID,
-			.ssid_len = strlen(wifipw),
+			.ssid_len = strlen(CONFIG_AP_SSID),
 			//.channel = CONFIG_AP_CHANNEL,
 			.authmode = CONFIG_AP_AUTHMODE,
 			.ssid_hidden = CONFIG_AP_SSID_HIDDEN,
@@ -357,13 +497,20 @@ esp_err_t taskWebGUIInit(void)
     },
   };
   memcpy(ap_config.ap.password,wifipw,strlen(wifipw)+1);
+  ESP_LOGI(LOG_TAG,"Wifipw: %s",ap_config.ap.password);
 	ESP_ERROR_CHECK(esp_wifi_set_config(WIFI_IF_AP, &ap_config));
     
-	// start the wifi interface
-	ESP_ERROR_CHECK(esp_wifi_start());
-  
   /*++++ initialize capitive portal dns server ++++*/
 	//captdnsInit();
+  
+  /*++++ initialize auto-off timer */
+  //init timer with given number of minutes. No reload, no timer id.
+  wifiTimer = xTimerCreate("wifi-autooff",(WIFI_OFF_TIME * 60000) / portTICK_PERIOD_MS, \
+    pdFALSE,(void *) 0,wifi_timer_cb);
+  if(wifiTimer == NULL)
+  {
+    ESP_LOGE(LOG_TAG,"Cannot start wifi disabling timer, no auto disable!");
+  }
 	
 	// print the local IP address
 	/*tcpip_adapter_ip_info_t ip_info;

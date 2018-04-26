@@ -424,6 +424,13 @@ void configSwitcherTask(void * params)
         TONE(0,TONE_CHANGESLOT_DURATION_PAUSE);
       }
       
+      //LED output on slot switch (steady color on Neopixel, short fading on RGB)
+      #ifndef LED_USE_NEOPIXEL
+        LED((slotnr%2)*0xFF,((slotnr/2)%2)*0xFF,((slotnr/4)%2)*0xFF,0);
+      #else
+        LED((slotnr%2)*0xFF,((slotnr/2)%2)*0xFF,((slotnr/4)%2)*0xFF,50);
+      #endif
+      
       //clean up
       halStorageFinishTransaction(tid);
       //save newly loaded cfg

@@ -63,6 +63,9 @@ $(function() {
 </div><!-- top -->
 <div class="header">
   <div class="summary">
+<a href="#nested-classes">Data Structures</a> &#124;
+<a href="#define-members">Macros</a> &#124;
+<a href="#typedef-members">Typedefs</a> &#124;
 <a href="#enum-members">Enumerations</a> &#124;
 <a href="#func-members">Functions</a>  </div>
   <div class="headertitle">
@@ -79,6 +82,8 @@ $(function() {
 <code>#include &lt;mbedtls/md5.h&gt;</code><br />
 <code>#include &quot;esp_vfs.h&quot;</code><br />
 <code>#include &quot;esp_vfs_fat.h&quot;</code><br />
+<code>#include &quot;nvs_flash.h&quot;</code><br />
+<code>#include &quot;nvs.h&quot;</code><br />
 <code>#include &quot;<a class="el" href="common_8h_source.html">common.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="task__kbd_8h_source.html">task_kbd.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="config__switcher_8h_source.html">../config_switcher.h</a>&quot;</code><br />
@@ -89,6 +94,24 @@ $(function() {
 </div>
 <p><a href="hal__storage_8h_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
+Data Structures</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structstorageHeader.html">storageHeader</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Header for a VB config in FAT file.  <a href="structstorageHeader.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="define-members"></a>
+Macros</h2></td></tr>
+<tr class="memitem:a305aadd4f9039f9f93f76a47d8479fc5"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="hal__storage_8h.html#a305aadd4f9039f9f93f76a47d8479fc5">HAL_STORAGE_NVS_NAMESPACE</a>&#160;&#160;&#160;&quot;devcfg&quot;</td></tr>
+<tr class="memdesc:a305aadd4f9039f9f93f76a47d8479fc5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Namespace for storing NVS key/value pairs.  <a href="#a305aadd4f9039f9f93f76a47d8479fc5">More...</a><br /></td></tr>
+<tr class="separator:a305aadd4f9039f9f93f76a47d8479fc5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="typedef-members"></a>
+Typedefs</h2></td></tr>
+<tr class="memitem:ac4672e8f194fe72f4c3f9c4440a907ea"><td class="memItemLeft" align="right" valign="top">typedef struct <a class="el" href="structstorageHeader.html">storageHeader</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="hal__storage_8h.html#ac4672e8f194fe72f4c3f9c4440a907ea">storageHeader_t</a></td></tr>
+<tr class="memdesc:ac4672e8f194fe72f4c3f9c4440a907ea"><td class="mdescLeft">&#160;</td><td class="mdescRight">Header for a VB config in FAT file.  <a href="#ac4672e8f194fe72f4c3f9c4440a907ea">More...</a><br /></td></tr>
+<tr class="separator:ac4672e8f194fe72f4c3f9c4440a907ea"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="enum-members"></a>
 Enumerations</h2></td></tr>
 <tr class="memitem:a8a4828abe0b7cd309fba5c2e5e228b95"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="hal__storage_8h.html#a8a4828abe0b7cd309fba5c2e5e228b95">hal_storage_load_action</a> { <a class="el" href="hal__storage_8h.html#a8a4828abe0b7cd309fba5c2e5e228b95ab13b96bf99a409e019f70dc1602532fd">NEXT</a>, 
@@ -100,6 +123,12 @@ Enumerations</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
+<tr class="memitem:ac55206dd96a5c50caec96a6f92a17597"><td class="memItemLeft" align="right" valign="top">esp_err_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="hal__storage_8h.html#ac55206dd96a5c50caec96a6f92a17597">halStorageNVSLoadString</a> (char *key, char *string)</td></tr>
+<tr class="memdesc:ac55206dd96a5c50caec96a6f92a17597"><td class="mdescLeft">&#160;</td><td class="mdescRight">Load a string from NVS (global, no slot assignment)  <a href="#ac55206dd96a5c50caec96a6f92a17597">More...</a><br /></td></tr>
+<tr class="separator:ac55206dd96a5c50caec96a6f92a17597"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa21ad1a2a4c6269967c20ce447976758"><td class="memItemLeft" align="right" valign="top">esp_err_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="hal__storage_8h.html#aa21ad1a2a4c6269967c20ce447976758">halStorageNVSStoreString</a> (char *key, char *string)</td></tr>
+<tr class="memdesc:aa21ad1a2a4c6269967c20ce447976758"><td class="mdescLeft">&#160;</td><td class="mdescRight">Store a string into NVS (global, no slot assignment)  <a href="#aa21ad1a2a4c6269967c20ce447976758">More...</a><br /></td></tr>
+<tr class="separator:aa21ad1a2a4c6269967c20ce447976758"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa5da838bef47becbd2b5bd96a60c75b3"><td class="memItemLeft" align="right" valign="top">uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="hal__storage_8h.html#aa5da838bef47becbd2b5bd96a60c75b3">halStorageGetCurrentSlotNumber</a> (void)</td></tr>
 <tr class="memdesc:aa5da838bef47becbd2b5bd96a60c75b3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get number of currently loaded slot.  <a href="#aa5da838bef47becbd2b5bd96a60c75b3">More...</a><br /></td></tr>
 <tr class="separator:aa5da838bef47becbd2b5bd96a60c75b3"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -154,9 +183,9 @@ Functions</h2></td></tr>
 <tr class="memitem:aadf9ff06990d0f0af2eea2e6f2b8082a"><td class="memItemLeft" align="right" valign="top">esp_err_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="hal__storage_8h.html#aadf9ff06990d0f0af2eea2e6f2b8082a">halStorageStore</a> (uint32_t tid, <a class="el" href="common_8h.html#a1d17932316265a53a6982a2526a4cada">generalConfig_t</a> *cfg, char *slotname, uint8_t slotnumber)</td></tr>
 <tr class="memdesc:aadf9ff06990d0f0af2eea2e6f2b8082a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Store a generalConfig_t struct.  <a href="#aadf9ff06990d0f0af2eea2e6f2b8082a">More...</a><br /></td></tr>
 <tr class="separator:aadf9ff06990d0f0af2eea2e6f2b8082a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1503debb336ea2d708e4e0884c7aa6a3"><td class="memItemLeft" align="right" valign="top">esp_err_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="hal__storage_8h.html#a1503debb336ea2d708e4e0884c7aa6a3">halStorageStoreSetVBConfigs</a> (uint8_t slotnumber, uint8_t vb, void *config, size_t configsize, uint32_t tid)</td></tr>
-<tr class="memdesc:a1503debb336ea2d708e4e0884c7aa6a3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Store a virtual button config struct.  <a href="#a1503debb336ea2d708e4e0884c7aa6a3">More...</a><br /></td></tr>
-<tr class="separator:a1503debb336ea2d708e4e0884c7aa6a3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a046daab088cb37e318c07c2728ade9d3"><td class="memItemLeft" align="right" valign="top">esp_err_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="hal__storage_8h.html#a046daab088cb37e318c07c2728ade9d3">halStorageStoreSetVBConfigs</a> (uint8_t slotnumber, <a class="el" href="common_8h.html#a1d17932316265a53a6982a2526a4cada">generalConfig_t</a> *config, uint32_t tid)</td></tr>
+<tr class="memdesc:a046daab088cb37e318c07c2728ade9d3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Store a virtual button config struct.  <a href="#a046daab088cb37e318c07c2728ade9d3">More...</a><br /></td></tr>
+<tr class="separator:a046daab088cb37e318c07c2728ade9d3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aed4beb2e1bd8cd78a201fbcb49958cba"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="hal__storage_8h.html#aed4beb2e1bd8cd78a201fbcb49958cba">halStorageCreateDefault</a> (uint32_t tid)</td></tr>
 <tr class="memdesc:aed4beb2e1bd8cd78a201fbcb49958cba"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create a new default slot.  <a href="#aed4beb2e1bd8cd78a201fbcb49958cba">More...</a><br /></td></tr>
 <tr class="separator:aed4beb2e1bd8cd78a201fbcb49958cba"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -182,15 +211,61 @@ Functions</h2></td></tr>
 <li>get names for IR commands</li>
 </ul>
 <p>This module starts one task on its own for maintaining the storage access. All methods called from this module will block via a semaphore until the requested operation is finished.</p>
+<p>For storing small amounts global, non-volatile data, it is possible to use halStorageNVSLoad &amp; halStorageNVSStore operations. In this case, no transaction id is necessary.</p>
 <p>Slots are stored in following naming convention (8.3 rule applies here): general slot config: xxx.fms (slot number, e.g., 001.fms for slot 1) virtual button config for slot xxx xxx_VB.fms</p>
 <dl class="section note"><dt>Note</dt><dd>Maximum number of slots: 250! (e.g. 250.fms) </dd>
 <dd>
-Maximum number of IR commands: 100 (0-100, e.g. IR_99.fms) </dd></dl>
+Maximum number of IR commands: 100 (0-100, e.g. IR_99.fms) </dd>
+<dd>
+Use halStorageStartTransaction and halStorageFinishTransaction on begin/end of loading&amp;storing (except for halStorageNVS* operations) </dd></dl>
 <dl class="section warning"><dt>Warning</dt><dd>Adjust the esp-idf (via "make menuconfig") to use 512B sectors and mode <b>safety</b>!</dd></dl>
 <dl class="section see"><dt>See also</dt><dd><a class="el" href="common_8h.html#a1d17932316265a53a6982a2526a4cada">generalConfig_t</a> </dd></dl>
 
 <p class="definition">Definition in file <a class="el" href="hal__storage_8h_source.html">hal_storage.h</a>.</p>
-</div><h2 class="groupheader">Enumeration Type Documentation</h2>
+</div><h2 class="groupheader">Macro Definition Documentation</h2>
+<a id="a305aadd4f9039f9f93f76a47d8479fc5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a305aadd4f9039f9f93f76a47d8479fc5">&#9670;&nbsp;</a></span>HAL_STORAGE_NVS_NAMESPACE</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define HAL_STORAGE_NVS_NAMESPACE&#160;&#160;&#160;&quot;devcfg&quot;</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Namespace for storing NVS key/value pairs. </p>
+<dl class="section warning"><dt>Warning</dt><dd>If changed, all previously data cannot be used! </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="hal__storage_8h_source.html#l00102">102</a> of file <a class="el" href="hal__storage_8h_source.html">hal_storage.h</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="hal__storage_8c_source.html#l00113">halStorageNVSLoadString()</a>, and <a class="el" href="hal__storage_8c_source.html#l00145">halStorageNVSStoreString()</a>.</p>
+
+</div>
+</div>
+<h2 class="groupheader">Typedef Documentation</h2>
+<a id="ac4672e8f194fe72f4c3f9c4440a907ea"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac4672e8f194fe72f4c3f9c4440a907ea">&#9670;&nbsp;</a></span>storageHeader_t</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">typedef struct <a class="el" href="structstorageHeader.html">storageHeader</a>  <a class="el" href="hal__storage_8h.html#ac4672e8f194fe72f4c3f9c4440a907ea">storageHeader_t</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Header for a VB config in FAT file. </p>
+<p>This struct is placed in front of each VB config, which is stored in the VB config file.</p>
+<p>Used in store/load VBs. </p><dl class="section see"><dt>See also</dt><dd><a class="el" href="hal__storage_8h.html#a046daab088cb37e318c07c2728ade9d3" title="Store a virtual button config struct. ">halStorageStoreSetVBConfigs</a> </dd>
+<dd>
+<a class="el" href="hal__storage_8h.html#abc699ff3996d12d3e6bcc9e372b277e0" title="Load one virtual button config for currently loaded slot. ">halStorageLoadGetVBConfigs</a> </dd></dl>
+
+</div>
+</div>
+<h2 class="groupheader">Enumeration Type Documentation</h2>
 <a id="a8a4828abe0b7cd309fba5c2e5e228b95"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a8a4828abe0b7cd309fba5c2e5e228b95">&#9670;&nbsp;</a></span>hal_storage_load_action</h2>
 
@@ -212,7 +287,7 @@ Maximum number of IR commands: 100 (0-100, e.g. IR_99.fms) </dd></dl>
 </td></tr>
 </table>
 
-<p class="definition">Definition at line <a class="el" href="hal__storage_8h_source.html#l00092">92</a> of file <a class="el" href="hal__storage_8h_source.html">hal_storage.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="hal__storage_8h_source.html#l00104">104</a> of file <a class="el" href="hal__storage_8h_source.html">hal_storage.h</a>.</p>
 
 </div>
 </div>
@@ -248,11 +323,11 @@ Maximum number of IR commands: 100 (0-100, e.g. IR_99.fms) </dd></dl>
   </table>
   </dd>
 </dl>
-<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000039">Todo:</a></b></dt><dd>Change this default slot to usable settings </dd></dl>
+<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000034">Todo:</a></b></dt><dd>Change this default slot to usable settings </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="hal__storage_8c_source.html#l00176">176</a> of file <a class="el" href="hal__storage_8c_source.html">hal_storage.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="hal__storage_8c_source.html#l00263">263</a> of file <a class="el" href="hal__storage_8c_source.html">hal_storage.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="hal__storage_8c_source.html#l01003">halStorageLoadNumber()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="hal__storage_8c_source.html#l01076">halStorageLoadNumber()</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -260,7 +335,7 @@ Here is the call graph for this function:</div>
 <map name="hal__storage_8h_aed4beb2e1bd8cd78a201fbcb49958cba_cgraph" id="hal__storage_8h_aed4beb2e1bd8cd78a201fbcb49958cba_cgraph">
 <area shape="rect" id="node2" href="hal__storage_8c.html#a4b6566ef5b69c85d422df52435c95d36" title="Internal helper to check for a valid WL handle and the correct tid. " alt="" coords="465,24,595,51"/>
 <area shape="rect" id="node3" href="hal__storage_8c.html#aadf9ff06990d0f0af2eea2e6f2b8082a" title="Store a generalConfig_t struct. " alt="" coords="261,24,375,51"/>
-<area shape="rect" id="node4" href="hal__storage_8c.html#a1503debb336ea2d708e4e0884c7aa6a3" title="Store a virtual button config struct. " alt="" coords="219,75,417,102"/>
+<area shape="rect" id="node4" href="hal__storage_8c.html#a046daab088cb37e318c07c2728ade9d3" title="Store a virtual button config struct. " alt="" coords="219,75,417,102"/>
 </map>
 </div>
 <div class="dynheader">
@@ -331,9 +406,9 @@ Here is the caller graph for this function:</div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>ESP_OK if everything is fine, ESP_FAIL otherwise </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="hal__storage_8c_source.html#l00537">537</a> of file <a class="el" href="hal__storage_8c_source.html">hal_storage.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="hal__storage_8c_source.html#l00610">610</a> of file <a class="el" href="hal__storage_8c_source.html">hal_storage.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="task__commands_8c_source.html#l00573">doInfraredParsing()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="task__commands_8c_source.html#l00585">doInfraredParsing()</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -404,9 +479,9 @@ Here is the caller graph for this function:</div>
 <dl class="section warning"><dt>Warning</dt><dd>Deleting all slots, means that a complete factory reset is done. Maybe we change this in release versions. </dd></dl>
 <dl class="section return"><dt>Returns</dt><dd>ESP_OK if everything is fine, ESP_FAIL otherwise </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="hal__storage_8c_source.html#l01166">1166</a> of file <a class="el" href="hal__storage_8c_source.html">hal_storage.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="hal__storage_8c_source.html#l01239">1239</a> of file <a class="el" href="hal__storage_8c_source.html">hal_storage.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="config__switcher_8c_source.html#l00198">configSwitcherTask()</a>, and <a class="el" href="task__commands_8c_source.html#l00733">doGeneralCmdParsing()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="config__switcher_8c_source.html#l00198">configSwitcherTask()</a>, and <a class="el" href="task__commands_8c_source.html#l00745">doGeneralCmdParsing()</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -459,9 +534,9 @@ Here is the caller graph for this function:</div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>ESP_OK if the tid is freed, ESP_FAIL if the tid is not valid </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="hal__storage_8c_source.html#l01756">1756</a> of file <a class="el" href="hal__storage_8c_source.html">hal_storage.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="hal__storage_8c_source.html#l01881">1881</a> of file <a class="el" href="hal__storage_8c_source.html">hal_storage.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="config__switcher_8c_source.html#l00198">configSwitcherTask()</a>, <a class="el" href="task__commands_8c_source.html#l00733">doGeneralCmdParsing()</a>, <a class="el" href="task__commands_8c_source.html#l00573">doInfraredParsing()</a>, <a class="el" href="task__commands_8c_source.html#l00394">doStorageParsing()</a>, <a class="el" href="task__infrared_8c_source.html#l00153">infrared_record()</a>, <a class="el" href="task__commands_8c_source.html#l01530">printAllSlots()</a>, and <a class="el" href="task__infrared_8c_source.html#l00051">task_infrared()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="config__switcher_8c_source.html#l00198">configSwitcherTask()</a>, <a class="el" href="task__commands_8c_source.html#l00745">doGeneralCmdParsing()</a>, <a class="el" href="task__commands_8c_source.html#l00585">doInfraredParsing()</a>, <a class="el" href="task__commands_8c_source.html#l00394">doStorageParsing()</a>, <a class="el" href="task__infrared_8c_source.html#l00153">infrared_record()</a>, <a class="el" href="task__commands_8c_source.html#l01556">printAllSlots()</a>, and <a class="el" href="task__infrared_8c_source.html#l00051">task_infrared()</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
@@ -510,7 +585,7 @@ Here is the caller graph for this function:</div>
 <dl class="section see"><dt>See also</dt><dd><a class="el" href="hal__storage_8c.html#a5c097404b5dfa34bdac65865586dac5a" title="Currently activated slot number. ">storageCurrentSlotNumber</a> </dd></dl>
 <dl class="section return"><dt>Returns</dt><dd>Currently loaded slot number </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="hal__storage_8c_source.html#l00414">414</a> of file <a class="el" href="hal__storage_8c_source.html">hal_storage.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="hal__storage_8c_source.html#l00487">487</a> of file <a class="el" href="hal__storage_8c_source.html">hal_storage.c</a>.</p>
 
 <p class="reference">Referenced by <a class="el" href="config__switcher_8c_source.html#l00198">configSwitcherTask()</a>.</p>
 <div class="dynheader">
@@ -563,9 +638,9 @@ Here is the caller graph for this function:</div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>ESP_OK if reading is valid, ESP_FAIL otherwise </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="hal__storage_8c_source.html#l00107">107</a> of file <a class="el" href="hal__storage_8c_source.html">hal_storage.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="hal__storage_8c_source.html#l00180">180</a> of file <a class="el" href="hal__storage_8c_source.html">hal_storage.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="task__commands_8c_source.html#l00733">doGeneralCmdParsing()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="task__commands_8c_source.html#l00745">doGeneralCmdParsing()</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
@@ -646,9 +721,9 @@ Here is the caller graph for this function:</div>
 <a class="el" href="hal__storage_8c.html#a00b5db14e24d7ada8a42aa6b3f1a1cb7" title="Finish a storage transaction. ">halStorageFinishTransaction</a> </dd></dl>
 <dl class="section return"><dt>Returns</dt><dd>ESP_OK if tid is valid and slot number is valid, ESP_FAIL otherwise </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="hal__storage_8c_source.html#l00693">693</a> of file <a class="el" href="hal__storage_8c_source.html">hal_storage.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="hal__storage_8c_source.html#l00766">766</a> of file <a class="el" href="hal__storage_8c_source.html">hal_storage.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="task__commands_8c_source.html#l01530">printAllSlots()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="task__commands_8c_source.html#l01556">printAllSlots()</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -727,9 +802,9 @@ Here is the caller graph for this function:</div>
 <a class="el" href="hal__storage_8h.html#a00b5db14e24d7ada8a42aa6b3f1a1cb7" title="Finish a storage transaction. ">halStorageFinishTransaction</a> </dd></dl>
 <dl class="section return"><dt>Returns</dt><dd>ESP_OK if tid is valid and slot number is valid, ESP_FAIL otherwise </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="hal__storage_8c_source.html#l00481">481</a> of file <a class="el" href="hal__storage_8c_source.html">hal_storage.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="hal__storage_8c_source.html#l00554">554</a> of file <a class="el" href="hal__storage_8c_source.html">hal_storage.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="task__commands_8c_source.html#l00573">doInfraredParsing()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="task__commands_8c_source.html#l00585">doInfraredParsing()</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -800,9 +875,9 @@ Here is the caller graph for this function:</div>
 <a class="el" href="hal__storage_8h.html#a00b5db14e24d7ada8a42aa6b3f1a1cb7" title="Finish a storage transaction. ">halStorageFinishTransaction</a> </dd></dl>
 <dl class="section return"><dt>Returns</dt><dd>ESP_OK if tid is valid and slot number is valid, ESP_FAIL otherwise </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="hal__storage_8c_source.html#l00745">745</a> of file <a class="el" href="hal__storage_8c_source.html">hal_storage.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="hal__storage_8c_source.html#l00818">818</a> of file <a class="el" href="hal__storage_8c_source.html">hal_storage.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="task__commands_8c_source.html#l00733">doGeneralCmdParsing()</a>, and <a class="el" href="hal__storage_8c_source.html#l01144">halStorageLoadName()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="task__commands_8c_source.html#l00745">doGeneralCmdParsing()</a>, <a class="el" href="task__commands_8c_source.html#l00394">doStorageParsing()</a>, and <a class="el" href="hal__storage_8c_source.html#l01217">halStorageLoadName()</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -816,14 +891,15 @@ Here is the caller graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="hal__storage_8h_aae19bcf97360ccd7af4ddf906ff85141_icgraph.png" border="0" usemap="#hal__storage_8h_aae19bcf97360ccd7af4ddf906ff85141_icgraph" alt=""/></div>
 <map name="hal__storage_8h_aae19bcf97360ccd7af4ddf906ff85141_icgraph" id="hal__storage_8h_aae19bcf97360ccd7af4ddf906ff85141_icgraph">
-<area shape="rect" id="node2" href="task__commands_8c.html#a7f6500be563a3dce7f0854fceed02fab" title="doGeneralCmdParsing" alt="" coords="259,56,412,83"/>
-<area shape="rect" id="node7" href="hal__storage_8h.html#a75596c64adaa2b8d9104530acc94b094" title="Load a slot by a slot name. " alt="" coords="262,107,409,133"/>
-<area shape="rect" id="node3" href="task__commands_8c.html#a7b36c39275d773aaedcb327ef4e1516f" title="task_commands" alt="" coords="469,56,588,83"/>
+<area shape="rect" id="node2" href="task__commands_8c.html#a7f6500be563a3dce7f0854fceed02fab" title="doGeneralCmdParsing" alt="" coords="259,5,412,32"/>
+<area shape="rect" id="node7" href="task__commands_8c.html#a69b0c55558b32caa21407de8e2277be9" title="doStorageParsing" alt="" coords="273,56,398,83"/>
+<area shape="rect" id="node8" href="hal__storage_8h.html#a75596c64adaa2b8d9104530acc94b094" title="Load a slot by a slot name. " alt="" coords="262,107,409,133"/>
+<area shape="rect" id="node3" href="task__commands_8c.html#a7b36c39275d773aaedcb327ef4e1516f" title="task_commands" alt="" coords="469,31,588,57"/>
 <area shape="rect" id="node4" href="task__commands_8h.html#aedb896e40753227f80768e09d3748419" title="Init the command parser. " alt="" coords="658,5,790,32"/>
 <area shape="rect" id="node6" href="task__commands_8h.html#a26091155b4d85093239033d689f363d0" title="Restart the command parser task. " alt="" coords="645,56,803,83"/>
 <area shape="rect" id="node5" href="flipmouse__fabi__esp32__kbdmouse__main_8c.html#abce06be17fc37d675118a678a8100a36" title="Main task, created by esp&#45;idf. " alt="" coords="851,56,929,83"/>
-<area shape="rect" id="node8" href="config__switcher_8c.html#af5af5079d1982d42e165039e6de7e40a" title="CONTINOUS TASK &#45; Config switcher task, internal config reloading. " alt="" coords="460,107,597,133"/>
-<area shape="rect" id="node9" href="config__switcher_8h.html#aafed047c8d04b814a85239e031cbad7b" title="Initializing the config switching functionality. " alt="" coords="661,107,787,133"/>
+<area shape="rect" id="node9" href="config__switcher_8c.html#af5af5079d1982d42e165039e6de7e40a" title="CONTINOUS TASK &#45; Config switcher task, internal config reloading. " alt="" coords="460,107,597,133"/>
+<area shape="rect" id="node10" href="config__switcher_8h.html#aafed047c8d04b814a85239e031cbad7b" title="Initializing the config switching functionality. " alt="" coords="661,107,787,133"/>
 </map>
 </div>
 
@@ -889,9 +965,9 @@ Here is the caller graph for this function:</div>
 <a class="el" href="hal__storage_8c.html#a00b5db14e24d7ada8a42aa6b3f1a1cb7" title="Finish a storage transaction. ">halStorageFinishTransaction</a> </dd></dl>
 <dl class="section return"><dt>Returns</dt><dd>ESP_OK if tid is valid and slot number is valid, ESP_FAIL otherwise </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="hal__storage_8c_source.html#l00821">821</a> of file <a class="el" href="hal__storage_8c_source.html">hal_storage.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="hal__storage_8c_source.html#l00894">894</a> of file <a class="el" href="hal__storage_8c_source.html">hal_storage.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="task__commands_8c_source.html#l00573">doInfraredParsing()</a>, and <a class="el" href="hal__storage_8c_source.html#l01404">halStorageStoreIR()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="task__commands_8c_source.html#l00585">doInfraredParsing()</a>, and <a class="el" href="hal__storage_8c_source.html#l01517">halStorageStoreIR()</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -957,9 +1033,9 @@ Here is the caller graph for this function:</div>
 <a class="el" href="hal__storage_8h.html#a00b5db14e24d7ada8a42aa6b3f1a1cb7" title="Finish a storage transaction. ">halStorageFinishTransaction</a> </dd></dl>
 <dl class="section return"><dt>Returns</dt><dd>ESP_OK if tid is valid and slot count is valid, ESP_FAIL otherwise </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="hal__storage_8c_source.html#l00606">606</a> of file <a class="el" href="hal__storage_8c_source.html">hal_storage.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="hal__storage_8c_source.html#l00679">679</a> of file <a class="el" href="hal__storage_8c_source.html">hal_storage.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="task__commands_8c_source.html#l00573">doInfraredParsing()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="task__commands_8c_source.html#l00585">doInfraredParsing()</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -1023,9 +1099,9 @@ Here is the caller graph for this function:</div>
 <a class="el" href="hal__storage_8h.html#a00b5db14e24d7ada8a42aa6b3f1a1cb7" title="Finish a storage transaction. ">halStorageFinishTransaction</a> </dd></dl>
 <dl class="section return"><dt>Returns</dt><dd>ESP_OK if tid is valid and slot count is valid, ESP_FAIL otherwise </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="hal__storage_8c_source.html#l00431">431</a> of file <a class="el" href="hal__storage_8c_source.html">hal_storage.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="hal__storage_8c_source.html#l00504">504</a> of file <a class="el" href="hal__storage_8c_source.html">hal_storage.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="task__commands_8c_source.html#l00394">doStorageParsing()</a>, <a class="el" href="hal__storage_8c_source.html#l00914">halStorageLoad()</a>, and <a class="el" href="task__commands_8c_source.html#l01530">printAllSlots()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="task__commands_8c_source.html#l00394">doStorageParsing()</a>, <a class="el" href="hal__storage_8c_source.html#l00987">halStorageLoad()</a>, and <a class="el" href="task__commands_8c_source.html#l01556">printAllSlots()</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -1113,7 +1189,7 @@ Here is the caller graph for this function:</div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>ESP_OK if everything is fine, ESP_FAIL if the command was not successful </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="hal__storage_8c_source.html#l00914">914</a> of file <a class="el" href="hal__storage_8c_source.html">hal_storage.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="hal__storage_8c_source.html#l00987">987</a> of file <a class="el" href="hal__storage_8c_source.html">hal_storage.c</a>.</p>
 
 <p class="reference">Referenced by <a class="el" href="config__switcher_8c_source.html#l00198">configSwitcherTask()</a>.</p>
 <div class="dynheader">
@@ -1126,7 +1202,7 @@ Here is the call graph for this function:</div>
 <area shape="rect" id="node3" href="hal__storage_8c.html#a4b6566ef5b69c85d422df52435c95d36" title="Internal helper to check for a valid WL handle and the correct tid. " alt="" coords="861,107,991,133"/>
 <area shape="rect" id="node5" href="hal__storage_8c.html#aed4beb2e1bd8cd78a201fbcb49958cba" title="Create a new default slot. " alt="" coords="387,132,552,159"/>
 <area shape="rect" id="node6" href="hal__storage_8c.html#aadf9ff06990d0f0af2eea2e6f2b8082a" title="Store a generalConfig_t struct. " alt="" coords="657,157,771,184"/>
-<area shape="rect" id="node7" href="hal__storage_8c.html#a1503debb336ea2d708e4e0884c7aa6a3" title="Store a virtual button config struct. " alt="" coords="615,208,813,235"/>
+<area shape="rect" id="node7" href="hal__storage_8c.html#a046daab088cb37e318c07c2728ade9d3" title="Store a virtual button config struct. " alt="" coords="615,208,813,235"/>
 </map>
 </div>
 <div class="dynheader">
@@ -1183,11 +1259,11 @@ Here is the caller graph for this function:</div>
 <p>Load one virtual button config for currently loaded slot. </p>
 <p>This function is used to load one virtual button config after the slot was loaded (either by name, number or action).</p>
 <p>Please use the same transaction id as for loading the slot. It is not possible to use the same tid after halStorageFinishTransaction was called.</p>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="hal__storage_8h.html#aad5b764e7c611ff24dbcdd872dc9ae76" title="Load a slot by an action. ">halStorageLoad</a> </dd>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="hal__storage_8c.html#aad5b764e7c611ff24dbcdd872dc9ae76" title="Load a slot by an action. ">halStorageLoad</a> </dd>
 <dd>
-<a class="el" href="hal__storage_8h.html#a75596c64adaa2b8d9104530acc94b094" title="Load a slot by a slot name. ">halStorageLoadName</a> </dd>
+<a class="el" href="hal__storage_8c.html#a75596c64adaa2b8d9104530acc94b094" title="Load a slot by a slot name. ">halStorageLoadName</a> </dd>
 <dd>
-<a class="el" href="hal__storage_8h.html#a3b1b266074bd493fe43dcf980852a422" title="Load a slot by a slot number (starting with 1, 0 is default slot) ">halStorageLoadNumber</a> </dd></dl>
+<a class="el" href="hal__storage_8c.html#a3b1b266074bd493fe43dcf980852a422" title="Load a slot by a slot number (starting with 1, 0 is default slot) ">halStorageLoadNumber</a> </dd></dl>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">vb</td><td>Number of virtual button config to be loaded </td></tr>
@@ -1197,9 +1273,26 @@ Here is the caller graph for this function:</div>
   </table>
   </dd>
 </dl>
+<dl class="section return"><dt>Returns</dt><dd>ESP_OK if everything is fine, ESP_FAIL if the command was not successful (no config found or no slot loaded)</dd></dl>
+<p>This function is used to load one virtual button config after the slot was loaded (either by name, number or action).</p>
+<p>Please use the same transaction id as for loading the slot. It is not possible to use the same tid after halStorageFinishTransaction was called.</p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="hal__storage_8c.html#aad5b764e7c611ff24dbcdd872dc9ae76" title="Load a slot by an action. ">halStorageLoad</a> </dd>
+<dd>
+<a class="el" href="hal__storage_8c.html#a75596c64adaa2b8d9104530acc94b094" title="Load a slot by a slot name. ">halStorageLoadName</a> </dd>
+<dd>
+<a class="el" href="hal__storage_8c.html#a3b1b266074bd493fe43dcf980852a422" title="Load a slot by a slot number (starting with 1, 0 is default slot) ">halStorageLoadNumber</a> </dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">vb</td><td>Number of virtual button config to be loaded </td></tr>
+    <tr><td class="paramname">vb_config</td><td>Pointer to config struct which holds the VB config data </td></tr>
+    <tr><td class="paramname">vb_config_size</td><td>Size of config which will be loaded (differs between types of VB actions). </td></tr>
+    <tr><td class="paramname">tid</td><td>Transaction ID, which must match the one given by halStorageStartTransaction </td></tr>
+  </table>
+  </dd>
+</dl>
 <dl class="section return"><dt>Returns</dt><dd>ESP_OK if everything is fine, ESP_FAIL if the command was not successful (no config found or no slot loaded) </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="hal__storage_8c_source.html#l01245">1245</a> of file <a class="el" href="hal__storage_8c_source.html">hal_storage.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="hal__storage_8c_source.html#l01318">1318</a> of file <a class="el" href="hal__storage_8c_source.html">hal_storage.c</a>.</p>
 
 <p class="reference">Referenced by <a class="el" href="config__switcher_8c_source.html#l00198">configSwitcherTask()</a>.</p>
 <div class="dynheader">
@@ -1271,7 +1364,7 @@ Here is the caller graph for this function:</div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>ESP_OK if everything is fine, ESP_FAIL if the command was not successful (slot name not found) </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="hal__storage_8c_source.html#l01588">1588</a> of file <a class="el" href="hal__storage_8c_source.html">hal_storage.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="hal__storage_8c_source.html#l01713">1713</a> of file <a class="el" href="hal__storage_8c_source.html">hal_storage.c</a>.</p>
 
 <p class="reference">Referenced by <a class="el" href="task__infrared_8c_source.html#l00051">task_infrared()</a>.</p>
 <div class="dynheader">
@@ -1350,7 +1443,7 @@ Here is the caller graph for this function:</div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>ESP_OK if everything is fine, ESP_FAIL if the command was not successful (slot name not found) </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="hal__storage_8c_source.html#l01144">1144</a> of file <a class="el" href="hal__storage_8c_source.html">hal_storage.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="hal__storage_8c_source.html#l01217">1217</a> of file <a class="el" href="hal__storage_8c_source.html">hal_storage.c</a>.</p>
 
 <p class="reference">Referenced by <a class="el" href="config__switcher_8c_source.html#l00198">configSwitcherTask()</a>.</p>
 <div class="dynheader">
@@ -1363,7 +1456,7 @@ Here is the call graph for this function:</div>
 <area shape="rect" id="node3" href="hal__storage_8c.html#a4b6566ef5b69c85d422df52435c95d36" title="Internal helper to check for a valid WL handle and the correct tid. " alt="" coords="907,107,1036,133"/>
 <area shape="rect" id="node5" href="hal__storage_8c.html#aed4beb2e1bd8cd78a201fbcb49958cba" title="Create a new default slot. " alt="" coords="427,132,592,159"/>
 <area shape="rect" id="node6" href="hal__storage_8c.html#aadf9ff06990d0f0af2eea2e6f2b8082a" title="Store a generalConfig_t struct. " alt="" coords="702,157,817,184"/>
-<area shape="rect" id="node7" href="hal__storage_8c.html#a1503debb336ea2d708e4e0884c7aa6a3" title="Store a virtual button config struct. " alt="" coords="660,208,859,235"/>
+<area shape="rect" id="node7" href="hal__storage_8c.html#a046daab088cb37e318c07c2728ade9d3" title="Store a virtual button config struct. " alt="" coords="660,208,859,235"/>
 </map>
 </div>
 <div class="dynheader">
@@ -1431,9 +1524,9 @@ Here is the caller graph for this function:</div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>ESP_OK if everything is fine, ESP_FAIL if the command was not successful (slot number not found) </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="hal__storage_8c_source.html#l01003">1003</a> of file <a class="el" href="hal__storage_8c_source.html">hal_storage.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="hal__storage_8c_source.html#l01076">1076</a> of file <a class="el" href="hal__storage_8c_source.html">hal_storage.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="hal__storage_8c_source.html#l00914">halStorageLoad()</a>, and <a class="el" href="hal__storage_8c_source.html#l01144">halStorageLoadName()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="hal__storage_8c_source.html#l00987">halStorageLoad()</a>, and <a class="el" href="hal__storage_8c_source.html#l01217">halStorageLoadName()</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -1442,7 +1535,7 @@ Here is the call graph for this function:</div>
 <area shape="rect" id="node2" href="hal__storage_8c.html#a4b6566ef5b69c85d422df52435c95d36" title="Internal helper to check for a valid WL handle and the correct tid. " alt="" coords="672,56,801,83"/>
 <area shape="rect" id="node3" href="hal__storage_8c.html#aed4beb2e1bd8cd78a201fbcb49958cba" title="Create a new default slot. " alt="" coords="212,56,377,83"/>
 <area shape="rect" id="node4" href="hal__storage_8c.html#aadf9ff06990d0f0af2eea2e6f2b8082a" title="Store a generalConfig_t struct. " alt="" coords="467,81,582,108"/>
-<area shape="rect" id="node5" href="hal__storage_8c.html#a1503debb336ea2d708e4e0884c7aa6a3" title="Store a virtual button config struct. " alt="" coords="425,132,624,159"/>
+<area shape="rect" id="node5" href="hal__storage_8c.html#a046daab088cb37e318c07c2728ade9d3" title="Store a virtual button config struct. " alt="" coords="425,132,624,159"/>
 </map>
 </div>
 <div class="dynheader">
@@ -1455,6 +1548,133 @@ Here is the caller graph for this function:</div>
 <area shape="rect" id="node3" href="config__switcher_8c.html#af5af5079d1982d42e165039e6de7e40a" title="CONTINOUS TASK &#45; Config switcher task, internal config reloading. " alt="" coords="407,31,544,57"/>
 <area shape="rect" id="node4" href="config__switcher_8h.html#aafed047c8d04b814a85239e031cbad7b" title="Initializing the config switching functionality. " alt="" coords="592,31,719,57"/>
 <area shape="rect" id="node5" href="flipmouse__fabi__esp32__kbdmouse__main_8c.html#abce06be17fc37d675118a678a8100a36" title="Main task, created by esp&#45;idf. " alt="" coords="767,31,845,57"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="ac55206dd96a5c50caec96a6f92a17597"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac55206dd96a5c50caec96a6f92a17597">&#9670;&nbsp;</a></span>halStorageNVSLoadString()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">esp_err_t halStorageNVSLoadString </td>
+          <td>(</td>
+          <td class="paramtype">char *&#160;</td>
+          <td class="paramname"><em>key</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">char *&#160;</td>
+          <td class="paramname"><em>string</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Load a string from NVS (global, no slot assignment) </p>
+<p>This method is used to load a string from a non-volatile storage. No TID is necessary, just call this function.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">key</td><td>Key to identify this value, same as used on store </td></tr>
+    <tr><td class="paramname">string</td><td>Buffer for string to be read from flash/eeprom (flash in ESP32) </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>ESP_OK on success, error codes according to nvs_get_str</dd></dl>
+<p>This method is used to load a string from a non-volatile storage. No TID is necessary, just call this function.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">key</td><td>Key to identify this value, same as used on store </td></tr>
+    <tr><td class="paramname">string</td><td>Buffer for string to be read from flash/eeprom (flash in ESP32) </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section warning"><dt>Warning</dt><dd>Provide sufficient buffer length, otherwise a CPU exception will happen! </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>ESP_OK on success, error codes according to nvs_get_str </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="hal__storage_8c_source.html#l00113">113</a> of file <a class="el" href="hal__storage_8c_source.html">hal_storage.c</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="task__webgui_8c_source.html#l00432">taskWebGUIInit()</a>.</p>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="hal__storage_8h_ac55206dd96a5c50caec96a6f92a17597_icgraph.png" border="0" usemap="#hal__storage_8h_ac55206dd96a5c50caec96a6f92a17597_icgraph" alt=""/></div>
+<map name="hal__storage_8h_ac55206dd96a5c50caec96a6f92a17597_icgraph" id="hal__storage_8h_ac55206dd96a5c50caec96a6f92a17597_icgraph">
+<area shape="rect" id="node2" href="task__webgui_8h.html#a669b9245d5040c0162481f7b24dbeea7" title="Init the web / DNS server and the web gui. " alt="" coords="228,5,344,32"/>
+<area shape="rect" id="node3" href="flipmouse__fabi__esp32__kbdmouse__main_8c.html#abce06be17fc37d675118a678a8100a36" title="Main task, created by esp&#45;idf. " alt="" coords="392,5,471,32"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="aa21ad1a2a4c6269967c20ce447976758"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa21ad1a2a4c6269967c20ce447976758">&#9670;&nbsp;</a></span>halStorageNVSStoreString()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">esp_err_t halStorageNVSStoreString </td>
+          <td>(</td>
+          <td class="paramtype">char *&#160;</td>
+          <td class="paramname"><em>key</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">char *&#160;</td>
+          <td class="paramname"><em>string</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Store a string into NVS (global, no slot assignment) </p>
+<p>This method is used to store a string in a non-volatile storage. No TID is necessary, just call this function.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">key</td><td>Key to identify this value on read. </td></tr>
+    <tr><td class="paramname">string</td><td>String to be stored in flash/eeprom (flash in ESP32) </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>ESP_OK on success, error codes according to nvs_set_str</dd></dl>
+<p>This method is used to store a string in a non-volatile storage. No TID is necessary, just call this function.</p>
+<dl class="section warning"><dt>Warning</dt><dd>NVS is not as big as FAT storage, use with care! (max ~10kB) </dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">key</td><td>Key to identify this value on read. </td></tr>
+    <tr><td class="paramname">string</td><td>String to be stored in flash/eeprom (flash in ESP32) </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>ESP_OK on success, error codes according to nvs_set_str </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="hal__storage_8c_source.html#l00145">145</a> of file <a class="el" href="hal__storage_8c_source.html">hal_storage.c</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="task__commands_8c_source.html#l00745">doGeneralCmdParsing()</a>.</p>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="hal__storage_8h_aa21ad1a2a4c6269967c20ce447976758_icgraph.png" border="0" usemap="#hal__storage_8h_aa21ad1a2a4c6269967c20ce447976758_icgraph" alt=""/></div>
+<map name="hal__storage_8h_aa21ad1a2a4c6269967c20ce447976758_icgraph" id="hal__storage_8h_aa21ad1a2a4c6269967c20ce447976758_icgraph">
+<area shape="rect" id="node2" href="task__commands_8c.html#a7f6500be563a3dce7f0854fceed02fab" title="doGeneralCmdParsing" alt="" coords="231,31,384,57"/>
+<area shape="rect" id="node3" href="task__commands_8c.html#a7b36c39275d773aaedcb327ef4e1516f" title="task_commands" alt="" coords="432,31,551,57"/>
+<area shape="rect" id="node4" href="task__commands_8h.html#aedb896e40753227f80768e09d3748419" title="Init the command parser. " alt="" coords="611,5,743,32"/>
+<area shape="rect" id="node6" href="task__commands_8h.html#a26091155b4d85093239033d689f363d0" title="Restart the command parser task. " alt="" coords="599,56,756,83"/>
+<area shape="rect" id="node5" href="flipmouse__fabi__esp32__kbdmouse__main_8c.html#abce06be17fc37d675118a678a8100a36" title="Main task, created by esp&#45;idf. " alt="" coords="804,5,883,32"/>
 </map>
 </div>
 
@@ -1506,9 +1726,9 @@ Here is the caller graph for this function:</div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>ESP_OK if the tid is valid, ESP_FAIL if other tasks did not freed the access in time </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="hal__storage_8c_source.html#l01700">1700</a> of file <a class="el" href="hal__storage_8c_source.html">hal_storage.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="hal__storage_8c_source.html#l01825">1825</a> of file <a class="el" href="hal__storage_8c_source.html">hal_storage.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="config__switcher_8c_source.html#l00198">configSwitcherTask()</a>, <a class="el" href="task__commands_8c_source.html#l00733">doGeneralCmdParsing()</a>, <a class="el" href="task__commands_8c_source.html#l00573">doInfraredParsing()</a>, <a class="el" href="task__commands_8c_source.html#l00394">doStorageParsing()</a>, <a class="el" href="task__infrared_8c_source.html#l00153">infrared_record()</a>, <a class="el" href="task__commands_8c_source.html#l01530">printAllSlots()</a>, and <a class="el" href="task__infrared_8c_source.html#l00051">task_infrared()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="config__switcher_8c_source.html#l00198">configSwitcherTask()</a>, <a class="el" href="task__commands_8c_source.html#l00745">doGeneralCmdParsing()</a>, <a class="el" href="task__commands_8c_source.html#l00585">doInfraredParsing()</a>, <a class="el" href="task__commands_8c_source.html#l00394">doStorageParsing()</a>, <a class="el" href="task__infrared_8c_source.html#l00153">infrared_record()</a>, <a class="el" href="task__commands_8c_source.html#l01556">printAllSlots()</a>, and <a class="el" href="task__infrared_8c_source.html#l00051">task_infrared()</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -1524,13 +1744,13 @@ Here is the caller graph for this function:</div>
 <map name="hal__storage_8h_afad9dd42e1e9762cce888154d22c64ac_icgraph" id="hal__storage_8h_afad9dd42e1e9762cce888154d22c64ac_icgraph">
 <area shape="rect" id="node2" href="config__switcher_8c.html#af5af5079d1982d42e165039e6de7e40a" title="CONTINOUS TASK &#45; Config switcher task, internal config reloading. " alt="" coords="233,385,371,412"/>
 <area shape="rect" id="node5" href="task__commands_8c.html#a7f6500be563a3dce7f0854fceed02fab" title="doGeneralCmdParsing" alt="" coords="613,208,766,235"/>
-<area shape="rect" id="node9" href="task__commands_8c.html#a937cdeb2f02b0c5d9a0f94a0f69e9328" title="doInfraredParsing" alt="" coords="419,69,543,96"/>
+<area shape="rect" id="node9" href="task__commands_8c.html#a937cdeb2f02b0c5d9a0f94a0f69e9328" title="doInfraredParsing" alt="" coords="419,81,543,108"/>
 <area shape="rect" id="node10" href="task__commands_8c.html#a69b0c55558b32caa21407de8e2277be9" title="doStorageParsing" alt="" coords="419,157,544,184"/>
 <area shape="rect" id="node11" href="task__infrared_8h.html#a3b5b7c90c92398748f28c75b55edccda" title="Trigger an IR command recording. " alt="" coords="248,107,356,133"/>
 <area shape="rect" id="node12" href="task__commands_8c.html#ad59215648a26578c22baa7ceae099e0e" title="Print the current slot configurations (general settings + VBs) " alt="" coords="256,259,348,285"/>
 <area shape="rect" id="node18" href="task__infrared_8h.html#a2950159444d03958630c6731bd1600c9" title="FUNCTIONAL TASK &#45; Infrared command sending. " alt="" coords="253,5,351,32"/>
 <area shape="rect" id="node3" href="config__switcher_8h.html#aafed047c8d04b814a85239e031cbad7b" title="Initializing the config switching functionality. " alt="" coords="835,423,961,449"/>
-<area shape="rect" id="node4" href="flipmouse__fabi__esp32__kbdmouse__main_8c.html#abce06be17fc37d675118a678a8100a36" title="Main task, created by esp&#45;idf. " alt="" coords="1215,341,1293,368"/>
+<area shape="rect" id="node4" href="flipmouse__fabi__esp32__kbdmouse__main_8c.html#abce06be17fc37d675118a678a8100a36" title="Main task, created by esp&#45;idf. " alt="" coords="1215,347,1293,373"/>
 <area shape="rect" id="node6" href="task__commands_8c.html#a7b36c39275d773aaedcb327ef4e1516f" title="task_commands" alt="" coords="839,284,957,311"/>
 <area shape="rect" id="node7" href="task__commands_8h.html#aedb896e40753227f80768e09d3748419" title="Init the command parser. " alt="" coords="1022,284,1154,311"/>
 <area shape="rect" id="node8" href="task__commands_8h.html#a26091155b4d85093239033d689f363d0" title="Restart the command parser task. " alt="" coords="1009,335,1167,361"/>
@@ -1596,7 +1816,7 @@ Here is the caller graph for this function:</div>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>ESP_OK on success, ESP_FAIL otherwise </dd></dl>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="hal__storage_8c.html#a1503debb336ea2d708e4e0884c7aa6a3" title="Store a virtual button config struct. ">halStorageStoreSetVBConfigs</a></dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="hal__storage_8c.html#a046daab088cb37e318c07c2728ade9d3" title="Store a virtual button config struct. ">halStorageStoreSetVBConfigs</a></dd></dl>
 <p>This method stores the general config for the given slotnumber. A slot contains: <br />
  -) General Config -) Slotname -) Slotnumber (used for the filename) -) MD5 sum (to check for corrupted content)</p>
 <p>If there is already a slot with this given number, it is overwritten!</p>
@@ -1611,11 +1831,11 @@ Here is the caller graph for this function:</div>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>ESP_OK on success, ESP_FAIL otherwise </dd></dl>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="hal__storage_8c.html#a1503debb336ea2d708e4e0884c7aa6a3" title="Store a virtual button config struct. ">halStorageStoreSetVBConfigs</a> </dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="hal__storage_8c.html#a046daab088cb37e318c07c2728ade9d3" title="Store a virtual button config struct. ">halStorageStoreSetVBConfigs</a> </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="hal__storage_8c_source.html#l01310">1310</a> of file <a class="el" href="hal__storage_8c_source.html">hal_storage.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="hal__storage_8c_source.html#l01423">1423</a> of file <a class="el" href="hal__storage_8c_source.html">hal_storage.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="task__commands_8c_source.html#l00394">doStorageParsing()</a>, and <a class="el" href="hal__storage_8c_source.html#l00176">halStorageCreateDefault()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="task__commands_8c_source.html#l00394">doStorageParsing()</a>, and <a class="el" href="hal__storage_8c_source.html#l00263">halStorageCreateDefault()</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -1634,12 +1854,12 @@ Here is the caller graph for this function:</div>
 <area shape="rect" id="node3" href="task__commands_8c.html#a7b36c39275d773aaedcb327ef4e1516f" title="task_commands" alt="" coords="401,49,520,76"/>
 <area shape="rect" id="node4" href="task__commands_8h.html#aedb896e40753227f80768e09d3748419" title="Init the command parser. " alt="" coords="796,5,928,32"/>
 <area shape="rect" id="node6" href="task__commands_8h.html#a26091155b4d85093239033d689f363d0" title="Restart the command parser task. " alt="" coords="588,49,745,76"/>
-<area shape="rect" id="node5" href="flipmouse__fabi__esp32__kbdmouse__main_8c.html#abce06be17fc37d675118a678a8100a36" title="Main task, created by esp&#45;idf. " alt="" coords="1153,63,1232,89"/>
+<area shape="rect" id="node5" href="flipmouse__fabi__esp32__kbdmouse__main_8c.html#abce06be17fc37d675118a678a8100a36" title="Main task, created by esp&#45;idf. " alt="" coords="1153,49,1232,76"/>
 <area shape="rect" id="node8" href="hal__storage_8h.html#a3b1b266074bd493fe43dcf980852a422" title="Load a slot by a slot number (starting with 1, 0 is default slot) " alt="" coords="381,100,540,127"/>
 <area shape="rect" id="node9" href="hal__storage_8h.html#aad5b764e7c611ff24dbcdd872dc9ae76" title="Load a slot by an action. " alt="" coords="611,100,723,127"/>
 <area shape="rect" id="node12" href="hal__storage_8h.html#a75596c64adaa2b8d9104530acc94b094" title="Load a slot by a slot name. " alt="" coords="593,151,740,177"/>
 <area shape="rect" id="node10" href="config__switcher_8c.html#af5af5079d1982d42e165039e6de7e40a" title="CONTINOUS TASK &#45; Config switcher task, internal config reloading. " alt="" coords="793,100,931,127"/>
-<area shape="rect" id="node11" href="config__switcher_8h.html#aafed047c8d04b814a85239e031cbad7b" title="Initializing the config switching functionality. " alt="" coords="979,93,1105,120"/>
+<area shape="rect" id="node11" href="config__switcher_8h.html#aafed047c8d04b814a85239e031cbad7b" title="Initializing the config switching functionality. " alt="" coords="979,75,1105,101"/>
 </map>
 </div>
 
@@ -1692,7 +1912,7 @@ Here is the caller graph for this function:</div>
 <dd>
 <a class="el" href="hal__storage_8h.html#aa728fac6a17066ecb910c19338ae5288" title="Load an IR command by name. ">halStorageLoadIR</a> </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="hal__storage_8c_source.html#l01404">1404</a> of file <a class="el" href="hal__storage_8c_source.html">hal_storage.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="hal__storage_8c_source.html#l01517">1517</a> of file <a class="el" href="hal__storage_8c_source.html">hal_storage.c</a>.</p>
 
 <p class="reference">Referenced by <a class="el" href="task__infrared_8c_source.html#l00153">infrared_record()</a>.</p>
 <div class="dynheader">
@@ -1721,8 +1941,8 @@ Here is the caller graph for this function:</div>
 
 </div>
 </div>
-<a id="a1503debb336ea2d708e4e0884c7aa6a3"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a1503debb336ea2d708e4e0884c7aa6a3">&#9670;&nbsp;</a></span>halStorageStoreSetVBConfigs()</h2>
+<a id="a046daab088cb37e318c07c2728ade9d3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a046daab088cb37e318c07c2728ade9d3">&#9670;&nbsp;</a></span>halStorageStoreSetVBConfigs()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1736,20 +1956,8 @@ Here is the caller graph for this function:</div>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">uint8_t&#160;</td>
-          <td class="paramname"><em>vb</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">void *&#160;</td>
+          <td class="paramtype"><a class="el" href="common_8h.html#a1d17932316265a53a6982a2526a4cada">generalConfig_t</a> *&#160;</td>
           <td class="paramname"><em>config</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">size_t&#160;</td>
-          <td class="paramname"><em>configsize</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -1766,63 +1974,53 @@ Here is the caller graph for this function:</div>
 </div><div class="memdoc">
 
 <p>Store a virtual button config struct. </p>
-<p>This method stores the config struct for the given virtual button If there is already a config with this given VB, it is overwritten!</p>
-<p>Due to different sizes of configs for different functionalities, it is necessary to provide the size of the data to be stored.</p>
+<p>This method stores the config structs for virtual buttons.</p>
+<p>Configs are provided via <a class="el" href="structgeneralConfig.html">generalConfig</a> struct, which contains necessary information:</p><ul>
+<li>Size of config</li>
+<li>Pointer to current config</li>
+</ul>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">tid</td><td>Transaction id </td></tr>
     <tr><td class="paramname">slotnumber</td><td>Number of the slot on which this config is used. Use 0xFF to ignore and use previous set slot number (by halStorageStore) </td></tr>
-    <tr><td class="paramname">config</td><td>Pointer to the VB config </td></tr>
-    <tr><td class="paramname">vb</td><td>VirtualButton number </td></tr>
-    <tr><td class="paramname">configsize</td><td>Size of this configuration which is stored </td></tr>
+    <tr><td class="paramname">config</td><td>Pointer to the general config struct (containing pointers/size to VB cfg) </td></tr>
   </table>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>ESP_OK on success, ESP_FAIL otherwise </dd></dl>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="hal__storage_8c.html#aadf9ff06990d0f0af2eea2e6f2b8082a" title="Store a generalConfig_t struct. ">halStorageStore</a></dd></dl>
-<p>This method stores the config struct for the given virtual button If there is already a config with this given VB, it is overwritten!</p>
-<p>Due to different sizes of configs for different functionalities, it is necessary to provide the size of the data to be stored.</p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">tid</td><td>Transaction id </td></tr>
-    <tr><td class="paramname">slotnumber</td><td>Number of the slot on which this config is used. Use 0xFF to ignore and use previous set slot number (by halStorageStore) </td></tr>
-    <tr><td class="paramname">config</td><td>Pointer to the VB config </td></tr>
-    <tr><td class="paramname">vb</td><td>VirtualButton number </td></tr>
-    <tr><td class="paramname">configsize</td><td>Size of this configuration which is stored </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>ESP_OK on success, ESP_FAIL otherwise </dd></dl>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="hal__storage_8c.html#aadf9ff06990d0f0af2eea2e6f2b8082a" title="Store a generalConfig_t struct. ">halStorageStore</a> </dd></dl>
-<dl class="section warning"><dt>Warning</dt><dd>Storing VBs is only in possible consecutive numbers, starting with 0! Any other attempt to store a VB not starting with 0 will fail. </dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="hal__storage_8h.html#aadf9ff06990d0f0af2eea2e6f2b8082a" title="Store a generalConfig_t struct. ">halStorageStore</a> </dd>
+<dd>
+<a class="el" href="hal__storage_8h.html#ac4672e8f194fe72f4c3f9c4440a907ea" title="Header for a VB config in FAT file. ">storageHeader_t</a> </dd></dl>
+<dl class="section warning"><dt>Warning</dt><dd>size element of generalConfig_t MUST be set to have a successful write. </dd></dl>
+<dl class="section note"><dt>Note</dt><dd>This method always overwrites an existing config! </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="hal__storage_8c_source.html#l01501">1501</a> of file <a class="el" href="hal__storage_8c_source.html">hal_storage.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="hal__storage_8c_source.html#l01613">1613</a> of file <a class="el" href="hal__storage_8c_source.html">hal_storage.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="task__commands_8c_source.html#l00394">doStorageParsing()</a>, and <a class="el" href="hal__storage_8c_source.html#l00176">halStorageCreateDefault()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="task__commands_8c_source.html#l00394">doStorageParsing()</a>, and <a class="el" href="hal__storage_8c_source.html#l00263">halStorageCreateDefault()</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><img src="hal__storage_8h_a1503debb336ea2d708e4e0884c7aa6a3_cgraph.png" border="0" usemap="#hal__storage_8h_a1503debb336ea2d708e4e0884c7aa6a3_cgraph" alt=""/></div>
-<map name="hal__storage_8h_a1503debb336ea2d708e4e0884c7aa6a3_cgraph" id="hal__storage_8h_a1503debb336ea2d708e4e0884c7aa6a3_cgraph">
+<div class="center"><img src="hal__storage_8h_a046daab088cb37e318c07c2728ade9d3_cgraph.png" border="0" usemap="#hal__storage_8h_a046daab088cb37e318c07c2728ade9d3_cgraph" alt=""/></div>
+<map name="hal__storage_8h_a046daab088cb37e318c07c2728ade9d3_cgraph" id="hal__storage_8h_a046daab088cb37e318c07c2728ade9d3_cgraph">
 <area shape="rect" id="node2" href="hal__storage_8c.html#a4b6566ef5b69c85d422df52435c95d36" title="Internal helper to check for a valid WL handle and the correct tid. " alt="" coords="252,5,381,32"/>
 </map>
 </div>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><img src="hal__storage_8h_a1503debb336ea2d708e4e0884c7aa6a3_icgraph.png" border="0" usemap="#hal__storage_8h_a1503debb336ea2d708e4e0884c7aa6a3_icgraph" alt=""/></div>
-<map name="hal__storage_8h_a1503debb336ea2d708e4e0884c7aa6a3_icgraph" id="hal__storage_8h_a1503debb336ea2d708e4e0884c7aa6a3_icgraph">
+<div class="center"><img src="hal__storage_8h_a046daab088cb37e318c07c2728ade9d3_icgraph.png" border="0" usemap="#hal__storage_8h_a046daab088cb37e318c07c2728ade9d3_icgraph" alt=""/></div>
+<map name="hal__storage_8h_a046daab088cb37e318c07c2728ade9d3_icgraph" id="hal__storage_8h_a046daab088cb37e318c07c2728ade9d3_icgraph">
 <area shape="rect" id="node2" href="task__commands_8c.html#a69b0c55558b32caa21407de8e2277be9" title="doStorageParsing" alt="" coords="272,49,397,76"/>
 <area shape="rect" id="node7" href="hal__storage_8h.html#aed4beb2e1bd8cd78a201fbcb49958cba" title="Create a new default slot. " alt="" coords="252,100,417,127"/>
 <area shape="rect" id="node3" href="task__commands_8c.html#a7b36c39275d773aaedcb327ef4e1516f" title="task_commands" alt="" coords="485,49,604,76"/>
 <area shape="rect" id="node4" href="task__commands_8h.html#aedb896e40753227f80768e09d3748419" title="Init the command parser. " alt="" coords="880,5,1012,32"/>
 <area shape="rect" id="node6" href="task__commands_8h.html#a26091155b4d85093239033d689f363d0" title="Restart the command parser task. " alt="" coords="672,49,829,76"/>
-<area shape="rect" id="node5" href="flipmouse__fabi__esp32__kbdmouse__main_8c.html#abce06be17fc37d675118a678a8100a36" title="Main task, created by esp&#45;idf. " alt="" coords="1237,63,1316,89"/>
+<area shape="rect" id="node5" href="flipmouse__fabi__esp32__kbdmouse__main_8c.html#abce06be17fc37d675118a678a8100a36" title="Main task, created by esp&#45;idf. " alt="" coords="1237,49,1316,76"/>
 <area shape="rect" id="node8" href="hal__storage_8h.html#a3b1b266074bd493fe43dcf980852a422" title="Load a slot by a slot number (starting with 1, 0 is default slot) " alt="" coords="465,100,624,127"/>
 <area shape="rect" id="node9" href="hal__storage_8h.html#aad5b764e7c611ff24dbcdd872dc9ae76" title="Load a slot by an action. " alt="" coords="695,100,807,127"/>
 <area shape="rect" id="node12" href="hal__storage_8h.html#a75596c64adaa2b8d9104530acc94b094" title="Load a slot by a slot name. " alt="" coords="677,151,824,177"/>
 <area shape="rect" id="node10" href="config__switcher_8c.html#af5af5079d1982d42e165039e6de7e40a" title="CONTINOUS TASK &#45; Config switcher task, internal config reloading. " alt="" coords="877,100,1015,127"/>
-<area shape="rect" id="node11" href="config__switcher_8h.html#aafed047c8d04b814a85239e031cbad7b" title="Initializing the config switching functionality. " alt="" coords="1063,93,1189,120"/>
+<area shape="rect" id="node11" href="config__switcher_8h.html#aafed047c8d04b814a85239e031cbad7b" title="Initializing the config switching functionality. " alt="" coords="1063,75,1189,101"/>
 </map>
 </div>
 

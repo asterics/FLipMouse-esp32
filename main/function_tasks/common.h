@@ -52,13 +52,31 @@
  * @todo Change this back to new version, when GUI is compatible */
 //#define IDSTRING "FLipMouse V3.0\r\n"
 #define IDSTRING "Flipmouse v2.5\n"
+//#define IDSTRING "FABI v3.0\n"
 
-// which device is using this firmware?
+/** @brief Determine used device. Either FABI or FLipMouse.
+ * 
+ * @note Define one of these, otherwise it will result in a compile error.
+ * */
 //#define DEVICE_FABI
 #define DEVICE_FLIPMOUSE
 
 /** number of virtual button event groups. One event group is used for 4 VBs */
 #define NUMBER_VIRTUALBUTTONS 8
+
+/** @brief Use neopixels instead of RGB LEDs on FLipMouse
+ * 
+ * If this define is set, the hal_io RGB LED driver is not used. Instead,
+ * this module assumes a Neopixel string/ring for visual feedback.
+ * */
+#define LED_USE_NEOPIXEL
+
+/** @brief Set count of used Neopixels
+ * 
+ * If LED_USE_NEOPIXEL is set, this define is used to determine the
+ * count of NEOPIXEL LEDs, which are used for color output
+ * */
+#define LED_NEOPIXEL_COUNT  6
 
 
 /** maximum length for a slot name */
@@ -177,6 +195,12 @@ extern QueueHandle_t joystick_movement_usb;
 /** queue which receives joystick commands, triggered via BLE */
 extern QueueHandle_t joystick_movement_ble;
 
+
+/** @brief Possible states of the radio (wifi & BLE) */
+typedef enum {UNINITIALIZED,WIFI,BLE,BLE_PAIRING} radio_status_t;
+/** @brief Currently active radio state */
+extern radio_status_t radio;
+
 /** @brief Queue to receive config changing commands. 
  * 
  * A string is passed to this queue with a maximum length of SLOTNAME_LENGTH.
@@ -244,11 +268,12 @@ extern QueueHandle_t config_switcher;
   #define VB_EXTERNAL7    6
   #define VB_EXTERNAL8    7
   #define VB_EXTERNAL9    8
-  #define VB_SIP          9
-  #define VB_PUFF         10
-  #define VB_STRONGSIP    11
-  #define VB_STRONGPUFF   12
-  #define VB_MAX          13
+  #define VB_INTERNAL1    9
+  #define VB_SIP          10
+  #define VB_PUFF         11
+  #define VB_STRONGSIP    12
+  #define VB_STRONGPUFF   13
+  #define VB_MAX          14
 #endif
 
 /** special virtual button, which is used to trigger a task immediately.
@@ -505,6 +530,9 @@ typedef struct halIOIR {
 
 /** @brief NVS key for wifi password */
 #define NVS_WIFIPW  "nvswifipw"
+
+/** @brief Minutes between last client disconnected and WiFi is switched off */
+#define WIFI_OFF_TIME 5
 
 
 #endif /*FUNCTION_COMMON_H_*/

@@ -84,6 +84,7 @@ var searchData=
   ['taskmouseconfig_5ft',['taskMouseConfig_t',['../task__mouse_8h.html#aa8af5afb3b111ccabb1e207ae4cabcaa',1,'task_mouse.h']]],
   ['tasknoparameterconfig',['taskNoParameterConfig',['../structtaskNoParameterConfig.html',1,'']]],
   ['tasknoparameterconfig_5ft',['taskNoParameterConfig_t',['../common_8h.html#a735049d5abb65dcaa7ba76917158a3b3',1,'common.h']]],
+  ['taskwebguiendisable',['taskWebGUIEnDisable',['../task__webgui_8c.html#af4fe29c8fc1fde365cdb8344cb402156',1,'taskWebGUIEnDisable(int onoff):&#160;task_webgui.c'],['../task__webgui_8h.html#af4fe29c8fc1fde365cdb8344cb402156',1,'taskWebGUIEnDisable(int onoff):&#160;task_webgui.c']]],
   ['taskwebguiinit',['taskWebGUIInit',['../task__webgui_8c.html#a669b9245d5040c0162481f7b24dbeea7',1,'taskWebGUIInit(void):&#160;task_webgui.c'],['../task__webgui_8h.html#a669b9245d5040c0162481f7b24dbeea7',1,'taskWebGUIInit(void):&#160;task_webgui.c']]],
   ['threshold',['THRESHOLD',['../common_8h.html#a43f0521562303f42d96251f43d198c66a4b8d6cea1ac561b0b7bb443d586aae42',1,'common.h']]],
   ['threshold_5fpuff',['threshold_puff',['../structadc__config.html#ab2a5777fb85654dc54c30cf2f5709eee',1,'adc_config']]],

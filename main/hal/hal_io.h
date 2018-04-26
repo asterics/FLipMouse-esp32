@@ -30,10 +30,25 @@
  * * IR LED (sender)
  * * Buzzer
  * 
+ * All assigned buttons are processed via one GPIO ISR, which sets press
+ * and release flags in the VB input event group.
+ * In addition, one button can be configured for executing an extra handler
+ * after a long press (this long press is much longer compared to "long press"
+ * actions handled by task_debouncer). This handler is usually used for
+ * activating and deactivating the WiFi interface.
+ * 
+ * The LED output is configurable either to 3 PWM outputs for RGB LEDs
+ * or a Neopixel string with variable length (RGB LEDs use ledc facilities,
+ * Neopixels use RMT engine). To enable easy color settings, macros are provided
+ * (LED(r,g,b,m)).
+ * 
+ * IR receiving / sending is done via the RMT engine and is supported by macros
+ * as well.
+ * 
  * @note Compared to the tasks in the folder "function_tasks" all HAL tasks are
  * singletons. Call init to initialize every necessary data structure.
  * 
- * @todo Test LED driver, Buzzer & IR
+ * @todo Test LED driver (RGB & Neopixel)
  * */
  
 #include <freertos/FreeRTOS.h>
@@ -46,6 +61,7 @@
 #include "driver/ledc.h"
 #include "driver/gpio.h"
 #include "driver/rmt.h"
+#include "led_strip/led_strip.h"
 //common definitions & data for all of these functional tasks
 #include "common.h"
 #include "../config_switcher.h"
@@ -57,7 +73,8 @@
   halIOBuzzer_t tone = {    \
     .frequency = freq,      \
     .duration = length };   \
-  xQueueSend(halIOBuzzerQueue, (void*)&tone , (TickType_t) 0 ); }
+    if(halIOBuzzerQueue != NULL) { \
+  xQueueSend(halIOBuzzerQueue, (void*)&tone , (TickType_t) 0 ); }}
 
 /** @brief Macro to easily send an IR buffer 
  * @param buf rmt_item32_t pointer to the buffer
@@ -66,12 +83,24 @@
   halIOIR_t ir = {    \
     .buffer = buf,      \
     .count = len};   \
-  xQueueSend(halIOIRSendQueue, (void*)&ir , (TickType_t) 0 ); }
+    if(halIOIRSendQueue != NULL) { \
+  xQueueSend(halIOIRSendQueue, (void*)&ir , (TickType_t) 0 ); } }
 
 /** @brief Macro to easily send an halIOIR_t struct to IR hal driver 
  * @param cfg halIOIR_t struct pointer
  * @see halIOIR_t */
 #define SENDIRSTRUCT(cfg) { xQueueSend(halIOIRSendQueue, (void*)cfg , (TickType_t) 0 ); }
+
+/** @brief Macro to easily update the LEDs (RGB or Neopixel, depending on configuration)
+ * @param r 8bit value for red
+ * @param g 8bit value for green
+ * @param b 8bit value for blue
+ * @param m Fade time [10¹ms] or animation mode
+ * @see halIOLEDQueue */
+#define LED(r,g,b,m) { \
+  uint32_t xmit = (r & 0xFF) | ((g & 0xFF) << 8) | ((b & 0xFF) << 16) | ((m & 0xFF) << 24); \
+  if(halIOLEDQueue != NULL) { \
+  xQueueSend(halIOLEDQueue, (void*)&xmit , (TickType_t) 0 ); } }
 
 #ifdef DEVICE_FLIPMOUSE
 
@@ -103,6 +132,11 @@
  * @note LEDs are driven by LEDC driver */
 #define HAL_IO_PIN_LED_BLUE     14
 
+#ifdef LED_USE_NEOPIXEL
+/**@brief PIN - GPIO pin for Neopixel LED strip */
+#define HAL_IO_PIN_NEOPIXEL     2
+#endif
+
 #endif
 
 #ifdef DEVICE_FABI
@@ -133,17 +167,40 @@
  * @note IR will be done with the RMT driver */
 #define HAL_IO_PIN_IR_SEND      19
 
-
 #endif
+
+
+/** @brief PIN - which one is used for Wifi/BLE (long action handler)?
+ * @note MUST be equal to one normally used button. Mostly used: internal button 1
+ * @note This pin will be used for starting a long press timer, where
+ * the handler is called after finished period.
+ * @see halIOAddLongPressHandler
+ * @see HAL_IO_LONGACTION_TIMEOUT
+ */
+#define HAL_IO_PIN_LONGACTION HAL_IO_PIN_BUTTON_INT1
+
+/** @brief Timeout ([ms]) for triggering long press action handler.
+ * 
+ * @note If this value is lower than any long press timeout by 
+ * task_debouncer, the assigned action will be triggered BEFORE handler is called.
+ * @see HAL_IO_PIN_LONGACTION
+ * @see halIOAddLongPressHandler */
+#define HAL_IO_LONGACTION_TIMEOUT  5000
 
 /** @brief Set the count of memory blocks utilized for IR sending
  * 
  * ESP32's RMT unit has 8 64x32bits buffers for IR waveforms.
  * The IR code in FLipMouse/FABI uses RMT channels 0 and 4, therefor
  * both channels (RX&TX) could use up to 4 blocks for saving waveforms.
- * If there is need for a RMT channel for different purposes, reduce
- * this value to 3 to free one buffer for channel 3 and one for channel 7*/
+ * If there is need for a RMT channel for different purposes (e.g. Neopixel output), reduce
+ * this value to 3 to free one buffer for channel 3 and one for channel 7 */
 #define HAL_IO_IR_MEM_BLOCKS    4
+
+//we need an additional RMT block for Neopixel output (if activated)
+#ifdef LED_USE_NEOPIXEL
+  #undef HAL_IO_IR_MEM_BLOCKS
+  #define HAL_IO_IR_MEM_BLOCKS 3
+#endif
 
 /** @brief LED update queue
  * 
@@ -152,10 +209,25 @@
  * * \<bits 0-7\> RED
  * * \<bits 8-15\> GREEN
  * * \<bits 16-23\> BLUE
+ * 
+ * Depending on the LED config (either one RGB LED or Neopixels are used),
+ * bits 24-31 are used differently:
+ * 
+ * <b>RGB LED (LED_USE_NEOPIXEL is NOT defined)</b>:
+ * 
  * * \<bits 24-31\> Fading time ([10¹ms] -> value of 200 is 2s)
+ * 
+ * <b>Neopixels (LED_USE_NEOPIXEL is defined)</b>:
+ * 
+ * * \<bits 24-31\> Animation mode:
+ * * <b>0</b> Steady color on all Neopixels
+ * * <b>1</b> 3 Neopixels have the given color and are circled around
+ * * <b>2-0xFF</b> Currently undefined, further modes might be added.
  * 
  * @note Call halIOInit to initialize this queue.
  * @see halIOInit
+ * @see LED_USE_NEOPIXEL
+ * @see LED_NEOPIXEL_COUNT
  **/
 extern QueueHandle_t halIOLEDQueue;
 
@@ -208,6 +280,26 @@ extern QueueHandle_t halIOLEDQueue;
  * * PWM for buzzer output
  * */
 esp_err_t halIOInit(void);
+
+/** @brief Add long press handler for Wifi button
+ * 
+ * One button (define by HAL_IO_PIN_LONGACTION) can be used as long press button for enabling/disabling
+ * wifi (in addition to normal press/release actions).
+ * If this functionality should be used, add a handler with this method,
+ * which will be called after the button is pressed longer than
+ * HAL_IO_LONGACTION_TIMEOUT.
+ * 
+ * @note HAL_IO_PIN_LONGACTION cannot be used as individual button.
+ * Use a pin, which is already used for a normal action, otherwise the
+ * handler won't be used (ISR won't get triggered).
+ * 
+ * @note Clear the handler by passing a void function pointer.
+ * 
+ * @see HAL_IO_LONGACTION_TIMEOUT
+ * @see HAL_IO_PIN_LONGACTION
+ * @param longpress_h Handler for long press action, use a null pointer to disable the handler.
+ */
+void halIOAddLongPressHandler(void (*longpress_h)(void));
 
 /** @brief Queue to pend for any incoming infrared remote commands 
  * @see halIOIR_t */

@@ -68,4 +68,18 @@ esp_err_t halBLEInit(uint8_t deviceIdentifier);
  * */
 void halBLEReset(uint8_t exceptDevice);
 
+
+/** @brief En- or Disable BLE interface.
+ * 
+ * This method is used to enable or disable the BLE interface. Currently, the ESP32
+ * cannot use WiFi and BLE simultaneously. Therefore, when enabling wifi, it is
+ * necessary to disable BLE prior calling taskWebGUIEnDisable.
+ * 
+ * @note Calling this method prior to initializing BLE via halBLEInit will
+ * result in an error!
+ * @return ESP_OK on success, ESP_FAIL otherwise
+ * @param onoff If != 0, switch on BLE, switch off if 0.
+ * */
+esp_err_t halBLEEnDisable(int onoff);
+
 #endif

@@ -2,6 +2,8 @@ var searchData=
 [
   ['layout_5fus_5fenglish',['LAYOUT_US_ENGLISH',['../keyboard_8c.html#abdc0bad07026dc79af21786f20351716',1,'LAYOUT_US_ENGLISH():&#160;keyboard.c'],['../keyboard_8c.html#abdc0bad07026dc79af21786f20351716',1,'LAYOUT_US_ENGLISH():&#160;keyboard.c']]],
   ['layout_5fus_5finternational',['LAYOUT_US_INTERNATIONAL',['../keyboard_8c.html#a1638d6d17cf44a63e695eedae81b455d',1,'LAYOUT_US_INTERNATIONAL():&#160;keyboard.c'],['../keyboard_8c.html#a1638d6d17cf44a63e695eedae81b455d',1,'LAYOUT_US_INTERNATIONAL():&#160;keyboard.c'],['../keyboard_8c.html#a1638d6d17cf44a63e695eedae81b455d',1,'LAYOUT_US_INTERNATIONAL():&#160;keyboard.c'],['../keyboard_8c.html#a1638d6d17cf44a63e695eedae81b455d',1,'LAYOUT_US_INTERNATIONAL():&#160;keyboard.c']]],
+  ['led_5fneopixel_5fcount',['LED_NEOPIXEL_COUNT',['../common_8h.html#a0bd1824bfb24736925069b2b686f13f3',1,'common.h']]],
+  ['led_5fuse_5fneopixel',['LED_USE_NEOPIXEL',['../common_8h.html#a9d62fa909c5cb35963aa8369a076705b',1,'common.h']]],
   ['left_5falt_5fkey_5fmask',['LEFT_ALT_KEY_MASK',['../esp__hidd__prf__api_8h.html#a3a1d1ae6062a434ab2801d1a4f72dbd1',1,'esp_hidd_prf_api.h']]],
   ['left_5fcontrol_5fkey_5fmask',['LEFT_CONTROL_KEY_MASK',['../esp__hidd__prf__api_8h.html#a70368bbcf693dc041bafe8abd368f5b3',1,'esp_hidd_prf_api.h']]],
   ['left_5fgui_5fkey_5fmask',['LEFT_GUI_KEY_MASK',['../esp__hidd__prf__api_8h.html#ab5e9ea24553786e0b50c74b3d972efd2',1,'esp_hidd_prf_api.h']]],

@@ -1,8 +1,10 @@
 var searchData=
 [
+  ['readme_2emd',['README.md',['../README_8md.html',1,'']]],
   ['readme_5fadd_5fnew_5ffunction_2emd',['README_add_new_Function.md',['../README__add__new__Function_8md.html',1,'']]],
   ['readme_5fat_5fcommand_5fapi_2emd',['README_AT_command_API.md',['../README__AT__command__API_8md.html',1,'']]],
   ['readme_5fblockdiagram_2emd',['README_blockdiagram.md',['../README__blockdiagram_8md.html',1,'']]],
+  ['readme_5fslotdescription_2emd',['README_slotdescription.md',['../README__slotdescription_8md.html',1,'']]],
   ['release',['RELEASE',['../task__kbd_8h.html#aff3bf982a86299e69b007b0d16a45227ad590443978dc58d64aed5001f56efcdf',1,'task_kbd.h']]],
   ['remote_5fbda',['remote_bda',['../structesp__hidd__cb__param__t_1_1hidd__connect__evt__param.html#a3227bcea2587ee9ead9e1b7196d2de5e',1,'esp_hidd_cb_param_t::hidd_connect_evt_param::remote_bda()'],['../structesp__hidd__cb__param__t_1_1hidd__disconnect__evt__param.html#ac8ef9a20592cbd51326dac5ab5525cf6',1,'esp_hidd_cb_param_t::hidd_disconnect_evt_param::remote_bda()'],['../structhidd__clcb__t.html#aafd3134d0947d2888f22377271a21d33',1,'hidd_clcb_t::remote_bda()']]],
   ['remove_5fkeycode',['remove_keycode',['../keyboard_8c.html#a999cf21107da9c1a7e3797e72d95045b',1,'remove_keycode(uint8_t keycode, uint8_t *keycode_arr):&#160;keyboard.c'],['../keyboard_8h.html#a999cf21107da9c1a7e3797e72d95045b',1,'remove_keycode(uint8_t keycode, uint8_t *keycode_arr):&#160;keyboard.c']]],

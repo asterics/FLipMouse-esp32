@@ -137,14 +137,20 @@ window.L.removeAllChildren = function (selector) {
     });
 };
 
-window.L.createElement = function(tagName, className, inner) {
+window.L.createElement = function (tagName, className, inner) {
     var e = document.createElement(tagName);
     e.className = className;
-    if(inner && typeof inner === 'string') {
-        e.innerHTML = inner;
-    } else if(inner) {
-        e.appendChild(inner);
+    if (inner) {
+        inner = inner instanceof Array ? inner : [inner];
+        inner.forEach(function (innerElem) {
+            if (typeof innerElem === 'string') {
+                e.innerHTML += innerElem;
+            } else {
+                e.appendChild(innerElem);
+            }
+        });
     }
+
     return e;
 };
 

@@ -412,6 +412,11 @@ there.
   .hide-mobile, .hide-mobile-inline, .show-desktop, .hide-tablet, .hide-tablet-inline {
     display: none;
   }
+  .hide-mobile.showscreenreader {
+    display: block !important;
+    position: absolute;
+    left:-9999px;
+  }
   .text-right {
     text-align: left;
   }
@@ -434,6 +439,10 @@ there.
   }
   .hide-mobile {
     display: block;
+  }
+  .hide-mobile.showscreenreader {
+    position: inherit;
+    left: inherit;
   }
   .hide-mobile-inline{
     display: inline;

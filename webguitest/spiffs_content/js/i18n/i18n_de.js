@@ -3,7 +3,10 @@ window.i18n = {
     'CONFIRM_RESET_SLOTS': 'Möchten Sie die FLipMouse wirklich auf die Standardeinstellungen zurücksetzen?',
     'CHANGE_TOOLTIP': 'klicken um Aktion für "{?}" zu ändern',
     'NONE_BRACKET': '(leer)',
-    'SELECT_SPECIAL_KEY': 'Wähle Taste'
+    'SELECT_SPECIAL_KEY': 'Wähle Taste',
+    'DESCRIPTION': 'Beschreibung',
+    'CURR_ACTION': 'Aktuelle Aktion',
+    'CURR_AT_CMD': 'Aktuelles AT Kommando'
 };
 
 i18n[C.BTN_MODE_BUTTON_1] = 'Button 1';

@@ -18,7 +18,8 @@ function MockCommunicator() {
                     if (L.isFunction(_valueHandler)) {
                         var x = getRandomInt2(50);
                         var y = getRandomInt2(50);
-                        _valueHandler(VALUE_CONSTANT + '500,0,0,0,0,' + x + ',' + y);
+                        var pressure = getRandomInt(450, 550);
+                        _valueHandler(VALUE_CONSTANT + pressure + ',0,0,0,0,' + x + ',' + y);
                     }
                 }, 200);
             } else if (value.indexOf('AT ER') > -1) {

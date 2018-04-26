@@ -283,7 +283,8 @@
             <div tabindex="-1">
                 <h2 i18n style="display: none" aria-hidden="false" i18n>Tab 4 - FlipMouse Action configuration // Tab 4 - FlipMouse Konfiguration Aktionen</h2>
             </div>
-            <label for="modeSelection" i18n>FlipMouse mode // FlipMouse Modus</label> <a id="showModeHelpTextA" i18n href="javascript:L.toggleInline('#showModeHelpTextA', '#hideModeHelpTextA');L.toggle('#modeHelpText');">show info // zeige Info</a><a id="hideModeHelpTextA" i18n style="display: none" href="javascript:L.toggleInline('#showModeHelpTextA', '#hideModeHelpTextA');L.toggle('#modeHelpText');">hide info // verstecke Info</a>
+            <label for="modeSelection" i18n>FlipMouse mode // FlipMouse Modus</label>
+            <a id="hideModeHelpTextA" i18n style="display: none" href="javascript:L.toggleInline('#showModeHelpTextA', '#hideModeHelpTextA');L.toggle('#modeHelpText');">hide info // verstecke Info</a>    <a id="showModeHelpTextA" i18n href="javascript:L.toggleInline('#showModeHelpTextA', '#hideModeHelpTextA');L.toggle('#modeHelpText');">show info // zeige Info</a>
             <div i18n id="modeHelpText" class="space-bottom" style="display: none">
                 <span>Select the mode of the FLipMouse. In "Mouse" Mode the stick is used to move the mouse, in "Alternative" mode the stick can be used to trigger custom actions.</span>
                 <span>Wähle den FLipMouse Modus. Im "Maus" Modus bewegt der Stick die Maus, im "Alternative" Modus kann der Stick verwendet werden um benutzerdefinierte Aktionen auszulösen.</span>
@@ -328,14 +329,14 @@
                    <button onclick="tabAction.resetRec()" class="two columns" i18n>Reset // Löschen</button>
                 </div>
                 <div class="row">
-                    <label class="three columns text-right text-normal" for="SELECT_LEARN_CAT_KEYBOARD_SPECIAL" i18n>Special Keys // Spezialtasten</label>
+                    <label class="three columns text-right text-normal"i18n>Special Keys // Spezialtasten</label>
                     <div class="eight columns">
                         <button class="special-key" i18n onclick="tabAction.addSpecialKey(C.JS_KEYCODE_CTRL)">Ctrl // Strg</button>
                         <button class="special-key" onclick="tabAction.addSpecialKey(C.JS_KEYCODE_ALT)">Alt</button>
                         <button class="special-key" onclick="tabAction.addSpecialKey(C.JS_KEYCODE_SHIFT)">Shift</button>
                         <button class="special-key" onclick="tabAction.addSpecialKey(C.JS_KEYCODE_GUI)">Win</button>
                         <button class="special-key" onclick="tabAction.addSpecialKey(C.JS_KEYCODE_TAB)">Tab</button>
-                        <select id="SELECT_LEARN_CAT_KEYBOARD_SPECIAL" onchange="tabAction.addSpecialKey(this.value)">
+                        <select aria-hidden="true" id="SELECT_LEARN_CAT_KEYBOARD_SPECIAL" onchange="tabAction.addSpecialKey(this.value)">
                         </select>
                     </div>
                 </div>

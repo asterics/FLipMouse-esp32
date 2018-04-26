@@ -373,6 +373,9 @@ esp_err_t taskWebGUIEnDisable(int onoff)
   //should we enable or disable wifi?
   if(onoff == 0)
   {
+    //clear wifi flags
+    xEventGroupClearBits(connectionRoutingStatus, WIFI_ACTIVE | WIFI_CLIENT_CONNECTED);
+    
     //disable, call wifi_stop
     ret = esp_wifi_stop();
     //check return value
@@ -419,6 +422,13 @@ void wifi_timer_cb(TimerHandle_t xTimer)
   if(taskWebGUIEnDisable(0) != ESP_OK)
   {
     ESP_LOGE(LOG_TAG,"Disabling wifi automatically: error!");
+  }
+
+  //if wifi is automatically disabled, we need to enable BLE again
+  //and set global status accordingly
+  if(halBLEEnDisable(1) != ESP_OK)
+  {
+    ESP_LOGE(LOG_TAG,"Error enabling BLE by wifi timer");
   }
 }
 

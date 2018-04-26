@@ -65,6 +65,51 @@ QueueHandle_t joystick_movement_usb;
 QueueHandle_t joystick_movement_ble;
 QueueHandle_t config_switcher;
 
+radio_status_t radio = UNINITIALIZED;
+
+/** @brief Switch radio mode
+ * 
+ * This method is used to switch between the radio modes (radio_status_t).
+ * It will be called via the IO long press handler.
+ * Modes are currently switched in following order (wrap around):
+ * * BLE
+ * * BLE_PAIRING
+ * * WIFI
+ * 
+ * @see halIOAddLongPressHandler
+ * @see HAL_IO_LONGACTION_TIMEOUT
+ */
+void switch_radio(void)
+{
+    switch(radio)
+    {
+        case BLE:
+            ESP_LOGI(LOG_TAG,"Switching from BLE to BLE_PAIRING");
+            halBLEEnDisable(2);
+            radio = BLE_PAIRING;
+            break;
+        case BLE_PAIRING:
+            ESP_LOGI(LOG_TAG,"Switching from BLE_PAIRING to WIFI");
+            halBLEEnDisable(0);
+            taskWebGUIEnDisable(1);
+            radio = WIFI;
+            break;
+        case WIFI:
+            ESP_LOGI(LOG_TAG,"Switching from WIFI to BLE");
+            taskWebGUIEnDisable(0);
+            halBLEEnDisable(1);
+            radio = BLE;
+            break;
+        case UNINITIALIZED:
+        default:
+            ESP_LOGE(LOG_TAG,"Error, radio is in mode uninitialized. Trying with BLE...");
+            taskWebGUIEnDisable(0);
+            halBLEEnDisable(1);
+            radio = BLE;
+            break;
+    }
+}
+
 /** @brief Main task, created by esp-idf
  * 
  * This task is used to initialize all queues & flags.
@@ -161,10 +206,13 @@ void app_main()
         ESP_LOGE(LOG_TAG,"error initializing webserver/DNS server/webgui");
     }
     //start wifi
+    halIOAddLongPressHandler(switch_radio);
     ///@todo in release version, Wifi is NOT started automatically!!
+    radio = WIFI;
     halBLEEnDisable(0);
     taskWebGUIEnDisable(1);
     //disable wifi & enable bluetooth
+    //radio = BLE;
     //taskWebGUIEnDisable(0);
     //halBLEEnDisable(1);
     

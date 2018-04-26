@@ -25,7 +25,9 @@
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  * 
- * Small adaptions done by Benjamin Aigner (2018) <aignerb@technikum-wien.at>
+ * Small adaptions done by Benjamin Aigner (2018) <aignerb@technikum-wien.at>:
+ * * Replaced strlen by strnlen avoiding security flaws
+ * * Changed data sink to be used with the FLipMouse/FABI firmware
  */
 
 #include "websocket.h"
@@ -142,7 +144,7 @@ void ws_server_netconn_serve(struct netconn *conn) {
 					p_SHA1_Inp[i] = *(p_buf + sizeof(WS_sec_WS_keys) + i);
 
 				// calculate hash
-				esp_sha(SHA1, (unsigned char*) p_SHA1_Inp, strlen(p_SHA1_Inp),
+				esp_sha(SHA1, (unsigned char*) p_SHA1_Inp, strnlen(p_SHA1_Inp,WS_CLIENT_KEY_L),
 						(unsigned char*) p_SHA1_result);
 
 				//hex to base64
@@ -165,7 +167,7 @@ void ws_server_netconn_serve(struct netconn *conn) {
 					sprintf(p_payload, WS_srv_hs, i - 1, p_buf);
 
 					//send handshake
-					netconn_write(conn, p_payload, strlen(p_payload),
+					netconn_write(conn, p_payload, strnlen(p_payload,sizeof(WS_srv_hs) + i - WS_SPRINTF_ARG_L),
 							NETCONN_COPY);
 
 					//free base 64 encoded sec key

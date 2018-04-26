@@ -447,7 +447,7 @@ esp_err_t taskWebGUIInit(void)
     return ESP_FAIL;
   }
   halStorageNVSLoadString(NVS_WIFIPW,wifipw);
-  if(strlen(wifipw) < 8 || strlen(wifipw) > 32)
+  if(strnlen(wifipw,32) < 8 || strnlen(wifipw,32) > 32)
   {
     ESP_LOGI(LOG_TAG,"Wifipassword invalid, using default one");
     strncpy(wifipw,CONFIG_AP_PASSWORD,32);
@@ -488,7 +488,7 @@ esp_err_t taskWebGUIInit(void)
 	wifi_config_t ap_config = {
     .ap = {
       .ssid = CONFIG_AP_SSID,
-			.ssid_len = strlen(CONFIG_AP_SSID),
+			.ssid_len = strnlen(CONFIG_AP_SSID,32),
 			//.channel = CONFIG_AP_CHANNEL,
 			.authmode = CONFIG_AP_AUTHMODE,
 			.ssid_hidden = CONFIG_AP_SSID_HIDDEN,
@@ -496,7 +496,7 @@ esp_err_t taskWebGUIInit(void)
 			.beacon_interval = CONFIG_AP_BEACON_INTERVAL,			
     },
   };
-  memcpy(ap_config.ap.password,wifipw,strlen(wifipw)+1);
+  memcpy(ap_config.ap.password,wifipw,strnlen(wifipw,32)+1);
   ESP_LOGI(LOG_TAG,"Wifipw: %s",ap_config.ap.password);
 	ESP_ERROR_CHECK(esp_wifi_set_config(WIFI_IF_AP, &ap_config));
     

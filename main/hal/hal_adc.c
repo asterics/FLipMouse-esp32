@@ -111,7 +111,7 @@ void halAdcReportRaw(uint32_t up, uint32_t down, uint32_t left, uint32_t right, 
         {
             char data[40];
             sprintf(data,"VALUES:%d,%d,%d,%d,%d,%d,%d\r\n",pressure,up,down,left,right,x,y);
-            halSerialSendUSBSerial(HAL_SERIAL_TX_TO_CDC,data, strlen(data), 10);
+            halSerialSendUSBSerial(HAL_SERIAL_TX_TO_CDC,data, strnlen(data,40), 10);
         }
         prescaler++;
     }

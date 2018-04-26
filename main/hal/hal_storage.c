@@ -1435,7 +1435,7 @@ esp_err_t halStorageStore(uint32_t tid, generalConfig_t *cfg, char *slotname, ui
     return ESP_FAIL;
   }
   
-  if(strlen(slotname) > SLOTNAME_LENGTH)
+  if(strnlen(slotname,SLOTNAME_LENGTH) == SLOTNAME_LENGTH)
   {
     ESP_LOGE(LOG_TAG,"Slotname too long!");
     return ESP_FAIL;
@@ -1462,7 +1462,7 @@ esp_err_t halStorageStore(uint32_t tid, generalConfig_t *cfg, char *slotname, ui
   fseek(f,0,SEEK_SET);
   
   //write slot name (size of string + 1x '\0' char)
-  namelen = strlen(slotname);
+  namelen = strnlen(slotname,SLOTNAME_LENGTH);
   fwrite(&namelen,sizeof(uint32_t),1, f);
   fwrite(slotname,sizeof(char),namelen, f);
   fwrite(&nullterm,sizeof(char),1, f);
@@ -1523,7 +1523,7 @@ esp_err_t halStorageStoreIR(uint32_t tid, halIOIR_t *cfg, char *cmdName)
   //basic FS checks
   if(halStorageChecks(tid) != ESP_OK) return ESP_FAIL;
   
-  if(strlen(cmdName) > SLOTNAME_LENGTH)
+  if(strnlen(cmdName,SLOTNAME_LENGTH) == SLOTNAME_LENGTH)
   {
     ESP_LOGE(LOG_TAG,"CMD name too long!");
     return ESP_FAIL;
@@ -1565,7 +1565,7 @@ esp_err_t halStorageStoreIR(uint32_t tid, halIOIR_t *cfg, char *cmdName)
   fseek(f,0,SEEK_SET);
   
   //write cmd name (size of string + 1x '\0' char)
-  namelen = strlen(cmdName);
+  namelen = strnlen(cmdName,SLOTNAME_LENGTH);
   fwrite(&namelen,sizeof(uint32_t),1, f);
   fwrite(cmdName,sizeof(char),namelen, f);
   fwrite(&nullterm,sizeof(char),1, f);

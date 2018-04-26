@@ -1,6 +1,6 @@
 ﻿<html>
 <head>
-    <title>FlipMouse WebGUI</title>
+    <title>FlipMouse Configuration</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="css/normal.css">
     <link rel="stylesheet" href="css/skeleton.css">
@@ -26,35 +26,37 @@
 <div id="content">
     <div class="row">
         <div>
-            <h1 id="mainHeading" class="nine columns" i18n>FLipMouse Configuration // FLipMouse Konfiguration</h1>
+            <h1 id="mainHeading" tabindex="-1" class="nine columns" i18n>FLipMouse Configuration // FLipMouse Konfiguration</h1>
             <span aria-hidden="true" class="show-mobile headerConnectIndicator green connectedIndicator" style="display: none">&#x2713;</span>
             <span aria-hidden="true" class="show-mobile headerConnectIndicator red disconnectedIndicator">&#x2717;</span>
         </div>
-        <div class="three columns hide-mobile">
+        <div class="three columns hide-mobile showscreenreader">
             <div class="row">
                 <label class="seven columns" for="selectSlots" i18n>Select Slot // Slot auswählen</label>
                 <div class="five columns text-right connectedIndicator" style="display: none">
                     <span aria-hidden="true" style="color: green">&#x2713;</span>
-                    <span aria-hidden="false" class="show-desktop">connected</span>
+                    <span aria-hidden="false" class="hidden" i18n>connection status // Verbindungsstatus</span>
+                    <span aria-hidden="false" class="show-desktop">connected // verbunden</span>
                 </div>
                 <div class="five columns text-right disconnectedIndicator">
                     <span aria-hidden="true" style="color: red">&#x2717;</span>
-                    <span aria-hidden="false" class="show-desktop">not connected</span>
+                    <span aria-hidden="false" class="hidden" i18n>connection status // Verbindungsstatus</span>
+                    <span aria-hidden="false" class="show-desktop" i18n>not connected // nicht verbunden</span>
                 </div>
             </div>
-            <select id="selectSlots" class="slot-select row u-full-width" onchange="tabSlot.selectSlot(this)">
+            <select aria-hidden="true" id="selectSlots" class="slot-select row u-full-width" onchange="tabSlot.selectSlot(this)">
             </select>
         </div>
     </div>
     <div class="row hide-mobile" style="margin-bottom: 1.5em"></div>
 
-    <div data-tabs class="row" id="tabMenu" role="menubar">
-        <div class="three columns hide-mobile"><button role="menuitemradio" onclick="toTab('#tabBasic')" class="menubutton button-primary" data-tab id="tabBasicBtn" i18n>Basic Setup // Basis-Konfiguration</button></div>
-        <div class="three columns hide-mobile"><button role="menuitemradio" onclick="toTab('#tabPuff')" class="menubutton button-primary" data-tab id="tabPuffBtn" i18n>Sip and Puff // Saug-Blassteuerung</button></div>
-        <div class="three columns hide-mobile"><button role="menuitemradio" onclick="toTab('#tabSlots')" class="menubutton button-primary" data-tab id="tabSlotsBtn" i18n>Slot configuration // Slot-Konfiguration</button></div>
-        <div class="three columns hide-mobile"><button role="menuitemradio" onclick="toTab('#tabActions')" class="menubutton button-primary" data-tab id="tabActionsBtn" i18n>Action configuration // Konfiguration Aktionen</button></div>
-        <div class="show-mobile"><button id="toNavLink" role="link" onclick="toNav()" class="button button-primary" data-tab i18n>&#x2630; Menu // &#x2630; Menü</button></div>
-        <div class="show-mobile"><button id="toNavBackLink" role="link" style="display: none" onclick="toNavBack()" class="button button-primary" i18n>&#8592; Back // &#8592; Zurück</button></div>
+    <div data-tabs class="row" id="tabMenu" role="menubar" tabindex="-1">
+        <div class="three columns hide-mobile showscreenreader"><button role="menuitem" onclick="toTab('#tabBasic')" class="menubutton button-primary" data-tab id="tabBasicBtn" i18n>Basic Setup // Basis-Konfiguration</button></div>
+        <div class="three columns hide-mobile showscreenreader"><button role="menuitem" onclick="toTab('#tabPuff')" class="menubutton button-primary" data-tab id="tabPuffBtn" i18n>Sip and Puff // Saug-Blassteuerung</button></div>
+        <div class="three columns hide-mobile showscreenreader"><button role="menuitem" onclick="toTab('#tabSlots')" class="menubutton button-primary" data-tab id="tabSlotsBtn" i18n>Slot configuration // Slot-Konfiguration</button></div>
+        <div class="three columns hide-mobile showscreenreader"><button role="menuitem" onclick="toTab('#tabActions')" class="menubutton button-primary" data-tab id="tabActionsBtn" i18n>Action configuration // Konfiguration Aktionen</button></div>
+        <div class="show-mobile" aria-hidden="true"><button id="toNavLink" onclick="toNav()" class="button button-primary" data-tab i18n>&#x2630; Menu // &#x2630; Menü</button></div>
+        <div class="show-mobile" aria-hidden="true"><button id="toNavBackLink" style="display: none" onclick="toNavBack()" class="button button-primary" i18n>&#8592; Back // &#8592; Zurück</button></div>
     </div>
     <div data-tabs-content>
         <div data-tabs-pane class="tabs-pane" id="tabNav">
@@ -62,7 +64,7 @@
         </div>
         <div data-tabs-pane class="tabs-pane" id="tabBasic">
             <div tabindex="-1">
-                <h2 id="tabBasicH2" i18n style="display: none" aria-hidden="false" i18n>Tab 1 - Basic FlipMouse Setup // Tab 1 - Basiskonfiguration FlipMouse</h2>
+                <h2 i18n style="display: none" aria-hidden="false" i18n>Tab 1 - Basic FlipMouse Setup // Tab 1 - Basiskonfiguration FlipMouse</h2>
             </div>
             <div id="basic-SENSITIVITY-single">
                 <label for="SENSITIVITY" i18n>Sensitivity: // Sensitivität:</label>
@@ -161,7 +163,9 @@
             </div>
         </div>
         <div data-tabs-pane class="tabs-pane" id="tabPuff">
-            <h2 i18n style="display: none" aria-hidden="false" i18n>Tab 2 - FlipMouse Sip and Puff Configuration // Tab 2 - FlipMouse Konfiguration Saug-/Blassteuerung</h2>
+            <div tabindex="-1">
+                <h2 i18n style="display: none" aria-hidden="false" i18n>Tab 2 - FlipMouse Sip and Puff Configuration // Tab 2 - FlipMouse Konfiguration Saug-/Blassteuerung</h2>
+            </div>
             <div id="tab-puff-container" class="relative">
 
                 <div class="row back-layer full-height full-width">
@@ -230,7 +234,9 @@
             </button>
         </div>
         <div data-tabs-pane class="tabs-pane" id="tabSlots">
-            <h2 i18n style="display: none" aria-hidden="false" i18n>Tab 3 - FlipMouse Slot configuration // Tab 3 - FlipMouse Slot Konfiguration</h2>
+            <div tabindex="-1">
+                <h2 i18n style="display: none" aria-hidden="false" i18n>Tab 3 - FlipMouse Slot configuration // Tab 3 - FlipMouse Slot Konfiguration</h2>
+            </div>
             <div class="row">
                 <label for="selectSlots2" i18n>Select active slot // Aktiven Slot auswählen</label>
                 <select id="selectSlots2" class="slot-select u-full-width" onchange="tabSlot.selectSlot(this)">
@@ -274,7 +280,9 @@
             </div>
         </div>
         <div data-tabs-pane class="tabs-pane" id="tabActions">
-            <h2 i18n style="display: none" aria-hidden="false" i18n>Tab 4 - FlipMouse Action configuration // Tab 4 - FlipMouse Konfiguration Aktionen</h2>
+            <div tabindex="-1">
+                <h2 i18n style="display: none" aria-hidden="false" i18n>Tab 4 - FlipMouse Action configuration // Tab 4 - FlipMouse Konfiguration Aktionen</h2>
+            </div>
             <label for="modeSelection" i18n>FlipMouse mode // FlipMouse Modus</label> <a id="showModeHelpTextA" i18n href="javascript:L.toggleInline('#showModeHelpTextA', '#hideModeHelpTextA');L.toggle('#modeHelpText');">show info // zeige Info</a><a id="hideModeHelpTextA" i18n style="display: none" href="javascript:L.toggleInline('#showModeHelpTextA', '#hideModeHelpTextA');L.toggle('#modeHelpText');">hide info // verstecke Info</a>
             <div i18n id="modeHelpText" class="space-bottom" style="display: none">
                 <span>Select the mode of the FLipMouse. In "Mouse" Mode the stick is used to move the mouse, in "Alternative" mode the stick can be used to trigger custom actions.</span>
@@ -400,7 +408,7 @@
             window.flip = new FlipMouse(function (config) {
                 initWithConfig(config);
                 tabSlot.initSlots();
-                toTab(getCurrentTabId());
+                toTab(getCurrentTabId(), true);
                 testConnection();
                 setInterval(function () {
                     testConnection();
@@ -492,12 +500,18 @@
         });
     }
 
-    function toTab(tabId) {
+    function toTab(tabId, nofocus) {
         tabId = parseTabId(tabId);
         if(!tabId) {
             tabId = '#tabBasic';
         }
+        if(nofocus) {
+            L(tabId).setAttribute('data-tab-no-focus', true);
+        }
         tabby.toggleTab(tabId);
+        if(nofocus) {
+            L(tabId).removeAttribute('data-tab-no-focus');
+        }
         L.setSelected('.menubutton', false);
         L.setSelected(tabId + 'Btn');
         L.setVisible('#toNavLink');

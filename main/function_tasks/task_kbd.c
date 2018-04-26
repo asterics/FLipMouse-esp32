@@ -102,13 +102,13 @@ esp_err_t task_keyboard_getAT(char* output, void* cfg)
       {
         if(parseKeycodeToIdentifier(((conf->keycodes_text[paramsoffset] & 0xFF00) >> 8) | 0xE000,identifierarr,30) == 1)
         {
-          strcat(output, identifierarr);
+          strncat(output, identifierarr,strnlen(identifierarr,30));
           strcat(output, " ");
         } else if (parseKeycodeToIdentifier(((conf->keycodes_text[paramsoffset] & 0xFF00) >> 8) | 0xE200,identifierarr,30) == 1) {
-          strcat(output, identifierarr);
+          strncat(output, identifierarr,strnlen(identifierarr,30));
           strcat(output, " ");
         } else if (parseKeycodeToIdentifier(((conf->keycodes_text[paramsoffset] & 0xFF00) >> 8) | 0xE400,identifierarr,30) == 1) {
-          strcat(output, identifierarr);
+          strncat(output, identifierarr,strnlen(identifierarr,30));
           strcat(output, " ");
         } else {
           ESP_LOGW(LOG_TAG,"Cannot find keycode identifier for 0x%04X @ %d",conf->keycodes_text[paramsoffset],paramsoffset);

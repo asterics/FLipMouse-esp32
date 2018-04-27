@@ -52,7 +52,7 @@
 
     <nav data-tabs class="row" id="tabMenu" role="menubar" tabindex="-1" accesskey="0">
         <div class="three columns hide-mobile showscreenreader"><button role="menuitem" onclick="toTab('#tabBasic')" class="menubutton button-primary" data-tab id="tabBasicBtn" i18n>Basic Setup // Basis-Konfiguration</button></div>
-        <div class="three columns hide-mobile showscreenreader"><button role="menuitem" onclick="toTab('#tabPuff')" class="menubutton button-primary" data-tab id="tabPuffBtn" i18n>Sip and Puff // Saug-Blassteuerung</button></div>
+        <div class="three columns hide-mobile showscreenreader"><button role="menuitem" onclick="toTab('#tabPuff')" class="menubutton button-primary" data-tab id="tabPuffBtn" i18n>Sip and Puff // Saug-Pustesteuerung</button></div>
         <div class="three columns hide-mobile showscreenreader"><button role="menuitem" onclick="toTab('#tabSlots')" class="menubutton button-primary" data-tab id="tabSlotsBtn" i18n>Slot configuration // Slot-Konfiguration</button></div>
         <div class="three columns hide-mobile showscreenreader"><button role="menuitem" onclick="toTab('#tabActions')" class="menubutton button-primary" data-tab id="tabActionsBtn" i18n>Action configuration // Konfiguration Aktionen</button></div>
         <div class="show-mobile" aria-hidden="true"><button id="toNavLink" onclick="toNav()" class="button button-primary" data-tab i18n>&#x2630; Menu // &#x2630; Menü</button></div>
@@ -164,7 +164,7 @@
         </section>
         <section aria-labelledby="tabPuffHeader" data-tabs-pane class="tabs-pane" id="tabPuff">
             <div tabindex="-1">
-                <h2 id="tabPuffHeader" i18n style="display: none" aria-hidden="false" i18n>Tab 2 - FlipMouse Sip and Puff Configuration // Tab 2 - FlipMouse Konfiguration Saug-/Blassteuerung</h2>
+                <h2 id="tabPuffHeader" i18n style="display: none" aria-hidden="false" i18n>Tab 2 - FlipMouse Sip and Puff Configuration // Tab 2 - FlipMouse Konfiguration Saug-/Pustesteuerung</h2>
             </div>
             <div id="tab-puff-container" class="relative">
                 <div class="row back-layer full-height full-width">
@@ -210,13 +210,13 @@
 
                 <br/>
                 <br/>
-                <label for="PUFF_THRESHOLD" i18n>Puff Threshold: // Schwellenwert Blasen:</label>
+                <label for="PUFF_THRESHOLD" i18n>Puff Threshold: // Schwellenwert Pusten:</label>
                 <div id="PUFF_THRESHOLD_WRAPPER" class="row">
                     <span aria-hidden="true" id="PUFF_THRESHOLD_VAL" class="text-center two columns">0</span>
                     <input type="range" oninput="tabSip.sipSliderChanged(this)" onchange="tabSip.sipSliderChanged(this)"
                            id="PUFF_THRESHOLD" min="0" max="1023" class="ten columns">
                 </div>
-                <label for="PUFF_STRONG_THRESHOLD" i18n>Strong Puff Threshold: // Schwellenwert Blasen
+                <label for="PUFF_STRONG_THRESHOLD" i18n>Strong Puff Threshold: // Schwellenwert Pusten
                     stark:</label>
                 <div id="PUFF_STRONG_THRESHOLD_WRAPPER" class="row">
                     <span aria-hidden="true" id="PUFF_STRONG_THRESHOLD_VAL" class="text-center two columns">0</span>

@@ -450,8 +450,6 @@ void halSerialTaskJoystick(void *param)
         if(rxJ.sliderLeft > 1023) rxJ.sliderLeft = 1023;
         if(rxJ.sliderRight > 1023) rxJ.sliderRight = 1023;
         
-        ///@todo Slider right (AT JU) influences slider left in some minor bits...
-        
         /*++++ build report ++++*/
         
         //13 bytes:
@@ -505,7 +503,7 @@ void halSerialTaskJoystick(void *param)
         report[10] |= (rxJ.sliderLeft & 0x000F) << 4;
         report[11] = (rxJ.sliderLeft & 0x03F0) >> 4;
         //add sliderRight
-        report[11] |= rxJ.sliderRight & 0x0003;
+        report[11] |= rxJ.sliderRight & 0x0003 << 6;
         report[12] = (rxJ.sliderRight & 0x03FC) >> 2;
         
         //log buffer

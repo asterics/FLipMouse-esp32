@@ -5,6 +5,8 @@ var searchData=
   ['hal_5fconfig_5ftask_5fpriority',['HAL_CONFIG_TASK_PRIORITY',['../common_8h.html#aa232edf6b71b1a686e308663f2c19d5a',1,'common.h']]],
   ['hal_5fio_5fadc_5ftask_5fpriority',['HAL_IO_ADC_TASK_PRIORITY',['../hal__adc_8h.html#aec5255c5a049b277c1de3cfc79dfdd57',1,'hal_adc.h']]],
   ['hal_5fio_5fir_5fmem_5fblocks',['HAL_IO_IR_MEM_BLOCKS',['../hal__io_8h.html#a8e09474b15adae0b00d1c683e91eea64',1,'hal_io.h']]],
+  ['hal_5fio_5flongaction_5ftimeout',['HAL_IO_LONGACTION_TIMEOUT',['../hal__io_8h.html#a7501b46689ced3389164f900567a5025',1,'hal_io.h']]],
+  ['hal_5fio_5fpin_5flongaction',['HAL_IO_PIN_LONGACTION',['../hal__io_8h.html#a8db74aa62b01eaaa7e9b0080050d488f',1,'hal_io.h']]],
   ['hal_5fserial_5fline_5fending',['HAL_SERIAL_LINE_ENDING',['../hal__serial_8h.html#a473298fc9468937c90caa6fb9c53f8fc',1,'hal_serial.h']]],
   ['hal_5fserial_5frxpin',['HAL_SERIAL_RXPIN',['../hal__serial_8h.html#a45f62b4622856ce7c40997e870b85895',1,'hal_serial.h']]],
   ['hal_5fserial_5fswitchpin',['HAL_SERIAL_SWITCHPIN',['../hal__serial_8h.html#a8262773282e83f78fb119496d90de114',1,'hal_serial.h']]],

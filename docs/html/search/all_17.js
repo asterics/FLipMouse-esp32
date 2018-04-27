@@ -6,6 +6,7 @@ var searchData=
   ['websocket_5fframe_5ft',['WebSocket_frame_t',['../structWebSocket__frame__t.html',1,'']]],
   ['wheel',['wheel',['../structmouse__command.html#a813db5c3e3e2d7f013972f54b8257464',1,'mouse_command::wheel()'],['../task__mouse_8h.html#ad99a95527afeac61cb05911c7695d942ac7b6c6728ce2073ebab56d038205e7b3',1,'WHEEL():&#160;task_mouse.h']]],
   ['wheel_5fstepsize',['wheel_stepsize',['../structgeneralConfig.html#a36225b09e3c7254252c495c6e36f4c33',1,'generalConfig']]],
+  ['wifi',['WIFI',['../common_8h.html#ab6afacea6a7310707d47839506c30a73a13e02909006158bf407b1093191dcf5b',1,'common.h']]],
   ['wifi_5factive',['WIFI_ACTIVE',['../common_8h.html#af11bf2c47cd0354ecfee72f9c88a4e2d',1,'common.h']]],
   ['wifi_5fclient_5fconnected',['WIFI_CLIENT_CONNECTED',['../common_8h.html#a9d086131b0622a8aaeb0db9b1ccbe725',1,'common.h']]],
   ['wifi_5fevent_5fhandler',['wifi_event_handler',['../task__webgui_8c.html#a11dd6a5edc46c297b26382ebce3c34cb',1,'task_webgui.c']]],

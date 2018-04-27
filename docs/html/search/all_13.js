@@ -36,5 +36,6 @@ var searchData=
   ['storageheader',['storageHeader',['../structstorageHeader.html',1,'']]],
   ['storageheader_5ft',['storageHeader_t',['../hal__storage_8h.html#ac4672e8f194fe72f4c3f9c4440a907ea',1,'hal_storage.h']]],
   ['strtolabel',['strToLabel',['../captdns_8c.html#a01294bcdad17e226e50f0c707fee3852',1,'captdns.c']]],
-  ['svc_5ffeatures',['svc_features',['../structhidd__feature__t.html#a254c99f1e3115e399a088611e1e93123',1,'hidd_feature_t']]]
+  ['svc_5ffeatures',['svc_features',['../structhidd__feature__t.html#a254c99f1e3115e399a088611e1e93123',1,'hidd_feature_t']]],
+  ['switch_5fradio',['switch_radio',['../flipmouse__fabi__esp32__kbdmouse__main_8c.html#a93e2ea21db142b4c7172565051a18cb1',1,'flipmouse_fabi_esp32_kbdmouse_main.c']]]
 ];

@@ -1,5 +1,6 @@
 var searchData=
 [
+  ['radio',['radio',['../flipmouse__fabi__esp32__kbdmouse__main_8c.html#af5f9c13fa0128514696997d6dd9694f2',1,'radio():&#160;flipmouse_fabi_esp32_kbdmouse_main.c'],['../common_8h.html#af5f9c13fa0128514696997d6dd9694f2',1,'radio():&#160;flipmouse_fabi_esp32_kbdmouse_main.c']]],
   ['remote_5fbda',['remote_bda',['../structesp__hidd__cb__param__t_1_1hidd__connect__evt__param.html#a3227bcea2587ee9ead9e1b7196d2de5e',1,'esp_hidd_cb_param_t::hidd_connect_evt_param::remote_bda()'],['../structesp__hidd__cb__param__t_1_1hidd__disconnect__evt__param.html#ac8ef9a20592cbd51326dac5ab5525cf6',1,'esp_hidd_cb_param_t::hidd_disconnect_evt_param::remote_bda()'],['../structhidd__clcb__t.html#aafd3134d0947d2888f22377271a21d33',1,'hidd_clcb_t::remote_bda()']]],
   ['report_5fchar_5fcfg',['report_char_cfg',['../structhidd__feature__t.html#abe1eb24fc371723e35f701cce1a0c362',1,'hidd_feature_t']]],
   ['report_5fid',['report_id',['../structhids__report__ref__t.html#a746996be83455c34c48bf26487a0f525',1,'hids_report_ref_t']]],

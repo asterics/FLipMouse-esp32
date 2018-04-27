@@ -2,16 +2,10 @@ window.tabAction = {};
 
 window.tabAction.init = function () {
     tabAction.initBtnModeActionTable();
-    L.removeAllChildren('#selectActionButton');
-    C.BTN_MODES.forEach(function (btnMode) {
-        var option = L.createElement('option', '', L.translate(btnMode));
-        option.value = btnMode;
-        L('#selectActionButton').appendChild(option);
-    });
+    var modes = flip.getConfig(flip.FLIPMOUSE_MODE) == C.FLIPMOUSE_MODE_MOUSE ? C.BTN_MODES_WITHOUT_STICK : C.BTN_MODES;
+    L('#selectActionButton').innerHTML = L.createSelectItems(modes);
     L('#currentAction').innerHTML = getReadable(flip.getConfig(C.BTN_MODES[0]));
-
     L.setSelected('#' + flip.getConfig(flip.FLIPMOUSE_MODE), true);
-    L('#' + flip.getConfig(flip.FLIPMOUSE_MODE)).checked = true;
 
     L('#SELECT_LEARN_CAT_MOUSE').innerHTML = L.createSelectItems(C.AT_CMDS_MOUSE);
     L('#SELECT_LEARN_CAT_FLIPACTIONS').innerHTML = L.createSelectItems(C.AT_CMDS_FLIP);
@@ -26,7 +20,8 @@ window.tabAction.initBtnModeActionTable = function () {
     var ariaDesc = '<span class="hidden" aria-hidden="false">' + L.translate('DESCRIPTION') + '</span>';
     var ariaAction = '<span class="hidden" aria-hidden="false">' + L.translate('CURR_ACTION') + '</span>';
     var ariaAtCmd = '<span class="hidden" aria-hidden="false">' + L.translate('CURR_AT_CMD') + '</span>';
-    C.BTN_MODES.forEach(function (btnMode) {
+    var modes = flip.getConfig(flip.FLIPMOUSE_MODE) == C.FLIPMOUSE_MODE_MOUSE ? C.BTN_MODES_WITHOUT_STICK : C.BTN_MODES;
+    modes.forEach(function (btnMode) {
         var liElm = L.createElement('li', 'row');
         var changeA = L.createElement('a', '', L.translate(btnMode));
         changeA.href = 'javascript:tabAction.selectActionButton("' + btnMode + '")';
@@ -74,6 +69,7 @@ window.tabAction.selectMode = function (elem) {
     L.setSelected('.modeButton', false);
     L.setSelected(elem, true);
     flip.setFlipmouseMode(elem.id);
+    tabAction.init();
 };
 
 tabAction.selectAtCmd = function (atCmd) {

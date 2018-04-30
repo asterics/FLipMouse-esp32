@@ -275,5 +275,5 @@ function getReadable(atCmd) {
         postfix = postfix.replace(/ /g, ' + ');
     }
     postfix = postfix.replace(/KEY_/g, '');
-    return L.translate(prefix, postfix);
+    return L.translate(prefix, postfix + ' '); //add space to prevent word detection in tablet/smartphone input
 }

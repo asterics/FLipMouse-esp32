@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="css/tabby.css">
     <link rel="stylesheet" href="css/custom.css">
     <link rel="stylesheet" href="css/slider.css">
+    <!--<script src="lib/androidc.js"></script>-->
     <script src="lib/tabby.js"></script>
     <script src="lib/domi18n.js"></script>
 
@@ -193,7 +194,7 @@
                 </div>
 
                 <br/>
-                <label aria-hidden="true" for="value-bar-wrapper" i18n>Live values: // Aktuelle Werte:</label>
+                <label aria-hidden="true" for="value-bar-slider" i18n>Live values: // Aktuelle Werte:</label>
                 <span type="range" disabled class="hidden" aria-hidden="false" i18n>Current pressure value // Aktueller Wert Druck</span>
                 <input type="range" id="value-bar-slider" disabled class="hidden" aria-hidden="false"/>
                 <div class="row">
@@ -249,8 +250,8 @@
             <div class="row">
                 <label for="newSlotLabel" i18n>Create new slot // Neuen Slot anlegen</label>
                 <div i18n class="u-full-width">
-                    <input id="newSlotLabel" oninput="tabSlot.saveSlotLabelChanged(this)" type="text" class="u-full-width" placeholder="<insert name for new slot>" maxlength="15"/>
-                    <input id="newSlotLabel" oninput="tabSlot.saveSlotLabelChanged(this)" type="text" class="u-full-width" placeholder="<Name für neuen Slot eingeben>" maxlength="15"/>
+                    <input id="newSlotLabel" oninput="tabSlot.saveSlotLabelChanged(this)" type="text" class="u-full-width" placeholder="insert name for new slot" maxlength="15"/>
+                    <input id="newSlotLabel" oninput="tabSlot.saveSlotLabelChanged(this)" type="text" class="u-full-width" placeholder="Name für neuen Slot eingeben" maxlength="15"/>
                 </div>
                 <button id="create-slot-button" disabled onclick="tabSlot.createSlot(['#create-slot-button-normal', '#create-slot-button-saving'], '#create-slot-value-bar')" class="u-full-width" style="position: relative;">
                     <div id="create-slot-value-bar" class="value-bar color-lightercyan" style="width: 0%;"></div>
@@ -273,7 +274,7 @@
 
             <br/>
             <div class="row">
-                <label for="selectSlotDelete" i18n>Reset to default configuration // Rücksetzen auf Defaulteinstellungen</label>
+                <label for="reset-slot-button" i18n>Reset to default configuration // Rücksetzen auf Defaulteinstellungen</label>
                 <button id="reset-slot-button" onclick="tabSlot.resetConfig(['#reset-slot-button-normal', '#reset-slot-button-saving'], '#reset-slot-value-bar')" class="u-full-width" style="position: relative;">
                     <div id="reset-slot-value-bar" class="value-bar color-lightercyan" style="width: 0%;"></div>
                     <div id="reset-slot-button-normal" style="position: relative" i18n>Reset // Zurücksetzen</div>
@@ -285,17 +286,20 @@
             <div tabindex="-1">
                 <h2 id="tabActionsHeader" i18n style="display: none" aria-hidden="false" i18n>Tab 4 - FlipMouse Action configuration // Tab 4 - FlipMouse Konfiguration Aktionen</h2>
             </div>
-            <label for="modeSelection" i18n>FlipMouse mode // FlipMouse Modus</label>
-            <a id="hideModeHelpTextA" i18n style="display: none" href="javascript:L.toggleInline('#showModeHelpTextA', '#hideModeHelpTextA');L.toggle('#modeHelpText');">hide info // verstecke Info</a>    <a id="showModeHelpTextA" i18n href="javascript:L.toggleInline('#showModeHelpTextA', '#hideModeHelpTextA');L.toggle('#modeHelpText');">show info // zeige Info</a>
-            <div i18n id="modeHelpText" class="space-bottom" style="display: none">
-                <span>Select the mode of the FLipMouse. In "Mouse" Mode the stick is used to move the mouse, in "Alternative" mode the stick can be used to trigger custom actions.</span>
-                <span>Wähle den FLipMouse Modus. Im "Maus" Modus bewegt der Stick die Maus, im "Alternative" Modus kann der Stick verwendet werden um benutzerdefinierte Aktionen auszulösen.</span>
+            <div class="row">
+                <h3 style="display: inline-block;" i18n>FlipMouse mode // FlipMouse Modus</h3>
+                <a aria-hidden="true" id="hideModeHelpTextA" i18n style="display: none" href="javascript:L.toggleInline('#showModeHelpTextA', '#hideModeHelpTextA');L.toggle('#modeHelpText');">hide info // verstecke Info</a>
+                <a aria-hidden="true" id="showModeHelpTextA" i18n href="javascript:L.toggleInline('#showModeHelpTextA', '#hideModeHelpTextA');L.toggle('#modeHelpText');">show info // zeige Info</a>
             </div>
-            <div id="modeSelection" class="row space-bottom">
+            <div i18n id="modeHelpText" style="display: none" aria-hidden="false">
+                <p>Select the mode of the FLipMouse. In "Mouse" Mode the stick is used to move the mouse, in "Alternative" mode the stick can be used to trigger custom actions.</p>
+                <p>Wähle den FLipMouse Modus. Im "Maus" Modus bewegt der Stick die Maus, im "Alternative" Modus kann der Stick verwendet werden um benutzerdefinierte Aktionen auszulösen.</p>
+            </div>
+            <div class="row space-bottom">
                 <button id="MODE_MOUSE" aria-selected="false" class="six columns modeButton" onclick="tabAction.selectMode(this)" i18n>Mouse // Maus</button>
                 <button id="MODE_ALTERNATIVE" aria-selected="false" class="six columns modeButton" onclick="tabAction.selectMode(this)" i18n>Alternative // Alternativ</button>
             </div>
-            <label i18n>Change actions // Aktionen ändern</label>
+            <h3 i18n>Change actions // Aktionen ändern</h3>
             <div class="row">
                 <label class="three columns text-right text-normal" for="selectActionButton" i18n>Action to define // Zu belegende Funktion</label>
                 <select id="selectActionButton" class="five columns" onchange="tabAction.selectActionButton(this.value)">
@@ -379,7 +383,7 @@
 
 
             <br/>
-            <label i18n>Current saved mapping // Aktuelle gespeicherte Konfiguration</label>
+            <h3 i18n>Current saved mapping // Aktuelle gespeicherte Konfiguration</h3>
             <div id="currentConfigTh" class="hide-mobile row thead" aria-hidden="true">
                 <div class="two columns" i18n>Description // Bezeichnung</div>
                 <div class="four columns" i18n>Current action // aktuelle Aktion</div>

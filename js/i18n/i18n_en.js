@@ -6,7 +6,8 @@ window.i18n = {
     'SELECT_SPECIAL_KEY': 'Select key',
     'DESCRIPTION': 'Description',
     'CURR_ACTION': 'Current action',
-    'CURR_AT_CMD': 'Current AT command'
+    'CURR_AT_CMD': 'Current AT command',
+    'ENTERED_ACTION': 'Eingegebene Aktion: '
 };
 
 i18n[C.BTN_MODE_BUTTON_1] = 'Button 1';

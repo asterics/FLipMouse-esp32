@@ -6,6 +6,10 @@ nav[data-tabs] {
     margin-bottom: 3em;
 }
 
+*:focus {
+    outline: none !important;
+}
+
 a[data-tab] {
     width: 100%;
     font-size: 1em;

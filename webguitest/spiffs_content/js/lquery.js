@@ -168,7 +168,7 @@ L.createSelectItems = function (listValues, listHtml, defaultOption) {
     var hasHtml = listHtml && listHtml.length == listValues.length;
     var hasHtmlFn = L.isFunction(listHtml);
 
-    for (let i = 0; i < listValues.length; i++) {
+    for (var i = 0; i < listValues.length; i++) {
         var html = hasHtmlFn ? listHtml(listValues[i]) : (hasHtml ? listHtml[i] : L.translate(listValues[i]));
         var elem = L.createElement('option', '', html);
         elem.value = listValues[i];

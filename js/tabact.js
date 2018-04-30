@@ -179,6 +179,7 @@ tabAction.evalRec = function () {
     L('#buttonRecOK').disabled = !atCmd;
     L('#recordedAtCmd').innerHTML = atCmd || L.translate('NONE_BRACKET');
     var readable = getReadable(atCmd);
+    L('#recordedActionA11y').innerHTML = L.translate('ENTERED_ACTION') + (readable || L.translate('NONE_BRACKET'));
     L('#INPUT_LEARN_CAT_KEYBOARD').value = readable;
     tabAction.lastInputLength = readable.length;
 };
@@ -273,5 +274,6 @@ function getReadable(atCmd) {
     if(prefix == C.AT_CMD_KEYPRESS) {
         postfix = postfix.replace(/ /g, ' + ');
     }
+    postfix = postfix.replace(/KEY_/g, '');
     return L.translate(prefix, postfix);
 }

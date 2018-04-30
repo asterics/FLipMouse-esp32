@@ -28,19 +28,19 @@
     <header class="row" role="banner">
         <div>
             <h1 id="mainHeading" tabindex="-1" class="nine columns" i18n>FLipMouse Configuration // FLipMouse Konfiguration</h1>
-            <span aria-hidden="true" class="show-mobile headerConnectIndicator green connectedIndicator" style="display: none">&#x2713;</span>
-            <span aria-hidden="true" class="show-mobile headerConnectIndicator red disconnectedIndicator">&#x2717;</span>
+            <span aria-hidden="true" class="show-mobile headerConnectIndicator green connectedIndicator" style="display: none" title="connected">&#x2713;</span>
+            <span aria-hidden="true" class="show-mobile headerConnectIndicator red disconnectedIndicator" title="not connected">&#x2717;</span>
         </div>
         <div class="three columns hide-mobile showscreenreader">
             <div class="row">
                 <label class="seven columns" for="selectSlots" i18n>Select Slot // Slot auswählen</label>
                 <div class="five columns text-right connectedIndicator" style="display: none">
-                    <span aria-hidden="true" style="color: green">&#x2713;</span>
+                    <span aria-hidden="true" style="color: green" title="connected">&#x2713;</span>
                     <span aria-hidden="false" class="hidden" i18n>connection status // Verbindungsstatus</span>
                     <span aria-hidden="false" class="show-desktop" i18n>connected // verbunden</span>
                 </div>
                 <div class="five columns text-right disconnectedIndicator">
-                    <span aria-hidden="true" style="color: red">&#x2717;</span>
+                    <span aria-hidden="true" style="color: red" title="not connected">&#x2717;</span>
                     <span aria-hidden="false" class="hidden" i18n>connection status // Verbindungsstatus</span>
                     <span aria-hidden="false" class="show-desktop" i18n>not connected // nicht verbunden</span>
                 </div>
@@ -524,6 +524,9 @@
         L.setSelected(tabId + 'Btn');
         L.setVisible('#toNavLink');
         L.setVisible('#toNavBackLink', false);
+        if(tabId != '#tabNav') {
+            window.lastNav = tabId;
+        }
         if (tabId.indexOf('#tabBasic') > -1) {
             toBasic();
         } else if (tabId.indexOf('#tabPuff') > -1) {
@@ -557,7 +560,6 @@
     function toNav() {
         tabby.toggleTab('#tabNav');
         L.toggle('#toNavLink', '#toNavBackLink');
-        window.lastNav = getCurrentTabId();
 
         var tabNav = L('#tabNavContainer');
         if(tabNav.hasChildNodes()) {

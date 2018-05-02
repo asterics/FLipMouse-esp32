@@ -14,7 +14,6 @@
 
 #include "hid_dev.h"
 #include "keylayouts.h"
-#include "bt_trace.h"
 #include <stdint.h>
 #include <string.h>
 #include <stdbool.h>
@@ -22,6 +21,12 @@
 
 /** @brief mask for media keycodes to limit to 8bit */
 #define M(x) (x&0xFF)
+
+
+#ifdef LOG_TAG
+    #undef LOG_TAG
+    #define LOG_TAG "HID_DEV"
+#endif
 
 #ifdef __cplusplus
 extern "C" {
@@ -58,7 +63,7 @@ void hid_dev_send_report(esp_gatt_if_t gatts_if, uint16_t conn_id,
     // get att handle for report
     if ((p_rpt = hid_dev_rpt_by_id(id, type)) != NULL) {
         // if notifications are enabled
-        LOG_ERROR("%s(), send the report, handle = %d", __func__, p_rpt->handle);
+        ESP_LOGE(LOG_TAG,"%s(), send the report, handle = %d", __func__, p_rpt->handle);
         esp_ble_gatts_send_indicate(gatts_if, conn_id, p_rpt->handle, length, data, false);
     }
     
@@ -68,7 +73,7 @@ void hid_dev_send_report(esp_gatt_if_t gatts_if, uint16_t conn_id,
 void hid_consumer_build_report(uint8_t *buffer, consumer_cmd_t cmd)
 {
     if (!buffer) {
-        LOG_ERROR("%s(), the buffer is NULL, hid build report failed.", __func__);
+        ESP_LOGE(LOG_TAG,"%s(), the buffer is NULL, hid build report failed.", __func__);
         return;
     }
     

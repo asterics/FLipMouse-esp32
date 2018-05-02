@@ -49,7 +49,6 @@
 #include "esp_gatt_defs.h"
 #include "esp_bt_main.h"
 #include "esp_bt_device.h"
-#include "bt_trace.h"
 
 //in /keyboard_layout_help
 #include "keyboard.h"
@@ -140,13 +139,13 @@ static void hidd_event_callback(esp_hidd_cb_event_t event, esp_hidd_cb_param_t *
 		case ESP_HIDD_EVENT_BLE_CONNECT: {
             hid_conn_id = param->connect.conn_id;
             sec_conn = true; //TODO: right here?!?
-            LOG_ERROR("%s(), ESP_HIDD_EVENT_BLE_CONNECT", __func__);
+            ESP_LOGE(LOG_TAG,"%s(), ESP_HIDD_EVENT_BLE_CONNECT", __func__);
             break;
         }
         case ESP_HIDD_EVENT_BLE_DISCONNECT: {
             sec_conn = false;
             hid_conn_id = 0;
-            LOG_ERROR("%s(), ESP_HIDD_EVENT_BLE_DISCONNECT", __func__);
+            ESP_LOGE(LOG_TAG,"%s(), ESP_HIDD_EVENT_BLE_DISCONNECT", __func__);
             esp_ble_gap_start_advertising(&hidd_adv_params);
             break;
         }
@@ -164,13 +163,13 @@ static void gap_event_handler(esp_gap_ble_cb_event_t event, esp_ble_gap_cb_param
         break;
      case ESP_GAP_BLE_SEC_REQ_EVT:
         for(int i = 0; i < ESP_BD_ADDR_LEN; i++) {
-             LOG_DEBUG("%x:",param->ble_security.ble_req.bd_addr[i]);
+             ESP_LOGD(LOG_TAG,"%x:",param->ble_security.ble_req.bd_addr[i]);
         }
         esp_ble_gap_security_rsp(param->ble_security.ble_req.bd_addr, true);
 	 break;
      case ESP_GAP_BLE_AUTH_CMPL_EVT:
         sec_conn = true;
-        LOG_ERROR("status = %s, ESP_GAP_BLE_AUTH_CMPL_EVT",param->ble_security.auth_cmpl.success ? "success" : "fail");
+        ESP_LOGE(LOG_TAG,"status = %s, ESP_GAP_BLE_AUTH_CMPL_EVT",param->ble_security.auth_cmpl.success ? "success" : "fail");
         break;
     default:
         break;

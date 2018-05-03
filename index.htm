@@ -35,15 +35,11 @@
         <div class="three columns hide-mobile showscreenreader">
             <div class="row">
                 <label class="seven columns" for="selectSlots" data-i18n>Select Slot // Slot auswählen</label>
-                <div class="five columns text-right connectedIndicator" style="display: none">
-                    <span aria-hidden="true" style="color: green" title="connected">&#x2713;</span>
-                    <span aria-hidden="false" class="hidden" data-i18n>connection status // Verbindungsstatus</span>
-                    <span aria-hidden="false" class="show-desktop" data-i18n>connected // verbunden</span>
-                </div>
-                <div class="five columns text-right disconnectedIndicator">
-                    <span aria-hidden="true" style="color: red" title="not connected">&#x2717;</span>
-                    <span aria-hidden="false" class="hidden" data-i18n>connection status // Verbindungsstatus</span>
-                    <span aria-hidden="false" class="show-desktop" data-i18n>not connected // nicht verbunden</span>
+                <div class="five columns text-right">
+                    <span aria-hidden="true" style="display: none" class="connectedIndicator" title="connected">&#x2713;</span>
+                    <span aria-hidden="true" class="disconnectedIndicator" title="not connected">&#x2717;</span>
+                    <span id="connStateLabel" aria-hidden="false" class="hidden" data-i18n>connection status // Verbindungsstatus</span>
+                    <span id="connStateText" aria-hidden="false" aria-describedby="connStateLabel" aria-live="assertive" role="status" class="show-desktop" accesskey="c" data-i18n>not connected // nicht verbunden</span>
                 </div>
             </div>
             <select aria-hidden="true" id="selectSlots" class="slot-select row u-full-width" onchange="tabSlot.selectSlot(this)">
@@ -53,10 +49,10 @@
     <div class="row hide-mobile" style="margin-bottom: 1.5em"></div>
 
     <div data-tabs class="row" id="tabMenu" role="menubar" tabindex="-1" accesskey="0">
-        <div class="three columns hide-mobile showscreenreader"><button role="menuitem" onclick="toTab('#tabBasic')" class="menubutton button-primary" data-tab id="tabBasicBtn" data-i18n>Basic Setup // Basis-Konfiguration</button></div>
-        <div class="three columns hide-mobile showscreenreader"><button role="menuitem" onclick="toTab('#tabPuff')" class="menubutton button-primary" data-tab id="tabPuffBtn" data-i18n>Sip and Puff // Saug-Pustesteuerung</button></div>
-        <div class="three columns hide-mobile showscreenreader"><button role="menuitem" onclick="toTab('#tabSlots')" class="menubutton button-primary" data-tab id="tabSlotsBtn" data-i18n>Slot configuration // Slot-Konfiguration</button></div>
-        <div class="three columns hide-mobile showscreenreader"><button role="menuitem" onclick="toTab('#tabActions')" class="menubutton button-primary" data-tab id="tabActionsBtn" data-i18n>Action configuration // Konfiguration Aktionen</button></div>
+        <div class="three columns hide-mobile showscreenreader"><button role="menuitem" onclick="toTab('#tabBasic')" class="menubutton button-primary" accesskey="1" data-tab id="tabBasicBtn" data-i18n>Basic Setup // Basis-Konfiguration</button></div>
+        <div class="three columns hide-mobile showscreenreader"><button role="menuitem" onclick="toTab('#tabPuff')" class="menubutton button-primary" accesskey="2" data-tab id="tabPuffBtn" data-i18n>Sip and Puff // Saug-Pustesteuerung</button></div>
+        <div class="three columns hide-mobile showscreenreader"><button role="menuitem" onclick="toTab('#tabSlots')" class="menubutton button-primary" accesskey="3" data-tab id="tabSlotsBtn" data-i18n>Slot configuration // Slot-Konfiguration</button></div>
+        <div class="three columns hide-mobile showscreenreader"><button role="menuitem" onclick="toTab('#tabActions')" class="menubutton button-primary" accesskey="4" data-tab id="tabActionsBtn" data-i18n>Action configuration // Konfiguration Aktionen</button></div>
         <div class="show-mobile" aria-hidden="true"><button id="toNavLink" onclick="toNav()" class="button button-primary" data-tab data-i18n>&#x2630; Menu // &#x2630; Menü</button></div>
         <div class="show-mobile" aria-hidden="true"><button id="toNavBackLink" style="display: none" onclick="toNavBack()" class="button button-primary" data-i18n>&#8592; Back // &#8592; Zurück</button></div>
     </div>
@@ -168,6 +164,8 @@
             <div tabindex="-1">
                 <h2 id="tabPuffHeader" style="display: none" aria-hidden="false" data-i18n>Tab 2 - FlipMouse Sip and Puff Configuration // Tab 2 - FlipMouse Konfiguration Saug-/Pustesteuerung</h2>
             </div>
+            <span id="pressureLiveA11yLabel" aria-hidden="false" class="hidden" data-i18n="">Current pressure value of Flipmouse // Aktueller Wert Druck der Flipmouse</span>
+            <span id="pressureLiveA11y" aria-describedby="pressureLiveA11yLabel" class="onlyscreenreader" role="status" aria-live="off" accesskey="s" tabindex="-1"></span>
             <div id="tab-puff-container" class="relative">
                 <div class="row back-layer full-height full-width">
                     <div aria-hidden="true" class="two columns"><span style="font-size: 1px; color: transparent">_</span></div>
@@ -184,22 +182,20 @@
                 <div id="SIP_THRESHOLD_WRAPPER" class="row">
                     <span aria-hidden="true" id="SIP_THRESHOLD_VAL" class="text-center two columns">0</span>
                     <input type="range" oninput="tabSip.sipSliderChanged(this)" onchange="tabSip.sipSliderChanged(this)"
-                           id="SIP_THRESHOLD" min="0" max="1023" class="ten columns"/>
+                           id="SIP_THRESHOLD" min="0" max="1023" class="ten columns" accesskey="q"/>
                 </div>
                 <label for="SIP_STRONG_THRESHOLD" data-i18n>Strong Sip Threshold: // Schwellenwert Saugen
                     stark:</label>
                 <div id="SIP_STRONG_THRESHOLD_WRAPPER" class="row">
                     <span aria-hidden="true" id="SIP_STRONG_THRESHOLD_VAL" class="text-center two columns">0</span>
                     <input type="range" oninput="tabSip.sipSliderChanged(this)" onchange="tabSip.sipSliderChanged(this)"
-                           id="SIP_STRONG_THRESHOLD" min="0" max="1023" class="ten columns"/>
+                           id="SIP_STRONG_THRESHOLD" min="0" max="1023" class="ten columns" accesskey="w"/>
                 </div>
 
                 <br/>
-                <label aria-hidden="true" for="value-bar-slider" data-i18n>Live values: // Aktuelle Werte:</label>
-                <span class="hidden" aria-hidden="false" data-i18n>Current pressure value // Aktueller Wert Druck</span>
-                <input type="range" id="value-bar-slider" disabled class="hidden" aria-hidden="false"/>
-                <div class="row">
-                    <div aria-hidden="true" id="value-bar-wrapper" class="text-center two columns">
+                <label aria-hidden="true" data-i18n>Live values: // Aktuelle Werte:</label>
+                <div class="row" aria-hidden="true">
+                    <div id="value-bar-wrapper" class="text-center two columns">
                         <span data-i18n>current: // aktuell:</span><span id="currentValue">0</span>,
                         <span>max:</span><span id="maxValue">0</span>,
                         <span>min:</span><span id="minValue">-1</span>
@@ -216,14 +212,14 @@
                 <div id="PUFF_THRESHOLD_WRAPPER" class="row">
                     <span aria-hidden="true" id="PUFF_THRESHOLD_VAL" class="text-center two columns">0</span>
                     <input type="range" oninput="tabSip.sipSliderChanged(this)" onchange="tabSip.sipSliderChanged(this)"
-                           id="PUFF_THRESHOLD" min="0" max="1023" class="ten columns">
+                           id="PUFF_THRESHOLD" min="0" max="1023" class="ten columns" accesskey="e">
                 </div>
                 <label for="PUFF_STRONG_THRESHOLD" data-i18n>Strong Puff Threshold: // Schwellenwert Pusten
                     stark:</label>
                 <div id="PUFF_STRONG_THRESHOLD_WRAPPER" class="row">
                     <span aria-hidden="true" id="PUFF_STRONG_THRESHOLD_VAL" class="text-center two columns">0</span>
                     <input type="range" oninput="tabSip.sipSliderChanged(this)" onchange="tabSip.sipSliderChanged(this)"
-                           id="PUFF_STRONG_THRESHOLD" min="0" max="1023" class="ten columns">
+                           id="PUFF_STRONG_THRESHOLD" min="0" max="1023" class="ten columns" accesskey="r">
                 </div>
             </div>
 
@@ -440,8 +436,13 @@
                 }, 10000);
                 function testConnection() {
                     flip.testConnection(true).then(function (isConnected) {
-                        L.setVisible('.connectedIndicator', isConnected);
-                        L.setVisible('.disconnectedIndicator', !isConnected);
+                        L.setVisible('.connectedIndicator', isConnected, 'inline');
+                        L.setVisible('.disconnectedIndicator', !isConnected, 'inline');
+                        var oldState = L('#connStateText').innerHTML;
+                        var newState = isConnected ? L.translate('CONNECTED') : L.translate('NOT_CONNECTED');
+                        if(oldState != newState) {
+                            L('#connStateText').innerHTML = newState;
+                        }
                     });
                 }
             });

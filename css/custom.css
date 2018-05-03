@@ -182,9 +182,9 @@ button.selected, .custom-radio:checked ~ label {
 }
 
 .button-primary.selected {
-    border-width: 0.2em;
-    border-color: #0c82a6;
-    background-color: #33C3F0;
+    border-width: 0.25em;
+    border-color: #33C3F0;
+    background-color: #0D5F77;
     box-shadow: black ;
 }
 

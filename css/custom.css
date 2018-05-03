@@ -193,3 +193,19 @@ button.selected, .custom-radio:checked ~ label {
     z-index: -1;
     opacity: 0;
 }
+
+.onlyscreenreader {
+    display: block !important;
+    position: absolute;
+    left:-9999px;
+}
+
+.connectedIndicator {
+    color: green;
+    display: inline;
+}
+
+.disconnectedIndicator {
+    color: red;
+    display: inline;
+}

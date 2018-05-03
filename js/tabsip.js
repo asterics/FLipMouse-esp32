@@ -38,9 +38,7 @@ window.tabSip.sipPuffValueHandler = function (data) {
     L('#maxValue').innerHTML = max;
     L('#minValue').innerHTML = min;
     L('#currentValue').innerHTML = val;
-    L('#value-bar-slider').value = val;
-    L('#value-bar-slider').min = min;
-    L('#value-bar-slider').max = max;
+    if(!L.hasFocus('#pressureLiveA11y')) L('#pressureLiveA11y').innerHTML = val;
 
     L('#guide-max').style = 'width: ' + percentMax + '%;';
     L('#guide-min').style = 'width: ' + percentMin + '%;';

@@ -5,7 +5,7 @@ window.tabAction.init = function () {
     var modes = flip.getConfig(flip.FLIPMOUSE_MODE) == C.FLIPMOUSE_MODE_MOUSE ? C.BTN_MODES_WITHOUT_STICK : C.BTN_MODES;
     L('#selectActionButton').innerHTML = L.createSelectItems(modes);
     L('#currentAction').innerHTML = getReadable(flip.getConfig(C.BTN_MODES[0]));
-    L.setSelected('#' + flip.getConfig(flip.FLIPMOUSE_MODE), true);
+    L('#' + flip.getConfig(flip.FLIPMOUSE_MODE)).checked = true;
 
     L('#SELECT_LEARN_CAT_MOUSE').innerHTML = L.createSelectItems(C.AT_CMDS_MOUSE);
     L('#SELECT_LEARN_CAT_FLIPACTIONS').innerHTML = L.createSelectItems(C.AT_CMDS_FLIP);
@@ -64,8 +64,6 @@ window.tabAction.selectActionCategory = function (elem) {
 };
 
 window.tabAction.selectMode = function (elem) {
-    L.setSelected('.modeButton', false);
-    L.setSelected(elem, true);
     flip.setFlipmouseMode(elem.id);
     tabAction.init();
 };
@@ -177,7 +175,11 @@ tabAction.evalRec = function () {
     L('#buttonRecOK').disabled = !atCmd;
     L('#recordedAtCmd').innerHTML = atCmd || L.translate('NONE_BRACKET');
     var readable = getReadable(atCmd);
-    L('#recordedActionA11y').innerHTML = L.translate('ENTERED_ACTION') + (readable || L.translate('NONE_BRACKET'));
+    var oldA11yText = L('#recordedActionA11y').innerHTML;
+    var newA11yText = L.translate('ENTERED_ACTION') + (readable || L.translate('NONE_BRACKET'));
+    if(oldA11yText != newA11yText) {
+        L('#recordedActionA11y').innerHTML = newA11yText;
+    }
     L('#INPUT_LEARN_CAT_KEYBOARD').value = readable;
     tabAction.lastInputLength = readable.length;
 };

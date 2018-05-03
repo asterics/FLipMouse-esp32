@@ -56,8 +56,6 @@ function refreshCurrentAction(btnMode) {
 
 window.tabAction.selectActionCategory = function (elem) {
     console.log(elem.id);
-    L.setSelected('.learnCatButton', false);
-    L.setSelected(elem, true);
     L.setVisible('[id^=WRAPPER_LEARN_CAT]', false);
     L.setVisible('#WRAPPER_' + elem.id);
 

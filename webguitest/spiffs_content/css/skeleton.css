@@ -196,7 +196,8 @@ input[type="button"]:hover,
 button:focus,
 input[type="submit"]:focus,
 input[type="reset"]:focus,
-input[type="button"]:focus {
+input[type="button"]:focus,
+.custom-radio:focus ~ label{
   color: #333;
   box-shadow: 0 0 10px 2px #33C3F0;
   outline: 0; }

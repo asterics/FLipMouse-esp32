@@ -170,11 +170,11 @@ label {
     margin-left: auto;
 }
 
-.hidden, input[type="radio"].hidden {
+.hidden {
     display: none;
 }
 
-button.selected {
+button.selected, .custom-radio:checked ~ label {
     border-width: 0.2em;
     border-color: #33C3F0;
     background-color: #cceff9;
@@ -185,4 +185,10 @@ button.selected {
     border-color: #0c82a6;
     background-color: #33C3F0;
     box-shadow: black ;
+}
+
+.custom-radio {
+    position: absolute;
+    z-index: -1;
+    opacity: 0;
 }

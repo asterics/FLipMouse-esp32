@@ -97,6 +97,15 @@ window.L.setSelected = function (selector, selected) {
     });
 };
 
+window.L.setValue = function (selector, value) {
+    var list = L.selectAsList(selector);
+    list.forEach(function (elem) {
+        if(elem.value) {
+            elem.value = value;
+        }
+    });
+};
+
 window.L.val2key = function (val, array) {
     for (var key in array) {
         if (array[key] == val) {

@@ -156,11 +156,11 @@
             <br/>
             <div class="row">
                 <button id="basic-button" onclick="actionAndToggle(flip.save, [], ['#basic-button-normal', '#basic-button-saving'], '#save-basic-value-bar')" class="one-third" style="position: relative;">
-                    <div id="save-basic-value-bar" class="value-bar color-lightercyan" style="width: 0%;"></div>
-                    <div id="basic-button-normal" data-i18n>Save // Speichern</div>
-                    <div id="basic-button-saving" style="display: none;" data-i18n>Saving... // Wird
+                    <i id="save-basic-value-bar" class="value-bar color-lightercyan" style="width: 0%;"></i>
+                    <span id="basic-button-normal" data-i18n>Save // Speichern</span>
+                    <span id="basic-button-saving" style="display: none;" data-i18n>Saving... // Wird
                         gespeichert...
-                    </div>
+                    </span>
                 </button>
             </div>
         </section>
@@ -230,11 +230,11 @@
             <br/>
             <br/>
             <button id="sip-puff-button" onclick="actionAndToggle(flip.save, [], ['#sip-puff-button-normal', '#sip-puff-button-saving'], '#save-sip-value-bar')" class="u-full-width" style="position: relative;">
-                <div id="save-sip-value-bar" class="value-bar color-lightercyan" style="width: 0%;"></div>
-                <div id="sip-puff-button-normal" style="position: relative" data-i18n>Save // Speichern</div>
-                <div id="sip-puff-button-saving" style="display: none" data-i18n>Saving... // Wird
+                <i id="save-sip-value-bar" class="value-bar color-lightercyan" style="width: 0%;"></i>
+                <span id="sip-puff-button-normal" style="position: relative" data-i18n>Save // Speichern</span>
+                <span id="sip-puff-button-saving" style="display: none" data-i18n>Saving... // Wird
                     gespeichert...
-                </div>
+                </span>
             </button>
         </section>
         <section aria-labelledby="tabSlotsHeader" data-tabs-pane class="tabs-pane" id="tabSlots">
@@ -277,9 +277,9 @@
             <div class="row">
                 <label for="reset-slot-button" data-i18n>Reset to default configuration // Rücksetzen auf Defaulteinstellungen</label>
                 <button id="reset-slot-button" onclick="tabSlot.resetConfig(['#reset-slot-button-normal', '#reset-slot-button-saving'], '#reset-slot-value-bar')" class="u-full-width" style="position: relative;">
-                    <div id="reset-slot-value-bar" class="value-bar color-lightercyan" style="width: 0%;"></div>
-                    <div id="reset-slot-button-normal" style="position: relative" data-i18n>Reset // Zurücksetzen</div>
-                    <div id="reset-slot-button-saving" style="display: none" data-i18n>Resetting... // Wird zurückgesetzt...</div>
+                    <i id="reset-slot-value-bar" class="value-bar color-lightercyan" style="width: 0%;"></i>
+                    <span id="reset-slot-button-normal" style="position: relative" data-i18n>Reset // Zurücksetzen</span>
+                    <span id="reset-slot-button-saving" style="display: none" data-i18n>Resetting... // Wird zurückgesetzt...</span>
                 </button>
             </div>
         </section>
@@ -407,11 +407,11 @@
 
             <br/>
             <button id="save-action" onclick="actionAndToggle(flip.save, [], ['#save-action-button-normal', '#save-action-button-saving'], '#save-action-value-bar').then(function() {tabAction.init()})" class="u-full-width" style="position: relative;">
-                <div id="save-action-value-bar" class="value-bar color-lightercyan" style="width: 0%;"></div>
-                <div id="save-action-button-normal" style="position: relative" data-i18n>Save // Speichern</div>
-                <div id="save-action-button-saving" style="display: none" data-i18n>Saving... // Wird
+                <i id="save-action-value-bar" class="value-bar color-lightercyan" style="width: 0%;"></i>
+                <span id="save-action-button-normal" style="position: relative" data-i18n>Save // Speichern</span>
+                <span id="save-action-button-saving" style="display: none" data-i18n>Saving... // Wird
                     gespeichert...
-                </div>
+                </span>
             </button>
         </section>
     </main>

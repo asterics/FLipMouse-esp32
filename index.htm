@@ -287,7 +287,7 @@
                 <h2 id="tabActionsHeader" i18n style="display: none" aria-hidden="false" i18n>Tab 4 - FlipMouse Action configuration // Tab 4 - FlipMouse Konfiguration Aktionen</h2>
             </div>
             <div class="row">
-                <h3 style="display: inline-block;" i18n>FlipMouse mode // FlipMouse Modus</h3>
+                <h3 id="fieldsetModeLabel" style="display: inline-block;" i18n>FlipMouse mode // FlipMouse Modus</h3>
                 <a aria-hidden="true" id="hideModeHelpTextA" i18n style="display: none" href="javascript:L.toggleInline('#showModeHelpTextA', '#hideModeHelpTextA');L.toggle('#modeHelpText');">hide info // verstecke Info</a>
                 <a aria-hidden="true" id="showModeHelpTextA" i18n href="javascript:L.toggleInline('#showModeHelpTextA', '#hideModeHelpTextA');L.toggle('#modeHelpText');">show info // zeige Info</a>
             </div>
@@ -296,8 +296,16 @@
                 <p>Wähle den FLipMouse Modus. Im "Maus" Modus bewegt der Stick die Maus, im "Alternative" Modus kann der Stick verwendet werden um benutzerdefinierte Aktionen auszulösen.</p>
             </div>
             <div class="row space-bottom">
-                <button id="MODE_MOUSE" aria-selected="false" class="six columns modeButton" onclick="tabAction.selectMode(this)" i18n>Mouse // Maus</button>
-                <button id="MODE_ALTERNATIVE" aria-selected="false" class="six columns modeButton" onclick="tabAction.selectMode(this)" i18n>Alternative // Alternativ</button>
+                <fieldset role="radiogroup" aria-labelledby="fieldsetModeLabel">
+                    <div class="six columns">
+                        <input aria-hidden="false" type="radio" name="modeRadio" role="radio" id="MODE_MOUSE" class="custom-radio" onchange="tabAction.selectMode(this)"/>
+                        <label for="MODE_MOUSE" class="button" i18n>Mouse // Maus</label>
+                    </div>
+                    <div class="six columns">
+                        <input aria-hidden="false" type="radio" name="modeRadio" role="radio" id="MODE_ALTERNATIVE" class="custom-radio" onchange="tabAction.selectMode(this)"/>
+                        <label for="MODE_ALTERNATIVE" class="button" i18n>Alternative // Alternativ</label>
+                    </div>
+                </fieldset>
             </div>
             <h3 i18n>Change actions // Aktionen ändern</h3>
             <div class="row">

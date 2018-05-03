@@ -376,6 +376,12 @@ function FlipMouse(initFinished) {
 
     function init() {
         var promise = new Promise(resolve => {
+            if(window.location.href.indexOf('mock') > -1) {
+                _communicator = new MockCommunicator();
+                resolve();
+                return;
+            }
+
             ws.initWebsocket(C.FLIP_WEBSOCKET_URL).then(function (socket) {
                 _communicator = new WsCommunicator(C.FLIP_WEBSOCKET_URL, socket);
                 resolve();

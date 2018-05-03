@@ -25,10 +25,11 @@ window.tabSlot.saveSlotLabelChanged = function (element) {
 };
 
 window.tabSlot.createSlot = function (toggleElementList, progressBarId) {
-    var slotName = L('#newSlotLabel').value;
+    var slotName = L('#newSlotLabelEn') ? L('#newSlotLabelEn').value : L('#newSlotLabelDe').value;
     actionAndToggle(flip.createSlot, [slotName], toggleElementList, progressBarId).then(function () {
         tabSlot.initSlots();
-        L('#newSlotLabel').value = '';
+        L.setValue('#newSlotLabelEn', '');
+        L.setValue('#newSlotLabelDe', '');
     });
 };
 
@@ -40,7 +41,8 @@ window.tabSlot.deleteSlot = function (toggleElementList, progressBarId) {
     }
     actionAndToggle(flip.deleteSlot, [slotName], toggleElementList, progressBarId).then(function () {
         tabSlot.initSlots();
-        L('#newSlotLabel').value = '';
+        L.setValue('#newSlotLabelEn', '');
+        L.setValue('#newSlotLabelDe', '');
     });
 };
 

@@ -249,15 +249,18 @@
 
             <br/>
             <div class="row">
-                <label for="newSlotLabel" data-i18n>Create new slot // Neuen Slot anlegen</label>
+                <div data-i18n>
+                    <label for="newSlotLabelEn">Create new slot</label>
+                    <label for="newSlotLabelDe">Neuen Slot anlegen</label>
+                </div>
                 <div data-i18n class="u-full-width">
-                    <input id="newSlotLabel" oninput="tabSlot.saveSlotLabelChanged(this)" type="text" class="u-full-width" placeholder="insert name for new slot" maxlength="15"/>
-                    <input id="newSlotLabel" oninput="tabSlot.saveSlotLabelChanged(this)" type="text" class="u-full-width" placeholder="Name für neuen Slot eingeben" maxlength="15"/>
+                    <input id="newSlotLabelEn" oninput="tabSlot.saveSlotLabelChanged(this)" type="text" class="u-full-width" placeholder="insert name for new slot" maxlength="15"/>
+                    <input id="newSlotLabelDe" oninput="tabSlot.saveSlotLabelChanged(this)" type="text" class="u-full-width" placeholder="Name für neuen Slot eingeben" maxlength="15"/>
                 </div>
                 <button id="create-slot-button" disabled onclick="tabSlot.createSlot(['#create-slot-button-normal', '#create-slot-button-saving'], '#create-slot-value-bar')" class="u-full-width" style="position: relative;">
-                    <div id="create-slot-value-bar" class="value-bar color-lightercyan" style="width: 0%;"></div>
-                    <div id="create-slot-button-normal" style="position: relative" data-i18n>Create Slot // Slot anlegen</div>
-                    <div id="create-slot-button-saving" style="display: none" data-i18n>creating slot... // Slot wird anlgelegt...</div>
+                    <i id="create-slot-value-bar" class="value-bar color-lightercyan" style="width: 0%;"></i>
+                    <span id="create-slot-button-normal" style="position: relative" data-i18n>Create Slot // Slot anlegen</span>
+                    <span id="create-slot-button-saving" style="display: none" data-i18n>creating slot... // Slot wird anlgelegt...</span>
                 </button>
             </div>
 
@@ -267,9 +270,9 @@
                 <select id="selectSlotDelete" class="slot-select u-full-width">
                 </select>
                 <button id="delete-slot-button" onclick="tabSlot.deleteSlot(['#delete-slot-button-normal', '#delete-slot-button-saving'], '#delete-slot-value-bar')" class="u-full-width" style="position: relative;">
-                    <div id="delete-slot-value-bar" class="value-bar color-lightercyan" style="width: 0%;"></div>
-                    <div id="delete-slot-button-normal" style="position: relative" data-i18n>Delete Slot // Slot löschen</div>
-                    <div id="delete-slot-button-saving" style="display: none" data-i18n>deleting slot... // Slot wird gelöscht...</div>
+                    <i id="delete-slot-value-bar" class="value-bar color-lightercyan" style="width: 0%;"></i>
+                    <span id="delete-slot-button-normal" style="position: relative" data-i18n>Delete Slot // Slot löschen</span>
+                    <span id="delete-slot-button-saving" style="display: none" data-i18n>deleting slot... // Slot wird gelöscht...</span>
                 </button>
             </div>
 
@@ -315,7 +318,7 @@
                 </select>
                 <div class="four columns">
                     <span id="currentActionLabel" class="hide-tablet-inline" data-i18n>Current action: // Aktuelle Aktion:</span>
-                    <span id="currentAction" class="hide-mobile-inline"/>
+                    <span id="currentAction" class="hide-mobile-inline"></span>
                 </div>
             </div>
             <div class="row" style="margin: 0.5em 0 0.5em 0">

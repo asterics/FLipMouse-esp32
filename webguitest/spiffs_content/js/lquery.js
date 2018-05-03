@@ -49,13 +49,13 @@ window.L.isVisible = function (selector) {
     return !(x.style && x.style.display === "none");
 };
 
-window.L.setVisible = function (selector, visible) {
+window.L.setVisible = function (selector, visible, visibleClass) {
     var elems = L.selectAsList(selector);
     elems.forEach(function (x) {
         if(visible == false) {
             x.style.display = "none";
         } else {
-            x.style.display = "block";
+            x.style.display = visibleClass ? visibleClass : "block";
         }
     });
 };
@@ -104,6 +104,10 @@ window.L.setValue = function (selector, value) {
             elem.value = value;
         }
     });
+};
+
+L.hasFocus = function(selector) {
+    return L(selector) == document.activeElement;
 };
 
 window.L.val2key = function (val, array) {

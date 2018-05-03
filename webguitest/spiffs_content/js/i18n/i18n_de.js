@@ -1,3 +1,4 @@
+window.lang = 'de';
 window.i18n = {
     'CONFIRM_DELETE_SLOT': 'Möchten Sie den Slot "{?}" wirklich löschen?',
     'CONFIRM_RESET_SLOTS': 'Möchten Sie die FLipMouse wirklich auf die Standardeinstellungen zurücksetzen?',

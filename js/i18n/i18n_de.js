@@ -8,7 +8,9 @@ window.i18n = {
     'DESCRIPTION': 'Beschreibung',
     'CURR_ACTION': 'Aktuelle Aktion',
     'CURR_AT_CMD': 'Aktuelles AT Kommando',
-    'ENTERED_ACTION': 'Eingegebene Aktion: '
+    'ENTERED_ACTION': 'Eingegebene Aktion: ',
+    'CONNECTED': 'verbunden',
+    'NOT_CONNECTED': 'nicht verbunden'
 };
 
 i18n[C.BTN_MODE_BUTTON_1] = 'Button 1';

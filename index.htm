@@ -310,23 +310,37 @@
                 </div>
             </div>
             <div class="row" style="margin: 0.5em 0 0.5em 0">
-                <label class="three columns text-right text-normal" i18n>Action category // Aktions-Kategorie</label>
-                <div class="eight columns">
-                    <div class="hide-tablet">
-                        <button id="LEARN_CAT_KEYBOARD" aria-selected="true" class="three columns learnCatButton selected" onclick="tabAction.selectActionCategory(this)" i18n>Keyboard // Tastatur</button>
-                        <button id="LEARN_CAT_MOUSE" aria-selected="false" class="three columns learnCatButton" onclick="tabAction.selectActionCategory(this)" i18n>Mouse // Maus</button>
-                        <button id="LEARN_CAT_FLIPACTIONS" aria-selected="false" class="three columns learnCatButton" onclick="tabAction.selectActionCategory(this)">Flip</button>
-                        <button id="LEARN_CAT_CUSTOM" aria-selected="false" class="three columns learnCatButton" onclick="tabAction.selectActionCategory(this)" i18n>Custom // Andere</button>
+                <fieldset role="radiogroup" aria-labelledby="fieldsetActionCategoryLabel">
+                    <legend id="fieldsetActionCategoryLabel" class="three columns text-right text-normal" i18n>Action category // Aktions-Kategorie</legend>
+                    <div class="eight columns">
+                        <div class="hide-tablet">
+                            <div class="three columns">
+                                <input aria-hidden="false" type="radio" name="actCatRadio" role="radio" id="LEARN_CAT_KEYBOARD" class="custom-radio" onchange="tabAction.selectActionCategory(this)"/>
+                                <label for="LEARN_CAT_KEYBOARD" class="button" i18n>Keyboard // Tastatur</label>
+                            </div>
+                            <div class="three columns">
+                                <input aria-hidden="false" type="radio" name="actCatRadio" role="radio" id="LEARN_CAT_MOUSE" class="custom-radio" onchange="tabAction.selectActionCategory(this)"/>
+                                <label for="LEARN_CAT_MOUSE" class="button" i18n>Mouse // Maus</label>
+                            </div>
+                            <div class="three columns">
+                                <input aria-hidden="false" type="radio" name="actCatRadio" role="radio" id="LEARN_CAT_FLIPACTIONS" class="custom-radio" onchange="tabAction.selectActionCategory(this)"/>
+                                <label for="LEARN_CAT_FLIPACTIONS" class="button">Flip</label>
+                            </div>
+                            <div class="three columns">
+                                <input aria-hidden="false" type="radio" name="actCatRadio" role="radio" id="LEARN_CAT_CUSTOM" class="custom-radio" onchange="tabAction.selectActionCategory(this)"/>
+                                <label for="LEARN_CAT_CUSTOM" class="button">Custom</label>
+                            </div>
+                        </div>
+                        <div>
+                            <label for="LEARN_CAT_KEYBOARD" aria-hidden="true" class="button show-tablet-inline half-width" style="margin-right: 4%" i18n>Keyboard // Tastatur</label>
+                            <label for="LEARN_CAT_MOUSE" aria-hidden="true" class="button show-tablet-inline half-width" i18n>Mouse // Maus</label>
+                        </div>
+                        <div>
+                            <label for="LEARN_CAT_FLIPACTIONS" aria-hidden="true" class="button show-tablet-inline half-width" style="margin-right: 4%">Flip</label>
+                            <label for="LEARN_CAT_CUSTOM" aria-hidden="true" class="button show-tablet-inline half-width" i18n>Custom</label>
+                        </div>
                     </div>
-                    <div class="row show-tablet-inline">
-                        <button id="LEARN_CAT_KEYBOARD" aria-selected="true" class="learnCatButton selected half-width" style="margin-right: 4%" onclick="tabAction.selectActionCategory(this)" i18n>Keyboard // Tastatur</button>
-                        <button id="LEARN_CAT_MOUSE" aria-selected="false" class="learnCatButton half-width" onclick="tabAction.selectActionCategory(this)" i18n>Mouse // Maus</button>
-                    </div>
-                    <div class="row show-tablet-inline">
-                        <button id="LEARN_CAT_FLIPACTIONS" aria-selected="false" class="learnCatButton half-width" style="margin-right: 4%" onclick="tabAction.selectActionCategory(this)">Flip</button>
-                        <button id="LEARN_CAT_CUSTOM" aria-selected="false" class="learnCatButton half-width" onclick="tabAction.selectActionCategory(this)" i18n>Custom // Andere</button>
-                    </div>
-                </div>
+                </fieldset>
             </div>
             <div id="WRAPPER_LEARN_CAT_KEYBOARD">
                 <div class="row">
@@ -590,7 +604,11 @@
     }
 
     function parseTabId(url) {
-        return url.indexOf('#') > -1 ? url.substring(url.indexOf('#')) : '';
+        var tabId = url.indexOf('#') > -1 ? url.substring(url.indexOf('#')) : '';
+        if(tabId.indexOf('?') > -1) {
+            tabId = tabId.substring(0,tabId.indexOf('?'));
+        }
+        return tabId;
     }
 </script>
 </body>

@@ -313,31 +313,21 @@
                 <fieldset role="radiogroup" aria-labelledby="fieldsetActionCategoryLabel">
                     <legend id="fieldsetActionCategoryLabel" class="three columns text-right text-normal" i18n>Action category // Aktions-Kategorie</legend>
                     <div class="eight columns">
-                        <div class="hide-tablet">
-                            <div class="three columns">
-                                <input aria-hidden="false" type="radio" name="actCatRadio" role="radio" id="LEARN_CAT_KEYBOARD" class="custom-radio" onchange="tabAction.selectActionCategory(this)"/>
-                                <label for="LEARN_CAT_KEYBOARD" class="button" i18n>Keyboard // Tastatur</label>
-                            </div>
-                            <div class="three columns">
-                                <input aria-hidden="false" type="radio" name="actCatRadio" role="radio" id="LEARN_CAT_MOUSE" class="custom-radio" onchange="tabAction.selectActionCategory(this)"/>
-                                <label for="LEARN_CAT_MOUSE" class="button" i18n>Mouse // Maus</label>
-                            </div>
-                            <div class="three columns">
-                                <input aria-hidden="false" type="radio" name="actCatRadio" role="radio" id="LEARN_CAT_FLIPACTIONS" class="custom-radio" onchange="tabAction.selectActionCategory(this)"/>
-                                <label for="LEARN_CAT_FLIPACTIONS" class="button">Flip</label>
-                            </div>
-                            <div class="three columns">
-                                <input aria-hidden="false" type="radio" name="actCatRadio" role="radio" id="LEARN_CAT_CUSTOM" class="custom-radio" onchange="tabAction.selectActionCategory(this)"/>
-                                <label for="LEARN_CAT_CUSTOM" class="button">Custom</label>
-                            </div>
+                        <div class="three columns">
+                            <input checked aria-hidden="false" type="radio" name="actCatRadio" role="radio" id="LEARN_CAT_KEYBOARD" class="custom-radio" onchange="tabAction.selectActionCategory(this)"/>
+                            <label for="LEARN_CAT_KEYBOARD" class="button" i18n>Keyboard // Tastatur</label>
                         </div>
-                        <div>
-                            <label for="LEARN_CAT_KEYBOARD" aria-hidden="true" class="button show-tablet-inline half-width" style="margin-right: 4%" i18n>Keyboard // Tastatur</label>
-                            <label for="LEARN_CAT_MOUSE" aria-hidden="true" class="button show-tablet-inline half-width" i18n>Mouse // Maus</label>
+                        <div class="three columns">
+                            <input aria-hidden="false" type="radio" name="actCatRadio" role="radio" id="LEARN_CAT_MOUSE" class="custom-radio" onchange="tabAction.selectActionCategory(this)"/>
+                            <label for="LEARN_CAT_MOUSE" class="button" i18n>Mouse // Maus</label>
                         </div>
-                        <div>
-                            <label for="LEARN_CAT_FLIPACTIONS" aria-hidden="true" class="button show-tablet-inline half-width" style="margin-right: 4%">Flip</label>
-                            <label for="LEARN_CAT_CUSTOM" aria-hidden="true" class="button show-tablet-inline half-width" i18n>Custom</label>
+                        <div class="three columns">
+                            <input aria-hidden="false" type="radio" name="actCatRadio" role="radio" id="LEARN_CAT_FLIPACTIONS" class="custom-radio" onchange="tabAction.selectActionCategory(this)"/>
+                            <label for="LEARN_CAT_FLIPACTIONS" class="button">Flip</label>
+                        </div>
+                        <div class="three columns">
+                            <input aria-hidden="false" type="radio" name="actCatRadio" role="radio" id="LEARN_CAT_CUSTOM" class="custom-radio" onchange="tabAction.selectActionCategory(this)"/>
+                            <label for="LEARN_CAT_CUSTOM" class="button">Custom</label>
                         </div>
                     </div>
                 </fieldset>

@@ -351,15 +351,17 @@
                    <button onclick="tabAction.resetRec()" class="two columns" data-i18n>Reset // Löschen</button>
                 </div>
                 <div class="row">
-                    <label class="three columns text-right text-normal" data-i18n>Special Keys // Spezialtasten</label>
+                    <label id="labelSpecialKeys" class="three columns text-right text-normal" data-i18n>Special Keys // Spezialtasten</label>
                     <div class="eight columns">
-                        <button class="special-key" data-i18n onclick="tabAction.addSpecialKey(C.JS_KEYCODE_CTRL)">Ctrl // Strg</button>
-                        <button class="special-key" onclick="tabAction.addSpecialKey(C.JS_KEYCODE_ALT)">Alt</button>
-                        <button class="special-key" onclick="tabAction.addSpecialKey(C.JS_KEYCODE_SHIFT)">Shift</button>
-                        <button class="special-key" onclick="tabAction.addSpecialKey(C.JS_KEYCODE_GUI)">Win</button>
-                        <button class="special-key" onclick="tabAction.addSpecialKey(C.JS_KEYCODE_TAB)">Tab</button>
-                        <select aria-hidden="true" id="SELECT_LEARN_CAT_KEYBOARD_SPECIAL" onchange="tabAction.addSpecialKey(this.value)">
-                        </select>
+                        <fieldset role="group" aria-labelledby="labelSpecialKeys">
+                            <button class="special-key" data-i18n onclick="tabAction.addSpecialKey(C.JS_KEYCODE_CTRL)">Ctrl // Strg</button>
+                            <button class="special-key" onclick="tabAction.addSpecialKey(C.JS_KEYCODE_ALT)">Alt</button>
+                            <button class="special-key" onclick="tabAction.addSpecialKey(C.JS_KEYCODE_SHIFT)">Shift</button>
+                            <button class="special-key" onclick="tabAction.addSpecialKey(C.JS_KEYCODE_GUI)">Win</button>
+                            <button class="special-key" onclick="tabAction.addSpecialKey(C.JS_KEYCODE_TAB)">Tab</button>
+                            <select aria-hidden="true" id="SELECT_LEARN_CAT_KEYBOARD_SPECIAL" onchange="tabAction.addSpecialKey(this.value)">
+                            </select>
+                        </fieldset>
                     </div>
                 </div>
                 <div class="row">

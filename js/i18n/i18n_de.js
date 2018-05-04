@@ -10,7 +10,9 @@ window.i18n = {
     'CURR_AT_CMD': 'Aktuelles AT Kommando',
     'ENTERED_ACTION': 'Eingegebene Aktion: ',
     'CONNECTED': 'verbunden',
-    'NOT_CONNECTED': 'nicht verbunden'
+    'NOT_CONNECTED': 'nicht verbunden',
+    'IN_DEADZONE' : 'innerhalb der Deadzone',
+    'OUT_DEADZONE' : 'außerhalb der Deadzone'
 };
 
 i18n[C.BTN_MODE_BUTTON_1] = 'Button 1';

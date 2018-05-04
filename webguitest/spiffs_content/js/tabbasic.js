@@ -51,6 +51,11 @@ window.tabBasic.cursorPosValueHandler = function (data) {
     var inDeadzone = x < flip.getConfig(flip.DEADZONE_X) && x > -flip.getConfig(flip.DEADZONE_X) &&
         y < flip.getConfig(flip.DEADZONE_Y) && y > -flip.getConfig(flip.DEADZONE_Y);
 
+    if(!L.hasFocus('#posLiveA11y') || !tabBasic.lastChangedA11yPos || new Date().getTime() - tabSip.lastChangedA11yPos > 1000) {
+        tabSip.lastChangedA11yPos = new Date().getTime();
+        var deadzoneText = inDeadzone ? L.translate('IN_DEADZONE') : L.translate('OUT_DEADZONE');
+        L('#posLiveA11y').innerHTML = deadzoneText + ", x/y "  + x + "/" + (y*-1);
+    }
     L('#cursorPos').style = 'top: ' + percentageY + '%; left: ' + percentageX + '%;';
     L('#cursorPosVal').innerHTML = maxAbs;
     L('#deadZonePos').style = 'top: ' + (100 - percentageDzY) / 2 + '%; left: ' + (100 - percentageDzX) / 2 + '%; height: ' + (percentageDzY) + '%; width: ' + (percentageDzX) + '%;';

@@ -39,7 +39,7 @@
                     <span aria-hidden="true" style="display: none" class="connectedIndicator" title="connected">&#x2713;</span>
                     <span aria-hidden="true" class="disconnectedIndicator" title="not connected">&#x2717;</span>
                     <span id="connStateLabel" aria-hidden="false" class="hidden" data-i18n>connection status // Verbindungsstatus</span>
-                    <span id="connStateText" aria-hidden="false" aria-describedby="connStateLabel" aria-live="assertive" role="status" class="show-desktop" accesskey="c" data-i18n>not connected // nicht verbunden</span>
+                    <span id="connStateText" aria-hidden="false" aria-describedby="connStateLabel" aria-live="assertive" role="status" class="show-desktop" accesskey="p" data-i18n>not connected // nicht verbunden</span>
                 </div>
             </div>
             <select aria-hidden="true" id="selectSlots" class="slot-select row u-full-width" onchange="tabSlot.selectSlot(this)">
@@ -64,13 +64,15 @@
             <div tabindex="-1">
                 <h2 id="tabBasicHeader" style="display: none" aria-hidden="false" data-i18n>Tab one - Basic FlipMouse Setup // Tab eins - FlipMouse Basiskonfiguration</h2>
             </div>
+            <span id="posLiveA11yLabel" aria-hidden="false" class="hidden" data-i18n="">Current position of Flipmouse Stick // Aktuelle Position des Sticks der Flipmouse</span>
+            <span id="posLiveA11y" aria-describedby="posLiveA11yLabel" class="onlyscreenreader" role="status" aria-live="off" accesskey="q" tabindex="-1"></span>
             <div id="basic-SENSITIVITY-single">
                 <label for="SENSITIVITY" data-i18n>Sensitivity: // Sensitivität:</label>
                 <a aria-hidden="true" class="u-pull-right" href="javascript:tabBasic.toggleShowXY('SENSITIVITY')" data-i18n>show x/y separately // zeige x/y getrennt</a>
                 <div class="row">
                     <span aria-hidden="true" id="SENSITIVITY_VAL" class="text-center one column">0</span>
                     <input type="range" oninput="tabBasic.basicSliderChanged(event)" onchange="tabBasic.basicSliderChanged(event)"
-                           id="SENSITIVITY" min="0" max="255" class="eleven columns">
+                           id="SENSITIVITY" min="0" max="255" class="eleven columns" accesskey="a">
                 </div>
             </div>
             <div id="basic-SENSITIVITY-xy" style="display: none">
@@ -128,7 +130,7 @@
                 <div class="row">
                     <span aria-hidden="true" id="DEADZONE_VAL" class="text-center one column">0</span>
                     <input type="range" oninput="tabBasic.basicSliderChanged(event)" onchange="tabBasic.basicSliderChanged(event)"
-                           id="DEADZONE" min="0" max="650" class="eleven columns">
+                           id="DEADZONE" min="0" max="650" class="eleven columns" accesskey="s">
                 </div>
             </div>
             <div id="basic-DEADZONE-xy" style="display: none">
@@ -165,7 +167,7 @@
                 <h2 id="tabPuffHeader" style="display: none" aria-hidden="false" data-i18n>Tab two - FlipMouse Sip and Puff Configuration // Tab zwei - FlipMouse Konfiguration Saug-/Pustesteuerung</h2>
             </div>
             <span id="pressureLiveA11yLabel" aria-hidden="false" class="hidden" data-i18n="">Current pressure value of Flipmouse // Aktueller Wert Druck der Flipmouse</span>
-            <span id="pressureLiveA11y" aria-describedby="pressureLiveA11yLabel" class="onlyscreenreader" role="status" aria-live="off" accesskey="s" tabindex="-1"></span>
+            <span id="pressureLiveA11y" aria-describedby="pressureLiveA11yLabel" class="onlyscreenreader" role="status" aria-live="off" accesskey="w" tabindex="-1"></span>
             <div id="tab-puff-container" class="relative">
                 <div class="row back-layer full-height full-width">
                     <div aria-hidden="true" class="two columns"><span style="font-size: 1px; color: transparent">_</span></div>

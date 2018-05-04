@@ -38,7 +38,10 @@ window.tabSip.sipPuffValueHandler = function (data) {
     L('#maxValue').innerHTML = max;
     L('#minValue').innerHTML = min;
     L('#currentValue').innerHTML = val;
-    if(!L.hasFocus('#pressureLiveA11y')) L('#pressureLiveA11y').innerHTML = val;
+    if(!L.hasFocus('#pressureLiveA11y') || !tabSip.lastChangedA11yPressure || new Date().getTime() - tabSip.lastChangedA11yPressure > 1000) {
+        tabSip.lastChangedA11yPressure = new Date().getTime();
+        L('#pressureLiveA11y').innerHTML = val;
+    }
 
     L('#guide-max').style = 'width: ' + percentMax + '%;';
     L('#guide-min').style = 'width: ' + percentMin + '%;';

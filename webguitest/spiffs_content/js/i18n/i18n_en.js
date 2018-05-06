@@ -1,3 +1,4 @@
+window.lang = 'en';
 window.i18n = {
     'CONFIRM_DELETE_SLOT': 'Do you really want to delete the slot "{?}"?',
     'CONFIRM_RESET_SLOTS': 'Do you really want to reset the FLipMouse to the default configuration?',
@@ -7,7 +8,11 @@ window.i18n = {
     'DESCRIPTION': 'Description',
     'CURR_ACTION': 'Current action',
     'CURR_AT_CMD': 'Current AT command',
-    'ENTERED_ACTION': 'Eingegebene Aktion: '
+    'ENTERED_ACTION': 'Inserted action: ',
+    'CONNECTED': 'connected',
+    'NOT_CONNECTED': 'not connected',
+    'IN_DEADZONE' : 'inside of Deadzone',
+    'OUT_DEADZONE' : 'out of Deadzone'
 };
 
 i18n[C.BTN_MODE_BUTTON_1] = 'Button 1';

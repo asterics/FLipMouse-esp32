@@ -110,7 +110,7 @@ typedef enum pstate {NOACTION,WAITFORNEWATCMD,UNKNOWNCMD,TRIGGERTASK} parserstat
 void sendErrorBack(const char* extrainfo)
 {
   ESP_LOGE(LOG_TAG,"Error parsing cmd: %s",extrainfo);
-  halSerialSendUSBSerial(HAL_SERIAL_TX_TO_CDC,"?\r\n",sizeof("?\r\n"),20);
+  halSerialSendUSBSerial(HAL_SERIAL_TX_TO_CDC,(char*)"?\r\n",sizeof("?\r\n"),20);
 }
 
 /** @brief Print the current slot configurations (general settings + VBs)
@@ -917,7 +917,7 @@ parserstate_t doGeneralCmdParsing(uint8_t *cmdBuffer)
   
   /*++++ AT ID ++++*/
   if(CMD("AT ID")) {
-    uint32_t sent = halSerialSendUSBSerial(HAL_SERIAL_TX_TO_CDC,IDSTRING,sizeof(IDSTRING),20);
+    uint32_t sent = halSerialSendUSBSerial(HAL_SERIAL_TX_TO_CDC,(char*)IDSTRING,sizeof(IDSTRING),20);
     if(sent != sizeof(IDSTRING)) 
     {
       ESP_LOGE(LOG_TAG,"Error sending response of AT ID");
@@ -1401,13 +1401,13 @@ void task_commands(void *params)
       //this one is used for serial input (with an additional line ending)
       if(received == 3 && memcmp(commandBuffer,"AT",3) == 0)
       {
-        halSerialSendUSBSerial(HAL_SERIAL_TX_TO_CDC,"OK\r\n",4,100);
+        halSerialSendUSBSerial(HAL_SERIAL_TX_TO_CDC,(char*)"OK\r\n",4,100);
         continue;
       }
       //this one is used for websocket input (no line ending)
       if(received == 2 && memcmp(commandBuffer,"AT",2) == 0)
       {
-        halSerialSendUSBSerial(HAL_SERIAL_TX_TO_CDC,"OK\r\n",4,100);
+        halSerialSendUSBSerial(HAL_SERIAL_TX_TO_CDC,(char*)"OK\r\n",4,100);
         continue;
       }
 
@@ -1535,7 +1535,7 @@ void task_commands(void *params)
       ESP_LOG_BUFFER_CHAR_LEVEL(LOG_TAG,commandBuffer,received, ESP_LOG_WARN);
       //halSerialFlushRX();
       //ESP_LOG_BUFFER_HEXDUMP(LOG_TAG,commandBuffer,received,ESP_LOG_DEBUG);
-      halSerialSendUSBSerial(HAL_SERIAL_TX_TO_CDC,"?\r\n",2,100);
+      halSerialSendUSBSerial(HAL_SERIAL_TX_TO_CDC,(char*)"?\r\n",2,100);
     } else {
       //check again for initialized queues
       ESP_LOGE(LOG_TAG,"Queues uninitialized, rechecking in 1s");

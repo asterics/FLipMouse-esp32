@@ -229,7 +229,7 @@ static void http_server_netconn_serve(struct netconn *conn) {
 		if(request_line) {
 			// default page -> redirect to index.html
 			if(strstr(request_line, "GET / ")) {
-				fat_serve("/INDEX.HTM", conn);
+				fat_serve((char*)"/INDEX.HTM", conn);
 			} else {
 				// get the requested resource
         char* method = strtok(request_line, " ");

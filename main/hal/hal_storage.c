@@ -110,7 +110,7 @@ char storageCurrentTIDHolder[32];
  * @warning Provide sufficient buffer length, otherwise a CPU exception will happen!
  * @return ESP_OK on success, error codes according to nvs_get_str 
  * */
-esp_err_t halStorageNVSLoadString(char *key, char *string)
+esp_err_t halStorageNVSLoadString(const char *key, char *string)
 {
   nvs_handle my_handle;
   esp_err_t ret;
@@ -142,7 +142,7 @@ esp_err_t halStorageNVSLoadString(char *key, char *string)
  * @param string String to be stored in flash/eeprom (flash in ESP32)
  * @return ESP_OK on success, error codes according to nvs_set_str 
  * */
-esp_err_t halStorageNVSStoreString(char *key, char *string)
+esp_err_t halStorageNVSStoreString(const char *key, char *string)
 {
   nvs_handle my_handle;
   esp_err_t ret;
@@ -369,7 +369,7 @@ void halStorageCreateDefault(uint32_t tid)
   #endif
   
   //store general config
-  ret = halStorageStore(tid,defaultCfg,"DEFAULT",0);
+  ret = halStorageStore(tid,defaultCfg,(char*)"DEFAULT",0);
   if(ret != ESP_OK)
   {
     ESP_LOGE(LOG_TAG,"Error saving default general config!");
@@ -1822,7 +1822,7 @@ esp_err_t halStorageLoadIR(char *cmdName, halIOIR_t *cfg, uint32_t tid)
  * @param caller Name of calling task, used to track storage access
  * @return ESP_OK if the tid is valid, ESP_FAIL if other tasks did not freed the access in time
  * */
-esp_err_t halStorageStartTransaction(uint32_t *tid, TickType_t tickstowait, char* caller)
+esp_err_t halStorageStartTransaction(uint32_t *tid, TickType_t tickstowait, const char* caller)
 {
   //check if mutex is initialized
   if(halStorageMutex == NULL)

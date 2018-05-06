@@ -140,7 +140,7 @@ typedef struct storageHeader {
  * @param string Buffer for string to be read from flash/eeprom (flash in ESP32)
  * @return ESP_OK on success, error codes according to nvs_get_str 
  * */
-esp_err_t halStorageNVSLoadString(char *key, char *string);
+esp_err_t halStorageNVSLoadString(const char *key, char *string);
 
 /** @brief Store a string into NVS (global, no slot assignment)
  * 
@@ -151,7 +151,7 @@ esp_err_t halStorageNVSLoadString(char *key, char *string);
  * @param string String to be stored in flash/eeprom (flash in ESP32)
  * @return ESP_OK on success, error codes according to nvs_set_str 
  * */
-esp_err_t halStorageNVSStoreString(char *key, char *string);
+esp_err_t halStorageNVSStoreString(const char *key, char *string);
 
 /** @brief Get number of currently loaded slot
  * 
@@ -423,7 +423,7 @@ esp_err_t halStorageLoadGetVBConfigs(uint8_t vb, void * vb_config, size_t vb_con
  * @param caller Name of calling task, used to track storage access
  * @return ESP_OK if the tid is valid, ESP_FAIL if other tasks did not freed the access in time
  * */
-esp_err_t halStorageStartTransaction(uint32_t *tid, TickType_t tickstowait, char* caller);
+esp_err_t halStorageStartTransaction(uint32_t *tid, TickType_t tickstowait, const char* caller);
 
 
 /** @brief Finish a storage transaction

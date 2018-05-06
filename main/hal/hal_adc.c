@@ -97,6 +97,33 @@ void halAdcTaskMouse(void * pvParameters);
 void halAdcTaskJoystick(void * pvParameters);
 void halAdcTaskThreshold(void * pvParameters);*/
 
+/** @brief Trigger strong sip/puff + action according to input data
+ * 
+ * This method is used to trigger VBs for actions of type STRONG_SIP or
+ * STRONG_PUFF combined with an additional mouthpiece movement.
+ * It should only be triggered if there is no VB_STRONGPUFF / VB_STRONGSIP
+ * action is defined (this is handled in halAdcProcessPressure ).
+ * 
+ * @see halAdcProcessPressure
+ * @see VB_STRONGPUFF
+ * @see VB_STRONGSIP
+ * @see VB_STRONGSIP_UP
+ * @see VB_STRONGSIP_DOWN
+ * @see VB_STRONGSIP_LEFT
+ * @see VB_STRONGSIP_RIGHT
+ * @see VB_STRONGPUFF_UP
+ * @see VB_STRONGPUFF_DOWN
+ * @see VB_STRONGPUFF_LEFT
+ * @see VB_STRONGPUFF_RIGHT
+ * @param D ADC data from calling task
+ * */
+void halAdcProcessStrongMode(adcData_t *D)
+{
+    //TODO: strongmode zurücksetzen bzw timer starten wenn nichts ausgelöst
+    
+}
+
+
 /** @brief Report raw values via serial interface
  * 
  * All values are sent in predefined string: <br>
@@ -246,7 +273,7 @@ void halAdcReadData(adcData_t *values)
 
 /** @brief Process pressure sensor (sip & puff)
  * @todo Do everything here, no sip&puff currently available.
- * @todo Activate tones again if working...
+ * @todo issue tones only if VB is NOT set (otherwise we will flood the buzzer)
  * @param pressurevalue Currently measured pressure.
  * */
 void halAdcProcessPressure(adcData_t *D)
@@ -255,15 +282,23 @@ void halAdcProcessPressure(adcData_t *D)
     generalConfig_t *cfg = configGetCurrent();
     if(cfg == NULL) return;
     
+    //if we are in a special mode don't process further (only on FLipMouse)
+    #ifdef DEVICE_FLIPMOUSE
+        if(D->strongmode != STRONG_NORMAL) return;
+    #endif
+    
     //SIP triggered
     if(pressurevalue < cfg->adc.threshold_sip && \
         pressurevalue > cfg->adc.threshold_strongsip)
     {
+        //create a tone (only if VB is not set already)
+        if(GETVB_PRESS(VB_SIP) == 0)
+        {
+            TONE(TONE_SIP_FREQ,TONE_SIP_DURATION);
+        }
         //set/clear VBs
         CLEARVB_RELEASE(VB_SIP);
         SETVB_PRESS(VB_SIP);
-        //create a tone
-        //TONE(TONE_SIP_FREQ,TONE_SIP_DURATION);
     } else {
         //set/clear VBs
         CLEARVB_PRESS(VB_SIP);
@@ -273,8 +308,33 @@ void halAdcProcessPressure(adcData_t *D)
     //STRONGSIP triggered
     if(pressurevalue < cfg->adc.threshold_strongsip)
     {
-        //TONE(TONE_STRONGSIP_ENTER_FREQ,TONE_STRONGSIP_ENTER_DURATION);
-        //TODO: how to disable other data & get up/down/left/right?
+        //check if strong sip + up/down/left/right is set and
+        //strong sip alone is unused
+        #ifdef DEVICE_FLIPMOUSE
+        if(cfg->virtualButtonCommand[VB_STRONGSIP] == T_NOFUNCTION && \
+            (cfg->virtualButtonCommand[VB_STRONGSIP_UP] != T_NOFUNCTION || \
+            cfg->virtualButtonCommand[VB_STRONGSIP_DOWN] != T_NOFUNCTION || \
+            cfg->virtualButtonCommand[VB_STRONGSIP_LEFT] != T_NOFUNCTION || \
+            cfg->virtualButtonCommand[VB_STRONGSIP_RIGHT] != T_NOFUNCTION))
+        {
+            //if at least one strong action is defined and strong sip
+            //is unused, enter strong sip mode
+            D->strongmode = STRONG_SIP;
+            TONE(TONE_STRONGSIP_ENTER_FREQ,TONE_STRONGSIP_ENTER_DURATION);
+        } else {
+        #endif
+            //make a tone, only if not issued already
+            if(GETVB_PRESS(VB_STRONGSIP) == 0)
+            {
+                TONE(TONE_STRONGSIP_ENTER_FREQ,TONE_STRONGSIP_ENTER_DURATION);
+            }
+            //either no strong sip + <yy> action is defined or strong
+            // is used, trigger strong sip VB.
+            CLEARVB_RELEASE(VB_STRONGSIP);
+            SETVB_PRESS(VB_STRONGSIP);
+        #ifdef DEVICE_FLIPMOUSE
+        }
+        #endif
     } else {
         //set/clear VBs
         CLEARVB_PRESS(VB_STRONGSIP);
@@ -285,11 +345,15 @@ void halAdcProcessPressure(adcData_t *D)
     if(pressurevalue > cfg->adc.threshold_puff && \
         pressurevalue < cfg->adc.threshold_strongpuff)
     {
+        //create a tone (only if VB is not set already)
+        if(GETVB_PRESS(VB_PUFF) == 0)
+        {
+            TONE(TONE_PUFF_FREQ,TONE_PUFF_DURATION);
+        }
+        
         //set/clear VBs
         CLEARVB_RELEASE(VB_PUFF);
         SETVB_PRESS(VB_PUFF);
-        //create a tone
-        //TONE(TONE_PUFF_FREQ,TONE_PUFF_DURATION);
     } else {
         //set/clear VBs
         CLEARVB_PRESS(VB_PUFF);
@@ -299,8 +363,35 @@ void halAdcProcessPressure(adcData_t *D)
     //STRONGPUFF triggered
     if(pressurevalue > cfg->adc.threshold_strongpuff)
     {
-        //TONE(TONE_STRONGPUFF_ENTER_FREQ,TONE_STRONGPUFF_ENTER_DURATION);
-        //TODO: how to disable other data & get up/down/left/right?
+        //check if strong puff + up/down/left/right is set and
+        //strong puff alone is unused
+        #ifdef DEVICE_FLIPMOUSE
+        if(cfg->virtualButtonCommand[VB_STRONGPUFF] == T_NOFUNCTION && \
+            (cfg->virtualButtonCommand[VB_STRONGPUFF_UP] != T_NOFUNCTION || \
+            cfg->virtualButtonCommand[VB_STRONGPUFF_DOWN] != T_NOFUNCTION || \
+            cfg->virtualButtonCommand[VB_STRONGPUFF_LEFT] != T_NOFUNCTION || \
+            cfg->virtualButtonCommand[VB_STRONGPUFF_RIGHT] != T_NOFUNCTION))
+        {
+            //if at least one strong action is defined and strong sip
+            //is unused, enter strong sip mode
+            D->strongmode = STRONG_PUFF;
+            TONE(TONE_STRONGPUFF_ENTER_FREQ,TONE_STRONGPUFF_ENTER_DURATION);
+        } else {
+        #endif
+            //make a tone, only if not issued already
+            if(GETVB_PRESS(VB_STRONGPUFF) == 0)
+            {
+                TONE(TONE_STRONGPUFF_ENTER_FREQ,TONE_STRONGPUFF_ENTER_DURATION);
+            }
+            
+            //either no strong puff + <yy> action is defined or strong
+            // is used, trigger strong puff VB.
+            CLEARVB_RELEASE(VB_STRONGPUFF);
+            SETVB_PRESS(VB_STRONGPUFF);
+            
+        #ifdef DEVICE_FLIPMOUSE
+        }
+        #endif
     } else {
         //set/clear VBs
         CLEARVB_PRESS(VB_STRONGPUFF);
@@ -386,29 +477,36 @@ void halAdcTaskMouse(void * pvParameters)
         if(tempY > 127) tempY = 127;
         if(tempY < -127) tempY = -127;
         
-        //if at least one value is != 0, send to mouse.
-        if ((tempX != 0) || (tempY != 0))
+        //TODO: wenn D.strongmode != noraml > eigene fkt. mit berechneten werten.
+        //if we are in a special strong mode, do NOT send accumulated data
+        //to USB/BLE. Instead, call halAdcProcessPressure
+        if(D.strongmode == STRONG_NORMAL)
         {
-            command.x = tempX;
-            command.y = tempY;
-            accumXpos -= tempX;
-            accumYpos -= tempY;
-            
-            //post values to mouse queue (USB and/or BLE)
-            if(xEventGroupGetBits(connectionRoutingStatus) & DATATO_USB)
+            //if at least one value is != 0, send to mouse.
+            if ((tempX != 0) || (tempY != 0))
             {
-                xQueueSend(mouse_movement_usb,&command,0);
-            }
-            
-            if(xEventGroupGetBits(connectionRoutingStatus) & DATATO_BLE)
-            {
-                xQueueSend(mouse_movement_ble,&command,0);
-            }
-        }
+                command.x = tempX;
+                command.y = tempY;
+                accumXpos -= tempX;
+                accumYpos -= tempY;
                 
-        //pressure sensor is handled in another function
-        halAdcProcessPressure(&D);
-        
+                //post values to mouse queue (USB and/or BLE)
+                if(xEventGroupGetBits(connectionRoutingStatus) & DATATO_USB)
+                {
+                    xQueueSend(mouse_movement_usb,&command,0);
+                }
+                
+                if(xEventGroupGetBits(connectionRoutingStatus) & DATATO_BLE)
+                {
+                    xQueueSend(mouse_movement_ble,&command,0);
+                }
+            }
+            //pressure sensor is handled in another function
+            halAdcProcessPressure(&D);
+        } else {
+            //in special mode, process strong mdoe
+            halAdcProcessStrongMode(&D);
+        }
         
         //give mutex
         xSemaphoreGive(adcSem);
@@ -459,6 +557,10 @@ void halAdcTaskJoystick(void * pvParameters)
         x = (int32_t)(D.left - D.right) - offsetx;
         y = (int32_t)(D.up - D.down) - offsety;
         halAdcReportRaw(D.up, D.down, D.left, D.right, D.pressure, x, y);
+        
+        
+        //TODO: wenn D.strongmode != noraml > eigene fkt. mit berechneten werten.
+        //ELSE: folgendes...
         
         //TODO: acceleration & max speed calc
         
@@ -663,6 +765,10 @@ void halAdcTaskThreshold(void * pvParameters)
         #ifdef DEVICE_FLIPMOUSE
         uint8_t firedx = 0,firedy = 0;
         
+        
+        //TODO: wenn D.strongmode != noraml > eigene fkt. mit berechneten werten.
+        //ELSE: folgendes...
+        
         //LEFT/RIGHT value exceeds threshold (deadzone) value?
         if(D.x != 0)
         {
@@ -688,6 +794,7 @@ void halAdcTaskThreshold(void * pvParameters)
             //below threshold, clear the one-time flag setting variable
             firedx = 0;
             //also clear the debouncer event bits
+            //todo: auch "isngleton"
             xEventGroupClearBits(virtualButtonsIn[VB_LEFT/4],(1<<(VB_LEFT%4)));
             xEventGroupClearBits(virtualButtonsIn[VB_RIGHT/4],(1<<(VB_RIGHT%4)));
         }

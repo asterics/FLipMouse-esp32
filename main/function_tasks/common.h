@@ -333,6 +333,30 @@ extern QueueHandle_t config_switcher;
  * */
 #define CLEARVB_RELEASE(x) xEventGroupClearBits(virtualButtonsIn[x/4],(1<<(x%4 + 4)))
 
+/** @brief Easy macro to get a VB release flag (AFTER debouncer!)
+ * 
+ * This macro gets the value of the corresponding release VB flag in virtualButtonsOut.
+ * @note This macro reads the OUT value after the debouncer.
+ * 
+ * @see virtualButtonsIn
+ * @see virtualButtonsOut
+ * @see task_debouncer
+ * @see GETVB_PRESS
+ * */
+#define GETVB_RELEASE(x) (xEventGroupGetBits(virtualButtonsOut[x/4])&(1<<(x%4 + 4)))
+
+/** @brief Easy macro to get a VB press flag (AFTER debouncer!)
+ * 
+ * This macro gets the value of the corresponding press VB flag in virtualButtonsOut.
+ * @note This macro reads the OUT value after the debouncer.
+ * 
+ * @see virtualButtonsIn
+ * @see virtualButtonsOut
+ * @see task_debouncer
+ * @see GETVB_RELEASE
+ * */
+#define GETVB_PRESS(x) (xEventGroupGetBits(virtualButtonsOut[x/4])&(1<<(x%4)))
+
 
 /*++++ TASK PRIORITY ASSIGNMENT ++++*/
 #define HAL_ADC_TASK_PRIORITY     (tskIDLE_PRIORITY + 1)

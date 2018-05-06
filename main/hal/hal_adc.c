@@ -46,6 +46,16 @@
 /** Tag for ESP_LOG logging */
 #define LOG_TAG "hal_adc"
 
+/** @brief Current strong sip&puff + mouthpiece mode
+ * 
+ * It is possible to add another 8 virtual buttons by triggering
+ * a strong sip or puff and move the mouthpiece in one of four directions.
+ * 
+ * @note If the VB for strong sip/puff is assigned (!= "no command"), it is not possible to
+ * use strong sip/puff + up/down/left/right!
+ */
+typedef enum strong_action {STRONG_NORMAL,STRONG_PUFF,STRONG_SIP} strong_action_t;
+
 typedef struct adcData {
     uint32_t up;
     uint32_t down;
@@ -54,7 +64,7 @@ typedef struct adcData {
     uint32_t pressure;
     int32_t x;
     int32_t y;
-    
+    strong_action_t strongmode;
 } adcData_t;
 
 /** current loaded ADC task handle, used to delete & recreate an ADC task
@@ -239,8 +249,9 @@ void halAdcReadData(adcData_t *values)
  * @todo Activate tones again if working...
  * @param pressurevalue Currently measured pressure.
  * */
-void halAdcProcessPressure(uint32_t pressurevalue)
+void halAdcProcessPressure(adcData_t *D)
 {
+    uint32_t pressurevalue = D->pressure;
     generalConfig_t *cfg = configGetCurrent();
     if(cfg == NULL) return;
     
@@ -316,6 +327,7 @@ void halAdcTaskMouse(void * pvParameters)
 {
     //analog values
     adcData_t D;
+    D.strongmode = STRONG_NORMAL;
     //int32_t x,y;
     static uint16_t accelTimeX=0,accelTimeY=0;
     int32_t tempX,tempY;
@@ -395,7 +407,7 @@ void halAdcTaskMouse(void * pvParameters)
         }
                 
         //pressure sensor is handled in another function
-        halAdcProcessPressure(D.pressure);
+        halAdcProcessPressure(&D);
         
         
         //give mutex
@@ -464,7 +476,7 @@ void halAdcTaskJoystick(void * pvParameters)
         }*/
                 
         //pressure sensor is handled in another function
-        halAdcProcessPressure(D.pressure);
+        halAdcProcessPressure(&D);
         
         //give mutex
         xSemaphoreGive(adcSem);
@@ -714,7 +726,7 @@ void halAdcTaskThreshold(void * pvParameters)
         #endif
         
         //pressure sensor is handled in another function
-        halAdcProcessPressure(D.pressure);
+        halAdcProcessPressure(&D);
         
         //give mutex
         xSemaphoreGive(adcSem);

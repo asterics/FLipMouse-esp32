@@ -92,6 +92,12 @@ esp_adc_cal_characteristics_t characteristics;
 /** offset values, calibrated via "Calibration middle position" */
 static int32_t offsetx,offsety;
 
+/** @brief Timer for strong mode timeout
+ * This timer is used for a timeout moving back to STRONG_NORMAL if
+ * we entered a STRONG_PUFF or STRONG_SIP mode and no action was triggered*/
+TimerHandle_t adcStrongTimerHandle;
+
+
 /*
 void halAdcTaskMouse(void * pvParameters);
 void halAdcTaskJoystick(void * pvParameters);
@@ -119,8 +125,62 @@ void halAdcTaskThreshold(void * pvParameters);*/
  * */
 void halAdcProcessStrongMode(adcData_t *D)
 {
-    //TODO: strongmode zurücksetzen bzw timer starten wenn nichts ausgelöst
+    if(adcStrongTimerHandle == NULL)
+    {
+        ESP_LOGE(LOG_TAG,"Strong mode timer uninitialized!!!");
+        return;
+    }
     
+    //timer is not started, and we have a mode != NORMAL
+    if((xTimerIsTimerActive(adcStrongTimerHandle) == pdFALSE) && (D->strongmode != STRONG_NORMAL))
+    {
+        //than we need to start a timer for the timeout moving back to NORMAL
+        xTimerStart(adcStrongTimerHandle,0);
+        //return in this case & wait for next iteration
+        return;
+    }
+    
+    //if we have a mode != NORMAL
+    if(D->strongmode != STRONG_NORMAL)
+    {
+        //check if we have a movement in any direction
+        if(D->x != 0 || D->y != 0)
+        {
+            //if yes, trigger action (depending on SIP/PUFF mode)
+            if(D->strongmode == STRONG_PUFF)
+            {
+                if(abs(D->x) > abs(D->y))
+                {
+                    //x has higher values -> use LEFT/RIGHT
+                    if(D->x > 0) xEventGroupSetBits(virtualButtonsIn[VB_STRONGPUFF_RIGHT/4],(1<<(VB_STRONGPUFF_RIGHT%4)));
+                    else xEventGroupSetBits(virtualButtonsIn[VB_STRONGPUFF_LEFT/4],(1<<(VB_STRONGPUFF_LEFT%4)));
+                } else {
+                    //y has higher values -> use UP/DOWN
+                    if(D->y > 0) xEventGroupSetBits(virtualButtonsIn[VB_STRONGPUFF_DOWN/4],(1<<(VB_STRONGPUFF_DOWN%4)));
+                    else xEventGroupSetBits(virtualButtonsIn[VB_STRONGPUFF_UP/4],(1<<(VB_STRONGPUFF_UP%4)));
+                }
+            }
+            if(D->strongmode == STRONG_SIP)
+            {
+                if(abs(D->x) > abs(D->y))
+                {
+                    //x has higher values -> use LEFT/RIGHT
+                    if(D->x > 0) xEventGroupSetBits(virtualButtonsIn[VB_STRONGSIP_RIGHT/4],(1<<(VB_STRONGSIP_RIGHT%4)));
+                    else xEventGroupSetBits(virtualButtonsIn[VB_STRONGSIP_LEFT/4],(1<<(VB_STRONGSIP_LEFT%4)));
+                } else {
+                    //y has higher values -> use UP/DOWN
+                    if(D->y > 0) xEventGroupSetBits(virtualButtonsIn[VB_STRONGSIP_DOWN/4],(1<<(VB_STRONGSIP_DOWN%4)));
+                    else xEventGroupSetBits(virtualButtonsIn[VB_STRONGSIP_UP/4],(1<<(VB_STRONGSIP_UP%4)));
+                }
+            }
+            //cancel timer
+            xTimerStop(adcStrongTimerHandle,0);
+            xTimerReset(adcStrongTimerHandle,0);
+
+            //and set back to normal
+            D->strongmode = STRONG_NORMAL;
+        }
+    }    
 }
 
 
@@ -192,6 +252,7 @@ void halAdcReadData(adcData_t *values)
     #endif
     #ifdef HAL_IO_ADC_CHANNEL_PRESSURE
         pressure = adc1_get_raw(HAL_IO_ADC_CHANNEL_PRESSURE);
+        pressure += 52; //todo: just for one sensor -> do it in calibrate...
     #endif
     if(pressure == -1) 
     { 
@@ -320,6 +381,7 @@ void halAdcProcessPressure(adcData_t *D)
             //if at least one strong action is defined and strong sip
             //is unused, enter strong sip mode
             D->strongmode = STRONG_SIP;
+            ESP_LOGI(LOG_TAG,"Enter STRONG SIP");
             TONE(TONE_STRONGSIP_ENTER_FREQ,TONE_STRONGSIP_ENTER_DURATION);
         } else {
         #endif
@@ -372,9 +434,10 @@ void halAdcProcessPressure(adcData_t *D)
             cfg->virtualButtonCommand[VB_STRONGPUFF_LEFT] != T_NOFUNCTION || \
             cfg->virtualButtonCommand[VB_STRONGPUFF_RIGHT] != T_NOFUNCTION))
         {
-            //if at least one strong action is defined and strong sip
-            //is unused, enter strong sip mode
+            //if at least one strong action is defined and strong puff
+            //is unused, enter strong puff mode
             D->strongmode = STRONG_PUFF;
+            ESP_LOGI(LOG_TAG,"Enter STRONG PUFF");
             TONE(TONE_STRONGPUFF_ENTER_FREQ,TONE_STRONGPUFF_ENTER_DURATION);
         } else {
         #endif
@@ -427,6 +490,8 @@ void halAdcTaskMouse(void * pvParameters)
     float accelFactor= 20 / 100000000.0f;
     mouse_command_t command;
     TickType_t xLastWakeTime;
+    //set adc data reference for timer
+    vTimerSetTimerID(adcStrongTimerHandle,&D);
     
     while(1)
     {
@@ -537,9 +602,12 @@ void halAdcTaskJoystick(void * pvParameters)
 {
     //analog values
     adcData_t D;
+    D.strongmode = STRONG_NORMAL;
     int32_t x,y;
     //joystick_command_t command;
     TickType_t xLastWakeTime;
+    //set adc data reference for timer
+    vTimerSetTimerID(adcStrongTimerHandle,&D);
     
     while(1)
     {
@@ -747,7 +815,14 @@ void halAdcTaskThreshold(void * pvParameters)
 {
     //analog values
     adcData_t D;
+    D.strongmode = STRONG_NORMAL;
     TickType_t xLastWakeTime;
+    //set adc data reference for timer
+    vTimerSetTimerID(adcStrongTimerHandle,&D);
+    
+    #ifdef DEVICE_FLIPMOUSE
+    uint8_t firedx = 0,firedy = 0;
+    #endif
     
     while(1)
     {
@@ -763,7 +838,6 @@ void halAdcTaskThreshold(void * pvParameters)
         
         //for a FABI device, we do not have 4 channels, so not UP/DOWN/LEFT/RIGHT
         #ifdef DEVICE_FLIPMOUSE
-        uint8_t firedx = 0,firedy = 0;
         
         
         //TODO: wenn D.strongmode != noraml > eigene fkt. mit berechneten werten.
@@ -942,6 +1016,19 @@ esp_err_t halAdcUpdateConfig(adc_config_t* params)
     return ESP_OK;
 }
 
+void halAdcStrongTimeout( TimerHandle_t xTimer )
+{
+    //get adc data reference
+    adcData_t *D = pvTimerGetTimerID(xTimer);
+    if(D == NULL)
+    {
+        ESP_LOGE(LOG_TAG,"Reference to adcData_t not set, but timeout occured");
+        return;
+    }
+    //set strong mode back to normal after timeout
+    D->strongmode = STRONG_NORMAL;
+}
+
 
 /** @brief Init the ADC driver module
  * 
@@ -1011,6 +1098,10 @@ esp_err_t halAdcInit(adc_config_t* params)
     
     //initialize ADC semphore as mutex
     adcSem = xSemaphoreCreateMutex();
+    
+    //initialize SW timer for STRONG mode timeout
+    adcStrongTimerHandle = xTimerCreate("strongmode", HAL_ADC_TIMEOUT_STRONGMODE / portTICK_PERIOD_MS, \
+        pdFALSE,( void * ) 0,halAdcStrongTimeout);
     
     //not initializing full config, only ADC
     if(params == NULL) return ESP_OK;

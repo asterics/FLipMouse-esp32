@@ -69,14 +69,14 @@
  * If this define is set, the hal_io RGB LED driver is not used. Instead,
  * this module assumes a Neopixel string/ring for visual feedback.
  * */
-#define LED_USE_NEOPIXEL
+//#define LED_USE_NEOPIXEL
 
 /** @brief Set count of used Neopixels
  * 
  * If LED_USE_NEOPIXEL is set, this define is used to determine the
  * count of NEOPIXEL LEDs, which are used for color output
  * */
-#define LED_NEOPIXEL_COUNT  6
+//#define LED_NEOPIXEL_COUNT  6
 
 
 /** maximum length for a slot name */

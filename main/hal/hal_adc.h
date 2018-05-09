@@ -99,6 +99,8 @@
  * @see HAL_IO_PIN_ADC_PRESSURE */
 #define HAL_IO_ADC_CHANNEL_PRESSURE ADC1_CHANNEL_6
 
+/** @brief Timeout for strong sip/puff mode [ms] */
+#define HAL_ADC_TIMEOUT_STRONGMODE  1000
 #endif 
 
 #ifdef DEVICE_FABI

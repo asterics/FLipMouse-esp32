@@ -714,7 +714,7 @@ esp_err_t halSerialInit(void)
 {
   esp_err_t ret = ESP_OK;
   const uart_config_t uart_config = {
-    .baud_rate = 38400,
+    .baud_rate = 115200,
     .data_bits = UART_DATA_8_BITS,
     .parity = UART_PARITY_DISABLE,
     .stop_bits = UART_STOP_BITS_1,
@@ -772,10 +772,10 @@ esp_err_t halSerialInit(void)
   //uart_pattern_queue_reset(HAL_SERIAL_UART, EVENTQUEUE_SIZE);
   
   //install serial tasks (4x -> keyboard press/release; mouse; joystick)
-  xTaskCreate(halSerialTaskKeyboardPress, "serialKbdPress", HAL_SERIAL_TASK_STACKSIZE, NULL, configMAX_PRIORITIES-1, NULL);
-  xTaskCreate(halSerialTaskKeyboardRelease, "serialKbdRelease", HAL_SERIAL_TASK_STACKSIZE, NULL, configMAX_PRIORITIES-1, NULL);
-  xTaskCreate(halSerialTaskMouse, "serialMouse", HAL_SERIAL_TASK_STACKSIZE, NULL, configMAX_PRIORITIES-1, NULL);
-  xTaskCreate(halSerialTaskJoystick, "serialJoystick", HAL_SERIAL_TASK_STACKSIZE, NULL, configMAX_PRIORITIES-1, NULL);
+  xTaskCreate(halSerialTaskKeyboardPress, "serialKbdPress", HAL_SERIAL_TASK_STACKSIZE, NULL, configMAX_PRIORITIES-3, NULL);
+  xTaskCreate(halSerialTaskKeyboardRelease, "serialKbdRelease", HAL_SERIAL_TASK_STACKSIZE, NULL, configMAX_PRIORITIES-3, NULL);
+  xTaskCreate(halSerialTaskMouse, "serialMouse", HAL_SERIAL_TASK_STACKSIZE, NULL, configMAX_PRIORITIES-3, NULL);
+  xTaskCreate(halSerialTaskJoystick, "serialJoystick", HAL_SERIAL_TASK_STACKSIZE, NULL, configMAX_PRIORITIES-3, NULL);
   
   //Create a task to handler UART event from ISR
   xTaskCreate(halSerialRXTask, "serialRX", HAL_SERIAL_TASK_STACKSIZE, NULL, configMAX_PRIORITIES-1, NULL);

@@ -474,31 +474,47 @@ void halIOLEDTask(void * param)
       
       //get fading time, unit is 10ms
       fade = ((recv & 0xFF000000) >> 24) * 10;
+      ESP_LOGI(LOG_TAG,"LED fade time: %d",fade);
       
       //set fade with time (target duty and fading time)
       
       //1.) RED: map to 10bit and set to fading unit
       duty = (recv & 0x000000FF) * 2 * 2; 
-      ledc_set_fade_with_time(LEDC_HIGH_SPEED_MODE,LEDC_CHANNEL_0, \
-        duty, fade);
+      //if(ledc_set_fade_with_time(LEDC_HIGH_SPEED_MODE,LEDC_CHANNEL_0, 
+      //  duty, fade) != ESP_OK)
+      if(ledc_set_duty(LEDC_HIGH_SPEED_MODE,LEDC_CHANNEL_0,duty) != ESP_OK)
+      {
+        ESP_LOGE(LOG_TAG,"LED R: error setting fade");
+      }
       ESP_LOGI(LOG_TAG,"LED R: %d",duty);
       
       //2.) GREEN: map to 10bit and set to fading unit
       duty = ((recv & 0x0000FF00) >> 8) * 2 * 2; 
-      ledc_set_fade_with_time(LEDC_HIGH_SPEED_MODE,LEDC_CHANNEL_1, \
-        duty, fade);
+      //if(ledc_set_fade_with_time(LEDC_HIGH_SPEED_MODE,LEDC_CHANNEL_1, 
+      //  duty, fade) != ESP_OK)
+      if(ledc_set_duty(LEDC_HIGH_SPEED_MODE,LEDC_CHANNEL_1,duty) != ESP_OK)
+      {
+        ESP_LOGE(LOG_TAG,"LED R: error setting fade");
+      }
       ESP_LOGI(LOG_TAG,"LED G: %d",duty);
       
       //3.) BLUE: map to 10bit and set to fading unit
       duty = ((recv & 0x00FF0000) >> 16) * 2 * 2; 
-      ledc_set_fade_with_time(LEDC_HIGH_SPEED_MODE,LEDC_CHANNEL_2, \
-        duty, fade);
+      //if(ledc_set_fade_with_time(LEDC_HIGH_SPEED_MODE,LEDC_CHANNEL_2, 
+      //  duty, fade) != ESP_OK)
+      if(ledc_set_duty(LEDC_HIGH_SPEED_MODE,LEDC_CHANNEL_2,duty) != ESP_OK)
+      {
+        ESP_LOGE(LOG_TAG,"LED R: error setting fade");
+      }
       ESP_LOGI(LOG_TAG,"LED B: %d",duty);
       
       //start fading for RGB
-      ledc_fade_start(LEDC_HIGH_SPEED_MODE, LEDC_CHANNEL_0, LEDC_FADE_NO_WAIT);
-      ledc_fade_start(LEDC_HIGH_SPEED_MODE, LEDC_CHANNEL_1, LEDC_FADE_NO_WAIT);
-      ledc_fade_start(LEDC_HIGH_SPEED_MODE, LEDC_CHANNEL_2, LEDC_FADE_NO_WAIT);
+      //ledc_fade_start(LEDC_HIGH_SPEED_MODE, LEDC_CHANNEL_0, LEDC_FADE_NO_WAIT);
+      //ledc_fade_start(LEDC_HIGH_SPEED_MODE, LEDC_CHANNEL_1, LEDC_FADE_NO_WAIT);
+      //ledc_fade_start(LEDC_HIGH_SPEED_MODE, LEDC_CHANNEL_2, LEDC_FADE_NO_WAIT);
+      ledc_update_duty(LEDC_HIGH_SPEED_MODE,LEDC_CHANNEL_0);
+      ledc_update_duty(LEDC_HIGH_SPEED_MODE,LEDC_CHANNEL_1);
+      ledc_update_duty(LEDC_HIGH_SPEED_MODE,LEDC_CHANNEL_2);
       
       #endif
       
@@ -708,7 +724,7 @@ esp_err_t halIOInit(void)
   
   
   #if defined(DEVICE_FLIPMOUSE) && !defined(LED_USE_NEOPIXEL)
-  /*++++ init RGB LEDc driver (only if Neopixels are not used and we have a FLipMouse ++++*/
+  /*++++ init RGB LEDc driver (only if Neopixels are not used and we have a FLipMouse) ++++*/
   
   //init RGB queue & ledc driver
   halIOLEDQueue = xQueueCreate(8,sizeof(uint32_t));
@@ -719,7 +735,10 @@ esp_err_t halIOInit(void)
     .timer_num = LEDC_TIMER_0            // timer index
   };
   // Set configuration of timer0 for high speed channels
-  ledc_timer_config(&led_timer);
+  if(ledc_timer_config(&led_timer) != ESP_OK)
+  {
+    ESP_LOGE(LOG_TAG,"Error in ledc_timer_config");
+  }
   ledc_channel_config_t led_channel[3] = {
     {
       .channel    = LEDC_CHANNEL_0,
@@ -743,7 +762,10 @@ esp_err_t halIOInit(void)
   };
   //apply config to LED driver channels
   for (uint8_t ch = 0; ch < 3; ch++) {
-    ledc_channel_config(&led_channel[ch]);
+    if(ledc_channel_config(&led_channel[ch]) != ESP_OK)
+    {
+      ESP_LOGE(LOG_TAG,"Error in ledc_channel_config");
+    }
   }
   //activate fading
   ledc_fade_func_install(0);

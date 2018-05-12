@@ -127,6 +127,14 @@ void halAdcTaskThreshold(void * pvParameters);*/
  * */
 void halAdcProcessStrongMode(adcData_t *D)
 {
+    //on a FABI device, we cannot do this combination with analog values.
+    //maybe it will be done on another firmware part.
+    #ifdef DEVICE_FABI
+        D->strongmode = STRONG_NORMAL;
+        return;
+    #endif
+    
+    #ifdef DEVICE_FLIPMOUSE
     if(adcStrongTimerHandle == NULL)
     {
         ESP_LOGE(LOG_TAG,"Strong mode timer uninitialized!!!");
@@ -183,6 +191,7 @@ void halAdcProcessStrongMode(adcData_t *D)
             D->strongmode = STRONG_NORMAL;
         }
     }    
+    #endif
 }
 
 
@@ -715,10 +724,7 @@ void halAdcCalibrate(void)
         uint32_t left = 0;
         uint32_t right = 0;
         uint32_t pressure = 0;
-        //only necessary if at least one channel is used.
-        #if defined(HAL_IO_ADC_CHANNEL_DOWN) || defined(HAL_IO_ADC_CHANNEL_LEFT) || defined(HAL_IO_ADC_CHANNEL_RIGHT) || defined(HAL_IO_ADC_CHANNEL_UP)
-            int32_t temp;
-        #endif
+        int32_t temp;
         
         //read values itself & accumulate (8sensor readings)
         for(uint8_t i = 0; i<8; i++)
@@ -1144,8 +1150,10 @@ esp_err_t halAdcInit(adc_config_t* params)
     adcSem = xSemaphoreCreateMutex();
     
     //initialize SW timer for STRONG mode timeout
+    #ifdef DEVICE_FLIPMOUSE
     adcStrongTimerHandle = xTimerCreate("strongmode", HAL_ADC_TIMEOUT_STRONGMODE / portTICK_PERIOD_MS, \
         pdFALSE,( void * ) 0,halAdcStrongTimeout);
+    #endif
     
     //not initializing full config, only ADC
     if(params == NULL) return ESP_OK;

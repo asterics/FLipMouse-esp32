@@ -91,6 +91,8 @@ esp_adc_cal_characteristics_t characteristics;
 
 /** offset values, calibrated via "Calibration middle position" */
 static int32_t offsetx,offsety;
+/** pressure offset, calibrated by halAdcCalibrate */
+static uint32_t pressure_idle;
 
 /** @brief Timer for strong mode timeout
  * This timer is used for a timeout moving back to STRONG_NORMAL if
@@ -339,8 +341,15 @@ void halAdcReadData(adcData_t *values)
  * */
 void halAdcProcessPressure(adcData_t *D)
 {
+    //track changes and fire event only if not issued already.
+    //this is done individually for SIP, PUFF, STRONG_SIP & STRONG_PUFF
+    //0 means nothing is fired, 1 is a fired press action, 2 is a fired release action
+    static uint8_t fired[4] = {0,0,0,0};
+    //currently measured pressure value
     uint32_t pressurevalue = D->pressure;
+    //currently active general config
     generalConfig_t *cfg = configGetCurrent();
+    //cannot proceed if no global config is available
     if(cfg == NULL) return;
     
     //if we are in a special mode don't process further (only on FLipMouse)
@@ -352,18 +361,25 @@ void halAdcProcessPressure(adcData_t *D)
     if(pressurevalue < cfg->adc.threshold_sip && \
         pressurevalue > cfg->adc.threshold_strongsip)
     {
-        //create a tone (only if VB is not set already)
-        if(GETVB_PRESS(VB_SIP) == 0)
+        if(fired[0] != 1)
         {
+            //create a tone
             TONE(TONE_SIP_FREQ,TONE_SIP_DURATION);
+            //set/clear VBs
+            CLEARVB_RELEASE(VB_SIP);
+            SETVB_PRESS(VB_SIP);
+            //save fired state
+            fired[0] = 1;
         }
-        //set/clear VBs
-        CLEARVB_RELEASE(VB_SIP);
-        SETVB_PRESS(VB_SIP);
     } else {
-        //set/clear VBs
-        CLEARVB_PRESS(VB_SIP);
-        SETVB_RELEASE(VB_SIP);
+        if(fired[0] != 2)
+        {
+            //set/clear VBs
+            CLEARVB_PRESS(VB_SIP);
+            SETVB_RELEASE(VB_SIP);
+            //track fired state
+            fired[0] = 2;
+        }
     }
     
     //STRONGSIP triggered
@@ -385,41 +401,55 @@ void halAdcProcessPressure(adcData_t *D)
             TONE(TONE_STRONGSIP_ENTER_FREQ,TONE_STRONGSIP_ENTER_DURATION);
         } else {
         #endif
-            //make a tone, only if not issued already
-            if(GETVB_PRESS(VB_STRONGSIP) == 0)
+            if(fired[1] != 1)
             {
+                //make a tone
                 TONE(TONE_STRONGSIP_ENTER_FREQ,TONE_STRONGSIP_ENTER_DURATION);
+                //either no strong sip + <yy> action is defined or strong
+                // is used, trigger strong sip VB.
+                CLEARVB_RELEASE(VB_STRONGSIP);
+                SETVB_PRESS(VB_STRONGSIP);
+                //save fired stated
+                fired[1] = 1;
             }
-            //either no strong sip + <yy> action is defined or strong
-            // is used, trigger strong sip VB.
-            CLEARVB_RELEASE(VB_STRONGSIP);
-            SETVB_PRESS(VB_STRONGSIP);
         #ifdef DEVICE_FLIPMOUSE
         }
         #endif
     } else {
-        //set/clear VBs
-        CLEARVB_PRESS(VB_STRONGSIP);
-        SETVB_RELEASE(VB_STRONGSIP);
+        if(fired[1] != 2)
+        {
+            //set/clear VBs
+            CLEARVB_PRESS(VB_STRONGSIP);
+            SETVB_RELEASE(VB_STRONGSIP);
+            //track fired state
+            fired[1] = 2;
+        }
     }
     
     //PUFF triggered
     if(pressurevalue > cfg->adc.threshold_puff && \
         pressurevalue < cfg->adc.threshold_strongpuff)
     {
-        //create a tone (only if VB is not set already)
-        if(GETVB_PRESS(VB_PUFF) == 0)
-        {
-            TONE(TONE_PUFF_FREQ,TONE_PUFF_DURATION);
-        }
         
-        //set/clear VBs
-        CLEARVB_RELEASE(VB_PUFF);
-        SETVB_PRESS(VB_PUFF);
+        if(fired[2] != 1)
+        {
+            //create a tone
+            TONE(TONE_PUFF_FREQ,TONE_PUFF_DURATION);
+            //set/clear VBs
+            CLEARVB_RELEASE(VB_PUFF);
+            SETVB_PRESS(VB_PUFF);
+            //save fired state
+            fired[2] = 1;
+        }
     } else {
-        //set/clear VBs
-        CLEARVB_PRESS(VB_PUFF);
-        SETVB_RELEASE(VB_PUFF);
+        if(fired[2] != 2)
+        {
+            //set/clear VBs
+            CLEARVB_PRESS(VB_PUFF);
+            SETVB_RELEASE(VB_PUFF);
+            //track fired state
+            fired[2] = 2;
+        }
     }
     
     //STRONGPUFF triggered
@@ -441,24 +471,30 @@ void halAdcProcessPressure(adcData_t *D)
             TONE(TONE_STRONGPUFF_ENTER_FREQ,TONE_STRONGPUFF_ENTER_DURATION);
         } else {
         #endif
-            //make a tone, only if not issued already
-            if(GETVB_PRESS(VB_STRONGPUFF) == 0)
+            if(fired[3] != 1)
             {
+                //make a tone
                 TONE(TONE_STRONGPUFF_ENTER_FREQ,TONE_STRONGPUFF_ENTER_DURATION);
+                //either no strong puff + <yy> action is defined or strong
+                // is used, trigger strong puff VB.
+                CLEARVB_RELEASE(VB_STRONGPUFF);
+                SETVB_PRESS(VB_STRONGPUFF);
+                //save fired state
+                fired[3] = 1;
             }
-            
-            //either no strong puff + <yy> action is defined or strong
-            // is used, trigger strong puff VB.
-            CLEARVB_RELEASE(VB_STRONGPUFF);
-            SETVB_PRESS(VB_STRONGPUFF);
             
         #ifdef DEVICE_FLIPMOUSE
         }
         #endif
     } else {
-        //set/clear VBs
-        CLEARVB_PRESS(VB_STRONGPUFF);
-        SETVB_RELEASE(VB_STRONGPUFF);
+        if(fired[3] != 2)
+        {
+            //set/clear VBs
+            CLEARVB_PRESS(VB_STRONGPUFF);
+            SETVB_RELEASE(VB_STRONGPUFF);
+            //track fired state
+            fired[3] = 2;
+        }
     }
 }
 
@@ -678,6 +714,7 @@ void halAdcCalibrate(void)
         uint32_t down = 0;
         uint32_t left = 0;
         uint32_t right = 0;
+        uint32_t pressure = 0;
         //only necessary if at least one channel is used.
         #if defined(HAL_IO_ADC_CHANNEL_DOWN) || defined(HAL_IO_ADC_CHANNEL_LEFT) || defined(HAL_IO_ADC_CHANNEL_RIGHT) || defined(HAL_IO_ADC_CHANNEL_UP)
             int32_t temp;
@@ -706,6 +743,11 @@ void halAdcCalibrate(void)
                 if(temp == -1) { ESP_LOGE(LOG_TAG,"Cannot read channel right"); continue; }
                 right += temp;
             #endif
+            #ifdef HAL_IO_ADC_CHANNEL_PRESSURE
+                temp = adc1_get_raw(HAL_IO_ADC_CHANNEL_PRESSURE);
+                if(temp == -1) { ESP_LOGE(LOG_TAG,"Cannot read channel pressure"); continue; }
+                pressure += temp;
+            #endif
             vTaskDelay(2);
         }
         
@@ -714,9 +756,11 @@ void halAdcCalibrate(void)
         down = down >> 3;
         left = left >> 3;
         right = right >> 3;
+        pressure = pressure >> 3;
         //set as offset values
         offsetx = left - right;
         offsety = up - down;
+        pressure_idle = pressure;
         
         //make a tone
         TONE(TONE_CALIB_FREQ,TONE_CALIB_DURATION);

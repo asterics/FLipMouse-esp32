@@ -71,6 +71,13 @@ const static char http_404_hdr[] = "HTTP/1.1 404 NOT FOUND\n\n";
 /** @brief Timer handle for auto-disabling wifi */
 TimerHandle_t wifiTimer;
 
+/** @brief Task handle for websocket task */
+TaskHandle_t wifiWSServerHandle_t = NULL;
+/** @brief Task handle for http server task */
+TaskHandle_t wifiHTTPServerHandle_t = NULL;
+/** @brief Signals any Wifi related task to quit, if set to zero */
+uint8_t wifiActive = 0;
+
 /** @brief Get the number of currently connected Wifi stations
  * @return Number of connected clients */
 static int8_t getNumberOfWifiStations(void)
@@ -147,13 +154,14 @@ void ws_server(void *pvParameters) {
 	netconn_listen(conn);
   ESP_LOGI(LOG_TAG,"Websocket server started");
 	//wait for connections
-	while (netconn_accept(conn, &newconn) == ERR_OK)
+	while((netconn_accept(conn, &newconn) == ERR_OK) && wifiActive)
   {
     ESP_LOGI(LOG_TAG,"Incoming WS connection");
 		ws_server_netconn_serve(newconn);
   }
 	//close connection
 	netconn_close(conn);
+  vTaskDelete(NULL);
 }
 
 
@@ -279,10 +287,11 @@ static void http_server(void *pvParameters) {
 			netconn_delete(newconn);
 		}
 		vTaskDelay(2); //allows task to be pre-empted
-	} while(err == ERR_OK);
+	} while((err == ERR_OK) && wifiActive);
   //if we run into an error
 	netconn_close(conn);
 	netconn_delete(conn);
+  vTaskDelete(NULL);
 }
 
 /** @brief Event handler for wifi status updates
@@ -383,6 +392,9 @@ esp_err_t taskWebGUIEnDisable(int onoff)
     //clear wifi flags
     xEventGroupClearBits(connectionRoutingStatus, WIFI_ACTIVE | WIFI_CLIENT_CONNECTED);
     
+    //stop tasks (free 16k RAM)
+    wifiActive = 0;
+    
     //disable, call wifi_stop
     ret = esp_wifi_stop();
     //check return value
@@ -397,24 +409,30 @@ esp_err_t taskWebGUIEnDisable(int onoff)
     switch(ret)
     {
       //everything ok
-      case ESP_OK: return ESP_OK;
+      case ESP_OK: break;
       //determine error
       case ESP_ERR_WIFI_CONN:
         ESP_LOGE(LOG_TAG,"Wifi internal error, control block invalid");
-        break;
+        return ESP_FAIL;
       case ESP_ERR_NO_MEM:
         ESP_LOGE(LOG_TAG,"Wifi internal error, out of memory");
-        break;
+        return ESP_FAIL;
       case ESP_ERR_WIFI_NOT_INIT:
         ESP_LOGE(LOG_TAG,"Please initialize WiFi prior to enable/disable it!");
-        break;
+        return ESP_FAIL;
       case ESP_FAIL:
       case ESP_ERR_INVALID_ARG:
       default:
         ESP_LOGE(LOG_TAG,"Unknown internal Wifi error");
-        break;
+        return ESP_FAIL;
     }
-    return ESP_FAIL;
+    
+    // start the HTTP Server tasks
+    wifiActive = 1;
+    xTaskCreate(&http_server, "http_server", TASK_WEBGUI_SERVER_STACKSIZE, NULL, 5, &wifiHTTPServerHandle_t);
+    xTaskCreate(&ws_server, "ws_server", TASK_WEBGUI_WEBSOCKET_STACKSIZE, NULL, 5, &wifiWSServerHandle_t);
+    
+    return ESP_OK;
   }
 }
 
@@ -479,7 +497,7 @@ esp_err_t taskWebGUIInit(void)
   esp_log_level_set("wifi", ESP_LOG_VERBOSE); // disable wifi driver logging
 	tcpip_adapter_init();
   // stop DHCP server
-	ESP_ERROR_CHECK(tcpip_adapter_dhcps_stop(TCPIP_ADAPTER_IF_AP));
+	/*ESP_ERROR_CHECK(tcpip_adapter_dhcps_stop(TCPIP_ADAPTER_IF_AP));
   //assign new IP address to Wifi interface
   tcpip_adapter_ip_info_t info;
   memset(&info, 0, sizeof(info));
@@ -490,7 +508,7 @@ esp_err_t taskWebGUIInit(void)
   
   // start the DHCP server   
   ESP_ERROR_CHECK(tcpip_adapter_dhcps_start(TCPIP_ADAPTER_IF_AP));
-	
+	*/
 	// initialize the wifi event handler
 	ESP_ERROR_CHECK(esp_event_loop_init(wifi_event_handler, NULL));
 	
@@ -528,10 +546,6 @@ esp_err_t taskWebGUIInit(void)
   {
     ESP_LOGE(LOG_TAG,"Cannot start wifi disabling timer, no auto disable!");
   }
-	
-	// start the HTTP Server task
-  xTaskCreate(&http_server, "http_server", TASK_WEBGUI_SERVER_STACKSIZE, NULL, 5, NULL);
-  xTaskCreate(&ws_server, "ws_server", TASK_WEBGUI_WEBSOCKET_STACKSIZE, NULL, 5, NULL);
   
   return ESP_OK;
 }

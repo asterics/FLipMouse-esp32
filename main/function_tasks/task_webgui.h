@@ -64,10 +64,10 @@
 #include "websocket.h"
 
 /** @brief Stack size for websocket server task */
-#define TASK_WEBGUI_WEBSOCKET_STACKSIZE 8192
+#define TASK_WEBGUI_WEBSOCKET_STACKSIZE 4096
 /** @brief Stack size for web server task */
 //#define TASK_WEBGUI_SERVER_STACKSIZE 16384
-#define TASK_WEBGUI_SERVER_STACKSIZE 8192
+#define TASK_WEBGUI_SERVER_STACKSIZE 4096
 
 /** @brief Websocket port */
 #define TASK_WEBGUI_WSPORT 1804

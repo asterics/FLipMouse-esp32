@@ -770,14 +770,14 @@ esp_err_t halIOInit(void)
   //activate fading
   ledc_fade_func_install(0);
   //start LED update task
-  if(xTaskCreate(halIOLEDTask,"ledtask",TASK_HAL_LED_STACKSIZE, 
+  /*if(xTaskCreate(halIOLEDTask,"ledtask",TASK_HAL_LED_STACKSIZE, 
     (void*)NULL,TASK_HAL_LED_PRIORITY, NULL) == pdPASS)
   {
     ESP_LOGD(LOG_TAG,"created LED task");
   } else {
     ESP_LOGE(LOG_TAG,"error creating task");
     return ESP_FAIL;
-  }
+  }*/
   #endif
   
   #if defined(DEVICE_FLIPMOUSE) && defined(LED_USE_NEOPIXEL)

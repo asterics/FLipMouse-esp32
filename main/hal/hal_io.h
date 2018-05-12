@@ -98,9 +98,20 @@
  * @param m Fade time [10¹ms] or animation mode
  * @see halIOLEDQueue */
 #define LED(r,g,b,m) { \
-  uint32_t xmit = (r & 0xFF) | ((g & 0xFF) << 8) | ((b & 0xFF) << 16) | ((m & 0xFF) << 24); \
-  if(halIOLEDQueue != NULL) { \
-  xQueueSend(halIOLEDQueue, (void*)&xmit , (TickType_t) 0 ); } }
+  generalConfig_t *cfg = configGetCurrent(); \
+  if(cfg != NULL) { \
+      /*check if feedback mode is set to LED output. If not: do nothing*/ \
+      if((cfg->feedback & 0x01) != 0) { \
+        /* set duty cycle (extend to 10bit) */ \
+        ledc_set_duty(LEDC_HIGH_SPEED_MODE,LEDC_CHANNEL_0,r * 4); \
+        ledc_set_duty(LEDC_HIGH_SPEED_MODE,LEDC_CHANNEL_1,g * 4); \
+        ledc_set_duty(LEDC_HIGH_SPEED_MODE,LEDC_CHANNEL_2,b * 4); \
+        ledc_update_duty(LEDC_HIGH_SPEED_MODE,LEDC_CHANNEL_0); \
+        ledc_update_duty(LEDC_HIGH_SPEED_MODE,LEDC_CHANNEL_1); \
+        ledc_update_duty(LEDC_HIGH_SPEED_MODE,LEDC_CHANNEL_2); \
+      } \
+  } \
+}
 
 #ifdef DEVICE_FLIPMOUSE
 

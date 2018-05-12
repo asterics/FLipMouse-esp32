@@ -53,7 +53,7 @@
 #include "hal_serial.h"
 
 #define LOG_TAG "hal_serial"
-#define HAL_SERIAL_TASK_STACKSIZE 2048
+#define HAL_SERIAL_TASK_STACKSIZE 3072
 
 /** @brief Ticks until the UART receive function has a timeout and gives back received data.*
  * 
@@ -86,9 +86,11 @@ serialoutput_h outputcb = NULL;
 /** @brief Length of queue for AT commands
  * @note A maximum of CMDQUEUE_SIZE x ATCMD_LENGTH can be allocated (if
  * no task receives the commands)
+ * @note C# GUI usually floods the input with AT cmds, set at least to 64
+ * to avoid missing AT commands.
  * @see halSerialATCmds
  * */
-static const int CMDQUEUE_SIZE = 16;
+static const int CMDQUEUE_SIZE = 80;
 
 static const int BUF_SIZE_TX = 512;
 static uint8_t keycode_modifier;
@@ -156,6 +158,7 @@ void halSerialRXTask(void *pvParameters)
 {
   uint16_t cmdoffset;
   uint8_t *buf;
+  uint8_t bufstatic[ATCMD_LENGTH];
   uint8_t data;
   uint8_t parserstate = 0;
   atcmd_t currentcmd;
@@ -180,7 +183,7 @@ void halSerialRXTask(void *pvParameters)
           if(data == '@')
           {
             ///@todo Activate CIM mode here.
-            ESP_LOGW(LOG_TAG,"CIM mdoe currently unsupported!");
+            ESP_LOGW(LOG_TAG,"CIM mode currently unsupported!");
           }
         break;
         
@@ -192,17 +195,9 @@ void halSerialRXTask(void *pvParameters)
             parserstate++;
             //reset command offset to beginning (but after "AT")
             cmdoffset = 2;
-            //allocate new buffer for command & save "AT"
-            //free is either done in error case or in halSerialReceiveUSBSerial.
-            buf = malloc(ATCMD_LENGTH*sizeof(uint8_t));
-            if(buf != NULL)
-            {
-              buf[0] = 'A';
-              buf[1] = 'T';
-            } else {
-              ESP_LOGE(LOG_TAG,"Cannot allocate buffer for command");
-              parserstate = 0;
-            }
+            bufstatic[0] = 'A';
+            bufstatic[1] = 'T';
+
           } else {
             //reset parser of no leading "AT" is detected
             parserstate = 0;
@@ -215,7 +210,18 @@ void halSerialRXTask(void *pvParameters)
           if(data == '\r' || data == '\n')
           {
             //terminate string
-            buf[cmdoffset] = 0;
+            bufstatic[cmdoffset] = 0;
+            //allocate a new buffer for this command to be processed later
+            //free is either done in halSerialReceiveUSBSerial.
+            buf = malloc(cmdoffset+1);
+            if(buf == NULL)
+            {
+              ESP_LOGE(LOG_TAG,"Cannot allocate %d B buffer for new AT cmd",cmdoffset+1);
+              parserstate = 0;
+              break;
+            }
+            memcpy(buf,bufstatic,cmdoffset+1);
+            
             //send buffer to queue
             currentcmd.buf = buf;
             currentcmd.len = cmdoffset+1;
@@ -237,14 +243,13 @@ void halSerialRXTask(void *pvParameters)
           }
           
           //if everything is fine, just save this byte.
-          buf[cmdoffset] = data;
+          bufstatic[cmdoffset] = data;
           cmdoffset++;
           
           //check for memory length
           if(cmdoffset == ATCMD_LENGTH)
           {
             ESP_LOGW(LOG_TAG,"AT cmd too long, discarding");
-            free(buf);
             parserstate = 0;
           }
         break;
@@ -562,6 +567,8 @@ int halSerialReceiveUSBSerial(uint8_t *data, uint32_t length)
   } else {
     //no cmd received
     ESP_LOGD(LOG_TAG,"Timeout reading UART");
+    //print heap info
+    heap_caps_print_heap_info(MALLOC_CAP_8BIT);
     return -1;
   }
 }

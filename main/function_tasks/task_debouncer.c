@@ -362,7 +362,7 @@ void task_debouncer(void *param)
         if(timerId == -1) 
         {
           //check if this is a press & out flag is unset
-          if((in == VB_FLAG_PRESS(j)) && ((out & VB_FLAG_PRESS(j)) == 0))
+          if((in == VB_FLAG_PRESS(j)) && !(out == VB_FLAG_PRESS(j)))
           {
             //check which time to use (either VB, global value or default)
             uint16_t time = 0;
@@ -396,7 +396,7 @@ void task_debouncer(void *param)
             }
           }
           //check if this is a release & out flag is unset
-          if((in == VB_FLAG_RELEASE(j)) && ((out & VB_FLAG_RELEASE(j)) == 0))
+          if((in == VB_FLAG_RELEASE(j)) && !(out == VB_FLAG_RELEASE(j)))
           {
             //check which time to use (either VB, global value or default)
             uint16_t time = 0;

@@ -42,10 +42,9 @@
  * from virtualButtonsIn to virtualButtonsOut. 
  * @see virtualButtonsIn
  * @see virtualButtonsOut
- * @todo Change this value from testing (500ms) to production (~50-100ms)
  * @note Should be a factor of DEBOUNCE_RESOLUTION_MS, to avoid float divisions
  * */
-#define DEBOUNCETIME_MS 500
+#define DEBOUNCETIME_MS 50
 
 /** Time between each flag is checked and timers are started 
  * if a debounce value less than this is selected, flags are mapped

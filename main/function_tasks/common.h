@@ -48,6 +48,20 @@
  * It is printed on the "AT FW" command. */
 #define MODULE_ID "ESP32BT_v0.1"
 
+/** @brief Enable v2.5 compatibility
+ * 
+ * This define activates a few behavioural changes in the firmware
+ * to be fully compatible to v2.5 GUI + firmware, although some
+ * of this behaviour is inconsistent and might be changed in future releases.
+ * 
+ * Following changes are made by this define:
+ * 
+ * * AT LA initializes a slot 0 with mouse function, if called after
+ * an AT DE command.
+ * 
+ */
+#define ACTIVATE_V25_COMPAT
+
 /** ID String to be printed on "AT ID" command.
  * @todo Change this back to new version, when GUI is compatible */
 //#define IDSTRING "FLipMouse V3.0\r\n"

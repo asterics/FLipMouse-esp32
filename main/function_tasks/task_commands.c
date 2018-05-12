@@ -372,7 +372,7 @@ parserstate_t doMouthpieceSettingsParsing(uint8_t *cmdBuffer, taskNoParameterCon
         }
       break;
       
-      case 'T':
+      case 'P':
         if(param < 512 || param > 1023)
         {
           sendErrorBack("Threshold strong puff is 512-1023");
@@ -956,6 +956,12 @@ parserstate_t doGeneralCmdParsing(uint8_t *cmdBuffer)
       //return WAITFORNEWATCMD to definetly trigger nothing else
       return WAITFORNEWATCMD;
     }
+  }
+  /*++++ AT NC ++++*/
+  if(CMD("AT NC")) {
+    //reset VB number if NC is triggered -> VB is not used.
+    requestVBUpdate = VB_SINGLESHOT;
+    return NOACTION;
   }
   
   /*++++ AT DL ++++*/
@@ -1582,8 +1588,19 @@ void printAllSlots(uint8_t printconfig)
     return;
   }
   
+  //in compatibility mode, we initalize a slot here if none are available.
+  #ifdef ACTIVATE_V25_COMPAT
+    ESP_LOGW(LOG_TAG,"V2.5 Compat: creating default slot 0 (mouse)");
+    halStorageCreateDefault(tid);
+    if(halStorageGetNumberOfSlots(tid, &slotCount) != ESP_OK)
+    {
+      halStorageFinishTransaction(tid);
+      ESP_LOGE(LOG_TAG,"Cannot get slotcount after creating default");
+      return;
+    }
+  #endif
   //check every slot
-  for(uint8_t i = 1; i<=slotCount; i++)
+  for(uint8_t i = 0; i<slotCount; i++)
   {
     if(halStorageGetNameForNumber(tid,i,slotName) != ESP_OK)
     {

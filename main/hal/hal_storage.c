@@ -369,7 +369,7 @@ void halStorageCreateDefault(uint32_t tid)
   #endif
   
   //store general config
-  ret = halStorageStore(tid,defaultCfg,(char*)"DEFAULT",0);
+  ret = halStorageStore(tid,defaultCfg,(char*)"mouse",0);
   if(ret != ESP_OK)
   {
     ESP_LOGE(LOG_TAG,"Error saving default general config!");
@@ -503,7 +503,7 @@ uint8_t halStorageGetCurrentSlotNumber(void)
  * */
 esp_err_t halStorageGetNumberOfSlots(uint32_t tid, uint8_t *slotsavailable)
 {
-  uint8_t currentSlot = 1;
+  uint8_t currentSlot = 0;
   char file[sizeof(base_path)+32];
   FILE *f;
 
@@ -525,8 +525,8 @@ esp_err_t halStorageGetNumberOfSlots(uint32_t tid, uint8_t *slotsavailable)
     //Currently: return number of last valid found slot
     if(f == NULL)
     {
-      ESP_LOGD(LOG_TAG,"Available slots: %u",currentSlot-1);
-      *slotsavailable = currentSlot - 1;
+      ESP_LOGD(LOG_TAG,"Available slots: %u",currentSlot);
+      *slotsavailable = currentSlot;
       return ESP_OK;
     } else {
       fclose(f);
@@ -817,7 +817,7 @@ esp_err_t halStorageGetNameForNumber(uint32_t tid, uint8_t slotnumber, char *slo
  * */
 esp_err_t halStorageGetNumberForName(uint32_t tid, uint8_t *slotnumber, char *slotname)
 {
-  uint8_t currentSlot = 1;
+  uint8_t currentSlot = 0;
   uint32_t slotnamelen = 0;
   char file[sizeof(base_path)+32];
   char fileSlotName[SLOTNAME_LENGTH+4];
@@ -1030,14 +1030,7 @@ esp_err_t halStorageLoad(hal_storage_load_action navigate, generalConfig_t *cfg,
       return ret;  
     break;
     case DEFAULT:
-      if(slotCount == 0)
-      {
-        //load default slot via number 0
-        return halStorageLoadNumber(0,cfg,tid);
-      } else {
-        //default slot if not factory reset is nr 1
-        return halStorageLoadNumber(1,cfg,tid);
-      }
+      return halStorageLoadNumber(0,cfg,tid);
     break;
     case RESTOREFACTORYSETTINGS:
     break;

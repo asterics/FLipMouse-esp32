@@ -80,16 +80,20 @@
  * @param buf rmt_item32_t pointer to the buffer
  * @param len Count of buffer items */
 #define SENDIR(buf,len) { \
-  halIOIR_t ir = {    \
-    .buffer = buf,      \
-    .count = len};   \
-    if(halIOIRSendQueue != NULL) { \
-  xQueueSend(halIOIRSendQueue, (void*)&ir , (TickType_t) 0 ); } }
+  /* check if there is an ongoing transmission. If yes, block for 50 ticks */ \
+  rmt_wait_tx_done(0, 50); \
+  rmt_register_tx_end_callback(halIOIRFree,buf); \
+  /* debug output */ \
+  ESP_LOGD(LOG_TAG,"Sending %d items @%d",len,(uint32_t)buf); \
+  ESP_LOG_BUFFER_HEXDUMP(LOG_TAG,buf,sizeof(rmt_item32_t)*len,ESP_LOG_VERBOSE); \
+  /* To send data according to the waveform items. */ \
+  esp_err_t ret = rmt_write_items(0, buf, len, false); \
+  if(ret != ESP_OK) ESP_LOGE(LOG_TAG,"Error writing RMT items: %d",ret);}
 
 /** @brief Macro to easily send an halIOIR_t struct to IR hal driver 
  * @param cfg halIOIR_t struct pointer
  * @see halIOIR_t */
-#define SENDIRSTRUCT(cfg) { xQueueSend(halIOIRSendQueue, (void*)cfg , (TickType_t) 0 ); }
+#define SENDIRSTRUCT(cfg) SENDIR(cfg->buffer, cfg->count)
 
 /** @brief Macro to easily update the LEDs (RGB or Neopixel, depending on configuration)
  * @param r 8bit value for red
@@ -311,6 +315,18 @@ esp_err_t halIOInit(void);
  * @param longpress_h Handler for long press action, use a null pointer to disable the handler.
  */
 void halIOAddLongPressHandler(void (*longpress_h)(void));
+
+
+/** @brief Callback to free the memory after finished transmission
+ * 
+ * This method calls free() on the buffer which is transmitted now.
+ * @param channel Channel of RMT enging
+ * @param arg rmt_item32_t* pointer to the buffer
+ * 
+ * @note Please do not use this function individually, it is in the header
+ * for the SENDIR macro.
+ * */
+void halIOIRFree(rmt_channel_t channel, void *arg);
 
 /** @brief Queue to pend for any incoming infrared remote commands 
  * @see halIOIR_t */

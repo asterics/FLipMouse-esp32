@@ -81,7 +81,7 @@ individually to set a global value.
 |:--------|:----------|:------------|:--------------|:--------------------|:----------------|
 | AT SA | string  | save current configuration at the next free EEPROM slot under the give name (e.g. "AT SA mouse" stores a slot with the name "mouse"  | v2 | yes | no |
 | AT LO | string  | load a configuration from the EEPROM (e.g. "AT LO mouse")  | v2 | yes | yes (task_configswitcher) |
-| AT LA | --  | load all slots and print the configuration   | v2 | yes | no |
+| AT LA | --  | load all slots and print the configuration. Note: if no slot is available, this command initializes the mouse slot (this is only active if ACTIVATE_V25_COMPAT is defined)   | v2 | yes | no |
 | AT LI | --  | list all available slots   | v2 | yes | no |
 | AT NE | --  | load next slot (wrap around after the last slot)  | v2 | yes | yes (task_configswitcher) |
 | AT DE | --  | delete all slots  | v2 | yes | no |

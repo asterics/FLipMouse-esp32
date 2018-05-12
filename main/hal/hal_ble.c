@@ -425,6 +425,13 @@ void halBLEReset(uint8_t exceptDevice)
 esp_err_t halBLEEnDisable(int onoff)
 {
     esp_err_t ret;
+    
+    //check if BT already has required status, if yes return
+    esp_bluedroid_status_t btstat = esp_bluedroid_get_status();
+    if(btstat == ESP_BLUEDROID_STATUS_INITIALIZED && onoff == 0) return ESP_OK;
+    if(btstat == ESP_BLUEDROID_STATUS_ENABLED && onoff != 0) return ESP_OK;
+    
+    //if we have to change BT status, change accordingly (en-/disable)
     if(onoff == 0) ret = esp_bluedroid_disable();
     else ret = esp_bluedroid_enable();
 

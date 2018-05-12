@@ -87,18 +87,21 @@ void switch_radio(void)
             ESP_LOGI(LOG_TAG,"Switching from BLE to BLE_PAIRING");
             halBLEEnDisable(2);
             radio = BLE_PAIRING;
+            LED(127,255,0,0);
             break;
         case BLE_PAIRING:
             ESP_LOGI(LOG_TAG,"Switching from BLE_PAIRING to WIFI");
             halBLEEnDisable(0);
             taskWebGUIEnDisable(1);
             radio = WIFI;
+            LED(0,127,255,0);
             break;
         case WIFI:
             ESP_LOGI(LOG_TAG,"Switching from WIFI to BLE");
             taskWebGUIEnDisable(0);
             halBLEEnDisable(1);
             radio = BLE;
+            LED(255,0,127,0);
             break;
         case UNINITIALIZED:
         default:
@@ -118,6 +121,9 @@ void switch_radio(void)
  * */    
 void app_main()
 {
+    //set log level to info
+    esp_log_level_set("*",ESP_LOG_INFO);
+    
     //enter critical section & suspend all tasks for initialising
     vTaskSuspendAll();
         //init all remaining rtos stuff
@@ -207,14 +213,10 @@ void app_main()
     }
     //start wifi
     halIOAddLongPressHandler(switch_radio);
-    ///@todo in release version, Wifi is NOT started automatically!!
-    radio = WIFI;
-    halBLEEnDisable(0);
-    taskWebGUIEnDisable(1);
     //disable wifi & enable bluetooth
-    //radio = BLE;
-    //taskWebGUIEnDisable(0);
-    //halBLEEnDisable(1);
+    radio = BLE;
+    taskWebGUIEnDisable(0);
+    halBLEEnDisable(1);
     
     //calibrate directly after start-up
     halAdcCalibrate();

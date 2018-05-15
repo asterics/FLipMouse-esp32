@@ -172,15 +172,16 @@ int halSerialSendUSBSerial(uint8_t channel, char *data, uint32_t length, TickTyp
 void halSerialFlushRX(void);
 
 
-/** @brief Read serial bytes from USB-Serial (USB-CDC)
+/** @brief Read parsed AT commands from USB-Serial (USB-CDC)
  * 
- * This method reads bytes from the UART, which receives all data
- * from USB-CDC.
+ * This method reads full AT commands from the halSerialATCmds queue.
  * 
  * @return -1 on error, number of read bytes otherwise
- * @param data Data to be sent
- * @param length Number of maximum bytes to read
- * @see HAL_SERIAL_UART_TIMEOUT
+ * @param data Double pointer to save the new allocated buffer to.
+ * @warning Free the data pointer after use!
+ * @see HAL_SERIAL_UART_TIMEOUT_MS
+ * @see halSerialATCmds
+ * @see halSerialRXTask
  * */
-int halSerialReceiveUSBSerial(uint8_t *data, uint32_t length);
+int halSerialReceiveUSBSerial(uint8_t **data);
 #endif /* HAL_SERIAL_H */

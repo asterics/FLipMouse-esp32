@@ -41,6 +41,8 @@
  * The received serial data can be used by different modules, currently
  * the task_commands_cim is used to fetch & parse serial data.
  * 
+ * @todo Reducing stack size by peeking incoming queue for length, give it back and allocate in task_commands.c accordingly
+ * 
  * @note In this firmware, there are 3 pins routed to the USB support chip (RX,TX,signal).
  * Depending on the level of the signal line, data sent to the USB chip is either
  * interpreted as USB-HID commands (keyboard, mouse or joystick reports) or
@@ -533,13 +535,13 @@ void halSerialTaskJoystick(void *param)
  * This method reads full AT commands from the halSerialATCmds queue.
  * 
  * @return -1 on error, number of read bytes otherwise
- * @param data Buffer for received data
- * @param length Number of maximum bytes to read
+ * @param data Double pointer to save the new allocated buffer to.
+ * @warning Free the data pointer after use!
  * @see HAL_SERIAL_UART_TIMEOUT_MS
  * @see halSerialATCmds
  * @see halSerialRXTask
  * */
-int halSerialReceiveUSBSerial(uint8_t *data, uint32_t length)
+int halSerialReceiveUSBSerial(uint8_t **data)
 {
   atcmd_t recv;
   if(xQueueReceive(halSerialATCmds,&recv,HAL_SERIAL_UART_TIMEOUT_MS / portTICK_PERIOD_MS))
@@ -550,19 +552,9 @@ int halSerialReceiveUSBSerial(uint8_t *data, uint32_t length)
       ESP_LOGW(LOG_TAG,"buffer is null?!?");
       return -1;
     }
+    //save buffer pointer
+    *data = recv.buf;
     
-    //test if we have enough memory
-    if(length < recv.len) 
-    {
-      //if no, free memory, warn and return
-      free(recv.buf);
-      ESP_LOGW(LOG_TAG,"not enough buffer provided for halSerialReceiveUSBSerial");
-      return -1;
-    }
-    //save to caller
-    memcpy(data,recv.buf,sizeof(uint8_t)*recv.len);
-    //free buffer
-    free(recv.buf);
     return recv.len;
   } else {
     //no cmd received

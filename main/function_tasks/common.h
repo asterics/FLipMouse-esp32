@@ -90,7 +90,7 @@
  * If LED_USE_NEOPIXEL is set, this define is used to determine the
  * count of NEOPIXEL LEDs, which are used for color output
  * */
-//#define LED_NEOPIXEL_COUNT  6
+#define LED_NEOPIXEL_COUNT  6
 
 
 /** maximum length for a slot name */

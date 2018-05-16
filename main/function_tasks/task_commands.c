@@ -1395,7 +1395,11 @@ void task_commands(void *params)
     if(queuesready)
     {
       //free previously used buffer, only if not null
-      if(commandBuffer != NULL) free(commandBuffer);
+      if(commandBuffer != NULL) 
+      {
+        free(commandBuffer);
+        commandBuffer = NULL;
+      }
       
       //wait for incoming data
       received = halSerialReceiveUSBSerial(&commandBuffer);

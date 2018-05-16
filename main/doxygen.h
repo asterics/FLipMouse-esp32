@@ -74,7 +74,5 @@
  * @todo Test Neopixels on FABI & FLipMouse
  * @todo Test AT MA (macros).
  * 
- * @todo Wifi/BLE starting stopping? Both is currently not possible...
- * 
  * @todo Implement long press for virtual buttons (new VBs).
 */

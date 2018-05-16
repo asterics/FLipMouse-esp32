@@ -1369,7 +1369,7 @@ void task_commands(void *params)
   int received;
   //used for return values of doXXXParsing functions
   parserstate_t parserstate;
-  uint8_t commandBuffer[ATCMD_LENGTH];
+  uint8_t *commandBuffer = NULL;
 
   //parameters for different tasks
   taskMouseConfig_t *cmdMouse = malloc(sizeof(taskMouseConfig_t));
@@ -1394,14 +1394,21 @@ void task_commands(void *params)
   {
     if(queuesready)
     {
-      //wait for incoming data
-      memset(commandBuffer,0,ATCMD_LENGTH);
-      received = halSerialReceiveUSBSerial(commandBuffer,ATCMD_LENGTH);
+      //free previously used buffer, only if not null
+      if(commandBuffer != NULL) 
+      {
+        free(commandBuffer);
+        commandBuffer = NULL;
+      }
       
-      ESP_LOGD(LOG_TAG,"received %d: %s",received,commandBuffer);
+      //wait for incoming data
+      received = halSerialReceiveUSBSerial(&commandBuffer);
+      
       
       //if no command received, try again...
-      if(received == -1) continue;
+      if(received == -1 || commandBuffer == NULL) continue;
+      
+      ESP_LOGD(LOG_TAG,"received %d: %s",received,commandBuffer);
       
       //special command "AT" without further command:
       //this one is used for serial input (with an additional line ending)

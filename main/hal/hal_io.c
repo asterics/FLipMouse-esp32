@@ -190,51 +190,6 @@ void halIOIRFree(rmt_channel_t channel, void *arg)
   if(arg != NULL) free((rmt_item32_t*)arg);
 }
 
-/** @brief HAL TASK - IR sending task
- * 
- * This task receives via halIOIRSendQueue a pointer and a length
- * of waveform array, which is sent to the RMT unit.
- * 
- * @see halIOIR_t
- * @see halIOIRSendQueue
- * @param param Unused.
- */
-void halIOIRSendTask(void * param)
-{
-  halIOIR_t recv;
-  
-  if(halIOIRSendQueue == NULL)
-  {
-    ESP_LOGW(LOG_TAG, "halIOIRSendQueue not initialised");
-    while(halIOIRSendQueue == NULL) vTaskDelay(1000/portTICK_PERIOD_MS);
-  }
-  
-  while(1)
-  {
-    //wait for updates
-    if(xQueueReceive(halIOIRSendQueue,&recv,portMAX_DELAY))
-    {
-      if(recv.buffer == NULL) continue;
-      //check if there is an ongoing transmission. If yes, block.
-      rmt_wait_tx_done(0, portMAX_DELAY);
-      
-      ESP_LOGD(LOG_TAG,"RMT is free");
-      
-      //register the callback again with the pointer to the buffer
-      //after finished transmission, this callback frees this buffer
-      rmt_register_tx_end_callback(halIOIRFree,recv.buffer);
-      ESP_LOGD(LOG_TAG,"Sending %d items @%d",recv.count,(uint32_t)recv.buffer);
-      
-      //debug output
-      ESP_LOG_BUFFER_HEXDUMP(LOG_TAG,recv.buffer,sizeof(rmt_item32_t)*recv.count,ESP_LOG_VERBOSE);
-          
-      //To send data according to the waveform items.
-      esp_err_t ret = rmt_write_items(0, recv.buffer, recv.count, false);
-      if(ret != ESP_OK) ESP_LOGE(LOG_TAG,"Error writing RMT items: %d",ret);
-    }
-  }
-}
-
 /** @brief HAL TASK - IR receiving (recording) task
  * 
  * This task is used to store data from the RMT unit if the receiving
@@ -655,7 +610,6 @@ esp_err_t halIOInit(void)
   
   /*++++ init infrared drivers (via RMT engine) ++++*/
   halIOIRRecvQueue = xQueueCreate(8,sizeof(halIOIR_t*));
-  halIOIRSendQueue = xQueueCreate(8,sizeof(halIOIR_t));
   
   //transmitter
   rmt_config_t rmtcfg;
@@ -678,14 +632,6 @@ esp_err_t halIOInit(void)
   if(rmt_driver_install(rmtcfg.channel, 0, 0) != ESP_OK)
   {
     ESP_LOGE(LOG_TAG,"Error installing rmt driver for IR TX");
-  }
-  if(xTaskCreate(halIOIRSendTask,"irsend",TASK_HAL_IR_SEND_STACKSIZE, 
-    (void*)NULL,TASK_HAL_IR_SEND_PRIORITY, NULL) == pdPASS)
-  {
-    ESP_LOGD(LOG_TAG,"created IR send task");
-  } else {
-    ESP_LOGE(LOG_TAG,"error creating IR send task");
-    return ESP_FAIL;
   }
   
   //receiver
@@ -769,15 +715,6 @@ esp_err_t halIOInit(void)
   }
   //activate fading
   ledc_fade_func_install(0);
-  //start LED update task
-  if(xTaskCreate(halIOLEDTask,"ledtask",TASK_HAL_LED_STACKSIZE, 
-    (void*)NULL,TASK_HAL_LED_PRIORITY, NULL) == pdPASS)
-  {
-    ESP_LOGD(LOG_TAG,"created LED task");
-  } else {
-    ESP_LOGE(LOG_TAG,"error creating task");
-    return ESP_FAIL;
-  }
   #endif
   
   #if defined(DEVICE_FLIPMOUSE) && defined(LED_USE_NEOPIXEL)

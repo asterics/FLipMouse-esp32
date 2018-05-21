@@ -198,7 +198,7 @@ esp_err_t task_macro_getAT(char* output, void* cfg)
   taskMacrosConfig_t *conf = (taskMacrosConfig_t *)cfg;
   if(conf == NULL) return ESP_FAIL;
   //very easy in this case: just extract the macro list of AT cmds.
-  sprintf(output,"AT MA %s\r\n",conf->macro);
+  sprintf(output,"AT MA %s",conf->macro);
   
   return ESP_OK;
 }

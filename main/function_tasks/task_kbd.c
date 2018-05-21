@@ -125,8 +125,6 @@ esp_err_t task_keyboard_getAT(char* output, void* cfg)
       output[i+5] = (char)conf->keycodes_text[TASK_KEYBOARD_PARAMETERLENGTH-i];
     }
   }
-  
-  strcat(output,"\r\n");
   return ESP_OK;
 }
 

@@ -276,12 +276,12 @@ esp_err_t task_mouse_getAT(char* output, void* cfg)
     case WHEEL:
       if(conf->actionvalue > 0)
       {
-        sprintf(output,"AT WU\r\n"); break;
+        sprintf(output,"AT WU"); break;
       } else {
-        sprintf(output,"AT WD\r\n"); break;
+        sprintf(output,"AT WD"); break;
       }
-    case X: sprintf(output,"AT MX %d\r\n",conf->actionvalue); break;
-    case Y: sprintf(output,"AT MY %d\r\n",conf->actionvalue); break;
+    case X: sprintf(output,"AT MX %d",conf->actionvalue); break;
+    case Y: sprintf(output,"AT MY %d",conf->actionvalue); break;
     default: return ESP_FAIL;
   }
   
@@ -290,16 +290,16 @@ esp_err_t task_mouse_getAT(char* output, void* cfg)
     switch(conf->actionparam)
     {
       case M_CLICK:
-        sprintf(output,"AT C%c\r\n",button);
+        sprintf(output,"AT C%c",button);
         break;
       case M_HOLD:
-        sprintf(output,"AT P%c\r\n",button);
+        sprintf(output,"AT P%c",button);
         break;
       case M_RELEASE:
-        sprintf(output,"AT R%c\r\n",button);
+        sprintf(output,"AT R%c",button);
         break;
       case M_DOUBLE:
-        sprintf(output,"AT CD\r\n");
+        sprintf(output,"AT CD");
         break;
       case M_UNUSED:
         ESP_LOGW(LOG_TAG,"Unused actionparam, but type requires...");

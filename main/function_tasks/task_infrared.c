@@ -292,7 +292,7 @@ esp_err_t task_infrared_getAT(char* output, void* cfg)
   taskInfraredConfig_t *conf = (taskInfraredConfig_t *)cfg;
   if(conf == NULL) return ESP_FAIL;
   //very easy in this case: just extract the slot name.
-  sprintf(output,"AT IP %s\r\n",conf->cmdName);
+  sprintf(output,"AT IP %s",conf->cmdName);
   
   return ESP_OK;
 }

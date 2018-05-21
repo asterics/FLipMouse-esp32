@@ -210,7 +210,7 @@ void halAdcProcessStrongMode(adcData_t *D)
  * */
 void halAdcReportRaw(uint32_t up, uint32_t down, uint32_t left, uint32_t right, uint32_t pressure, int32_t x, int32_t y)
 {
-    #define REPORT_RAW_COUNT 32
+    #define REPORT_RAW_COUNT 16
     static int prescaler = 0;
     
     if(adc_conf.reportraw != 0)
@@ -218,7 +218,7 @@ void halAdcReportRaw(uint32_t up, uint32_t down, uint32_t left, uint32_t right, 
         if(prescaler % REPORT_RAW_COUNT == 0)
         {
             char data[40];
-            sprintf(data,"VALUES:%d,%d,%d,%d,%d,%d,%d\r\n",pressure,up,down,left,right,x,y);
+            sprintf(data,"VALUES:%d,%d,%d,%d,%d,%d,%d",pressure,up,down,left,right,x,y);
             halSerialSendUSBSerial(HAL_SERIAL_TX_TO_CDC,data, strnlen(data,40), 10);
         }
         prescaler++;
@@ -1030,15 +1030,15 @@ esp_err_t halAdcUpdateConfig(adc_config_t* params)
         {
             case MOUSE:
                 xTaskCreate(halAdcTaskMouse,"ADC_TASK",4096,NULL,HAL_ADC_TASK_PRIORITY,&adcHandle);
-                ESP_LOGD(LOG_TAG,"created ADC task for mouse, handle %d",(uint32_t)adcHandle);
+                ESP_LOGI(LOG_TAG,"created ADC task for mouse, handle %d",(uint32_t)adcHandle);
                 break;
             case JOYSTICK:
                 xTaskCreate(halAdcTaskJoystick,"ADC_TASK",4096,NULL,HAL_ADC_TASK_PRIORITY,&adcHandle);
-                ESP_LOGD(LOG_TAG,"created ADC task for joystick, handle %d",(uint32_t)adcHandle);
+                ESP_LOGI(LOG_TAG,"created ADC task for joystick, handle %d",(uint32_t)adcHandle);
                 break;
             case THRESHOLD:
                 xTaskCreate(halAdcTaskThreshold,"ADC_TASK",4096,NULL,HAL_ADC_TASK_PRIORITY,&adcHandle);
-                ESP_LOGD(LOG_TAG,"created ADC task for threshold, handle %d",(uint32_t)adcHandle);
+                ESP_LOGI(LOG_TAG,"created ADC task for threshold, handle %d",(uint32_t)adcHandle);
                 break;
             
             default:
@@ -1046,7 +1046,7 @@ esp_err_t halAdcUpdateConfig(adc_config_t* params)
                return ESP_FAIL;
         }
     } else {
-        ESP_LOGI(LOG_TAG,"ADC config reloaded without task switch");
+        ESP_LOGD(LOG_TAG,"ADC config reloaded without task switch");
     }
     #endif
     
@@ -1056,7 +1056,7 @@ esp_err_t halAdcUpdateConfig(adc_config_t* params)
     {
         //just use a threshold task, other channels are masked out in this task.
         xTaskCreate(halAdcTaskThreshold,"ADC_TASK",4096,NULL,HAL_ADC_TASK_PRIORITY,&adcHandle);
-        ESP_LOGD(LOG_TAG,"created ADC task for threshold, handle %d",(uint32_t)adcHandle); 
+        ESP_LOGI(LOG_TAG,"created ADC task for threshold, handle %d",(uint32_t)adcHandle); 
     }
     #endif
     
@@ -1148,6 +1148,9 @@ esp_err_t halAdcInit(adc_config_t* params)
     
     //initialize ADC semphore as mutex
     adcSem = xSemaphoreCreateMutex();
+    
+    //start first calibration
+    halAdcCalibrate();
     
     //initialize SW timer for STRONG mode timeout
     #ifdef DEVICE_FLIPMOUSE

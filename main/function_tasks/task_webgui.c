@@ -63,6 +63,9 @@ const static char *base_path = "/spiflash";
 /** @brief Currently used wifi password */
 static char wifipw[64];
 
+/** @brief Wear levelling handle */
+static wl_handle_t fat_handle = WL_INVALID_HANDLE;
+
 /** @brief Static HTTP HTML header */
 const static char http_html_hdr[] = "HTTP/1.1 200 OK\nContent-type: text/html\n\n";
 /** @brief Static HTTP 404 header */
@@ -537,6 +540,13 @@ esp_err_t taskWebGUIInit(void)
     
   /*++++ initialize capitive portal dns server ++++*/
 	//captdnsInit();
+  
+  /*++++ initialize storage, having a definetly opened partition ++++*/
+  uint32_t tid;
+  if(halStorageStartTransaction(&tid,20,"webgui") != ESP_OK) {
+    ESP_LOGE(LOG_TAG,"Cannot initialize storage");
+  }
+  halStorageFinishTransaction(tid);
   
   /*++++ initialize auto-off timer */
   //init timer with given number of minutes. No reload, no timer id.

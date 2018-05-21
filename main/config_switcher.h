@@ -137,11 +137,10 @@ esp_err_t configUpdateVB(void *param, command_type_t type, uint8_t vb);
 esp_err_t task_configswitcher_getAT(char* output, void* cfg);
 
 
-/** @brief Trigger a config update
+/** @brief Request config update
  * 
- * This method is simply sending an "__UPDATE" command to the
- * config_switcher queue to trigger an update by re-loading the
- * currentConfig.
+ * This method is requesting a config update.
+ * If a request is already pending, this method does nothing.
  * 
  * @see config_switcher
  * @see currentConfig

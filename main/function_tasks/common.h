@@ -65,7 +65,7 @@
 /** ID String to be printed on "AT ID" command.
  * @todo Change this back to new version, when GUI is compatible */
 //#define IDSTRING "FLipMouse V3.0\r\n"
-#define IDSTRING "Flipmouse v2.5\n"
+#define IDSTRING "Flipmouse v2.5"
 //#define IDSTRING "FABI v3.0\n"
 
 /** @brief Determine used device. Either FABI or FLipMouse.
@@ -378,8 +378,8 @@ extern QueueHandle_t config_switcher;
 #define DEBOUNCER_TASK_PRIORITY  (tskIDLE_PRIORITY + 1)
 /** All BLE tasks in hal_ble.c. */
 #define HAL_BLE_TASK_PRIORITY_BASE  (tskIDLE_PRIORITY + 2)
-#define HAL_CONFIG_TASK_PRIORITY  (tskIDLE_PRIORITY + 2)
-#define TASK_COMMANDS_PRIORITY  (tskIDLE_PRIORITY + 2)
+#define HAL_CONFIG_TASK_PRIORITY  (tskIDLE_PRIORITY + 1)
+#define TASK_COMMANDS_PRIORITY  (tskIDLE_PRIORITY + 3)
 
 /*++++ MAIN CONFIG STRUCT ++++*/
 

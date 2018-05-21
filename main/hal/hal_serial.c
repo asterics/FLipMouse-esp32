@@ -92,7 +92,7 @@ serialoutput_h outputcb = NULL;
  * to avoid missing AT commands.
  * @see halSerialATCmds
  * */
-static const int CMDQUEUE_SIZE = 80;
+static const int CMDQUEUE_SIZE = 256;
 
 static const int BUF_SIZE_TX = 512;
 static uint8_t keycode_modifier;
@@ -234,7 +234,7 @@ void halSerialRXTask(void *pvParameters)
                 ESP_LOGE(LOG_TAG,"AT cmd queue is full, cannot send cmd");
                 free(buf);
               } else {
-                ESP_LOGI(LOG_TAG,"Sent AT cmd with len %d to queue",cmdoffset);
+                ESP_LOGI(LOG_TAG,"Sent AT cmd with len %d to queue: %s",cmdoffset,bufstatic);
               }
             } else {
               ESP_LOGE(LOG_TAG,"AT cmd queue is NULL, cannot send cmd");
@@ -613,6 +613,11 @@ int halSerialSendUSBSerial(uint8_t channel, char *data, uint32_t length, TickTyp
     //send the data
     int txBytes = uart_write_bytes(HAL_SERIAL_UART, data, length);
     
+    ///@todo AT SR + viele HID commands -> fehlende Zeilenumbrüche, besser so?
+    //if(channel == HAL_SERIAL_TX_TO_CDC) {
+      uart_write_bytes(HAL_SERIAL_UART, "\n", 1);
+    //}
+    
     //release mutex
     xSemaphoreGive(serialsendingsem);
     
@@ -713,7 +718,7 @@ esp_err_t halSerialInit(void)
 {
   esp_err_t ret = ESP_OK;
   const uart_config_t uart_config = {
-    .baud_rate = 115200,
+    .baud_rate = 230400,
     .data_bits = UART_DATA_8_BITS,
     .parity = UART_PARITY_DISABLE,
     .stop_bits = UART_STOP_BITS_1,
@@ -777,7 +782,7 @@ esp_err_t halSerialInit(void)
   xTaskCreate(halSerialTaskJoystick, "serialJoystick", HAL_SERIAL_TASK_STACKSIZE, NULL, configMAX_PRIORITIES-3, NULL);
   
   //Create a task to handler UART event from ISR
-  xTaskCreate(halSerialRXTask, "serialRX", HAL_SERIAL_TASK_STACKSIZE, NULL, configMAX_PRIORITIES-1, NULL);
+  xTaskCreate(halSerialRXTask, "serialRX", HAL_SERIAL_TASK_STACKSIZE, NULL, 5, NULL);
   
   //set GPIO to route data to USB-HID
   gpio_set_level(HAL_SERIAL_SWITCHPIN, 0);

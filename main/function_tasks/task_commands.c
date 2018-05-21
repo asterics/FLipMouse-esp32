@@ -110,7 +110,7 @@ typedef enum pstate {NOACTION,WAITFORNEWATCMD,UNKNOWNCMD,TRIGGERTASK} parserstat
 void sendErrorBack(const char* extrainfo)
 {
   ESP_LOGE(LOG_TAG,"Error parsing cmd: %s",extrainfo);
-  halSerialSendUSBSerial(HAL_SERIAL_TX_TO_CDC,(char*)"?\r\n",sizeof("?\r\n"),20);
+  halSerialSendUSBSerial(HAL_SERIAL_TX_TO_CDC,(char*)"?",sizeof("?"),20);
 }
 
 /** @brief Print the current slot configurations (general settings + VBs)
@@ -197,19 +197,19 @@ parserstate_t doMouthpieceSettingsParsing(uint8_t *cmdBuffer, taskNoParameterCon
     switch(cmdBuffer[6])
     {
       case '0':
-        ESP_LOGD(LOG_TAG,"AT MM set to threshold");
+        ESP_LOGI(LOG_TAG,"AT MM set to threshold");
         currentcfg->adc.mode = THRESHOLD; 
         requestUpdate = 1;
         return NOACTION;
         break;
       case '1': 
-        ESP_LOGD(LOG_TAG,"AT MM set to mouse");
+        ESP_LOGI(LOG_TAG,"AT MM set to mouse");
         currentcfg->adc.mode = MOUSE; 
         requestUpdate = 1; 
         return NOACTION;
         break;
       case '2': 
-        ESP_LOGD(LOG_TAG,"AT MM set to joystick");
+        ESP_LOGI(LOG_TAG,"AT MM set to joystick");
         currentcfg->adc.mode = JOYSTICK; 
         requestUpdate = 1; 
         return NOACTION;
@@ -423,7 +423,6 @@ parserstate_t doStorageParsing(uint8_t *cmdBuffer, taskConfigSwitcherConfig_t *i
       //name not used.
       //get number of currently active slots, and add one for a new slot
       halStorageGetNumberOfSlots(tid, &slotnumber);
-      slotnumber++;
       ESP_LOGI(LOG_TAG,"Save new slot %d under name: %s",slotnumber,slotname);
     } else {
       //name is already used, overwrite
@@ -718,7 +717,7 @@ parserstate_t doInfraredParsing(uint8_t *cmdBuffer, taskInfraredConfig_t *instan
           {
             //if available: print out on serial and increase number of 
             //printed IR cmds
-            sprintf(output,"IRCommand%d:%s\r\n",printed,name);
+            sprintf(output,"IRCommand%d:%s",printed,name);
             halSerialSendUSBSerial(HAL_SERIAL_TX_TO_CDC,output,strnlen(output,SLOTNAME_LENGTH+10),10);
             printed++;
           }
@@ -854,7 +853,7 @@ parserstate_t doGeneralCmdParsing(uint8_t *cmdBuffer)
       case 180:
       case 270:
         currentcfg->adc.orientation = param;
-        ESP_LOGD(LOG_TAG,"Set orientation to %d",param);
+        ESP_LOGI(LOG_TAG,"Set orientation to %d",param);
         requestUpdate = 1;
         break;
       default:
@@ -881,7 +880,7 @@ parserstate_t doGeneralCmdParsing(uint8_t *cmdBuffer)
       ESP_LOGE(LOG_TAG,"Error getting free space");
     } else {
       char str[32];
-      sprintf(str,"FREE:%d%%,%d,%d\r\n",(uint8_t)(1-free/total)*100,total-free,free);
+      sprintf(str,"FREE:%d%%,%d,%d",(uint8_t)(1-free/total)*100,total-free,free);
       halSerialSendUSBSerial(HAL_SERIAL_TX_TO_CDC,str,strnlen(str,32),20);
       ESP_LOGI(LOG_TAG,"Free space: %d, total: %d, percentage: %d",free,total,(uint8_t)(1-free/total)*100);
     }
@@ -952,7 +951,8 @@ parserstate_t doGeneralCmdParsing(uint8_t *cmdBuffer)
       sendErrorBack("VB nr too high");
       return UNKNOWNCMD;
     } else {
-      requestVBUpdate = param;
+      requestVBUpdate = param - 1;
+      ESP_LOGI(LOG_TAG,"New mode for VB %d:",param - 1);
       //return WAITFORNEWATCMD to definetly trigger nothing else
       return WAITFORNEWATCMD;
     }
@@ -1414,13 +1414,13 @@ void task_commands(void *params)
       //this one is used for serial input (with an additional line ending)
       if(received == 3 && memcmp(commandBuffer,"AT",3) == 0)
       {
-        halSerialSendUSBSerial(HAL_SERIAL_TX_TO_CDC,(char*)"OK\r\n",4,100);
+        halSerialSendUSBSerial(HAL_SERIAL_TX_TO_CDC,(char*)"OK",2,100);
         continue;
       }
       //this one is used for websocket input (no line ending)
       if(received == 2 && memcmp(commandBuffer,"AT",2) == 0)
       {
-        halSerialSendUSBSerial(HAL_SERIAL_TX_TO_CDC,(char*)"OK\r\n",4,100);
+        halSerialSendUSBSerial(HAL_SERIAL_TX_TO_CDC,(char*)"OK",2,100);
         continue;
       }
 
@@ -1548,7 +1548,7 @@ void task_commands(void *params)
       ESP_LOG_BUFFER_CHAR_LEVEL(LOG_TAG,commandBuffer,received, ESP_LOG_WARN);
       //halSerialFlushRX();
       //ESP_LOG_BUFFER_HEXDUMP(LOG_TAG,commandBuffer,received,ESP_LOG_DEBUG);
-      halSerialSendUSBSerial(HAL_SERIAL_TX_TO_CDC,(char*)"?\r\n",2,100);
+      halSerialSendUSBSerial(HAL_SERIAL_TX_TO_CDC,(char*)"?",1,100);
     } else {
       //check again for initialized queues
       ESP_LOGE(LOG_TAG,"Queues uninitialized, rechecking in 1s");
@@ -1570,6 +1570,7 @@ void printAllSlots(uint8_t printconfig)
 {
   uint8_t slotCount = 0;
   uint32_t tid = 0;
+  uint8_t reportRawEnabled = 0;
   //contains slotname + "Slot%d:<slotname>\r\n"
   char slotName[SLOTNAME_LENGTH+1];
   char outputstring[SLOTNAME_LENGTH+11];
@@ -1595,8 +1596,17 @@ void printAllSlots(uint8_t printconfig)
     return;
   }
   
+  //to be save, disable raw value output during slot printing
+  //and save current state for later.
+  reportRawEnabled = currentcfg->adc.reportraw;
+  currentcfg->adc.reportraw = 0;
+  halAdcUpdateConfig(&currentcfg->adc);
+  
   //in compatibility mode, we initalize a slot here if none are available.
   #ifdef ACTIVATE_V25_COMPAT
+  ///@todo Is this the same behaviour? Create a slot if AT LI is called...
+  if(slotCount == 0 && printconfig != 0)
+  {
     ESP_LOGW(LOG_TAG,"V2.5 Compat: creating default slot 0 (mouse)");
     halStorageCreateDefault(tid);
     if(halStorageGetNumberOfSlots(tid, &slotCount) != ESP_OK)
@@ -1605,6 +1615,7 @@ void printAllSlots(uint8_t printconfig)
       ESP_LOGE(LOG_TAG,"Cannot get slotcount after creating default");
       return;
     }
+  }
   #endif
   //check every slot
   for(uint8_t i = 0; i<slotCount; i++)
@@ -1618,58 +1629,61 @@ void printAllSlots(uint8_t printconfig)
     //print slot name (different for AT LA and AT LI :-( )
     if(printconfig == 0)
     {
-      sprintf(outputstring,"Slot%d:%s\r\n",i,slotName);
+      sprintf(outputstring,"Slot%d:%s",i,slotName);
       halSerialSendUSBSerial(HAL_SERIAL_TX_TO_CDC,outputstring,strnlen(outputstring,SLOTNAME_LENGTH+11),10);
     } else {
-      sprintf(outputstring,"Slot:%s\r\n",slotName);
+      sprintf(outputstring,"Slot:%s",slotName);
       halSerialSendUSBSerial(HAL_SERIAL_TX_TO_CDC,outputstring,strnlen(outputstring,SLOTNAME_LENGTH+11),10);
     }
+    
+    //wait a little bit, avoiding overflows on PC/LPC side
+    vTaskDelay(5);
     
     //only print slot config if requested 
     if(printconfig != 0)
     {
-      sprintf(parameterNumber,"AT AX %d\r\n",currentcfg->adc.sensitivity_x);
+      sprintf(parameterNumber,"AT AX %d",currentcfg->adc.sensitivity_x);
       halSerialSendUSBSerial(HAL_SERIAL_TX_TO_CDC,parameterNumber,strnlen(parameterNumber,16),10);
-      sprintf(parameterNumber,"AT AY %d\r\n",currentcfg->adc.sensitivity_y);
+      sprintf(parameterNumber,"AT AY %d",currentcfg->adc.sensitivity_y);
       halSerialSendUSBSerial(HAL_SERIAL_TX_TO_CDC,parameterNumber,strnlen(parameterNumber,16),10);
-      sprintf(parameterNumber,"AT DX %d\r\n",currentcfg->adc.deadzone_x);
+      sprintf(parameterNumber,"AT DX %d",currentcfg->adc.deadzone_x);
       halSerialSendUSBSerial(HAL_SERIAL_TX_TO_CDC,parameterNumber,strnlen(parameterNumber,16),10);
-      sprintf(parameterNumber,"AT DY %d\r\n",currentcfg->adc.deadzone_y);
+      sprintf(parameterNumber,"AT DY %d",currentcfg->adc.deadzone_y);
       halSerialSendUSBSerial(HAL_SERIAL_TX_TO_CDC,parameterNumber,strnlen(parameterNumber,16),10);
       
-      sprintf(parameterNumber,"AT MS %d\r\n",currentcfg->adc.max_speed);
+      sprintf(parameterNumber,"AT MS %d",currentcfg->adc.max_speed);
       halSerialSendUSBSerial(HAL_SERIAL_TX_TO_CDC,parameterNumber,strnlen(parameterNumber,16),10);
-      sprintf(parameterNumber,"AT AC %d\r\n",currentcfg->adc.acceleration);
+      sprintf(parameterNumber,"AT AC %d",currentcfg->adc.acceleration);
       halSerialSendUSBSerial(HAL_SERIAL_TX_TO_CDC,parameterNumber,strnlen(parameterNumber,16),10);
-      sprintf(parameterNumber,"AT TS %d\r\n",currentcfg->adc.threshold_sip);
+      sprintf(parameterNumber,"AT TS %d",currentcfg->adc.threshold_sip);
       halSerialSendUSBSerial(HAL_SERIAL_TX_TO_CDC,parameterNumber,strnlen(parameterNumber,16),10);
-      sprintf(parameterNumber,"AT TP %d\r\n",currentcfg->adc.threshold_puff);
+      sprintf(parameterNumber,"AT TP %d",currentcfg->adc.threshold_puff);
       halSerialSendUSBSerial(HAL_SERIAL_TX_TO_CDC,parameterNumber,strnlen(parameterNumber,16),10);
-      sprintf(parameterNumber,"AT WS %d\r\n",currentcfg->wheel_stepsize);
+      sprintf(parameterNumber,"AT WS %d",currentcfg->wheel_stepsize);
       halSerialSendUSBSerial(HAL_SERIAL_TX_TO_CDC,parameterNumber,strnlen(parameterNumber,16),10);
-      sprintf(parameterNumber,"AT SP %d\r\n",currentcfg->adc.threshold_strongpuff);
+      sprintf(parameterNumber,"AT SP %d",currentcfg->adc.threshold_strongpuff);
       halSerialSendUSBSerial(HAL_SERIAL_TX_TO_CDC,parameterNumber,strnlen(parameterNumber,16),10);
-      sprintf(parameterNumber,"AT SS %d\r\n",currentcfg->adc.threshold_strongsip);
+      sprintf(parameterNumber,"AT SS %d",currentcfg->adc.threshold_strongsip);
       halSerialSendUSBSerial(HAL_SERIAL_TX_TO_CDC,parameterNumber,strnlen(parameterNumber,16),10);
       
       switch(currentcfg->adc.mode)
       {
-        case MOUSE: sprintf(parameterNumber,"AT MM 1\r\n"); break;
-        case JOYSTICK: sprintf(parameterNumber,"AT MM 2\r\n"); break;
-        case THRESHOLD: sprintf(parameterNumber,"AT MM 0\r\n"); break;
+        case MOUSE: sprintf(parameterNumber,"AT MM 1"); break;
+        case JOYSTICK: sprintf(parameterNumber,"AT MM 2"); break;
+        case THRESHOLD: sprintf(parameterNumber,"AT MM 0"); break;
       }
       halSerialSendUSBSerial(HAL_SERIAL_TX_TO_CDC,parameterNumber,strnlen(parameterNumber,16),10);
       
       
-      sprintf(parameterNumber,"AT GU %d\r\n",currentcfg->adc.gain[0]);
+      sprintf(parameterNumber,"AT GU %d",currentcfg->adc.gain[0]);
       halSerialSendUSBSerial(HAL_SERIAL_TX_TO_CDC,parameterNumber,strnlen(parameterNumber,16),10);
-      sprintf(parameterNumber,"AT GD %d\r\n",currentcfg->adc.gain[1]);
+      sprintf(parameterNumber,"AT GD %d",currentcfg->adc.gain[1]);
       halSerialSendUSBSerial(HAL_SERIAL_TX_TO_CDC,parameterNumber,strnlen(parameterNumber,16),10);
-      sprintf(parameterNumber,"AT GL %d\r\n",currentcfg->adc.gain[2]);
+      sprintf(parameterNumber,"AT GL %d",currentcfg->adc.gain[2]);
       halSerialSendUSBSerial(HAL_SERIAL_TX_TO_CDC,parameterNumber,strnlen(parameterNumber,16),10);
-      sprintf(parameterNumber,"AT GR %d\r\n",currentcfg->adc.gain[3]);
+      sprintf(parameterNumber,"AT GR %d",currentcfg->adc.gain[3]);
       halSerialSendUSBSerial(HAL_SERIAL_TX_TO_CDC,parameterNumber,strnlen(parameterNumber,16),10);
-      sprintf(parameterNumber,"AT RO %d\r\n",currentcfg->adc.orientation);
+      sprintf(parameterNumber,"AT RO %d",currentcfg->adc.orientation);
       halSerialSendUSBSerial(HAL_SERIAL_TX_TO_CDC,parameterNumber,strnlen(parameterNumber,16),10);
       
       
@@ -1677,48 +1691,88 @@ void printAllSlots(uint8_t printconfig)
       uint8_t btret = 0;
       if(currentcfg->ble_active != 0) btret+=2;
       if(currentcfg->usb_active != 0) btret+=1;
-      sprintf(parameterNumber,"AT BT %d\r\n",btret);
+      sprintf(parameterNumber,"AT BT %d",btret);
       halSerialSendUSBSerial(HAL_SERIAL_TX_TO_CDC,parameterNumber,strnlen(parameterNumber,16),10);
+      
+      //wait a little bit, avoiding overflows on PC/LPC side
+      vTaskDelay(10);
       
       for(uint8_t j = 0; j<(NUMBER_VIRTUALBUTTONS*4); j++)
       {
-        sprintf(outputstring,"AT BM %02d\r\n",j);
-        ESP_LOGD(LOG_TAG,"AT BM %d",j);
+        sprintf(outputstring,"AT BM %02d",j+1);
+        ESP_LOGD(LOG_TAG,"AT BM %02d (UART: %02d)",j,j+1);
         halSerialSendUSBSerial(HAL_SERIAL_TX_TO_CDC,outputstring,strnlen(outputstring,SLOTNAME_LENGTH+11),10);
         switch(currentcfg->virtualButtonCommand[j])
         {
           case T_MOUSE:
-            task_mouse_getAT(outputstring,currentcfg->virtualButtonConfig[j]);
+            if(task_mouse_getAT(outputstring,currentcfg->virtualButtonConfig[j]) != ESP_OK)
+            {
+              ESP_LOGW(LOG_TAG,"cannot reverse parse mouse AT cmd");
+              sprintf(outputstring,"AT NC");
+            }
             break;
           case T_KEYBOARD:
-            task_keyboard_getAT(outputstring,currentcfg->virtualButtonConfig[j]);
+            if(task_keyboard_getAT(outputstring,currentcfg->virtualButtonConfig[j]) != ESP_OK)
+            {
+              ESP_LOGW(LOG_TAG,"cannot reverse parse keyboard AT cmd");
+              sprintf(outputstring,"AT NC");
+            }
             break;
           case T_JOYSTICK:
-            task_joystick_getAT(outputstring,currentcfg->virtualButtonConfig[j]);
+            if(task_joystick_getAT(outputstring,currentcfg->virtualButtonConfig[j]) != ESP_OK)
+            {
+              ESP_LOGW(LOG_TAG,"cannot reverse parse joystick AT cmd");
+              sprintf(outputstring,"AT NC");
+            }
             break;
           case T_CONFIGCHANGE:
-            task_configswitcher_getAT(outputstring,currentcfg->virtualButtonConfig[j]);
+            if(task_configswitcher_getAT(outputstring,currentcfg->virtualButtonConfig[j]) != ESP_OK)
+            {
+              ESP_LOGW(LOG_TAG,"cannot reverse parse cfg change AT cmd");
+              sprintf(outputstring,"AT NC");
+            }
             break;
           case T_MACRO:
-            task_macro_getAT(outputstring,currentcfg->virtualButtonConfig[j]);
+            if(task_macro_getAT(outputstring,currentcfg->virtualButtonConfig[j]) != ESP_OK)
+            {
+              ESP_LOGW(LOG_TAG,"cannot reverse parse macro AT cmd");
+              sprintf(outputstring,"AT NC");
+            }
             break;
           case T_CALIBRATE:
             //no reverse parsing, no parameter...
-            sprintf(outputstring,"AT CA\r\n");
+            sprintf(outputstring,"AT CA");
             break;
           case T_SENDIR:
-            task_infrared_getAT(outputstring,currentcfg->virtualButtonConfig[j]);
+            if(task_infrared_getAT(outputstring,currentcfg->virtualButtonConfig[j]) != ESP_OK)
+            {
+              ESP_LOGW(LOG_TAG,"cannot reverse parse IR AT cmd");
+              sprintf(outputstring,"AT NC");
+            }
             break;
           case T_NOFUNCTION:
           default:
-            sprintf(outputstring,"AT NC\r\n");
+            sprintf(outputstring,"AT NC");
             break;
         }
         halSerialSendUSBSerial(HAL_SERIAL_TX_TO_CDC,outputstring,strnlen(outputstring,SLOTNAME_LENGTH+11),10);
         ESP_LOGD(LOG_TAG,"%s",outputstring);
+        //delay 4 times
+        if((j % NUMBER_VIRTUALBUTTONS) == 0)
+        {
+          //wait a little bit, avoiding overflows on PC/LPC side
+          vTaskDelay(5);
+        }
       }
+      
+      //wait a little bit, avoiding overflows on PC/LPC side
+      vTaskDelay(5);
     }
   }
+  
+  //set report raw values back to previous state
+  currentcfg->adc.reportraw = reportRawEnabled;
+  halAdcUpdateConfig(&currentcfg->adc);
   
   //release storage
   halStorageFinishTransaction(tid);

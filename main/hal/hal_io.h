@@ -208,7 +208,9 @@
  * The IR code in FLipMouse/FABI uses RMT channels 0 and 4, therefor
  * both channels (RX&TX) could use up to 4 blocks for saving waveforms.
  * If there is need for a RMT channel for different purposes (e.g. Neopixel output), reduce
- * this value to 3 to free one buffer for channel 3 and one for channel 7 */
+ * this value to 3 to free one buffer for channel 3 and one for channel 7.
+ * 
+ * @note Currently used: 0-2 & 4-6 for IR; 3 for HID output; 7 for Neopixels */
 #define HAL_IO_IR_MEM_BLOCKS    3
 
 /** @brief LED update queue

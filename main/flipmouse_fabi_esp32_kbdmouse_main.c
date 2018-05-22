@@ -64,6 +64,8 @@ QueueHandle_t mouse_movement_ble;
 QueueHandle_t joystick_movement_usb;
 QueueHandle_t joystick_movement_ble;
 QueueHandle_t config_switcher;
+QueueHandle_t hid_usb;
+QueueHandle_t hid_ble;
 
 radio_status_t radio = UNINITIALIZED;
 
@@ -122,7 +124,7 @@ void switch_radio(void)
 void app_main()
 {
     //set log level to info
-    esp_log_level_set("*",ESP_LOG_INFO);
+    //esp_log_level_set("*",ESP_LOG_INFO);
     
     //enter critical section & suspend all tasks for initialising
     vTaskSuspendAll();
@@ -145,6 +147,9 @@ void app_main()
         joystick_movement_usb = xQueueCreate(10,sizeof(joystick_command_t)); //TBD: right size?
         joystick_movement_ble = xQueueCreate(10,sizeof(joystick_command_t)); //TBD: right size?
         config_switcher = xQueueCreate(5,sizeof(char)*SLOTNAME_LENGTH);
+        hid_ble = xQueueCreate(10,sizeof(usb_command_t));
+        hid_usb = xQueueCreate(10,sizeof(usb_command_t));
+        
     //exit critical section & resume all tasks for initialising
     xTaskResumeAll();
 

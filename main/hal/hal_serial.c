@@ -98,10 +98,12 @@ static const int BUF_SIZE_TX = 512;
 static uint8_t keycode_modifier;
 static uint8_t keycode_arr[8] = {'K',0,0,0,0,0,0,0};
 
-/** mutex for sending to serial port. Used to avoid wrong set signal pin
- * on different UART sent bytes (either USB-HID or USB-Serial)
+/** @brief Mutex for sending to serial port.
  * */
 static SemaphoreHandle_t serialsendingsem;
+/** @brief Mutex for sending to HID */
+static SemaphoreHandle_t hidsendingsem;
+
 
 /** Utility function, changing UART TX channel (HID or Serial)
  * 
@@ -121,22 +123,6 @@ static SemaphoreHandle_t serialsendingsem;
  * */
 esp_err_t halSerialSwitchTXChannel(uint8_t target_level, TickType_t ticks_to_wait)
 {
-  static uint8_t current_level = 0;
-    //check if we are currently on target channel/level
-    if(current_level != target_level)
-    {
-      //wait for any previously sent transmission to finish
-      if(uart_wait_tx_done(HAL_SERIAL_UART, ticks_to_wait) != ESP_OK)
-      {
-        ESP_LOGE(LOG_TAG,"tx_done not finished on time");
-        return ESP_FAIL;
-      }
-      ESP_LOGI(LOG_TAG,"Switching USB chip from %d to %d (0 HID, 1 CDC)", \
-        current_level,target_level);
-      //set GPIO to route data to USB-Serial
-      gpio_set_level(HAL_SERIAL_SWITCHPIN, target_level);
-      current_level = target_level;
-    }
     return ESP_OK;
 }
 
@@ -436,6 +422,83 @@ void halSerialTaskMouse(void *param)
   }
 }
 
+void halSerialHIDTask(void *param)
+{
+  usb_command_t rx; //TODO: use right var type
+  //RMT RAM has 64x32bit memory each block
+  rmt_item32_t rmtBuf[64];
+  uint8_t rmtCount = 0;
+  
+  //start bit
+  rmt_item32_t item;
+  item.duration0 = HAL_SERIAL_HID_DURATION_0;
+  item.level0 = 0;
+  item.duration1 = HAL_SERIAL_HID_DURATION_S;
+  item.level1 = 1;
+  rmtBuf[0] = item;
+  
+  while(1)
+  {
+    //check if queue is initialized
+    if(hid_usb != NULL)
+    {
+      //pend on MQ, if timeout triggers, just wait again.
+      if(xQueueReceive(hid_usb,&rx,portMAX_DELAY))
+      {
+        //build RMT buffer
+        for(uint8_t i = 0; i<16; i++)
+        {
+          //if all bytes are processed, quit this loop
+          if(i==rx.len) break;
+          
+          //process 2 bits at once (one rmt item)
+          for(uint8_t j = 0; j<4; j++)
+          {
+            //process even bit
+            if((rx.data[i] & (1<<(j*2))) != 0)
+            {
+              item.duration0 = HAL_SERIAL_HID_DURATION_1;
+            } else {
+              item.duration0 = HAL_SERIAL_HID_DURATION_0;
+            }
+            //process odd bit
+            if((rx.data[i] & (1<<(j*2+1))) != 0)
+            {
+              item.duration1 = HAL_SERIAL_HID_DURATION_1;
+            } else {
+              item.duration1 = HAL_SERIAL_HID_DURATION_0;
+            }
+            //fill buffer 
+            rmtCount = ((i*8+j*2)/2) + 1;
+            rmtBuf[rmtCount] = item;
+          }
+        }
+    
+        //take semaphore
+        if(xSemaphoreTake(hidsendingsem,1000/portTICK_PERIOD_MS))
+        {
+          //put data into RMT buffer
+          if(rmt_fill_tx_items(HAL_SERIAL_HID_CHANNEL, rmtBuf, \
+            rmtCount+1, 0) != ESP_OK)
+          {
+            ESP_LOGE(LOG_TAG,"Cannot send data to RMT");
+          }
+          //start TX, reset memory index (always send from beginning)
+          if(rmt_tx_start(HAL_SERIAL_HID_CHANNEL, 1) != ESP_OK)
+          {
+            ESP_LOGE(LOG_TAG,"Cannot start RMT TX");
+          }
+        } else {
+          ESP_LOGE(LOG_TAG,"Timeout on HID mutex, possible error in sending");
+        }
+      }
+    } else {
+      ESP_LOGE(LOG_TAG,"joystick_movement_usb queue not initialized, retry in 1s");
+      vTaskDelay(1000/portTICK_PERIOD_MS);
+    }
+  }
+}
+
 void halSerialTaskJoystick(void *param)
 {
   joystick_command_t rxJ;
@@ -707,6 +770,12 @@ void halSerialAddOutputStream(serialoutput_h cb)
   outputcb = cb;
 }
 
+/** @brief CB for finished HID output (RMT), releases mutex */
+void halSerialHIDFinished(rmt_channel_t channel, void *arg)
+{
+  if(hidsendingsem != NULL) xSemaphoreGive(hidsendingsem);
+}
+
 /** @brief Initialize the serial HAL
  * 
  * This method initializes the serial interface & creates
@@ -716,6 +785,8 @@ void halSerialAddOutputStream(serialoutput_h cb)
  * */
 esp_err_t halSerialInit(void)
 {
+  /*++++ UART config (UART to CDC) ++++*/
+  
   esp_err_t ret = ESP_OK;
   const uart_config_t uart_config = {
     .baud_rate = 230400,
@@ -749,15 +820,6 @@ esp_err_t halSerialInit(void)
     return ret;
   }
   
-  //Setup GPIO for UART sending direction (either use UART data to drive
-  //USB HID or send UART data USB-serial)
-  ret = gpio_set_direction(HAL_SERIAL_SWITCHPIN,GPIO_MODE_OUTPUT);
-  if(ret != ESP_OK) 
-  {
-    ESP_LOGE(LOG_TAG,"UART GPIO signal set direction failed"); 
-    return ret;
-  }
-
   //create mutex for all tasks sending to serial TX queue.
   //avoids splitting of different packets due to preemption
   serialsendingsem = xSemaphoreCreateMutex();
@@ -766,14 +828,51 @@ esp_err_t halSerialInit(void)
     ESP_LOGE(LOG_TAG,"Cannot create semaphore for TX"); 
     return ESP_FAIL;
   }
+  //mutex for sending HID commands
+  //acquired before sending, released in RMT finish callback
+  hidsendingsem = xSemaphoreCreateMutex();
+  if(hidsendingsem == NULL) 
+  {
+    ESP_LOGE(LOG_TAG,"Cannot create semaphore for HID"); 
+    return ESP_FAIL;
+  }
 
   //create the AT command queue
   halSerialATCmds = xQueueCreate(CMDQUEUE_SIZE,sizeof(atcmd_t));
+
+  /*++++ RMT config (sending HID commands) ++++*/
+  rmt_config_t hidoutput_rmt;
   
-  //Set uart pattern detect function.
-  //uart_enable_pattern_det_intr(HAL_SERIAL_UART, '\r', 1, 10000, 10, 10);
-  //Reset the pattern queue length to record at most 10 pattern positions.
-  //uart_pattern_queue_reset(HAL_SERIAL_UART, EVENTQUEUE_SIZE);
+  hidoutput_rmt.rmt_mode = RMT_MODE_TX;  //TX mode
+  hidoutput_rmt.channel = HAL_SERIAL_HID_CHANNEL; //use define RMT channel
+  hidoutput_rmt.clk_div = 1; //do not divide 80MHz clock; we need to be fast...
+  hidoutput_rmt.gpio_num = HAL_SERIAL_HIDPIN; //output pin
+  hidoutput_rmt.mem_block_num = 1;
+  hidoutput_rmt.tx_config.loop_en = 0;     //do not loop
+  hidoutput_rmt.tx_config.carrier_en = 0;  //we don't need a carrier
+  hidoutput_rmt.tx_config.idle_output_en = 1;
+  hidoutput_rmt.tx_config.idle_level = 0;
+  
+  if(rmt_config(&hidoutput_rmt) != ESP_OK)
+  {
+    ESP_LOGE(LOG_TAG,"Cannot init RMT for HID output");
+    return ESP_FAIL;
+  }
+  
+  if(rmt_driver_install(HAL_SERIAL_HID_CHANNEL,0,0) != ESP_OK)
+  {
+    ESP_LOGE(LOG_TAG,"Cannot install driver for HID output");
+    return ESP_FAIL;
+  }
+  
+  rmt_register_tx_end_callback(halSerialHIDFinished,NULL);
+  ///TODO:
+  /*
+   * task joystick/mouse/kbd entfernen, einen task + 1 queue machen
+   * bytebuf mit Jxxxx, Kxxxx, Mxxxx in den entsprechenden tasks erzeugen
+   * queue richtig initialisieren (main) */
+  
+  /*++++ task setup ++++*/
   
   //install serial tasks (4x -> keyboard press/release; mouse; joystick)
   xTaskCreate(halSerialTaskKeyboardPress, "serialKbdPress", HAL_SERIAL_TASK_STACKSIZE, NULL, configMAX_PRIORITIES-3, NULL);
@@ -783,9 +882,6 @@ esp_err_t halSerialInit(void)
   
   //Create a task to handler UART event from ISR
   xTaskCreate(halSerialRXTask, "serialRX", HAL_SERIAL_TASK_STACKSIZE, NULL, 5, NULL);
-  
-  //set GPIO to route data to USB-HID
-  gpio_set_level(HAL_SERIAL_SWITCHPIN, 0);
 
   //everything went fine
   ESP_LOGI(LOG_TAG,"Driver installation complete");

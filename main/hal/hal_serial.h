@@ -66,7 +66,7 @@
 
 #define HAL_SERIAL_TXPIN      (GPIO_NUM_17)
 #define HAL_SERIAL_RXPIN      (GPIO_NUM_16)
-#define HAL_SERIAL_SWITCHPIN  (GPIO_NUM_18)
+#define HAL_SERIAL_HIDPIN     (GPIO_NUM_18)
 #define HAL_SERIAL_UART       (UART_NUM_2)
 
 #define HAL_SERIAL_TX_TO_HID  0
@@ -75,6 +75,16 @@
 /**@brief Sets line ending character
  * According to FLipMouse GUI PortIO.cs, \r is used */
 #define HAL_SERIAL_LINE_ENDING '\r'
+
+/** @brief Set RMT channel for HID output */
+#define HAL_SERIAL_HID_CHANNEL RMT_CHANNEL_3
+
+/** @brief Duration of a 0 bit for HID output */
+#define HAL_SERIAL_HID_DURATION_0   4
+/** @brief Duration of a 1 bit for HID output */
+#define HAL_SERIAL_HID_DURATION_1   8
+/** @brief Duration of a start/stop bit for HID output */
+#define HAL_SERIAL_HID_DURATION_S   16
 
 /** @brief Queue for parsed AT commands
  * 

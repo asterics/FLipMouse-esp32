@@ -209,6 +209,11 @@ extern QueueHandle_t joystick_movement_usb;
 /** queue which receives joystick commands, triggered via BLE */
 extern QueueHandle_t joystick_movement_ble;
 
+/** @brief Queue for sending HID commands to USB */
+extern QueueHandle_t hid_usb;
+/** @brief Queue for sending HID commands to BLE */
+extern QueueHandle_t hid_ble;
+
 
 /** @brief Possible states of the radio (wifi & BLE) */
 typedef enum {UNINITIALIZED,WIFI,BLE,BLE_PAIRING} radio_status_t;
@@ -514,6 +519,11 @@ typedef struct mouse_command {
   int8_t wheel;
   uint8_t buttons;
 } mouse_command_t;
+
+typedef struct usb_command {
+  uint8_t len;
+  uint8_t data[16];
+} usb_command_t;
 
 /**++++ TODO: move to task_joystick.h ++++*/
 typedef struct joystick_command {

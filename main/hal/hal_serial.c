@@ -439,7 +439,7 @@ int halSerialSendUSBSerial(char *data, uint32_t length, TickType_t ticks_to_wait
   {
     //send the data
     int txBytes = uart_write_bytes(HAL_SERIAL_UART, data, length);
-    uart_write_bytes(HAL_SERIAL_UART, "\n", 1);
+    uart_write_bytes(HAL_SERIAL_UART, HAL_SERIAL_LINE_ENDING, strnlen(HAL_SERIAL_LINE_ENDING,4));
     //release mutex
     xSemaphoreGive(serialsendingsem);
     

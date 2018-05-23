@@ -66,7 +66,7 @@
 
 /**@brief Sets line ending character
  * According to FLipMouse GUI PortIO.cs, \r is used */
-#define HAL_SERIAL_LINE_ENDING '\r\n'
+#define HAL_SERIAL_LINE_ENDING "\r\n"
 
 /** @brief Set RMT channel for HID output */
 #define HAL_SERIAL_HID_CHANNEL RMT_CHANNEL_3

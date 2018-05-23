@@ -187,7 +187,7 @@ void fat_serve(char* resource, struct netconn *conn) {
 		// open the file for reading
 		FILE* f = fopen(file, "r");
 		if(f == NULL) {
-			ESP_LOGE(LOG_TAG,"Unable to open the file %s\n", file);
+			ESP_LOGE(LOG_TAG,"Unable to open the file %s", file);
 			return;
 		}
 		
@@ -199,7 +199,7 @@ void fat_serve(char* resource, struct netconn *conn) {
     do {
 			len=fread(buffer, 1, 512, f);
 			i+=len;
-			ESP_LOGV(LOG_TAG,"Writing bytes %d\n", i);
+			ESP_LOGV(LOG_TAG,"Writing bytes %d", i);
 			netconn_write(conn, buffer, len, NETCONN_NOCOPY);
 		} while (len==512);
 		
@@ -209,7 +209,7 @@ void fat_serve(char* resource, struct netconn *conn) {
     free(buffer);
 	}
 	else {
-		ESP_LOGW(LOG_TAG,"Resource not found: %s\n", file);
+		ESP_LOGW(LOG_TAG,"Resource not found: %s", file);
 		netconn_write(conn, http_404_hdr, sizeof(http_404_hdr) - 1, NETCONN_NOCOPY);
 	}
 }

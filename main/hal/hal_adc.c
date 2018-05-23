@@ -219,7 +219,7 @@ void halAdcReportRaw(uint32_t up, uint32_t down, uint32_t left, uint32_t right, 
         {
             char data[40];
             sprintf(data,"VALUES:%d,%d,%d,%d,%d,%d,%d",pressure,up,down,left,right,x,y);
-            halSerialSendUSBSerial(HAL_SERIAL_TX_TO_CDC,data, strnlen(data,40), 10);
+            halSerialSendUSBSerial(data, strnlen(data,40), 10);
         }
         prescaler++;
     }
@@ -533,7 +533,11 @@ void halAdcTaskMouse(void * pvParameters)
     float moveVal, accumXpos = 0, accumYpos = 0;
     //todo: use a define for the delay here... (currently used: value from vTaskDelay())
     float accelFactor= 20 / 100000000.0f;
-    mouse_command_t command;
+    usb_command_t command;
+    command.len = 5;
+    command.data[0] = 'M';  //send a mouse report
+    command.data[1] = 0xFF; //for handling in hal_serial: having sticky buttons with 0xFF
+    
     TickType_t xLastWakeTime;
     //set adc data reference for timer
     vTimerSetTimerID(adcStrongTimerHandle,&D);
@@ -595,15 +599,15 @@ void halAdcTaskMouse(void * pvParameters)
             //if at least one value is != 0, send to mouse.
             if ((tempX != 0) || (tempY != 0))
             {
-                command.x = tempX;
-                command.y = tempY;
+                command.data[2] = tempX;
+                command.data[3] = tempY;
                 accumXpos -= tempX;
                 accumYpos -= tempY;
                 
                 //post values to mouse queue (USB and/or BLE)
                 if(xEventGroupGetBits(connectionRoutingStatus) & DATATO_USB)
                 {
-                    xQueueSend(mouse_movement_usb,&command,0);
+                    xQueueSend(hid_usb,&command,0);
                 }
                 
                 if(xEventGroupGetBits(connectionRoutingStatus) & DATATO_BLE)
@@ -1139,8 +1143,7 @@ esp_err_t halAdcInit(adc_config_t* params)
             return ESP_FAIL;
         }
     }
-    if(joystick_movement_usb == NULL || joystick_movement_ble == NULL || \
-        mouse_movement_ble == NULL || mouse_movement_usb == NULL)
+    if(joystick_movement_ble == NULL || mouse_movement_ble == NULL || hid_usb == NULL)
     {
         ESP_LOGE("hal_adc","queue uninitialized, exiting");
         return ESP_FAIL;

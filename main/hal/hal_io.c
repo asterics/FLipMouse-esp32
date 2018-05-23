@@ -382,7 +382,7 @@ void halIOLEDTask(void * param)
   uint32_t fade = 0;
   #endif
   #ifdef DEVICE_FABI
-  char cmd[5];
+  usb_command_t cmd;
   #endif
   generalConfig_t *cfg = configGetCurrent();
   
@@ -412,14 +412,13 @@ void halIOLEDTask(void * param)
       #ifdef DEVICE_FABI
       
       //'L' + <red> + <green> + <blue> + '\0'
-      cmd[0] = 'L';
-      cmd[1] = recv & 0x000000FF;
-      cmd[2] = ((recv & 0x0000FF00) >> 8);
-      cmd[3] = ((recv & 0x00FF0000) >> 16);
-      cmd[4] = '\0';
-      //send to USB chip (use HID channel, otherwise it would be sent to USB host)
-      halSerialSendUSBSerial(HAL_SERIAL_TX_TO_HID,cmd,strnlen(cmd,6)+1,20);
-      
+      cmd.data[0] = 'L';
+      cmd.data[1] = recv & 0x000000FF;
+      cmd.data[2] = ((recv & 0x0000FF00) >> 8);
+      cmd.data[3] = ((recv & 0x00FF0000) >> 16);
+      cmd.len = 4;
+      //send to USB chip
+      xQueueSend(hid_usb,&cmd,10);
       #endif
       
       //FLipMouse with RGB LEDs

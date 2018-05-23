@@ -98,13 +98,19 @@ void task_mouse(taskMouseConfig_t *param)
   //ticks between task timeouts
   const TickType_t xTicksToWait = 2000 / portTICK_PERIOD_MS;
   //mouse command which is sent.
-  mouse_command_t press;
-  mouse_command_t release;
-  mouse_command_t empty;
+  usb_command_t press;
+  usb_command_t release;
+  usb_command_t empty;
   //empty them
-  memset(&press,0,sizeof(mouse_command_t));
-  memset(&release,0,sizeof(mouse_command_t));
-  memset(&empty,0,sizeof(mouse_command_t));
+  memset(&press,0,sizeof(usb_command_t));
+  memset(&release,0,sizeof(usb_command_t));
+  memset(&empty,0,sizeof(usb_command_t));
+  empty.len = 5;
+  empty.data[0] = 'M';
+  press.len = 5;
+  press.data[0] = 'M';
+  release.len = 5;
+  release.data[0] = 'M';
 
   //button mask to be used by this task
   uint8_t buttonmask = 0;
@@ -148,7 +154,7 @@ void task_mouse(taskMouseConfig_t *param)
     case WHEEL: 
     {
       buttonmask = 0;
-      press.wheel = (int8_t) param->actionvalue;
+      press.data[4] = (int8_t) param->actionvalue;
       param->actionparam = M_UNUSED;
       break;
     }
@@ -156,7 +162,7 @@ void task_mouse(taskMouseConfig_t *param)
     case X:
     {
       buttonmask = 0;
-      press.x = (int8_t) param->actionvalue;
+      press.data[3] = (int8_t) param->actionvalue;
       param->actionparam = M_UNUSED;
       break;
     }
@@ -164,7 +170,7 @@ void task_mouse(taskMouseConfig_t *param)
     case Y:
     {
       buttonmask = 0;
-      press.y = (int8_t) param->actionvalue;
+      press.data[2] = (int8_t) param->actionvalue;
       param->actionparam = M_UNUSED;
       break;
     }
@@ -181,12 +187,12 @@ void task_mouse(taskMouseConfig_t *param)
   switch(param->actionparam)
   {
     case M_CLICK:
-      press.buttons = buttonmask;
+      press.data[1] = buttonmask;
       autorelease = 1;
       break;
     case M_HOLD:
-      press.buttons = buttonmask;
-      release.buttons = 0;
+      press.data[1] = buttonmask;
+      release.data[1] = 0;
       if(param->virtualButton == VB_SINGLESHOT)
       {
         userelease = 0;
@@ -195,12 +201,12 @@ void task_mouse(taskMouseConfig_t *param)
       }
       break;
     case M_DOUBLE:
-      press.buttons = buttonmask;
+      press.data[1] = buttonmask;
       clickcount = 2;
       autorelease = 1;
       break;
     case M_RELEASE:
-      press.buttons = 0;
+      press.data[1] = 0;
     case M_UNUSED: break;
     default:
       ESP_LOGE(LOG_TAG,"unkown mouse action param %d, exiting",param->actionparam);
@@ -222,17 +228,19 @@ void task_mouse(taskMouseConfig_t *param)
         {
           //if press is set
           if(xEventGroupGetBits(connectionRoutingStatus) & DATATO_USB) 
-          { xQueueSend(mouse_movement_usb,&press,TIMEOUT); }
-          if(xEventGroupGetBits(connectionRoutingStatus) & DATATO_BLE) 
-          { xQueueSend(mouse_movement_ble,&press,TIMEOUT); }
+          { xQueueSend(hid_usb,&press,TIMEOUT); }
+          //TODO: activate if BLE uses same structure
+          /*if(xEventGroupGetBits(connectionRoutingStatus) & DATATO_BLE) 
+          { xQueueSend(mouse_movement_ble,&press,TIMEOUT); }*/
           
           //send second command if set
           if(autorelease)
           {
             if(xEventGroupGetBits(connectionRoutingStatus) & DATATO_USB) 
-            { xQueueSend(mouse_movement_usb,&empty,TIMEOUT); }
-            if(xEventGroupGetBits(connectionRoutingStatus) & DATATO_BLE) 
-            { xQueueSend(mouse_movement_ble,&empty,TIMEOUT); }
+            { xQueueSend(hid_usb,&empty,TIMEOUT); }
+            //TODO: activate if BLE uses same structure
+            /*if(xEventGroupGetBits(connectionRoutingStatus) & DATATO_BLE) 
+            { xQueueSend(mouse_movement_ble,&empty,TIMEOUT); }*/
           }
         }
       }
@@ -243,9 +251,10 @@ void task_mouse(taskMouseConfig_t *param)
         if(userelease)
         {
           if(xEventGroupGetBits(connectionRoutingStatus) & DATATO_USB)
-          { xQueueSend(mouse_movement_usb,&release,TIMEOUT); }
-          if(xEventGroupGetBits(connectionRoutingStatus) & DATATO_BLE) 
-          { xQueueSend(mouse_movement_ble,&release,TIMEOUT); }
+          { xQueueSend(hid_usb,&release,TIMEOUT); }
+          //TODO: activate if BLE uses same structure
+          //if(xEventGroupGetBits(connectionRoutingStatus) & DATATO_BLE) 
+          //{ xQueueSend(mouse_movement_ble,&release,TIMEOUT); }
         }
       }
       

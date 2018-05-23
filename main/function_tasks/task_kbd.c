@@ -43,6 +43,10 @@
 /** @brief Logging tag for this module **/
 #define LOG_TAG "task_kbd"
 
+/** @brief Global active keycode array */
+static uint8_t keycode_arr[8] = {'K',0,0,0,0,0,0,0};
+
+
 
 /** @brief Reverse Parsing - get AT command for keyboard VB
  * 
@@ -143,7 +147,7 @@ void sendKbd(QueueHandle_t qUSB, QueueHandle_t qBLE, uint16_t *key)
 {
   if(xEventGroupGetBits(connectionRoutingStatus) & DATATO_USB)
   {
-    xQueueSend(qUSB,key,TIMEOUT);
+    //xQueueSend(qUSB,key,TIMEOUT);
   }
   if(xEventGroupGetBits(connectionRoutingStatus) & DATATO_BLE) 
   {
@@ -170,6 +174,8 @@ void task_keyboard(taskKeyboardConfig_t *param)
   }
   //event bits used for pending on debounced buttons
   EventBits_t uxBits = 0;
+  //command to send to HID
+  usb_command_t cmd;
   //store for later use
   uint8_t keyboardType = param->type;
   //calculate array index of EventGroup array (each 4 VB have an own EventGroup)
@@ -260,25 +266,58 @@ void task_keyboard(taskKeyboardConfig_t *param)
             //test for a valid set flag (else branch would be timeout)
             if((uxBits & (1<<evGroupShift)) || vb == VB_SINGLESHOT)
             {
-              if(keyboardType == PRESS)
+              //add keyocde to array if press or write action is used
+              if(keyboardType == PRESS || keyboardType == WRITE)
               {
                 //send press action to USB/BLE
                 ESP_LOGD(LOG_TAG,"press: 0x%x",keys[keycodeoffset]);
-                sendKbd(keyboard_usb_press,keyboard_ble_press,&keys[keycodeoffset]);
+
+                //add modifier to global mask
+                keycode_arr[1] |= (keys[keycodeoffset] & 0xFF00)>>8;
+                
+                //keycodes, add directly to the keycode array
+                switch(add_keycode(keys[keycodeoffset] & 0x00FF,&(keycode_arr[2])))
+                {
+                  case 0:
+                    //keycode is added, now send
+                    memcpy(cmd.data,keycode_arr,8);
+                    cmd.len = 8;
+                    xQueueSend(hid_usb,&cmd,10);
+                    break;
+                  case 1: ESP_LOGW(LOG_TAG,"keycode already in queue"); break;
+                  case 2: ESP_LOGE(LOG_TAG,"no space in keycode arr!"); break;
+                  default: ESP_LOGE(LOG_TAG,"add_keycode return unknown code..."); break;
+                }
+                
+                //TODO: replace if BLE is changed
+                sendKbd(NULL,keyboard_ble_press,&keys[keycodeoffset]);
                 
               }
-              if(keyboardType == RELEASE)
+              //remove keycode from array, if release or write is used
+              if(keyboardType == RELEASE || keyboardType == WRITE)
               {
                 //send release action to USB/BLE
                 ESP_LOGD(LOG_TAG,"release: 0x%x",keys[keycodeoffset]);
-                sendKbd(keyboard_usb_release,keyboard_ble_release,&keys[keycodeoffset]);
-              }
-              if(keyboardType == WRITE)
-              {
-                ESP_LOGD(LOG_TAG,"press&release 1: 0x%x",keys[keycodeoffset]);
-                sendKbd(keyboard_usb_press,keyboard_ble_press,&keys[keycodeoffset]);
-                ESP_LOGD(LOG_TAG,"press&release 2: 0x%x",keys[keycodeoffset]);
-                sendKbd(keyboard_usb_release,keyboard_ble_release,&keys[keycodeoffset]);
+                
+                //remove modifier from global mask
+                keycode_arr[1] &= ~((keys[keycodeoffset] & 0xFF00)>>8);
+                
+                //keycodes, add directly to the keycode array
+                switch(remove_keycode(keys[keycodeoffset] & 0x00FF,&(keycode_arr[2])))
+                {
+                  case 0:
+                    //keycode is removed, now send
+                    memcpy(cmd.data,keycode_arr,8);
+                    cmd.len = 8;
+                    xQueueSend(hid_usb,&cmd,10);
+                    break;
+                  case 1: ESP_LOGW(LOG_TAG,"keycode already in queue"); break;
+                  case 2: ESP_LOGE(LOG_TAG,"no space in keycode arr!"); break;
+                  default: ESP_LOGE(LOG_TAG,"add_keycode return unknown code..."); break;
+                }
+                
+                //TODO: replace if BLE is changed
+                sendKbd(NULL,keyboard_ble_release,&keys[keycodeoffset]);
               }
             }
             keycodeoffset++;
@@ -300,13 +339,48 @@ void task_keyboard(taskKeyboardConfig_t *param)
             //test for a valid set flag
             if((uxBits & (1<<evGroupShift)) || vb == VB_SINGLESHOT)
             {
-              ESP_LOGD(LOG_TAG,"press&release button 1: 0x%x",keys[keycodeoffset]);
-              sendKbd(keyboard_usb_press,keyboard_ble_press,&keys[keycodeoffset]);
+                //add modifier to global mask
+                keycode_arr[1] |= (keys[keycodeoffset] & 0xFF00)>>8;
+                
+                //keycodes, add directly to the keycode array
+                switch(add_keycode(keys[keycodeoffset] & 0x00FF,&(keycode_arr[2])))
+                {
+                  case 0:
+                    //keycode is added, now send
+                    memcpy(cmd.data,keycode_arr,8);
+                    cmd.len = 8;
+                    xQueueSend(hid_usb,&cmd,10);
+                    break;
+                  case 1: ESP_LOGW(LOG_TAG,"keycode already in queue"); break;
+                  case 2: ESP_LOGE(LOG_TAG,"no space in keycode arr!"); break;
+                  default: ESP_LOGE(LOG_TAG,"add_keycode return unknown code..."); break;
+                }
+                
+                //TODO: replace if BLE is changed
+                sendKbd(NULL,keyboard_ble_press,&keys[keycodeoffset]);
             }
             if((uxBits & (1<<(evGroupShift+4))) || vb == VB_SINGLESHOT)
             {
               ESP_LOGD(LOG_TAG,"press&release button 2: 0x%x",keys[keycodeoffset]);
-              sendKbd(keyboard_usb_release,keyboard_ble_release,&keys[keycodeoffset]);
+              //remove modifier from global mask
+              keycode_arr[1] &= ~((keys[keycodeoffset] & 0xFF00)>>8);
+              
+              //keycodes, add directly to the keycode array
+              switch(remove_keycode(keys[keycodeoffset] & 0x00FF,&(keycode_arr[2])))
+              {
+                case 0:
+                  //keycode is removed, now send
+                  memcpy(cmd.data,keycode_arr,8);
+                  cmd.len = 8;
+                  xQueueSend(hid_usb,&cmd,10);
+                  break;
+                case 1: ESP_LOGW(LOG_TAG,"keycode already in queue"); break;
+                case 2: ESP_LOGE(LOG_TAG,"no space in keycode arr!"); break;
+                default: ESP_LOGE(LOG_TAG,"add_keycode return unknown code..."); break;
+              }
+              
+              //TODO: replace if BLE is changed
+              sendKbd(NULL,keyboard_ble_release,&keys[keycodeoffset]);
             }
             keycodeoffset++;
           }

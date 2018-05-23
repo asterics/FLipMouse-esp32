@@ -40,6 +40,76 @@
 /** @brief Global joystick state */
 joystick_command_t globalJoystickState;
 
+/** @brief Joystick command to HID bytebuffer */
+void joystick_to_bytebuffer(joystick_command_t *cmd, usb_command_t *out)
+{
+  //limit values
+  if(cmd->Xaxis > 1023) cmd->Xaxis = 1023;
+  if(cmd->Yaxis > 1023) cmd->Yaxis = 1023;
+  if(cmd->Zaxis > 1023) cmd->Zaxis = 1023;
+  if(cmd->Zrotate > 1023) cmd->Zrotate = 1023;
+  if(cmd->sliderLeft > 1023) cmd->sliderLeft = 1023;
+  if(cmd->sliderRight > 1023) cmd->sliderRight = 1023;
+  
+  /*++++ build report ++++*/
+  
+  //13 bytes:
+  //'J'                                     0
+  //buttonmask                              1
+  //buttonmask                              2
+  //buttonmask                              3
+  //buttonmask                              4
+  
+  //hat [b0-b3]. Xaxis [b4-b7]              5
+  //Xaxis [b0-b5], Yaxis[b6-b7]             6
+  //Yaxis [b0-b7]                           7
+  //Zaxis [b0-b7]                           8
+  
+  //Zaxis [b0-b1], zrotate [b2-b7]          9
+  //zrotate[b0-b3],sliderleft[b4-b7]        10
+  //sliderLeft[b0-b5],sliderRight[b6-b7]    11
+  //sliderRight                             12
+  
+  out->data[0] = 'J';
+  
+  //button mask
+  out->data[1] = cmd->buttonmask & 0x000000FF;
+  out->data[2] = (cmd->buttonmask & 0x0000FF00) >> 8;
+  out->data[3] = (cmd->buttonmask & 0x00FF0000) >> 16;
+  out->data[4] = (cmd->buttonmask & 0xFF000000) >> 24;
+  
+  //map hat to 4bits
+  if (cmd->hat < 0) out->data[5] = 15;
+  else if (cmd->hat < 23) out->data[5] = 0;
+  else if (cmd->hat < 68) out->data[5] = 1;
+  else if (cmd->hat < 113) out->data[5] = 2;
+  else if (cmd->hat < 158) out->data[5] = 3;
+  else if (cmd->hat < 203) out->data[5] = 4;
+  else if (cmd->hat < 245) out->data[5] = 5;
+  else if (cmd->hat < 293) out->data[5] = 6;
+  else if (cmd->hat < 338) out->data[5] = 7;
+  //add Xaxis
+  out->data[5] |= (cmd->Xaxis & 0x000F) << 4;
+  out->data[6] =  (cmd->Xaxis & 0x03F0) >> 4;
+  //add Yaxis
+  out->data[6] |= (cmd->Yaxis & 0x0003) << 6;
+  out->data[7] =  (cmd->Yaxis & 0x03FC) >> 2;
+  //add Zaxis
+  out->data[8] = cmd->Zaxis & 0x00FF;
+  out->data[9] = (cmd->Zaxis & 0x0300) >> 8;
+  //add zrotate
+  out->data[9] |= (cmd->Zrotate & 0x003F) << 2;
+  out->data[10] = (cmd->Zrotate & 0x03C0) >> 6;
+  //add sliderLeft
+  out->data[10] |= (cmd->sliderLeft & 0x000F) << 4;
+  out->data[11] = (cmd->sliderLeft & 0x03F0) >> 4;
+  //add sliderRight
+  out->data[11] |= cmd->sliderRight & 0x0003 << 6;
+  out->data[12] = (cmd->sliderRight & 0x03FC) >> 2;
+  
+  out->len = 13;
+}
+
 /** @brief FUNCTIONAL TASK - Trigger joystick action
  * 
  * This task is used to trigger a joystick action, possible actions
@@ -142,7 +212,11 @@ void task_joystick(taskJoystickConfig_t *param)
       
         //send either to USB, BLE, both or none
         if(xEventGroupGetBits(connectionRoutingStatus) & DATATO_USB)
-        { xQueueSend(joystick_movement_usb, &globalJoystickState,10); }
+        { 
+          usb_command_t cmd;
+          joystick_to_bytebuffer(&globalJoystickState,&cmd);
+          xQueueSend(hid_usb, &cmd,10); 
+        }
         if(xEventGroupGetBits(connectionRoutingStatus) & DATATO_BLE) 
         { xQueueSend(joystick_movement_ble, &globalJoystickState,10); }
       }
@@ -172,7 +246,11 @@ void task_joystick(taskJoystickConfig_t *param)
           ESP_LOG_BUFFER_HEXDUMP(LOG_TAG,&globalJoystickState,sizeof(joystick_command_t),ESP_LOG_DEBUG);
             
           if(xEventGroupGetBits(connectionRoutingStatus) & DATATO_USB)
-          { xQueueSend(joystick_movement_usb, &globalJoystickState,10); }
+          { 
+            usb_command_t cmd;
+            joystick_to_bytebuffer(&globalJoystickState,&cmd);
+            xQueueSend(hid_usb, &cmd,10); 
+          }
           if(xEventGroupGetBits(connectionRoutingStatus) & DATATO_BLE) 
           { xQueueSend(joystick_movement_ble, &globalJoystickState,10); }
         }

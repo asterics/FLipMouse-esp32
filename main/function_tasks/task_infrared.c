@@ -229,7 +229,7 @@ esp_err_t infrared_record(char* cmdName, uint8_t outputtoserial)
         {
           sprintf(&output[i*8],"%08X\r\n",cfg->buffer[i].val);
         }
-        halSerialSendUSBSerial(HAL_SERIAL_TX_TO_CDC,output,strnlen(output,8*cfg->count + 4),10);
+        halSerialSendUSBSerial(output,strnlen(output,8*cfg->count + 4),10);
       }
       break;
     case IR_OVERFLOW:

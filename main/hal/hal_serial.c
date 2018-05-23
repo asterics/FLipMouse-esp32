@@ -268,6 +268,13 @@ void halSerialRXTask(void *pvParameters)
  * @see usb_command_t
  * @see hid_usb
  * @see HAL_SERIAL_HIDPIN
+ * @note Due to the nature of absolute values for some HID input, it is
+ * sometimes wanted to update only relative values (e.g. move mouse, but don't
+ * change mouse button status). To support only updates of partial reports,
+ * the LPC chip supports a feature where the absolute value is NOT changed by
+ * sending 0xFF for the corresponding byte. Currently following bytefields support
+ * this:
+ * * Mouse: buttons
  * */
 void halSerialHIDTask(void *param)
 {
@@ -345,7 +352,22 @@ void halSerialHIDTask(void *param)
         
         ESP_LOGV(LOG_TAG,"RMT dump:");
         ESP_LOG_BUFFER_HEXDUMP(LOG_TAG,rmtBuf, sizeof(rmt_item32_t)*(rmtCount),ESP_LOG_VERBOSE);
+        
+        //put data into RMT buffer
+        if(rmt_fill_tx_items(HAL_SERIAL_HID_CHANNEL, rmtBuf, \
+          rmtCount, 0) != ESP_OK)
+        {
+          ESP_LOGE(LOG_TAG,"Cannot send data to RMT");
+        }
+        //start TX, reset memory index (always send from beginning)
+        if(rmt_tx_start(HAL_SERIAL_HID_CHANNEL, 1) != ESP_OK)
+        {
+          ESP_LOGE(LOG_TAG,"Cannot start RMT TX");
+        }
+        rmt_wait_tx_done(HAL_SERIAL_HID_CHANNEL,portMAX_DELAY);
     
+        //the TX finished callback is NOT available in IDF v3.0, using blocking method
+        #if 0
         //take semaphore
         if(xSemaphoreTake(hidsendingsem,1000/portTICK_PERIOD_MS))
         {
@@ -363,6 +385,7 @@ void halSerialHIDTask(void *param)
         } else {
           ESP_LOGE(LOG_TAG,"Timeout on HID mutex, possible error in sending");
         }
+        #endif
       }
     } else {
       ESP_LOGE(LOG_TAG,"joystick_movement_usb queue not initialized, retry in 1s");
@@ -619,13 +642,11 @@ esp_err_t halSerialInit(void)
     return ESP_FAIL;
   }
   
+  //this callback is not available in idf v3.0
+  #if 0
   rmt_register_tx_end_callback(halSerialHIDFinished,NULL);
-  ///TODO:
-  /*
-   * task joystick/mouse/kbd entfernen, einen task + 1 queue machen
-   * bytebuf mit Jxxxx, Kxxxx, Mxxxx in den entsprechenden tasks erzeugen
-   * queue richtig initialisieren (main) */
-  
+  #endif
+
   /*++++ task setup ++++*/
   //task for sending HID commands via RMT
   xTaskCreate(halSerialHIDTask, "serialHID", HAL_SERIAL_TASK_STACKSIZE, NULL, configMAX_PRIORITIES-3, NULL);

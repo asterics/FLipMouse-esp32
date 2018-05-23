@@ -82,13 +82,17 @@
 #define SENDIR(buf,len) { \
   /* check if there is an ongoing transmission. If yes, block for 50 ticks */ \
   rmt_wait_tx_done(0, 50); \
-  rmt_register_tx_end_callback(halIOIRFree,buf); \
+   /*rmt_register_tx_end_callback(halIOIRFree,buf);*/ /*disabled for idf v3.0 */ \
   /* debug output */ \
   ESP_LOGD(LOG_TAG,"Sending %d items @%d",len,(uint32_t)buf); \
   ESP_LOG_BUFFER_HEXDUMP(LOG_TAG,buf,sizeof(rmt_item32_t)*len,ESP_LOG_VERBOSE); \
   /* To send data according to the waveform items. */ \
   esp_err_t ret = rmt_write_items(0, buf, len, false); \
-  if(ret != ESP_OK) ESP_LOGE(LOG_TAG,"Error writing RMT items: %d",ret);}
+  if(ret != ESP_OK) ESP_LOGE(LOG_TAG,"Error writing RMT items: %d",ret); \
+  /* added for esp-idf v3.0 */ \
+  rmt_wait_tx_done(0, 50); \
+  free(buf); \
+}
 
 /** @brief Macro to easily send an halIOIR_t struct to IR hal driver 
  * @param cfg halIOIR_t struct pointer

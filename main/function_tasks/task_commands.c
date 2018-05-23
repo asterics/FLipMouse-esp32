@@ -1761,6 +1761,7 @@ void printAllSlots(uint8_t printconfig)
           vTaskDelay(5);
         }
       }
+      halSerialSendUSBSerial("END",strnlen("END",SLOTNAME_LENGTH),10);
       
       //wait a little bit, avoiding overflows on PC/LPC side
       vTaskDelay(5);

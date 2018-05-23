@@ -55,13 +55,9 @@
 EventGroupHandle_t virtualButtonsOut[NUMBER_VIRTUALBUTTONS];
 EventGroupHandle_t virtualButtonsIn[NUMBER_VIRTUALBUTTONS];
 EventGroupHandle_t connectionRoutingStatus;
-QueueHandle_t keyboard_usb_press;
-QueueHandle_t keyboard_usb_release;
 QueueHandle_t keyboard_ble_press;
 QueueHandle_t keyboard_ble_release;
-QueueHandle_t mouse_movement_usb;
 QueueHandle_t mouse_movement_ble;
-QueueHandle_t joystick_movement_usb;
 QueueHandle_t joystick_movement_ble;
 QueueHandle_t config_switcher;
 QueueHandle_t hid_usb;
@@ -138,13 +134,9 @@ void app_main()
             virtualButtonsOut[i] = xEventGroupCreate();
         }
         //queues
-        keyboard_usb_press = xQueueCreate(10,sizeof(uint16_t));
-        keyboard_usb_release = xQueueCreate(10,sizeof(uint16_t));
         keyboard_ble_press = xQueueCreate(10,sizeof(uint16_t));
         keyboard_ble_release = xQueueCreate(10,sizeof(uint16_t));
-        mouse_movement_usb = xQueueCreate(10,sizeof(mouse_command_t));
         mouse_movement_ble = xQueueCreate(10,sizeof(mouse_command_t));
-        joystick_movement_usb = xQueueCreate(10,sizeof(joystick_command_t)); //TBD: right size?
         joystick_movement_ble = xQueueCreate(10,sizeof(joystick_command_t)); //TBD: right size?
         config_switcher = xQueueCreate(5,sizeof(char)*SLOTNAME_LENGTH);
         hid_ble = xQueueCreate(10,sizeof(usb_command_t));

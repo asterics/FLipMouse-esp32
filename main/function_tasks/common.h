@@ -190,22 +190,12 @@ extern EventGroupHandle_t connectionRoutingStatus;
  * byte of the input text
  **/
 
-/** queue which receives USB keycodes which needs to be pressed */
-extern QueueHandle_t keyboard_usb_press;
-/** queue which receives USB keycodes which needs to be released */
-extern QueueHandle_t keyboard_usb_release;
 /** queue which receives ble keycodes which needs to be pressed */
 extern QueueHandle_t keyboard_ble_press;
 /** queue which receives ble keycodes which needs to be released */
 extern QueueHandle_t keyboard_ble_release;
-
-
-/** queue which receives mouse commands, triggered via USB */
-extern QueueHandle_t mouse_movement_usb;
 /** queue which receives mouse commands, triggered via BLE */
 extern QueueHandle_t mouse_movement_ble;
-/** queue which receives joystick commands, triggered via USB */
-extern QueueHandle_t joystick_movement_usb;
 /** queue which receives joystick commands, triggered via BLE */
 extern QueueHandle_t joystick_movement_ble;
 

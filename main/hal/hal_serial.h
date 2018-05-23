@@ -19,35 +19,30 @@
  * Copyright 2017 Benjamin Aigner <aignerb@technikum-wien.at,
  * beni@asterics-foundation.org>
  */
- 
-/** @file 
+
+/** @file
  * @brief CONTINOUS TASK - This module contains the hardware abstraction for the serial
  * interface to the USB support chip.
  * 
  * 
  * Attention: this module does NOT use UART0 (terminal & program interface)
  * 
- * The hardware abstraction takes care of: <br>
- * -) sending USB-HID commands <br>
- * -) sending USB-serial responses <br>
- * -) sending/receiving serial data (to/from USB-serial) <br>
+ * The hardware abstraction takes care of:
+ * * sending USB-HID commands
+ * * sending USB-serial responses
+ * * sending/receiving serial data (to/from USB-serial)
  * 
- * The interaction to other parts of the firmware consists of:<br>
- * -) pending on queues for USB commands:<br>
- *    * keyboard_usb_press<br>
- *    * keyboard_usb_release<br>
- *    * mouse_movement_usb<br>
- *    * joystick_movement_usb<br>
- * -) halSerialSendUSBSerial / halSerialReceiveUSBSerial for direct sending/receiving<br>
+ * The interaction to other parts of the firmware consists of:
+ * * pending on queue for USB commands: hid_usb
+ * * halSerialSendUSBSerial / halSerialReceiveUSBSerial for direct sending/receiving (USB-CDC)
  * 
  * The received serial data can be used by different modules, currently
- * the task_commands_cim is used to fetch & parse serial data.
+ * the task_commands is used to fetch & parse serial data.
  * 
- * @note In this firmware, there are 3 pins routed to the USB support chip (RX,TX,signal).
- * Depending on the level of the signal line, data sent to the USB chip are either
- * interpreted as USB-HID commands (keyboard, mouse or joystick reports) or
- * the data is forwarded to the USB-CDC interface, which is used to send data 
- * to the host (config GUI, terminal, AsTeRICS,...).
+ * @note In this firmware, there are 3 pins routed to the USB support chip (RX,TX,HID).
+ * RX/TX lines are used as normal UART, which is converted by the LPC USB chip to 
+ * the USB-CDC interface. The third line (HID) is used as a pulse length modulated output
+ * for transmitting HID commands to the host.
  */ 
  
 #include <freertos/FreeRTOS.h>
@@ -69,22 +64,19 @@
 #define HAL_SERIAL_HIDPIN     (GPIO_NUM_18)
 #define HAL_SERIAL_UART       (UART_NUM_2)
 
-#define HAL_SERIAL_TX_TO_HID  0
-#define HAL_SERIAL_TX_TO_CDC  1
-
 /**@brief Sets line ending character
  * According to FLipMouse GUI PortIO.cs, \r is used */
-#define HAL_SERIAL_LINE_ENDING '\r'
+#define HAL_SERIAL_LINE_ENDING '\r\n'
 
 /** @brief Set RMT channel for HID output */
 #define HAL_SERIAL_HID_CHANNEL RMT_CHANNEL_3
 
 /** @brief Duration of a 0 bit for HID output */
-#define HAL_SERIAL_HID_DURATION_0   4
+#define HAL_SERIAL_HID_DURATION_0   80
 /** @brief Duration of a 1 bit for HID output */
-#define HAL_SERIAL_HID_DURATION_1   8
+#define HAL_SERIAL_HID_DURATION_1   160
 /** @brief Duration of a start/stop bit for HID output */
-#define HAL_SERIAL_HID_DURATION_S   16
+#define HAL_SERIAL_HID_DURATION_S   320
 
 /** @brief Queue for parsed AT commands
  * 
@@ -162,21 +154,14 @@ void halSerialReset(uint8_t exceptDevice);
 
 /** @brief Send serial bytes to USB-Serial (USB-CDC)
  * 
- * This method sends bytes to the UART.
- * In addition, the GPIO signal pin is set to route this data
- * to the USB Serial instead of USB-HID.
- * After finishing this transmission, the GPIO is set back to USB-HID
+ * This method sends bytes to the UART, for USB-CDC
  * 
  * @return -1 on error, number of read bytes otherwise
  * @param data Data to be sent
- * @param channel Determines the channel to send this data to (either CDC or HID parser)
  * @param length Number of maximum bytes to send
  * @param ticks_to_wait Maximum time to wait for a free UART
- * 
- * @see HAL_SERIAL_TX_TO_HID
- * @see HAL_SERIAL_TX_TO_CDC
  * */
-int halSerialSendUSBSerial(uint8_t channel, char *data, uint32_t length, TickType_t ticks_to_wait);
+int halSerialSendUSBSerial(char *data, uint32_t length, TickType_t ticks_to_wait);
 
 /** @brief Flush Serial RX input buffer */
 void halSerialFlushRX(void);

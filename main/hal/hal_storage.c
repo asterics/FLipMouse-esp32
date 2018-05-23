@@ -1001,30 +1001,30 @@ esp_err_t halStorageLoad(hal_storage_load_action navigate, generalConfig_t *cfg,
   {
     case NEXT:
       //check if we are at the last slot, if yes load first, increment otherwise
-      if(slotCount == storageCurrentSlotNumber) storageCurrentSlotNumber = 1;
+      if((slotCount-1) == storageCurrentSlotNumber) storageCurrentSlotNumber = 0;
       else storageCurrentSlotNumber++;
       ret = halStorageLoadNumber(storageCurrentSlotNumber,cfg,tid);
       //if NEXT does not succeed (because of a deleted slot or something else)
       //retry with storageCurrentSlotNumber = 1;
       if(ret != ESP_OK)
       {
-        ESP_LOGI(LOG_TAG,"Resetting current slot number to 1");
-        storageCurrentSlotNumber = 1;
+        ESP_LOGI(LOG_TAG,"Resetting current slot number to 0");
+        storageCurrentSlotNumber = 0;
         ret = halStorageLoadNumber(storageCurrentSlotNumber,cfg,tid);
       }
       return ret;
     break;
     case PREV:
       //check if we are at the first slot, if yes load last, decrement otherwise
-      if(storageCurrentSlotNumber == 1) storageCurrentSlotNumber = slotCount;
+      if(storageCurrentSlotNumber == 0) storageCurrentSlotNumber = slotCount - 1;
       else storageCurrentSlotNumber--;
       ret = halStorageLoadNumber(storageCurrentSlotNumber,cfg,tid);
       //if NEXT does not succeed (because of a deleted slot or something else)
       //retry with storageCurrentSlotNumber = 1;
       if(ret != ESP_OK)
       {
-        ESP_LOGI(LOG_TAG,"Resetting current slot number to 1");
-        storageCurrentSlotNumber = 1;
+        ESP_LOGI(LOG_TAG,"Resetting current slot number to 0");
+        storageCurrentSlotNumber = 0;
         ret = halStorageLoadNumber(storageCurrentSlotNumber,cfg,tid);
       }
       return ret;  
@@ -1155,8 +1155,7 @@ esp_err_t halStorageLoadNumber(uint8_t slotnumber, generalConfig_t *cfg, uint32_
   
   //TODO: check slot storage version, upgrade on any difference
   
-  ESP_LOGW(LOG_TAG,"Loaded slot %s,nr: %d",slotname,slotnumber);
-  ESP_LOG_BUFFER_HEXDUMP(LOG_TAG,cfg,sizeof(generalConfig_t),ESP_LOG_VERBOSE);
+  
   
   //compare checksums
   mbedtls_md5((unsigned char *)cfg, sizeof(generalConfig_t), md5sumstruct);
@@ -1171,7 +1170,8 @@ esp_err_t halStorageLoadNumber(uint8_t slotnumber, generalConfig_t *cfg, uint32_
     return ESP_FAIL;
   }
   
-  ESP_LOGD(LOG_TAG,"Successfully read slotnumber %u with %u bytes payload", slotnumber, sizeof(generalConfig_t));
+  ESP_LOGI(LOG_TAG,"Loaded slot %s,nr: %d, payload: %u bytes",slotname,slotnumber, sizeof(generalConfig_t));
+  ESP_LOG_BUFFER_HEXDUMP(LOG_TAG,cfg,sizeof(generalConfig_t),ESP_LOG_VERBOSE);
   
   //clean up
   free(slotname);
@@ -1179,6 +1179,8 @@ esp_err_t halStorageLoadNumber(uint8_t slotnumber, generalConfig_t *cfg, uint32_
   
   //save current slot number to access the VB configs
   storageCurrentSlotNumber = slotnumber;
+  //save name of slot
+  strncpy(cfg->slotName,slotname,SLOTNAME_LENGTH);
   
   return ESP_OK;
 }
@@ -1212,7 +1214,7 @@ esp_err_t halStorageLoadName(char *slotname, generalConfig_t *cfg, uint32_t tid)
   uint8_t slotnumber = 0;
   if(halStorageGetNumberForName(tid, &slotnumber, slotname) != ESP_OK)
   {
-    ESP_LOGE(LOG_TAG,"Cannot find number for name!");
+    ESP_LOGE(LOG_TAG,"Cannot find number for name: %s",slotname);
     return ESP_FAIL;
   }
   

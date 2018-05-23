@@ -25,30 +25,22 @@
  * 
  * Attention: this module does NOT use UART0 (terminal & program interface)
  * 
- * The hardware abstraction takes care of: <br>
- * -) sending USB-HID commands <br>
- * -) sending USB-serial responses <br>
- * -) sending/receiving serial data (to/from USB-serial) <br>
+ * The hardware abstraction takes care of:
+ * * sending USB-HID commands
+ * * sending USB-serial responses
+ * * sending/receiving serial data (to/from USB-serial)
  * 
- * The interaction to other parts of the firmware consists of:<br>
- * -) pending on queues for USB commands:<br>
- *    * keyboard_usb_press<br>
- *    * keyboard_usb_release<br>
- *    * mouse_movement_usb<br>
- *    * joystick_movement_usb<br>
- * -) halSerialSendUSBSerial / halSerialReceiveUSBSerial for direct sending/receiving<br>
+ * The interaction to other parts of the firmware consists of:
+ * * pending on queue for USB commands: hid_usb
+ * * halSerialSendUSBSerial / halSerialReceiveUSBSerial for direct sending/receiving (USB-CDC)
  * 
  * The received serial data can be used by different modules, currently
- * the task_commands_cim is used to fetch & parse serial data.
+ * the task_commands is used to fetch & parse serial data.
  * 
- * @todo Reducing stack size by peeking incoming queue for length, give it back and allocate in task_commands.c accordingly
- * 
- * @note In this firmware, there are 3 pins routed to the USB support chip (RX,TX,signal).
- * Depending on the level of the signal line, data sent to the USB chip is either
- * interpreted as USB-HID commands (keyboard, mouse or joystick reports) or
- * the data is forwarded to the USB-CDC interface, which is used to send data 
- * to the host (config GUI, terminal, AsTeRICS,...).
- * 
+ * @note In this firmware, there are 3 pins routed to the USB support chip (RX,TX,HID).
+ * RX/TX lines are used as normal UART, which is converted by the LPC USB chip to 
+ * the USB-CDC interface. The third line (HID) is used as a pulse length modulated output
+ * for transmitting HID commands to the host.
  */ 
  
  
@@ -92,16 +84,16 @@ serialoutput_h outputcb = NULL;
  * to avoid missing AT commands.
  * @see halSerialATCmds
  * */
-static const int CMDQUEUE_SIZE = 80;
+static const int CMDQUEUE_SIZE = 256;
 
 static const int BUF_SIZE_TX = 512;
-static uint8_t keycode_modifier;
-static uint8_t keycode_arr[8] = {'K',0,0,0,0,0,0,0};
 
-/** mutex for sending to serial port. Used to avoid wrong set signal pin
- * on different UART sent bytes (either USB-HID or USB-Serial)
+/** @brief Mutex for sending to serial port.
  * */
 static SemaphoreHandle_t serialsendingsem;
+/** @brief Mutex for sending to HID */
+static SemaphoreHandle_t hidsendingsem;
+
 
 /** Utility function, changing UART TX channel (HID or Serial)
  * 
@@ -121,22 +113,6 @@ static SemaphoreHandle_t serialsendingsem;
  * */
 esp_err_t halSerialSwitchTXChannel(uint8_t target_level, TickType_t ticks_to_wait)
 {
-  static uint8_t current_level = 0;
-    //check if we are currently on target channel/level
-    if(current_level != target_level)
-    {
-      //wait for any previously sent transmission to finish
-      if(uart_wait_tx_done(HAL_SERIAL_UART, ticks_to_wait) != ESP_OK)
-      {
-        ESP_LOGE(LOG_TAG,"tx_done not finished on time");
-        return ESP_FAIL;
-      }
-      ESP_LOGI(LOG_TAG,"Switching USB chip from %d to %d (0 HID, 1 CDC)", \
-        current_level,target_level);
-      //set GPIO to route data to USB-Serial
-      gpio_set_level(HAL_SERIAL_SWITCHPIN, target_level);
-      current_level = target_level;
-    }
     return ESP_OK;
 }
 
@@ -234,7 +210,7 @@ void halSerialRXTask(void *pvParameters)
                 ESP_LOGE(LOG_TAG,"AT cmd queue is full, cannot send cmd");
                 free(buf);
               } else {
-                ESP_LOGI(LOG_TAG,"Sent AT cmd with len %d to queue",cmdoffset);
+                ESP_LOGI(LOG_TAG,"Sent AT cmd with len %d to queue: %s",cmdoffset,bufstatic);
               }
             } else {
               ESP_LOGE(LOG_TAG,"AT cmd queue is NULL, cannot send cmd");
@@ -268,259 +244,125 @@ void halSerialRXTask(void *pvParameters)
   vTaskDelete(NULL);
 }
 
-void halSerialTaskKeyboardPress(void *param)
+/** @brief CONTINOUS TASK - Process HID commands & send via HID wire to LPC
+ * 
+ * This task is used to receive a byte buffer, which contains a HID command
+ * for the LPC. These bytes are converted into either long or short pulses
+ * for 0 and 1 bits, finished by a "very long" stop bit.
+ * 
+ * HID commands are built up following this declarations:
+ * Byte 0: type of command: K/M/J/C:
+ * * K are keyboard reports
+ * * M are mouse reports
+ * * J are joystick reports
+ * * C are set locale commands
+ * 
+ * Following parameter lenghts are valid:
+ * "K": 7 Bytes; 1 modifier + 6 keycode
+ * "M": 4 Bytes; Button mask + X + Y + wheel
+ * "J": 13 Bytes; Please consult task_joystick.c for a detailed explanation
+ * "C": 1 Byte; Locale code, according to HID specification chapter 6.2.1
+ * 
+ * 
+ * @param param Unused
+ * @see usb_command_t
+ * @see hid_usb
+ * @see HAL_SERIAL_HIDPIN
+ * */
+void halSerialHIDTask(void *param)
 {
-  uint16_t rxK = 0;
-  uint8_t keycode;
-  uint8_t modifier;
-    
-  while(1)
-  {
-    //check if queue is created
-    if(keyboard_usb_press != 0)
-    {
-      //pend on MQ, if timeout triggers, just wait again.
-      if(xQueueReceive(keyboard_usb_press,&rxK,300))
-      {
-        //data here, split into modifier & keycode
-        keycode = rxK & 0x00FF;
-        modifier = (rxK & 0xFF00)>>8;
-        
-        //add modifier to global mask
-        keycode_modifier |= modifier;
-        
-        //keycodes, add directly to the keycode array
-        switch(add_keycode(keycode,&(keycode_arr[2])))
-        {
-          case 0:
-            keycode_arr[0] = 'K';
-            keycode_arr[1] = keycode_modifier;
-            uint8_t sent = 0;
-            for(uint8_t i = 0; i<8; i++) { sent+= halSerialSendUSBSerial(HAL_SERIAL_TX_TO_HID,(char *)&keycode_arr[i], 1, 30); }
-            if(sent != 8) ESP_LOGE(LOG_TAG,"Error sending keyboard HID report");
-              
-            ESP_LOGD(LOG_TAG,"HID report (on press):");
-            esp_log_buffer_hex(LOG_TAG,keycode_arr,8);
-            break;
-          case 1: ESP_LOGW(LOG_TAG,"keycode already in queue"); break;
-          case 2: ESP_LOGE(LOG_TAG,"no space in keycode arr!"); break;
-          default: ESP_LOGE(LOG_TAG,"add_keycode return unknown code..."); break;
-        }
-        
-        modifier = 0;
-        keycode = 0;
-        rxK = 0;
-      }
-    } else {
-      ESP_LOGE(LOG_TAG,"keyboard_usb_press queue not initialized, retry in 1s");
-      vTaskDelay(1000/portTICK_PERIOD_MS);
-    }
-  }
-}
-
-void halSerialTaskKeyboardRelease(void *param)
-{
-  uint16_t rxK = 0;
-  uint8_t keycode;
-  uint8_t modifier;
-    
-  while(1)
-  {
-    //check if queue is created
-    if(keyboard_usb_release != 0)
-    {
-      //pend on MQ, if timeout triggers, just wait again.
-      if(xQueueReceive(keyboard_usb_release,&rxK,300))
-      {
-        //data here, split into modifier & keycode
-        keycode = rxK & 0x00FF;
-        modifier = (rxK & 0xFF00)>>8;
-        
-        //remove modifier from global mask
-        keycode_modifier &= ~modifier;
-        
-        //keycodes, remove directly from the keycode array
-        switch(remove_keycode(keycode,&(keycode_arr[2])))
-        {
-          case 0:
-            keycode_arr[0] = 'K';
-            //use global modifier but mask out this released modifier...
-            keycode_arr[1] = keycode_modifier;
-            uint8_t sent = 0;
-            for(uint8_t i = 0; i<8; i++) { sent+= halSerialSendUSBSerial(HAL_SERIAL_TX_TO_HID,(char *)&keycode_arr[i], 1, 30); }
-            if(sent != 8) ESP_LOGE(LOG_TAG,"Error sending keyboard HID report");
-            ESP_LOGD(LOG_TAG,"HID report (on release):");
-            esp_log_buffer_hex(LOG_TAG,keycode_arr,8);
-            break;
-          case 1: ESP_LOGW(LOG_TAG,"keycode not in queue"); break;
-          default: ESP_LOGE(LOG_TAG,"remove_keycode return unknown code..."); break;
-        }
-        
-        modifier = 0;
-        keycode = 0;
-        rxK = 0;
-      }
-    } else {
-      ESP_LOGE(LOG_TAG,"keyboard_usb_release queue not initialized, retry in 1s");
-      vTaskDelay(1000/portTICK_PERIOD_MS);
-    }
-  }
-}
-
-void halSerialTaskMouse(void *param)
-{
-  mouse_command_t rxM;
-  static uint8_t emptySent = 0;
-  mouse_command_t emptyReport = {0,0,0,0};
-  memset(&emptyReport,0,sizeof(mouse_command_t));
+  usb_command_t rx; //TODO: use right var type
+  //RMT RAM has 64x32bit memory each block
+  rmt_item32_t rmtBuf[64];
+  uint8_t rmtCount = 0;
+  
+  //levels are always same, set here.
+  rmt_item32_t item;
+  item.level0 = 1;
+  item.level1 = 0;
   
   while(1)
   {
-    //check if queue is created
-    if(mouse_movement_usb != 0)
+    //check if queue is initialized
+    if(hid_usb != NULL)
     {
       //pend on MQ, if timeout triggers, just wait again.
-      if(xQueueReceive(mouse_movement_usb,&rxM,300))
+      if(xQueueReceive(hid_usb,&rx,portMAX_DELAY))
       {
-        //send report always if not empty
-        if(memcmp(&rxM,&emptyReport,sizeof(mouse_command_t)) != 0)
+        //reset RMT offset
+        rmtCount = 0;
+        
+        //debug output
+        switch(rx.data[0])
         {
-          uint8_t sent = 0;
-          char m = 'M';
-          sent += halSerialSendUSBSerial(HAL_SERIAL_TX_TO_HID,&m,1,30); 
-          sent += halSerialSendUSBSerial(HAL_SERIAL_TX_TO_HID,(char *)&rxM.buttons,1,30); 
-          sent += halSerialSendUSBSerial(HAL_SERIAL_TX_TO_HID,(char *)&rxM.x,1,30); 
-          sent += halSerialSendUSBSerial(HAL_SERIAL_TX_TO_HID,(char *)&rxM.y,1,30); 
-          sent += halSerialSendUSBSerial(HAL_SERIAL_TX_TO_HID,(char *)&rxM.wheel,1,30); 
+          case 'M': ESP_LOGI(LOG_TAG,"USB Mouse: B: %d, X/Y: %d/%d, wheel: %d", \
+            rx.data[1],rx.data[2],rx.data[3],rx.data[4]);
+            break;
+          case 'K': ESP_LOGI(LOG_TAG,"USB Kbd: Mod: %d, keys: %d/%d/%d/%d/%d/%d", \
+            rx.data[1],rx.data[2],rx.data[3],rx.data[4],rx.data[5],rx.data[6],rx.data[7]);
+            break;
+          case 'J': ESP_LOGI(LOG_TAG,"USB joystick:");
+            ESP_LOG_BUFFER_HEXDUMP(LOG_TAG,&rx.data[1], 12 ,ESP_LOG_INFO);
+            break;
+          default: ESP_LOGW(LOG_TAG,"Unknown USB report");
+        }
+        
+        //build RMT buffer
+        for(uint8_t i = 0; i<16; i++)
+        {
+          //if all bytes are processed, quit this loop
+          if(i==rx.len) break;
           
-          if(sent != 5)
+          //process 2 bits at once (one rmt item)
+          for(uint8_t j = 0; j<4; j++)
           {
-            ESP_LOGE(LOG_TAG,"Error sending report:");
-          }
-          ESP_LOGD(LOG_TAG,"Mouse: %d,%d,%d,%d",rxM.buttons, \
-              rxM.x, rxM.y, rxM.wheel);
-          //after one non-empty report, we can resend an empty one
-          emptySent = 0;
-          //delay for 1 tick, allowing the USB chip to parse the cmd
-          vTaskDelay(2);
-        } else {
-          //if empty, check if it was sent once, if not: send empty
-          if(emptySent == 0)
-          {
-            uint8_t sent = 0;
-            char m = 'M';
-            sent += halSerialSendUSBSerial(HAL_SERIAL_TX_TO_HID,&m,1,30); 
-            sent += halSerialSendUSBSerial(HAL_SERIAL_TX_TO_HID,(char *)&rxM.buttons,1,30); 
-            sent += halSerialSendUSBSerial(HAL_SERIAL_TX_TO_HID,(char *)&rxM.x,1,30); 
-            sent += halSerialSendUSBSerial(HAL_SERIAL_TX_TO_HID,(char *)&rxM.y,1,30); 
-            sent += halSerialSendUSBSerial(HAL_SERIAL_TX_TO_HID,(char *)&rxM.wheel,1,30); 
-            
-            if(sent != 5)
+            //process even bit
+            if((rx.data[i] & (1<<(j*2))) != 0)
             {
-              ESP_LOGE(LOG_TAG,"Error sending report:");
+              item.duration0 = HAL_SERIAL_HID_DURATION_1; //long timing
+            } else {
+              item.duration0 = HAL_SERIAL_HID_DURATION_0; //short timing
             }
-
-            ESP_LOGD(LOG_TAG,"Mouse: %d,%d,%d,%d",rxM.buttons, \
-                rxM.x, rxM.y, rxM.wheel);
-            //remember we sent an empty report
-            emptySent = 1;
-            //delay for 1 tick, allowing the USB chip to parse the cmd
-            vTaskDelay(1);
+            //process odd bit
+            if((rx.data[i] & (1<<(j*2+1))) != 0)
+            {
+              item.duration1 = HAL_SERIAL_HID_DURATION_1;
+            } else {
+              item.duration1 = HAL_SERIAL_HID_DURATION_0;
+            }
+            //fill buffer 
+            //rmtCount = ((i*8+j*2)/2) + 1;
+            rmtBuf[rmtCount] = item;
+            rmtCount++;
           }
         }
-      }
-    } else {
-      ESP_LOGE(LOG_TAG,"mouse_movement_usb queue not initialized, retry in 1s");
-      vTaskDelay(1000/portTICK_PERIOD_MS);
-    }
-  }
-}
-
-void halSerialTaskJoystick(void *param)
-{
-  joystick_command_t rxJ;
-  uint8_t report[13];
-  
-  while(1)
-  {
-    //check if queue is created
-    if(joystick_movement_usb != 0)
-    {
-      //pend on MQ, if timeout triggers, just wait again.
-      if(xQueueReceive(joystick_movement_usb,&rxJ,300))
-      {
-        //limit values
-        if(rxJ.Xaxis > 1023) rxJ.Xaxis = 1023;
-        if(rxJ.Yaxis > 1023) rxJ.Yaxis = 1023;
-        if(rxJ.Zaxis > 1023) rxJ.Zaxis = 1023;
-        if(rxJ.Zrotate > 1023) rxJ.Zrotate = 1023;
-        if(rxJ.sliderLeft > 1023) rxJ.sliderLeft = 1023;
-        if(rxJ.sliderRight > 1023) rxJ.sliderRight = 1023;
         
-        /*++++ build report ++++*/
+        //signal the RMT the end of this transmission
+        item.duration0 = HAL_SERIAL_HID_DURATION_S; //stop bit timing
+        item.duration1 = 0;
+        rmtBuf[rmtCount] = item;
+        rmtCount++;
         
-        //13 bytes:
-        //'J'                                     0
-        //buttonmask                              1
-        //buttonmask                              2
-        //buttonmask                              3
-        //buttonmask                              4
-        
-        //hat [b0-b3]. Xaxis [b4-b7]              5
-        //Xaxis [b0-b5], Yaxis[b6-b7]             6
-        //Yaxis [b0-b7]                           7
-        //Zaxis [b0-b7]                           8
-        
-        //Zaxis [b0-b1], zrotate [b2-b7]          9
-        //zrotate[b0-b3],sliderleft[b4-b7]        10
-        //sliderLeft[b0-b5],sliderRight[b6-b7]    11
-        //sliderRight                             12
-        
-        report[0] = 'J';
-        
-        //button mask
-        report[1] = rxJ.buttonmask & 0x000000FF;
-        report[2] = (rxJ.buttonmask & 0x0000FF00) >> 8;
-        report[3] = (rxJ.buttonmask & 0x00FF0000) >> 16;
-        report[4] = (rxJ.buttonmask & 0xFF000000) >> 24;
-        
-        //map hat to 4bits
-        if (rxJ.hat < 0) report[5] = 15;
-        else if (rxJ.hat < 23) report[5] = 0;
-        else if (rxJ.hat < 68) report[5] = 1;
-        else if (rxJ.hat < 113) report[5] = 2;
-        else if (rxJ.hat < 158) report[5] = 3;
-        else if (rxJ.hat < 203) report[5] = 4;
-        else if (rxJ.hat < 245) report[5] = 5;
-        else if (rxJ.hat < 293) report[5] = 6;
-        else if (rxJ.hat < 338) report[5] = 7;
-        //add Xaxis
-        report[5] |= (rxJ.Xaxis & 0x000F) << 4;
-        report[6] =  (rxJ.Xaxis & 0x03F0) >> 4;
-        //add Yaxis
-        report[6] |= (rxJ.Yaxis & 0x0003) << 6;
-        report[7] =  (rxJ.Yaxis & 0x03FC) >> 2;
-        //add Zaxis
-        report[8] = rxJ.Zaxis & 0x00FF;
-        report[9] = (rxJ.Zaxis & 0x0300) >> 8;
-        //add zrotate
-        report[9] |= (rxJ.Zrotate & 0x003F) << 2;
-        report[10] = (rxJ.Zrotate & 0x03C0) >> 6;
-        //add sliderLeft
-        report[10] |= (rxJ.sliderLeft & 0x000F) << 4;
-        report[11] = (rxJ.sliderLeft & 0x03F0) >> 4;
-        //add sliderRight
-        report[11] |= rxJ.sliderRight & 0x0003 << 6;
-        report[12] = (rxJ.sliderRight & 0x03FC) >> 2;
-        
-        //log buffer
-        ESP_LOGD(LOG_TAG,"HID joystick report:");
-        esp_log_buffer_hex(LOG_TAG,report,13);
-        
-        //send it to serial port
-        uint8_t sent = 0;
-        for(uint8_t i = 0; i<13; i++) { sent+= halSerialSendUSBSerial(HAL_SERIAL_TX_TO_HID,(char *)&report[i], 1, 30); }
-        if(sent != 13) ESP_LOGE(LOG_TAG,"Error sending joystick HID report");
+        ESP_LOGV(LOG_TAG,"RMT dump:");
+        ESP_LOG_BUFFER_HEXDUMP(LOG_TAG,rmtBuf, sizeof(rmt_item32_t)*(rmtCount),ESP_LOG_VERBOSE);
+    
+        //take semaphore
+        if(xSemaphoreTake(hidsendingsem,1000/portTICK_PERIOD_MS))
+        {
+          //put data into RMT buffer
+          if(rmt_fill_tx_items(HAL_SERIAL_HID_CHANNEL, rmtBuf, \
+            rmtCount, 0) != ESP_OK)
+          {
+            ESP_LOGE(LOG_TAG,"Cannot send data to RMT");
+          }
+          //start TX, reset memory index (always send from beginning)
+          if(rmt_tx_start(HAL_SERIAL_HID_CHANNEL, 1) != ESP_OK)
+          {
+            ESP_LOGE(LOG_TAG,"Cannot start RMT TX");
+          }
+        } else {
+          ESP_LOGE(LOG_TAG,"Timeout on HID mutex, possible error in sending");
+        }
       }
     } else {
       ESP_LOGE(LOG_TAG,"joystick_movement_usb queue not initialized, retry in 1s");
@@ -528,7 +370,6 @@ void halSerialTaskJoystick(void *param)
     }
   }
 }
-
 
 /** @brief Read parsed AT commands from USB-Serial (USB-CDC)
  * 
@@ -567,21 +408,14 @@ int halSerialReceiveUSBSerial(uint8_t **data)
 
 /** @brief Send serial bytes to USB-Serial (USB-CDC)
  * 
- * This method sends bytes to the UART.
- * In addition, the GPIO signal pin is set to route this data
- * to the USB Serial instead of USB-HID.
- * After finishing this transmission, the GPIO is set back to USB-HID
+ * This method sends bytes to the UART, for USB-CDC
  * 
  * @return -1 on error, number of read bytes otherwise
  * @param data Data to be sent
- * @param channel Determines the channel to send this data to (either CDC or HID parser)
  * @param length Number of maximum bytes to send
  * @param ticks_to_wait Maximum time to wait for a free UART
- * 
- * @see HAL_SERIAL_TX_TO_HID
- * @see HAL_SERIAL_TX_TO_CDC
  * */
-int halSerialSendUSBSerial(uint8_t channel, char *data, uint32_t length, TickType_t ticks_to_wait) 
+int halSerialSendUSBSerial(char *data, uint32_t length, TickType_t ticks_to_wait) 
 {
   //check if sem is already initialized
   if(serialsendingsem == NULL)
@@ -592,7 +426,7 @@ int halSerialSendUSBSerial(uint8_t channel, char *data, uint32_t length, TickTyp
   
   //if an additional stream is registered, send data there as well
   //no HID commands will be sent there.
-  if(outputcb != NULL && channel != HAL_SERIAL_TX_TO_HID)
+  if(outputcb != NULL)
   {
     if(outputcb(data,length) != ESP_OK)
     {
@@ -603,16 +437,9 @@ int halSerialSendUSBSerial(uint8_t channel, char *data, uint32_t length, TickTyp
   //acquire mutex to have TX permission on UART
   if(xSemaphoreTake(serialsendingsem, ticks_to_wait) == pdTRUE)
   {
-    //try to switch to USB-Serial
-    if(halSerialSwitchTXChannel(channel,ticks_to_wait)!=ESP_OK)
-    {
-      ESP_LOGE(LOG_TAG,"switch GPIO channel didn't finish");
-      xSemaphoreGive(serialsendingsem);
-      return -1;
-    }
     //send the data
     int txBytes = uart_write_bytes(HAL_SERIAL_UART, data, length);
-    
+    uart_write_bytes(HAL_SERIAL_UART, "\n", 1);
     //release mutex
     xSemaphoreGive(serialsendingsem);
     
@@ -635,46 +462,41 @@ int halSerialSendUSBSerial(uint8_t channel, char *data, uint32_t length, TickTyp
  * */
 void halSerialReset(uint8_t exceptDevice)
 {
-  ESP_LOGD(LOG_TAG,"BLE reset reports, except mask: %d",exceptDevice);
+  ESP_LOGD(LOG_TAG,"USB-HID reset reports, except mask: %d",exceptDevice);
   //reset mouse
   if(!(exceptDevice & (1<<2))) 
   {
-    uint8_t sent = 0;
-    char m = 'M';
-    uint8_t zero = 0;
-    int8_t zeroint = 0;
-    sent += halSerialSendUSBSerial(HAL_SERIAL_TX_TO_HID,&m,1,30); 
-    sent += halSerialSendUSBSerial(HAL_SERIAL_TX_TO_HID,(char *)&zero,1,30); 
-    sent += halSerialSendUSBSerial(HAL_SERIAL_TX_TO_HID,(char *)&zeroint,1,30); 
-    sent += halSerialSendUSBSerial(HAL_SERIAL_TX_TO_HID,(char *)&zeroint,1,30); 
-    sent += halSerialSendUSBSerial(HAL_SERIAL_TX_TO_HID,(char *)&zeroint,1,30); 
+    usb_command_t m;
+    m.len = 5;
+    m.data[0] = 'M';
+    m.data[1] = 0; //buttons
+    m.data[2] = 0; //X
+    m.data[3] = 0; //Y
+    m.data[4] = 0; //wheel
     
-    if(sent != 5)
-    {
-      ESP_LOGE(LOG_TAG,"Error resetting mouse HID report");
-    }
+    //send to queue
+    xQueueSend(hid_usb, &m, 0);
   }
   //reset keyboard
   if(!(exceptDevice & (1<<0)))
   {
-    for(uint8_t i=0;i<8;i++) keycode_arr[i] = 0;
-    keycode_modifier = 0;
-    keycode_arr[0] = 'K';
-    if(halSerialSendUSBSerial(HAL_SERIAL_TX_TO_HID,(char *)keycode_arr, 8, 30) != 8)
-    {
-      ESP_LOGE(LOG_TAG,"Error resetting keyboard HID report");
-    }
+    usb_command_t k;
+    for(uint8_t i=1;i<=8;i++) k.data[i] = 0;
+    k.data[0] = 'K';
+    k.len = 9;
+    //send to queue
+    xQueueSend(hid_usb, &k, 0);
   }
   //reset joystick
   if(!(exceptDevice & (1<<1)))
   {
-    uint8_t report[13];
-    for(uint8_t i=0;i<13;i++) report[i] = 0;
-    report[0] = 'J';
-    if(halSerialSendUSBSerial(HAL_SERIAL_TX_TO_HID,(char *)report, 13, 50) != 13)
-    {
-      ESP_LOGE(LOG_TAG,"Error resetting joystick HID report");
-    }
+    usb_command_t j;
+    for(uint8_t i=1;i<=12;i++) j.data[i] = 0;
+    j.data[0] = 'J';
+    j.len = 13;
+    
+    //send to queue
+    xQueueSend(hid_usb, &j, 0);
   }
 }
 
@@ -702,6 +524,12 @@ void halSerialAddOutputStream(serialoutput_h cb)
   outputcb = cb;
 }
 
+/** @brief CB for finished HID output (RMT), releases mutex */
+void halSerialHIDFinished(rmt_channel_t channel, void *arg)
+{
+  if(hidsendingsem != NULL) xSemaphoreGive(hidsendingsem);
+}
+
 /** @brief Initialize the serial HAL
  * 
  * This method initializes the serial interface & creates
@@ -711,9 +539,11 @@ void halSerialAddOutputStream(serialoutput_h cb)
  * */
 esp_err_t halSerialInit(void)
 {
+  /*++++ UART config (UART to CDC) ++++*/
+  
   esp_err_t ret = ESP_OK;
   const uart_config_t uart_config = {
-    .baud_rate = 115200,
+    .baud_rate = 230400,
     .data_bits = UART_DATA_8_BITS,
     .parity = UART_PARITY_DISABLE,
     .stop_bits = UART_STOP_BITS_1,
@@ -744,15 +574,6 @@ esp_err_t halSerialInit(void)
     return ret;
   }
   
-  //Setup GPIO for UART sending direction (either use UART data to drive
-  //USB HID or send UART data USB-serial)
-  ret = gpio_set_direction(HAL_SERIAL_SWITCHPIN,GPIO_MODE_OUTPUT);
-  if(ret != ESP_OK) 
-  {
-    ESP_LOGE(LOG_TAG,"UART GPIO signal set direction failed"); 
-    return ret;
-  }
-
   //create mutex for all tasks sending to serial TX queue.
   //avoids splitting of different packets due to preemption
   serialsendingsem = xSemaphoreCreateMutex();
@@ -761,26 +582,56 @@ esp_err_t halSerialInit(void)
     ESP_LOGE(LOG_TAG,"Cannot create semaphore for TX"); 
     return ESP_FAIL;
   }
+  //mutex for sending HID commands
+  //acquired before sending, released in RMT finish callback
+  hidsendingsem = xSemaphoreCreateMutex();
+  if(hidsendingsem == NULL) 
+  {
+    ESP_LOGE(LOG_TAG,"Cannot create semaphore for HID"); 
+    return ESP_FAIL;
+  }
 
   //create the AT command queue
   halSerialATCmds = xQueueCreate(CMDQUEUE_SIZE,sizeof(atcmd_t));
+
+  /*++++ RMT config (sending HID commands) ++++*/
+  rmt_config_t hidoutput_rmt;
   
-  //Set uart pattern detect function.
-  //uart_enable_pattern_det_intr(HAL_SERIAL_UART, '\r', 1, 10000, 10, 10);
-  //Reset the pattern queue length to record at most 10 pattern positions.
-  //uart_pattern_queue_reset(HAL_SERIAL_UART, EVENTQUEUE_SIZE);
+  hidoutput_rmt.rmt_mode = RMT_MODE_TX;  //TX mode
+  hidoutput_rmt.channel = HAL_SERIAL_HID_CHANNEL; //use define RMT channel
+  hidoutput_rmt.clk_div = 10; //do not divide 80MHz clock; we need to be fast...
+  hidoutput_rmt.gpio_num = HAL_SERIAL_HIDPIN; //output pin
+  hidoutput_rmt.mem_block_num = 1;
+  hidoutput_rmt.tx_config.loop_en = 0;     //do not loop
+  hidoutput_rmt.tx_config.carrier_en = 0;  //we don't need a carrier
+  hidoutput_rmt.tx_config.idle_output_en = 1;
+  hidoutput_rmt.tx_config.idle_level = 0;
   
-  //install serial tasks (4x -> keyboard press/release; mouse; joystick)
-  xTaskCreate(halSerialTaskKeyboardPress, "serialKbdPress", HAL_SERIAL_TASK_STACKSIZE, NULL, configMAX_PRIORITIES-3, NULL);
-  xTaskCreate(halSerialTaskKeyboardRelease, "serialKbdRelease", HAL_SERIAL_TASK_STACKSIZE, NULL, configMAX_PRIORITIES-3, NULL);
-  xTaskCreate(halSerialTaskMouse, "serialMouse", HAL_SERIAL_TASK_STACKSIZE, NULL, configMAX_PRIORITIES-3, NULL);
-  xTaskCreate(halSerialTaskJoystick, "serialJoystick", HAL_SERIAL_TASK_STACKSIZE, NULL, configMAX_PRIORITIES-3, NULL);
+  if(rmt_config(&hidoutput_rmt) != ESP_OK)
+  {
+    ESP_LOGE(LOG_TAG,"Cannot init RMT for HID output");
+    return ESP_FAIL;
+  }
+  
+  if(rmt_driver_install(HAL_SERIAL_HID_CHANNEL,0,0) != ESP_OK)
+  {
+    ESP_LOGE(LOG_TAG,"Cannot install driver for HID output");
+    return ESP_FAIL;
+  }
+  
+  rmt_register_tx_end_callback(halSerialHIDFinished,NULL);
+  ///TODO:
+  /*
+   * task joystick/mouse/kbd entfernen, einen task + 1 queue machen
+   * bytebuf mit Jxxxx, Kxxxx, Mxxxx in den entsprechenden tasks erzeugen
+   * queue richtig initialisieren (main) */
+  
+  /*++++ task setup ++++*/
+  //task for sending HID commands via RMT
+  xTaskCreate(halSerialHIDTask, "serialHID", HAL_SERIAL_TASK_STACKSIZE, NULL, configMAX_PRIORITIES-3, NULL);
   
   //Create a task to handler UART event from ISR
-  xTaskCreate(halSerialRXTask, "serialRX", HAL_SERIAL_TASK_STACKSIZE, NULL, configMAX_PRIORITIES-1, NULL);
-  
-  //set GPIO to route data to USB-HID
-  gpio_set_level(HAL_SERIAL_SWITCHPIN, 0);
+  xTaskCreate(halSerialRXTask, "serialRX", HAL_SERIAL_TASK_STACKSIZE, NULL, 5, NULL);
 
   //everything went fine
   ESP_LOGI(LOG_TAG,"Driver installation complete");

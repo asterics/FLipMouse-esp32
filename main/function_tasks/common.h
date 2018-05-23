@@ -65,7 +65,7 @@
 /** ID String to be printed on "AT ID" command.
  * @todo Change this back to new version, when GUI is compatible */
 //#define IDSTRING "FLipMouse V3.0\r\n"
-#define IDSTRING "Flipmouse v2.5\n"
+#define IDSTRING "Flipmouse v2.5"
 //#define IDSTRING "FABI v3.0\n"
 
 /** @brief Determine used device. Either FABI or FLipMouse.
@@ -190,24 +190,19 @@ extern EventGroupHandle_t connectionRoutingStatus;
  * byte of the input text
  **/
 
-/** queue which receives USB keycodes which needs to be pressed */
-extern QueueHandle_t keyboard_usb_press;
-/** queue which receives USB keycodes which needs to be released */
-extern QueueHandle_t keyboard_usb_release;
 /** queue which receives ble keycodes which needs to be pressed */
 extern QueueHandle_t keyboard_ble_press;
 /** queue which receives ble keycodes which needs to be released */
 extern QueueHandle_t keyboard_ble_release;
-
-
-/** queue which receives mouse commands, triggered via USB */
-extern QueueHandle_t mouse_movement_usb;
 /** queue which receives mouse commands, triggered via BLE */
 extern QueueHandle_t mouse_movement_ble;
-/** queue which receives joystick commands, triggered via USB */
-extern QueueHandle_t joystick_movement_usb;
 /** queue which receives joystick commands, triggered via BLE */
 extern QueueHandle_t joystick_movement_ble;
+
+/** @brief Queue for sending HID commands to USB */
+extern QueueHandle_t hid_usb;
+/** @brief Queue for sending HID commands to BLE */
+extern QueueHandle_t hid_ble;
 
 
 /** @brief Possible states of the radio (wifi & BLE) */
@@ -378,8 +373,8 @@ extern QueueHandle_t config_switcher;
 #define DEBOUNCER_TASK_PRIORITY  (tskIDLE_PRIORITY + 1)
 /** All BLE tasks in hal_ble.c. */
 #define HAL_BLE_TASK_PRIORITY_BASE  (tskIDLE_PRIORITY + 2)
-#define HAL_CONFIG_TASK_PRIORITY  (tskIDLE_PRIORITY + 2)
-#define TASK_COMMANDS_PRIORITY  (tskIDLE_PRIORITY + 2)
+#define HAL_CONFIG_TASK_PRIORITY  (tskIDLE_PRIORITY + 1)
+#define TASK_COMMANDS_PRIORITY  (tskIDLE_PRIORITY + 3)
 
 /*++++ MAIN CONFIG STRUCT ++++*/
 
@@ -514,6 +509,11 @@ typedef struct mouse_command {
   int8_t wheel;
   uint8_t buttons;
 } mouse_command_t;
+
+typedef struct usb_command {
+  uint8_t len;
+  uint8_t data[16];
+} usb_command_t;
 
 /**++++ TODO: move to task_joystick.h ++++*/
 typedef struct joystick_command {

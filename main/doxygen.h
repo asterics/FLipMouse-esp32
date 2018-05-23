@@ -73,6 +73,7 @@
  * @todo Implement buzzer in remaining task_* functions (strongsip/puff exit)
  * @todo Test Neopixels on FABI & FLipMouse
  * @todo Test AT MA (macros).
+ * @todo Delete slot 0 cannot mean delete all anymore!
  * 
  * @todo Implement long press for virtual buttons (new VBs).
 */

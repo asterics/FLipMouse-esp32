@@ -158,7 +158,7 @@ void sendButtonLearn(uint8_t vb, uint8_t press, generalConfig_t *cfg)
   {
     if(press) sprintf(str,"%d PRESS",vb);
     else sprintf(str,"%d RELEASE",vb);
-    halSerialSendUSBSerial(HAL_SERIAL_TX_TO_CDC,str,strnlen(str,13),20);
+    halSerialSendUSBSerial(str,strnlen(str,13),20);
   }
   return;
 }

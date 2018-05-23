@@ -82,6 +82,16 @@ void * currentTaskParametersUpdate[NUMBER_VIRTUALBUTTONS*4];
 /** Task handle for the CONTINOUS task responsible for config switching */
 TaskHandle_t configswitcher_handle;
 
+/** @brief Flag for detecting pending config updates
+ * 
+ * Usually, on saving a new slot, each time a value is changed, configUpdate()
+ * is called. This is unnecessary, so we have a flag which shows, if
+ * an update is already pending.
+ * 
+ * @see configUpdate
+ * */
+uint32_t configUpdatePending = 0;
+
 /** Currently loaded configuration.*/
 generalConfig_t currentConfigLoaded;
 
@@ -113,9 +123,14 @@ esp_err_t task_configswitcher_getAT(char* output, void* cfg)
   taskConfigSwitcherConfig_t *conf = (taskConfigSwitcherConfig_t *)cfg;
   if(conf == NULL) return ESP_FAIL;
   
-  if(strcmp(conf->slotName, "__NEXT") == 0) sprintf(output,"AT NE \r\n"); return ESP_OK;
+  if(strcmp(conf->slotName, "__NEXT") == 0) 
+  {
+    sprintf(output,"AT NE"); 
+    return ESP_OK;
+  }
   
-  sprintf(output,"AT LO %s \r\n",conf->slotName);
+  sprintf(output,"AT LO %s",conf->slotName);
+  return ESP_OK;
 }
 
 /** @brief Trigger a config update
@@ -125,25 +140,43 @@ esp_err_t task_configswitcher_getAT(char* output, void* cfg)
  * currentConfig.
  * 
  * @see config_switcher
+ * @see configUpdate
  * @see currentConfig
- * @return ESP_OK on success, ESP_FAIL otherwise
  * */
-esp_err_t configUpdate(void)
+void configTriggerUpdate(void)
 {
   //reload the slot by sending "__UPDATE" to 
   // the config_switcher queue
   char commandname[SLOTNAME_LENGTH];
   strcpy(commandname,"__UPDATE");
-  if(config_switcher == NULL) return ESP_FAIL;
+  if(config_switcher == NULL) return;
   
-  if(xQueueSend(config_switcher,commandname,10) == pdPASS)
+  if(xQueueSend(config_switcher,commandname,0) == pdPASS)
   {
     ESP_LOGD(LOG_TAG,"requesting config update");
-    return ESP_OK;
   } else {
     ESP_LOGE(LOG_TAG,"Error requesting slot update");
-    return ESP_FAIL;
   }
+}
+
+
+/** @brief Request config update
+ * 
+ * This method is requesting a config update.
+ * If a request is already pending, this method does nothing.
+ * 
+ * @see config_switcher
+ * @see currentConfig
+ * @return ESP_OK on success, ESP_FAIL otherwise
+ * */
+esp_err_t configUpdate(void)
+{
+  if(configUpdatePending == 0)
+  {
+    configUpdatePending++;
+    configTriggerUpdate();
+  }
+  return ESP_OK;
 }
 
 /** @brief Update one virtual button.
@@ -226,10 +259,10 @@ void configSwitcherTask(void * params)
     if(xQueueReceive(config_switcher,command,1000/portTICK_PERIOD_MS) == pdTRUE)
     {
       //request storage access
-      if(halStorageStartTransaction(&tid,20,LOG_TAG) != ESP_OK)
+      while(halStorageStartTransaction(&tid,100,LOG_TAG) != ESP_OK)
       {
         ESP_LOGE(LOG_TAG,"Cannot start storage transaction");
-        continue;
+        vTaskDelay(100/portTICK_PERIOD_MS);
       }
       //just to be sure: normally we are not updating...
       justupdate = 0;
@@ -284,7 +317,7 @@ void configSwitcherTask(void * params)
       }
       
       //set other config infos
-      ESP_LOGD(LOG_TAG,"setting connection bits (USB: %d, BLE: %d)",currentConfig.usb_active,currentConfig.ble_active);
+      ESP_LOGI(LOG_TAG,"setting connection bits (USB: %d, BLE: %d)",currentConfig.usb_active,currentConfig.ble_active);
       if(currentConfig.ble_active != 0)  xEventGroupSetBits(connectionRoutingStatus,DATATO_BLE);
       else xEventGroupClearBits(connectionRoutingStatus,DATATO_BLE);
       if(currentConfig.usb_active != 0)  xEventGroupSetBits(connectionRoutingStatus,DATATO_USB);
@@ -413,9 +446,7 @@ void configSwitcherTask(void * params)
       }
       
       //make one or more config tones (depending on slot number)
-      uint8_t slotnr = halStorageGetCurrentSlotNumber();
-      //if no slot is available, do at least one beep
-      if(slotnr == 0) slotnr++;
+      uint8_t slotnr = halStorageGetCurrentSlotNumber() + 1;
       for(uint8_t i = 0; i<slotnr; i++)
       {
         //create a tone and a pause (values are from original firmware)
@@ -425,18 +456,19 @@ void configSwitcherTask(void * params)
       }
       
       //LED output on slot switch (steady color on Neopixel, short fading on RGB)
-      #ifndef LED_USE_NEOPIXEL
-        LED((slotnr%2)*0xFF,((slotnr/2)%2)*0xFF,((slotnr/4)%2)*0xFF,0);
-      #else
-        LED((slotnr%2)*0xFF,((slotnr/2)%2)*0xFF,((slotnr/4)%2)*0xFF,50);
-      #endif
+      LED((slotnr%2)*0xFF,((slotnr/2)%2)*0xFF,((slotnr/4)%2)*0xFF,0);
       
       //clean up
       halStorageFinishTransaction(tid);
       //save newly loaded cfg
       memcpy(&currentConfigLoaded,&currentConfig,sizeof(generalConfig_t));
       tid = 0;
-      ESP_LOGD(LOG_TAG,"----Config Switch Complete, loaded slot %s----",currentConfigLoaded.slotName);
+      
+      if(justupdate)
+      {
+        configUpdatePending = 0;
+        ESP_LOGD(LOG_TAG,"----Config Update Complete, loaded slot %s----",currentConfigLoaded.slotName);
+      } else ESP_LOGD(LOG_TAG,"----Config Switch Complete, loaded slot %s----",currentConfigLoaded.slotName);
     }
   }
 }
@@ -536,6 +568,7 @@ esp_err_t configSwitcherInit(void)
     HAL_CONFIG_TASK_PRIORITY,configswitcher_handle) != pdPASS)
   {
     ESP_LOGE(LOG_TAG,"error creating config switcher task, cannot proceed.");
+    return ESP_FAIL;
   } else {
     ESP_LOGD(LOG_TAG,"configSwitcherTask created");
   }

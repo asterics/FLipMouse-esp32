@@ -66,6 +66,8 @@
  * @warning Adjust the esp-idf (via "make menuconfig") to use 512B sectors
  * and mode <b>safety</b>!
  * 
+ * @todo Put delete/save to a task, takes very long time...
+ * 
  * @see generalConfig_t
  */
 

@@ -229,7 +229,7 @@ esp_err_t infrared_record(char* cmdName, uint8_t outputtoserial)
         {
           sprintf(&output[i*8],"%08X\r\n",cfg->buffer[i].val);
         }
-        halSerialSendUSBSerial(HAL_SERIAL_TX_TO_CDC,output,strnlen(output,8*cfg->count + 4),10);
+        halSerialSendUSBSerial(output,strnlen(output,8*cfg->count + 4),10);
       }
       break;
     case IR_OVERFLOW:
@@ -292,7 +292,7 @@ esp_err_t task_infrared_getAT(char* output, void* cfg)
   taskInfraredConfig_t *conf = (taskInfraredConfig_t *)cfg;
   if(conf == NULL) return ESP_FAIL;
   //very easy in this case: just extract the slot name.
-  sprintf(output,"AT IP %s\r\n",conf->cmdName);
+  sprintf(output,"AT IP %s",conf->cmdName);
   
   return ESP_OK;
 }

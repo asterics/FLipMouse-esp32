@@ -62,6 +62,8 @@
  * @warning Do not create a task in single shot mode, just call the function
  * @warning Do not call the function if in FUNCTIONAL mode, the task function will block
  * @warning As long as the function or the task is active, the parameter pointer MUST be valid
+ * 
+ * @note Currently used esp-idf: origin/release/v3.0
  */
 
 /*++++ All global todos, roadmap, ... ++++*/
@@ -73,7 +75,8 @@
  * @todo Implement buzzer in remaining task_* functions (strongsip/puff exit)
  * @todo Test Neopixels on FABI & FLipMouse
  * @todo Test AT MA (macros).
- * @todo Delete slot 0 cannot mean delete all anymore!
+ * @todo Debug buzzer, and buzzer activating tasks.
+ * @todo Smooth up mouse movement a little bit
  * 
  * @todo Implement long press for virtual buttons (new VBs).
 */

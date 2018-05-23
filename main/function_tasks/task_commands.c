@@ -928,7 +928,7 @@ parserstate_t doGeneralCmdParsing(uint8_t *cmdBuffer)
     {
       return UNKNOWNCMD;
     } else {
-      if(halStorageDeleteSlot(0,tid) != ESP_OK)
+      if(halStorageDeleteSlot(-1,tid) != ESP_OK)
       {
         sendErrorBack("Error deleting all slots");
         halStorageFinishTransaction(tid);
@@ -1761,12 +1761,14 @@ void printAllSlots(uint8_t printconfig)
           vTaskDelay(5);
         }
       }
-      halSerialSendUSBSerial("END",strnlen("END",SLOTNAME_LENGTH),10);
       
       //wait a little bit, avoiding overflows on PC/LPC side
       vTaskDelay(5);
     }
   }
+  
+  //terminate list by sending "END"
+  halSerialSendUSBSerial("END",strnlen("END",SLOTNAME_LENGTH),10);
   
   //set report raw values back to previous state
   currentcfg->adc.reportraw = reportRawEnabled;

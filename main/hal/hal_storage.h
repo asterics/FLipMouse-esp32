@@ -501,10 +501,10 @@ void halStorageCreateDefault(uint32_t tid);
  * This function is used to delete one slot or all slots (depending on
  * parameter slotnumber)
  * 
- * @param slotnr Number of slot to be deleted. Use 0 to delete all slots
+ * @param slotnr Number of slot to be deleted. Use -1 to delete all slots
  * @param tid Transaction id
  * @return ESP_OK if everything is fine, ESP_FAIL otherwise
  * */
-esp_err_t halStorageDeleteSlot(uint8_t slotnr, uint32_t tid);
+esp_err_t halStorageDeleteSlot(int16_t slotnr, uint32_t tid);
 
 #endif /*_HAL_STORAGE_H*/

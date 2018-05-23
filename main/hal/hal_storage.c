@@ -301,7 +301,7 @@ void halStorageCreateDefault(uint32_t tid)
   defaultCfg->feedback = 3;
   
   
-  strcpy(defaultCfg->slotName,"__DEFAULT");
+  strcpy(defaultCfg->slotName,"mouse");
   
   #ifdef DEVICE_FABI
     defaultCfg->deviceIdentifier = 1;
@@ -1226,25 +1226,32 @@ esp_err_t halStorageLoadName(char *slotname, generalConfig_t *cfg, uint32_t tid)
  * This function is used to delete one slot or all slots (depending on
  * parameter slotnr)
  * 
- * @param slotnr Number of slot to be deleted. Use 0 to delete all slots
+ * @param slotnr Number of slot to be deleted. Use -1 to delete all slots
  * @param tid Transaction id
  * @warning Deleting all slots, means that a complete factory reset is done. Maybe we change this in release versions.
  * @return ESP_OK if everything is fine, ESP_FAIL otherwise
  * */
-esp_err_t halStorageDeleteSlot(uint8_t slotnr, uint32_t tid)
+esp_err_t halStorageDeleteSlot(int16_t slotnr, uint32_t tid)
 {
   char file[sizeof(base_path)+32];
   char filenew[sizeof(base_path)+32];
   int ret;
+  FILE *f;
   //delete by starting & ending at given slotnumber 
-  uint8_t from = slotnr;
-  uint8_t to = slotnr;
+  uint8_t from;
+  uint8_t to;
   
   //in case of deleting all slots, start at 1 and delete until 250
-  if(slotnr == 0)
+  if(slotnr == -1)
   {
     from = 0;
     to = 250;
+  } else if(slotnr <= 250 && slotnr >= 0) {
+    from = slotnr;
+    to = slotnr;
+  } else {
+    ESP_LOGE(LOG_TAG,"delete parameter error, -1 to 250 is supported");
+    return ESP_FAIL;
   }
   
   //check for valid storage handle
@@ -1254,15 +1261,27 @@ esp_err_t halStorageDeleteSlot(uint8_t slotnr, uint32_t tid)
   for(uint8_t i = from; i<=to; i++)
   {
     sprintf(file,"%s/%03d.fms",base_path,i); 
-    remove(file);
+    f = fopen(file, "rb");
+    if(f!=NULL)
+    {
+      fclose(f);
+      remove(file);
+      f = NULL;
+    }
     sprintf(file,"%s/%03d_VB.fms",base_path,i); 
-    remove(file);
+    f = fopen(file, "rb");
+    if(f!=NULL)
+    {
+      fclose(f);
+      remove(file);
+      f = NULL;
+    }
     //not necessary, ESP32 uses preemption
     //taskYIELD();
   }
   
   //re-arrange all following slots (of course, only if not deleting all)
-  if(slotnr != 0)
+  if(slotnr != -1)
   {
     
     for(uint8_t i = to+1; i<=250; i++)

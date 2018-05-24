@@ -123,13 +123,14 @@ void task_mouse(taskMouseConfig_t *param)
   
   //do all the eventgroup checking only if this is a persistent task
   //-> virtualButton is NOT set to VB_SINGLESHOT
-  if(param->virtualButton != VB_SINGLESHOT)
+  if(vb != VB_SINGLESHOT)
   {
     //check for correct offset
     if(evGroupIndex >= NUMBER_VIRTUALBUTTONS)
     {
-      ESP_LOGE(LOG_TAG,"virtual button group unsupported: %d ",evGroupIndex);
-      while(1) vTaskDelay(100000/portTICK_PERIOD_MS);
+      ESP_LOGE(LOG_TAG,"virtual button group unsupported: %d, exiting",evGroupIndex);
+      vTaskDelay(2); 
+      vTaskDelete(NULL);
       return;
     }
     
@@ -177,7 +178,7 @@ void task_mouse(taskMouseConfig_t *param)
     //unknown/unsupported action...
     default:
       ESP_LOGE(LOG_TAG,"unkown mouse type %d, exiting",param->type);
-      while(1) vTaskDelay(100000/portTICK_PERIOD_MS);
+      if(vb == VB_SINGLESHOT) return; else  { vTaskDelay(2); vTaskDelete(NULL); }
       break;
   }
   
@@ -209,8 +210,8 @@ void task_mouse(taskMouseConfig_t *param)
       press.data[1] = 0;
     case M_UNUSED: break;
     default:
-      ESP_LOGE(LOG_TAG,"unkown mouse action param %d, exiting",param->actionparam);
-      while(1) vTaskDelay(100000/portTICK_PERIOD_MS);
+      ESP_LOGE(LOG_TAG,"unknown mouse action param %d, exiting",param->actionparam);
+      if(vb == VB_SINGLESHOT) return; else  { vTaskDelay(2); vTaskDelete(NULL); }
       break;
   }
   

@@ -199,8 +199,7 @@ void task_keyboard(taskKeyboardConfig_t *param)
     if(evGroupIndex >= NUMBER_VIRTUALBUTTONS)
     {
       ESP_LOGE(LOG_TAG,"virtual button group unsupported: %d ",evGroupIndex);
-      while(1) vTaskDelay(100000/portTICK_PERIOD_MS);
-      return;
+      if(vb == VB_SINGLESHOT) return; else vTaskDelete(NULL);
     }
     
     //test if event groups are already initialized, otherwise exit immediately
@@ -218,8 +217,7 @@ void task_keyboard(taskKeyboardConfig_t *param)
     keyboardType != PRESS_RELEASE_BUTTON && keyboardType != WRITE)
   {
     ESP_LOGE(LOG_TAG,"unknown keyboard action type,cannot continue...");
-    while(1) vTaskDelay(100000/portTICK_PERIOD_MS);
-    return;
+    if(vb == VB_SINGLESHOT) return; else { vTaskDelay(2); vTaskDelete(NULL); }
   }
   
   //local keystring (size is determined by input keystring)
@@ -230,7 +228,7 @@ void task_keyboard(taskKeyboardConfig_t *param)
   if(keylength == 0)
   {
     ESP_LOGI(LOG_TAG,"Empty kbd instance, quit");
-    if(vb == VB_SINGLESHOT) return; else { while(1) vTaskDelay(100000/portTICK_PERIOD_MS); }
+    if(vb == VB_SINGLESHOT) return; else { vTaskDelay(2); vTaskDelete(NULL); }
   }
   
   //copy keys to local buffer
@@ -242,7 +240,7 @@ void task_keyboard(taskKeyboardConfig_t *param)
     ESP_LOGI(LOG_TAG,"allocated %d keycodes",keylength);
   } else {
     ESP_LOGE(LOG_TAG,"cannot allocate %d bytes for keyarray",keylength);
-    if(vb == VB_SINGLESHOT) return; else { while(1) vTaskDelay(100000/portTICK_PERIOD_MS); }
+    if(vb == VB_SINGLESHOT) return; else { vTaskDelay(2); vTaskDelete(NULL); }
   }
   
   while(1)
@@ -389,8 +387,7 @@ void task_keyboard(taskKeyboardConfig_t *param)
         default:
           ESP_LOGE(LOG_TAG,"unknown keyboard action type,quit...");
           free(keys);
-          while(1) vTaskDelay(100000/portTICK_PERIOD_MS);
-          return;
+          if(vb == VB_SINGLESHOT) return; { vTaskDelay(2); vTaskDelete(NULL); }
       }
       
       //function tasks in singleshot must return

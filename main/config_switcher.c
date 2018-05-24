@@ -413,7 +413,11 @@ void configSwitcherTask(void * params)
             if(currentTaskParametersUpdate[i] == NULL)
             {
               //if no, load VB config from storage
-              halStorageLoadGetVBConfigs(i,currentTaskParameters[i], vbparametersize, tid);
+              if(halStorageLoadGetVBConfigs(i,currentTaskParameters[i], vbparametersize, tid) != ESP_OK)
+              {
+                //if error happened on loading VB config, delete task code -> nothing is started
+                newTaskCode = NULL;
+              }
             } else {
               //if yes, use this pointer for task parameter
               memcpy(currentTaskParameters[i],currentTaskParametersUpdate[i],vbparametersize);

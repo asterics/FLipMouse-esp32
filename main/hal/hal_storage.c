@@ -1307,7 +1307,7 @@ esp_err_t halStorageDeleteSlot(int16_t slotnr, uint32_t tid)
     }
   }
 
-  ESP_LOGW(LOG_TAG,"Deleted slot %d (0 means delete all), renamed remaining",slotnr);
+  ESP_LOGI(LOG_TAG,"Deleted slot %d (-1 means delete all), renamed remaining",slotnr);
   return ESP_OK;
 }
 
@@ -1332,6 +1332,8 @@ esp_err_t halStorageDeleteSlot(int16_t slotnr, uint32_t tid)
 esp_err_t halStorageLoadGetVBConfigs(uint8_t vb, void * vb_config, size_t vb_config_size, uint32_t tid)
 {
   char file[sizeof(base_path)+32];
+  static int16_t currentlyOpened = -1;
+  static FILE *f = NULL;
   
   if(halStorageChecks(tid) != ESP_OK) return ESP_FAIL;
   
@@ -1344,16 +1346,24 @@ esp_err_t halStorageLoadGetVBConfigs(uint8_t vb, void * vb_config, size_t vb_con
   //file naming convention for general config: xxx.fms
   //file naming convention for VB configs: xxx_VB.fms
   
-  //create filename from slotnumber & vb number
-  sprintf(file,"%s/%03d_VB.fms",base_path,storageCurrentSlotNumber);
-  
   //open file for reading
-  ESP_LOGD(LOG_TAG,"Opening file %s",file);
-  FILE *f = fopen(file, "rb");
-  if(f == NULL)
+  if(currentlyOpened != vb)
   {
-    ESP_LOGE(LOG_TAG,"cannot open file for reading: %s",file);
-    return ESP_FAIL;
+    //if previously opened file handler is active
+    if(f != NULL) fclose(f);
+    
+    //create filename from slotnumber & vb number
+    sprintf(file,"%s/%03d_VB.fms",base_path,storageCurrentSlotNumber);
+    ESP_LOGD(LOG_TAG,"Opening file %s",file);
+    f = fopen(file, "rb");
+    if(f == NULL)
+    {
+      ESP_LOGE(LOG_TAG,"cannot open file for reading: %s",file);
+      return ESP_FAIL;
+    }
+  } else {
+    //if we can re-use the file handler, seek to beginning
+    fseek(f,0,SEEK_SET);
   }
   
   storageHeader_t hdr;
@@ -1406,9 +1416,8 @@ esp_err_t halStorageLoadGetVBConfigs(uint8_t vb, void * vb_config, size_t vb_con
     return ESP_FAIL;
   }
   
-  fclose(f);
   ESP_LOGD(LOG_TAG,"Successfully loaded slotnumber %d, VB%d, payload: %d",storageCurrentSlotNumber,vb,vb_config_size);
-  ESP_LOG_BUFFER_HEXDUMP(LOG_TAG,vb_config,vb_config_size,ESP_LOG_VERBOSE);
+  ESP_LOG_BUFFER_HEXDUMP(LOG_TAG,vb_config,vb_config_size,ESP_LOG_DEBUG);
   return ESP_OK;
 }
 
@@ -1480,6 +1489,9 @@ esp_err_t halStorageStore(uint32_t tid, generalConfig_t *cfg, char *slotname, ui
   fwrite(&namelen,sizeof(uint32_t),1, f);
   fwrite(slotname,sizeof(char),namelen, f);
   fwrite(&nullterm,sizeof(char),1, f);
+    
+  //store slot name to general config
+  strcpy(cfg->slotName,slotname);
   
   //write MD5sum of saved slot
   mbedtls_md5((unsigned char *)cfg, sizeof(generalConfig_t), md5sumfile);

@@ -956,6 +956,13 @@ parserstate_t doGeneralCmdParsing(uint8_t *cmdBuffer)
   }
   /*++++ AT NC ++++*/
   if(CMD("AT NC")) {
+    //requested VB is valid (not singleshot)?
+    if(requestVBUpdate != VB_SINGLESHOT)
+    {
+      //set this button to be unused
+      currentcfg->virtualButtonCommand[requestVBUpdate] = T_NOFUNCTION;
+    }
+    
     //reset VB number if NC is triggered -> VB is not used.
     requestVBUpdate = VB_SINGLESHOT;
     return NOACTION;
@@ -1148,7 +1155,7 @@ parserstate_t doKeyboardParsing(uint8_t *cmdBuffer, taskKeyboardConfig_t *kbdins
       //check if token seems to be a KEY_*
       if(memcmp(pch+1,"KEY_",4) != 0)
       {
-        ESP_LOGW(LOG_TAG,"Not a valid KEY_* identifier");
+        if(cnt == 0) ESP_LOGW(LOG_TAG,"Not a valid KEY_* identifier");
       } else {
         //parse identifier to keycode
         keycode = parseIdentifierToKeycode(pch+1);

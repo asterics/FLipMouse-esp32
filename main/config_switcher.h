@@ -144,8 +144,27 @@ esp_err_t task_configswitcher_getAT(char* output, void* cfg);
  * 
  * @see config_switcher
  * @see currentConfig
+ * @param force Force the update. Usually not necessary, but after waiting for
+ * a stable config, this is necessary. != 0 to ignore the semaphore and force the update.
  * @return ESP_OK on success, ESP_FAIL otherwise
  * */
-esp_err_t configUpdate(void);
+esp_err_t configUpdate(int force);
+
+
+/** @brief Wait unitl current configuration is stable
+ * 
+ * If the function configUpdateVB is called, a temporary task parameter
+ * buffer is used. The full configuration is loaded if configUpdatePending
+ * semaphore is free. If the configuration is to be saved, this semaphore
+ * should be checked via this method.
+ * 
+ * @note This method blocks on the semaphore. To re-enable updates after
+ * calling this method, use configUpdate(1) (enable forcing-update)
+ * 
+ * @see configUpdate
+ * @see configUpdateEnable
+ * @return ESP_OK if config is stable, ESP_FAIL if timeout happened
+ * */
+esp_err_t configUpdateWaitStable(void);
 
 #endif

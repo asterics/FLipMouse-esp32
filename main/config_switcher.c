@@ -82,15 +82,18 @@ void * currentTaskParametersUpdate[NUMBER_VIRTUALBUTTONS*4];
 /** Task handle for the CONTINOUS task responsible for config switching */
 TaskHandle_t configswitcher_handle;
 
-/** @brief Flag for detecting pending config updates
+/** @brief Semaphore for detecting pending config updates
  * 
  * Usually, on saving a new slot, each time a value is changed, configUpdate()
- * is called. This is unnecessary, so we have a flag which shows, if
- * an update is already pending.
+ * is called. This is unnecessary, so we have a semaphore which shows, if
+ * an update is already pending. In addition, this semaphore can be used
+ * to detect if the new configuration is stable (all tasks are loaded),
+ * which is necessary for storing the active slot via hal_storage.
  * 
  * @see configUpdate
+ * @see configUpdateIsStable
  * */
-uint32_t configUpdatePending = 0;
+SemaphoreHandle_t configUpdatePending = NULL;
 
 /** Currently loaded configuration.*/
 generalConfig_t currentConfigLoaded;
@@ -159,7 +162,36 @@ void configTriggerUpdate(void)
   }
 }
 
-
+/** @brief Wait unitl current configuration is stable
+ * 
+ * If the function configUpdateVB is called, a temporary task parameter
+ * buffer is used. The full configuration is loaded if configUpdatePending
+ * semaphore is free. If the configuration is to be saved, this semaphore
+ * should be checked via this method.
+ * 
+ * @note This method blocks on the semaphore. To re-enable updates after
+ * calling this method, use configUpdate(1) (enable forcing-update)
+ * 
+ * @see configUpdate
+ * @see configUpdateEnable
+ * @return ESP_OK if config is stable, ESP_FAIL if timeout happened
+ * */
+esp_err_t configUpdateWaitStable(void)
+{
+  //test if semaphore is initialized
+  if(configUpdatePending == NULL) 
+  {
+    ESP_LOGE(LOG_TAG,"Update sem not initialized");
+    return ESP_FAIL;
+  }
+  //wait for a free semaphore. If not getting it, return fail.
+  if(xSemaphoreTake(configUpdatePending,portMAX_DELAY) == pdTRUE)
+  {
+    return ESP_OK;
+  } else {
+    return ESP_FAIL;
+  }
+}
 /** @brief Request config update
  * 
  * This method is requesting a config update.
@@ -167,15 +199,32 @@ void configTriggerUpdate(void)
  * 
  * @see config_switcher
  * @see currentConfig
+ * @param force Force the update. Usually not necessary, but after waiting for
+ * a stable config, this is necessary. != 0 to ignore the semaphore and force the update.
  * @return ESP_OK on success, ESP_FAIL otherwise
  * */
-esp_err_t configUpdate(void)
+esp_err_t configUpdate(int force)
 {
-  if(configUpdatePending == 0)
+  //test if semaphore is initialized
+  if(configUpdatePending == NULL) 
   {
-    configUpdatePending++;
-    configTriggerUpdate();
+    ESP_LOGE(LOG_TAG,"Update sem not initialized");
+    return ESP_FAIL;
   }
+  
+  //should we ignore the semaphore?
+  if(force != 0)
+  {
+    configTriggerUpdate();
+    return ESP_OK;
+  }
+  
+  if(xSemaphoreTake(configUpdatePending,0) == pdTRUE)
+  {
+    //semaphore was released by config switcher, so we need to trigger
+    //a config update again
+    configTriggerUpdate();
+  } //if the semaphore is already taken, an update is already pending
   return ESP_OK;
 }
 
@@ -212,7 +261,7 @@ esp_err_t configUpdateVB(void *param, command_type_t type, uint8_t vb)
   //set new command type
   currentConfigLoaded.virtualButtonCommand[vb] = type;
   //trigger config update
-  return configUpdate();
+  return configUpdate(0);
 }
 
 /** @brief CONTINOUS TASK - Config switcher task, internal config reloading
@@ -470,7 +519,7 @@ void configSwitcherTask(void * params)
       
       if(justupdate)
       {
-        configUpdatePending = 0;
+        xSemaphoreGive(configUpdatePending);
         ESP_LOGD(LOG_TAG,"----Config Update Complete, loaded slot %s----",currentConfigLoaded.slotName);
       } else ESP_LOGD(LOG_TAG,"----Config Switch Complete, loaded slot %s----",currentConfigLoaded.slotName);
     }
@@ -566,6 +615,10 @@ esp_err_t configSwitcherInit(void)
     currentTaskParameters[i] = NULL;
     currentTaskParametersUpdate[i] = NULL;
   }
+  
+  //init update semaphore
+  configUpdatePending = xSemaphoreCreateBinary();
+  xSemaphoreGive(configUpdatePending);
   
   //start configSwitcherTask
   if(xTaskCreate(configSwitcherTask,"configswitcher",CONFIGSWITCHERTASK_PERMANENT_STACKSIZE,(void *)NULL,

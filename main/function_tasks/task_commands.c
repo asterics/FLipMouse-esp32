@@ -407,9 +407,20 @@ parserstate_t doStorageParsing(uint8_t *cmdBuffer, taskConfigSwitcherConfig_t *i
   /*++++ save slot ++++*/
   if(CMD("AT SA"))
   {
+    //trigger config update
+    configUpdate(0);
+    //wait until configuration is stable
+    if(configUpdateWaitStable() != ESP_OK)
+    {
+      ESP_LOGE(LOG_TAG,"Config not stable in time, cannot save");
+      return UNKNOWNCMD;
+    }
+    
     if(halStorageStartTransaction(&tid,10,LOG_TAG) != ESP_OK)
     {
       ESP_LOGE(LOG_TAG,"Cannot start storage transaction");
+      //release config_switcher
+      configUpdate(1);
       return UNKNOWNCMD;
     }
     strncpy(slotname,(char*)&cmdBuffer[6],SLOTNAME_LENGTH);
@@ -431,6 +442,8 @@ parserstate_t doStorageParsing(uint8_t *cmdBuffer, taskConfigSwitcherConfig_t *i
     {
       ESP_LOGE(LOG_TAG,"Cannot store general cfg");
       halStorageFinishTransaction(tid);
+      //release config_switcher
+      configUpdate(1);
       return UNKNOWNCMD;
     }
     //update config sizes
@@ -453,9 +466,12 @@ parserstate_t doStorageParsing(uint8_t *cmdBuffer, taskConfigSwitcherConfig_t *i
     {
       ESP_LOGE(LOG_TAG,"Cannot store VBs");
       halStorageFinishTransaction(tid);
+      //release config_switcher
+      configUpdate(1);
       return UNKNOWNCMD;
     }
-    
+    //release config_switcher
+    configUpdate(1);
     halStorageFinishTransaction(tid);
     return NOACTION;
   }
@@ -1513,7 +1529,7 @@ void task_commands(void *params)
       //if a general config update is required
       if(requestUpdate != 0)
       {
-        if(configUpdate() != ESP_OK)
+        if(configUpdate(0) != ESP_OK)
         {
           ESP_LOGE(LOG_TAG,"Error updating general config!");
         } else {

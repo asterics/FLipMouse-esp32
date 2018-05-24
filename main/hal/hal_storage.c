@@ -1417,7 +1417,10 @@ esp_err_t halStorageLoadGetVBConfigs(uint8_t vb, void * vb_config, size_t vb_con
   }
   
   ESP_LOGD(LOG_TAG,"Successfully loaded slotnumber %d, VB%d, payload: %d",storageCurrentSlotNumber,vb,vb_config_size);
+  //if you need detailed output of loaded VB configs.
+  #if 0
   ESP_LOG_BUFFER_HEXDUMP(LOG_TAG,vb_config,vb_config_size,ESP_LOG_DEBUG);
+  #endif
   return ESP_OK;
 }
 
@@ -1712,6 +1715,11 @@ esp_err_t halStorageStoreSetVBConfigs(uint8_t slotnumber, generalConfig_t *confi
       fclose(f);
       return ESP_FAIL;
     }
+    //if you need detailed output of stored VB configs.
+    #if 0
+    ESP_LOGD(LOG_TAG,"VB config, prev: %u, this: %u, next: %u ::",hdr.offsetPrev,hdr.offsetThis,hdr.offsetNext);
+    ESP_LOG_BUFFER_HEXDUMP(LOG_TAG,config->virtualButtonConfig[i],config->virtualButtonCfgSize[i],ESP_LOG_DEBUG);
+    #endif
   }
 
   fclose(f);

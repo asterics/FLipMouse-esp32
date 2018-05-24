@@ -83,7 +83,6 @@
  * @see virtualButtonsIn
  * @see virtualButtonsOut
  * @note This task is persistently running
- * @todo Add anti-tremor & deadtime functionality
  * */
 void task_debouncer(void *param);
 

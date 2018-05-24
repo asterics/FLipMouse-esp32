@@ -800,7 +800,7 @@ parserstate_t doGeneralCmdParsing(uint8_t *cmdBuffer)
     return NOACTION;  
   }
   
-  ///@todo hier den AT AI,AP,AR commands hinzufügen. Achtung auf requestVBUpdate: wenn gesetzt, wieder zurücksetzen & entsprechend die Zeit speichern.
+  ///@todo parse anti-tremor commands here.
   /*++++ AT AP,AR,AI; anti-tremor ++++*/
   if(CMD4("AT A")) {
     //get the time value ([ms])

@@ -12,7 +12,7 @@ The serial port configuration is **115200 8N1** (even these settings are not nec
 
 **Note:**
 
-The ESP32 chip itself does NOT have USB connection. Therefore, we integrated a second USB chip on the FABI/FLipMouse PCB, which handles USB to Serial / Serial to HID translation. The corresponding firmware for this chip
+The ESP32 chip itself does NOT have a USB connection. Therefore, we integrated a second USB chip on the FABI/FLipMouse PCB, which handles USB to Serial / Serial to HID translation. The corresponding firmware for this chip
 (LPC11U14) is located here: [usb_bridge repository](https://github.com/benjaminaigner/usb_bridge)
 
 **Note:**
@@ -85,7 +85,7 @@ individually to set a global value.
 | AT LI | --  | list all available slots   | v2 | yes | no |
 | AT NE | --  | load next slot (wrap around after the last slot)  | v2 | yes | yes (task_configswitcher) |
 | AT DE | --  | delete all slots  | v2 | yes | no |
-| AT DL | number (1-) | delete one slot.  | v3 | yes | no |
+| AT DL | number (0-250) | delete one slot.  | v3 | yes | no |
 | AT DN | string | delete one slot by name  | v3 | yes | no |
 | AT NC | --  | do nothing  | v2 | yes | no |
 | AT E0 | --  | disable debug output  | v2 | never, use make monitor | - |
@@ -149,12 +149,18 @@ If set to 1, the axis/slider/hat will be released to its idle position on a VB r
 
 ## Button assignments - FLipMouse
 
-The FLipMouse has 1 internal push-button and 2 jack plugs for external buttons. In addition other functions are mapped to virtual buttons, so they can be configured the same.
+The FLipMouse version 2 has 1 internal push-button and 2 jack plugs for external buttons. 
+Version 3 uses the second internal button, which was previously the program button for the Teensy, as virtual button 0.
+
+**Note:** VB0 (internal button 2) is configured as activation button to switch on/off WiFi for configuring the FLipMouse.
+Feedback to the user is still not defined, will be announced here.
+
+In addition other functions are mapped to virtual buttons, so they can be configured the same.
 Following number mapping is used for the __AT BM__ command:
 
 |VB nr | Function |
 |:-----|:---------|
-| 0    | Internal button 2 (might not be implemented) |
+| 0    | Internal button 2|
 | 1    | Internal button 1|
 | 2    | External button 1|
 | 3    | External button 2|
@@ -174,21 +180,11 @@ Following number mapping is used for the __AT BM__ command:
 | 17   | Strong Puff + Down |
 | 18   | Strong Puff + Left |
 | 19   | Strong Puff + Right |
-| 21   |          |
-| 22   |          |
-| 23   |          |
-| 24   |          |
-| 25   |          |
-| 26   |          |
-| 27   |          |
-| 28   |          |
-| 29   |          |
-| 30   |          |
-| 31   |          |
+
 
 These assignments are declared in file common.h.
 
-
+**Note:** The C# GUI starts with VB 1, so it cannot configure the internal button.
 
 ## Button assignments - FABI
 
@@ -218,20 +214,11 @@ Following number mapping is used for the __AT BM__ command:
 | 17   | Long Press Button 7 |
 | 18   | Long Press Button 8 |
 | 19   | Long Press Button 9 |
-| 20   |          |
-| 21   |          |
-| 22   |          |
-| 23   |          |
-| 24   |          |
-| 25   |          |
-| 26   |          |
-| 27   |          |
-| 28   |          |
-| 29   |          |
-| 30   |          |
-| 31   |          |
+
 
 These assignments are declared in file common.h.
+
+**Note:** The FABI C# GUI cannot configure VB0, a solution is pending.
 
 ## Key identifiers
 

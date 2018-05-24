@@ -302,16 +302,16 @@ void halSerialHIDTask(void *param)
         //debug output
         switch(rx.data[0])
         {
-          case 'M': ESP_LOGI(LOG_TAG,"USB Mouse: B: %d, X/Y: %d/%d, wheel: %d", \
+          case 'M': ESP_LOGD(LOG_TAG,"USB Mouse: B: %d, X/Y: %d/%d, wheel: %d", \
             rx.data[1],rx.data[2],rx.data[3],rx.data[4]);
             break;
-          case 'K': ESP_LOGI(LOG_TAG,"USB Kbd: Mod: %d, keys: %d/%d/%d/%d/%d/%d", \
+          case 'K': ESP_LOGD(LOG_TAG,"USB Kbd: Mod: %d, keys: %d/%d/%d/%d/%d/%d", \
             rx.data[1],rx.data[2],rx.data[3],rx.data[4],rx.data[5],rx.data[6],rx.data[7]);
             break;
-          case 'J': ESP_LOGI(LOG_TAG,"USB joystick:");
-            ESP_LOG_BUFFER_HEXDUMP(LOG_TAG,&rx.data[1], 12 ,ESP_LOG_INFO);
+          case 'J': ESP_LOGD(LOG_TAG,"USB joystick:");
+            ESP_LOG_BUFFER_HEXDUMP(LOG_TAG,&rx.data[1], 12 ,ESP_LOG_DEBUG);
             break;
-          default: ESP_LOGW(LOG_TAG,"Unknown USB report");
+          default: ESP_LOGE(LOG_TAG,"Unknown USB report");
         }
         
         //build RMT buffer
@@ -557,8 +557,6 @@ void halSerialHIDFinished(rmt_channel_t channel, void *arg)
  * 
  * This method initializes the serial interface & creates
  * all necessary tasks.
- * 
- * @todo Due to long wires & bad cables on the dev board, the baudrate is set to 19200 here. Change back after testing.
  * */
 esp_err_t halSerialInit(void)
 {
@@ -622,7 +620,7 @@ esp_err_t halSerialInit(void)
   
   hidoutput_rmt.rmt_mode = RMT_MODE_TX;  //TX mode
   hidoutput_rmt.channel = HAL_SERIAL_HID_CHANNEL; //use define RMT channel
-  hidoutput_rmt.clk_div = 10; //do not divide 80MHz clock; we need to be fast...
+  hidoutput_rmt.clk_div = 10; //8MHz clock; we need to be fast...
   hidoutput_rmt.gpio_num = HAL_SERIAL_HIDPIN; //output pin
   hidoutput_rmt.mem_block_num = 1;
   hidoutput_rmt.tx_config.loop_en = 0;     //do not loop

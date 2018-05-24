@@ -263,7 +263,6 @@ void halAdcReadData(adcData_t *values)
     #endif
     #ifdef HAL_IO_ADC_CHANNEL_PRESSURE
         pressure = adc1_get_raw(HAL_IO_ADC_CHANNEL_PRESSURE);
-        pressure += 52; //todo: just for one sensor -> do it in calibrate...
     #endif
     if(pressure == -1) 
     { 
@@ -761,12 +760,12 @@ void halAdcCalibrate(void)
             vTaskDelay(2);
         }
         
-        //divide (by shift, easy for 8 readings)
-        up = up >> 3;
-        down = down >> 3;
-        left = left >> 3;
-        right = right >> 3;
-        pressure = pressure >> 3;
+        //divide by 8 readings
+        up = up / 8;
+        down = down / 8;
+        left = left / 8;
+        right = right / 8;
+        pressure = pressure / 8;
         //set as offset values
         offsetx = left - right;
         offsety = up - down;

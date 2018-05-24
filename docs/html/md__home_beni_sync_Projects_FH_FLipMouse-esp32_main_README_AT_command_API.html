@@ -71,7 +71,7 @@ $(function() {
 <p>All configuration is done via the serial interface, which provides the persistent configuration of all functionalities and in addition a live mode (e.g. write "mouse move" to the serial port and the firmware moves the mouse cursor).</p>
 <p>The serial port configuration is <b>115200 8N1</b> (even these settings are not necessary due to the USB encapsulation).</p>
 <p><b>Note:</b></p>
-<p>The ESP32 chip itself does NOT have USB connection. Therefore, we integrated a second USB chip on the FABI/FLipMouse PCB, which handles USB to Serial / Serial to HID translation. The corresponding firmware for this chip (LPC11U14) is located here: <a href="https://github.com/benjaminaigner/usb_bridge">usb_bridge repository</a></p>
+<p>The ESP32 chip itself does NOT have a USB connection. Therefore, we integrated a second USB chip on the FABI/FLipMouse PCB, which handles USB to Serial / Serial to HID translation. The corresponding firmware for this chip (LPC11U14) is located here: <a href="https://github.com/benjaminaigner/usb_bridge">usb_bridge repository</a></p>
 <p><b>Note:</b> Please note that all following commands, which do NOT have a FUNCTIONAL task, cannot be assigned to a virtual button (via AT BM). These commands can be used to configure the FLipMouse/FABI, in a macro or for slot management.</p>
 <p>Following commands are currently available:</p>
 <p><b>General Commands</b> </p><table class="doxtable">
@@ -175,7 +175,7 @@ $(function() {
 <tr>
 <td align="left">AT LO </td><td align="left">string </td><td align="left">load a configuration from the EEPROM (e.g. "AT LO mouse") </td><td align="left">v2 </td><td align="left">yes </td><td align="left">yes (task_configswitcher) </td></tr>
 <tr>
-<td align="left">AT LA </td><td align="left">&ndash; </td><td align="left">load all slots and print the configuration </td><td align="left">v2 </td><td align="left">yes </td><td align="left">no </td></tr>
+<td align="left">AT LA </td><td align="left">&ndash; </td><td align="left">load all slots and print the configuration. Note: if no slot is available, this command initializes the mouse slot (this is only active if ACTIVATE_V25_COMPAT is defined) </td><td align="left">v2 </td><td align="left">yes </td><td align="left">no </td></tr>
 <tr>
 <td align="left">AT LI </td><td align="left">&ndash; </td><td align="left">list all available slots </td><td align="left">v2 </td><td align="left">yes </td><td align="left">no </td></tr>
 <tr>
@@ -183,7 +183,7 @@ $(function() {
 <tr>
 <td align="left">AT DE </td><td align="left">&ndash; </td><td align="left">delete all slots </td><td align="left">v2 </td><td align="left">yes </td><td align="left">no </td></tr>
 <tr>
-<td align="left">AT DL </td><td align="left">number (1-) </td><td align="left">delete one slot. </td><td align="left">v3 </td><td align="left">yes </td><td align="left">no </td></tr>
+<td align="left">AT DL </td><td align="left">number (0-250) </td><td align="left">delete one slot. </td><td align="left">v3 </td><td align="left">yes </td><td align="left">no </td></tr>
 <tr>
 <td align="left">AT DN </td><td align="left">string </td><td align="left">delete one slot by name </td><td align="left">v3 </td><td align="left">yes </td><td align="left">no </td></tr>
 <tr>
@@ -286,12 +286,14 @@ $(function() {
 <td align="left">AT IX </td><td align="left">number (1-99) </td><td align="left">Delete one IR slot. </td><td align="left">v3 </td><td align="left">yes </td><td align="left">no </td></tr>
 </table>
 <h2>Button assignments - FLipMouse</h2>
-<p>The FLipMouse has 1 internal push-button and 2 jack plugs for external buttons. In addition other functions are mapped to virtual buttons, so they can be configured the same. Following number mapping is used for the <b>AT BM</b> command:</p>
+<p>The FLipMouse version 2 has 1 internal push-button and 2 jack plugs for external buttons. Version 3 uses the second internal button, which was previously the program button for the Teensy, as virtual button 0.</p>
+<p><b>Note:</b> VB0 (internal button 2) is configured as activation button to switch on/off WiFi for configuring the FLipMouse. Feedback to the user is still not defined, will be announced here.</p>
+<p>In addition other functions are mapped to virtual buttons, so they can be configured the same. Following number mapping is used for the <b>AT BM</b> command:</p>
 <table class="doxtable">
 <tr>
 <th align="left">VB nr </th><th align="left">Function  </th></tr>
 <tr>
-<td align="left">0 </td><td align="left">Internal button 2 (might not be implemented) </td></tr>
+<td align="left">0 </td><td align="left">Internal button 2 </td></tr>
 <tr>
 <td align="left">1 </td><td align="left">Internal button 1 </td></tr>
 <tr>
@@ -330,30 +332,9 @@ $(function() {
 <td align="left">18 </td><td align="left">Strong Puff + Left </td></tr>
 <tr>
 <td align="left">19 </td><td align="left">Strong Puff + Right </td></tr>
-<tr>
-<td align="left">21 </td><td align="left"></td></tr>
-<tr>
-<td align="left">22 </td><td align="left"></td></tr>
-<tr>
-<td align="left">23 </td><td align="left"></td></tr>
-<tr>
-<td align="left">24 </td><td align="left"></td></tr>
-<tr>
-<td align="left">25 </td><td align="left"></td></tr>
-<tr>
-<td align="left">26 </td><td align="left"></td></tr>
-<tr>
-<td align="left">27 </td><td align="left"></td></tr>
-<tr>
-<td align="left">28 </td><td align="left"></td></tr>
-<tr>
-<td align="left">29 </td><td align="left"></td></tr>
-<tr>
-<td align="left">30 </td><td align="left"></td></tr>
-<tr>
-<td align="left">31 </td><td align="left"></td></tr>
 </table>
 <p>These assignments are declared in file <a class="el" href="common_8h.html" title="Common data structs and IPC pointers for the firmware. ">common.h</a>.</p>
+<p><b>Note:</b> The C# GUI starts with VB 1, so it cannot configure the internal button.</p>
 <h2>Button assignments - FABI</h2>
 <p>The FABI supports up to 9 buttons (normally external, but they can be hardwired like internal buttons). In addition, one analog channel is support for sip/puff functionality. Following number mapping is used for the <b>AT BM</b> command:</p>
 <table class="doxtable">
@@ -399,32 +380,9 @@ $(function() {
 <td align="left">18 </td><td align="left">Long Press Button 8 </td></tr>
 <tr>
 <td align="left">19 </td><td align="left">Long Press Button 9 </td></tr>
-<tr>
-<td align="left">20 </td><td align="left"></td></tr>
-<tr>
-<td align="left">21 </td><td align="left"></td></tr>
-<tr>
-<td align="left">22 </td><td align="left"></td></tr>
-<tr>
-<td align="left">23 </td><td align="left"></td></tr>
-<tr>
-<td align="left">24 </td><td align="left"></td></tr>
-<tr>
-<td align="left">25 </td><td align="left"></td></tr>
-<tr>
-<td align="left">26 </td><td align="left"></td></tr>
-<tr>
-<td align="left">27 </td><td align="left"></td></tr>
-<tr>
-<td align="left">28 </td><td align="left"></td></tr>
-<tr>
-<td align="left">29 </td><td align="left"></td></tr>
-<tr>
-<td align="left">30 </td><td align="left"></td></tr>
-<tr>
-<td align="left">31 </td><td align="left"></td></tr>
 </table>
 <p>These assignments are declared in file <a class="el" href="common_8h.html" title="Common data structs and IPC pointers for the firmware. ">common.h</a>.</p>
+<p><b>Note:</b> The FABI C# GUI cannot configure VB0, a solution is pending.</p>
 <h2>Key identifiers</h2>
 <p>The key identifiers are necessary to determine which key should be pressed or released by either the <b>AT KP</b> or the <b>AT KR</b> command. Following keys are possible: </p><pre class="fragment">KEY_A   KEY_B   KEY_C   KEY_D    KEY_E   KEY_F   KEY_G   KEY_H   KEY_I   KEY_J    KEY_K    KEY_L
 KEY_M   KEY_N   KEY_O   KEY_P    KEY_Q   KEY_R   KEY_S   KEY_T   KEY_U   KEY_V    KEY_W    KEY_X 

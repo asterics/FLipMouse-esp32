@@ -1,5 +1,6 @@
 var searchData=
 [
+  ['data',['data',['../structusb__command.html#ab3f9140a2088b7f6c3a5eb976984e915',1,'usb_command']]],
   ['datato_5fble',['DATATO_BLE',['../common_8h.html#a23e20bbc7b5cb196155927ffb1375bed',1,'common.h']]],
   ['datato_5fcim',['DATATO_CIM',['../common_8h.html#a02e5596203592d0277b6c4a4f5755820',1,'common.h']]],
   ['datato_5fusb',['DATATO_USB',['../common_8h.html#a9f5db9a2d9f33eb7e1b8e82ca2dffe81',1,'common.h']]],

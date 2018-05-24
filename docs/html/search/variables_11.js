@@ -18,5 +18,6 @@ var searchData=
   ['storagecurrenttid',['storageCurrentTID',['../hal__storage_8c.html#ab7bc6f83a4f91dba2d5b3d1edeedf4b1',1,'hal_storage.c']]],
   ['storagecurrenttidholder',['storageCurrentTIDHolder',['../hal__storage_8c.html#a687cf5b473fc94d8fafca390fcc11a1f',1,'hal_storage.c']]],
   ['storagecurrentvbnumber',['storageCurrentVBNumber',['../hal__storage_8c.html#ab5f3387fe559c96c7523a59e28b0a74b',1,'hal_storage.c']]],
+  ['strongmode',['strongmode',['../structadcData.html#a62810368e3b696872cc81f4914b60bd5',1,'adcData']]],
   ['svc_5ffeatures',['svc_features',['../structhidd__feature__t.html#a254c99f1e3115e399a088611e1e93123',1,'hidd_feature_t']]]
 ];

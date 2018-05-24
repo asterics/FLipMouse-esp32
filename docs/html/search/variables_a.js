@@ -2,11 +2,9 @@ var searchData=
 [
   ['keyboard_5fble_5fpress',['keyboard_ble_press',['../flipmouse__fabi__esp32__kbdmouse__main_8c.html#af6712dd167c6d09e2c4f92e545c4b527',1,'keyboard_ble_press():&#160;flipmouse_fabi_esp32_kbdmouse_main.c'],['../common_8h.html#af6712dd167c6d09e2c4f92e545c4b527',1,'keyboard_ble_press():&#160;flipmouse_fabi_esp32_kbdmouse_main.c']]],
   ['keyboard_5fble_5frelease',['keyboard_ble_release',['../flipmouse__fabi__esp32__kbdmouse__main_8c.html#a6abced931709a05f1af06406aed36620',1,'keyboard_ble_release():&#160;flipmouse_fabi_esp32_kbdmouse_main.c'],['../common_8h.html#a6abced931709a05f1af06406aed36620',1,'keyboard_ble_release():&#160;flipmouse_fabi_esp32_kbdmouse_main.c']]],
-  ['keyboard_5fusb_5fpress',['keyboard_usb_press',['../flipmouse__fabi__esp32__kbdmouse__main_8c.html#a335382800db2f025b654e38bc4493334',1,'keyboard_usb_press():&#160;flipmouse_fabi_esp32_kbdmouse_main.c'],['../common_8h.html#a335382800db2f025b654e38bc4493334',1,'keyboard_usb_press():&#160;flipmouse_fabi_esp32_kbdmouse_main.c']]],
-  ['keyboard_5fusb_5frelease',['keyboard_usb_release',['../flipmouse__fabi__esp32__kbdmouse__main_8c.html#afa2a4758b5658496b3acd30defca0344',1,'keyboard_usb_release():&#160;flipmouse_fabi_esp32_kbdmouse_main.c'],['../common_8h.html#afa2a4758b5658496b3acd30defca0344',1,'keyboard_usb_release():&#160;flipmouse_fabi_esp32_kbdmouse_main.c']]],
-  ['keycode_5farr',['keycode_arr',['../hal__ble_8c.html#a972310b9e99a14a3fa6c7eb343c8f83b',1,'keycode_arr():&#160;hal_ble.c'],['../hal__serial_8c.html#ad1166880215085313402bbc253b781e5',1,'keycode_arr():&#160;hal_serial.c']]],
+  ['keycode_5farr',['keycode_arr',['../task__kbd_8c.html#ad1166880215085313402bbc253b781e5',1,'keycode_arr():&#160;task_kbd.c'],['../hal__ble_8c.html#a972310b9e99a14a3fa6c7eb343c8f83b',1,'keycode_arr():&#160;hal_ble.c']]],
   ['keycode_5fdeadkey_5ffirst',['keycode_deadkey_first',['../hal__ble_8c.html#a131a7a0d9ebdaa113ba29cdbf57e79fc',1,'hal_ble.c']]],
-  ['keycode_5fmodifier',['keycode_modifier',['../hal__ble_8c.html#a0c7a67b22eaf97b79ee4a9eb7264ff1d',1,'keycode_modifier():&#160;hal_ble.c'],['../hal__serial_8c.html#a0c7a67b22eaf97b79ee4a9eb7264ff1d',1,'keycode_modifier():&#160;hal_serial.c']]],
+  ['keycode_5fmodifier',['keycode_modifier',['../hal__ble_8c.html#a0c7a67b22eaf97b79ee4a9eb7264ff1d',1,'hal_ble.c']]],
   ['keycodes_5fascii',['keycodes_ascii',['../keyboard_8c.html#a172fe222da40fcc3be018a1cc64a66cf',1,'keyboard.c']]],
   ['keycodes_5fdeadkey',['keycodes_deadkey',['../keyboard_8c.html#ac18553d9a9796a6f44b41ead4c3423f3',1,'keyboard.c']]],
   ['keycodes_5fdeadkey_5fbits',['keycodes_deadkey_bits',['../keyboard_8c.html#ab70ab5036ec28888431d1dc0ec37445b',1,'keyboard.c']]],

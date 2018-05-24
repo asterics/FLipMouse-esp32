@@ -1,10 +1,17 @@
 var searchData=
 [
-  ['report_5fraw_5fcount',['REPORT_RAW_COUNT',['../hal__adc_8c.html#a59c166c6297dc9ed1529cba08ec2ece8',1,'hal_adc.c']]],
-  ['right_5falt_5fkey_5fmask',['RIGHT_ALT_KEY_MASK',['../esp__hidd__prf__api_8h.html#a122fc4a09870e4f0c3e730ebcc7d58b8',1,'esp_hidd_prf_api.h']]],
-  ['right_5fcontrol_5fkey_5fmask',['RIGHT_CONTROL_KEY_MASK',['../esp__hidd__prf__api_8h.html#aa450725c0be6dc9d40c80d69b0a6aa69',1,'esp_hidd_prf_api.h']]],
-  ['right_5fgui_5fkey_5fmask',['RIGHT_GUI_KEY_MASK',['../esp__hidd__prf__api_8h.html#a5fceff1ced3de13f7e0a3d13750b47d9',1,'esp_hidd_prf_api.h']]],
-  ['right_5fshift_5fkey_5fmask',['RIGHT_SHIFT_KEY_MASK',['../esp__hidd__prf__api_8h.html#aa5cf8b6093b8111e14600bc334ceaf72',1,'esp_hidd_prf_api.h']]],
-  ['rmt_5fclk_5fdiv',['RMT_CLK_DIV',['../hal__io_8c.html#a902a07543b8754716667f7d0102ad9af',1,'hal_io.c']]],
-  ['rmt_5ftick_5f10_5fus',['RMT_TICK_10_US',['../hal__io_8c.html#acfe8de99b8ccf08b2d34c25bac254f21',1,'hal_io.c']]]
+  ['qclass_5fany',['QCLASS_ANY',['../captdns_8c.html#aabf0607193c150640ad520eb3987a459',1,'captdns.c']]],
+  ['qclass_5fin',['QCLASS_IN',['../captdns_8c.html#abed8448821b2cf18800c02ae8b83d355',1,'captdns.c']]],
+  ['qclass_5furi',['QCLASS_URI',['../captdns_8c.html#a280f4d6e370c73348083cc62a04e90cb',1,'captdns.c']]],
+  ['qtype_5fa',['QTYPE_A',['../captdns_8c.html#af2c396d095344cd7d0bee1734963f684',1,'captdns.c']]],
+  ['qtype_5fcname',['QTYPE_CNAME',['../captdns_8c.html#a45aa6d9ec7dbc657f1128bd31e1a91f0',1,'captdns.c']]],
+  ['qtype_5fhinfo',['QTYPE_HINFO',['../captdns_8c.html#a6d63d2f330cfd1589873488c4ae8dc46',1,'captdns.c']]],
+  ['qtype_5fminfo',['QTYPE_MINFO',['../captdns_8c.html#a2bb01a62911e384683ccfc17d393c65b',1,'captdns.c']]],
+  ['qtype_5fmx',['QTYPE_MX',['../captdns_8c.html#a4f84a498ef8ddf59c1b814925c84380d',1,'captdns.c']]],
+  ['qtype_5fns',['QTYPE_NS',['../captdns_8c.html#a8003df31e26989c5ab40dff7fc601a58',1,'captdns.c']]],
+  ['qtype_5fptr',['QTYPE_PTR',['../captdns_8c.html#a32a04223e6d00b7e93f5842402b7aafd',1,'captdns.c']]],
+  ['qtype_5fsoa',['QTYPE_SOA',['../captdns_8c.html#ac92fef1a1a79a2bb3dd20379f911849d',1,'captdns.c']]],
+  ['qtype_5ftxt',['QTYPE_TXT',['../captdns_8c.html#a6d3461ceb72695d7f41123f66c99968c',1,'captdns.c']]],
+  ['qtype_5furi',['QTYPE_URI',['../captdns_8c.html#aae80a81f2eb30f1597242691063bad1a',1,'captdns.c']]],
+  ['qtype_5fwks',['QTYPE_WKS',['../captdns_8c.html#a598e57d0f0f8970d67ba124d17db0ed5',1,'captdns.c']]]
 ];

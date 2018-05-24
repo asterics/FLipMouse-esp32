@@ -11,6 +11,7 @@ var searchData=
   ['halstoragemutex',['halStorageMutex',['../hal__storage_8c.html#afe54e8f771b85765a57fb799302f2a09',1,'hal_storage.c']]],
   ['handle',['handle',['../structhid__report__map__t.html#aeb8592d58f344c97f105c45b5565a27b',1,'hid_report_map_t::handle()'],['../structhidRptMap__t.html#ae381ed8df03d72c0c1fee2165c5ca16f',1,'hidRptMap_t::handle()']]],
   ['hat',['hat',['../structjoystick__data.html#ad557e516f2e51201d40a2c4763133afc',1,'joystick_data::hat()'],['../structjoystick__command.html#a6e12e92f960ddcf08e0e43d34cfd3592',1,'joystick_command::hat()']]],
+  ['hid_5fble',['hid_ble',['../flipmouse__fabi__esp32__kbdmouse__main_8c.html#a4d504fcad8a2fb54bd8af573af7d4834',1,'hid_ble():&#160;flipmouse_fabi_esp32_kbdmouse_main.c'],['../common_8h.html#a4d504fcad8a2fb54bd8af573af7d4834',1,'hid_ble():&#160;flipmouse_fabi_esp32_kbdmouse_main.c']]],
   ['hid_5fconn_5fid',['hid_conn_id',['../hal__ble_8c.html#acf63d81e5e92daa2fea46597280eac6d',1,'hal_ble.c']]],
   ['hid_5fcontrol_5fpoint_5fuuid',['hid_control_point_uuid',['../hid__device__le__prf_8c.html#af92112ac5cac8de2b131ec32dc279451',1,'hid_device_le_prf.c']]],
   ['hid_5fcount',['hid_count',['../hid__device__le__prf_8c.html#a2723374c79e85f2899bba93932ee37c3',1,'hid_device_le_prf.c']]],
@@ -30,6 +31,7 @@ var searchData=
   ['hid_5freport_5fuuid',['hid_report_uuid',['../hid__device__le__prf_8c.html#a90bed26ebc7a44684af95696a240a5a1',1,'hid_device_le_prf.c']]],
   ['hid_5frepot_5fmap_5fext_5fdesc_5fuuid',['hid_repot_map_ext_desc_uuid',['../hid__device__le__prf_8c.html#ad33e0092dc6a877a9bacddc1cf9f9342',1,'hid_device_le_prf.c']]],
   ['hid_5frpt_5fmap',['hid_rpt_map',['../hid__device__le__prf_8c.html#a3862f5175659860b42934e81a0e9bb02',1,'hid_device_le_prf.c']]],
+  ['hid_5fusb',['hid_usb',['../flipmouse__fabi__esp32__kbdmouse__main_8c.html#a841902610ed5a9d5ee171749a85a8b8c',1,'hid_usb():&#160;flipmouse_fabi_esp32_kbdmouse_main.c'],['../common_8h.html#a841902610ed5a9d5ee171749a85a8b8c',1,'hid_usb():&#160;flipmouse_fabi_esp32_kbdmouse_main.c']]],
   ['hidd_5fadv_5fdata',['hidd_adv_data',['../hal__ble_8c.html#a7f3a50a06396858b513bf74126e13399',1,'hal_ble.c']]],
   ['hidd_5fadv_5fparams',['hidd_adv_params',['../hal__ble_8c.html#a58b0fa2996d55c2b75a0aeb678854b9b',1,'hal_ble.c']]],
   ['hidd_5fcb',['hidd_cb',['../structhidd__le__env__t.html#aab629632ec1f2985b677665d70fd7673',1,'hidd_le_env_t']]],
@@ -51,6 +53,7 @@ var searchData=
   ['hidreportrefledout',['hidReportRefLedOut',['../hid__device__le__prf_8c.html#a5aeadf9795c7446979495b0c555733f7',1,'hid_device_le_prf.c']]],
   ['hidreportrefmousein',['hidReportRefMouseIn',['../hid__device__le__prf_8c.html#ada5f5d46c997233c58aed5c4f39c241a',1,'hid_device_le_prf.c']]],
   ['hids_5fnb',['hids_nb',['../structhidd__inst__t.html#ac791116e6308c4dba843b9f683d992f1',1,'hidd_inst_t']]],
+  ['hidsendingsem',['hidsendingsem',['../hal__serial_8c.html#af2a7c6dc7be333dca54efb59230e5684',1,'hal_serial.c']]],
   ['http_5f404_5fhdr',['http_404_hdr',['../task__webgui_8c.html#adc315946213a381b52f5d88d407f965a',1,'task_webgui.c']]],
   ['http_5fhtml_5fhdr',['http_html_hdr',['../task__webgui_8c.html#a84019f692b38960767e6beb15d0c4a2b',1,'task_webgui.c']]]
 ];

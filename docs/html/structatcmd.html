@@ -83,7 +83,7 @@ Data Fields</h2></td></tr>
 <div class="textblock"><p>AT command type for halSerialATCmds queue. </p>
 <p>This type of data is used to pass one AT command (in format of "AT MX 100") to any pending task. </p><dl class="section see"><dt>See also</dt><dd><a class="el" href="hal__serial_8h.html#a57deadb7de70a0230474a4680cc0e2d9" title="Queue for parsed AT commands. ">halSerialATCmds</a> </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="hal__serial_8h_source.html#l00119">119</a> of file <a class="el" href="hal__serial_8h_source.html">hal_serial.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="hal__serial_8h_source.html#l00121">121</a> of file <a class="el" href="hal__serial_8h_source.html">hal_serial.h</a>.</p>
 </div><h2 class="groupheader">Field Documentation</h2>
 <a id="a51596a774c660087fa29028aa2f72942"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a51596a774c660087fa29028aa2f72942">&#9670;&nbsp;</a></span>buf</h2>
@@ -99,11 +99,11 @@ Data Fields</h2></td></tr>
 
 <p>Buffer pointer for the AT command. </p>
 <dl class="section note"><dt>Note</dt><dd>Buffer needs to be freed in pending/receiving functions (currently this is halSerialReceiveUSBSerial) </dd></dl>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="hal__serial_8h.html#a131377105453d5b94f02f977ff454613" title="Read serial bytes from USB-Serial (USB-CDC) ">halSerialReceiveUSBSerial</a> </dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="hal__serial_8h.html#a0bb04b089362a7c58d189b0fc61bef96" title="Read parsed AT commands from USB-Serial (USB-CDC) ">halSerialReceiveUSBSerial</a> </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="hal__serial_8h_source.html#l00125">125</a> of file <a class="el" href="hal__serial_8h_source.html">hal_serial.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="hal__serial_8h_source.html#l00127">127</a> of file <a class="el" href="hal__serial_8h_source.html">hal_serial.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="hal__serial_8c_source.html#l00537">halSerialReceiveUSBSerial()</a>, <a class="el" href="hal__serial_8c_source.html#l00155">halSerialRXTask()</a>, <a class="el" href="task__macros_8c_source.html#l00050">task_macro()</a>, and <a class="el" href="websocket_8c_source.html#l00091">ws_server_netconn_serve()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="hal__serial_8c_source.html#l00408">halSerialReceiveUSBSerial()</a>, <a class="el" href="hal__serial_8c_source.html#l00135">halSerialRXTask()</a>, <a class="el" href="task__macros_8c_source.html#l00050">task_macro()</a>, and <a class="el" href="websocket_8c_source.html#l00091">ws_server_netconn_serve()</a>.</p>
 
 </div>
 </div>
@@ -121,9 +121,9 @@ Data Fields</h2></td></tr>
 
 <p>Length of the corresponding AT command string. </p>
 
-<p class="definition">Definition at line <a class="el" href="hal__serial_8h_source.html#l00127">127</a> of file <a class="el" href="hal__serial_8h_source.html">hal_serial.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="hal__serial_8h_source.html#l00129">129</a> of file <a class="el" href="hal__serial_8h_source.html">hal_serial.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="hal__serial_8c_source.html#l00537">halSerialReceiveUSBSerial()</a>, <a class="el" href="hal__serial_8c_source.html#l00155">halSerialRXTask()</a>, <a class="el" href="task__macros_8c_source.html#l00050">task_macro()</a>, and <a class="el" href="websocket_8c_source.html#l00091">ws_server_netconn_serve()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="hal__serial_8c_source.html#l00408">halSerialReceiveUSBSerial()</a>, <a class="el" href="hal__serial_8c_source.html#l00135">halSerialRXTask()</a>, <a class="el" href="task__macros_8c_source.html#l00050">task_macro()</a>, and <a class="el" href="websocket_8c_source.html#l00091">ws_server_netconn_serve()</a>.</p>
 
 </div>
 </div>

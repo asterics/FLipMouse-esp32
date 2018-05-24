@@ -66,6 +66,7 @@ $(function() {
 <a href="#nested-classes">Data Structures</a> &#124;
 <a href="#define-members">Macros</a> &#124;
 <a href="#typedef-members">Typedefs</a> &#124;
+<a href="#enum-members">Enumerations</a> &#124;
 <a href="#func-members">Functions</a> &#124;
 <a href="#var-members">Variables</a>  </div>
   <div class="headertitle">
@@ -88,25 +89,40 @@ Data Structures</h2></td></tr>
 Macros</h2></td></tr>
 <tr class="memitem:a7ce0df38eb467e59f209470c8f5ac4e6"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="hal__adc_8c.html#a7ce0df38eb467e59f209470c8f5ac4e6">LOG_TAG</a>&#160;&#160;&#160;&quot;hal_adc&quot;</td></tr>
 <tr class="separator:a7ce0df38eb467e59f209470c8f5ac4e6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a59c166c6297dc9ed1529cba08ec2ece8"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="hal__adc_8c.html#a59c166c6297dc9ed1529cba08ec2ece8">REPORT_RAW_COUNT</a>&#160;&#160;&#160;32</td></tr>
+<tr class="memitem:a59c166c6297dc9ed1529cba08ec2ece8"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="hal__adc_8c.html#a59c166c6297dc9ed1529cba08ec2ece8">REPORT_RAW_COUNT</a>&#160;&#160;&#160;16</td></tr>
 <tr class="separator:a59c166c6297dc9ed1529cba08ec2ece8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="typedef-members"></a>
 Typedefs</h2></td></tr>
+<tr class="memitem:a2afdcd0b75428d63860dd0fa3adea377"><td class="memItemLeft" align="right" valign="top">typedef enum <a class="el" href="hal__adc_8c.html#a056020d3736e1cbd470a6674ac9ef487">strong_action</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="hal__adc_8c.html#a2afdcd0b75428d63860dd0fa3adea377">strong_action_t</a></td></tr>
+<tr class="memdesc:a2afdcd0b75428d63860dd0fa3adea377"><td class="mdescLeft">&#160;</td><td class="mdescRight">Current strong sip&amp;puff + mouthpiece mode.  <a href="#a2afdcd0b75428d63860dd0fa3adea377">More...</a><br /></td></tr>
+<tr class="separator:a2afdcd0b75428d63860dd0fa3adea377"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1b8e8a5847a3065a88525a1f0448ef19"><td class="memItemLeft" align="right" valign="top">typedef struct <a class="el" href="structadcData.html">adcData</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="hal__adc_8c.html#a1b8e8a5847a3065a88525a1f0448ef19">adcData_t</a></td></tr>
 <tr class="separator:a1b8e8a5847a3065a88525a1f0448ef19"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="enum-members"></a>
+Enumerations</h2></td></tr>
+<tr class="memitem:a056020d3736e1cbd470a6674ac9ef487"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="hal__adc_8c.html#a056020d3736e1cbd470a6674ac9ef487">strong_action</a> { <a class="el" href="hal__adc_8c.html#a056020d3736e1cbd470a6674ac9ef487a454f7135a13516ca9ac60e667e0532a9">STRONG_NORMAL</a>, 
+<a class="el" href="hal__adc_8c.html#a056020d3736e1cbd470a6674ac9ef487a5ca77e6760262334a377438a00eb7cf4">STRONG_PUFF</a>, 
+<a class="el" href="hal__adc_8c.html#a056020d3736e1cbd470a6674ac9ef487a435135df17a235621b58e7cabcefe052">STRONG_SIP</a>
+ }<tr class="memdesc:a056020d3736e1cbd470a6674ac9ef487"><td class="mdescLeft">&#160;</td><td class="mdescRight">Current strong sip&amp;puff + mouthpiece mode.  <a href="hal__adc_8c.html#a056020d3736e1cbd470a6674ac9ef487">More...</a><br /></td></tr>
+</td></tr>
+<tr class="separator:a056020d3736e1cbd470a6674ac9ef487"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
+<tr class="memitem:a3cddaa804609f2e34f3cbda1d43ff1b4"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="hal__adc_8c.html#a3cddaa804609f2e34f3cbda1d43ff1b4">halAdcProcessStrongMode</a> (<a class="el" href="hal__adc_8c.html#a1b8e8a5847a3065a88525a1f0448ef19">adcData_t</a> *D)</td></tr>
+<tr class="memdesc:a3cddaa804609f2e34f3cbda1d43ff1b4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Trigger strong sip/puff + action according to input data.  <a href="#a3cddaa804609f2e34f3cbda1d43ff1b4">More...</a><br /></td></tr>
+<tr class="separator:a3cddaa804609f2e34f3cbda1d43ff1b4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8743abcde6f190545c429f072c16106d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="hal__adc_8c.html#a8743abcde6f190545c429f072c16106d">halAdcReportRaw</a> (uint32_t up, uint32_t down, uint32_t left, uint32_t right, uint32_t pressure, int32_t x, int32_t y)</td></tr>
 <tr class="memdesc:a8743abcde6f190545c429f072c16106d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Report raw values via serial interface.  <a href="#a8743abcde6f190545c429f072c16106d">More...</a><br /></td></tr>
 <tr class="separator:a8743abcde6f190545c429f072c16106d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5e0d74baf098e774b0e3aa0dab621987"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="hal__adc_8c.html#a5e0d74baf098e774b0e3aa0dab621987">halAdcReadData</a> (<a class="el" href="hal__adc_8c.html#a1b8e8a5847a3065a88525a1f0448ef19">adcData_t</a> *values)</td></tr>
 <tr class="memdesc:a5e0d74baf098e774b0e3aa0dab621987"><td class="mdescLeft">&#160;</td><td class="mdescRight">Read out analog voltages, apply sensor gain and deadzone.  <a href="#a5e0d74baf098e774b0e3aa0dab621987">More...</a><br /></td></tr>
 <tr class="separator:a5e0d74baf098e774b0e3aa0dab621987"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:acd8f9f6194ebeaa854a791879382b515"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="hal__adc_8c.html#acd8f9f6194ebeaa854a791879382b515">halAdcProcessPressure</a> (uint32_t pressurevalue)</td></tr>
-<tr class="memdesc:acd8f9f6194ebeaa854a791879382b515"><td class="mdescLeft">&#160;</td><td class="mdescRight">Process pressure sensor (sip &amp; puff)  <a href="#acd8f9f6194ebeaa854a791879382b515">More...</a><br /></td></tr>
-<tr class="separator:acd8f9f6194ebeaa854a791879382b515"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a78419739020988cffc83ffcbc7103b05"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="hal__adc_8c.html#a78419739020988cffc83ffcbc7103b05">halAdcProcessPressure</a> (<a class="el" href="hal__adc_8c.html#a1b8e8a5847a3065a88525a1f0448ef19">adcData_t</a> *D)</td></tr>
+<tr class="memdesc:a78419739020988cffc83ffcbc7103b05"><td class="mdescLeft">&#160;</td><td class="mdescRight">Process pressure sensor (sip &amp; puff)  <a href="#a78419739020988cffc83ffcbc7103b05">More...</a><br /></td></tr>
+<tr class="separator:a78419739020988cffc83ffcbc7103b05"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae549c157d94729e8b06cb391f0f2c97b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="hal__adc_8c.html#ae549c157d94729e8b06cb391f0f2c97b">halAdcCalibrate</a> (void)</td></tr>
 <tr class="memdesc:ae549c157d94729e8b06cb391f0f2c97b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Calibration function.  <a href="#ae549c157d94729e8b06cb391f0f2c97b">More...</a><br /></td></tr>
 <tr class="separator:ae549c157d94729e8b06cb391f0f2c97b"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -119,6 +135,8 @@ Functions</h2></td></tr>
 <tr class="memitem:a4135bb73c2271b4a27db8d8d81884de7"><td class="memItemLeft" align="right" valign="top">esp_err_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="hal__adc_8c.html#a4135bb73c2271b4a27db8d8d81884de7">halAdcUpdateConfig</a> (<a class="el" href="common_8h.html#a08f9b338fac73a54ad3d0810c270614f">adc_config_t</a> *params)</td></tr>
 <tr class="memdesc:a4135bb73c2271b4a27db8d8d81884de7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reload ADC config.  <a href="#a4135bb73c2271b4a27db8d8d81884de7">More...</a><br /></td></tr>
 <tr class="separator:a4135bb73c2271b4a27db8d8d81884de7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa8d7ae84ad54c532e5cefccc8c3cf59e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="hal__adc_8c.html#aa8d7ae84ad54c532e5cefccc8c3cf59e">halAdcStrongTimeout</a> (TimerHandle_t xTimer)</td></tr>
+<tr class="separator:aa8d7ae84ad54c532e5cefccc8c3cf59e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6f0d302f35e5b7f7a1144f0ddace35d2"><td class="memItemLeft" align="right" valign="top">esp_err_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="hal__adc_8c.html#a6f0d302f35e5b7f7a1144f0ddace35d2">halAdcInit</a> (<a class="el" href="common_8h.html#a08f9b338fac73a54ad3d0810c270614f">adc_config_t</a> *params)</td></tr>
 <tr class="memdesc:a6f0d302f35e5b7f7a1144f0ddace35d2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Init the ADC driver module.  <a href="#a6f0d302f35e5b7f7a1144f0ddace35d2">More...</a><br /></td></tr>
 <tr class="separator:a6f0d302f35e5b7f7a1144f0ddace35d2"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -138,6 +156,11 @@ Variables</h2></td></tr>
 <tr class="separator:a09fd9437086e2ce093f17d2e5307d558"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:adfa9736517012e1163de22f6efb4d58f"><td class="memItemLeft" align="right" valign="top">static int32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="hal__adc_8c.html#adfa9736517012e1163de22f6efb4d58f">offsety</a></td></tr>
 <tr class="separator:adfa9736517012e1163de22f6efb4d58f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6ec177d729e9f63e08546c4bc8649e78"><td class="memItemLeft" align="right" valign="top">static uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="hal__adc_8c.html#a6ec177d729e9f63e08546c4bc8649e78">pressure_idle</a></td></tr>
+<tr class="separator:a6ec177d729e9f63e08546c4bc8649e78"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa76118ff0c7899ec509b6331b8326d43"><td class="memItemLeft" align="right" valign="top">TimerHandle_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="hal__adc_8c.html#aa76118ff0c7899ec509b6331b8326d43">adcStrongTimerHandle</a></td></tr>
+<tr class="memdesc:aa76118ff0c7899ec509b6331b8326d43"><td class="mdescLeft">&#160;</td><td class="mdescRight">Timer for strong mode timeout This timer is used for a timeout moving back to STRONG_NORMAL if we entered a STRONG_PUFF or STRONG_SIP mode and no action was triggered.  <a href="#aa76118ff0c7899ec509b6331b8326d43">More...</a><br /></td></tr>
+<tr class="separator:aa76118ff0c7899ec509b6331b8326d43"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>HAL TASK + FUNCTIONAL TASK - This module contains the hardware abstraction as well as the calculations of the ADC. </p>
@@ -153,7 +176,7 @@ Variables</h2></td></tr>
 <p>These tasks are HAL tasks, which means they might be reloaded/changed, but they are not managed outside this module.<br />
  In addition, the FUNCTIONAL task task_calibration can be used to trigger a zero-point calibration of the mouthpiece.</p>
 <dl class="section see"><dt>See also</dt><dd><a class="el" href="common_8h.html#a08f9b338fac73a54ad3d0810c270614f">adc_config_t</a> </dd></dl>
-<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000020">Todo:</a></b></dt><dd><p class="startdd">Add CIM reporting... </p>
+<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000017">Todo:</a></b></dt><dd><p class="startdd">Add CIM reporting... </p>
 <p class="enddd">Do Strong&lt;Sip/puff&gt;+&lt;UP/DOWN/LEFT/RIGHT&gt; </p>
 </dd></dl>
 
@@ -174,7 +197,7 @@ Variables</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="hal__adc_8c_source.html#l00047">47</a> of file <a class="el" href="hal__adc_8c_source.html">hal_adc.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="hal__adc_8c_source.html#l00486">halAdcCalibrate()</a>, <a class="el" href="hal__adc_8c_source.html#l00242">halAdcProcessPressure()</a>, <a class="el" href="hal__adc_8c_source.html#l00131">halAdcReadData()</a>, <a class="el" href="hal__adc_8c_source.html#l00632">halAdcTaskThreshold()</a>, <a class="el" href="hal__adc_8c_source.html#l00739">halAdcUpdateConfig()</a>, and <a class="el" href="hal__adc_8c_source.html#l00563">task_calibration()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="hal__adc_8c_source.html#l00717">halAdcCalibrate()</a>, <a class="el" href="hal__adc_8c_source.html#l00351">halAdcProcessPressure()</a>, <a class="el" href="hal__adc_8c_source.html#l00128">halAdcProcessStrongMode()</a>, <a class="el" href="hal__adc_8c_source.html#l00239">halAdcReadData()</a>, <a class="el" href="hal__adc_8c_source.html#l01073">halAdcStrongTimeout()</a>, <a class="el" href="hal__adc_8c_source.html#l00868">halAdcTaskThreshold()</a>, <a class="el" href="hal__adc_8c_source.html#l00986">halAdcUpdateConfig()</a>, and <a class="el" href="hal__adc_8c_source.html#l00799">task_calibration()</a>.</p>
 
 </div>
 </div>
@@ -185,12 +208,12 @@ Variables</h2></td></tr>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">#define REPORT_RAW_COUNT&#160;&#160;&#160;32</td>
+          <td class="memname">#define REPORT_RAW_COUNT&#160;&#160;&#160;16</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p class="reference">Referenced by <a class="el" href="hal__adc_8c_source.html#l00103">halAdcReportRaw()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="hal__adc_8c_source.html#l00211">halAdcReportRaw()</a>.</p>
 
 </div>
 </div>
@@ -206,6 +229,50 @@ Variables</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+</div>
+</div>
+<a id="a2afdcd0b75428d63860dd0fa3adea377"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2afdcd0b75428d63860dd0fa3adea377">&#9670;&nbsp;</a></span>strong_action_t</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">typedef enum <a class="el" href="hal__adc_8c.html#a056020d3736e1cbd470a6674ac9ef487">strong_action</a>  <a class="el" href="hal__adc_8c.html#a2afdcd0b75428d63860dd0fa3adea377">strong_action_t</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Current strong sip&amp;puff + mouthpiece mode. </p>
+<p>It is possible to add another 8 virtual buttons by triggering a strong sip or puff and move the mouthpiece in one of four directions.</p>
+<dl class="section note"><dt>Note</dt><dd>If the VB for strong sip/puff is assigned (!= "no command"), it is not possible to use strong sip/puff + up/down/left/right! </dd></dl>
+
+</div>
+</div>
+<h2 class="groupheader">Enumeration Type Documentation</h2>
+<a id="a056020d3736e1cbd470a6674ac9ef487"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a056020d3736e1cbd470a6674ac9ef487">&#9670;&nbsp;</a></span>strong_action</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum <a class="el" href="hal__adc_8c.html#a056020d3736e1cbd470a6674ac9ef487">strong_action</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Current strong sip&amp;puff + mouthpiece mode. </p>
+<p>It is possible to add another 8 virtual buttons by triggering a strong sip or puff and move the mouthpiece in one of four directions.</p>
+<dl class="section note"><dt>Note</dt><dd>If the VB for strong sip/puff is assigned (!= "no command"), it is not possible to use strong sip/puff + up/down/left/right! </dd></dl>
+<table class="fieldtable">
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="a056020d3736e1cbd470a6674ac9ef487a454f7135a13516ca9ac60e667e0532a9"></a>STRONG_NORMAL&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a056020d3736e1cbd470a6674ac9ef487a5ca77e6760262334a377438a00eb7cf4"></a>STRONG_PUFF&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a056020d3736e1cbd470a6674ac9ef487a435135df17a235621b58e7cabcefe052"></a>STRONG_SIP&#160;</td><td class="fielddoc"></td></tr>
+</table>
+
+<p class="definition">Definition at line <a class="el" href="hal__adc_8c_source.html#l00057">57</a> of file <a class="el" href="hal__adc_8c_source.html">hal_adc.c</a>.</p>
 
 </div>
 </div>
@@ -229,22 +296,23 @@ Variables</h2></td></tr>
 <p>Calibration function. </p>
 <p>This method is called to calibrate the offset value for x and y axis of the mouthpiece. Either triggered by the functional task task_calibration or on a config change. </p><dl class="section note"><dt>Note</dt><dd>Can be called directly. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="hal__adc_8c_source.html#l00486">486</a> of file <a class="el" href="hal__adc_8c_source.html">hal_adc.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="hal__adc_8c_source.html#l00717">717</a> of file <a class="el" href="hal__adc_8c_source.html">hal_adc.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c_source.html#l00119">app_main()</a>, and <a class="el" href="hal__adc_8c_source.html#l00563">task_calibration()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c_source.html#l00120">app_main()</a>, <a class="el" href="hal__adc_8c_source.html#l01096">halAdcInit()</a>, and <a class="el" href="hal__adc_8c_source.html#l00799">task_calibration()</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="hal__adc_8c_ae549c157d94729e8b06cb391f0f2c97b_icgraph.png" border="0" usemap="#hal__adc_8c_ae549c157d94729e8b06cb391f0f2c97b_icgraph" alt=""/></div>
 <map name="hal__adc_8c_ae549c157d94729e8b06cb391f0f2c97b_icgraph" id="hal__adc_8c_ae549c157d94729e8b06cb391f0f2c97b_icgraph">
-<area shape="rect" id="node2" href="flipmouse__fabi__esp32__kbdmouse__main_8c.html#abce06be17fc37d675118a678a8100a36" title="Main task, created by esp&#45;idf. " alt="" coords="952,43,1031,69"/>
-<area shape="rect" id="node3" href="hal__adc_8h.html#a3217185bc86562dee8617ded3872022f" title="FUNCTIONAL TASK &#45; Trigger zero&#45;point calibration of mouthpiece. " alt="" coords="168,43,281,69"/>
-<area shape="rect" id="node4" href="config__switcher_8c.html#af5af5079d1982d42e165039e6de7e40a" title="CONTINOUS TASK &#45; Config switcher task, internal config reloading. " alt="" coords="358,43,495,69"/>
-<area shape="rect" id="node6" href="task__commands_8c.html#a2ad28759e53bb5082853d8d004767115" title="doMouthpieceSettingsParsing" alt="" coords="329,93,524,120"/>
-<area shape="rect" id="node5" href="config__switcher_8h.html#aafed047c8d04b814a85239e031cbad7b" title="Initializing the config switching functionality. " alt="" coords="572,43,699,69"/>
-<area shape="rect" id="node7" href="task__commands_8c.html#a7b36c39275d773aaedcb327ef4e1516f" title="task_commands" alt="" coords="576,93,695,120"/>
-<area shape="rect" id="node8" href="task__commands_8h.html#aedb896e40753227f80768e09d3748419" title="Init the command parser. " alt="" coords="759,93,891,120"/>
-<area shape="rect" id="node9" href="task__commands_8h.html#a26091155b4d85093239033d689f363d0" title="Restart the command parser task. " alt="" coords="747,144,904,171"/>
+<area shape="rect" id="node2" href="flipmouse__fabi__esp32__kbdmouse__main_8c.html#abce06be17fc37d675118a678a8100a36" title="Main task, created by esp&#45;idf. " alt="" coords="952,68,1031,95"/>
+<area shape="rect" id="node3" href="hal__adc_8h.html#a6f0d302f35e5b7f7a1144f0ddace35d2" title="Init the ADC driver module. " alt="" coords="185,43,265,69"/>
+<area shape="rect" id="node4" href="hal__adc_8h.html#a3217185bc86562dee8617ded3872022f" title="FUNCTIONAL TASK &#45; Trigger zero&#45;point calibration of mouthpiece. " alt="" coords="168,93,281,120"/>
+<area shape="rect" id="node5" href="config__switcher_8c.html#af5af5079d1982d42e165039e6de7e40a" title="CONTINOUS TASK &#45; Config switcher task, internal config reloading. " alt="" coords="358,93,495,120"/>
+<area shape="rect" id="node7" href="task__commands_8c.html#a2ad28759e53bb5082853d8d004767115" title="doMouthpieceSettingsParsing" alt="" coords="329,144,524,171"/>
+<area shape="rect" id="node6" href="config__switcher_8h.html#aafed047c8d04b814a85239e031cbad7b" title="Initializing the config switching functionality. " alt="" coords="572,93,699,120"/>
+<area shape="rect" id="node8" href="task__commands_8c.html#a7b36c39275d773aaedcb327ef4e1516f" title="task_commands" alt="" coords="576,144,695,171"/>
+<area shape="rect" id="node9" href="task__commands_8h.html#aedb896e40753227f80768e09d3748419" title="Init the command parser. " alt="" coords="759,144,891,171"/>
+<area shape="rect" id="node10" href="task__commands_8h.html#a26091155b4d85093239033d689f363d0" title="Restart the command parser task. " alt="" coords="747,195,904,221"/>
 </map>
 </div>
 
@@ -274,24 +342,26 @@ Here is the caller graph for this function:</div>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>ESP_OK on success, ESP_FAIL otherwise (wrong config, no memory, already initialized) </dd></dl>
-<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000023">Todo:</a></b></dt><dd>init differently for FABI! </dd></dl>
+<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000020">Todo:</a></b></dt><dd>init differently for FABI! </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="hal__adc_8c_source.html#l00836">836</a> of file <a class="el" href="hal__adc_8c_source.html">hal_adc.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="hal__adc_8c_source.html#l01096">1096</a> of file <a class="el" href="hal__adc_8c_source.html">hal_adc.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c_source.html#l00119">app_main()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c_source.html#l00120">app_main()</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="hal__adc_8c_a6f0d302f35e5b7f7a1144f0ddace35d2_cgraph.png" border="0" usemap="#hal__adc_8c_a6f0d302f35e5b7f7a1144f0ddace35d2_cgraph" alt=""/></div>
 <map name="hal__adc_8c_a6f0d302f35e5b7f7a1144f0ddace35d2_cgraph" id="hal__adc_8c_a6f0d302f35e5b7f7a1144f0ddace35d2_cgraph">
-<area shape="rect" id="node2" href="hal__adc_8c.html#a4135bb73c2271b4a27db8d8d81884de7" title="Reload ADC config. " alt="" coords="133,56,276,83"/>
-<area shape="rect" id="node3" href="hal__adc_8c.html#aee719704e643d27c1faab768cf4bc22e" title="HAL TASK &#45; Threshold task for ADC. " alt="" coords="324,56,472,83"/>
-<area shape="rect" id="node4" href="hal__adc_8c.html#a5e0d74baf098e774b0e3aa0dab621987" title="Read out analog voltages, apply sensor gain and deadzone. " alt="" coords="734,5,855,32"/>
-<area shape="rect" id="node5" href="hal__adc_8c.html#a8743abcde6f190545c429f072c16106d" title="Report raw values via serial interface. " alt="" coords="731,107,859,133"/>
-<area shape="rect" id="node8" href="hal__adc_8c.html#acd8f9f6194ebeaa854a791879382b515" title="Process pressure sensor (sip &amp; puff) " alt="" coords="520,56,683,83"/>
-<area shape="rect" id="node6" href="hal__serial_8c.html#a8f987ba001c2a39c959a551a94b5df43" title="Send serial bytes to USB&#45;Serial (USB&#45;CDC) " alt="" coords="907,107,1069,133"/>
-<area shape="rect" id="node7" href="hal__serial_8c.html#a132de0978f07044a393cc1f3b5276ced" title="halSerialSwitchTXChannel" alt="" coords="1117,107,1295,133"/>
-<area shape="rect" id="node9" href="config__switcher_8c.html#a921538bec34d128a44a748fd5a2c391f" title="Get the current config struct. " alt="" coords="734,56,855,83"/>
+<area shape="rect" id="node2" href="hal__adc_8c.html#ae549c157d94729e8b06cb391f0f2c97b" title="Calibration function. " alt="" coords="149,5,264,32"/>
+<area shape="rect" id="node3" href="hal__adc_8c.html#aa8d7ae84ad54c532e5cefccc8c3cf59e" title="halAdcStrongTimeout" alt="" coords="133,56,280,83"/>
+<area shape="rect" id="node4" href="hal__adc_8c.html#a4135bb73c2271b4a27db8d8d81884de7" title="Reload ADC config. " alt="" coords="135,107,278,133"/>
+<area shape="rect" id="node5" href="hal__adc_8c.html#aee719704e643d27c1faab768cf4bc22e" title="HAL TASK &#45; Threshold task for ADC. " alt="" coords="328,107,476,133"/>
+<area shape="rect" id="node6" href="hal__adc_8c.html#a5e0d74baf098e774b0e3aa0dab621987" title="Read out analog voltages, apply sensor gain and deadzone. " alt="" coords="764,56,885,83"/>
+<area shape="rect" id="node7" href="hal__adc_8c.html#a8743abcde6f190545c429f072c16106d" title="Report raw values via serial interface. " alt="" coords="761,107,889,133"/>
+<area shape="rect" id="node9" href="hal__adc_8c.html#a78419739020988cffc83ffcbc7103b05" title="Process pressure sensor (sip &amp; puff) " alt="" coords="524,157,687,184"/>
+<area shape="rect" id="node8" href="hal__serial_8c.html#af78683f30da18cfc19c2c91006ec6155" title="Send serial bytes to USB&#45;Serial (USB&#45;CDC) " alt="" coords="963,107,1125,133"/>
+<area shape="rect" id="node10" href="config__switcher_8c.html#a921538bec34d128a44a748fd5a2c391f" title="Get the current config struct. " alt="" coords="764,157,885,184"/>
+<area shape="rect" id="node11" href="hal__adc_8c.html#a3cddaa804609f2e34f3cbda1d43ff1b4" title="Trigger strong sip/puff + action according to input data. " alt="" coords="735,208,915,235"/>
 </map>
 </div>
 <div class="dynheader">
@@ -305,8 +375,8 @@ Here is the caller graph for this function:</div>
 
 </div>
 </div>
-<a id="acd8f9f6194ebeaa854a791879382b515"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#acd8f9f6194ebeaa854a791879382b515">&#9670;&nbsp;</a></span>halAdcProcessPressure()</h2>
+<a id="a78419739020988cffc83ffcbc7103b05"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a78419739020988cffc83ffcbc7103b05">&#9670;&nbsp;</a></span>halAdcProcessPressure()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -314,16 +384,16 @@ Here is the caller graph for this function:</div>
         <tr>
           <td class="memname">void halAdcProcessPressure </td>
           <td>(</td>
-          <td class="paramtype">uint32_t&#160;</td>
-          <td class="paramname"><em>pressurevalue</em></td><td>)</td>
+          <td class="paramtype"><a class="el" href="hal__adc_8c.html#a1b8e8a5847a3065a88525a1f0448ef19">adcData_t</a> *&#160;</td>
+          <td class="paramname"><em>D</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
 </div><div class="memdoc">
 
 <p>Process pressure sensor (sip &amp; puff) </p>
-<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000021">Todo:</a></b></dt><dd><p class="startdd">Do everything here, no sip&amp;puff currently available. </p>
-<p class="enddd">Activate tones again if working... </p>
+<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000018">Todo:</a></b></dt><dd><p class="startdd">Do everything here, no sip&amp;puff currently available. </p>
+<p class="enddd">issue tones only if VB is NOT set (otherwise we will flood the buzzer) </p>
 </dd></dl>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
@@ -332,32 +402,118 @@ Here is the caller graph for this function:</div>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="hal__adc_8c_source.html#l00242">242</a> of file <a class="el" href="hal__adc_8c_source.html">hal_adc.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="hal__adc_8c_source.html#l00351">351</a> of file <a class="el" href="hal__adc_8c_source.html">hal_adc.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="hal__adc_8c_source.html#l00632">halAdcTaskThreshold()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="hal__adc_8c_source.html#l00868">halAdcTaskThreshold()</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><img src="hal__adc_8c_acd8f9f6194ebeaa854a791879382b515_cgraph.png" border="0" usemap="#hal__adc_8c_acd8f9f6194ebeaa854a791879382b515_cgraph" alt=""/></div>
-<map name="hal__adc_8c_acd8f9f6194ebeaa854a791879382b515_cgraph" id="hal__adc_8c_acd8f9f6194ebeaa854a791879382b515_cgraph">
-<area shape="rect" id="node2" href="config__switcher_8c.html#a921538bec34d128a44a748fd5a2c391f" title="Get the current config struct. " alt="" coords="219,5,341,32"/>
-<area shape="rect" id="node3" href="hal__adc_8c.html#a5e0d74baf098e774b0e3aa0dab621987" title="Read out analog voltages, apply sensor gain and deadzone. " alt="" coords="219,56,341,83"/>
-<area shape="rect" id="node4" href="hal__adc_8c.html#a8743abcde6f190545c429f072c16106d" title="Report raw values via serial interface. " alt="" coords="216,107,344,133"/>
-<area shape="rect" id="node5" href="hal__serial_8c.html#a8f987ba001c2a39c959a551a94b5df43" title="Send serial bytes to USB&#45;Serial (USB&#45;CDC) " alt="" coords="392,107,555,133"/>
-<area shape="rect" id="node6" href="hal__serial_8c.html#a132de0978f07044a393cc1f3b5276ced" title="halSerialSwitchTXChannel" alt="" coords="603,107,780,133"/>
+<div class="center"><img src="hal__adc_8c_a78419739020988cffc83ffcbc7103b05_cgraph.png" border="0" usemap="#hal__adc_8c_a78419739020988cffc83ffcbc7103b05_cgraph" alt=""/></div>
+<map name="hal__adc_8c_a78419739020988cffc83ffcbc7103b05_cgraph" id="hal__adc_8c_a78419739020988cffc83ffcbc7103b05_cgraph">
+<area shape="rect" id="node2" href="config__switcher_8c.html#a921538bec34d128a44a748fd5a2c391f" title="Get the current config struct. " alt="" coords="245,5,367,32"/>
+<area shape="rect" id="node3" href="hal__adc_8c.html#a5e0d74baf098e774b0e3aa0dab621987" title="Read out analog voltages, apply sensor gain and deadzone. " alt="" coords="245,56,367,83"/>
+<area shape="rect" id="node4" href="hal__adc_8c.html#a8743abcde6f190545c429f072c16106d" title="Report raw values via serial interface. " alt="" coords="242,107,370,133"/>
+<area shape="rect" id="node6" href="hal__adc_8c.html#a3cddaa804609f2e34f3cbda1d43ff1b4" title="Trigger strong sip/puff + action according to input data. " alt="" coords="216,157,396,184"/>
+<area shape="rect" id="node5" href="hal__serial_8c.html#af78683f30da18cfc19c2c91006ec6155" title="Send serial bytes to USB&#45;Serial (USB&#45;CDC) " alt="" coords="444,107,607,133"/>
 </map>
 </div>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><img src="hal__adc_8c_acd8f9f6194ebeaa854a791879382b515_icgraph.png" border="0" usemap="#hal__adc_8c_acd8f9f6194ebeaa854a791879382b515_icgraph" alt=""/></div>
-<map name="hal__adc_8c_acd8f9f6194ebeaa854a791879382b515_icgraph" id="hal__adc_8c_acd8f9f6194ebeaa854a791879382b515_icgraph">
-<area shape="rect" id="node2" href="hal__adc_8c.html#aee719704e643d27c1faab768cf4bc22e" title="HAL TASK &#45; Threshold task for ADC. " alt="" coords="216,31,364,57"/>
-<area shape="rect" id="node3" href="hal__adc_8h.html#a4135bb73c2271b4a27db8d8d81884de7" title="Reload ADC config. " alt="" coords="412,31,555,57"/>
-<area shape="rect" id="node4" href="config__switcher_8c.html#af5af5079d1982d42e165039e6de7e40a" title="CONTINOUS TASK &#45; Config switcher task, internal config reloading. " alt="" coords="603,5,740,32"/>
-<area shape="rect" id="node7" href="hal__adc_8h.html#a6f0d302f35e5b7f7a1144f0ddace35d2" title="Init the ADC driver module. " alt="" coords="811,56,891,83"/>
-<area shape="rect" id="node5" href="config__switcher_8h.html#aafed047c8d04b814a85239e031cbad7b" title="Initializing the config switching functionality. " alt="" coords="788,5,915,32"/>
-<area shape="rect" id="node6" href="flipmouse__fabi__esp32__kbdmouse__main_8c.html#abce06be17fc37d675118a678a8100a36" title="Main task, created by esp&#45;idf. " alt="" coords="963,31,1041,57"/>
+<div class="center"><img src="hal__adc_8c_a78419739020988cffc83ffcbc7103b05_icgraph.png" border="0" usemap="#hal__adc_8c_a78419739020988cffc83ffcbc7103b05_icgraph" alt=""/></div>
+<map name="hal__adc_8c_a78419739020988cffc83ffcbc7103b05_icgraph" id="hal__adc_8c_a78419739020988cffc83ffcbc7103b05_icgraph">
+<area shape="rect" id="node2" href="hal__adc_8c.html#aee719704e643d27c1faab768cf4bc22e" title="HAL TASK &#45; Threshold task for ADC. " alt="" coords="216,89,364,116"/>
+<area shape="rect" id="node3" href="hal__adc_8h.html#a4135bb73c2271b4a27db8d8d81884de7" title="Reload ADC config. " alt="" coords="412,89,555,116"/>
+<area shape="rect" id="node4" href="config__switcher_8c.html#af5af5079d1982d42e165039e6de7e40a" title="CONTINOUS TASK &#45; Config switcher task, internal config reloading. " alt="" coords="603,8,740,34"/>
+<area shape="rect" id="node7" href="task__commands_8c.html#ad59215648a26578c22baa7ceae099e0e" title="Print the current slot configurations (general settings + VBs) " alt="" coords="625,89,717,116"/>
+<area shape="rect" id="node17" href="hal__adc_8h.html#a6f0d302f35e5b7f7a1144f0ddace35d2" title="Init the ADC driver module. " alt="" coords="802,229,882,256"/>
+<area shape="rect" id="node5" href="config__switcher_8h.html#aafed047c8d04b814a85239e031cbad7b" title="Initializing the config switching functionality. " alt="" coords="1187,26,1313,53"/>
+<area shape="rect" id="node6" href="flipmouse__fabi__esp32__kbdmouse__main_8c.html#abce06be17fc37d675118a678a8100a36" title="Main task, created by esp&#45;idf. " alt="" coords="1567,128,1645,154"/>
+<area shape="rect" id="node8" href="task__commands_8c.html#a7f6500be563a3dce7f0854fceed02fab" title="doGeneralCmdParsing" alt="" coords="965,26,1118,53"/>
+<area shape="rect" id="node12" href="task__commands_8c.html#acea81ba8a182ae78feb2db6418fc1806" title="sendErrorBack" alt="" coords="788,114,896,141"/>
+<area shape="rect" id="node9" href="task__commands_8c.html#a7b36c39275d773aaedcb327ef4e1516f" title="task_commands" alt="" coords="1191,128,1309,154"/>
+<area shape="rect" id="node10" href="task__commands_8h.html#aedb896e40753227f80768e09d3748419" title="Init the command parser. " alt="" coords="1374,128,1506,154"/>
+<area shape="rect" id="node11" href="task__commands_8h.html#a26091155b4d85093239033d689f363d0" title="Restart the command parser task. " alt="" coords="1361,178,1519,205"/>
+<area shape="rect" id="node13" href="task__commands_8c.html#afc7ebe31a124c2102f8b41577b6dc5b0" title="doJoystickParsing" alt="" coords="977,77,1106,104"/>
+<area shape="rect" id="node14" href="task__commands_8c.html#ac3c72c089d32dea93c45f4f9f8d1f244" title="doKeyboardParsing" alt="" coords="974,128,1109,154"/>
+<area shape="rect" id="node15" href="task__commands_8c.html#a580d9f6a840975525358033a35f761d0" title="doMouseParsing" alt="" coords="982,178,1101,205"/>
+<area shape="rect" id="node16" href="task__commands_8c.html#a2ad28759e53bb5082853d8d004767115" title="doMouthpieceSettingsParsing" alt="" coords="944,229,1139,256"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="a3cddaa804609f2e34f3cbda1d43ff1b4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3cddaa804609f2e34f3cbda1d43ff1b4">&#9670;&nbsp;</a></span>halAdcProcessStrongMode()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void halAdcProcessStrongMode </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="hal__adc_8c.html#a1b8e8a5847a3065a88525a1f0448ef19">adcData_t</a> *&#160;</td>
+          <td class="paramname"><em>D</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Trigger strong sip/puff + action according to input data. </p>
+<p>This method is used to trigger VBs for actions of type STRONG_SIP or STRONG_PUFF combined with an additional mouthpiece movement. It should only be triggered if there is no VB_STRONGPUFF / VB_STRONGSIP action is defined (this is handled in halAdcProcessPressure ).</p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="hal__adc_8c.html#a78419739020988cffc83ffcbc7103b05" title="Process pressure sensor (sip &amp; puff) ">halAdcProcessPressure</a> </dd>
+<dd>
+<a class="el" href="common_8h.html#aed369f77fa5db4fc8621cea240f04436">VB_STRONGPUFF</a> </dd>
+<dd>
+<a class="el" href="common_8h.html#a037f0b6cdbcd806152d1e5b6f71b555c">VB_STRONGSIP</a> </dd>
+<dd>
+<a class="el" href="common_8h.html#a8ace42783967b4342b05b6c0770890ad">VB_STRONGSIP_UP</a> </dd>
+<dd>
+<a class="el" href="common_8h.html#a769a04adbe4c893b1cc17aaeb3dc254f">VB_STRONGSIP_DOWN</a> </dd>
+<dd>
+<a class="el" href="common_8h.html#a062cb47d56bb555bf5125b6b6c407da8">VB_STRONGSIP_LEFT</a> </dd>
+<dd>
+<a class="el" href="common_8h.html#aab9c9881e5418ab71f5641c18d1009d9">VB_STRONGSIP_RIGHT</a> </dd>
+<dd>
+<a class="el" href="common_8h.html#a89609af4c0b08d2e30a662961e670782">VB_STRONGPUFF_UP</a> </dd>
+<dd>
+<a class="el" href="common_8h.html#afe44245ba0f21823ef937133c594f28f">VB_STRONGPUFF_DOWN</a> </dd>
+<dd>
+<a class="el" href="common_8h.html#a832754f7d0204bb0c782c5125c55f0ef">VB_STRONGPUFF_LEFT</a> </dd>
+<dd>
+<a class="el" href="common_8h.html#a561c0e7be59abddabff6c5e51a5c2984">VB_STRONGPUFF_RIGHT</a> </dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">D</td><td>ADC data from calling task </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="hal__adc_8c_source.html#l00128">128</a> of file <a class="el" href="hal__adc_8c_source.html">hal_adc.c</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="hal__adc_8c_source.html#l00351">halAdcProcessPressure()</a>.</p>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="hal__adc_8c_a3cddaa804609f2e34f3cbda1d43ff1b4_icgraph.png" border="0" usemap="#hal__adc_8c_a3cddaa804609f2e34f3cbda1d43ff1b4_icgraph" alt=""/></div>
+<map name="hal__adc_8c_a3cddaa804609f2e34f3cbda1d43ff1b4_icgraph" id="hal__adc_8c_a3cddaa804609f2e34f3cbda1d43ff1b4_icgraph">
+<area shape="rect" id="node2" href="hal__adc_8c.html#a78419739020988cffc83ffcbc7103b05" title="Process pressure sensor (sip &amp; puff) " alt="" coords="233,89,396,116"/>
+<area shape="rect" id="node3" href="hal__adc_8c.html#aee719704e643d27c1faab768cf4bc22e" title="HAL TASK &#45; Threshold task for ADC. " alt="" coords="444,89,592,116"/>
+<area shape="rect" id="node4" href="hal__adc_8h.html#a4135bb73c2271b4a27db8d8d81884de7" title="Reload ADC config. " alt="" coords="640,89,783,116"/>
+<area shape="rect" id="node5" href="config__switcher_8c.html#af5af5079d1982d42e165039e6de7e40a" title="CONTINOUS TASK &#45; Config switcher task, internal config reloading. " alt="" coords="831,8,968,34"/>
+<area shape="rect" id="node8" href="task__commands_8c.html#ad59215648a26578c22baa7ceae099e0e" title="Print the current slot configurations (general settings + VBs) " alt="" coords="853,89,945,116"/>
+<area shape="rect" id="node18" href="hal__adc_8h.html#a6f0d302f35e5b7f7a1144f0ddace35d2" title="Init the ADC driver module. " alt="" coords="1030,229,1110,256"/>
+<area shape="rect" id="node6" href="config__switcher_8h.html#aafed047c8d04b814a85239e031cbad7b" title="Initializing the config switching functionality. " alt="" coords="1415,26,1541,53"/>
+<area shape="rect" id="node7" href="flipmouse__fabi__esp32__kbdmouse__main_8c.html#abce06be17fc37d675118a678a8100a36" title="Main task, created by esp&#45;idf. " alt="" coords="1795,128,1873,154"/>
+<area shape="rect" id="node9" href="task__commands_8c.html#a7f6500be563a3dce7f0854fceed02fab" title="doGeneralCmdParsing" alt="" coords="1193,26,1346,53"/>
+<area shape="rect" id="node13" href="task__commands_8c.html#acea81ba8a182ae78feb2db6418fc1806" title="sendErrorBack" alt="" coords="1016,114,1124,141"/>
+<area shape="rect" id="node10" href="task__commands_8c.html#a7b36c39275d773aaedcb327ef4e1516f" title="task_commands" alt="" coords="1419,128,1537,154"/>
+<area shape="rect" id="node11" href="task__commands_8h.html#aedb896e40753227f80768e09d3748419" title="Init the command parser. " alt="" coords="1602,128,1734,154"/>
+<area shape="rect" id="node12" href="task__commands_8h.html#a26091155b4d85093239033d689f363d0" title="Restart the command parser task. " alt="" coords="1589,178,1747,205"/>
+<area shape="rect" id="node14" href="task__commands_8c.html#afc7ebe31a124c2102f8b41577b6dc5b0" title="doJoystickParsing" alt="" coords="1205,77,1334,104"/>
+<area shape="rect" id="node15" href="task__commands_8c.html#ac3c72c089d32dea93c45f4f9f8d1f244" title="doKeyboardParsing" alt="" coords="1202,128,1337,154"/>
+<area shape="rect" id="node16" href="task__commands_8c.html#a580d9f6a840975525358033a35f761d0" title="doMouseParsing" alt="" coords="1210,178,1329,205"/>
+<area shape="rect" id="node17" href="task__commands_8c.html#a2ad28759e53bb5082853d8d004767115" title="doMouthpieceSettingsParsing" alt="" coords="1172,229,1367,256"/>
 </map>
 </div>
 
@@ -389,21 +545,31 @@ Here is the caller graph for this function:</div>
 </dl>
 <dl class="section see"><dt>See also</dt><dd><a class="el" href="hal__adc_8c.html#a1b8e8a5847a3065a88525a1f0448ef19">adcData_t</a> </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="hal__adc_8c_source.html#l00131">131</a> of file <a class="el" href="hal__adc_8c_source.html">hal_adc.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="hal__adc_8c_source.html#l00239">239</a> of file <a class="el" href="hal__adc_8c_source.html">hal_adc.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="hal__adc_8c_source.html#l00242">halAdcProcessPressure()</a>, and <a class="el" href="hal__adc_8c_source.html#l00632">halAdcTaskThreshold()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="hal__adc_8c_source.html#l00351">halAdcProcessPressure()</a>, and <a class="el" href="hal__adc_8c_source.html#l00868">halAdcTaskThreshold()</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="hal__adc_8c_a5e0d74baf098e774b0e3aa0dab621987_icgraph.png" border="0" usemap="#hal__adc_8c_a5e0d74baf098e774b0e3aa0dab621987_icgraph" alt=""/></div>
 <map name="hal__adc_8c_a5e0d74baf098e774b0e3aa0dab621987_icgraph" id="hal__adc_8c_a5e0d74baf098e774b0e3aa0dab621987_icgraph">
-<area shape="rect" id="node2" href="hal__adc_8c.html#acd8f9f6194ebeaa854a791879382b515" title="Process pressure sensor (sip &amp; puff) " alt="" coords="175,5,337,32"/>
-<area shape="rect" id="node3" href="hal__adc_8c.html#aee719704e643d27c1faab768cf4bc22e" title="HAL TASK &#45; Threshold task for ADC. " alt="" coords="385,31,533,57"/>
-<area shape="rect" id="node4" href="hal__adc_8h.html#a4135bb73c2271b4a27db8d8d81884de7" title="Reload ADC config. " alt="" coords="581,31,724,57"/>
+<area shape="rect" id="node2" href="hal__adc_8c.html#a78419739020988cffc83ffcbc7103b05" title="Process pressure sensor (sip &amp; puff) " alt="" coords="175,56,337,83"/>
+<area shape="rect" id="node3" href="hal__adc_8c.html#aee719704e643d27c1faab768cf4bc22e" title="HAL TASK &#45; Threshold task for ADC. " alt="" coords="385,81,533,108"/>
+<area shape="rect" id="node4" href="hal__adc_8h.html#a4135bb73c2271b4a27db8d8d81884de7" title="Reload ADC config. " alt="" coords="581,81,724,108"/>
 <area shape="rect" id="node5" href="config__switcher_8c.html#af5af5079d1982d42e165039e6de7e40a" title="CONTINOUS TASK &#45; Config switcher task, internal config reloading. " alt="" coords="772,5,909,32"/>
-<area shape="rect" id="node8" href="hal__adc_8h.html#a6f0d302f35e5b7f7a1144f0ddace35d2" title="Init the ADC driver module. " alt="" coords="981,56,1061,83"/>
-<area shape="rect" id="node6" href="config__switcher_8h.html#aafed047c8d04b814a85239e031cbad7b" title="Initializing the config switching functionality. " alt="" coords="957,5,1084,32"/>
-<area shape="rect" id="node7" href="flipmouse__fabi__esp32__kbdmouse__main_8c.html#abce06be17fc37d675118a678a8100a36" title="Main task, created by esp&#45;idf. " alt="" coords="1132,31,1211,57"/>
+<area shape="rect" id="node8" href="task__commands_8c.html#ad59215648a26578c22baa7ceae099e0e" title="Print the current slot configurations (general settings + VBs) " alt="" coords="795,81,887,108"/>
+<area shape="rect" id="node18" href="hal__adc_8h.html#a6f0d302f35e5b7f7a1144f0ddace35d2" title="Init the ADC driver module. " alt="" coords="971,271,1051,297"/>
+<area shape="rect" id="node6" href="config__switcher_8h.html#aafed047c8d04b814a85239e031cbad7b" title="Initializing the config switching functionality. " alt="" coords="1356,43,1483,69"/>
+<area shape="rect" id="node7" href="flipmouse__fabi__esp32__kbdmouse__main_8c.html#abce06be17fc37d675118a678a8100a36" title="Main task, created by esp&#45;idf. " alt="" coords="1736,144,1815,171"/>
+<area shape="rect" id="node9" href="task__commands_8c.html#a7f6500be563a3dce7f0854fceed02fab" title="doGeneralCmdParsing" alt="" coords="1134,43,1287,69"/>
+<area shape="rect" id="node13" href="task__commands_8c.html#acea81ba8a182ae78feb2db6418fc1806" title="sendErrorBack" alt="" coords="957,132,1065,159"/>
+<area shape="rect" id="node10" href="task__commands_8c.html#a7b36c39275d773aaedcb327ef4e1516f" title="task_commands" alt="" coords="1360,144,1479,171"/>
+<area shape="rect" id="node11" href="task__commands_8h.html#aedb896e40753227f80768e09d3748419" title="Init the command parser. " alt="" coords="1543,144,1675,171"/>
+<area shape="rect" id="node12" href="task__commands_8h.html#a26091155b4d85093239033d689f363d0" title="Restart the command parser task. " alt="" coords="1531,195,1688,221"/>
+<area shape="rect" id="node14" href="task__commands_8c.html#afc7ebe31a124c2102f8b41577b6dc5b0" title="doJoystickParsing" alt="" coords="1146,93,1275,120"/>
+<area shape="rect" id="node15" href="task__commands_8c.html#ac3c72c089d32dea93c45f4f9f8d1f244" title="doKeyboardParsing" alt="" coords="1143,144,1278,171"/>
+<area shape="rect" id="node16" href="task__commands_8c.html#a580d9f6a840975525358033a35f761d0" title="doMouseParsing" alt="" coords="1151,195,1270,221"/>
+<area shape="rect" id="node17" href="task__commands_8c.html#a2ad28759e53bb5082853d8d004767115" title="doMouthpieceSettingsParsing" alt="" coords="1113,245,1308,272"/>
 </map>
 </div>
 
@@ -481,16 +647,15 @@ Here is the caller graph for this function:</div>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="hal__adc_8c_source.html#l00103">103</a> of file <a class="el" href="hal__adc_8c_source.html">hal_adc.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="hal__adc_8c_source.html#l00211">211</a> of file <a class="el" href="hal__adc_8c_source.html">hal_adc.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="hal__adc_8c_source.html#l00242">halAdcProcessPressure()</a>, and <a class="el" href="hal__adc_8c_source.html#l00632">halAdcTaskThreshold()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="hal__adc_8c_source.html#l00351">halAdcProcessPressure()</a>, and <a class="el" href="hal__adc_8c_source.html#l00868">halAdcTaskThreshold()</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="hal__adc_8c_a8743abcde6f190545c429f072c16106d_cgraph.png" border="0" usemap="#hal__adc_8c_a8743abcde6f190545c429f072c16106d_cgraph" alt=""/></div>
 <map name="hal__adc_8c_a8743abcde6f190545c429f072c16106d_cgraph" id="hal__adc_8c_a8743abcde6f190545c429f072c16106d_cgraph">
-<area shape="rect" id="node2" href="hal__serial_8c.html#a8f987ba001c2a39c959a551a94b5df43" title="Send serial bytes to USB&#45;Serial (USB&#45;CDC) " alt="" coords="181,5,344,32"/>
-<area shape="rect" id="node3" href="hal__serial_8c.html#a132de0978f07044a393cc1f3b5276ced" title="halSerialSwitchTXChannel" alt="" coords="392,5,569,32"/>
+<area shape="rect" id="node2" href="hal__serial_8c.html#af78683f30da18cfc19c2c91006ec6155" title="Send serial bytes to USB&#45;Serial (USB&#45;CDC) " alt="" coords="181,5,344,32"/>
 </map>
 </div>
 <div class="dynheader">
@@ -498,13 +663,54 @@ Here is the caller graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="hal__adc_8c_a8743abcde6f190545c429f072c16106d_icgraph.png" border="0" usemap="#hal__adc_8c_a8743abcde6f190545c429f072c16106d_icgraph" alt=""/></div>
 <map name="hal__adc_8c_a8743abcde6f190545c429f072c16106d_icgraph" id="hal__adc_8c_a8743abcde6f190545c429f072c16106d_icgraph">
-<area shape="rect" id="node2" href="hal__adc_8c.html#acd8f9f6194ebeaa854a791879382b515" title="Process pressure sensor (sip &amp; puff) " alt="" coords="181,5,344,32"/>
-<area shape="rect" id="node3" href="hal__adc_8c.html#aee719704e643d27c1faab768cf4bc22e" title="HAL TASK &#45; Threshold task for ADC. " alt="" coords="392,31,540,57"/>
-<area shape="rect" id="node4" href="hal__adc_8h.html#a4135bb73c2271b4a27db8d8d81884de7" title="Reload ADC config. " alt="" coords="588,31,731,57"/>
+<area shape="rect" id="node2" href="hal__adc_8c.html#a78419739020988cffc83ffcbc7103b05" title="Process pressure sensor (sip &amp; puff) " alt="" coords="181,56,344,83"/>
+<area shape="rect" id="node3" href="hal__adc_8c.html#aee719704e643d27c1faab768cf4bc22e" title="HAL TASK &#45; Threshold task for ADC. " alt="" coords="392,81,540,108"/>
+<area shape="rect" id="node4" href="hal__adc_8h.html#a4135bb73c2271b4a27db8d8d81884de7" title="Reload ADC config. " alt="" coords="588,81,731,108"/>
 <area shape="rect" id="node5" href="config__switcher_8c.html#af5af5079d1982d42e165039e6de7e40a" title="CONTINOUS TASK &#45; Config switcher task, internal config reloading. " alt="" coords="779,5,916,32"/>
-<area shape="rect" id="node8" href="hal__adc_8h.html#a6f0d302f35e5b7f7a1144f0ddace35d2" title="Init the ADC driver module. " alt="" coords="987,56,1067,83"/>
-<area shape="rect" id="node6" href="config__switcher_8h.html#aafed047c8d04b814a85239e031cbad7b" title="Initializing the config switching functionality. " alt="" coords="964,5,1091,32"/>
-<area shape="rect" id="node7" href="flipmouse__fabi__esp32__kbdmouse__main_8c.html#abce06be17fc37d675118a678a8100a36" title="Main task, created by esp&#45;idf. " alt="" coords="1139,31,1217,57"/>
+<area shape="rect" id="node8" href="task__commands_8c.html#ad59215648a26578c22baa7ceae099e0e" title="Print the current slot configurations (general settings + VBs) " alt="" coords="801,81,893,108"/>
+<area shape="rect" id="node18" href="hal__adc_8h.html#a6f0d302f35e5b7f7a1144f0ddace35d2" title="Init the ADC driver module. " alt="" coords="978,271,1058,297"/>
+<area shape="rect" id="node6" href="config__switcher_8h.html#aafed047c8d04b814a85239e031cbad7b" title="Initializing the config switching functionality. " alt="" coords="1363,43,1489,69"/>
+<area shape="rect" id="node7" href="flipmouse__fabi__esp32__kbdmouse__main_8c.html#abce06be17fc37d675118a678a8100a36" title="Main task, created by esp&#45;idf. " alt="" coords="1743,144,1821,171"/>
+<area shape="rect" id="node9" href="task__commands_8c.html#a7f6500be563a3dce7f0854fceed02fab" title="doGeneralCmdParsing" alt="" coords="1141,43,1294,69"/>
+<area shape="rect" id="node13" href="task__commands_8c.html#acea81ba8a182ae78feb2db6418fc1806" title="sendErrorBack" alt="" coords="964,132,1072,159"/>
+<area shape="rect" id="node10" href="task__commands_8c.html#a7b36c39275d773aaedcb327ef4e1516f" title="task_commands" alt="" coords="1367,144,1485,171"/>
+<area shape="rect" id="node11" href="task__commands_8h.html#aedb896e40753227f80768e09d3748419" title="Init the command parser. " alt="" coords="1550,144,1682,171"/>
+<area shape="rect" id="node12" href="task__commands_8h.html#a26091155b4d85093239033d689f363d0" title="Restart the command parser task. " alt="" coords="1537,195,1695,221"/>
+<area shape="rect" id="node14" href="task__commands_8c.html#afc7ebe31a124c2102f8b41577b6dc5b0" title="doJoystickParsing" alt="" coords="1153,93,1282,120"/>
+<area shape="rect" id="node15" href="task__commands_8c.html#ac3c72c089d32dea93c45f4f9f8d1f244" title="doKeyboardParsing" alt="" coords="1150,144,1285,171"/>
+<area shape="rect" id="node16" href="task__commands_8c.html#a580d9f6a840975525358033a35f761d0" title="doMouseParsing" alt="" coords="1158,195,1277,221"/>
+<area shape="rect" id="node17" href="task__commands_8c.html#a2ad28759e53bb5082853d8d004767115" title="doMouthpieceSettingsParsing" alt="" coords="1120,245,1315,272"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="aa8d7ae84ad54c532e5cefccc8c3cf59e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa8d7ae84ad54c532e5cefccc8c3cf59e">&#9670;&nbsp;</a></span>halAdcStrongTimeout()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void halAdcStrongTimeout </td>
+          <td>(</td>
+          <td class="paramtype">TimerHandle_t&#160;</td>
+          <td class="paramname"><em>xTimer</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="hal__adc_8c_source.html#l01073">1073</a> of file <a class="el" href="hal__adc_8c_source.html">hal_adc.c</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="hal__adc_8c_source.html#l01096">halAdcInit()</a>.</p>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="hal__adc_8c_aa8d7ae84ad54c532e5cefccc8c3cf59e_icgraph.png" border="0" usemap="#hal__adc_8c_aa8d7ae84ad54c532e5cefccc8c3cf59e_icgraph" alt=""/></div>
+<map name="hal__adc_8c_aa8d7ae84ad54c532e5cefccc8c3cf59e_icgraph" id="hal__adc_8c_aa8d7ae84ad54c532e5cefccc8c3cf59e_icgraph">
+<area shape="rect" id="node2" href="hal__adc_8h.html#a6f0d302f35e5b7f7a1144f0ddace35d2" title="Init the ADC driver module. " alt="" coords="200,5,280,32"/>
+<area shape="rect" id="node3" href="flipmouse__fabi__esp32__kbdmouse__main_8c.html#abce06be17fc37d675118a678a8100a36" title="Main task, created by esp&#45;idf. " alt="" coords="328,5,407,32"/>
 </map>
 </div>
 
@@ -530,20 +736,20 @@ Here is the caller graph for this function:</div>
 <p>This task is used for threshold mode of the moutpiece. It is invoked on config changes and reads out all 4 sensors, calculates x and y values and compares it to thresholds.</p>
 <p>If one value exceeds the threshold, the corresponding virtual button flags are set or cleared. </p>
 
-<p class="definition">Definition at line <a class="el" href="hal__adc_8c_source.html#l00632">632</a> of file <a class="el" href="hal__adc_8c_source.html">hal_adc.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="hal__adc_8c_source.html#l00868">868</a> of file <a class="el" href="hal__adc_8c_source.html">hal_adc.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="hal__adc_8c_source.html#l00739">halAdcUpdateConfig()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="hal__adc_8c_source.html#l00986">halAdcUpdateConfig()</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="hal__adc_8c_aee719704e643d27c1faab768cf4bc22e_cgraph.png" border="0" usemap="#hal__adc_8c_aee719704e643d27c1faab768cf4bc22e_cgraph" alt=""/></div>
 <map name="hal__adc_8c_aee719704e643d27c1faab768cf4bc22e_cgraph" id="hal__adc_8c_aee719704e643d27c1faab768cf4bc22e_cgraph">
-<area shape="rect" id="node2" href="hal__adc_8c.html#a5e0d74baf098e774b0e3aa0dab621987" title="Read out analog voltages, apply sensor gain and deadzone. " alt="" coords="415,5,537,32"/>
-<area shape="rect" id="node3" href="hal__adc_8c.html#a8743abcde6f190545c429f072c16106d" title="Report raw values via serial interface. " alt="" coords="412,107,540,133"/>
-<area shape="rect" id="node6" href="hal__adc_8c.html#acd8f9f6194ebeaa854a791879382b515" title="Process pressure sensor (sip &amp; puff) " alt="" coords="201,56,364,83"/>
-<area shape="rect" id="node4" href="hal__serial_8c.html#a8f987ba001c2a39c959a551a94b5df43" title="Send serial bytes to USB&#45;Serial (USB&#45;CDC) " alt="" coords="588,107,751,133"/>
-<area shape="rect" id="node5" href="hal__serial_8c.html#a132de0978f07044a393cc1f3b5276ced" title="halSerialSwitchTXChannel" alt="" coords="799,107,976,133"/>
-<area shape="rect" id="node7" href="config__switcher_8c.html#a921538bec34d128a44a748fd5a2c391f" title="Get the current config struct. " alt="" coords="415,56,537,83"/>
+<area shape="rect" id="node2" href="hal__adc_8c.html#a5e0d74baf098e774b0e3aa0dab621987" title="Read out analog voltages, apply sensor gain and deadzone. " alt="" coords="441,5,563,32"/>
+<area shape="rect" id="node3" href="hal__adc_8c.html#a8743abcde6f190545c429f072c16106d" title="Report raw values via serial interface. " alt="" coords="438,56,566,83"/>
+<area shape="rect" id="node5" href="hal__adc_8c.html#a78419739020988cffc83ffcbc7103b05" title="Process pressure sensor (sip &amp; puff) " alt="" coords="201,107,364,133"/>
+<area shape="rect" id="node4" href="hal__serial_8c.html#af78683f30da18cfc19c2c91006ec6155" title="Send serial bytes to USB&#45;Serial (USB&#45;CDC) " alt="" coords="640,56,803,83"/>
+<area shape="rect" id="node6" href="config__switcher_8c.html#a921538bec34d128a44a748fd5a2c391f" title="Get the current config struct. " alt="" coords="441,107,563,133"/>
+<area shape="rect" id="node7" href="hal__adc_8c.html#a3cddaa804609f2e34f3cbda1d43ff1b4" title="Trigger strong sip/puff + action according to input data. " alt="" coords="412,157,592,184"/>
 </map>
 </div>
 <div class="dynheader">
@@ -551,11 +757,21 @@ Here is the caller graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="hal__adc_8c_aee719704e643d27c1faab768cf4bc22e_icgraph.png" border="0" usemap="#hal__adc_8c_aee719704e643d27c1faab768cf4bc22e_icgraph" alt=""/></div>
 <map name="hal__adc_8c_aee719704e643d27c1faab768cf4bc22e_icgraph" id="hal__adc_8c_aee719704e643d27c1faab768cf4bc22e_icgraph">
-<area shape="rect" id="node2" href="hal__adc_8h.html#a4135bb73c2271b4a27db8d8d81884de7" title="Reload ADC config. " alt="" coords="201,31,344,57"/>
-<area shape="rect" id="node3" href="config__switcher_8c.html#af5af5079d1982d42e165039e6de7e40a" title="CONTINOUS TASK &#45; Config switcher task, internal config reloading. " alt="" coords="392,5,529,32"/>
-<area shape="rect" id="node6" href="hal__adc_8h.html#a6f0d302f35e5b7f7a1144f0ddace35d2" title="Init the ADC driver module. " alt="" coords="601,56,681,83"/>
-<area shape="rect" id="node4" href="config__switcher_8h.html#aafed047c8d04b814a85239e031cbad7b" title="Initializing the config switching functionality. " alt="" coords="577,5,704,32"/>
-<area shape="rect" id="node5" href="flipmouse__fabi__esp32__kbdmouse__main_8c.html#abce06be17fc37d675118a678a8100a36" title="Main task, created by esp&#45;idf. " alt="" coords="752,31,831,57"/>
+<area shape="rect" id="node2" href="hal__adc_8h.html#a4135bb73c2271b4a27db8d8d81884de7" title="Reload ADC config. " alt="" coords="201,89,344,116"/>
+<area shape="rect" id="node3" href="config__switcher_8c.html#af5af5079d1982d42e165039e6de7e40a" title="CONTINOUS TASK &#45; Config switcher task, internal config reloading. " alt="" coords="392,8,529,34"/>
+<area shape="rect" id="node6" href="task__commands_8c.html#ad59215648a26578c22baa7ceae099e0e" title="Print the current slot configurations (general settings + VBs) " alt="" coords="415,89,507,116"/>
+<area shape="rect" id="node16" href="hal__adc_8h.html#a6f0d302f35e5b7f7a1144f0ddace35d2" title="Init the ADC driver module. " alt="" coords="591,229,671,256"/>
+<area shape="rect" id="node4" href="config__switcher_8h.html#aafed047c8d04b814a85239e031cbad7b" title="Initializing the config switching functionality. " alt="" coords="976,26,1103,53"/>
+<area shape="rect" id="node5" href="flipmouse__fabi__esp32__kbdmouse__main_8c.html#abce06be17fc37d675118a678a8100a36" title="Main task, created by esp&#45;idf. " alt="" coords="1356,128,1435,154"/>
+<area shape="rect" id="node7" href="task__commands_8c.html#a7f6500be563a3dce7f0854fceed02fab" title="doGeneralCmdParsing" alt="" coords="754,26,907,53"/>
+<area shape="rect" id="node11" href="task__commands_8c.html#acea81ba8a182ae78feb2db6418fc1806" title="sendErrorBack" alt="" coords="577,114,685,141"/>
+<area shape="rect" id="node8" href="task__commands_8c.html#a7b36c39275d773aaedcb327ef4e1516f" title="task_commands" alt="" coords="980,128,1099,154"/>
+<area shape="rect" id="node9" href="task__commands_8h.html#aedb896e40753227f80768e09d3748419" title="Init the command parser. " alt="" coords="1163,128,1295,154"/>
+<area shape="rect" id="node10" href="task__commands_8h.html#a26091155b4d85093239033d689f363d0" title="Restart the command parser task. " alt="" coords="1151,178,1308,205"/>
+<area shape="rect" id="node12" href="task__commands_8c.html#afc7ebe31a124c2102f8b41577b6dc5b0" title="doJoystickParsing" alt="" coords="766,77,895,104"/>
+<area shape="rect" id="node13" href="task__commands_8c.html#ac3c72c089d32dea93c45f4f9f8d1f244" title="doKeyboardParsing" alt="" coords="763,128,898,154"/>
+<area shape="rect" id="node14" href="task__commands_8c.html#a580d9f6a840975525358033a35f761d0" title="doMouseParsing" alt="" coords="771,178,890,205"/>
+<area shape="rect" id="node15" href="task__commands_8c.html#a2ad28759e53bb5082853d8d004767115" title="doMouthpieceSettingsParsing" alt="" coords="733,229,928,256"/>
 </map>
 </div>
 
@@ -584,24 +800,24 @@ Here is the caller graph for this function:</div>
   </table>
   </dd>
 </dl>
-<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000022">Todo:</a></b></dt><dd>Clear pending VB flags on a config switch </dd></dl>
+<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000019">Todo:</a></b></dt><dd>Clear pending VB flags on a config switch </dd></dl>
 <dl class="section return"><dt>Returns</dt><dd>ESP_OK on success, ESP_FAIL otherwise (wrong config, out of memory) </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="hal__adc_8c_source.html#l00739">739</a> of file <a class="el" href="hal__adc_8c_source.html">hal_adc.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="hal__adc_8c_source.html#l00986">986</a> of file <a class="el" href="hal__adc_8c_source.html">hal_adc.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="config__switcher_8c_source.html#l00198">configSwitcherTask()</a>, and <a class="el" href="hal__adc_8c_source.html#l00836">halAdcInit()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="config__switcher_8c_source.html#l00231">configSwitcherTask()</a>, <a class="el" href="hal__adc_8c_source.html#l01096">halAdcInit()</a>, and <a class="el" href="task__commands_8c_source.html#l01566">printAllSlots()</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="hal__adc_8c_a4135bb73c2271b4a27db8d8d81884de7_cgraph.png" border="0" usemap="#hal__adc_8c_a4135bb73c2271b4a27db8d8d81884de7_cgraph" alt=""/></div>
 <map name="hal__adc_8c_a4135bb73c2271b4a27db8d8d81884de7_cgraph" id="hal__adc_8c_a4135bb73c2271b4a27db8d8d81884de7_cgraph">
 <area shape="rect" id="node2" href="hal__adc_8c.html#aee719704e643d27c1faab768cf4bc22e" title="HAL TASK &#45; Threshold task for ADC. " alt="" coords="196,56,344,83"/>
-<area shape="rect" id="node3" href="hal__adc_8c.html#a5e0d74baf098e774b0e3aa0dab621987" title="Read out analog voltages, apply sensor gain and deadzone. " alt="" coords="606,5,727,32"/>
-<area shape="rect" id="node4" href="hal__adc_8c.html#a8743abcde6f190545c429f072c16106d" title="Report raw values via serial interface. " alt="" coords="603,107,731,133"/>
-<area shape="rect" id="node7" href="hal__adc_8c.html#acd8f9f6194ebeaa854a791879382b515" title="Process pressure sensor (sip &amp; puff) " alt="" coords="392,56,555,83"/>
-<area shape="rect" id="node5" href="hal__serial_8c.html#a8f987ba001c2a39c959a551a94b5df43" title="Send serial bytes to USB&#45;Serial (USB&#45;CDC) " alt="" coords="779,107,941,133"/>
-<area shape="rect" id="node6" href="hal__serial_8c.html#a132de0978f07044a393cc1f3b5276ced" title="halSerialSwitchTXChannel" alt="" coords="989,107,1167,133"/>
-<area shape="rect" id="node8" href="config__switcher_8c.html#a921538bec34d128a44a748fd5a2c391f" title="Get the current config struct. " alt="" coords="606,56,727,83"/>
+<area shape="rect" id="node3" href="hal__adc_8c.html#a5e0d74baf098e774b0e3aa0dab621987" title="Read out analog voltages, apply sensor gain and deadzone. " alt="" coords="632,5,753,32"/>
+<area shape="rect" id="node4" href="hal__adc_8c.html#a8743abcde6f190545c429f072c16106d" title="Report raw values via serial interface. " alt="" coords="629,56,757,83"/>
+<area shape="rect" id="node6" href="hal__adc_8c.html#a78419739020988cffc83ffcbc7103b05" title="Process pressure sensor (sip &amp; puff) " alt="" coords="392,107,555,133"/>
+<area shape="rect" id="node5" href="hal__serial_8c.html#af78683f30da18cfc19c2c91006ec6155" title="Send serial bytes to USB&#45;Serial (USB&#45;CDC) " alt="" coords="831,56,993,83"/>
+<area shape="rect" id="node7" href="config__switcher_8c.html#a921538bec34d128a44a748fd5a2c391f" title="Get the current config struct. " alt="" coords="632,107,753,133"/>
+<area shape="rect" id="node8" href="hal__adc_8c.html#a3cddaa804609f2e34f3cbda1d43ff1b4" title="Trigger strong sip/puff + action according to input data. " alt="" coords="603,157,783,184"/>
 </map>
 </div>
 <div class="dynheader">
@@ -610,9 +826,19 @@ Here is the caller graph for this function:</div>
 <div class="center"><img src="hal__adc_8c_a4135bb73c2271b4a27db8d8d81884de7_icgraph.png" border="0" usemap="#hal__adc_8c_a4135bb73c2271b4a27db8d8d81884de7_icgraph" alt=""/></div>
 <map name="hal__adc_8c_a4135bb73c2271b4a27db8d8d81884de7_icgraph" id="hal__adc_8c_a4135bb73c2271b4a27db8d8d81884de7_icgraph">
 <area shape="rect" id="node2" href="config__switcher_8c.html#af5af5079d1982d42e165039e6de7e40a" title="CONTINOUS TASK &#45; Config switcher task, internal config reloading. " alt="" coords="196,5,333,32"/>
-<area shape="rect" id="node5" href="hal__adc_8h.html#a6f0d302f35e5b7f7a1144f0ddace35d2" title="Init the ADC driver module. " alt="" coords="405,56,485,83"/>
-<area shape="rect" id="node3" href="config__switcher_8h.html#aafed047c8d04b814a85239e031cbad7b" title="Initializing the config switching functionality. " alt="" coords="381,5,508,32"/>
-<area shape="rect" id="node4" href="flipmouse__fabi__esp32__kbdmouse__main_8c.html#abce06be17fc37d675118a678a8100a36" title="Main task, created by esp&#45;idf. " alt="" coords="556,31,635,57"/>
+<area shape="rect" id="node5" href="hal__adc_8h.html#a6f0d302f35e5b7f7a1144f0ddace35d2" title="Init the ADC driver module. " alt="" coords="395,56,475,83"/>
+<area shape="rect" id="node6" href="task__commands_8c.html#ad59215648a26578c22baa7ceae099e0e" title="Print the current slot configurations (general settings + VBs) " alt="" coords="219,107,311,133"/>
+<area shape="rect" id="node3" href="config__switcher_8h.html#aafed047c8d04b814a85239e031cbad7b" title="Initializing the config switching functionality. " alt="" coords="780,5,907,32"/>
+<area shape="rect" id="node4" href="flipmouse__fabi__esp32__kbdmouse__main_8c.html#abce06be17fc37d675118a678a8100a36" title="Main task, created by esp&#45;idf. " alt="" coords="1160,56,1239,83"/>
+<area shape="rect" id="node7" href="task__commands_8c.html#a7f6500be563a3dce7f0854fceed02fab" title="doGeneralCmdParsing" alt="" coords="558,107,711,133"/>
+<area shape="rect" id="node11" href="task__commands_8c.html#acea81ba8a182ae78feb2db6418fc1806" title="sendErrorBack" alt="" coords="381,183,489,209"/>
+<area shape="rect" id="node8" href="task__commands_8c.html#a7b36c39275d773aaedcb327ef4e1516f" title="task_commands" alt="" coords="784,196,903,223"/>
+<area shape="rect" id="node9" href="task__commands_8h.html#aedb896e40753227f80768e09d3748419" title="Init the command parser. " alt="" coords="967,132,1099,159"/>
+<area shape="rect" id="node10" href="task__commands_8h.html#a26091155b4d85093239033d689f363d0" title="Restart the command parser task. " alt="" coords="955,196,1112,223"/>
+<area shape="rect" id="node12" href="task__commands_8c.html#afc7ebe31a124c2102f8b41577b6dc5b0" title="doJoystickParsing" alt="" coords="570,157,699,184"/>
+<area shape="rect" id="node13" href="task__commands_8c.html#ac3c72c089d32dea93c45f4f9f8d1f244" title="doKeyboardParsing" alt="" coords="567,208,702,235"/>
+<area shape="rect" id="node14" href="task__commands_8c.html#a580d9f6a840975525358033a35f761d0" title="doMouseParsing" alt="" coords="575,259,694,285"/>
+<area shape="rect" id="node15" href="task__commands_8c.html#a2ad28759e53bb5082853d8d004767115" title="doMouthpieceSettingsParsing" alt="" coords="537,309,732,336"/>
 </map>
 </div>
 
@@ -646,9 +872,9 @@ Here is the caller graph for this function:</div>
 <dd>
 <a class="el" href="common_8h.html#a735049d5abb65dcaa7ba76917158a3b3">taskNoParameterConfig_t</a> </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="hal__adc_8c_source.html#l00563">563</a> of file <a class="el" href="hal__adc_8c_source.html">hal_adc.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="hal__adc_8c_source.html#l00799">799</a> of file <a class="el" href="hal__adc_8c_source.html">hal_adc.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="config__switcher_8c_source.html#l00198">configSwitcherTask()</a>, and <a class="el" href="task__commands_8c_source.html#l00156">doMouthpieceSettingsParsing()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="config__switcher_8c_source.html#l00231">configSwitcherTask()</a>, and <a class="el" href="task__commands_8c_source.html#l00153">doMouthpieceSettingsParsing()</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -688,7 +914,7 @@ Here is the caller graph for this function:</div>
 </div><div class="memdoc">
 <p>current activated ADC config. </p><dl class="section see"><dt>See also</dt><dd><a class="el" href="common_8h.html#a08f9b338fac73a54ad3d0810c270614f">adc_config_t</a> </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="hal__adc_8c_source.html#l00069">69</a> of file <a class="el" href="hal__adc_8c_source.html">hal_adc.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="hal__adc_8c_source.html#l00079">79</a> of file <a class="el" href="hal__adc_8c_source.html">hal_adc.c</a>.</p>
 
 </div>
 </div>
@@ -709,9 +935,9 @@ halAdcTaskJoystick </dd>
 <dd>
 <a class="el" href="hal__adc_8c.html#aee719704e643d27c1faab768cf4bc22e" title="HAL TASK - Threshold task for ADC. ">halAdcTaskThreshold</a> </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="hal__adc_8c_source.html#l00064">64</a> of file <a class="el" href="hal__adc_8c_source.html">hal_adc.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="hal__adc_8c_source.html#l00074">74</a> of file <a class="el" href="hal__adc_8c_source.html">hal_adc.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="hal__adc_8c_source.html#l00739">halAdcUpdateConfig()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="hal__adc_8c_source.html#l00986">halAdcUpdateConfig()</a>.</p>
 
 </div>
 </div>
@@ -730,9 +956,29 @@ halAdcTaskJoystick </dd>
 <p>Semaphore for ADC readings. </p>
 <p>This semaphore is used to switch between halADCTask&lt;Joystick,Mouse,Threshold&gt; and calibration. In addition, it is used for strong sip&amp;puff + up/down/left/right. </p>
 
-<p class="definition">Definition at line <a class="el" href="hal__adc_8c_source.html#l00077">77</a> of file <a class="el" href="hal__adc_8c_source.html">hal_adc.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="hal__adc_8c_source.html#l00087">87</a> of file <a class="el" href="hal__adc_8c_source.html">hal_adc.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="hal__adc_8c_source.html#l00486">halAdcCalibrate()</a>, <a class="el" href="hal__adc_8c_source.html#l00836">halAdcInit()</a>, <a class="el" href="hal__adc_8c_source.html#l00242">halAdcProcessPressure()</a>, <a class="el" href="hal__adc_8c_source.html#l00632">halAdcTaskThreshold()</a>, and <a class="el" href="hal__adc_8c_source.html#l00739">halAdcUpdateConfig()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="hal__adc_8c_source.html#l00717">halAdcCalibrate()</a>, <a class="el" href="hal__adc_8c_source.html#l01096">halAdcInit()</a>, <a class="el" href="hal__adc_8c_source.html#l00351">halAdcProcessPressure()</a>, <a class="el" href="hal__adc_8c_source.html#l00868">halAdcTaskThreshold()</a>, and <a class="el" href="hal__adc_8c_source.html#l00986">halAdcUpdateConfig()</a>.</p>
+
+</div>
+</div>
+<a id="aa76118ff0c7899ec509b6331b8326d43"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa76118ff0c7899ec509b6331b8326d43">&#9670;&nbsp;</a></span>adcStrongTimerHandle</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">TimerHandle_t adcStrongTimerHandle</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Timer for strong mode timeout This timer is used for a timeout moving back to STRONG_NORMAL if we entered a STRONG_PUFF or STRONG_SIP mode and no action was triggered. </p>
+
+<p class="definition">Definition at line <a class="el" href="hal__adc_8c_source.html#l00100">100</a> of file <a class="el" href="hal__adc_8c_source.html">hal_adc.c</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="hal__adc_8c_source.html#l01096">halAdcInit()</a>, <a class="el" href="hal__adc_8c_source.html#l00351">halAdcProcessPressure()</a>, <a class="el" href="hal__adc_8c_source.html#l00128">halAdcProcessStrongMode()</a>, and <a class="el" href="hal__adc_8c_source.html#l00868">halAdcTaskThreshold()</a>.</p>
 
 </div>
 </div>
@@ -749,7 +995,7 @@ halAdcTaskJoystick </dd>
 </div><div class="memdoc">
 <p>calibration characteristics, loaded by esp-idf provided methods </p>
 
-<p class="definition">Definition at line <a class="el" href="hal__adc_8c_source.html#l00080">80</a> of file <a class="el" href="hal__adc_8c_source.html">hal_adc.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="hal__adc_8c_source.html#l00090">90</a> of file <a class="el" href="hal__adc_8c_source.html">hal_adc.c</a>.</p>
 
 </div>
 </div>
@@ -774,9 +1020,9 @@ halAdcTaskJoystick </dd>
 </div><div class="memdoc">
 <p>offset values, calibrated via "Calibration middle position" </p>
 
-<p class="definition">Definition at line <a class="el" href="hal__adc_8c_source.html#l00083">83</a> of file <a class="el" href="hal__adc_8c_source.html">hal_adc.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="hal__adc_8c_source.html#l00093">93</a> of file <a class="el" href="hal__adc_8c_source.html">hal_adc.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="hal__adc_8c_source.html#l00486">halAdcCalibrate()</a>, <a class="el" href="hal__adc_8c_source.html#l00242">halAdcProcessPressure()</a>, and <a class="el" href="hal__adc_8c_source.html#l00131">halAdcReadData()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="hal__adc_8c_source.html#l00717">halAdcCalibrate()</a>, <a class="el" href="hal__adc_8c_source.html#l00351">halAdcProcessPressure()</a>, and <a class="el" href="hal__adc_8c_source.html#l00239">halAdcReadData()</a>.</p>
 
 </div>
 </div>
@@ -800,9 +1046,36 @@ halAdcTaskJoystick </dd>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="hal__adc_8c_source.html#l00083">83</a> of file <a class="el" href="hal__adc_8c_source.html">hal_adc.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="hal__adc_8c_source.html#l00093">93</a> of file <a class="el" href="hal__adc_8c_source.html">hal_adc.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="hal__adc_8c_source.html#l00486">halAdcCalibrate()</a>, <a class="el" href="hal__adc_8c_source.html#l00242">halAdcProcessPressure()</a>, and <a class="el" href="hal__adc_8c_source.html#l00131">halAdcReadData()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="hal__adc_8c_source.html#l00717">halAdcCalibrate()</a>, <a class="el" href="hal__adc_8c_source.html#l00351">halAdcProcessPressure()</a>, and <a class="el" href="hal__adc_8c_source.html#l00239">halAdcReadData()</a>.</p>
+
+</div>
+</div>
+<a id="a6ec177d729e9f63e08546c4bc8649e78"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6ec177d729e9f63e08546c4bc8649e78">&#9670;&nbsp;</a></span>pressure_idle</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint32_t pressure_idle</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>pressure offset, calibrated by halAdcCalibrate </p>
+
+<p class="definition">Definition at line <a class="el" href="hal__adc_8c_source.html#l00095">95</a> of file <a class="el" href="hal__adc_8c_source.html">hal_adc.c</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="hal__adc_8c_source.html#l00717">halAdcCalibrate()</a>.</p>
 
 </div>
 </div>

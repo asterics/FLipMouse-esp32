@@ -15,6 +15,7 @@ var searchData=
   ['conenction',['conenction',['../structWebSocket__frame__t.html#ac9eacd729955dbb748383be89c40d210',1,'WebSocket_frame_t']]],
   ['config_5fswitcher',['config_switcher',['../flipmouse__fabi__esp32__kbdmouse__main_8c.html#a4701c432a28c389e4b8557f2fa3323d1',1,'config_switcher():&#160;flipmouse_fabi_esp32_kbdmouse_main.c'],['../common_8h.html#a4701c432a28c389e4b8557f2fa3323d1',1,'config_switcher():&#160;flipmouse_fabi_esp32_kbdmouse_main.c']]],
   ['configswitcher_5fhandle',['configswitcher_handle',['../config__switcher_8c.html#abd2fb9b048f1de98ee98dd54077541c2',1,'config_switcher.c']]],
+  ['configupdatepending',['configUpdatePending',['../config__switcher_8c.html#a6f9c5e2e02071a867ae72503816a94e8',1,'config_switcher.c']]],
   ['congest',['congest',['../structhidd__clcb__t.html#ad8abd2b6ed031a08d305bc03d45102c7',1,'hidd_clcb_t']]],
   ['conn_5fid',['conn_id',['../structesp__hidd__cb__param__t_1_1hidd__connect__evt__param.html#a0d96fc89710fa208904cc660c2d53038',1,'esp_hidd_cb_param_t::hidd_connect_evt_param::conn_id()'],['../structhidd__clcb__t.html#aac41144094eddd5672195fe67001218f',1,'hidd_clcb_t::conn_id()']]],
   ['connect',['connect',['../unionesp__hidd__cb__param__t.html#a70cd49d0078cd76a368794639ad3a3a6',1,'esp_hidd_cb_param_t']]],

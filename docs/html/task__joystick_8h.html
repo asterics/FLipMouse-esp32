@@ -156,7 +156,7 @@ Functions</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="task__joystick_8h_source.html#l00047">47</a> of file <a class="el" href="task__joystick_8h_source.html">task_joystick.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="config__switcher_8c_source.html#l00198">configSwitcherTask()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="config__switcher_8c_source.html#l00231">configSwitcherTask()</a>.</p>
 
 </div>
 </div>
@@ -255,9 +255,9 @@ Functions</h2></td></tr>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>ESP_OK if updating &amp; sending was fine. ESP_FAIL otherwise (params not valid, e.g. buttons are used, or sending failed) </dd></dl>
-<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000016">Todo:</a></b></dt><dd>Update the global values here and send the joystick state </dd></dl>
+<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000013">Todo:</a></b></dt><dd>Update the global values here and send the joystick state </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="task__joystick_8c_source.html#l00201">201</a> of file <a class="el" href="task__joystick_8c_source.html">task_joystick.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="task__joystick_8c_source.html#l00279">279</a> of file <a class="el" href="task__joystick_8c_source.html">task_joystick.c</a>.</p>
 
 </div>
 </div>
@@ -289,9 +289,17 @@ Functions</h2></td></tr>
 <dd>
 <a class="el" href="task__joystick_8h.html#aed3c0e0d7e7152cbf835beec3ae45bb9">taskJoystickConfig_t</a> </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="task__joystick_8c_source.html#l00053">53</a> of file <a class="el" href="task__joystick_8c_source.html">task_joystick.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="task__joystick_8c_source.html#l00123">123</a> of file <a class="el" href="task__joystick_8c_source.html">task_joystick.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="config__switcher_8c_source.html#l00198">configSwitcherTask()</a>, and <a class="el" href="task__commands_8c_source.html#l00492">doJoystickParsing()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="config__switcher_8c_source.html#l00231">configSwitcherTask()</a>, and <a class="el" href="task__commands_8c_source.html#l00488">doJoystickParsing()</a>.</p>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="task__joystick_8h_a3040132b9cef8e73060fcd9c17dc116b_cgraph.png" border="0" usemap="#task__joystick_8h_a3040132b9cef8e73060fcd9c17dc116b_cgraph" alt=""/></div>
+<map name="task__joystick_8h_a3040132b9cef8e73060fcd9c17dc116b_cgraph" id="task__joystick_8h_a3040132b9cef8e73060fcd9c17dc116b_cgraph">
+<area shape="rect" id="node2" href="task__joystick_8c.html#a5628692f7dfa056f69c93b99ee142ad4" title="Joystick command to HID bytebuffer. " alt="" coords="152,5,303,32"/>
+</map>
+</div>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
@@ -345,17 +353,17 @@ Here is the caller graph for this function:</div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>ESP_OK if everything went fine, ESP_FAIL otherwise </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="task__joystick_8c_source.html#l00216">216</a> of file <a class="el" href="task__joystick_8c_source.html">task_joystick.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="task__joystick_8c_source.html#l00294">294</a> of file <a class="el" href="task__joystick_8c_source.html">task_joystick.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="task__commands_8c_source.html#l01556">printAllSlots()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="task__commands_8c_source.html#l01566">printAllSlots()</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="task__joystick_8h_a129da97dc396e856bc83c34c49f267a7_icgraph.png" border="0" usemap="#task__joystick_8h_a129da97dc396e856bc83c34c49f267a7_icgraph" alt=""/></div>
 <map name="task__joystick_8h_a129da97dc396e856bc83c34c49f267a7_icgraph" id="task__joystick_8h_a129da97dc396e856bc83c34c49f267a7_icgraph">
-<area shape="rect" id="node2" href="task__commands_8c.html#ad59215648a26578c22baa7ceae099e0e" title="Print the current slot configurations (general settings + VBs) " alt="" coords="195,57,287,84"/>
+<area shape="rect" id="node2" href="task__commands_8c.html#ad59215648a26578c22baa7ceae099e0e" title="Print the current slot configurations (general settings + VBs) " alt="" coords="195,56,287,83"/>
 <area shape="rect" id="node3" href="task__commands_8c.html#a7f6500be563a3dce7f0854fceed02fab" title="doGeneralCmdParsing" alt="" coords="511,5,665,32"/>
-<area shape="rect" id="node8" href="task__commands_8c.html#acea81ba8a182ae78feb2db6418fc1806" title="sendErrorBack" alt="" coords="335,95,443,121"/>
+<area shape="rect" id="node8" href="task__commands_8c.html#acea81ba8a182ae78feb2db6418fc1806" title="sendErrorBack" alt="" coords="335,81,443,108"/>
 <area shape="rect" id="node4" href="task__commands_8c.html#a7b36c39275d773aaedcb327ef4e1516f" title="task_commands" alt="" coords="733,107,852,133"/>
 <area shape="rect" id="node5" href="task__commands_8h.html#aedb896e40753227f80768e09d3748419" title="Init the command parser. " alt="" coords="913,81,1045,108"/>
 <area shape="rect" id="node7" href="task__commands_8h.html#a26091155b4d85093239033d689f363d0" title="Restart the command parser task. " alt="" coords="900,132,1057,159"/>

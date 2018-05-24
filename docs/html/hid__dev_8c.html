@@ -72,7 +72,6 @@ $(function() {
 <div class="contents">
 <div class="textblock"><code>#include &quot;<a class="el" href="hid__dev_8h_source.html">hid_dev.h</a>&quot;</code><br />
 <code>#include &quot;keylayouts.h&quot;</code><br />
-<code>#include &quot;bt_trace.h&quot;</code><br />
 <code>#include &lt;stdint.h&gt;</code><br />
 <code>#include &lt;string.h&gt;</code><br />
 <code>#include &lt;stdbool.h&gt;</code><br />
@@ -85,6 +84,8 @@ Macros</h2></td></tr>
 <tr class="memitem:ae5c30dc4497ee36bd90bf416cc8ac289"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="hid__dev_8c.html#ae5c30dc4497ee36bd90bf416cc8ac289">M</a>(x)&#160;&#160;&#160;(x&amp;0xFF)</td></tr>
 <tr class="memdesc:ae5c30dc4497ee36bd90bf416cc8ac289"><td class="mdescLeft">&#160;</td><td class="mdescRight">mask for media keycodes to limit to 8bit  <a href="#ae5c30dc4497ee36bd90bf416cc8ac289">More...</a><br /></td></tr>
 <tr class="separator:ae5c30dc4497ee36bd90bf416cc8ac289"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7ce0df38eb467e59f209470c8f5ac4e6"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="hid__dev_8c.html#a7ce0df38eb467e59f209470c8f5ac4e6">LOG_TAG</a>&#160;&#160;&#160;&quot;HID_DEV&quot;</td></tr>
+<tr class="separator:a7ce0df38eb467e59f209470c8f5ac4e6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
@@ -105,6 +106,24 @@ Variables</h2></td></tr>
 <tr class="separator:aa282bf192d504334111315cb544ddc23"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Macro Definition Documentation</h2>
+<a id="a7ce0df38eb467e59f209470c8f5ac4e6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7ce0df38eb467e59f209470c8f5ac4e6">&#9670;&nbsp;</a></span>LOG_TAG</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define LOG_TAG&#160;&#160;&#160;&quot;HID_DEV&quot;</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="hid__dev_8c_source.html#l00028">28</a> of file <a class="el" href="hid__dev_8c_source.html">hid_dev.c</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="hid__dev_8c_source.html#l00073">hid_consumer_build_report()</a>, and <a class="el" href="hid__dev_8c_source.html#l00058">hid_dev_send_report()</a>.</p>
+
+</div>
+</div>
 <a id="ae5c30dc4497ee36bd90bf416cc8ac289"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ae5c30dc4497ee36bd90bf416cc8ac289">&#9670;&nbsp;</a></span>M</h2>
 
@@ -123,9 +142,9 @@ Variables</h2></td></tr>
 
 <p>mask for media keycodes to limit to 8bit </p>
 
-<p class="definition">Definition at line <a class="el" href="hid__dev_8c_source.html#l00024">24</a> of file <a class="el" href="hid__dev_8c_source.html">hid_dev.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="hid__dev_8c_source.html#l00023">23</a> of file <a class="el" href="hid__dev_8c_source.html">hid_dev.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="hid__dev_8c_source.html#l00068">hid_consumer_build_report()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="hid__dev_8c_source.html#l00073">hid_consumer_build_report()</a>.</p>
 
 </div>
 </div>
@@ -156,7 +175,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="hid__dev_8c_source.html#l00068">68</a> of file <a class="el" href="hid__dev_8c_source.html">hid_dev.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="hid__dev_8c_source.html#l00073">73</a> of file <a class="el" href="hid__dev_8c_source.html">hid_dev.c</a>.</p>
 
 <p class="reference">Referenced by <a class="el" href="esp__hidd__prf__api_8c_source.html#l00096">esp_hidd_send_consumer_value()</a>.</p>
 <div class="dynheader">
@@ -196,9 +215,9 @@ Here is the caller graph for this function:</div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="hid__dev_8c_source.html#l00046">46</a> of file <a class="el" href="hid__dev_8c_source.html">hid_dev.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="hid__dev_8c_source.html#l00051">51</a> of file <a class="el" href="hid__dev_8c_source.html">hid_dev.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="hid__device__le__prf_8c_source.html#l00673">hid_add_id_tbl()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="hid__device__le__prf_8c_source.html#l00675">hid_add_id_tbl()</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
@@ -249,9 +268,9 @@ Here is the caller graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="hid__dev_8c_source.html#l00033">33</a> of file <a class="el" href="hid__dev_8c_source.html">hid_dev.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="hid__dev_8c_source.html#l00038">38</a> of file <a class="el" href="hid__dev_8c_source.html">hid_dev.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="hid__dev_8c_source.html#l00053">hid_dev_send_report()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="hid__dev_8c_source.html#l00058">hid_dev_send_report()</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
@@ -327,7 +346,7 @@ Here is the caller graph for this function:</div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="hid__dev_8c_source.html#l00053">53</a> of file <a class="el" href="hid__dev_8c_source.html">hid_dev.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="hid__dev_8c_source.html#l00058">58</a> of file <a class="el" href="hid__dev_8c_source.html">hid_dev.c</a>.</p>
 
 <p class="reference">Referenced by <a class="el" href="esp__hidd__prf__api_8c_source.html#l00096">esp_hidd_send_consumer_value()</a>, <a class="el" href="esp__hidd__prf__api_8c_source.html#l00109">esp_hidd_send_keyboard_value()</a>, and <a class="el" href="esp__hidd__prf__api_8c_source.html#l00130">esp_hidd_send_mouse_value()</a>.</p>
 <div class="dynheader">
@@ -383,9 +402,9 @@ Here is the caller graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="hid__dev_8c_source.html#l00030">30</a> of file <a class="el" href="hid__dev_8c_source.html">hid_dev.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="hid__dev_8c_source.html#l00035">35</a> of file <a class="el" href="hid__dev_8c_source.html">hid_dev.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="hid__dev_8c_source.html#l00033">hid_dev_rpt_by_id()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="hid__dev_8c_source.html#l00038">hid_dev_rpt_by_id()</a>.</p>
 
 </div>
 </div>
@@ -409,7 +428,7 @@ Here is the caller graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="hid__dev_8c_source.html#l00031">31</a> of file <a class="el" href="hid__dev_8c_source.html">hid_dev.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="hid__dev_8c_source.html#l00036">36</a> of file <a class="el" href="hid__dev_8c_source.html">hid_dev.c</a>.</p>
 
 </div>
 </div>

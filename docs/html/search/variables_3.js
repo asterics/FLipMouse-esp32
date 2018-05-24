@@ -1,5 +1,6 @@
 var searchData=
 [
+  ['data',['data',['../structusb__command.html#ab3f9140a2088b7f6c3a5eb976984e915',1,'usb_command']]],
   ['deadkey_5fusint',['deadkey_USINT',['../keyboard_8c.html#a229e41acc78a3d889c7911f17e90e147',1,'keyboard.c']]],
   ['deadzone_5fx',['deadzone_x',['../structadc__config.html#a11186d7ca4d27ce6177e17b028a71fac',1,'adc_config']]],
   ['deadzone_5fy',['deadzone_y',['../structadc__config.html#a9958f90daee761db302bd2c077a42272',1,'adc_config']]],

@@ -303,7 +303,7 @@ void halSerialHIDTask(void *param)
         switch(rx.data[0])
         {
           case 'M': ESP_LOGD(LOG_TAG,"USB Mouse: B: %d, X/Y: %d/%d, wheel: %d", \
-            rx.data[1],rx.data[2],rx.data[3],rx.data[4]);
+            rx.data[1],(int8_t)rx.data[2],(int8_t)rx.data[3],(int8_t)rx.data[4]);
             break;
           case 'K': ESP_LOGD(LOG_TAG,"USB Kbd: Mod: %d, keys: %d/%d/%d/%d/%d/%d", \
             rx.data[1],rx.data[2],rx.data[3],rx.data[4],rx.data[5],rx.data[6],rx.data[7]);

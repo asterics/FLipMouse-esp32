@@ -9,13 +9,14 @@ This device is originally designed for people with motor disablities, which can 
 Our goal is to provide an affordable solution for everybody who is not able to use a PC or smartphone in the usual way.
 
 
-![Front view of 3 FLipmice in different colors (black, pink and transparent orange)](FLipmouse1.jpg)
-![Full equipped FLipmouse with 2 external buttons attached. Mounted on Manfrotto mount](FLipmouse2.jpg)
+![Front view of 3 FLipmice in different colors (black, pink and transparent orange)](FLipmouse1.jpg) 
+
 
 
 # The Hardware
 
-We are currently updating the hardware to an ESP32 based board. If the first revision of the PCB is finished, it will be published either here or in another repository. This rework will also include a 3D-printed case.
+A reworked version of the FLipMouse PCB with the ESP32 is now available in the hardware subdirectory. This PCB works with a few modifications (see README in this folder). In addition, a FABI-ESP32 PCB is also added. 
+This version is not tested by now, test reports or notifications will be added.
 
 # The Firmware
 

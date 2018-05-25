@@ -95,9 +95,12 @@ Functions</h2></td></tr>
 <tr class="memitem:a12e56de03844b9ca18468658c7f9263f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="config__switcher_8c.html#a12e56de03844b9ca18468658c7f9263f">configTriggerUpdate</a> (void)</td></tr>
 <tr class="memdesc:a12e56de03844b9ca18468658c7f9263f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Trigger a config update.  <a href="#a12e56de03844b9ca18468658c7f9263f">More...</a><br /></td></tr>
 <tr class="separator:a12e56de03844b9ca18468658c7f9263f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4c2e410d8032c65c0700c6ca07429074"><td class="memItemLeft" align="right" valign="top">esp_err_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="config__switcher_8c.html#a4c2e410d8032c65c0700c6ca07429074">configUpdate</a> (void)</td></tr>
-<tr class="memdesc:a4c2e410d8032c65c0700c6ca07429074"><td class="mdescLeft">&#160;</td><td class="mdescRight">Request config update.  <a href="#a4c2e410d8032c65c0700c6ca07429074">More...</a><br /></td></tr>
-<tr class="separator:a4c2e410d8032c65c0700c6ca07429074"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a27ed39a214ff60cc13af7058e8f4722e"><td class="memItemLeft" align="right" valign="top">esp_err_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="config__switcher_8c.html#a27ed39a214ff60cc13af7058e8f4722e">configUpdateWaitStable</a> (void)</td></tr>
+<tr class="memdesc:a27ed39a214ff60cc13af7058e8f4722e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Wait unitl current configuration is stable.  <a href="#a27ed39a214ff60cc13af7058e8f4722e">More...</a><br /></td></tr>
+<tr class="separator:a27ed39a214ff60cc13af7058e8f4722e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9923e9382fd34431c11db03aada5f898"><td class="memItemLeft" align="right" valign="top">esp_err_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="config__switcher_8c.html#a9923e9382fd34431c11db03aada5f898">configUpdate</a> (int force)</td></tr>
+<tr class="memdesc:a9923e9382fd34431c11db03aada5f898"><td class="mdescLeft">&#160;</td><td class="mdescRight">Request config update.  <a href="#a9923e9382fd34431c11db03aada5f898">More...</a><br /></td></tr>
+<tr class="separator:a9923e9382fd34431c11db03aada5f898"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a20db6aabb98f5c9c7cea48e950bada5b"><td class="memItemLeft" align="right" valign="top">esp_err_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="config__switcher_8c.html#a20db6aabb98f5c9c7cea48e950bada5b">configUpdateVB</a> (void *param, <a class="el" href="common_8h.html#ac27b6f4710923c6689834e86aea228ac">command_type_t</a> type, uint8_t vb)</td></tr>
 <tr class="memdesc:a20db6aabb98f5c9c7cea48e950bada5b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Update one virtual button.  <a href="#a20db6aabb98f5c9c7cea48e950bada5b">More...</a><br /></td></tr>
 <tr class="separator:a20db6aabb98f5c9c7cea48e950bada5b"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -124,9 +127,9 @@ Variables</h2></td></tr>
 <tr class="separator:aceb033b9bef9bb354a3b2c4734b4ec9d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:abd2fb9b048f1de98ee98dd54077541c2"><td class="memItemLeft" align="right" valign="top">TaskHandle_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="config__switcher_8c.html#abd2fb9b048f1de98ee98dd54077541c2">configswitcher_handle</a></td></tr>
 <tr class="separator:abd2fb9b048f1de98ee98dd54077541c2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6f9c5e2e02071a867ae72503816a94e8"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="config__switcher_8c.html#a6f9c5e2e02071a867ae72503816a94e8">configUpdatePending</a> = 0</td></tr>
-<tr class="memdesc:a6f9c5e2e02071a867ae72503816a94e8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Flag for detecting pending config updates.  <a href="#a6f9c5e2e02071a867ae72503816a94e8">More...</a><br /></td></tr>
-<tr class="separator:a6f9c5e2e02071a867ae72503816a94e8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7265e5121ad81b52fb8a0e4334b42118"><td class="memItemLeft" align="right" valign="top">SemaphoreHandle_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="config__switcher_8c.html#a7265e5121ad81b52fb8a0e4334b42118">configUpdatePending</a> = NULL</td></tr>
+<tr class="memdesc:a7265e5121ad81b52fb8a0e4334b42118"><td class="mdescLeft">&#160;</td><td class="mdescRight">Semaphore for detecting pending config updates.  <a href="#a7265e5121ad81b52fb8a0e4334b42118">More...</a><br /></td></tr>
+<tr class="separator:a7265e5121ad81b52fb8a0e4334b42118"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a73c577cdbcaa9439f9458a9e5d39c143"><td class="memItemLeft" align="right" valign="top"><a class="el" href="common_8h.html#a1d17932316265a53a6982a2526a4cada">generalConfig_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="config__switcher_8c.html#a73c577cdbcaa9439f9458a9e5d39c143">currentConfigLoaded</a></td></tr>
 <tr class="separator:a73c577cdbcaa9439f9458a9e5d39c143"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
@@ -154,7 +157,7 @@ Variables</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="config__switcher_8c_source.html#l00047">47</a> of file <a class="el" href="config__switcher_8c_source.html">config_switcher.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="config__switcher_8c_source.html#l00549">configSwitcherInit()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="config__switcher_8c_source.html#l00602">configSwitcherInit()</a>.</p>
 
 </div>
 </div>
@@ -173,7 +176,7 @@ Variables</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="config__switcher_8c_source.html#l00043">43</a> of file <a class="el" href="config__switcher_8c_source.html">config_switcher.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="config__switcher_8c_source.html#l00549">configSwitcherInit()</a>, <a class="el" href="config__switcher_8c_source.html#l00231">configSwitcherTask()</a>, <a class="el" href="config__switcher_8c_source.html#l00146">configTriggerUpdate()</a>, <a class="el" href="config__switcher_8c_source.html#l00196">configUpdateVB()</a>, and <a class="el" href="config__switcher_8c_source.html#l00483">task_configswitcher()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="config__switcher_8c_source.html#l00602">configSwitcherInit()</a>, <a class="el" href="config__switcher_8c_source.html#l00280">configSwitcherTask()</a>, <a class="el" href="config__switcher_8c_source.html#l00149">configTriggerUpdate()</a>, <a class="el" href="config__switcher_8c_source.html#l00206">configUpdate()</a>, <a class="el" href="config__switcher_8c_source.html#l00245">configUpdateVB()</a>, <a class="el" href="config__switcher_8c_source.html#l00179">configUpdateWaitStable()</a>, and <a class="el" href="config__switcher_8c_source.html#l00536">task_configswitcher()</a>.</p>
 
 </div>
 </div>
@@ -201,9 +204,9 @@ Variables</h2></td></tr>
 <a class="el" href="config__switcher_8c.html#a73c577cdbcaa9439f9458a9e5d39c143">currentConfigLoaded</a> </dd></dl>
 <dl class="section return"><dt>Returns</dt><dd>Pointer to the current config struct </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="config__switcher_8c_source.html#l00108">108</a> of file <a class="el" href="config__switcher_8c_source.html">config_switcher.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="config__switcher_8c_source.html#l00111">111</a> of file <a class="el" href="config__switcher_8c_source.html">config_switcher.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="task__debouncer_8c_source.html#l00180">debouncerCallback()</a>, <a class="el" href="task__commands_8c_source.html#l00741">doGeneralCmdParsing()</a>, <a class="el" href="task__commands_8c_source.html#l00581">doInfraredParsing()</a>, <a class="el" href="task__commands_8c_source.html#l01034">doKeyboardParsing()</a>, <a class="el" href="task__commands_8c_source.html#l00153">doMouthpieceSettingsParsing()</a>, <a class="el" href="task__commands_8c_source.html#l00391">doStorageParsing()</a>, <a class="el" href="hal__adc_8c_source.html#l00351">halAdcProcessPressure()</a>, <a class="el" href="hal__ble_8c_source.html#l00455">halBLEInit()</a>, <a class="el" href="hal__ble_8c_source.html#l00180">halBleTaskKeyboardPress()</a>, <a class="el" href="hal__ble_8c_source.html#l00252">halBleTaskKeyboardRelease()</a>, <a class="el" href="hal__io_8c_source.html#l00319">halIOBuzzerTask()</a>, <a class="el" href="hal__io_8c_source.html#l00544">halIOInit()</a>, <a class="el" href="hal__io_8c_source.html#l00377">halIOLEDTask()</a>, <a class="el" href="task__infrared_8c_source.html#l00270">infrared_set_edge_timeout()</a>, <a class="el" href="task__mouse_8c_source.html#l00062">mouse_get_wheel()</a>, <a class="el" href="task__mouse_8c_source.html#l00044">mouse_set_wheel()</a>, <a class="el" href="task__commands_8c_source.html#l01566">printAllSlots()</a>, and <a class="el" href="task__debouncer_8c_source.html#l00305">task_debouncer()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="task__debouncer_8c_source.html#l00180">debouncerCallback()</a>, <a class="el" href="task__commands_8c_source.html#l00757">doGeneralCmdParsing()</a>, <a class="el" href="task__commands_8c_source.html#l00597">doInfraredParsing()</a>, <a class="el" href="task__commands_8c_source.html#l01057">doKeyboardParsing()</a>, <a class="el" href="task__commands_8c_source.html#l00153">doMouthpieceSettingsParsing()</a>, <a class="el" href="task__commands_8c_source.html#l00391">doStorageParsing()</a>, <a class="el" href="hal__adc_8c_source.html#l00350">halAdcProcessPressure()</a>, <a class="el" href="hal__ble_8c_source.html#l00455">halBLEInit()</a>, <a class="el" href="hal__ble_8c_source.html#l00180">halBleTaskKeyboardPress()</a>, <a class="el" href="hal__ble_8c_source.html#l00252">halBleTaskKeyboardRelease()</a>, <a class="el" href="hal__io_8c_source.html#l00319">halIOBuzzerTask()</a>, <a class="el" href="hal__io_8c_source.html#l00544">halIOInit()</a>, <a class="el" href="hal__io_8c_source.html#l00377">halIOLEDTask()</a>, <a class="el" href="task__infrared_8c_source.html#l00270">infrared_set_edge_timeout()</a>, <a class="el" href="task__mouse_8c_source.html#l00062">mouse_get_wheel()</a>, <a class="el" href="task__mouse_8c_source.html#l00044">mouse_set_wheel()</a>, <a class="el" href="task__commands_8c_source.html#l01589">printAllSlots()</a>, and <a class="el" href="task__debouncer_8c_source.html#l00305">task_debouncer()</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
@@ -264,7 +267,7 @@ Here is the caller graph for this function:</div>
 <p>Initializing the config switching functionality. </p>
 <p>The CONTINOUS task will be loaded to enable slot switches via the task_configswitcher FUNCTIONAL task. </p><dl class="section return"><dt>Returns</dt><dd>ESP_OK if everything is fined, ESP_FAIL otherwise </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="config__switcher_8c_source.html#l00549">549</a> of file <a class="el" href="config__switcher_8c_source.html">config_switcher.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="config__switcher_8c_source.html#l00602">602</a> of file <a class="el" href="config__switcher_8c_source.html">config_switcher.c</a>.</p>
 
 <p class="reference">Referenced by <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c_source.html#l00120">app_main()</a>.</p>
 <div class="dynheader">
@@ -353,9 +356,9 @@ Here is the caller graph for this function:</div>
 <dl class="section warning"><dt>Warning</dt><dd>On a factory reset, it is necessary to load the default slot again!</dd></dl>
 <dl class="todo"><dt><b><a class="el" href="todo.html#_todo000002">Todo:</a></b></dt><dd>Add __RESTOREFACTORY... </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="config__switcher_8c_source.html#l00231">231</a> of file <a class="el" href="config__switcher_8c_source.html">config_switcher.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="config__switcher_8c_source.html#l00280">280</a> of file <a class="el" href="config__switcher_8c_source.html">config_switcher.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="config__switcher_8c_source.html#l00549">configSwitcherInit()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="config__switcher_8c_source.html#l00602">configSwitcherInit()</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -435,31 +438,32 @@ Here is the caller graph for this function:</div>
 <p>This method is simply sending an "__UPDATE" command to the config_switcher queue to trigger an update by re-loading the currentConfig.</p>
 <dl class="section see"><dt>See also</dt><dd><a class="el" href="common_8h.html#a4701c432a28c389e4b8557f2fa3323d1" title="Queue to receive config changing commands. ">config_switcher</a> </dd>
 <dd>
-<a class="el" href="config__switcher_8c.html#a4c2e410d8032c65c0700c6ca07429074" title="Request config update. ">configUpdate</a> </dd>
+<a class="el" href="config__switcher_8c.html#a9923e9382fd34431c11db03aada5f898" title="Request config update. ">configUpdate</a> </dd>
 <dd>
 currentConfig </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="config__switcher_8c_source.html#l00146">146</a> of file <a class="el" href="config__switcher_8c_source.html">config_switcher.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="config__switcher_8c_source.html#l00149">149</a> of file <a class="el" href="config__switcher_8c_source.html">config_switcher.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="config__switcher_8c_source.html#l00172">configUpdate()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="config__switcher_8c_source.html#l00206">configUpdate()</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="config__switcher_8c_a12e56de03844b9ca18468658c7f9263f_icgraph.png" border="0" usemap="#config__switcher_8c_a12e56de03844b9ca18468658c7f9263f_icgraph" alt=""/></div>
 <map name="config__switcher_8c_a12e56de03844b9ca18468658c7f9263f_icgraph" id="config__switcher_8c_a12e56de03844b9ca18468658c7f9263f_icgraph">
-<area shape="rect" id="node2" href="config__switcher_8h.html#a4c2e410d8032c65c0700c6ca07429074" title="Request config update. " alt="" coords="192,31,291,57"/>
-<area shape="rect" id="node3" href="config__switcher_8h.html#a20db6aabb98f5c9c7cea48e950bada5b" title="Update one virtual button. " alt="" coords="339,5,456,32"/>
-<area shape="rect" id="node4" href="task__commands_8c.html#a7b36c39275d773aaedcb327ef4e1516f" title="task_commands" alt="" coords="504,31,623,57"/>
-<area shape="rect" id="node5" href="task__commands_8h.html#aedb896e40753227f80768e09d3748419" title="Init the command parser. " alt="" coords="683,5,815,32"/>
-<area shape="rect" id="node7" href="task__commands_8h.html#a26091155b4d85093239033d689f363d0" title="Restart the command parser task. " alt="" coords="671,56,828,83"/>
-<area shape="rect" id="node6" href="flipmouse__fabi__esp32__kbdmouse__main_8c.html#abce06be17fc37d675118a678a8100a36" title="Main task, created by esp&#45;idf. " alt="" coords="876,5,955,32"/>
+<area shape="rect" id="node2" href="config__switcher_8h.html#a9923e9382fd34431c11db03aada5f898" title="Request config update. " alt="" coords="192,56,291,83"/>
+<area shape="rect" id="node3" href="config__switcher_8h.html#a20db6aabb98f5c9c7cea48e950bada5b" title="Update one virtual button. " alt="" coords="343,5,460,32"/>
+<area shape="rect" id="node4" href="task__commands_8c.html#a7b36c39275d773aaedcb327ef4e1516f" title="task_commands" alt="" coords="512,56,631,83"/>
+<area shape="rect" id="node8" href="task__commands_8c.html#a69b0c55558b32caa21407de8e2277be9" title="doStorageParsing" alt="" coords="339,107,464,133"/>
+<area shape="rect" id="node5" href="task__commands_8h.html#aedb896e40753227f80768e09d3748419" title="Init the command parser. " alt="" coords="691,31,823,57"/>
+<area shape="rect" id="node7" href="task__commands_8h.html#a26091155b4d85093239033d689f363d0" title="Restart the command parser task. " alt="" coords="679,81,836,108"/>
+<area shape="rect" id="node6" href="flipmouse__fabi__esp32__kbdmouse__main_8c.html#abce06be17fc37d675118a678a8100a36" title="Main task, created by esp&#45;idf. " alt="" coords="884,31,963,57"/>
 </map>
 </div>
 
 </div>
 </div>
-<a id="a4c2e410d8032c65c0700c6ca07429074"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a4c2e410d8032c65c0700c6ca07429074">&#9670;&nbsp;</a></span>configUpdate()</h2>
+<a id="a9923e9382fd34431c11db03aada5f898"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9923e9382fd34431c11db03aada5f898">&#9670;&nbsp;</a></span>configUpdate()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -467,8 +471,8 @@ Here is the caller graph for this function:</div>
         <tr>
           <td class="memname">esp_err_t configUpdate </td>
           <td>(</td>
-          <td class="paramtype">void&#160;</td>
-          <td class="paramname"></td><td>)</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>force</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
@@ -479,29 +483,36 @@ Here is the caller graph for this function:</div>
 <dl class="section see"><dt>See also</dt><dd><a class="el" href="common_8h.html#a4701c432a28c389e4b8557f2fa3323d1" title="Queue to receive config changing commands. ">config_switcher</a> </dd>
 <dd>
 currentConfig </dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">force</td><td>Force the update. Usually not necessary, but after waiting for a stable config, this is necessary. != 0 to ignore the semaphore and force the update. </td></tr>
+  </table>
+  </dd>
+</dl>
 <dl class="section return"><dt>Returns</dt><dd>ESP_OK on success, ESP_FAIL otherwise </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="config__switcher_8c_source.html#l00172">172</a> of file <a class="el" href="config__switcher_8c_source.html">config_switcher.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="config__switcher_8c_source.html#l00206">206</a> of file <a class="el" href="config__switcher_8c_source.html">config_switcher.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="config__switcher_8c_source.html#l00196">configUpdateVB()</a>, and <a class="el" href="task__commands_8c_source.html#l01363">task_commands()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="config__switcher_8c_source.html#l00245">configUpdateVB()</a>, <a class="el" href="task__commands_8c_source.html#l00391">doStorageParsing()</a>, and <a class="el" href="task__commands_8c_source.html#l01386">task_commands()</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><img src="config__switcher_8c_a4c2e410d8032c65c0700c6ca07429074_cgraph.png" border="0" usemap="#config__switcher_8c_a4c2e410d8032c65c0700c6ca07429074_cgraph" alt=""/></div>
-<map name="config__switcher_8c_a4c2e410d8032c65c0700c6ca07429074_cgraph" id="config__switcher_8c_a4c2e410d8032c65c0700c6ca07429074_cgraph">
+<div class="center"><img src="config__switcher_8c_a9923e9382fd34431c11db03aada5f898_cgraph.png" border="0" usemap="#config__switcher_8c_a9923e9382fd34431c11db03aada5f898_cgraph" alt=""/></div>
+<map name="config__switcher_8c_a9923e9382fd34431c11db03aada5f898_cgraph" id="config__switcher_8c_a9923e9382fd34431c11db03aada5f898_cgraph">
 <area shape="rect" id="node2" href="config__switcher_8c.html#a12e56de03844b9ca18468658c7f9263f" title="Trigger a config update. " alt="" coords="152,5,291,32"/>
 </map>
 </div>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><img src="config__switcher_8c_a4c2e410d8032c65c0700c6ca07429074_icgraph.png" border="0" usemap="#config__switcher_8c_a4c2e410d8032c65c0700c6ca07429074_icgraph" alt=""/></div>
-<map name="config__switcher_8c_a4c2e410d8032c65c0700c6ca07429074_icgraph" id="config__switcher_8c_a4c2e410d8032c65c0700c6ca07429074_icgraph">
-<area shape="rect" id="node2" href="config__switcher_8h.html#a20db6aabb98f5c9c7cea48e950bada5b" title="Update one virtual button. " alt="" coords="152,5,269,32"/>
-<area shape="rect" id="node3" href="task__commands_8c.html#a7b36c39275d773aaedcb327ef4e1516f" title="task_commands" alt="" coords="317,31,436,57"/>
-<area shape="rect" id="node4" href="task__commands_8h.html#aedb896e40753227f80768e09d3748419" title="Init the command parser. " alt="" coords="497,5,629,32"/>
-<area shape="rect" id="node6" href="task__commands_8h.html#a26091155b4d85093239033d689f363d0" title="Restart the command parser task. " alt="" coords="484,56,641,83"/>
-<area shape="rect" id="node5" href="flipmouse__fabi__esp32__kbdmouse__main_8c.html#abce06be17fc37d675118a678a8100a36" title="Main task, created by esp&#45;idf. " alt="" coords="689,5,768,32"/>
+<div class="center"><img src="config__switcher_8c_a9923e9382fd34431c11db03aada5f898_icgraph.png" border="0" usemap="#config__switcher_8c_a9923e9382fd34431c11db03aada5f898_icgraph" alt=""/></div>
+<map name="config__switcher_8c_a9923e9382fd34431c11db03aada5f898_icgraph" id="config__switcher_8c_a9923e9382fd34431c11db03aada5f898_icgraph">
+<area shape="rect" id="node2" href="config__switcher_8h.html#a20db6aabb98f5c9c7cea48e950bada5b" title="Update one virtual button. " alt="" coords="156,5,273,32"/>
+<area shape="rect" id="node3" href="task__commands_8c.html#a7b36c39275d773aaedcb327ef4e1516f" title="task_commands" alt="" coords="325,56,444,83"/>
+<area shape="rect" id="node7" href="task__commands_8c.html#a69b0c55558b32caa21407de8e2277be9" title="doStorageParsing" alt="" coords="152,107,277,133"/>
+<area shape="rect" id="node4" href="task__commands_8h.html#aedb896e40753227f80768e09d3748419" title="Init the command parser. " alt="" coords="505,31,637,57"/>
+<area shape="rect" id="node6" href="task__commands_8h.html#a26091155b4d85093239033d689f363d0" title="Restart the command parser task. " alt="" coords="492,81,649,108"/>
+<area shape="rect" id="node5" href="flipmouse__fabi__esp32__kbdmouse__main_8c.html#abce06be17fc37d675118a678a8100a36" title="Main task, created by esp&#45;idf. " alt="" coords="697,31,776,57"/>
 </map>
 </div>
 
@@ -540,7 +551,7 @@ Here is the caller graph for this function:</div>
 </div><div class="memdoc">
 
 <p>Update one virtual button. </p>
-<p>This function is used to update one virtual button config. For example it is triggered by "AT BM xx" and the following AT command. It saves the param pointer to the update param array and calls configUpdate to trigger the reload. </p><dl class="section see"><dt>See also</dt><dd><a class="el" href="config__switcher_8c.html#a4c2e410d8032c65c0700c6ca07429074" title="Request config update. ">configUpdate</a> </dd>
+<p>This function is used to update one virtual button config. For example it is triggered by "AT BM xx" and the following AT command. It saves the param pointer to the update param array and calls configUpdate to trigger the reload. </p><dl class="section see"><dt>See also</dt><dd><a class="el" href="config__switcher_8c.html#a9923e9382fd34431c11db03aada5f898" title="Request config update. ">configUpdate</a> </dd>
 <dd>
 <a class="el" href="config__switcher_8c.html#aceb033b9bef9bb354a3b2c4734b4ec9d" title="Array of pointers to FUNCTIONAL task parameters (for updating current config) ">currentTaskParametersUpdate</a> </dd></dl>
 <dl class="params"><dt>Parameters</dt><dd>
@@ -553,15 +564,15 @@ Here is the caller graph for this function:</div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>ESP_OK on success, ESP_FAIL otherwise </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="config__switcher_8c_source.html#l00196">196</a> of file <a class="el" href="config__switcher_8c_source.html">config_switcher.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="config__switcher_8c_source.html#l00245">245</a> of file <a class="el" href="config__switcher_8c_source.html">config_switcher.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="task__commands_8c_source.html#l01363">task_commands()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="task__commands_8c_source.html#l01386">task_commands()</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="config__switcher_8c_a20db6aabb98f5c9c7cea48e950bada5b_cgraph.png" border="0" usemap="#config__switcher_8c_a20db6aabb98f5c9c7cea48e950bada5b_cgraph" alt=""/></div>
 <map name="config__switcher_8c_a20db6aabb98f5c9c7cea48e950bada5b_cgraph" id="config__switcher_8c_a20db6aabb98f5c9c7cea48e950bada5b_cgraph">
-<area shape="rect" id="node2" href="config__switcher_8c.html#a4c2e410d8032c65c0700c6ca07429074" title="Request config update. " alt="" coords="171,5,269,32"/>
+<area shape="rect" id="node2" href="config__switcher_8c.html#a9923e9382fd34431c11db03aada5f898" title="Request config update. " alt="" coords="171,5,269,32"/>
 <area shape="rect" id="node3" href="config__switcher_8c.html#a12e56de03844b9ca18468658c7f9263f" title="Trigger a config update. " alt="" coords="317,5,456,32"/>
 </map>
 </div>
@@ -574,6 +585,48 @@ Here is the caller graph for this function:</div>
 <area shape="rect" id="node3" href="task__commands_8h.html#aedb896e40753227f80768e09d3748419" title="Init the command parser. " alt="" coords="350,5,482,32"/>
 <area shape="rect" id="node5" href="task__commands_8h.html#a26091155b4d85093239033d689f363d0" title="Restart the command parser task. " alt="" coords="337,56,495,83"/>
 <area shape="rect" id="node4" href="flipmouse__fabi__esp32__kbdmouse__main_8c.html#abce06be17fc37d675118a678a8100a36" title="Main task, created by esp&#45;idf. " alt="" coords="543,5,621,32"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="a27ed39a214ff60cc13af7058e8f4722e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a27ed39a214ff60cc13af7058e8f4722e">&#9670;&nbsp;</a></span>configUpdateWaitStable()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">esp_err_t configUpdateWaitStable </td>
+          <td>(</td>
+          <td class="paramtype">void&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Wait unitl current configuration is stable. </p>
+<p>If the function configUpdateVB is called, a temporary task parameter buffer is used. The full configuration is loaded if configUpdatePending semaphore is free. If the configuration is to be saved, this semaphore should be checked via this method.</p>
+<dl class="section note"><dt>Note</dt><dd>This method blocks on the semaphore. To re-enable updates after calling this method, use configUpdate(1) (enable forcing-update)</dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="config__switcher_8c.html#a9923e9382fd34431c11db03aada5f898" title="Request config update. ">configUpdate</a> </dd>
+<dd>
+configUpdateEnable </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>ESP_OK if config is stable, ESP_FAIL if timeout happened </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="config__switcher_8c_source.html#l00179">179</a> of file <a class="el" href="config__switcher_8c_source.html">config_switcher.c</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="task__commands_8c_source.html#l00391">doStorageParsing()</a>.</p>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="config__switcher_8c_a27ed39a214ff60cc13af7058e8f4722e_icgraph.png" border="0" usemap="#config__switcher_8c_a27ed39a214ff60cc13af7058e8f4722e_icgraph" alt=""/></div>
+<map name="config__switcher_8c_a27ed39a214ff60cc13af7058e8f4722e_icgraph" id="config__switcher_8c_a27ed39a214ff60cc13af7058e8f4722e_icgraph">
+<area shape="rect" id="node2" href="task__commands_8c.html#a69b0c55558b32caa21407de8e2277be9" title="doStorageParsing" alt="" coords="216,31,341,57"/>
+<area shape="rect" id="node3" href="task__commands_8c.html#a7b36c39275d773aaedcb327ef4e1516f" title="task_commands" alt="" coords="389,31,508,57"/>
+<area shape="rect" id="node4" href="task__commands_8h.html#aedb896e40753227f80768e09d3748419" title="Init the command parser. " alt="" coords="569,5,701,32"/>
+<area shape="rect" id="node6" href="task__commands_8h.html#a26091155b4d85093239033d689f363d0" title="Restart the command parser task. " alt="" coords="556,56,713,83"/>
+<area shape="rect" id="node5" href="flipmouse__fabi__esp32__kbdmouse__main_8c.html#abce06be17fc37d675118a678a8100a36" title="Main task, created by esp&#45;idf. " alt="" coords="761,5,840,32"/>
 </map>
 </div>
 
@@ -605,9 +658,9 @@ Here is the caller graph for this function:</div>
 </dl>
 <dl class="section see"><dt>See also</dt><dd><a class="el" href="config__switcher_8h.html#aa6d38946df351bfaec1994fdb081e7db" title="Parameter for functional task task_configswitcher. ">taskConfigSwitcherConfig_t</a> </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="config__switcher_8c_source.html#l00483">483</a> of file <a class="el" href="config__switcher_8c_source.html">config_switcher.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="config__switcher_8c_source.html#l00536">536</a> of file <a class="el" href="config__switcher_8c_source.html">config_switcher.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="config__switcher_8c_source.html#l00231">configSwitcherTask()</a>, and <a class="el" href="task__commands_8c_source.html#l00391">doStorageParsing()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="config__switcher_8c_source.html#l00280">configSwitcherTask()</a>, and <a class="el" href="task__commands_8c_source.html#l00391">doStorageParsing()</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
@@ -661,9 +714,9 @@ Here is the caller graph for this function:</div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>ESP_OK if everything went fine, ESP_FAIL otherwise </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="config__switcher_8c_source.html#l00121">121</a> of file <a class="el" href="config__switcher_8c_source.html">config_switcher.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="config__switcher_8c_source.html#l00124">124</a> of file <a class="el" href="config__switcher_8c_source.html">config_switcher.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="task__commands_8c_source.html#l01566">printAllSlots()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="task__commands_8c_source.html#l01589">printAllSlots()</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
@@ -701,29 +754,31 @@ Here is the caller graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="config__switcher_8c_source.html#l00083">83</a> of file <a class="el" href="config__switcher_8c_source.html">config_switcher.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="config__switcher_8c_source.html#l00549">configSwitcherInit()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="config__switcher_8c_source.html#l00602">configSwitcherInit()</a>.</p>
 
 </div>
 </div>
-<a id="a6f9c5e2e02071a867ae72503816a94e8"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a6f9c5e2e02071a867ae72503816a94e8">&#9670;&nbsp;</a></span>configUpdatePending</h2>
+<a id="a7265e5121ad81b52fb8a0e4334b42118"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7265e5121ad81b52fb8a0e4334b42118">&#9670;&nbsp;</a></span>configUpdatePending</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">uint32_t configUpdatePending = 0</td>
+          <td class="memname">SemaphoreHandle_t configUpdatePending = NULL</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>Flag for detecting pending config updates. </p>
-<p>Usually, on saving a new slot, each time a value is changed, <a class="el" href="config__switcher_8c.html#a4c2e410d8032c65c0700c6ca07429074" title="Request config update. ">configUpdate()</a> is called. This is unnecessary, so we have a flag which shows, if an update is already pending.</p>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="config__switcher_8c.html#a4c2e410d8032c65c0700c6ca07429074" title="Request config update. ">configUpdate</a> </dd></dl>
+<p>Semaphore for detecting pending config updates. </p>
+<p>Usually, on saving a new slot, each time a value is changed, <a class="el" href="config__switcher_8c.html#a9923e9382fd34431c11db03aada5f898" title="Request config update. ">configUpdate()</a> is called. This is unnecessary, so we have a semaphore which shows, if an update is already pending. In addition, this semaphore can be used to detect if the new configuration is stable (all tasks are loaded), which is necessary for storing the active slot via hal_storage.</p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="config__switcher_8c.html#a9923e9382fd34431c11db03aada5f898" title="Request config update. ">configUpdate</a> </dd>
+<dd>
+configUpdateIsStable </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="config__switcher_8c_source.html#l00093">93</a> of file <a class="el" href="config__switcher_8c_source.html">config_switcher.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="config__switcher_8c_source.html#l00096">96</a> of file <a class="el" href="config__switcher_8c_source.html">config_switcher.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="config__switcher_8c_source.html#l00231">configSwitcherTask()</a>, and <a class="el" href="config__switcher_8c_source.html#l00172">configUpdate()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="config__switcher_8c_source.html#l00602">configSwitcherInit()</a>, <a class="el" href="config__switcher_8c_source.html#l00280">configSwitcherTask()</a>, <a class="el" href="config__switcher_8c_source.html#l00206">configUpdate()</a>, and <a class="el" href="config__switcher_8c_source.html#l00179">configUpdateWaitStable()</a>.</p>
 
 </div>
 </div>
@@ -740,9 +795,9 @@ Here is the caller graph for this function:</div>
 </div><div class="memdoc">
 <p>Currently loaded configuration. </p>
 
-<p class="definition">Definition at line <a class="el" href="config__switcher_8c_source.html#l00096">96</a> of file <a class="el" href="config__switcher_8c_source.html">config_switcher.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="config__switcher_8c_source.html#l00099">99</a> of file <a class="el" href="config__switcher_8c_source.html">config_switcher.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="config__switcher_8c_source.html#l00108">configGetCurrent()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="config__switcher_8c_source.html#l00111">configGetCurrent()</a>.</p>
 
 </div>
 </div>
@@ -763,7 +818,7 @@ Here is the caller graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="config__switcher_8c_source.html#l00063">63</a> of file <a class="el" href="config__switcher_8c_source.html">config_switcher.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="config__switcher_8c_source.html#l00549">configSwitcherInit()</a>, and <a class="el" href="config__switcher_8c_source.html#l00231">configSwitcherTask()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="config__switcher_8c_source.html#l00602">configSwitcherInit()</a>, and <a class="el" href="config__switcher_8c_source.html#l00280">configSwitcherTask()</a>.</p>
 
 </div>
 </div>
@@ -791,7 +846,7 @@ Here is the caller graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="config__switcher_8c_source.html#l00080">80</a> of file <a class="el" href="config__switcher_8c_source.html">config_switcher.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="config__switcher_8c_source.html#l00549">configSwitcherInit()</a>, <a class="el" href="config__switcher_8c_source.html#l00231">configSwitcherTask()</a>, and <a class="el" href="config__switcher_8c_source.html#l00196">configUpdateVB()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="config__switcher_8c_source.html#l00602">configSwitcherInit()</a>, <a class="el" href="config__switcher_8c_source.html#l00280">configSwitcherTask()</a>, and <a class="el" href="config__switcher_8c_source.html#l00245">configUpdateVB()</a>.</p>
 
 </div>
 </div>
@@ -812,7 +867,7 @@ Here is the caller graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="config__switcher_8c_source.html#l00054">54</a> of file <a class="el" href="config__switcher_8c_source.html">config_switcher.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="config__switcher_8c_source.html#l00231">configSwitcherTask()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="config__switcher_8c_source.html#l00280">configSwitcherTask()</a>.</p>
 
 </div>
 </div>

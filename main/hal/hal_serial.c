@@ -548,7 +548,7 @@ void halSerialHIDFinished(rmt_channel_t channel, void *arg)
  * */
 esp_err_t halSerialInit(void)
 {
-  //set log level to warn
+  //set log level to given log level
   esp_log_level_set(LOG_TAG,LOG_LEVEL_SERIAL);
   
   /*++++ UART config (UART to CDC) ++++*/

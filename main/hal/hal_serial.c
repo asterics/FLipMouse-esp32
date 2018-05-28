@@ -47,7 +47,17 @@
 #include "hal_serial.h"
 
 #define LOG_TAG "hal_serial"
-#define HAL_SERIAL_TASK_STACKSIZE 3072
+
+
+#define LOG_LEVEL_SERIAL ESP_LOG_WARN
+
+#if LOG_LEVEL_SERIAL > ESP_LOG_WARN
+  //if you set log level to DEBUG, you need at least 2kB
+  #define HAL_SERIAL_TASK_STACKSIZE 2048
+#else
+  //if you set log level to WARN, 768B is sufficient
+  #define HAL_SERIAL_TASK_STACKSIZE 1024
+#endif
 
 /** @brief Ticks until the UART receive function has a timeout and gives back received data.*
  * 
@@ -95,28 +105,6 @@ static SemaphoreHandle_t serialsendingsem;
 static SemaphoreHandle_t hidsendingsem;
 
 
-/** Utility function, changing UART TX channel (HID or Serial)
- * 
- * This function changes the gpio pin, which is used to determine
- * where the sent UART data should be used on the USB-companion chip.
- * Either it is directly forwarded to USB-CDC (USB serial)
- * OR
- * it is parsed as USB-HID commands.
- * 
- * To safely change the direction, this function waits for any ongoing
- * transmission and changes the pin afterwards.
- * No waiting if target_level is already activated on GPIO pin.
- * 
- * @param target_level GPIO target level to check/wait for
- * @param ticks_to_wait Maximum number of ticks to wait for finishing UART TX
- * @return ESP_OK if change was fine (or already done before), ESP_FAIL on a timeout
- * */
-esp_err_t halSerialSwitchTXChannel(uint8_t target_level, TickType_t ticks_to_wait)
-{
-    return ESP_OK;
-}
-
-
 /** @brief Flush Serial RX input buffer */
 void halSerialFlushRX(void)
 {
@@ -136,11 +124,17 @@ void halSerialRXTask(void *pvParameters)
 {
   uint16_t cmdoffset;
   uint8_t *buf;
-  uint8_t bufstatic[ATCMD_LENGTH];
+  uint8_t *bufstatic = malloc(ATCMD_LENGTH);
   uint8_t data;
   uint8_t parserstate = 0;
   atcmd_t currentcmd;
-    
+  
+  if(bufstatic == NULL)
+  {
+    ESP_LOGE(LOG_TAG,"Cannot allocate mem");
+    vTaskDelete(NULL);
+  }
+  
   while(1)
   {
     int len = uart_read_bytes(HAL_SERIAL_UART, &data, 1, portMAX_DELAY);
@@ -265,7 +259,7 @@ void halSerialRXTask(void *pvParameters)
  * 
  * 
  * @param param Unused
- * @see usb_command_t
+ * @see hid_command_t
  * @see hid_usb
  * @see HAL_SERIAL_HIDPIN
  * @note Due to the nature of absolute values for some HID input, it is
@@ -278,9 +272,16 @@ void halSerialRXTask(void *pvParameters)
  * */
 void halSerialHIDTask(void *param)
 {
-  usb_command_t rx; //TODO: use right var type
+  hid_command_t rx;
   //RMT RAM has 64x32bit memory each block
-  rmt_item32_t rmtBuf[64];
+  rmt_item32_t *rmtBuf = malloc(sizeof(rmt_item32_t)*64);
+  
+  if(rmtBuf == NULL)
+  {
+    ESP_LOGE(LOG_TAG,"Cannot allocate memory for RMT");
+    vTaskDelete(NULL);
+  }
+  
   uint8_t rmtCount = 0;
   
   //levels are always same, set here.
@@ -300,6 +301,7 @@ void halSerialHIDTask(void *param)
         rmtCount = 0;
         
         //debug output
+        #if LOG_LEVEL_SERIAL >= ESP_LOG_DEBUG
         switch(rx.data[0])
         {
           case 'M': ESP_LOGD(LOG_TAG,"USB Mouse: B: %d, X/Y: %d/%d, wheel: %d", \
@@ -311,7 +313,12 @@ void halSerialHIDTask(void *param)
           case 'J': ESP_LOGD(LOG_TAG,"USB joystick:");
             ESP_LOG_BUFFER_HEXDUMP(LOG_TAG,&rx.data[1], 12 ,ESP_LOG_DEBUG);
             break;
-          default: ESP_LOGE(LOG_TAG,"Unknown USB report");
+          default: break;
+        }
+        #endif
+        
+        if(rx.data[0] != 'M' && rx.data[0] != 'K' && rx.data[0] != 'J') {
+          ESP_LOGE(LOG_TAG,"Unknown USB report");
         }
         
         //build RMT buffer
@@ -350,8 +357,10 @@ void halSerialHIDTask(void *param)
         rmtBuf[rmtCount] = item;
         rmtCount++;
         
-        ESP_LOGV(LOG_TAG,"RMT dump:");
-        ESP_LOG_BUFFER_HEXDUMP(LOG_TAG,rmtBuf, sizeof(rmt_item32_t)*(rmtCount),ESP_LOG_VERBOSE);
+        #if LOG_LEVEL_SERIAL>=ESP_LOG_VERBOSE
+          ESP_LOGV(LOG_TAG,"RMT dump:");
+          ESP_LOG_BUFFER_HEXDUMP(LOG_TAG,rmtBuf, sizeof(rmt_item32_t)*(rmtCount),ESP_LOG_VERBOSE);
+        #endif
         
         //put data into RMT buffer
         if(rmt_fill_tx_items(HAL_SERIAL_HID_CHANNEL, rmtBuf, \
@@ -365,30 +374,9 @@ void halSerialHIDTask(void *param)
           ESP_LOGE(LOG_TAG,"Cannot start RMT TX");
         }
         rmt_wait_tx_done(HAL_SERIAL_HID_CHANNEL,portMAX_DELAY);
-    
-        //the TX finished callback is NOT available in IDF v3.0, using blocking method
-        #if 0
-        //take semaphore
-        if(xSemaphoreTake(hidsendingsem,1000/portTICK_PERIOD_MS))
-        {
-          //put data into RMT buffer
-          if(rmt_fill_tx_items(HAL_SERIAL_HID_CHANNEL, rmtBuf, \
-            rmtCount, 0) != ESP_OK)
-          {
-            ESP_LOGE(LOG_TAG,"Cannot send data to RMT");
-          }
-          //start TX, reset memory index (always send from beginning)
-          if(rmt_tx_start(HAL_SERIAL_HID_CHANNEL, 1) != ESP_OK)
-          {
-            ESP_LOGE(LOG_TAG,"Cannot start RMT TX");
-          }
-        } else {
-          ESP_LOGE(LOG_TAG,"Timeout on HID mutex, possible error in sending");
-        }
-        #endif
       }
     } else {
-      ESP_LOGE(LOG_TAG,"joystick_movement_usb queue not initialized, retry in 1s");
+      ESP_LOGW(LOG_TAG,"usb hid queue not initialized, retry in 1s");
       vTaskDelay(1000/portTICK_PERIOD_MS);
     }
   }
@@ -489,7 +477,7 @@ void halSerialReset(uint8_t exceptDevice)
   //reset mouse
   if(!(exceptDevice & (1<<2))) 
   {
-    usb_command_t m;
+    hid_command_t m;
     m.len = 5;
     m.data[0] = 'M';
     m.data[1] = 0; //buttons
@@ -503,7 +491,7 @@ void halSerialReset(uint8_t exceptDevice)
   //reset keyboard
   if(!(exceptDevice & (1<<0)))
   {
-    usb_command_t k;
+    hid_command_t k;
     for(uint8_t i=1;i<=8;i++) k.data[i] = 0;
     k.data[0] = 'K';
     k.len = 9;
@@ -513,7 +501,7 @@ void halSerialReset(uint8_t exceptDevice)
   //reset joystick
   if(!(exceptDevice & (1<<1)))
   {
-    usb_command_t j;
+    hid_command_t j;
     for(uint8_t i=1;i<=12;i++) j.data[i] = 0;
     j.data[0] = 'J';
     j.len = 13;
@@ -560,6 +548,9 @@ void halSerialHIDFinished(rmt_channel_t channel, void *arg)
  * */
 esp_err_t halSerialInit(void)
 {
+  //set log level to warn
+  esp_log_level_set(LOG_TAG,LOG_LEVEL_SERIAL);
+  
   /*++++ UART config (UART to CDC) ++++*/
   
   esp_err_t ret = ESP_OK;
@@ -639,11 +630,6 @@ esp_err_t halSerialInit(void)
     ESP_LOGE(LOG_TAG,"Cannot install driver for HID output");
     return ESP_FAIL;
   }
-  
-  //this callback is not available in idf v3.0
-  #if 0
-  rmt_register_tx_end_callback(halSerialHIDFinished,NULL);
-  #endif
 
   /*++++ task setup ++++*/
   //task for sending HID commands via RMT

@@ -42,6 +42,8 @@
 
 #include "sdkconfig.h"
 
+#define LOG_LEVEL_BLE ESP_LOG_DEBUG
+
 static char LOG_TAG[] = "halBLE";
 
 /// @brief Is the BLE currently connected?
@@ -217,17 +219,72 @@ class BLETask : public Task {
     hid_command_t rx;
   
     //Empty queue if initialized (there might be something left from last connection)
-    if(hid_usb != nullptr) xQueueReset(hid_usb);
+    if(hid_ble != nullptr) xQueueReset(hid_ble);
     
     //check if queue is initialized
-    if(hid_usb != NULL)
+    if(hid_ble != NULL)
     {
       while(1)
       {
         //pend on MQ, if timeout triggers, just wait again.
         if(xQueueReceive(hid_ble,&rx,portMAX_DELAY))
         {
-          ///@todo Parse HID data into different BLE interfaces...
+          //debug output
+          #if LOG_LEVEL_BLE >= ESP_LOG_DEBUG
+          switch(rx.data[0])
+          {
+            case 'M': ESP_LOGD(LOG_TAG,"BLE Mouse: B: %d, X/Y: %d/%d, wheel: %d", \
+              rx.data[1],(int8_t)rx.data[2],(int8_t)rx.data[3],(int8_t)rx.data[4]);
+              break;
+            case 'K': ESP_LOGD(LOG_TAG,"BLE Kbd: Mod: %d, keys: %d/%d/%d/%d/%d/%d", \
+              rx.data[1],rx.data[2],rx.data[3],rx.data[4],rx.data[5],rx.data[6],rx.data[7]);
+              break;
+            case 'J': ESP_LOGD(LOG_TAG,"BLE joystick:");
+              ESP_LOG_BUFFER_HEXDUMP(LOG_TAG,&rx.data[1], 12 ,ESP_LOG_DEBUG);
+              break;
+            default: break;
+          }
+          #endif
+          
+          //test if it is a supported report
+          if(rx.data[0] != 'M' && rx.data[0] != 'K' && rx.data[0] != 'J') {
+            ESP_LOGE(LOG_TAG,"Unknown USB report");
+            continue;
+          }
+          
+          //according to interface, notify via characteristics
+          switch(rx.data[0])
+          {
+            case 'M':
+              if(activateMouse)
+              {
+                inputMouse->setValue(&rx.data[1],4);
+                inputMouse->notify();
+              } else {
+                ESP_LOGW(LOG_TAG,"Mouse disabled, but report received");
+              }
+            break;
+            case 'K':
+              if(activateKeyboard)
+              {
+                uint8_t a[] = {rx.data[1],0,rx.data[2],rx.data[3],rx.data[4], \
+                  rx.data[5],rx.data[6],rx.data[7] };
+                inputKbd->setValue(a,sizeof(a));
+                inputKbd->notify();
+              } else {
+                ESP_LOGW(LOG_TAG,"Kbd disabled, but report received");
+              }
+            break;
+            case 'J':
+              if(activateJoystick)
+              {
+                inputJoystick->setValue(&rx.data[1],12);
+                inputJoystick->notify();
+              } else {
+                ESP_LOGW(LOG_TAG,"Joystick disabled, but report received");
+              }
+            break;
+          }
         }
       }
     } else {
@@ -510,8 +567,7 @@ class BLE_HOG: public Task {
 		pSecurity->setCapability(ESP_IO_CAP_NONE);
 
 		ESP_LOGI(LOG_TAG, "Advertising started!");
-    ///@todo Is it save to delete this task? It uses 16k RAM...
-    while(1) { vTaskDelay(portMAX_DELAY); }
+    vTaskDelete(NULL);
 	}
 };
 

@@ -90,7 +90,8 @@ void switch_radio(void)
         case BLE_PAIRING:
             ESP_LOGI(LOG_TAG,"Switching from BLE_PAIRING to WIFI");
             halBLEEnDisable(0);
-            taskWebGUIEnDisable(1);
+            ///@todo Enable Wifi, but free a huge amount of RAM before...
+            //taskWebGUIEnDisable(1);
             radio = WIFI;
             LED(0,127,255,0);
             break;
@@ -176,7 +177,7 @@ void app_main()
         ESP_LOGE(LOG_TAG,"error initializing configSwitcherInit");
     }
     //start BLE (all 3 interfaces active)
-    if(halBLEInit(1,1,1) == ESP_OK)
+    if(halBLEInit(1,1,0) == ESP_OK)
     {
         ESP_LOGD(LOG_TAG,"initialized halBle");
     } else {

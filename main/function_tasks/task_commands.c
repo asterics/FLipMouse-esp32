@@ -408,7 +408,7 @@ parserstate_t doStorageParsing(uint8_t *cmdBuffer, taskConfigSwitcherConfig_t *i
   if(CMD("AT SA"))
   {
     //trigger config update
-    configUpdate(0);
+    configUpdate();
     //wait until configuration is stable
     if(configUpdateWaitStable() != ESP_OK)
     {
@@ -419,8 +419,6 @@ parserstate_t doStorageParsing(uint8_t *cmdBuffer, taskConfigSwitcherConfig_t *i
     if(halStorageStartTransaction(&tid,10,LOG_TAG) != ESP_OK)
     {
       ESP_LOGE(LOG_TAG,"Cannot start storage transaction");
-      //release config_switcher
-      configUpdate(1);
       return UNKNOWNCMD;
     }
     strncpy(slotname,(char*)&cmdBuffer[6],SLOTNAME_LENGTH);
@@ -442,8 +440,6 @@ parserstate_t doStorageParsing(uint8_t *cmdBuffer, taskConfigSwitcherConfig_t *i
     {
       ESP_LOGE(LOG_TAG,"Cannot store general cfg");
       halStorageFinishTransaction(tid);
-      //release config_switcher
-      configUpdate(1);
       return UNKNOWNCMD;
     }
     //update config sizes
@@ -466,12 +462,8 @@ parserstate_t doStorageParsing(uint8_t *cmdBuffer, taskConfigSwitcherConfig_t *i
     {
       ESP_LOGE(LOG_TAG,"Cannot store VBs");
       halStorageFinishTransaction(tid);
-      //release config_switcher
-      configUpdate(1);
       return UNKNOWNCMD;
     }
-    //release config_switcher
-    configUpdate(1);
     halStorageFinishTransaction(tid);
     return NOACTION;
   }
@@ -964,8 +956,8 @@ parserstate_t doGeneralCmdParsing(uint8_t *cmdBuffer)
       sendErrorBack("VB nr too high");
       return UNKNOWNCMD;
     } else {
-      requestVBUpdate = param - 1;
-      ESP_LOGI(LOG_TAG,"New mode for VB %d:",param - 1);
+      requestVBUpdate = param;
+      ESP_LOGI(LOG_TAG,"New mode for VB %d:",param);
       //return WAITFORNEWATCMD to definetly trigger nothing else
       return WAITFORNEWATCMD;
     }
@@ -1529,7 +1521,7 @@ void task_commands(void *params)
       //if a general config update is required
       if(requestUpdate != 0)
       {
-        if(configUpdate(0) != ESP_OK)
+        if(configUpdate() != ESP_OK)
         {
           ESP_LOGE(LOG_TAG,"Error updating general config!");
         } else {
@@ -1719,8 +1711,8 @@ void printAllSlots(uint8_t printconfig)
       
       for(uint8_t j = 0; j<(NUMBER_VIRTUALBUTTONS*4); j++)
       {
-        sprintf(outputstring,"AT BM %02d",j+1);
-        ESP_LOGD(LOG_TAG,"AT BM %02d (UART: %02d)",j,j+1);
+        sprintf(outputstring,"AT BM %02d",j);
+        ESP_LOGD(LOG_TAG,"AT BM %02d",j);
         halSerialSendUSBSerial(outputstring,strnlen(outputstring,SLOTNAME_LENGTH+11),10);
         switch(currentcfg->virtualButtonCommand[j])
         {

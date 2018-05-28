@@ -71,6 +71,17 @@ const static char http_html_hdr[] = "HTTP/1.1 200 OK\nContent-type: text/html\n\
 /** @brief Static HTTP 404 header */
 const static char http_404_hdr[] = "HTTP/1.1 404 NOT FOUND\n\n";
 
+/** @brief AP mode config, filled in init */
+wifi_config_t ap_config= {
+  .ap = {
+    //.channel = CONFIG_AP_CHANNEL,
+    .authmode = CONFIG_AP_AUTHMODE,
+    .ssid_hidden = CONFIG_AP_SSID_HIDDEN,
+    .max_connection = CONFIG_AP_MAX_CONNECTIONS,
+    .beacon_interval = CONFIG_AP_BEACON_INTERVAL,			
+  },
+};
+
 /** @brief Timer handle for auto-disabling wifi */
 TimerHandle_t wifiTimer;
 
@@ -399,7 +410,7 @@ esp_err_t taskWebGUIEnDisable(int onoff)
     wifiActive = 0;
     
     //disable, call wifi_stop
-    ret = esp_wifi_stop();
+    ret = esp_wifi_deinit();
     //check return value
     if(ret != ESP_OK)
     {
@@ -407,6 +418,15 @@ esp_err_t taskWebGUIEnDisable(int onoff)
       return ESP_FAIL;
     } else return ESP_OK;
   } else {
+    //Wifi config
+    wifi_init_config_t wifi_init_config = WIFI_INIT_CONFIG_DEFAULT();
+    //init wifi & set AP mode
+    ESP_ERROR_CHECK(esp_wifi_init(&wifi_init_config));
+    //bring into AP mode
+    ESP_ERROR_CHECK(esp_wifi_set_mode(WIFI_MODE_AP));
+    //apply config
+    ESP_ERROR_CHECK(esp_wifi_set_config(WIFI_IF_AP, &ap_config));
+    
     //start wifi
     ret = esp_wifi_start();
     switch(ret)
@@ -483,7 +503,7 @@ esp_err_t taskWebGUIInit(void)
 {
   if(connectionRoutingStatus == NULL)
   {
-    ESP_LOGE(LOG_TAG,"connection queue is uninitialized, please call the web init afterwards!");
+    ESP_LOGE(LOG_TAG,"connection flags are uninitialized!");
     return ESP_FAIL;
   }
   halStorageNVSLoadString(NVS_WIFIPW,wifipw);
@@ -499,44 +519,18 @@ esp_err_t taskWebGUIInit(void)
   /*++++ initialize WiFi (AP-mode) ++++*/
   esp_log_level_set("wifi", ESP_LOG_VERBOSE); // disable wifi driver logging
 	tcpip_adapter_init();
-  // stop DHCP server
-	/*ESP_ERROR_CHECK(tcpip_adapter_dhcps_stop(TCPIP_ADAPTER_IF_AP));
-  //assign new IP address to Wifi interface
-  tcpip_adapter_ip_info_t info;
-  memset(&info, 0, sizeof(info));
-	IP4_ADDR(&info.ip, 192, 168, 10, 1);
-  IP4_ADDR(&info.gw, 192, 168, 10, 1);
-  IP4_ADDR(&info.netmask, 255, 255, 255, 0);
-	ESP_ERROR_CHECK(tcpip_adapter_set_ip_info(TCPIP_ADAPTER_IF_AP, &info));
   
-  // start the DHCP server   
-  ESP_ERROR_CHECK(tcpip_adapter_dhcps_start(TCPIP_ADAPTER_IF_AP));
-	*/
 	// initialize the wifi event handler
 	ESP_ERROR_CHECK(esp_event_loop_init(wifi_event_handler, NULL));
 	
 	// initialize the wifi stack in AccessPoint mode with config in RAM
-	wifi_init_config_t wifi_init_config = WIFI_INIT_CONFIG_DEFAULT();
-  //wifi_init_config.event_handler = systemhandler;
-	ESP_ERROR_CHECK(esp_wifi_init(&wifi_init_config));
-	//ESP_ERROR_CHECK(esp_wifi_set_storage(WIFI_STORAGE_RAM));
-	ESP_ERROR_CHECK(esp_wifi_set_mode(WIFI_MODE_AP));
-
-	// configure the wifi connection and start the interface
-	wifi_config_t ap_config = {
-    .ap = {
-      .ssid = CONFIG_AP_SSID,
-			.ssid_len = strnlen(CONFIG_AP_SSID,32),
-			//.channel = CONFIG_AP_CHANNEL,
-			.authmode = CONFIG_AP_AUTHMODE,
-			.ssid_hidden = CONFIG_AP_SSID_HIDDEN,
-			.max_connection = CONFIG_AP_MAX_CONNECTIONS,
-			.beacon_interval = CONFIG_AP_BEACON_INTERVAL,			
-    },
-  };
+	//wifi_init_config = WIFI_INIT_CONFIG_DEFAULT();
+  memcpy(ap_config.ap.ssid,CONFIG_AP_SSID,strnlen(CONFIG_AP_SSID,32));
+  ap_config.ap.ssid_len = strnlen(CONFIG_AP_SSID,32),
+  
+	// configure the wifi password
   memcpy(ap_config.ap.password,wifipw,strnlen(wifipw,32)+1);
   ESP_LOGI(LOG_TAG,"Wifipw: %s",ap_config.ap.password);
-	ESP_ERROR_CHECK(esp_wifi_set_config(WIFI_IF_AP, &ap_config));
     
   /*++++ initialize capitive portal dns server ++++*/
 	//captdnsInit();

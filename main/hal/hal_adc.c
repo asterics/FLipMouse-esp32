@@ -233,8 +233,11 @@ void halAdcReportRaw(uint32_t up, uint32_t down, uint32_t left, uint32_t right, 
  * up/down, offset is used as well. 
  * In addition, the deadzone is calculated as well (based on an elliptic curve).
  * 
+ * @note You need to take adcSem before calling this function!
+ * 
  * @param values Pointer to struct of all analog values
  * @see adcData_t
+ * @see adcSem
  */
 void halAdcReadData(adcData_t *values)
 {
@@ -722,6 +725,8 @@ void halAdcCalibrate(void)
     if(xSemaphoreTake(adcSem, (TickType_t) 20))
     {
         ESP_LOGI(LOG_TAG,"Starting calibration, offsets: %d/%d",offsetx,offsety);
+        adcData_t D;
+        
         uint32_t up = 0;
         uint32_t down = 0;
         uint32_t left = 0;
@@ -732,31 +737,17 @@ void halAdcCalibrate(void)
         //read values itself & accumulate (8sensor readings)
         for(uint8_t i = 0; i<8; i++)
         {
-            #ifdef HAL_IO_ADC_CHANNEL_UP
-                temp = adc1_get_raw(HAL_IO_ADC_CHANNEL_UP);
-                if(temp == -1) { ESP_LOGE(LOG_TAG,"Cannot read channel up"); continue; }
-                up += temp;
-            #endif
-            #ifdef HAL_IO_ADC_CHANNEL_DOWN
-                temp = adc1_get_raw(HAL_IO_ADC_CHANNEL_DOWN);
-                if(temp == -1) { ESP_LOGE(LOG_TAG,"Cannot read channel down"); continue; }
-                down += temp;
-            #endif
-            #ifdef HAL_IO_ADC_CHANNEL_LEFT
-                temp = adc1_get_raw(HAL_IO_ADC_CHANNEL_LEFT);
-                if(temp == -1) { ESP_LOGE(LOG_TAG,"Cannot read channel left"); continue; }
-                left += temp;
-            #endif
-            #ifdef HAL_IO_ADC_CHANNEL_RIGHT
-                temp = adc1_get_raw(HAL_IO_ADC_CHANNEL_RIGHT);
-                if(temp == -1) { ESP_LOGE(LOG_TAG,"Cannot read channel right"); continue; }
-                right += temp;
-            #endif
-            #ifdef HAL_IO_ADC_CHANNEL_PRESSURE
-                temp = adc1_get_raw(HAL_IO_ADC_CHANNEL_PRESSURE);
-                if(temp == -1) { ESP_LOGE(LOG_TAG,"Cannot read channel pressure"); continue; }
-                pressure += temp;
-            #endif
+              
+            //use read data for acquiring offset correction data
+            halAdcReadData(&D);
+            
+            //accumulate data
+            up+= D.up;
+            left+= D.left;
+            right+= D.right;
+            down+= D.down;
+            
+            //wait 2 ticks
             vTaskDelay(2);
         }
         

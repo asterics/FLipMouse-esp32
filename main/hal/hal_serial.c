@@ -265,7 +265,7 @@ void halSerialRXTask(void *pvParameters)
  * 
  * 
  * @param param Unused
- * @see usb_command_t
+ * @see hid_command_t
  * @see hid_usb
  * @see HAL_SERIAL_HIDPIN
  * @note Due to the nature of absolute values for some HID input, it is
@@ -278,7 +278,7 @@ void halSerialRXTask(void *pvParameters)
  * */
 void halSerialHIDTask(void *param)
 {
-  usb_command_t rx; //TODO: use right var type
+  hid_command_t rx;
   //RMT RAM has 64x32bit memory each block
   rmt_item32_t rmtBuf[64];
   uint8_t rmtCount = 0;
@@ -388,7 +388,7 @@ void halSerialHIDTask(void *param)
         #endif
       }
     } else {
-      ESP_LOGE(LOG_TAG,"joystick_movement_usb queue not initialized, retry in 1s");
+      ESP_LOGE(LOG_TAG,"usb hid queue not initialized, retry in 1s");
       vTaskDelay(1000/portTICK_PERIOD_MS);
     }
   }
@@ -489,7 +489,7 @@ void halSerialReset(uint8_t exceptDevice)
   //reset mouse
   if(!(exceptDevice & (1<<2))) 
   {
-    usb_command_t m;
+    hid_command_t m;
     m.len = 5;
     m.data[0] = 'M';
     m.data[1] = 0; //buttons
@@ -503,7 +503,7 @@ void halSerialReset(uint8_t exceptDevice)
   //reset keyboard
   if(!(exceptDevice & (1<<0)))
   {
-    usb_command_t k;
+    hid_command_t k;
     for(uint8_t i=1;i<=8;i++) k.data[i] = 0;
     k.data[0] = 'K';
     k.len = 9;
@@ -513,7 +513,7 @@ void halSerialReset(uint8_t exceptDevice)
   //reset joystick
   if(!(exceptDevice & (1<<1)))
   {
-    usb_command_t j;
+    hid_command_t j;
     for(uint8_t i=1;i<=12;i++) j.data[i] = 0;
     j.data[0] = 'J';
     j.len = 13;

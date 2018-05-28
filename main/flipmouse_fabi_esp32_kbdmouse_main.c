@@ -44,7 +44,7 @@
 #include "function_tasks/task_webgui.h"
 #include "hal/hal_adc.h"
 #include "hal/hal_io.h"
-#include "hal/hal_ble.h"
+#include "ble_hid/hal_ble.h"
 #include "hal/hal_serial.h"
 #include "config_switcher.h"
 
@@ -139,8 +139,8 @@ void app_main()
         mouse_movement_ble = xQueueCreate(10,sizeof(mouse_command_t));
         joystick_movement_ble = xQueueCreate(10,sizeof(joystick_command_t)); //TBD: right size?
         config_switcher = xQueueCreate(5,sizeof(char)*SLOTNAME_LENGTH);
-        hid_ble = xQueueCreate(10,sizeof(usb_command_t));
-        hid_usb = xQueueCreate(10,sizeof(usb_command_t));
+        hid_ble = xQueueCreate(10,sizeof(hid_command_t));
+        hid_usb = xQueueCreate(10,sizeof(hid_command_t));
         
     //exit critical section & resume all tasks for initialising
     xTaskResumeAll();
@@ -175,9 +175,8 @@ void app_main()
     } else {
         ESP_LOGE(LOG_TAG,"error initializing configSwitcherInit");
     }
-    //start config switcher
-    //TODO: load locale...
-    if(halBLEInit(0) == ESP_OK)
+    //start BLE (all 3 interfaces active)
+    if(halBLEInit(1,1,1) == ESP_OK)
     {
         ESP_LOGD(LOG_TAG,"initialized halBle");
     } else {

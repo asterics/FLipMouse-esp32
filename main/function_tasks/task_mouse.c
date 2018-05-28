@@ -98,13 +98,13 @@ void task_mouse(taskMouseConfig_t *param)
   //ticks between task timeouts
   const TickType_t xTicksToWait = 2000 / portTICK_PERIOD_MS;
   //mouse command which is sent.
-  usb_command_t press;
-  usb_command_t release;
-  usb_command_t empty;
+  hid_command_t press;
+  hid_command_t release;
+  hid_command_t empty;
   //empty them
-  memset(&press,0,sizeof(usb_command_t));
-  memset(&release,0,sizeof(usb_command_t));
-  memset(&empty,0,sizeof(usb_command_t));
+  memset(&press,0,sizeof(hid_command_t));
+  memset(&release,0,sizeof(hid_command_t));
+  memset(&empty,0,sizeof(hid_command_t));
   empty.len = 5;
   empty.data[0] = 'M';
   press.len = 5;
@@ -230,18 +230,16 @@ void task_mouse(taskMouseConfig_t *param)
           //if press is set
           if(xEventGroupGetBits(connectionRoutingStatus) & DATATO_USB) 
           { xQueueSend(hid_usb,&press,TIMEOUT); }
-          //TODO: activate if BLE uses same structure
-          /*if(xEventGroupGetBits(connectionRoutingStatus) & DATATO_BLE) 
-          { xQueueSend(mouse_movement_ble,&press,TIMEOUT); }*/
+          if(xEventGroupGetBits(connectionRoutingStatus) & DATATO_BLE) 
+          { xQueueSend(hid_ble,&press,TIMEOUT); }
           
           //send second command if set
           if(autorelease)
           {
             if(xEventGroupGetBits(connectionRoutingStatus) & DATATO_USB) 
             { xQueueSend(hid_usb,&empty,TIMEOUT); }
-            //TODO: activate if BLE uses same structure
-            /*if(xEventGroupGetBits(connectionRoutingStatus) & DATATO_BLE) 
-            { xQueueSend(mouse_movement_ble,&empty,TIMEOUT); }*/
+            if(xEventGroupGetBits(connectionRoutingStatus) & DATATO_BLE) 
+            { xQueueSend(hid_ble,&empty,TIMEOUT); }
           }
         }
       }
@@ -253,9 +251,8 @@ void task_mouse(taskMouseConfig_t *param)
         {
           if(xEventGroupGetBits(connectionRoutingStatus) & DATATO_USB)
           { xQueueSend(hid_usb,&release,TIMEOUT); }
-          //TODO: activate if BLE uses same structure
-          //if(xEventGroupGetBits(connectionRoutingStatus) & DATATO_BLE) 
-          //{ xQueueSend(mouse_movement_ble,&release,TIMEOUT); }
+          if(xEventGroupGetBits(connectionRoutingStatus) & DATATO_BLE) 
+          { xQueueSend(hid_ble,&release,TIMEOUT); }
         }
       }
       

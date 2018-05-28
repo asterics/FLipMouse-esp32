@@ -41,7 +41,7 @@
 joystick_command_t globalJoystickState;
 
 /** @brief Joystick command to HID bytebuffer */
-void joystick_to_bytebuffer(joystick_command_t *cmd, usb_command_t *out)
+void joystick_to_bytebuffer(joystick_command_t *cmd, hid_command_t *out)
 {
   //limit values
   if(cmd->Xaxis > 1023) cmd->Xaxis = 1023;
@@ -210,15 +210,13 @@ void task_joystick(taskJoystickConfig_t *param)
         ESP_LOGI(LOG_TAG,"Joystick report update");
         ESP_LOG_BUFFER_HEXDUMP(LOG_TAG,&globalJoystickState,sizeof(joystick_command_t),ESP_LOG_DEBUG);
       
+        hid_command_t cmd;
+        joystick_to_bytebuffer(&globalJoystickState,&cmd);
         //send either to USB, BLE, both or none
         if(xEventGroupGetBits(connectionRoutingStatus) & DATATO_USB)
-        { 
-          usb_command_t cmd;
-          joystick_to_bytebuffer(&globalJoystickState,&cmd);
-          xQueueSend(hid_usb, &cmd,10); 
-        }
+        { xQueueSend(hid_usb, &cmd,10); }
         if(xEventGroupGetBits(connectionRoutingStatus) & DATATO_BLE) 
-        { xQueueSend(joystick_movement_ble, &globalJoystickState,10); }
+        { xQueueSend(hid_ble, &cmd,10); }
       }
       //test for vb's release flag or trigger if vb is singleshot
       if((uxBits & (1<<(evGroupShift+4))) || vb == VB_SINGLESHOT)
@@ -244,15 +242,14 @@ void task_joystick(taskJoystickConfig_t *param)
           
           ESP_LOGI(LOG_TAG,"Joystick report update");
           ESP_LOG_BUFFER_HEXDUMP(LOG_TAG,&globalJoystickState,sizeof(joystick_command_t),ESP_LOG_DEBUG);
+          
+          hid_command_t cmd;
+          joystick_to_bytebuffer(&globalJoystickState,&cmd);
             
           if(xEventGroupGetBits(connectionRoutingStatus) & DATATO_USB)
-          { 
-            usb_command_t cmd;
-            joystick_to_bytebuffer(&globalJoystickState,&cmd);
-            xQueueSend(hid_usb, &cmd,10); 
-          }
+          { xQueueSend(hid_usb, &cmd,10); }
           if(xEventGroupGetBits(connectionRoutingStatus) & DATATO_BLE) 
-          { xQueueSend(joystick_movement_ble, &globalJoystickState,10); }
+          { xQueueSend(hid_ble, &cmd,10); }
         }
       }
       

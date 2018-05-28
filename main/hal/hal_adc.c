@@ -532,7 +532,7 @@ void halAdcTaskMouse(void * pvParameters)
     float moveVal, accumXpos = 0, accumYpos = 0;
     //todo: use a define for the delay here... (currently used: value from vTaskDelay())
     float accelFactor= 20 / 100000000.0f;
-    usb_command_t command;
+    hid_command_t command;
     command.len = 5;
     command.data[0] = 'M';  //send a mouse report
     command.data[1] = 0xFF; //for handling in hal_serial: having sticky buttons with 0xFF
@@ -605,14 +605,10 @@ void halAdcTaskMouse(void * pvParameters)
                 
                 //post values to mouse queue (USB and/or BLE)
                 if(xEventGroupGetBits(connectionRoutingStatus) & DATATO_USB)
-                {
-                    xQueueSend(hid_usb,&command,0);
-                }
+                { xQueueSend(hid_usb,&command,0); }
                 
                 if(xEventGroupGetBits(connectionRoutingStatus) & DATATO_BLE)
-                {
-                    xQueueSend(mouse_movement_ble,&command,0);
-                }
+                { xQueueSend(hid_ble,&command,0); }
             }
             //pressure sensor is handled in another function
             halAdcProcessPressure(&D);

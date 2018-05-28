@@ -382,7 +382,7 @@ void halIOLEDTask(void * param)
   uint32_t fade = 0;
   #endif
   #ifdef DEVICE_FABI
-  usb_command_t cmd;
+  hid_command_t cmd;
   #endif
   generalConfig_t *cfg = configGetCurrent();
   

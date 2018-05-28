@@ -510,10 +510,21 @@ typedef struct mouse_command {
   uint8_t buttons;
 } mouse_command_t;
 
-typedef struct usb_command {
+/** @brief HID data to be sent via BLE or USB
+ * 
+ * First byte determines type of command:
+ * * 'M' Mouse data (parameters: buttons[uint8_t]/X[int8_t]/Y[int8_t]/wheel[int8_t]
+ * * 'K' Keyboard data (parameters: modifier [uint8_t], 6x keycodes [uint8_t]
+ * * 'J' Joystick data (see task_joystick.c for parameters)
+ * @see hid_usb
+ * @see hid_ble
+ */
+typedef struct hid_command {
+  /** @brief Length of payload */
   uint8_t len;
+  /** @brief HID data */
   uint8_t data[16];
-} usb_command_t;
+} hid_command_t;
 
 /**++++ TODO: move to task_joystick.h ++++*/
 typedef struct joystick_command {

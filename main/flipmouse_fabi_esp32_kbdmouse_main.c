@@ -82,29 +82,22 @@ void switch_radio(void)
     switch(radio)
     {
         case BLE:
-            ESP_LOGI(LOG_TAG,"Switching from BLE to BLE_PAIRING");
-            halBLEEnDisable(2);
-            radio = BLE_PAIRING;
+            ESP_LOGI(LOG_TAG,"Switching from BLE to WIFI");
+            halBLEEnDisable(0);
+            taskWebGUIEnDisable(1);
+            radio = WIFI;
             LED(127,255,0,0);
             break;
         case BLE_PAIRING:
-            ESP_LOGI(LOG_TAG,"Switching from BLE_PAIRING to WIFI");
-            halBLEEnDisable(0);
-            ///@todo Enable Wifi, but free a huge amount of RAM before...
-            //taskWebGUIEnDisable(1);
-            radio = WIFI;
-            LED(0,127,255,0);
-            break;
-        case WIFI:
             ESP_LOGI(LOG_TAG,"Switching from WIFI to BLE");
             taskWebGUIEnDisable(0);
             halBLEEnDisable(1);
             radio = BLE;
-            LED(255,0,127,0);
+            LED(0,127,255,0);
             break;
         case UNINITIALIZED:
         default:
-            ESP_LOGE(LOG_TAG,"Error, radio is in mode uninitialized. Trying with BLE...");
+            ESP_LOGE(LOG_TAG,"Error, radio is in unkown mode. Trying with BLE...");
             taskWebGUIEnDisable(0);
             halBLEEnDisable(1);
             radio = BLE;

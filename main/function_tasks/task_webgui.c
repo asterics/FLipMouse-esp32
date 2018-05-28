@@ -455,6 +455,9 @@ esp_err_t taskWebGUIEnDisable(int onoff)
     xTaskCreate(&http_server, "http_server", TASK_WEBGUI_SERVER_STACKSIZE, NULL, 5, &wifiHTTPServerHandle_t);
     xTaskCreate(&ws_server, "ws_server", TASK_WEBGUI_WEBSOCKET_STACKSIZE, NULL, 5, &wifiWSServerHandle_t);
     
+    //wait 250ms for WiFi stack to settle
+    vTaskDelay(200/portTICK_PERIOD_MS);
+    
     return ESP_OK;
   }
 }

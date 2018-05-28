@@ -43,8 +43,11 @@
  
 #include "hal_adc.h"
 
-/** Tag for ESP_LOG logging */
+/** @brief Tag for ESP_LOG logging */
 #define LOG_TAG "hal_adc"
+
+/** @brief ADC log level */
+#define LOG_LEVEL_ADC ESP_LOG_INFO
 
 /** @brief Current strong sip&puff + mouthpiece mode
  * 
@@ -1081,6 +1084,8 @@ void halAdcStrongTimeout( TimerHandle_t xTimer )
  * */
 esp_err_t halAdcInit(adc_config_t* params)
 {
+    esp_log_level_set(LOG_TAG,LOG_LEVEL_ADC);
+    
     esp_err_t ret;
     
     //init ADC bit width

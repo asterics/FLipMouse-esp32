@@ -139,8 +139,7 @@ esp_err_t task_configswitcher_getAT(char* output, void* cfg)
 /** @brief Trigger a config update
  * 
  * This method is simply sending an "__UPDATE" command to the
- * config_switcher queue to trigger an update by re-loading the
- * currentConfig.
+ * config_switcher queue to trigger an update for the virtual buttons
  * 
  * @see config_switcher
  * @see configUpdate
@@ -162,18 +161,14 @@ void configTriggerUpdate(void)
   }
 }
 
-/** @brief Wait unitl current configuration is stable
+/** @brief Wait until current configuration is stable
  * 
  * If the function configUpdateVB is called, a temporary task parameter
  * buffer is used. The full configuration is loaded if configUpdatePending
  * semaphore is free. If the configuration is to be saved, this semaphore
  * should be checked via this method.
  * 
- * @note This method blocks on the semaphore. To re-enable updates after
- * calling this method, use configUpdate(1) (enable forcing-update)
- * 
- * @see configUpdate
- * @see configUpdateEnable
+ * @note This method blocks on the semaphore. 
  * @return ESP_OK if config is stable, ESP_FAIL if timeout happened
  * */
 esp_err_t configUpdateWaitStable(void)
@@ -187,6 +182,8 @@ esp_err_t configUpdateWaitStable(void)
   //wait for a free semaphore. If not getting it, return fail.
   if(xSemaphoreTake(configUpdatePending,portMAX_DELAY) == pdTRUE)
   {
+    //give semaphore again, we know that config is stable now.
+    xSemaphoreGive(configUpdatePending);
     return ESP_OK;
   } else {
     return ESP_FAIL;
@@ -194,37 +191,34 @@ esp_err_t configUpdateWaitStable(void)
 }
 /** @brief Request config update
  * 
- * This method is requesting a config update.
- * If a request is already pending, this method does nothing.
- * 
+ * This method is requesting a config update for the general config.
+ * It is used either by the command parser to activate a changed config
+ * (by AT commands) or by the config switcher task, to activate a config
+ * loaded from flash.
+ *  
  * @see config_switcher
  * @see currentConfig
- * @param force Force the update. Usually not necessary, but after waiting for
- * a stable config, this is necessary. != 0 to ignore the semaphore and force the update.
  * @return ESP_OK on success, ESP_FAIL otherwise
  * */
-esp_err_t configUpdate(int force)
+esp_err_t configUpdate(void)
 {
-  //test if semaphore is initialized
-  if(configUpdatePending == NULL) 
+  //reload ADC
+  if(halAdcUpdateConfig(&currentConfigLoaded.adc) != ESP_OK)
   {
-    ESP_LOGE(LOG_TAG,"Update sem not initialized");
+    ESP_LOGE(LOG_TAG,"error reloading adc config");
     return ESP_FAIL;
   }
   
-  //should we ignore the semaphore?
-  if(force != 0)
-  {
-    configTriggerUpdate();
-    return ESP_OK;
-  }
+  //set other config infos
+  ESP_LOGI(LOG_TAG,"setting connection bits (USB: %d, BLE: %d)",currentConfigLoaded.usb_active,currentConfigLoaded.ble_active);
+  if(currentConfigLoaded.ble_active != 0)  xEventGroupSetBits(connectionRoutingStatus,DATATO_BLE);
+  else xEventGroupClearBits(connectionRoutingStatus,DATATO_BLE);
+  if(currentConfigLoaded.usb_active != 0)  xEventGroupSetBits(connectionRoutingStatus,DATATO_USB);
+  else xEventGroupClearBits(connectionRoutingStatus,DATATO_USB);
   
-  if(xSemaphoreTake(configUpdatePending,0) == pdTRUE)
-  {
-    //semaphore was released by config switcher, so we need to trigger
-    //a config update again
-    configTriggerUpdate();
-  } //if the semaphore is already taken, an update is already pending
+  //reset HID channels (USB&BLE)
+  halBLEReset(0);
+  halSerialReset(0);
   return ESP_OK;
 }
 
@@ -244,6 +238,13 @@ esp_err_t configUpdate(int force)
  * */
 esp_err_t configUpdateVB(void *param, command_type_t type, uint8_t vb)
 {
+  //test if semaphore is initialized
+  if(configUpdatePending == NULL) 
+  {
+    ESP_LOGE(LOG_TAG,"Update sem not initialized");
+    return ESP_FAIL;
+  }
+  
   if(vb >= (NUMBER_VIRTUALBUTTONS*4))
   {
     ESP_LOGE(LOG_TAG,"Cannot update VB%d, vb number out of range",vb);
@@ -261,7 +262,14 @@ esp_err_t configUpdateVB(void *param, command_type_t type, uint8_t vb)
   //set new command type
   currentConfigLoaded.virtualButtonCommand[vb] = type;
   //trigger config update
-  return configUpdate(0);
+  if(xSemaphoreTake(configUpdatePending,0) == pdTRUE)
+  {
+    //semaphore was released by config switcher, so we need to trigger
+    //a config update again
+    configTriggerUpdate();
+  } //if the semaphore is already taken, an update is already pending
+  
+  return ESP_OK;
 }
 
 /** @brief CONTINOUS TASK - Config switcher task, internal config reloading
@@ -358,23 +366,6 @@ void configSwitcherTask(void * params)
         ESP_LOGE(LOG_TAG,"Error loading general slot config!");
         continue;
       }
-
-      //reload ADC
-      if(halAdcUpdateConfig(&currentConfig.adc) != ESP_OK)
-      {
-        ESP_LOGE(LOG_TAG,"error reloading adc config");
-      }
-      
-      //set other config infos
-      ESP_LOGI(LOG_TAG,"setting connection bits (USB: %d, BLE: %d)",currentConfig.usb_active,currentConfig.ble_active);
-      if(currentConfig.ble_active != 0)  xEventGroupSetBits(connectionRoutingStatus,DATATO_BLE);
-      else xEventGroupClearBits(connectionRoutingStatus,DATATO_BLE);
-      if(currentConfig.usb_active != 0)  xEventGroupSetBits(connectionRoutingStatus,DATATO_USB);
-      else xEventGroupClearBits(connectionRoutingStatus,DATATO_USB);
-      
-      //reset HID channels (USB&BLE)
-      halBLEReset(0);
-      halSerialReset(0);
       
       //perform task switching...
       for(uint8_t i = 0; i<(NUMBER_VIRTUALBUTTONS*4); i++)
@@ -498,6 +489,11 @@ void configSwitcherTask(void * params)
         }
       }
       
+      //save newly loaded cfg
+      memcpy(&currentConfigLoaded,&currentConfig,sizeof(generalConfig_t));
+      //reload general config
+      configUpdate();
+      
       //make one or more config tones (depending on slot number)
       uint8_t slotnr = halStorageGetCurrentSlotNumber() + 1;
       for(uint8_t i = 0; i<slotnr; i++)
@@ -513,8 +509,6 @@ void configSwitcherTask(void * params)
       
       //clean up
       halStorageFinishTransaction(tid);
-      //save newly loaded cfg
-      memcpy(&currentConfigLoaded,&currentConfig,sizeof(generalConfig_t));
       tid = 0;
       
       if(justupdate)
@@ -549,31 +543,45 @@ void task_configswitcher(taskConfigSwitcherConfig_t *param)
   uint8_t evGroupShift = param->virtualButton % 4;
   //final pointer to the EventGroup used by this task
   EventGroupHandle_t *evGroup = NULL;
-  //ticks between task timeouts
-  const TickType_t xTicksToWait = 2000 / portTICK_PERIOD_MS;
-  
-  
+  //slotname used for config switching
+  char *slotname = malloc(strnlen(param->slotName,SLOTNAME_LENGTH)+1);
+  //if allocated, copy string...
+  if(slotname != NULL) {
+    strncpy(slotname,param->slotName, strnlen(param->slotName,SLOTNAME_LENGTH));
+  //else -> exit
+  } else {
+    ESP_LOGE(LOG_TAG,"Alloc slotname, exit!");
+    if(param->virtualButton == VB_SINGLESHOT) 
+    {
+      return;
+    } else {
+      vTaskDelay(2); 
+      vTaskDelete(NULL);
+      return;
+    }
+  }
+
   //if we are in singleshot mode, we do not need to test
   //the virtual button groups (unused)
   if(param->virtualButton != VB_SINGLESHOT)
   {
     //check for valid parameter
-    if(evGroupIndex >= NUMBER_VIRTUALBUTTONS)
+    if(param->virtualButton >= NUMBER_VIRTUALBUTTONS*4)
     {
-      ESP_LOGE(LOG_TAG,"virtual button group unsupported: %d ",evGroupIndex);
-      while(1) vTaskDelay(100000/portTICK_PERIOD_MS);
+      ESP_LOGE(LOG_TAG,"VB too high: %d ",evGroupIndex);
+      vTaskDelay(2); 
+      vTaskDelete(NULL);
       return;
     }
     
     //test if event groups are already initialized, otherwise exit immediately
-    if(virtualButtonsOut[evGroupIndex] == 0)
+    while(virtualButtonsOut[evGroupIndex] == 0)
     {
-      ESP_LOGE(LOG_TAG,"uninitialized event group for virtual buttons, quitting this task");
-      while(1) vTaskDelay(100000/portTICK_PERIOD_MS);
-      return;
-    } else {
-      evGroup = virtualButtonsOut[evGroupIndex];
+      ESP_LOGE(LOG_TAG,"uninitialized event group, retry in 1s");
+      vTaskDelay(1000/portTICK_PERIOD_MS);
     }
+    //event group intialized, store for later usage 
+    evGroup = virtualButtonsOut[evGroupIndex];
   }
   
   while(1)
@@ -581,13 +589,13 @@ void task_configswitcher(taskConfigSwitcherConfig_t *param)
     //wait for the flag or simply trigger on VB_SINGLESHOT
     if(param->virtualButton != VB_SINGLESHOT)
     {
-      uxBits = xEventGroupWaitBits(evGroup,(1<<evGroupShift),pdTRUE,pdFALSE,xTicksToWait);
+      uxBits = xEventGroupWaitBits(evGroup,(1<<evGroupShift),pdTRUE,pdFALSE,portMAX_DELAY);
     }
     //trigger either when the bits are set or we are in singleshot mode
     if((uxBits & (1<<evGroupShift)) || param->virtualButton == VB_SINGLESHOT)
     {
-      xQueueSend(config_switcher,&param->slotName,0);
-      ESP_LOGD(LOG_TAG,"requesting slot switch by name: %s",param->slotName);
+      xQueueSend(config_switcher,&slotname,0);
+      ESP_LOGD(LOG_TAG,"configswitch: %s",slotname);
     }
     //FUNCTIONAL tasks in singleshot mode are required to return.
     if(param->virtualButton == VB_SINGLESHOT) return;

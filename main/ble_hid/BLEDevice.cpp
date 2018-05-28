@@ -414,6 +414,41 @@ uint16_t   BLEDevice::m_localMTU = 23;
 
 
 /**
+ * @brief Uninitialize the %BLE environment.
+ */
+/* STATIC */ void BLEDevice::deinit() {
+	if(initialized){	
+		esp_err_t errRc = esp_bluedroid_disable();
+		if (errRc != ESP_OK) {
+			ESP_LOGE(LOG_TAG, "esp_bluedroid_disable: rc=%d %s", errRc, GeneralUtils::errorToString(errRc));
+			return;
+		}
+                
+		errRc = esp_bluedroid_deinit();
+		if (errRc != ESP_OK) {
+			ESP_LOGE(LOG_TAG, "esp_bluedroid_deinit: rc=%d %s", errRc, GeneralUtils::errorToString(errRc));
+			return;
+		}
+                
+                errRc = esp_bt_controller_disable();
+		if (errRc != ESP_OK) {
+			ESP_LOGE(LOG_TAG, "esp_bt_controller_disable: rc=%d %s", errRc, GeneralUtils::errorToString(errRc));
+			return;
+		}
+                
+                errRc = esp_bt_controller_deinit();
+		if (errRc != ESP_OK) {
+			ESP_LOGE(LOG_TAG, "esp_bt_controller_deinit: rc=%d %s", errRc, GeneralUtils::errorToString(errRc));
+			return;
+		}
+
+                initialized = false;   // Set the initialization flag to ensure we are only initialized once.
+	}
+	vTaskDelay(200/portTICK_PERIOD_MS); // Delay for 200 msecs as a workaround to an apparent Arduino environment issue.
+} // deinit
+
+
+/**
  * @brief Set the transmission power.
  * The power level can be one of:
  * * ESP_PWR_LVL_N14

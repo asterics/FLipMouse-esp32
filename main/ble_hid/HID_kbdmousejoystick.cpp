@@ -625,7 +625,14 @@ extern "C" {
    * */
   esp_err_t halBLEEnDisable(int onoff)
   {
-    ESP_LOGW(LOG_TAG,"En/Disable: STUB!!!");
+    if(onoff)
+    {
+      ESP_LOGE(LOG_TAG,"Re-enabling BLE is TBD");
+    } else {
+      //disable
+      BLEDevice::deinit();
+      ESP_LOGI(LOG_TAG,"Disable BLE device");
+    }
     return ESP_OK;
   }
   
@@ -645,7 +652,29 @@ extern "C" {
    * */
   void halBLEReset(uint8_t exceptDevice)
   {
-    ESP_LOGW(LOG_TAG,"BLE reset: STUB!!!");
+    if(isConnected)
+    {
+      if(activateMouse && !(exceptDevice & (1<<2)))
+      {
+        uint8_t a[] = {0,0,0,0};
+        inputMouse->setValue(a,sizeof(a));
+        inputMouse->notify();
+      }
+      if(activateKeyboard && !(exceptDevice & (1<<0)))
+      {
+        uint8_t a[] = {0,0,0,0,0,0,0,0};
+        inputKbd->setValue(a,sizeof(a));
+        inputKbd->notify();
+      }
+      if(activateJoystick && !(exceptDevice & (1<<1)))
+      {
+        uint8_t a[] = {0,0,0,0,0,0,0,0,0,0,0,0};
+        inputJoystick->setValue(a,sizeof(a));
+        inputJoystick->notify();
+      }
+    } else {
+      ESP_LOGW(LOG_TAG,"Not connected, cannot reset");
+    }
   }
   
 }

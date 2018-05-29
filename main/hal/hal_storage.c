@@ -313,17 +313,16 @@ void halStorageCreateDefault(uint32_t tid)
   defaultCfg->adc.orientation = 0;
   defaultCfg->adc.acceleration = 50;
   defaultCfg->adc.axis = 0;
-  defaultCfg->adc.deadzone_x = 20;
-  defaultCfg->adc.deadzone_y = 20;
+  defaultCfg->adc.deadzone_x = 40;
+  defaultCfg->adc.deadzone_y = 40;
   defaultCfg->adc.max_speed = 50;
   defaultCfg->adc.mode = MOUSE;
-  defaultCfg->adc.mode = THRESHOLD;
   defaultCfg->adc.sensitivity_x = 60;
   defaultCfg->adc.sensitivity_y = 60;
   defaultCfg->adc.threshold_puff = 525;
   defaultCfg->adc.threshold_sip = 500;
-  defaultCfg->adc.threshold_strongpuff = 700;
-  defaultCfg->adc.threshold_strongsip = 300;
+  defaultCfg->adc.threshold_strongpuff = 800;
+  defaultCfg->adc.threshold_strongsip = 250;
   defaultCfg->adc.reportraw = 0;
   defaultCfg->adc.gain[0] = 50;
   defaultCfg->adc.gain[1] = 50;
@@ -348,18 +347,14 @@ void halStorageCreateDefault(uint32_t tid)
   defaultCfg->virtualButtonCfgSize[VB_SIP] = sizeof(taskMouseConfig_t);
   defaultCfg->virtualButtonCommand[VB_PUFF] = T_MOUSE;
   defaultCfg->virtualButtonCfgSize[VB_PUFF] = sizeof(taskMouseConfig_t);
-  defaultCfg->virtualButtonCommand[VB_STRONGPUFF] = T_CALIBRATE;
-  defaultCfg->virtualButtonCfgSize[VB_STRONGPUFF] = sizeof(taskNoParameterConfig_t);
-  defaultCfg->virtualButtonCommand[VB_INTERNAL1] = T_CONFIGCHANGE;
-  defaultCfg->virtualButtonCfgSize[VB_INTERNAL1] = sizeof(taskConfigSwitcherConfig_t);
+  defaultCfg->virtualButtonCommand[VB_STRONGSIP] = T_CALIBRATE;
+  defaultCfg->virtualButtonCfgSize[VB_STRONGSIP] = sizeof(taskNoParameterConfig_t);
+  defaultCfg->virtualButtonCommand[VB_STRONGPUFF] = T_CONFIGCHANGE;
+  defaultCfg->virtualButtonCfgSize[VB_STRONGPUFF] = sizeof(taskConfigSwitcherConfig_t);
   defaultCfg->virtualButtonCommand[VB_EXTERNAL1] = T_KEYBOARD;
   defaultCfg->virtualButtonCfgSize[VB_EXTERNAL1] = sizeof(taskKeyboardConfig_t);
-  /*++++ is not the default slot, just for testing ++++*/
-  defaultCfg->virtualButtonCommand[VB_EXTERNAL2] = T_MOUSE;
-  defaultCfg->virtualButtonCfgSize[VB_EXTERNAL2] = sizeof(taskMouseConfig_t);
-  defaultCfg->virtualButtonCommand[VB_INTERNAL2] = T_MOUSE;
-  defaultCfg->virtualButtonCfgSize[VB_INTERNAL2] = sizeof(taskMouseConfig_t);
-  /*++++ END is not the default slot, just for testing END ++++*/
+  defaultCfg->virtualButtonCommand[VB_INTERNAL2] = T_CONFIGCHANGE;
+  defaultCfg->virtualButtonCfgSize[VB_INTERNAL2] = sizeof(taskConfigSwitcherConfig_t);
   
   #endif
   
@@ -378,52 +373,25 @@ void halStorageCreateDefault(uint32_t tid)
   
   #ifdef DEVICE_FLIPMOUSE
   
-  pConfig = malloc(sizeof(taskMouseConfig_t));
-  if(pConfig != NULL)
-  {
-    ((taskMouseConfig_t *)pConfig)->type = Y;
-    ((taskMouseConfig_t *)pConfig)->actionvalue = (int8_t) 10;
-    ((taskMouseConfig_t *)pConfig)->virtualButton = VB_INTERNAL2;
-    defaultCfg->virtualButtonConfig[VB_INTERNAL2] = pConfig;
-  } else { ESP_LOGE(LOG_TAG,"malloc error VB%u",VB_INTERNAL2); return; }
-  
   pConfig = malloc(sizeof(taskConfigSwitcherConfig_t));
   if(pConfig != NULL)
   {
-    strcpy(((taskConfigSwitcherConfig_t *)pConfig)->slotName, "__NEXT");
-    ((taskConfigSwitcherConfig_t *)pConfig)->virtualButton = VB_INTERNAL1;
-    defaultCfg->virtualButtonConfig[VB_INTERNAL1] = pConfig;;
-  } else { ESP_LOGE(LOG_TAG,"malloc error VB%u",VB_INTERNAL1); return; }
+    ((taskConfigSwitcherConfig_t *)pConfig)->virtualButton = VB_INTERNAL2;
+    memcpy(((taskConfigSwitcherConfig_t *)pConfig)->slotName,"__NEXT",strlen("__NEXT"));
+    defaultCfg->virtualButtonConfig[VB_INTERNAL2] = pConfig;
+  } else { ESP_LOGE(LOG_TAG,"malloc error VB%u",VB_INTERNAL2); return; }
+  
 
-  //create virtual button configs for each assigned VB
   pConfig = malloc(sizeof(taskKeyboardConfig_t));
   if(pConfig != NULL)
   {
-    ((taskKeyboardConfig_t *)pConfig)->type = WRITE;
-    //"Hello from ESP32"
-    uint16_t strarr[17] = {0x020b,0x08,0x0F,0x0F,0x12,0x2c,0x09,0x15,0x12,0x10,0x2C,0x0208,0x0216,0x0213,0x20,0x1F,0};
-    uint16_t strorig[17] = {'H','e','l','l','o',' ','f','r','o','m',' ','E','S','P','3','2',0};
-    //strcpy((char*)((taskKeyboardConfig_t *)pConfig)->keycodes_text,"Hello from ESP32");
-    //((taskKeyboardConfig_t *)pConfig)->keycodes_text = (uint16_t*)"Hello from ESP32";
-    memcpy(((taskKeyboardConfig_t *)pConfig)->keycodes_text,strarr,sizeof(strarr));
-    for(uint8_t i = 1; i<=TASK_KEYBOARD_PARAMETERLENGTH; i++)
-    {
-      ((taskKeyboardConfig_t *)pConfig)->keycodes_text[TASK_KEYBOARD_PARAMETERLENGTH-i] = strorig[i-1];
-      if(i== 17) break;
-    }
+    ((taskKeyboardConfig_t *)pConfig)->type = PRESS_RELEASE_BUTTON;
     ((taskKeyboardConfig_t *)pConfig)->virtualButton = VB_EXTERNAL1;
+    //key code for KEY_ESC
+    ((taskKeyboardConfig_t *)pConfig)->keycodes_text[0] = 41;
+    ((taskKeyboardConfig_t *)pConfig)->keycodes_text[1] = 0;
     defaultCfg->virtualButtonConfig[VB_EXTERNAL1] = pConfig;
   } else { ESP_LOGE(LOG_TAG,"malloc error VB%u",VB_EXTERNAL1); return; }
-  
-  /*++++ is not the default slot, just for testing ++++*/
-  pConfig = malloc(sizeof(taskMouseConfig_t));
-  if(pConfig != NULL)
-  {
-    ((taskMouseConfig_t *)pConfig)->type = X;
-    ((taskMouseConfig_t *)pConfig)->actionvalue = (int8_t) -10;
-    ((taskMouseConfig_t *)pConfig)->virtualButton = VB_EXTERNAL2;
-    defaultCfg->virtualButtonConfig[VB_EXTERNAL2] = pConfig;
-  } else { ESP_LOGE(LOG_TAG,"malloc error VB%u",VB_EXTERNAL2); return; }
   
   pConfig = malloc(sizeof(taskMouseConfig_t));
   if(pConfig != NULL)
@@ -446,7 +414,15 @@ void halStorageCreateDefault(uint32_t tid)
   pConfig = malloc(sizeof(taskNoParameterConfig_t));
   if(pConfig != NULL)
   {
-    ((taskNoParameterConfig_t *)pConfig)->virtualButton = VB_STRONGPUFF;
+    ((taskNoParameterConfig_t *)pConfig)->virtualButton = VB_STRONGSIP;
+    defaultCfg->virtualButtonConfig[VB_STRONGSIP] = pConfig;
+  } else { ESP_LOGE(LOG_TAG,"malloc error VB%u",VB_STRONGSIP); return; }
+  
+  pConfig = malloc(sizeof(taskConfigSwitcherConfig_t));
+  if(pConfig != NULL)
+  {
+    ((taskConfigSwitcherConfig_t *)pConfig)->virtualButton = VB_STRONGPUFF;
+    memcpy(((taskConfigSwitcherConfig_t *)pConfig)->slotName,"_NEXT",strlen("_NEXT"));
     defaultCfg->virtualButtonConfig[VB_STRONGPUFF] = pConfig;
   } else { ESP_LOGE(LOG_TAG,"malloc error VB%u",VB_STRONGPUFF); return; }
   

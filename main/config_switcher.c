@@ -427,14 +427,14 @@ void configSwitcherTask(void * params)
           case T_SENDIR:
             newTaskCode = NULL; 
             //allocate just a little bit to have a pointer
-            currentTaskParameters[i] = malloc(sizeof(uint8_t));
+            currentTaskParameters[i] = malloc(1);
             vbparametersize = 0;
             ESP_LOGD(LOG_TAG,"creating new IR task on VB %d",i);
             break;
           case T_NOFUNCTION:  
             newTaskCode = NULL; 
             //allocate just a little bit to have a pointer
-            currentTaskParameters[i] = malloc(sizeof(uint8_t));
+            currentTaskParameters[i] = malloc(1);
             vbparametersize = 0;
             break;
           default:
@@ -544,22 +544,9 @@ void task_configswitcher(taskConfigSwitcherConfig_t *param)
   //final pointer to the EventGroup used by this task
   EventGroupHandle_t *evGroup = NULL;
   //slotname used for config switching
-  char *slotname = malloc(strnlen(param->slotName,SLOTNAME_LENGTH)+1);
-  //if allocated, copy string...
-  if(slotname != NULL) {
-    strncpy(slotname,param->slotName, strnlen(param->slotName,SLOTNAME_LENGTH));
-  //else -> exit
-  } else {
-    ESP_LOGE(LOG_TAG,"Alloc slotname, exit!");
-    if(param->virtualButton == VB_SINGLESHOT) 
-    {
-      return;
-    } else {
-      vTaskDelay(2); 
-      vTaskDelete(NULL);
-      return;
-    }
-  }
+  char slotname[SLOTNAME_LENGTH];
+  //copy string...
+  strncpy(slotname,param->slotName, SLOTNAME_LENGTH);
 
   //if we are in singleshot mode, we do not need to test
   //the virtual button groups (unused)

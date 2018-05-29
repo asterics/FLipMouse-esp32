@@ -71,6 +71,7 @@
 #include "hal_storage.h"
 
 #define LOG_TAG "hal_storage"
+#define LOG_LEVEL_STORAGE ESP_LOG_INFO
 
 /** @brief Mutex which is used to avoid multiple access to different loaded slots 
  * @see storageCurrentTID*/
@@ -204,8 +205,13 @@ esp_err_t halStorageGetFree(uint32_t *total, uint32_t *free)
  * @return ESP_OK on success, ESP_FAIL otherwise*/
 esp_err_t halStorageInit(void)
 {
+  //set log level to given log level
+  esp_log_level_set(LOG_TAG,LOG_LEVEL_STORAGE);
+  
   esp_err_t ret;
-  ESP_LOGD(LOG_TAG, "Mounting FATFS for storage");
+  #if LOG_LEVEL_STORAGE >= ESP_LOG_DEBUG
+  ESP_LOGI(LOG_TAG, "Mounting FATFS for storage");
+  #endif
   // To mount device we need name of device partition, define base_path
   // and allow format partition in case if it is new one and was not formated before
   const esp_vfs_fat_mount_config_t mount_config = {
@@ -422,7 +428,7 @@ void halStorageCreateDefault(uint32_t tid)
   if(pConfig != NULL)
   {
     ((taskConfigSwitcherConfig_t *)pConfig)->virtualButton = VB_STRONGPUFF;
-    memcpy(((taskConfigSwitcherConfig_t *)pConfig)->slotName,"_NEXT",strlen("_NEXT"));
+    memcpy(((taskConfigSwitcherConfig_t *)pConfig)->slotName,"__NEXT",strlen("__NEXT"));
     defaultCfg->virtualButtonConfig[VB_STRONGPUFF] = pConfig;
   } else { ESP_LOGE(LOG_TAG,"malloc error VB%u",VB_STRONGPUFF); return; }
   
@@ -438,7 +444,9 @@ void halStorageCreateDefault(uint32_t tid)
   {
     ESP_LOGE(LOG_TAG,"Error saving default VB configs");
   } else {
+    #if LOG_LEVEL_STORAGE >= ESP_LOG_INFO
     ESP_LOGI(LOG_TAG,"Created new default slot");
+    #endif
   }
   
   //finally, free configs of VBs
@@ -490,7 +498,9 @@ esp_err_t halStorageGetNumberOfSlots(uint32_t tid, uint8_t *slotsavailable)
     sprintf(file,"%s/%03d.fms",base_path,currentSlot);
     
     //open file for reading
+    #if LOG_LEVEL_STORAGE >= ESP_LOG_DEBUG
     ESP_LOGD(LOG_TAG,"Opening file %s",file);
+    #endif
     
     f = fopen(file, "rb");
     
@@ -501,7 +511,7 @@ esp_err_t halStorageGetNumberOfSlots(uint32_t tid, uint8_t *slotsavailable)
     //Currently: return number of last valid found slot
     if(f == NULL)
     {
-      ESP_LOGD(LOG_TAG,"Available slots: %u",currentSlot);
+      ESP_LOGI(LOG_TAG,"Available slots: %u",currentSlot);
       *slotsavailable = currentSlot;
       return ESP_OK;
     } else {
@@ -546,12 +556,14 @@ esp_err_t halStorageGetNameForNumberIR(uint32_t tid, uint8_t slotnumber, char *c
   sprintf(file,"%s/IR_%02d.fms",base_path,slotnumber);
   
   //open file for reading
+  #if LOG_LEVEL_STORAGE >= ESP_LOG_DEBUG
   ESP_LOGD(LOG_TAG,"Opening file %s",file);
+  #endif
   f = fopen(file, "rb");
   
   if(f == NULL)
   {
-    ESP_LOGD(LOG_TAG,"Invalid slot number %d, cannot load file",slotnumber);
+    ESP_LOGW(LOG_TAG,"Invalid slot number %d, cannot load file",slotnumber);
     return ESP_FAIL;
   }
   
@@ -567,7 +579,9 @@ esp_err_t halStorageGetNameForNumberIR(uint32_t tid, uint8_t slotnumber, char *c
   }
   fread(cmdName,sizeof(char),slotnamelen+1,f);
   cmdName[slotnamelen] = '\0';
+  #if LOG_LEVEL_STORAGE >= ESP_LOG_DEBUG
   ESP_LOGD(LOG_TAG,"Read slotname: %s, length %d",cmdName,slotnamelen);
+  #endif
   
   //clean up & return
   if(f!=NULL) fclose(f);
@@ -671,15 +685,16 @@ esp_err_t halStorageGetNumberOfIRCmds(uint32_t tid, uint8_t *slotsavailable)
     if(f != NULL)
     {
       //open file for reading
+      #if LOG_LEVEL_STORAGE >= ESP_LOG_DEBUG
       ESP_LOGD(LOG_TAG,"Opening file %s",file);
+      #endif
       count++;
       fclose(f);
     }
     current++;
     if(current == 100) break;
   } while(1);
-  
-  ESP_LOGD(LOG_TAG,"Available IR cmds: %u",count);
+  ESP_LOGI(LOG_TAG,"Available IR cmds: %u",count);
   *slotsavailable = count;
   return ESP_OK;
 }
@@ -708,7 +723,9 @@ esp_err_t halStorageGetFreeIRCmdSlot(uint32_t tid, uint8_t *slotavailable)
     sprintf(file,"%s/IR_%02d.fms",base_path,current);
     
     //open file for reading
+    #if LOG_LEVEL_STORAGE >= ESP_LOG_DEBUG
     ESP_LOGD(LOG_TAG,"Opening file %s",file);
+    #endif
     
     f = fopen(file, "rb");
     
@@ -722,7 +739,7 @@ esp_err_t halStorageGetFreeIRCmdSlot(uint32_t tid, uint8_t *slotavailable)
     if(current == 100) break;
   } while(1);
   
-  ESP_LOGD(LOG_TAG,"No free IR slot");
+  ESP_LOGW(LOG_TAG,"No free IR slot");
   return ESP_FAIL;
 }
 
@@ -751,12 +768,14 @@ esp_err_t halStorageGetNameForNumber(uint32_t tid, uint8_t slotnumber, char *slo
   sprintf(file,"%s/%03d.fms",base_path,slotnumber);
   
   //open file for reading
+  #if LOG_LEVEL_STORAGE >= ESP_LOG_DEBUG
   ESP_LOGD(LOG_TAG,"Opening file %s",file);
+  #endif
   f = fopen(file, "rb");
   
   if(f == NULL)
   {
-    ESP_LOGD(LOG_TAG,"Invalid slot number %d, cannot load file",slotnumber);
+    ESP_LOGW(LOG_TAG,"Invalid slot number %d, cannot load file",slotnumber);
     return ESP_FAIL;
   }
   
@@ -772,7 +791,9 @@ esp_err_t halStorageGetNameForNumber(uint32_t tid, uint8_t slotnumber, char *slo
   }
   fread(slotname,sizeof(char),slotnamelen+1,f);
   slotname[slotnamelen] = '\0';
+  #if LOG_LEVEL_STORAGE >= ESP_LOG_DEBUG
   ESP_LOGD(LOG_TAG,"Read slotname: %s, length %d",slotname,slotnamelen);
+  #endif
   
   //clean up & return
   if(f!=NULL) fclose(f);
@@ -806,7 +827,9 @@ esp_err_t halStorageGetNumberForName(uint32_t tid, uint8_t *slotnumber, char *sl
     sprintf(file,"%s/%03d.fms",base_path,currentSlot);
     
     //open file for reading
+    #if LOG_LEVEL_STORAGE >= ESP_LOG_DEBUG
     ESP_LOGD(LOG_TAG,"Opening file %s",file);
+    #endif
     f = fopen(file, "rb");
     
     //check if this file is available
@@ -816,7 +839,9 @@ esp_err_t halStorageGetNumberForName(uint32_t tid, uint8_t *slotnumber, char *sl
     //Currently: return ESP_FAIL for first not found file
     if(f == NULL)
     {
+      #if LOG_LEVEL_STORAGE >= ESP_LOG_DEBUG
       ESP_LOGD(LOG_TAG,"Stopped at slot number %u, didn't found the given name",currentSlot);
+      #endif
       *slotnumber = 0;
       return ESP_FAIL;
     }
@@ -833,7 +858,9 @@ esp_err_t halStorageGetNumberForName(uint32_t tid, uint8_t *slotnumber, char *sl
     }
     fread(fileSlotName,sizeof(char),slotnamelen+1,f);
     fileSlotName[slotnamelen] = '\0';
+    #if LOG_LEVEL_STORAGE >= ESP_LOG_DEBUG
     ESP_LOGD(LOG_TAG,"Read slotname: %s, length %d",slotname,slotnamelen);
+    #endif
       
     //compare parameter & file slotname
     if(strcmp(slotname, fileSlotName) == 0)
@@ -841,7 +868,9 @@ esp_err_t halStorageGetNumberForName(uint32_t tid, uint8_t *slotnumber, char *sl
       //found a slot
       *slotnumber = currentSlot;
       fclose(f);
+      #if LOG_LEVEL_STORAGE >= ESP_LOG_DEBUG
       ESP_LOGD(LOG_TAG,"Found slot \"%s\" @%u",slotname,currentSlot);
+      #endif
       return ESP_OK;
     }
     
@@ -881,7 +910,7 @@ esp_err_t halStorageGetNumberForNameIR(uint32_t tid, uint8_t *slotnumber, char *
     //check for limit of slots
     if(currentSlot == 100)
     {
-      ESP_LOGI(LOG_TAG,"Finished search, didn't find name %s",cmdName);
+      ESP_LOGW(LOG_TAG,"Finished search, didn't find name %s",cmdName);
       *slotnumber = 0xFF;
       return ESP_OK;
     }
@@ -914,7 +943,9 @@ esp_err_t halStorageGetNumberForNameIR(uint32_t tid, uint8_t *slotnumber, char *
     }
     fread(fileSlotName,sizeof(char),slotnamelen+1,f);
     fileSlotName[slotnamelen] = '\0';
+    #if LOG_LEVEL_STORAGE >= ESP_LOG_DEBUG
     ESP_LOGD(LOG_TAG,"Read slotname: %s, length %d",fileSlotName,slotnamelen);
+    #endif
       
     //compare parameter & file slotname
     if(strcmp(cmdName, fileSlotName) == 0)
@@ -922,7 +953,9 @@ esp_err_t halStorageGetNumberForNameIR(uint32_t tid, uint8_t *slotnumber, char *
       //found a slot
       *slotnumber = currentSlot;
       fclose(f);
+      #if LOG_LEVEL_STORAGE >= ESP_LOG_DEBUG
       ESP_LOGD(LOG_TAG,"Found slot \"%s\" @%u",cmdName,currentSlot);
+      #endif
       return ESP_OK;
     }
     
@@ -1067,7 +1100,9 @@ esp_err_t halStorageLoadNumber(uint8_t slotnumber, generalConfig_t *cfg, uint32_
   sprintf(file,"%s/%03d.fms",base_path,slotnumber);
   
   //open file for reading
+  #if LOG_LEVEL_STORAGE >= ESP_LOG_DEBUG
   ESP_LOGD(LOG_TAG,"Opening file %s",file);
+  #endif
   FILE *f = fopen(file, "rb");
   if(f == NULL)
   {
@@ -1103,7 +1138,9 @@ esp_err_t halStorageLoadNumber(uint8_t slotnumber, generalConfig_t *cfg, uint32_
   }
   fread(slotname,sizeof(char),slotnamelen+1,f);
   slotname[slotnamelen] = '\0';
+  #if LOG_LEVEL_STORAGE >= ESP_LOG_DEBUG
   ESP_LOGD(LOG_TAG,"Read slotname: %s, length %d",slotname,slotnamelen);
+  #endif
   
   //get MD5sum of saved slot
   if(fread(md5sumfile,sizeof(md5sumfile),1,f) != 1)
@@ -1114,8 +1151,10 @@ esp_err_t halStorageLoadNumber(uint8_t slotnumber, generalConfig_t *cfg, uint32_
     free(slotname);
     return ESP_FAIL;
   } else {
+    #if LOG_LEVEL_STORAGE >= ESP_LOG_DEBUG
     ESP_LOGD(LOG_TAG,"MD5 hash:");
     ESP_LOG_BUFFER_HEXDUMP(LOG_TAG,md5sumfile,sizeof(md5sumfile),ESP_LOG_DEBUG);
+    #endif
   }
   
   //read remaining general config
@@ -1147,16 +1186,18 @@ esp_err_t halStorageLoadNumber(uint8_t slotnumber, generalConfig_t *cfg, uint32_
   }
   
   ESP_LOGI(LOG_TAG,"Loaded slot %s,nr: %d, payload: %u bytes",slotname,slotnumber, sizeof(generalConfig_t));
+  #if LOG_LEVEL_STORAGE >= ESP_LOG_DEBUG
   ESP_LOG_BUFFER_HEXDUMP(LOG_TAG,cfg,sizeof(generalConfig_t),ESP_LOG_VERBOSE);
-  
-  //clean up
-  free(slotname);
-  fclose(f);
+  #endif
   
   //save current slot number to access the VB configs
   storageCurrentSlotNumber = slotnumber;
   //save name of slot
   strncpy(cfg->slotName,slotname,SLOTNAME_LENGTH);
+  
+  //clean up
+  free(slotname);
+  fclose(f);
   
   return ESP_OK;
 }
@@ -1330,7 +1371,9 @@ esp_err_t halStorageLoadGetVBConfigs(uint8_t vb, void * vb_config, size_t vb_con
     
     //create filename from slotnumber & vb number
     sprintf(file,"%s/%03d_VB.fms",base_path,storageCurrentSlotNumber);
+    #if LOG_LEVEL_STORAGE >= ESP_LOG_DEBUG
     ESP_LOGD(LOG_TAG,"Opening file %s",file);
+    #endif
     f = fopen(file, "rb");
     if(f == NULL)
     {
@@ -1392,9 +1435,9 @@ esp_err_t halStorageLoadGetVBConfigs(uint8_t vb, void * vb_config, size_t vb_con
     return ESP_FAIL;
   }
   
-  ESP_LOGD(LOG_TAG,"Successfully loaded slotnumber %d, VB%d, payload: %d",storageCurrentSlotNumber,vb,vb_config_size);
+  ESP_LOGI(LOG_TAG,"Loaded VB %d config for %d, payload: %d",vb,storageCurrentSlotNumber,vb_config_size);
   //if you need detailed output of loaded VB configs.
-  #if 0
+  #if LOG_LEVEL_STORAGE >= ESP_LOG_DEBUG
   ESP_LOG_BUFFER_HEXDUMP(LOG_TAG,vb_config,vb_config_size,ESP_LOG_DEBUG);
   #endif
   return ESP_OK;
@@ -1453,7 +1496,9 @@ esp_err_t halStorageStore(uint32_t tid, generalConfig_t *cfg, char *slotname, ui
   sprintf(file,"%s/%03d.fms",base_path,slotnumber);
   
   //open file for writing
+  #if LOG_LEVEL_STORAGE >= ESP_LOG_DEBUG
   ESP_LOGD(LOG_TAG,"Opening file %s",file);
+  #endif
   FILE *f = fopen(file, "wb");
   if(f == NULL)
   {
@@ -1481,8 +1526,10 @@ esp_err_t halStorageStore(uint32_t tid, generalConfig_t *cfg, char *slotname, ui
     fclose(f);
     return ESP_FAIL;
   } else {
+    #if LOG_LEVEL_STORAGE >= ESP_LOG_DEBUG
     ESP_LOGD(LOG_TAG,"Written MD5 checksum:");
     ESP_LOG_BUFFER_HEXDUMP(LOG_TAG,md5sumfile,sizeof(md5sumfile),ESP_LOG_DEBUG);
+    #endif
   }
   
   //write remaining general config
@@ -1493,8 +1540,10 @@ esp_err_t halStorageStore(uint32_t tid, generalConfig_t *cfg, char *slotname, ui
     fclose(f);
     return ESP_FAIL;
   } else {
-    ESP_LOGD(LOG_TAG,"Successfully stored slotnumber %u with %u bytes payload", slotnumber, sizeof(generalConfig_t));
+    ESP_LOGI(LOG_TAG,"Stored slotnumber %u with %u bytes payload", slotnumber, sizeof(generalConfig_t));
+    #if LOG_LEVEL_STORAGE >= ESP_LOG_DEBUG
     ESP_LOG_BUFFER_HEXDUMP(LOG_TAG,cfg,sizeof(generalConfig_t),ESP_LOG_VERBOSE);
+    #endif
   }
   
   //clean up
@@ -1549,17 +1598,19 @@ esp_err_t halStorageStoreIR(uint32_t tid, halIOIR_t *cfg, char *cmdName)
         ESP_LOGE(LOG_TAG,"Cannot get a free slot for IR cmd");
         return ESP_FAIL;
       } else {
-        ESP_LOGD(LOG_TAG,"New IR slot @%d",cmdnumber);
+        ESP_LOGI(LOG_TAG,"New IR slot @%d",cmdnumber);
       }
     }
-    ESP_LOGD(LOG_TAG,"Overwriting @%d",cmdnumber);
+    ESP_LOGI(LOG_TAG,"Overwriting @%d",cmdnumber);
   }
   
   //create filename from slotnumber
   sprintf(file,"%s/IR_%02d.fms",base_path,cmdnumber);
   
   //open file for writing
+  #if LOG_LEVEL_STORAGE >= ESP_LOG_DEBUG
   ESP_LOGD(LOG_TAG,"Opening file %s",file);
+  #endif
   FILE *f = fopen(file, "wb");
   if(f == NULL)
   {
@@ -1586,9 +1637,11 @@ esp_err_t halStorageStoreIR(uint32_t tid, halIOIR_t *cfg, char *cmdName)
     fclose(f);
     return ESP_FAIL;
   } else {
-    ESP_LOGI(LOG_TAG,"Successfully stored IR cmd %u (%s) with %u bytes payload (length %d)", \
+    ESP_LOGI(LOG_TAG,"Stored IR cmd %u (%s) with %u bytes payload (length %d)", \
       cmdnumber, cmdName, sizeof(rmt_item32_t)*cfg->count, cfg->count);
+    #if LOG_LEVEL_STORAGE >= ESP_LOG_DEBUG
     ESP_LOG_BUFFER_HEXDUMP(LOG_TAG,cfg->buffer,sizeof(rmt_item32_t)*cfg->count,ESP_LOG_VERBOSE);
+    #endif
   }
   
   //clean up
@@ -1641,7 +1694,9 @@ esp_err_t halStorageStoreSetVBConfigs(uint8_t slotnumber, generalConfig_t *confi
   sprintf(file,"%s/%03d_VB.fms",base_path,slotnumber);
   
   //open file for writing
+  #if LOG_LEVEL_STORAGE >= ESP_LOG_DEBUG
   ESP_LOGD(LOG_TAG,"Opening file %s",file);
+  #endif
   FILE *f = fopen(file, "wb");
   if(f == NULL)
   {
@@ -1680,7 +1735,7 @@ esp_err_t halStorageStoreSetVBConfigs(uint8_t slotnumber, generalConfig_t *confi
     //check if config for vb is valid
     if(config->virtualButtonConfig[i] == NULL || config->virtualButtonCfgSize[i] == 0)
     {
-      ESP_LOGW(LOG_TAG,"VB %d cfg not set, normally unused. (size %d, pointer %d)",i, \
+      ESP_LOGI(LOG_TAG,"VB %d cfg not set, normally unused. (size %d, pointer %d)",i, \
         config->virtualButtonCfgSize[i], (uint32_t) config->virtualButtonConfig[i]);
       continue;
     }
@@ -1692,14 +1747,14 @@ esp_err_t halStorageStoreSetVBConfigs(uint8_t slotnumber, generalConfig_t *confi
       return ESP_FAIL;
     }
     //if you need detailed output of stored VB configs.
-    #if 0
+    #if LOG_LEVEL_STORAGE >= ESP_LOG_DEBUG
     ESP_LOGD(LOG_TAG,"VB config, prev: %u, this: %u, next: %u ::",hdr.offsetPrev,hdr.offsetThis,hdr.offsetNext);
     ESP_LOG_BUFFER_HEXDUMP(LOG_TAG,config->virtualButtonConfig[i],config->virtualButtonCfgSize[i],ESP_LOG_DEBUG);
     #endif
   }
 
   fclose(f);
-  ESP_LOGD(LOG_TAG,"Successfully stored VBs for %d, payload: %d Bytes",slotnumber,hdr.offsetNext-1);
+  ESP_LOGI(LOG_TAG,"Stored VBs for %d, payload: %d Bytes",slotnumber,hdr.offsetNext-1);
   return ESP_OK;
 }
 
@@ -1742,13 +1797,15 @@ esp_err_t halStorageLoadIR(char *cmdName, halIOIR_t *cfg, uint32_t tid)
     sprintf(file,"%s/IR_%02d.fms",base_path,currentSlot);
     
     //open file for reading
+    #if LOG_LEVEL_STORAGE >= ESP_LOG_DEBUG
     ESP_LOGD(LOG_TAG,"Opening file %s",file);
+    #endif
     f = fopen(file, "rb");
 
     //Currently: return ESP_FAIL for first not found file
     if(f == NULL)
     {
-      ESP_LOGD(LOG_TAG,"Stopped at IR cmd number %u, didn't found the given name",currentSlot);
+      ESP_LOGI(LOG_TAG,"Stopped at IR cmd number %u, didn't found the given name",currentSlot);
       return ESP_FAIL;
     }
     
@@ -1764,13 +1821,15 @@ esp_err_t halStorageLoadIR(char *cmdName, halIOIR_t *cfg, uint32_t tid)
     }
     fread(fileSlotName,sizeof(char),slotnamelen+1,f);
     fileSlotName[slotnamelen] = '\0';
+    #if LOG_LEVEL_STORAGE >= ESP_LOG_DEBUG
     ESP_LOGD(LOG_TAG,"Read cmdname: %s, length %d",fileSlotName,slotnamelen);
+    #endif
       
     //compare parameter & file slotname
     if(strcmp(cmdName, fileSlotName) == 0)
     {
       //found a slot
-      ESP_LOGD(LOG_TAG,"Found slot \"%s\" @%u",cmdName,currentSlot);
+      ESP_LOGI(LOG_TAG,"Found IR slot \"%s\" @%u",cmdName,currentSlot);
       //read length of recorded items
       uint16_t irlength = 0;
       fread(&irlength,sizeof(uint16_t),1,f);
@@ -1872,7 +1931,7 @@ esp_err_t halStorageStartTransaction(uint32_t *tid, TickType_t tickstowait, cons
   } else {
     //cannot obtain mutex, set tid to 0 and return
     *tid = 0;
-    ESP_LOGE(LOG_TAG,"cannot obtain mutex, currently active: %s",storageCurrentTIDHolder);
+    ESP_LOGW(LOG_TAG,"cannot obtain mutex, currently active: %s",storageCurrentTIDHolder);
     return ESP_FAIL;
   }
 }
@@ -1901,7 +1960,7 @@ esp_err_t halStorageFinishTransaction(uint32_t tid)
   //check if tid is valid
   if(tid == 0 || tid != storageCurrentTID)
   {
-    ESP_LOGE(LOG_TAG,"TID == 0, not a valid transaction id");
+    ESP_LOGW(LOG_TAG,"TID == 0, not a valid transaction id");
     return ESP_FAIL;
   }
   

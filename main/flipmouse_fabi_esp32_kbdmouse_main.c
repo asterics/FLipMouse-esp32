@@ -55,6 +55,7 @@
 EventGroupHandle_t virtualButtonsOut[NUMBER_VIRTUALBUTTONS];
 EventGroupHandle_t virtualButtonsIn[NUMBER_VIRTUALBUTTONS];
 EventGroupHandle_t connectionRoutingStatus;
+SemaphoreHandle_t switchRadioSem;
 QueueHandle_t keyboard_ble_press;
 QueueHandle_t keyboard_ble_release;
 QueueHandle_t mouse_movement_ble;
@@ -74,35 +75,15 @@ radio_status_t radio = UNINITIALIZED;
  * * BLE_PAIRING
  * * WIFI
  * 
+ * Actual switching is done in app_main, mostly because this
+ * method is executed in timer task context, with limited stack.
+ * 
  * @see halIOAddLongPressHandler
  * @see HAL_IO_LONGACTION_TIMEOUT
  */
 void switch_radio(void)
 {
-    switch(radio)
-    {
-        case BLE:
-            ESP_LOGI(LOG_TAG,"Switching from BLE to WIFI");
-            halBLEEnDisable(0);
-            taskWebGUIEnDisable(1);
-            radio = WIFI;
-            LED(127,255,0,0);
-            break;
-        case BLE_PAIRING:
-            ESP_LOGI(LOG_TAG,"Switching from WIFI to BLE");
-            taskWebGUIEnDisable(0);
-            halBLEEnDisable(1);
-            radio = BLE;
-            LED(0,127,255,0);
-            break;
-        case UNINITIALIZED:
-        default:
-            ESP_LOGE(LOG_TAG,"Error, radio is in unkown mode. Trying with BLE...");
-            taskWebGUIEnDisable(0);
-            halBLEEnDisable(1);
-            radio = BLE;
-            break;
-    }
+    xSemaphoreGive(switchRadioSem);
 }
 
 /** @brief Main task, created by esp-idf
@@ -135,6 +116,8 @@ void app_main()
         config_switcher = xQueueCreate(5,sizeof(char)*SLOTNAME_LENGTH);
         hid_ble = xQueueCreate(10,sizeof(hid_command_t));
         hid_usb = xQueueCreate(10,sizeof(hid_command_t));
+        //semphores
+        switchRadioSem = xSemaphoreCreateBinary();
         
     //exit critical section & resume all tasks for initialising
     xTaskResumeAll();
@@ -214,7 +197,38 @@ void app_main()
     halAdcCalibrate();
     
     //delete this task after initializing.
-    ESP_LOGI(LOG_TAG,"Finished intializing, deleting app_main");
+    ESP_LOGI(LOG_TAG,"Finished intializing!");
+    
+    while(1)
+    {
+        if(xSemaphoreTake(switchRadioSem,portMAX_DELAY) == pdTRUE)
+        {
+            switch(radio)
+            {
+                case BLE:
+                    ESP_LOGI(LOG_TAG,"Switching from BLE to WIFI");
+                    halBLEEnDisable(0);
+                    taskWebGUIEnDisable(1);
+                    radio = WIFI;
+                    LED(127,255,0,0);
+                    break;
+                case BLE_PAIRING:
+                    ESP_LOGI(LOG_TAG,"Switching from WIFI to BLE");
+                    taskWebGUIEnDisable(0);
+                    halBLEEnDisable(1);
+                    radio = BLE;
+                    LED(0,127,255,0);
+                    break;
+                case UNINITIALIZED:
+                default:
+                    ESP_LOGE(LOG_TAG,"Error, radio is in unkown mode. Trying with BLE...");
+                    taskWebGUIEnDisable(0);
+                    halBLEEnDisable(1);
+                    radio = BLE;
+                    break;
+            }
+        }
+    }
     vTaskDelete(NULL);
 }
 

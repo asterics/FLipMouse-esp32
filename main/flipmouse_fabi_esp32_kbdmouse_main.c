@@ -159,6 +159,8 @@ void app_main()
     if(halIOInit() == ESP_OK)
     {
         ESP_LOGD(LOG_TAG,"initialized halIOInit");
+        //set LED to first slot directly on startup 
+        LED(0xFF,0,0,0);
     } else {
         ESP_LOGE(LOG_TAG,"error initializing halIOInit");
     }

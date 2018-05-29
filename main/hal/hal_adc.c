@@ -65,6 +65,7 @@ typedef struct adcData {
     uint32_t left;
     uint32_t right;
     uint32_t pressure;
+    uint32_t pressure_raw;
     int32_t x;
     int32_t y;
     strong_action_t strongmode;
@@ -274,8 +275,15 @@ void halAdcReadData(adcData_t *values)
     { 
         ESP_LOGE(LOG_TAG,"Cannot read channel pressure"); return;
     } else { 
-        //pressure = esp_adc_cal_raw_to_voltage(pressure,&characteristics); 
-        values->pressure = pressure;
+        //save raw value (for calibration)
+        values->pressure_raw = pressure;
+        
+        //limit range of output
+        tmp = pressure-pressure_idle;
+        if(tmp >= 512) tmp = 511;
+        if(tmp < -512)  tmp = -512;
+        //save calibrated pressure value
+        values->pressure = (uint32_t)(512+tmp);        
     }
 
     //do the mouse rotation
@@ -731,7 +739,6 @@ void halAdcCalibrate(void)
         uint32_t left = 0;
         uint32_t right = 0;
         uint32_t pressure = 0;
-        int32_t temp;
         
         //read values itself & accumulate (8sensor readings)
         for(uint8_t i = 0; i<8; i++)
@@ -745,6 +752,7 @@ void halAdcCalibrate(void)
             left+= D.left;
             right+= D.right;
             down+= D.down;
+            pressure+=D.pressure_raw;
             
             //wait 2 ticks
             vTaskDelay(2);

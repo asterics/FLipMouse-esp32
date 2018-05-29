@@ -212,7 +212,7 @@ void app_main()
                     radio = WIFI;
                     LED(127,255,0,0);
                     break;
-                case BLE_PAIRING:
+                case WIFI:
                     ESP_LOGI(LOG_TAG,"Switching from WIFI to BLE");
                     taskWebGUIEnDisable(0);
                     halBLEEnDisable(1);

@@ -80,6 +80,10 @@ typedef struct taskConfigSwitcherConfig {
   uint8_t virtualButton;
 } taskConfigSwitcherConfig_t;
 
+
+/** @brief Print current task stack high water marks */
+void configPrintHighWaterMark(void);
+
 /** @brief FUNCTIONAL TASK - Load another slot
  * 
  * This task is used to switch the configuration to another slot.

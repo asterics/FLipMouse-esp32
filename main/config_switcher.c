@@ -113,6 +113,18 @@ generalConfig_t* configGetCurrent(void)
   return &currentConfigLoaded;
 }
 
+/** @brief Print current task stack high water marks */
+void configPrintHighWaterMark(void)
+{
+  for(uint8_t i= 0;i<(NUMBER_VIRTUALBUTTONS*4);i++)
+  {
+    if(currentTasks[i] != NULL)
+    {
+      ESP_LOGI("mem","VB%d, min stack: %d",i,uxTaskGetStackHighWaterMark(currentTasks[i]));
+    }
+  }
+}
+
 /** @brief Reverse Parsing - get AT command for configswitcher VB
  * 
  * This function parses the current configuration of a virtual button

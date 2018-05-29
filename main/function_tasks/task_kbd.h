@@ -58,7 +58,7 @@
 /** @brief Timeout for queue sending of keyboard commands [ticks] */
 #define TIMEOUT 10
 /** @brief Stacksize for this functional task */
-#define TASK_KEYBOARD_STACKSIZE 2048
+#define TASK_KEYBOARD_STACKSIZE 2304
 /** @brief Count of keycodes for parameter array for keycodes
  * @see taskKeyboardConfig_t */
 #define TASK_KEYBOARD_PARAMETERLENGTH 45

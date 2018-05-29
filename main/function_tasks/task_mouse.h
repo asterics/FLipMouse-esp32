@@ -43,7 +43,7 @@
 #include "../config_switcher.h"
 
 #define TIMEOUT 10
-#define TASK_MOUSE_STACKSIZE 2048
+#define TASK_MOUSE_STACKSIZE 1024
 
 #define MOUSE_BUTTON_LEFT   (1<<0)
 #define MOUSE_BUTTON_RIGHT  (1<<1)

@@ -121,7 +121,7 @@
 #define HAL_IO_ADC_TASK_PRIORITY 4
 /** @brief Stacksize for functional task task_calibration.
  * @see task_calibration */
-#define TASK_CALIB_STACKSIZE 2048
+#define TASK_CALIB_STACKSIZE 1024
 
 /** @brief Parameter for mouse acceleration calculation */
 #define ACCELTIME_MAX 20000

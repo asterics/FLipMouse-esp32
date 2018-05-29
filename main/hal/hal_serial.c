@@ -55,7 +55,7 @@
   //if you set log level to DEBUG, you need at least 2kB
   #define HAL_SERIAL_TASK_STACKSIZE 2048
 #else
-  //if you set log level to WARN, 768B is sufficient
+  //if you set log level to WARN, 1k is sufficient
   #define HAL_SERIAL_TASK_STACKSIZE 1024
 #endif
 
@@ -409,10 +409,11 @@ int halSerialReceiveUSBSerial(uint8_t **data)
     
     return recv.len;
   } else {
-    //no cmd received
-    ESP_LOGD(LOG_TAG,"Timeout reading UART");
     //print heap info
-    heap_caps_print_heap_info(MALLOC_CAP_8BIT);
+    //heap_caps_print_heap_info(MALLOC_CAP_8BIT);
+    ESP_LOGI("mem","Free heap: %dB",xPortGetFreeHeapSize());
+    //print tasks stack water mark
+    configPrintHighWaterMark();
     return -1;
   }
 }
@@ -633,7 +634,7 @@ esp_err_t halSerialInit(void)
 
   /*++++ task setup ++++*/
   //task for sending HID commands via RMT
-  xTaskCreate(halSerialHIDTask, "serialHID", HAL_SERIAL_TASK_STACKSIZE, NULL, configMAX_PRIORITIES-3, NULL);
+  xTaskCreate(halSerialHIDTask, "serialHID", HAL_SERIAL_TASK_STACKSIZE+256, NULL, configMAX_PRIORITIES-3, NULL);
   
   //Create a task to handler UART event from ISR
   xTaskCreate(halSerialRXTask, "serialRX", HAL_SERIAL_TASK_STACKSIZE, NULL, 5, NULL);

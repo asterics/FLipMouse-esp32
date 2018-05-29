@@ -111,6 +111,9 @@ TimerHandle_t longactiontimer = NULL;
 /** @brief RMT counter value for 10 us.(Source clock is APB clock) */
 #define RMT_TICK_10_US    (80000000/RMT_CLK_DIV/100000)   
 
+/** @brief Buzzer timer config (via LED-PWM unit) */
+ledc_timer_config_t buzzer_timer;
+
 
 /** @brief GPIO ISR handler for buttons (internal/external)
  * 
@@ -337,7 +340,7 @@ void halIOBuzzerTask(void * param)
   while(1)
   {
     //wait for updates
-    if(xQueueReceive(halIOBuzzerQueue,(void*)&recv,10000) == pdTRUE)
+    if(xQueueReceive(halIOBuzzerQueue,(void*)&recv,portMAX_DELAY) == pdTRUE)
     {
       
       //check if feedback mode is set to buzzer output. If not: do nothing
@@ -349,8 +352,11 @@ void halIOBuzzerTask(void * param)
       //do a tone only if frequency is != 0, otherwise it is just a pause
       if(recv.frequency != 0)
       {
-        //multiply by 2, otherwise it would be half the frequency...
-        ledc_set_freq(LEDC_LOW_SPEED_MODE, LEDC_TIMER_1, recv.frequency*2);
+        //multiply by 4, otherwise it would be half the frequency...
+        //ledc_set_freq(LEDC_LOW_SPEED_MODE, LEDC_TIMER_1, recv.frequency*4);
+        buzzer_timer.freq_hz = recv.frequency;
+        ledc_timer_config(&buzzer_timer);
+        
         ledc_set_duty(LEDC_LOW_SPEED_MODE, LEDC_CHANNEL_3, 512);
         ledc_update_duty(LEDC_LOW_SPEED_MODE, LEDC_CHANNEL_3);
       }
@@ -403,7 +409,7 @@ void halIOLEDTask(void * param)
   while(1)
   {
     //wait for updates
-    if(xQueueReceive(halIOLEDQueue,&recv,10000))
+    if(xQueueReceive(halIOLEDQueue,&recv,portMAX_DELAY))
     {
       //check if feedback mode is set to LED output. If not: do nothing
       if((cfg->feedback & 0x01) == 0) continue;
@@ -741,13 +747,12 @@ esp_err_t halIOInit(void)
   //we will use the LEDC unit for the buzzer
   //because RMT has no lower frequency than 611Hz (according to example)
   halIOBuzzerQueue = xQueueCreate(32,sizeof(halIOBuzzer_t));
-  ledc_timer_config_t buzzer_timer = {
-    .duty_resolution = LEDC_TIMER_10_BIT, // resolution of PWM duty
-    .freq_hz = 100,                      // frequency of PWM signal
-    .speed_mode = LEDC_LOW_SPEED_MODE,           // timer mode
-    .timer_num = LEDC_TIMER_1            // timer index
-  };
+  buzzer_timer.duty_resolution = LEDC_TIMER_10_BIT; // resolution of PWM duty
+  buzzer_timer.freq_hz = 100;                     // frequency of PWM signal
+  buzzer_timer.speed_mode = LEDC_LOW_SPEED_MODE;           // timer mode
+  buzzer_timer.timer_num = LEDC_TIMER_1;            // timer index
   ledc_timer_config(&buzzer_timer);
+  
   ledc_channel_config_t buzzer_channel = {
     .channel    = LEDC_CHANNEL_3,
     .duty       = 0,

@@ -6,6 +6,7 @@
  * and you think this stuff is worth it, you can buy me a beer in return. 
  *
  * modified for ESP32 by Cornelis 
+ * reduced stack size & using ESP_LOG... stuff, done by Benjamin Aigner
  * 
  * ----------------------------------------------------------------------------
  */
@@ -23,12 +24,17 @@ the internal webserver.
 #include "freertos/queue.h"
 #include "lwip/sockets.h"
 #include "lwip/err.h"
+#include "esp_log.h"
 #include "tcpip_adapter.h"
 #include "string.h"
 
 static int sockFd;
 
 #define DNS_LEN 512
+
+#define LOG_TAG "DNS"
+#define LOG_LEVEL_DNS   ESP_LOG_WARN
+#define DNS_TASK_STACKSIZE 8192
 
 typedef struct __attribute__ ((packed)) {
 	uint16_t id;
@@ -193,9 +199,6 @@ static void  captdnsRecv(struct sockaddr_in *premote_addr, char *pusrdata, unsig
 		if (p==NULL) return;
 		DnsQuestionFooter *qf=(DnsQuestionFooter*)p;
 		p+=sizeof(DnsQuestionFooter);
-		
-		printf("DNS: Q (type 0x%X class 0x%X) for %s\n", my_ntohs(&qf->type), my_ntohs(&qf->class), buff);
-		
 
 		if (my_ntohs(&qf->type)==QTYPE_A) {
 			//They want to know the IPv4 address of something.
@@ -221,8 +224,9 @@ static void  captdnsRecv(struct sockaddr_in *premote_addr, char *pusrdata, unsig
 			*rend++=ip4_addr3(&info.ip);
 			*rend++=ip4_addr4(&info.ip);
 			setn16(&rhdr->ancount, my_ntohs(&rhdr->ancount)+1);
-			printf("DNS: reply IP Address:  %s\n", ip4addr_ntoa(&info.ip));
-            //printf("Added A rec to resp. Resp len is %d\n", (rend-reply));
+                        #if (LOG_LEVEL_DNS>=ESP_LOG_DEBUG)
+                        ESP_LOGD(LOG_TAG,"DNS: Q (type 0x%X class 0x%X) for %s, resp: %s", my_ntohs(&qf->type), my_ntohs(&qf->class), buff,ip4addr_ntoa(&info.ip));
+                        #endif
 
 		} else if (my_ntohs(&qf->type)==QTYPE_NS) {
 			//Give ns server. Basically can be whatever we want because it'll get resolved to our IP later anyway.
@@ -282,7 +286,7 @@ static void captdnsTask(void *pvParameters) {
 	do {
 		sockFd=socket(AF_INET, SOCK_DGRAM, 0);
 		if (sockFd==-1) {
-			printf("captdns_task failed to create sock!\n");
+			ESP_LOGE(LOG_TAG,"failed to create sock!");
 			vTaskDelay(1000/portTICK_RATE_MS);
 		}
 	} while (sockFd==-1);
@@ -290,12 +294,14 @@ static void captdnsTask(void *pvParameters) {
 	do {
 		ret=bind(sockFd, (struct sockaddr *)&server_addr, sizeof(server_addr));
 		if (ret!=0) {
-			printf("captdns_task failed to bind sock!\n");
+			ESP_LOGE(LOG_TAG,"failed to bind sock!");
 			vTaskDelay(1000/portTICK_RATE_MS);
 		}
 	} while (ret!=0);
 
-    printf("CaptDNS inited.\n");
+        #if (LOG_LEVEL_DNS>=ESP_LOG_INFO)
+        ESP_LOGI(LOG_TAG,"DNS task finished init");
+        #endif
 	
 	while(1) {
 		memset(&from, 0, sizeof(from));
@@ -310,7 +316,10 @@ static void captdnsTask(void *pvParameters) {
 
 void captdnsInit(void) 
 {
-  xTaskCreate(captdnsTask, (const char *)"captdns_task", 10000, NULL, 3, NULL);
+  xTaskCreate(captdnsTask, (const char *)"captdns", DNS_TASK_STACKSIZE, NULL, 3, NULL);
+  #if (LOG_LEVEL_DNS>=ESP_LOG_INFO)
+  ESP_LOGI(LOG_TAG,"DNS task started");
+  #endif
 }
 
 

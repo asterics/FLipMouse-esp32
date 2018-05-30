@@ -42,6 +42,8 @@
 
 /** @brief Logging tag for this module */
 #define LOG_TAG "web"
+/** @brief Log level for the web/websocket server */
+#define LOG_LEVEL_WEB ESP_LOG_INFO
 
 /** @brief Authentication mode for wifi hotspot */
 #define CONFIG_AP_AUTHMODE WIFI_AUTH_WPA2_PSK
@@ -63,13 +65,13 @@ const static char *base_path = "/spiflash";
 /** @brief Currently used wifi password */
 static char wifipw[64];
 
-/** @brief Wear levelling handle */
-static wl_handle_t fat_handle = WL_INVALID_HANDLE;
-
 /** @brief Static HTTP HTML header */
-const static char http_html_hdr[] = "HTTP/1.1 200 OK\nContent-type: text/html\n\n";
+const static char http_html_hdr[] = "HTTP/1.1 200 OK\r\n";
 /** @brief Static HTTP 404 header */
-const static char http_404_hdr[] = "HTTP/1.1 404 NOT FOUND\n\n";
+const static char http_404_hdr[] = "HTTP/1.1 404 NOT FOUND\r\n";
+
+/** Mutex to lock fat access */
+SemaphoreHandle_t  fatSem;
 
 /** @brief AP mode config, filled in init */
 wifi_config_t ap_config= {
@@ -185,44 +187,76 @@ void ws_server(void *pvParameters) {
  * @param resource Name of the resource to be sent
  * @param conn Currently active connection
  */
-void fat_serve(char* resource, struct netconn *conn) {
-  //basepath + 8.3 file + folder + margin
-  char file[sizeof(base_path)+32];
-  sprintf(file,"%s%s",base_path,resource);
-  ESP_LOGI(LOG_TAG,"serving from FAT: %s",file);
+void fat_serve(char* resource, int fd) {
   
-  struct stat st;
-	if (stat(file, &st) == 0) {
-		netconn_write(conn, http_html_hdr, sizeof(http_html_hdr) - 1, NETCONN_NOCOPY);
+  if(xSemaphoreTake(fatSem,200) == pdTRUE)
+  {
+  
+    //basepath + 8.3 file + folder + margin
+    char file[sizeof(base_path)+32];
+    sprintf(file,"%s%s",base_path,resource);
+    ESP_LOGI(LOG_TAG,"serving from FAT: %s",file);
 		
 		// open the file for reading
 		FILE* f = fopen(file, "r");
 		if(f == NULL) {
-			ESP_LOGE(LOG_TAG,"Unable to open the file %s", file);
+			ESP_LOGW(LOG_TAG,"Resource not found: %s", file);
+      send(fd, http_404_hdr, sizeof(http_404_hdr) - 1, 0);
 			return;
 		}
-		
+    
+    //get the size of this file (for html header)
+    fseek(f, 0L, SEEK_END);
+    int sz = ftell(f);
+    rewind(f);
+    
+    //send http header (200)
+    send(fd, http_html_hdr, sizeof(http_html_hdr) - 1,MSG_MORE);
+    
+    //send http header (content type)
+    int reslen = strlen(resource);
+    char hdr[36];
+    if(strcmp(&resource[reslen-4],".css") == 0)
+    {
+      snprintf(hdr,36,"Content-Type: text/css\r\n");
+    } else if(strcmp(&resource[reslen-4],".htm") == 0) {
+      snprintf(hdr,36,"Content-Type: text/html\r\n");
+    } else if(strcmp(&resource[reslen-3],".js") == 0) {
+      snprintf(hdr,36,"Content-Type: text/javascript\r\n");
+    } else {
+      snprintf(hdr,36,"Content-Type: text/plain\r\n");
+    }
+    send(fd, hdr, strlen(hdr),MSG_MORE);
+    #if (LOG_LEVEL_WEB >= ESP_LOG_DEBUG)
+    ESP_LOGD(LOG_TAG,"Hdr: %s",hdr);
+    #endif
+    
+    //send http header (content length)
+    snprintf(hdr,36,"Content-Length: %d\r\n\r\n",sz);
+    send(fd, hdr, strlen(hdr),MSG_MORE);
+    #if (LOG_LEVEL_WEB >= ESP_LOG_DEBUG)
+    ESP_LOGD(LOG_TAG,"Hdr: %s",hdr);
+    #endif
+    
 		//allocate a buffer in size of one FAT block
 		char* buffer = malloc(512);
-    
 		int i=0, len=0;
-    
     do {
 			len=fread(buffer, 1, 512, f);
 			i+=len;
-			ESP_LOGV(LOG_TAG,"Writing bytes %d", i);
-			netconn_write(conn, buffer, len, NETCONN_NOCOPY);
+      send(fd, buffer, len, 0);
+      vTaskDelay(1);
 		} while (len==512);
 		
-    ESP_LOGI(LOG_TAG,"Sent %u bytes",i);
+    #if (LOG_LEVEL_WEB >= ESP_LOG_DEBUG)
+    ESP_LOGD(LOG_TAG,"Sent %u bytes",i);
+    #endif
 		fclose(f);
-		fflush(stdout);
     free(buffer);
-	}
-	else {
-		ESP_LOGW(LOG_TAG,"Resource not found: %s", file);
-		netconn_write(conn, http_404_hdr, sizeof(http_404_hdr) - 1, NETCONN_NOCOPY);
-	}
+    xSemaphoreGive(fatSem);
+  } else {
+    ESP_LOGE(LOG_TAG,"Timeout waiting for fat mutex!");
+  }
 }
 
 /** @brief Handle an incoming HTTP connection
@@ -232,26 +266,31 @@ void fat_serve(char* resource, struct netconn *conn) {
  * The partition is created and uploaded by *make makefatfs flashfatfs*
  * @param conn Current active net connection
  * */
-static void http_server_netconn_serve(struct netconn *conn) {
+static void http_server_netconn_serve(int fd) {
+  if(fd < 0) return;
+  #define MAX_BUFF_SIZE 512
+  
+  char *buf = malloc(MAX_BUFF_SIZE);
+  if(buf == NULL)
+  {
+    ESP_LOGE(LOG_TAG,"Cannot allocate buf for recv");
+    return;
+  }
 
-	struct netbuf *inbuf;
-	char *buf;
-	u16_t buflen;
-	err_t err;
-  //receive incoming data/request
-	err = netconn_recv(conn, &inbuf);
-
-	if (err == ERR_OK) {
-	  
-		// get the request and terminate the string
-		netbuf_data(inbuf, (void**)&buf, &buflen);
-		buf[buflen] = '\0';
+  //read incoming
+  int size = recv(fd,buf,MAX_BUFF_SIZE,0);
+  #if (LOG_LEVEL_WEB >= ESP_LOG_DEBUG)
+  ESP_LOGD(LOG_TAG,"recv size: %d",size);
+  #endif
+  if(size > 0)
+  {
+    buf[size] = '\0';
     char *request_line = strtok(buf, "\n");
 		
 		if(request_line) {
 			// default page -> redirect to index.html
 			if(strstr(request_line, "GET / ")) {
-				fat_serve((char*)"/INDEX.HTM", conn);
+				fat_serve((char*)"/index.htm", fd);
 			} else {
 				// get the requested resource
         char* method = strtok(request_line, " ");
@@ -259,14 +298,11 @@ static void http_server_netconn_serve(struct netconn *conn) {
         //strtok although needs this call.
         (void)(method);
 				char* resource = strtok(NULL, " ");
-				fat_serve(resource, conn);
+				fat_serve(resource, fd);
 			}
 		}
-	}
-	
-	// close the connection and free the buffer
-	netconn_close(conn);
-	netbuf_delete(inbuf);
+  }
+  free(buf);
 }
 
 
@@ -281,30 +317,52 @@ static void http_server_netconn_serve(struct netconn *conn) {
  * @param pvParameters Unused.
  * */
 static void http_server(void *pvParameters) {
-	
-	struct netconn *conn, *newconn;
-	err_t err;
+  int sockfd, new_sockfd;
+  socklen_t addr_len;
+  struct sockaddr_in sock_addr;
+	int ret;
   //create a new TCP connection
-	conn = netconn_new(NETCONN_TCP);
+	sockfd = socket(AF_INET, SOCK_STREAM, 0);
+  if (sockfd < 0) {
+    ESP_LOGE(LOG_TAG,"Cannot create socket");
+  }
   //bind it to incoming port 80 (HTTP)
-	netconn_bind(conn, NULL, 80);
-  //LISTEN & wait...
-	netconn_listen(conn);
+	memset(&sock_addr, 0, sizeof(sock_addr));
+  sock_addr.sin_family = AF_INET;
+  sock_addr.sin_addr.s_addr = 0;
+  sock_addr.sin_port = htons(80);
+  ret = bind(sockfd, (struct sockaddr*)&sock_addr, sizeof(sock_addr));
+  if(ret) {
+    ESP_LOGE(LOG_TAG,"Failed to bind");
+    close(sockfd);
+    sockfd = -1;
+  }
+  ret = listen(sockfd, 1);
+    if(ret) {
+    ESP_LOGE(LOG_TAG,"Failed to listen");
+    close(sockfd);
+    sockfd = -1;
+  }
 	ESP_LOGI(LOG_TAG,"http_server task started");
+  
 	do {
     //accept connection & save netconn handle
-		err = netconn_accept(conn, &newconn);
-		if (err == ERR_OK) {
-      //serve data to this connection
-			http_server_netconn_serve(newconn);
-      //close connection if finished
-			netconn_delete(newconn);
-		}
-		vTaskDelay(2); //allows task to be pre-empted
-	} while((err == ERR_OK) && wifiActive);
+		new_sockfd = accept(sockfd, (struct sockaddr *)&sock_addr, &addr_len);
+    if (new_sockfd < 0) {
+        ESP_LOGE(LOG_TAG, "Failed to accept" );
+    } else {
+      //serve
+      http_server_netconn_serve(new_sockfd);
+      //close
+      close(new_sockfd);
+    }
+		vTaskDelay(1); //allows task to be pre-empted
+	} while(wifiActive);
+  ESP_LOGI(LOG_TAG,"Killing http task");
   //if we run into an error
-	netconn_close(conn);
-	netconn_delete(conn);
+	close(new_sockfd);
+	close(sockfd);
+  //delete task
   vTaskDelete(NULL);
 }
 
@@ -504,6 +562,9 @@ void wifi_timer_cb(TimerHandle_t xTimer)
  * */
 esp_err_t taskWebGUIInit(void)
 {
+  //set log level to given log level
+  esp_log_level_set(LOG_TAG,LOG_LEVEL_WEB);
+  
   if(connectionRoutingStatus == NULL)
   {
     ESP_LOGE(LOG_TAG,"connection flags are uninitialized!");
@@ -553,6 +614,9 @@ esp_err_t taskWebGUIInit(void)
   {
     ESP_LOGE(LOG_TAG,"Cannot start wifi disabling timer, no auto disable!");
   }
+  
+  /*++++ init mutex for FAT access */
+  fatSem = xSemaphoreCreateMutex();
   
   return ESP_OK;
 }

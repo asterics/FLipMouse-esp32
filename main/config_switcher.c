@@ -527,7 +527,10 @@ void configSwitcherTask(void * params)
       {
         xSemaphoreGive(configUpdatePending);
         ESP_LOGD(LOG_TAG,"----Config Update Complete, loaded slot %s----",currentConfigLoaded.slotName);
-      } else ESP_LOGD(LOG_TAG,"----Config Switch Complete, loaded slot %s----",currentConfigLoaded.slotName);
+      } else {
+        halAdcCalibrate();
+        ESP_LOGD(LOG_TAG,"----Config Switch Complete, loaded slot %s----",currentConfigLoaded.slotName);
+      }
     }
   }
 }

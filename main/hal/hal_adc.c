@@ -1064,6 +1064,8 @@ esp_err_t halAdcUpdateConfig(adc_config_t* params)
     ESP_LOG_BUFFER_HEXDUMP(LOG_TAG,&adc_conf,sizeof(adc_config_t),ESP_LOG_DEBUG);
     //give mutex
     xSemaphoreGive(adcSem);
+    //calibrate
+    halAdcCalibrate();
     return ESP_OK;
 }
 

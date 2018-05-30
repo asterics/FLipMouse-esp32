@@ -67,8 +67,8 @@ static char wifipw[64];
 
 /** @brief Static HTTP HTML header */
 const static char http_html_hdr[] = "HTTP/1.1 200 OK\r\n";
-/** @brief Static HTTP 404 header */
-const static char http_404_hdr[] = "HTTP/1.1 404 NOT FOUND\r\n";
+/** @brief Static HTTP redirect header */
+const static char http_redir_hdr[] = "HTTP/1.1 302 Found\r\nLocation: http://192.168.4.1/index.htm\r\n\Expires: Mon, 26 Jul 1997 05:00:00 GMT\r\nCache-Control: no-cache\r\nPragma: no-cache\r\nCache-Control: post-check=0, pre-check=0\r\n";
 
 /** Mutex to lock fat access */
 SemaphoreHandle_t  fatSem;
@@ -194,14 +194,16 @@ void fat_serve(char* resource, int fd) {
   
     //basepath + 8.3 file + folder + margin
     char file[sizeof(base_path)+32];
+    
     sprintf(file,"%s%s",base_path,resource);
     ESP_LOGI(LOG_TAG,"serving from FAT: %s",file);
 		
 		// open the file for reading
 		FILE* f = fopen(file, "r");
 		if(f == NULL) {
-			ESP_LOGW(LOG_TAG,"Resource not found: %s", file);
-      send(fd, http_404_hdr, sizeof(http_404_hdr) - 1, 0);
+			ESP_LOGW(LOG_TAG,"Resource not found: %s, sending redirect", file);
+      send(fd, http_redir_hdr, sizeof(http_redir_hdr) - 1, 0);
+      xSemaphoreGive(fatSem);
 			return;
 		}
     
@@ -468,6 +470,7 @@ esp_err_t taskWebGUIEnDisable(int onoff)
     wifiActive = 0;
     
     //disable, call wifi_stop
+    esp_wifi_stop();
     ret = esp_wifi_deinit();
     //check return value
     if(ret != ESP_OK)
@@ -597,7 +600,7 @@ esp_err_t taskWebGUIInit(void)
   ESP_LOGI(LOG_TAG,"Wifipw: %s",ap_config.ap.password);
     
   /*++++ initialize capitive portal dns server ++++*/
-	//captdnsInit();
+	captdnsInit();
   
   /*++++ initialize storage, having a definetly opened partition ++++*/
   uint32_t tid;

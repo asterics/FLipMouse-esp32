@@ -104,8 +104,8 @@ static int8_t getNumberOfWifiStations(void)
 	memset(&wifi_sta_list, 0, sizeof(wifi_sta_list));
 	memset(&adapter_sta_list, 0, sizeof(adapter_sta_list));
    
-	ESP_ERROR_CHECK(esp_wifi_ap_get_sta_list(&wifi_sta_list));	
-	ESP_ERROR_CHECK(tcpip_adapter_get_sta_list(&wifi_sta_list, &adapter_sta_list));
+  if(esp_wifi_ap_get_sta_list(&wifi_sta_list) != ESP_OK) return 0;
+  if(tcpip_adapter_get_sta_list(&wifi_sta_list, &adapter_sta_list) != ESP_OK) return 0;
   
   return adapter_sta_list.num;
 }
@@ -173,6 +173,8 @@ void ws_server(void *pvParameters) {
 	while((netconn_accept(conn, &newconn) == ERR_OK) && wifiActive)
   {
     ESP_LOGI(LOG_TAG,"Incoming WS connection");
+    //add the websocket sending functions to hal_serial for getting output data
+    halSerialAddOutputStream(WS_write_data);
 		ws_server_netconn_serve(newconn);
   }
 	//close connection
@@ -415,9 +417,6 @@ static esp_err_t wifi_event_handler(void *ctx, system_event_t *event) {
       ESP_LOGI(LOG_TAG,"Client connected, currently connected: %d",getNumberOfWifiStations());
       //set client connected flag
       xEventGroupSetBits(connectionRoutingStatus, WIFI_CLIENT_CONNECTED);
-            
-      //add the websocket sending functions to hal_serial for getting output data
-      halSerialAddOutputStream(WS_write_data);
       
       //if the wifi timer is active, disable the timer (client is connected)
       wifiStartStopOffTimer(0);
@@ -470,8 +469,12 @@ esp_err_t taskWebGUIEnDisable(int onoff)
     wifiActive = 0;
     
     //disable, call wifi_stop
-    esp_wifi_stop();
-    ret = esp_wifi_deinit();
+    if(esp_wifi_stop() == ESP_OK)
+    {
+      ret = esp_wifi_deinit();
+    } else {
+      ret = ESP_OK;
+    }
     //check return value
     if(ret != ESP_OK)
     {

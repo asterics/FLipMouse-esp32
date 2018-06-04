@@ -389,6 +389,9 @@ void halSerialHIDTask(void *param)
  * @return -1 on error, number of read bytes otherwise
  * @param data Double pointer to save the new allocated buffer to.
  * @warning Free the data pointer after use!
+ * @note In timeout, debug information is print. Please uncomment if wanted:
+ * * Printing free heap for each VB task
+ * * Print task CPU usage (only supported if "Use Trace facilities" is activated)
  * @see HAL_SERIAL_UART_TIMEOUT_MS
  * @see halSerialATCmds
  * @see halSerialRXTask
@@ -414,6 +417,10 @@ int halSerialReceiveUSBSerial(uint8_t **data)
     ESP_LOGI("mem","Free heap: %dB",xPortGetFreeHeapSize());
     //print tasks stack water mark
     configPrintHighWaterMark();
+    //print the CPU usage
+    //char *taskbuf = (char*)malloc(1024);
+    //vTaskGetRunTimeStats(taskbuf);
+    //ESP_LOGI("mem","Tasks:\n%s",taskbuf);
     return -1;
   }
 }

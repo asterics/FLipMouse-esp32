@@ -70,13 +70,11 @@
 /**
  * @file 
  * @todo Implement learning mode
+ * @todo Double check all functional tasks for any possible memory leaks (would result in crashes after using the device a while)
  * @todo Clarify AT KP/KR/KH commands on original FlipMouse, to be compatible... (especially for press/release with buttons & with multiple key identifiers)
- * @todo Debouncer testing...
  * @todo Implement buzzer in remaining task_* functions (strongsip/puff exit)
  * @todo Test Neopixels on FABI & FLipMouse
  * @todo Test AT MA (macros).
  * @todo Debug buzzer, and buzzer activating tasks.
- * @todo Smooth up mouse movement a little bit
- * 
  * @todo Implement long press for virtual buttons (new VBs).
 */

@@ -746,7 +746,7 @@ esp_err_t halIOInit(void)
   /*++++ INIT buzzer ++++*/
   //we will use the LEDC unit for the buzzer
   //because RMT has no lower frequency than 611Hz (according to example)
-  halIOBuzzerQueue = xQueueCreate(32,sizeof(halIOBuzzer_t));
+  halIOBuzzerQueue = xQueueCreate(8,sizeof(halIOBuzzer_t));
   buzzer_timer.duty_resolution = LEDC_TIMER_10_BIT; // resolution of PWM duty
   buzzer_timer.freq_hz = 100;                     // frequency of PWM signal
   buzzer_timer.speed_mode = LEDC_LOW_SPEED_MODE;           // timer mode

@@ -88,9 +88,9 @@ Functions</h2></td></tr>
 <tr class="memitem:a43469aecbc3cd22a6ed1e6a73dc978bf"><td class="memItemLeft" align="right" valign="top">esp_err_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="task__kbd_8c.html#a43469aecbc3cd22a6ed1e6a73dc978bf">task_keyboard_getAT</a> (char *output, void *cfg)</td></tr>
 <tr class="memdesc:a43469aecbc3cd22a6ed1e6a73dc978bf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reverse Parsing - get AT command for keyboard VB.  <a href="#a43469aecbc3cd22a6ed1e6a73dc978bf">More...</a><br /></td></tr>
 <tr class="separator:a43469aecbc3cd22a6ed1e6a73dc978bf"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7d605cb2407a7a7309911c70e28a9884"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="task__kbd_8c.html#a7d605cb2407a7a7309911c70e28a9884">sendKbd</a> (QueueHandle_t qUSB, QueueHandle_t qBLE, uint16_t *key)</td></tr>
-<tr class="memdesc:a7d605cb2407a7a7309911c70e28a9884"><td class="mdescLeft">&#160;</td><td class="mdescRight">Helper function sending to queues depending on connection type.  <a href="#a7d605cb2407a7a7309911c70e28a9884">More...</a><br /></td></tr>
-<tr class="separator:a7d605cb2407a7a7309911c70e28a9884"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8609b3c556a360ec16bdc31be0534f8e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="task__kbd_8c.html#a8609b3c556a360ec16bdc31be0534f8e">sendKbd</a> (<a class="el" href="common_8h.html#ac228e3ad78247a53a08125518c5c2294">hid_command_t</a> *key)</td></tr>
+<tr class="memdesc:a8609b3c556a360ec16bdc31be0534f8e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Helper function sending to queues depending on connection type.  <a href="#a8609b3c556a360ec16bdc31be0534f8e">More...</a><br /></td></tr>
+<tr class="separator:a8609b3c556a360ec16bdc31be0534f8e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8ff4618047a049178bfb1d60abfefb5d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="task__kbd_8c.html#a8ff4618047a049178bfb1d60abfefb5d">task_keyboard</a> (<a class="el" href="task__kbd_8h.html#a1ea00a7b13dc2b804f53e6f79cb89f2c">taskKeyboardConfig_t</a> *param)</td></tr>
 <tr class="memdesc:a8ff4618047a049178bfb1d60abfefb5d"><td class="mdescLeft">&#160;</td><td class="mdescRight">FUNCTIONAL TASK - trigger keyboard actions.  <a href="#a8ff4618047a049178bfb1d60abfefb5d">More...</a><br /></td></tr>
 <tr class="separator:a8ff4618047a049178bfb1d60abfefb5d"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -128,13 +128,13 @@ Variables</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="task__kbd_8c_source.html#l00044">44</a> of file <a class="el" href="task__kbd_8c_source.html">task_kbd.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="task__kbd_8c_source.html#l00166">task_keyboard()</a>, and <a class="el" href="task__kbd_8c_source.html#l00059">task_keyboard_getAT()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="task__kbd_8c_source.html#l00164">task_keyboard()</a>, and <a class="el" href="task__kbd_8c_source.html#l00059">task_keyboard_getAT()</a>.</p>
 
 </div>
 </div>
 <h2 class="groupheader">Function Documentation</h2>
-<a id="a7d605cb2407a7a7309911c70e28a9884"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a7d605cb2407a7a7309911c70e28a9884">&#9670;&nbsp;</a></span>sendKbd()</h2>
+<a id="a8609b3c556a360ec16bdc31be0534f8e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8609b3c556a360ec16bdc31be0534f8e">&#9670;&nbsp;</a></span>sendKbd()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -142,25 +142,9 @@ Variables</h2></td></tr>
         <tr>
           <td class="memname">void sendKbd </td>
           <td>(</td>
-          <td class="paramtype">QueueHandle_t&#160;</td>
-          <td class="paramname"><em>qUSB</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
+          <td class="paramtype"><a class="el" href="common_8h.html#ac228e3ad78247a53a08125518c5c2294">hid_command_t</a> *&#160;</td>
+          <td class="paramname"><em>key</em></td><td>)</td>
           <td></td>
-          <td class="paramtype">QueueHandle_t&#160;</td>
-          <td class="paramname"><em>qBLE</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">uint16_t *&#160;</td>
-          <td class="paramname"><em>key</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -171,21 +155,19 @@ Variables</h2></td></tr>
 <a class="el" href="common_8h.html#a23e20bbc7b5cb196155927ffb1375bed">DATATO_BLE</a> </dd></dl>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">qUSB</td><td>Queue for USB commands to send to </td></tr>
-    <tr><td class="paramname">qBLE</td><td>Queue for BLE commands to send to </td></tr>
-    <tr><td class="paramname">key</td><td>Pointer to keycode which is sent to these queues </td></tr>
+    <tr><td class="paramname">key</td><td>Pointer to command which is sent to these queues </td></tr>
   </table>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="task__kbd_8c_source.html#l00146">146</a> of file <a class="el" href="task__kbd_8c_source.html">task_kbd.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="task__kbd_8c_source.html#l00144">144</a> of file <a class="el" href="task__kbd_8c_source.html">task_kbd.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="task__kbd_8c_source.html#l00166">task_keyboard()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="task__kbd_8c_source.html#l00164">task_keyboard()</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><img src="task__kbd_8c_a7d605cb2407a7a7309911c70e28a9884_icgraph.png" border="0" usemap="#task__kbd_8c_a7d605cb2407a7a7309911c70e28a9884_icgraph" alt=""/></div>
-<map name="task__kbd_8c_a7d605cb2407a7a7309911c70e28a9884_icgraph" id="task__kbd_8c_a7d605cb2407a7a7309911c70e28a9884_icgraph">
+<div class="center"><img src="task__kbd_8c_a8609b3c556a360ec16bdc31be0534f8e_icgraph.png" border="0" usemap="#task__kbd_8c_a8609b3c556a360ec16bdc31be0534f8e_icgraph" alt=""/></div>
+<map name="task__kbd_8c_a8609b3c556a360ec16bdc31be0534f8e_icgraph" id="task__kbd_8c_a8609b3c556a360ec16bdc31be0534f8e_icgraph">
 <area shape="rect" id="node2" href="task__kbd_8h.html#a8ff4618047a049178bfb1d60abfefb5d" title="FUNCTIONAL TASK &#45; trigger keyboard actions. " alt="" coords="127,31,233,57"/>
 <area shape="rect" id="node3" href="config__switcher_8c.html#af5af5079d1982d42e165039e6de7e40a" title="CONTINOUS TASK &#45; Config switcher task, internal config reloading. " alt="" coords="281,5,419,32"/>
 <area shape="rect" id="node6" href="task__commands_8c.html#ac3c72c089d32dea93c45f4f9f8d1f244" title="doKeyboardParsing" alt="" coords="283,56,417,83"/>
@@ -221,21 +203,21 @@ Here is the caller graph for this function:</div>
 <a class="el" href="task__kbd_8h.html#a1ea00a7b13dc2b804f53e6f79cb89f2c" title="Config for task_keyboard. ">taskKeyboardConfig_t</a> </dd></dl>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">param</td><td>Task configuration </td></tr>
+    <tr><td class="paramname">param</td><td><a class="el" href="classTask.html" title="Encapsulate a runnable task. ">Task</a> configuration </td></tr>
   </table>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="task__kbd_8c_source.html#l00166">166</a> of file <a class="el" href="task__kbd_8c_source.html">task_kbd.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="task__kbd_8c_source.html#l00164">164</a> of file <a class="el" href="task__kbd_8c_source.html">task_kbd.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="config__switcher_8c_source.html#l00280">configSwitcherTask()</a>, and <a class="el" href="task__commands_8c_source.html#l01057">doKeyboardParsing()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="config__switcher_8c_source.html#l00300">configSwitcherTask()</a>, and <a class="el" href="task__commands_8c_source.html#l01049">doKeyboardParsing()</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="task__kbd_8c_a8ff4618047a049178bfb1d60abfefb5d_cgraph.png" border="0" usemap="#task__kbd_8c_a8ff4618047a049178bfb1d60abfefb5d_cgraph" alt=""/></div>
 <map name="task__kbd_8c_a8ff4618047a049178bfb1d60abfefb5d_cgraph" id="task__kbd_8c_a8ff4618047a049178bfb1d60abfefb5d_cgraph">
 <area shape="rect" id="node2" href="keyboard_8c.html#a5aebbf68f68f1d3212fb187ff156e5c1" title="Add a keycode to the given HID keycode array. " alt="" coords="171,5,270,32"/>
-<area shape="rect" id="node3" href="task__kbd_8c.html#a7d605cb2407a7a7309911c70e28a9884" title="Helper function sending to queues depending on connection type. " alt="" coords="184,56,257,83"/>
+<area shape="rect" id="node3" href="task__kbd_8c.html#a8609b3c556a360ec16bdc31be0534f8e" title="Helper function sending to queues depending on connection type. " alt="" coords="184,56,257,83"/>
 <area shape="rect" id="node4" href="keyboard_8c.html#a999cf21107da9c1a7e3797e72d95045b" title="Remove a keycode from the given HID keycode array. " alt="" coords="160,107,281,133"/>
 </map>
 </div>
@@ -294,7 +276,7 @@ Here is the caller graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="task__kbd_8c_source.html#l00059">59</a> of file <a class="el" href="task__kbd_8c_source.html">task_kbd.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="task__commands_8c_source.html#l01589">printAllSlots()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="task__commands_8c_source.html#l01581">printAllSlots()</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -349,7 +331,7 @@ Here is the caller graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="task__kbd_8c_source.html#l00047">47</a> of file <a class="el" href="task__kbd_8c_source.html">task_kbd.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="task__kbd_8c_source.html#l00166">task_keyboard()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="task__kbd_8c_source.html#l00164">task_keyboard()</a>.</p>
 
 </div>
 </div>

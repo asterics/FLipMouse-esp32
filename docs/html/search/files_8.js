@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['undefkeylayouts_2eh',['undefkeylayouts.h',['../undefkeylayouts_8h.html',1,'']]]
+  ['samplekeyboardtypes_2eh',['SampleKeyboardTypes.h',['../SampleKeyboardTypes_8h.html',1,'']]]
 ];

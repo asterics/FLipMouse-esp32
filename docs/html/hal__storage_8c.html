@@ -81,6 +81,8 @@ $(function() {
 Macros</h2></td></tr>
 <tr class="memitem:a7ce0df38eb467e59f209470c8f5ac4e6"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="hal__storage_8c.html#a7ce0df38eb467e59f209470c8f5ac4e6">LOG_TAG</a>&#160;&#160;&#160;&quot;hal_storage&quot;</td></tr>
 <tr class="separator:a7ce0df38eb467e59f209470c8f5ac4e6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adacd33c7df6443c8387bacf3875607f8"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="hal__storage_8c.html#adacd33c7df6443c8387bacf3875607f8">LOG_LEVEL_STORAGE</a>&#160;&#160;&#160;ESP_LOG_INFO</td></tr>
+<tr class="separator:adacd33c7df6443c8387bacf3875607f8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
@@ -217,6 +219,24 @@ Use halStorageStartTransaction and halStorageFinishTransaction on begin/end of l
 
 <p class="definition">Definition in file <a class="el" href="hal__storage_8c_source.html">hal_storage.c</a>.</p>
 </div><h2 class="groupheader">Macro Definition Documentation</h2>
+<a id="adacd33c7df6443c8387bacf3875607f8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adacd33c7df6443c8387bacf3875607f8">&#9670;&nbsp;</a></span>LOG_LEVEL_STORAGE</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define LOG_LEVEL_STORAGE&#160;&#160;&#160;ESP_LOG_INFO</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="hal__storage_8c_source.html#l00074">74</a> of file <a class="el" href="hal__storage_8c_source.html">hal_storage.c</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="hal__storage_8c_source.html#l00206">halStorageInit()</a>.</p>
+
+</div>
+</div>
 <a id="a7ce0df38eb467e59f209470c8f5ac4e6"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a7ce0df38eb467e59f209470c8f5ac4e6">&#9670;&nbsp;</a></span>LOG_TAG</h2>
 
@@ -231,7 +251,7 @@ Use halStorageStartTransaction and halStorageFinishTransaction on begin/end of l
 
 <p class="definition">Definition at line <a class="el" href="hal__storage_8c_source.html#l00073">73</a> of file <a class="el" href="hal__storage_8c_source.html">hal_storage.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="hal__storage_8c_source.html#l00235">halStorageChecks()</a>, <a class="el" href="hal__storage_8c_source.html#l00263">halStorageCreateDefault()</a>, <a class="el" href="hal__storage_8c_source.html#l00610">halStorageDeleteIRCmd()</a>, <a class="el" href="hal__storage_8c_source.html#l01234">halStorageDeleteSlot()</a>, <a class="el" href="hal__storage_8c_source.html#l01915">halStorageFinishTransaction()</a>, <a class="el" href="hal__storage_8c_source.html#l00722">halStorageGetFreeIRCmdSlot()</a>, <a class="el" href="hal__storage_8c_source.html#l00766">halStorageGetNameForNumber()</a>, <a class="el" href="hal__storage_8c_source.html#l00554">halStorageGetNameForNumberIR()</a>, <a class="el" href="hal__storage_8c_source.html#l00818">halStorageGetNumberForName()</a>, <a class="el" href="hal__storage_8c_source.html#l00894">halStorageGetNumberForNameIR()</a>, <a class="el" href="hal__storage_8c_source.html#l00679">halStorageGetNumberOfIRCmds()</a>, <a class="el" href="hal__storage_8c_source.html#l00504">halStorageGetNumberOfSlots()</a>, <a class="el" href="hal__storage_8c_source.html#l00205">halStorageInit()</a>, <a class="el" href="hal__storage_8c_source.html#l00987">halStorageLoad()</a>, <a class="el" href="hal__storage_8c_source.html#l01332">halStorageLoadGetVBConfigs()</a>, <a class="el" href="hal__storage_8c_source.html#l01747">halStorageLoadIR()</a>, <a class="el" href="hal__storage_8c_source.html#l01212">halStorageLoadName()</a>, <a class="el" href="hal__storage_8c_source.html#l01069">halStorageLoadNumber()</a>, <a class="el" href="hal__storage_8c_source.html#l01859">halStorageStartTransaction()</a>, <a class="el" href="hal__storage_8c_source.html#l01449">halStorageStore()</a>, <a class="el" href="hal__storage_8c_source.html#l01546">halStorageStoreIR()</a>, and <a class="el" href="hal__storage_8c_source.html#l01642">halStorageStoreSetVBConfigs()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="hal__storage_8c_source.html#l00241">halStorageChecks()</a>, <a class="el" href="hal__storage_8c_source.html#l00269">halStorageCreateDefault()</a>, <a class="el" href="hal__storage_8c_source.html#l00600">halStorageDeleteIRCmd()</a>, <a class="el" href="hal__storage_8c_source.html#l01251">halStorageDeleteSlot()</a>, <a class="el" href="hal__storage_8c_source.html#l01950">halStorageFinishTransaction()</a>, <a class="el" href="hal__storage_8c_source.html#l00713">halStorageGetFreeIRCmdSlot()</a>, <a class="el" href="hal__storage_8c_source.html#l00759">halStorageGetNameForNumber()</a>, <a class="el" href="hal__storage_8c_source.html#l00540">halStorageGetNameForNumberIR()</a>, <a class="el" href="hal__storage_8c_source.html#l00815">halStorageGetNumberForName()</a>, <a class="el" href="hal__storage_8c_source.html#l00899">halStorageGetNumberForNameIR()</a>, <a class="el" href="hal__storage_8c_source.html#l00669">halStorageGetNumberOfIRCmds()</a>, <a class="el" href="hal__storage_8c_source.html#l00488">halStorageGetNumberOfSlots()</a>, <a class="el" href="hal__storage_8c_source.html#l00206">halStorageInit()</a>, <a class="el" href="hal__storage_8c_source.html#l00996">halStorageLoad()</a>, <a class="el" href="hal__storage_8c_source.html#l01349">halStorageLoadGetVBConfigs()</a>, <a class="el" href="hal__storage_8c_source.html#l01778">halStorageLoadIR()</a>, <a class="el" href="hal__storage_8c_source.html#l01229">halStorageLoadName()</a>, <a class="el" href="hal__storage_8c_source.html#l01078">halStorageLoadNumber()</a>, <a class="el" href="hal__storage_8c_source.html#l01894">halStorageStartTransaction()</a>, <a class="el" href="hal__storage_8c_source.html#l01468">halStorageStore()</a>, <a class="el" href="hal__storage_8c_source.html#l01571">halStorageStoreIR()</a>, and <a class="el" href="hal__storage_8c_source.html#l01671">halStorageStoreSetVBConfigs()</a>.</p>
 
 </div>
 </div>
@@ -262,9 +282,9 @@ Use halStorageStartTransaction and halStorageFinishTransaction on begin/end of l
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>ESP_OK if all checks are valid, ESP_FAIL otherwise </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="hal__storage_8c_source.html#l00235">235</a> of file <a class="el" href="hal__storage_8c_source.html">hal_storage.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="hal__storage_8c_source.html#l00241">241</a> of file <a class="el" href="hal__storage_8c_source.html">hal_storage.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="hal__storage_8c_source.html#l00263">halStorageCreateDefault()</a>, <a class="el" href="hal__storage_8c_source.html#l00610">halStorageDeleteIRCmd()</a>, <a class="el" href="hal__storage_8c_source.html#l01234">halStorageDeleteSlot()</a>, <a class="el" href="hal__storage_8c_source.html#l00722">halStorageGetFreeIRCmdSlot()</a>, <a class="el" href="hal__storage_8c_source.html#l00766">halStorageGetNameForNumber()</a>, <a class="el" href="hal__storage_8c_source.html#l00554">halStorageGetNameForNumberIR()</a>, <a class="el" href="hal__storage_8c_source.html#l00818">halStorageGetNumberForName()</a>, <a class="el" href="hal__storage_8c_source.html#l00894">halStorageGetNumberForNameIR()</a>, <a class="el" href="hal__storage_8c_source.html#l00679">halStorageGetNumberOfIRCmds()</a>, <a class="el" href="hal__storage_8c_source.html#l00504">halStorageGetNumberOfSlots()</a>, <a class="el" href="hal__storage_8c_source.html#l01332">halStorageLoadGetVBConfigs()</a>, <a class="el" href="hal__storage_8c_source.html#l01747">halStorageLoadIR()</a>, <a class="el" href="hal__storage_8c_source.html#l01069">halStorageLoadNumber()</a>, <a class="el" href="hal__storage_8c_source.html#l01449">halStorageStore()</a>, <a class="el" href="hal__storage_8c_source.html#l01546">halStorageStoreIR()</a>, and <a class="el" href="hal__storage_8c_source.html#l01642">halStorageStoreSetVBConfigs()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="hal__storage_8c_source.html#l00269">halStorageCreateDefault()</a>, <a class="el" href="hal__storage_8c_source.html#l00600">halStorageDeleteIRCmd()</a>, <a class="el" href="hal__storage_8c_source.html#l01251">halStorageDeleteSlot()</a>, <a class="el" href="hal__storage_8c_source.html#l00713">halStorageGetFreeIRCmdSlot()</a>, <a class="el" href="hal__storage_8c_source.html#l00759">halStorageGetNameForNumber()</a>, <a class="el" href="hal__storage_8c_source.html#l00540">halStorageGetNameForNumberIR()</a>, <a class="el" href="hal__storage_8c_source.html#l00815">halStorageGetNumberForName()</a>, <a class="el" href="hal__storage_8c_source.html#l00899">halStorageGetNumberForNameIR()</a>, <a class="el" href="hal__storage_8c_source.html#l00669">halStorageGetNumberOfIRCmds()</a>, <a class="el" href="hal__storage_8c_source.html#l00488">halStorageGetNumberOfSlots()</a>, <a class="el" href="hal__storage_8c_source.html#l01349">halStorageLoadGetVBConfigs()</a>, <a class="el" href="hal__storage_8c_source.html#l01778">halStorageLoadIR()</a>, <a class="el" href="hal__storage_8c_source.html#l01078">halStorageLoadNumber()</a>, <a class="el" href="hal__storage_8c_source.html#l01468">halStorageStore()</a>, <a class="el" href="hal__storage_8c_source.html#l01571">halStorageStoreIR()</a>, and <a class="el" href="hal__storage_8c_source.html#l01671">halStorageStoreSetVBConfigs()</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
@@ -334,11 +354,11 @@ Here is the caller graph for this function:</div>
   </table>
   </dd>
 </dl>
-<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000028">Todo:</a></b></dt><dd>Change this default slot to usable settings </dd></dl>
+<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000029">Todo:</a></b></dt><dd>Change this default slot to usable settings </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="hal__storage_8c_source.html#l00263">263</a> of file <a class="el" href="hal__storage_8c_source.html">hal_storage.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="hal__storage_8c_source.html#l00269">269</a> of file <a class="el" href="hal__storage_8c_source.html">hal_storage.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="hal__storage_8c_source.html#l01069">halStorageLoadNumber()</a>, and <a class="el" href="task__commands_8c_source.html#l01589">printAllSlots()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="hal__storage_8c_source.html#l01078">halStorageLoadNumber()</a>, and <a class="el" href="task__commands_8c_source.html#l01581">printAllSlots()</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -418,9 +438,9 @@ Here is the caller graph for this function:</div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>ESP_OK if everything is fine, ESP_FAIL otherwise </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="hal__storage_8c_source.html#l00610">610</a> of file <a class="el" href="hal__storage_8c_source.html">hal_storage.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="hal__storage_8c_source.html#l00600">600</a> of file <a class="el" href="hal__storage_8c_source.html">hal_storage.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="task__commands_8c_source.html#l00597">doInfraredParsing()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="task__commands_8c_source.html#l00589">doInfraredParsing()</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -482,9 +502,9 @@ Here is the caller graph for this function:</div>
 <dl class="section warning"><dt>Warning</dt><dd>Deleting all slots, means that a complete factory reset is done. Maybe we change this in release versions. </dd></dl>
 <dl class="section return"><dt>Returns</dt><dd>ESP_OK if everything is fine, ESP_FAIL otherwise </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="hal__storage_8c_source.html#l01234">1234</a> of file <a class="el" href="hal__storage_8c_source.html">hal_storage.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="hal__storage_8c_source.html#l01251">1251</a> of file <a class="el" href="hal__storage_8c_source.html">hal_storage.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="config__switcher_8c_source.html#l00280">configSwitcherTask()</a>, and <a class="el" href="task__commands_8c_source.html#l00757">doGeneralCmdParsing()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="config__switcher_8c_source.html#l00300">configSwitcherTask()</a>, and <a class="el" href="task__commands_8c_source.html#l00749">doGeneralCmdParsing()</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -537,9 +557,9 @@ Here is the caller graph for this function:</div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>ESP_OK if the tid is freed, ESP_FAIL if the tid is not valid </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="hal__storage_8c_source.html#l01915">1915</a> of file <a class="el" href="hal__storage_8c_source.html">hal_storage.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="hal__storage_8c_source.html#l01950">1950</a> of file <a class="el" href="hal__storage_8c_source.html">hal_storage.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="config__switcher_8c_source.html#l00280">configSwitcherTask()</a>, <a class="el" href="task__commands_8c_source.html#l00757">doGeneralCmdParsing()</a>, <a class="el" href="task__commands_8c_source.html#l00597">doInfraredParsing()</a>, <a class="el" href="task__commands_8c_source.html#l00391">doStorageParsing()</a>, <a class="el" href="task__infrared_8c_source.html#l00153">infrared_record()</a>, <a class="el" href="task__commands_8c_source.html#l01589">printAllSlots()</a>, <a class="el" href="task__infrared_8c_source.html#l00051">task_infrared()</a>, and <a class="el" href="task__webgui_8c_source.html#l00482">taskWebGUIInit()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="config__switcher_8c_source.html#l00300">configSwitcherTask()</a>, <a class="el" href="task__commands_8c_source.html#l00749">doGeneralCmdParsing()</a>, <a class="el" href="task__commands_8c_source.html#l00589">doInfraredParsing()</a>, <a class="el" href="task__commands_8c_source.html#l00391">doStorageParsing()</a>, <a class="el" href="task__infrared_8c_source.html#l00153">infrared_record()</a>, <a class="el" href="task__commands_8c_source.html#l01581">printAllSlots()</a>, <a class="el" href="task__infrared_8c_source.html#l00051">task_infrared()</a>, and <a class="el" href="task__webgui_8c_source.html#l00569">taskWebGUIInit()</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
@@ -589,9 +609,9 @@ Here is the caller graph for this function:</div>
 <dl class="section see"><dt>See also</dt><dd><a class="el" href="hal__storage_8c.html#a5c097404b5dfa34bdac65865586dac5a" title="Currently activated slot number. ">storageCurrentSlotNumber</a> </dd></dl>
 <dl class="section return"><dt>Returns</dt><dd>Currently loaded slot number </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="hal__storage_8c_source.html#l00487">487</a> of file <a class="el" href="hal__storage_8c_source.html">hal_storage.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="hal__storage_8c_source.html#l00471">471</a> of file <a class="el" href="hal__storage_8c_source.html">hal_storage.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="config__switcher_8c_source.html#l00280">configSwitcherTask()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="config__switcher_8c_source.html#l00300">configSwitcherTask()</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
@@ -642,9 +662,9 @@ Here is the caller graph for this function:</div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>ESP_OK if reading is valid, ESP_FAIL otherwise </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="hal__storage_8c_source.html#l00180">180</a> of file <a class="el" href="hal__storage_8c_source.html">hal_storage.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="hal__storage_8c_source.html#l00181">181</a> of file <a class="el" href="hal__storage_8c_source.html">hal_storage.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="task__commands_8c_source.html#l00757">doGeneralCmdParsing()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="task__commands_8c_source.html#l00749">doGeneralCmdParsing()</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
@@ -700,9 +720,9 @@ Here is the caller graph for this function:</div>
 <a class="el" href="hal__storage_8c.html#a00b5db14e24d7ada8a42aa6b3f1a1cb7" title="Finish a storage transaction. ">halStorageFinishTransaction</a> </dd></dl>
 <dl class="section return"><dt>Returns</dt><dd>ESP_OK if tid is valid and slot count is valid, ESP_FAIL otherwise (no free slot) </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="hal__storage_8c_source.html#l00722">722</a> of file <a class="el" href="hal__storage_8c_source.html">hal_storage.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="hal__storage_8c_source.html#l00713">713</a> of file <a class="el" href="hal__storage_8c_source.html">hal_storage.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="hal__storage_8c_source.html#l01546">halStorageStoreIR()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="hal__storage_8c_source.html#l01571">halStorageStoreIR()</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -777,9 +797,9 @@ Here is the caller graph for this function:</div>
 <a class="el" href="hal__storage_8c.html#a00b5db14e24d7ada8a42aa6b3f1a1cb7" title="Finish a storage transaction. ">halStorageFinishTransaction</a> </dd></dl>
 <dl class="section return"><dt>Returns</dt><dd>ESP_OK if tid is valid and slot number is valid, ESP_FAIL otherwise </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="hal__storage_8c_source.html#l00766">766</a> of file <a class="el" href="hal__storage_8c_source.html">hal_storage.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="hal__storage_8c_source.html#l00759">759</a> of file <a class="el" href="hal__storage_8c_source.html">hal_storage.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="task__commands_8c_source.html#l01589">printAllSlots()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="task__commands_8c_source.html#l01581">printAllSlots()</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -858,9 +878,9 @@ Here is the caller graph for this function:</div>
 <a class="el" href="hal__storage_8c.html#a00b5db14e24d7ada8a42aa6b3f1a1cb7" title="Finish a storage transaction. ">halStorageFinishTransaction</a> </dd></dl>
 <dl class="section return"><dt>Returns</dt><dd>ESP_OK if tid is valid and slot number is valid, ESP_FAIL otherwise </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="hal__storage_8c_source.html#l00554">554</a> of file <a class="el" href="hal__storage_8c_source.html">hal_storage.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="hal__storage_8c_source.html#l00540">540</a> of file <a class="el" href="hal__storage_8c_source.html">hal_storage.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="task__commands_8c_source.html#l00597">doInfraredParsing()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="task__commands_8c_source.html#l00589">doInfraredParsing()</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -931,9 +951,9 @@ Here is the caller graph for this function:</div>
 <a class="el" href="hal__storage_8c.html#a00b5db14e24d7ada8a42aa6b3f1a1cb7" title="Finish a storage transaction. ">halStorageFinishTransaction</a> </dd></dl>
 <dl class="section return"><dt>Returns</dt><dd>ESP_OK if tid is valid and slot number is valid, ESP_FAIL otherwise </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="hal__storage_8c_source.html#l00818">818</a> of file <a class="el" href="hal__storage_8c_source.html">hal_storage.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="hal__storage_8c_source.html#l00815">815</a> of file <a class="el" href="hal__storage_8c_source.html">hal_storage.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="task__commands_8c_source.html#l00757">doGeneralCmdParsing()</a>, <a class="el" href="task__commands_8c_source.html#l00391">doStorageParsing()</a>, and <a class="el" href="hal__storage_8c_source.html#l01212">halStorageLoadName()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="task__commands_8c_source.html#l00749">doGeneralCmdParsing()</a>, <a class="el" href="task__commands_8c_source.html#l00391">doStorageParsing()</a>, and <a class="el" href="hal__storage_8c_source.html#l01229">halStorageLoadName()</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -1008,9 +1028,9 @@ Here is the caller graph for this function:</div>
 <a class="el" href="hal__storage_8c.html#a00b5db14e24d7ada8a42aa6b3f1a1cb7" title="Finish a storage transaction. ">halStorageFinishTransaction</a> </dd></dl>
 <dl class="section return"><dt>Returns</dt><dd>ESP_OK if tid is valid and slot number is valid, ESP_FAIL otherwise </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="hal__storage_8c_source.html#l00894">894</a> of file <a class="el" href="hal__storage_8c_source.html">hal_storage.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="hal__storage_8c_source.html#l00899">899</a> of file <a class="el" href="hal__storage_8c_source.html">hal_storage.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="task__commands_8c_source.html#l00597">doInfraredParsing()</a>, and <a class="el" href="hal__storage_8c_source.html#l01546">halStorageStoreIR()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="task__commands_8c_source.html#l00589">doInfraredParsing()</a>, and <a class="el" href="hal__storage_8c_source.html#l01571">halStorageStoreIR()</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -1076,9 +1096,9 @@ Here is the caller graph for this function:</div>
 <a class="el" href="hal__storage_8c.html#a00b5db14e24d7ada8a42aa6b3f1a1cb7" title="Finish a storage transaction. ">halStorageFinishTransaction</a> </dd></dl>
 <dl class="section return"><dt>Returns</dt><dd>ESP_OK if tid is valid and slot count is valid, ESP_FAIL otherwise </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="hal__storage_8c_source.html#l00679">679</a> of file <a class="el" href="hal__storage_8c_source.html">hal_storage.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="hal__storage_8c_source.html#l00669">669</a> of file <a class="el" href="hal__storage_8c_source.html">hal_storage.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="task__commands_8c_source.html#l00597">doInfraredParsing()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="task__commands_8c_source.html#l00589">doInfraredParsing()</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -1142,9 +1162,9 @@ Here is the caller graph for this function:</div>
 <a class="el" href="hal__storage_8c.html#a00b5db14e24d7ada8a42aa6b3f1a1cb7" title="Finish a storage transaction. ">halStorageFinishTransaction</a> </dd></dl>
 <dl class="section return"><dt>Returns</dt><dd>ESP_OK if tid is valid and slot count is valid, ESP_FAIL otherwise </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="hal__storage_8c_source.html#l00504">504</a> of file <a class="el" href="hal__storage_8c_source.html">hal_storage.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="hal__storage_8c_source.html#l00488">488</a> of file <a class="el" href="hal__storage_8c_source.html">hal_storage.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="task__commands_8c_source.html#l00391">doStorageParsing()</a>, <a class="el" href="hal__storage_8c_source.html#l00987">halStorageLoad()</a>, and <a class="el" href="task__commands_8c_source.html#l01589">printAllSlots()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="task__commands_8c_source.html#l00391">doStorageParsing()</a>, <a class="el" href="hal__storage_8c_source.html#l00996">halStorageLoad()</a>, and <a class="el" href="task__commands_8c_source.html#l01581">printAllSlots()</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -1197,9 +1217,9 @@ Here is the caller graph for this function:</div>
 <p>internal function to init the filesystem if handle is invalid </p>
 <dl class="section return"><dt>Returns</dt><dd>ESP_OK on success, ESP_FAIL otherwise </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="hal__storage_8c_source.html#l00205">205</a> of file <a class="el" href="hal__storage_8c_source.html">hal_storage.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="hal__storage_8c_source.html#l00206">206</a> of file <a class="el" href="hal__storage_8c_source.html">hal_storage.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="hal__storage_8c_source.html#l01859">halStorageStartTransaction()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="hal__storage_8c_source.html#l01894">halStorageStartTransaction()</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
@@ -1283,9 +1303,9 @@ Here is the caller graph for this function:</div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>ESP_OK if everything is fine, ESP_FAIL if the command was not successful </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="hal__storage_8c_source.html#l00987">987</a> of file <a class="el" href="hal__storage_8c_source.html">hal_storage.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="hal__storage_8c_source.html#l00996">996</a> of file <a class="el" href="hal__storage_8c_source.html">hal_storage.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="config__switcher_8c_source.html#l00280">configSwitcherTask()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="config__switcher_8c_source.html#l00300">configSwitcherTask()</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -1369,9 +1389,9 @@ Here is the caller graph for this function:</div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>ESP_OK if everything is fine, ESP_FAIL if the command was not successful (no config found or no slot loaded) </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="hal__storage_8c_source.html#l01332">1332</a> of file <a class="el" href="hal__storage_8c_source.html">hal_storage.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="hal__storage_8c_source.html#l01349">1349</a> of file <a class="el" href="hal__storage_8c_source.html">hal_storage.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="config__switcher_8c_source.html#l00280">configSwitcherTask()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="config__switcher_8c_source.html#l00300">configSwitcherTask()</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -1441,7 +1461,7 @@ Here is the caller graph for this function:</div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>ESP_OK if everything is fine, ESP_FAIL if the command was not successful (slot name not found) </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="hal__storage_8c_source.html#l01747">1747</a> of file <a class="el" href="hal__storage_8c_source.html">hal_storage.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="hal__storage_8c_source.html#l01778">1778</a> of file <a class="el" href="hal__storage_8c_source.html">hal_storage.c</a>.</p>
 
 <p class="reference">Referenced by <a class="el" href="task__infrared_8c_source.html#l00051">task_infrared()</a>.</p>
 <div class="dynheader">
@@ -1520,9 +1540,9 @@ Here is the caller graph for this function:</div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>ESP_OK if everything is fine, ESP_FAIL if the command was not successful (slot name not found) </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="hal__storage_8c_source.html#l01212">1212</a> of file <a class="el" href="hal__storage_8c_source.html">hal_storage.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="hal__storage_8c_source.html#l01229">1229</a> of file <a class="el" href="hal__storage_8c_source.html">hal_storage.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="config__switcher_8c_source.html#l00280">configSwitcherTask()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="config__switcher_8c_source.html#l00300">configSwitcherTask()</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -1601,9 +1621,9 @@ Here is the caller graph for this function:</div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>ESP_OK if everything is fine, ESP_FAIL if the command was not successful (slot number not found) </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="hal__storage_8c_source.html#l01069">1069</a> of file <a class="el" href="hal__storage_8c_source.html">hal_storage.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="hal__storage_8c_source.html#l01078">1078</a> of file <a class="el" href="hal__storage_8c_source.html">hal_storage.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="hal__storage_8c_source.html#l00987">halStorageLoad()</a>, and <a class="el" href="hal__storage_8c_source.html#l01212">halStorageLoadName()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="hal__storage_8c_source.html#l00996">halStorageLoad()</a>, and <a class="el" href="hal__storage_8c_source.html#l01229">halStorageLoadName()</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -1668,9 +1688,9 @@ Here is the caller graph for this function:</div>
 <dl class="section warning"><dt>Warning</dt><dd>Provide sufficient buffer length, otherwise a CPU exception will happen! </dd></dl>
 <dl class="section return"><dt>Returns</dt><dd>ESP_OK on success, error codes according to nvs_get_str </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="hal__storage_8c_source.html#l00113">113</a> of file <a class="el" href="hal__storage_8c_source.html">hal_storage.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="hal__storage_8c_source.html#l00114">114</a> of file <a class="el" href="hal__storage_8c_source.html">hal_storage.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="task__webgui_8c_source.html#l00482">taskWebGUIInit()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="task__webgui_8c_source.html#l00569">taskWebGUIInit()</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
@@ -1721,9 +1741,9 @@ Here is the caller graph for this function:</div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>ESP_OK on success, error codes according to nvs_set_str </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="hal__storage_8c_source.html#l00145">145</a> of file <a class="el" href="hal__storage_8c_source.html">hal_storage.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="hal__storage_8c_source.html#l00146">146</a> of file <a class="el" href="hal__storage_8c_source.html">hal_storage.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="task__commands_8c_source.html#l00757">doGeneralCmdParsing()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="task__commands_8c_source.html#l00749">doGeneralCmdParsing()</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
@@ -1785,9 +1805,9 @@ Here is the caller graph for this function:</div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>ESP_OK if the tid is valid, ESP_FAIL if other tasks did not freed the access in time </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="hal__storage_8c_source.html#l01859">1859</a> of file <a class="el" href="hal__storage_8c_source.html">hal_storage.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="hal__storage_8c_source.html#l01894">1894</a> of file <a class="el" href="hal__storage_8c_source.html">hal_storage.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="config__switcher_8c_source.html#l00280">configSwitcherTask()</a>, <a class="el" href="task__commands_8c_source.html#l00757">doGeneralCmdParsing()</a>, <a class="el" href="task__commands_8c_source.html#l00597">doInfraredParsing()</a>, <a class="el" href="task__commands_8c_source.html#l00391">doStorageParsing()</a>, <a class="el" href="task__infrared_8c_source.html#l00153">infrared_record()</a>, <a class="el" href="task__commands_8c_source.html#l01589">printAllSlots()</a>, <a class="el" href="task__infrared_8c_source.html#l00051">task_infrared()</a>, and <a class="el" href="task__webgui_8c_source.html#l00482">taskWebGUIInit()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="config__switcher_8c_source.html#l00300">configSwitcherTask()</a>, <a class="el" href="task__commands_8c_source.html#l00749">doGeneralCmdParsing()</a>, <a class="el" href="task__commands_8c_source.html#l00589">doInfraredParsing()</a>, <a class="el" href="task__commands_8c_source.html#l00391">doStorageParsing()</a>, <a class="el" href="task__infrared_8c_source.html#l00153">infrared_record()</a>, <a class="el" href="task__commands_8c_source.html#l01581">printAllSlots()</a>, <a class="el" href="task__infrared_8c_source.html#l00051">task_infrared()</a>, and <a class="el" href="task__webgui_8c_source.html#l00569">taskWebGUIInit()</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -1879,9 +1899,9 @@ Here is the caller graph for this function:</div>
 <dl class="section return"><dt>Returns</dt><dd>ESP_OK on success, ESP_FAIL otherwise </dd></dl>
 <dl class="section see"><dt>See also</dt><dd><a class="el" href="hal__storage_8c.html#a046daab088cb37e318c07c2728ade9d3" title="Store a virtual button config struct. ">halStorageStoreSetVBConfigs</a> </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="hal__storage_8c_source.html#l01449">1449</a> of file <a class="el" href="hal__storage_8c_source.html">hal_storage.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="hal__storage_8c_source.html#l01468">1468</a> of file <a class="el" href="hal__storage_8c_source.html">hal_storage.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="task__commands_8c_source.html#l00391">doStorageParsing()</a>, and <a class="el" href="hal__storage_8c_source.html#l00263">halStorageCreateDefault()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="task__commands_8c_source.html#l00391">doStorageParsing()</a>, and <a class="el" href="hal__storage_8c_source.html#l00269">halStorageCreateDefault()</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -1965,7 +1985,7 @@ Here is the caller graph for this function:</div>
 <dd>
 <a class="el" href="hal__storage_8c.html#aa728fac6a17066ecb910c19338ae5288" title="Load an IR command by name. ">halStorageLoadIR</a> </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="hal__storage_8c_source.html#l01546">1546</a> of file <a class="el" href="hal__storage_8c_source.html">hal_storage.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="hal__storage_8c_source.html#l01571">1571</a> of file <a class="el" href="hal__storage_8c_source.html">hal_storage.c</a>.</p>
 
 <p class="reference">Referenced by <a class="el" href="task__infrared_8c_source.html#l00153">infrared_record()</a>.</p>
 <div class="dynheader">
@@ -2047,9 +2067,9 @@ Here is the caller graph for this function:</div>
 <dl class="section warning"><dt>Warning</dt><dd>size element of generalConfig_t MUST be set to have a successful write. </dd></dl>
 <dl class="section note"><dt>Note</dt><dd>This method always overwrites an existing config! </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="hal__storage_8c_source.html#l01642">1642</a> of file <a class="el" href="hal__storage_8c_source.html">hal_storage.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="hal__storage_8c_source.html#l01671">1671</a> of file <a class="el" href="hal__storage_8c_source.html">hal_storage.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="task__commands_8c_source.html#l00391">doStorageParsing()</a>, and <a class="el" href="hal__storage_8c_source.html#l00263">halStorageCreateDefault()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="task__commands_8c_source.html#l00391">doStorageParsing()</a>, and <a class="el" href="hal__storage_8c_source.html#l00269">halStorageCreateDefault()</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -2109,9 +2129,9 @@ Here is the caller graph for this function:</div>
 
 <p>Partition name (used to define different memory types) </p>
 
-<p class="definition">Definition at line <a class="el" href="hal__storage_8c_source.html#l00093">93</a> of file <a class="el" href="hal__storage_8c_source.html">hal_storage.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="hal__storage_8c_source.html#l00094">94</a> of file <a class="el" href="hal__storage_8c_source.html">hal_storage.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="hal__storage_8c_source.html#l00610">halStorageDeleteIRCmd()</a>, <a class="el" href="hal__storage_8c_source.html#l01234">halStorageDeleteSlot()</a>, <a class="el" href="hal__storage_8c_source.html#l00722">halStorageGetFreeIRCmdSlot()</a>, <a class="el" href="hal__storage_8c_source.html#l00766">halStorageGetNameForNumber()</a>, <a class="el" href="hal__storage_8c_source.html#l00554">halStorageGetNameForNumberIR()</a>, <a class="el" href="hal__storage_8c_source.html#l00818">halStorageGetNumberForName()</a>, <a class="el" href="hal__storage_8c_source.html#l00894">halStorageGetNumberForNameIR()</a>, <a class="el" href="hal__storage_8c_source.html#l00679">halStorageGetNumberOfIRCmds()</a>, <a class="el" href="hal__storage_8c_source.html#l00504">halStorageGetNumberOfSlots()</a>, <a class="el" href="hal__storage_8c_source.html#l00205">halStorageInit()</a>, <a class="el" href="hal__storage_8c_source.html#l01332">halStorageLoadGetVBConfigs()</a>, <a class="el" href="hal__storage_8c_source.html#l01747">halStorageLoadIR()</a>, <a class="el" href="hal__storage_8c_source.html#l01069">halStorageLoadNumber()</a>, <a class="el" href="hal__storage_8c_source.html#l01449">halStorageStore()</a>, <a class="el" href="hal__storage_8c_source.html#l01546">halStorageStoreIR()</a>, and <a class="el" href="hal__storage_8c_source.html#l01642">halStorageStoreSetVBConfigs()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="hal__storage_8c_source.html#l00600">halStorageDeleteIRCmd()</a>, <a class="el" href="hal__storage_8c_source.html#l01251">halStorageDeleteSlot()</a>, <a class="el" href="hal__storage_8c_source.html#l00713">halStorageGetFreeIRCmdSlot()</a>, <a class="el" href="hal__storage_8c_source.html#l00759">halStorageGetNameForNumber()</a>, <a class="el" href="hal__storage_8c_source.html#l00540">halStorageGetNameForNumberIR()</a>, <a class="el" href="hal__storage_8c_source.html#l00815">halStorageGetNumberForName()</a>, <a class="el" href="hal__storage_8c_source.html#l00899">halStorageGetNumberForNameIR()</a>, <a class="el" href="hal__storage_8c_source.html#l00669">halStorageGetNumberOfIRCmds()</a>, <a class="el" href="hal__storage_8c_source.html#l00488">halStorageGetNumberOfSlots()</a>, <a class="el" href="hal__storage_8c_source.html#l00206">halStorageInit()</a>, <a class="el" href="hal__storage_8c_source.html#l01349">halStorageLoadGetVBConfigs()</a>, <a class="el" href="hal__storage_8c_source.html#l01778">halStorageLoadIR()</a>, <a class="el" href="hal__storage_8c_source.html#l01078">halStorageLoadNumber()</a>, <a class="el" href="hal__storage_8c_source.html#l01468">halStorageStore()</a>, <a class="el" href="hal__storage_8c_source.html#l01571">halStorageStoreIR()</a>, and <a class="el" href="hal__storage_8c_source.html#l01671">halStorageStoreSetVBConfigs()</a>.</p>
 
 </div>
 </div>
@@ -2130,9 +2150,9 @@ Here is the caller graph for this function:</div>
 <p>Mutex which is used to avoid multiple access to different loaded slots. </p>
 <dl class="section see"><dt>See also</dt><dd><a class="el" href="hal__storage_8c.html#ab7bc6f83a4f91dba2d5b3d1edeedf4b1" title="Currently active transaction ID, 0 is invalid. ">storageCurrentTID</a> </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="hal__storage_8c_source.html#l00077">77</a> of file <a class="el" href="hal__storage_8c_source.html">hal_storage.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="hal__storage_8c_source.html#l00078">78</a> of file <a class="el" href="hal__storage_8c_source.html">hal_storage.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="hal__storage_8c_source.html#l01915">halStorageFinishTransaction()</a>, and <a class="el" href="hal__storage_8c_source.html#l01859">halStorageStartTransaction()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="hal__storage_8c_source.html#l01950">halStorageFinishTransaction()</a>, and <a class="el" href="hal__storage_8c_source.html#l01894">halStorageStartTransaction()</a>.</p>
 
 </div>
 </div>
@@ -2158,9 +2178,9 @@ Here is the caller graph for this function:</div>
 
 <p>Wear levelling handle. </p>
 
-<p class="definition">Definition at line <a class="el" href="hal__storage_8c_source.html#l00090">90</a> of file <a class="el" href="hal__storage_8c_source.html">hal_storage.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="hal__storage_8c_source.html#l00091">91</a> of file <a class="el" href="hal__storage_8c_source.html">hal_storage.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="hal__storage_8c_source.html#l00235">halStorageChecks()</a>, <a class="el" href="hal__storage_8c_source.html#l00205">halStorageInit()</a>, and <a class="el" href="hal__storage_8c_source.html#l01859">halStorageStartTransaction()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="hal__storage_8c_source.html#l00241">halStorageChecks()</a>, <a class="el" href="hal__storage_8c_source.html#l00206">halStorageInit()</a>, and <a class="el" href="hal__storage_8c_source.html#l01894">halStorageStartTransaction()</a>.</p>
 
 </div>
 </div>
@@ -2186,9 +2206,9 @@ Here is the caller graph for this function:</div>
 
 <p>Currently activated slot number. </p>
 
-<p class="definition">Definition at line <a class="el" href="hal__storage_8c_source.html#l00081">81</a> of file <a class="el" href="hal__storage_8c_source.html">hal_storage.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="hal__storage_8c_source.html#l00082">82</a> of file <a class="el" href="hal__storage_8c_source.html">hal_storage.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="hal__storage_8c_source.html#l00487">halStorageGetCurrentSlotNumber()</a>, <a class="el" href="hal__storage_8c_source.html#l00987">halStorageLoad()</a>, <a class="el" href="hal__storage_8c_source.html#l01332">halStorageLoadGetVBConfigs()</a>, <a class="el" href="hal__storage_8c_source.html#l01069">halStorageLoadNumber()</a>, <a class="el" href="hal__storage_8c_source.html#l01449">halStorageStore()</a>, and <a class="el" href="hal__storage_8c_source.html#l01642">halStorageStoreSetVBConfigs()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="hal__storage_8c_source.html#l00471">halStorageGetCurrentSlotNumber()</a>, <a class="el" href="hal__storage_8c_source.html#l00996">halStorageLoad()</a>, <a class="el" href="hal__storage_8c_source.html#l01349">halStorageLoadGetVBConfigs()</a>, <a class="el" href="hal__storage_8c_source.html#l01078">halStorageLoadNumber()</a>, <a class="el" href="hal__storage_8c_source.html#l01468">halStorageStore()</a>, and <a class="el" href="hal__storage_8c_source.html#l01671">halStorageStoreSetVBConfigs()</a>.</p>
 
 </div>
 </div>
@@ -2214,9 +2234,9 @@ Here is the caller graph for this function:</div>
 
 <p>Currently active transaction ID, 0 is invalid. </p>
 
-<p class="definition">Definition at line <a class="el" href="hal__storage_8c_source.html#l00079">79</a> of file <a class="el" href="hal__storage_8c_source.html">hal_storage.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="hal__storage_8c_source.html#l00080">80</a> of file <a class="el" href="hal__storage_8c_source.html">hal_storage.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="hal__storage_8c_source.html#l00235">halStorageChecks()</a>, <a class="el" href="hal__storage_8c_source.html#l01915">halStorageFinishTransaction()</a>, and <a class="el" href="hal__storage_8c_source.html#l01859">halStorageStartTransaction()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="hal__storage_8c_source.html#l00241">halStorageChecks()</a>, <a class="el" href="hal__storage_8c_source.html#l01950">halStorageFinishTransaction()</a>, and <a class="el" href="hal__storage_8c_source.html#l01894">halStorageStartTransaction()</a>.</p>
 
 </div>
 </div>
@@ -2235,9 +2255,9 @@ Here is the caller graph for this function:</div>
 <p>Current active storage task. </p>
 <p>This string is used to determine the currently active task, which holds a tid. </p><dl class="section see"><dt>See also</dt><dd><a class="el" href="hal__storage_8c.html#ab7bc6f83a4f91dba2d5b3d1edeedf4b1" title="Currently active transaction ID, 0 is invalid. ">storageCurrentTID</a> </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="hal__storage_8c_source.html#l00101">101</a> of file <a class="el" href="hal__storage_8c_source.html">hal_storage.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="hal__storage_8c_source.html#l00102">102</a> of file <a class="el" href="hal__storage_8c_source.html">hal_storage.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="hal__storage_8c_source.html#l01859">halStorageStartTransaction()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="hal__storage_8c_source.html#l01894">halStorageStartTransaction()</a>.</p>
 
 </div>
 </div>
@@ -2265,9 +2285,9 @@ Here is the caller graph for this function:</div>
 <p>This number is used for halStorageStoreSetVBConfigs only.</p>
 <dl class="section see"><dt>See also</dt><dd><a class="el" href="hal__storage_8c.html#a046daab088cb37e318c07c2728ade9d3" title="Store a virtual button config struct. ">halStorageStoreSetVBConfigs</a> </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="hal__storage_8c_source.html#l00087">87</a> of file <a class="el" href="hal__storage_8c_source.html">hal_storage.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="hal__storage_8c_source.html#l00088">88</a> of file <a class="el" href="hal__storage_8c_source.html">hal_storage.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="hal__storage_8c_source.html#l01859">halStorageStartTransaction()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="hal__storage_8c_source.html#l01894">halStorageStartTransaction()</a>.</p>
 
 </div>
 </div>

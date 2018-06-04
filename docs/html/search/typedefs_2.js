@@ -1,4 +1,6 @@
 var searchData=
 [
-  ['esp_5fhidd_5fevent_5fcb_5ft',['esp_hidd_event_cb_t',['../esp__hidd__prf__api_8h.html#af7a19b0130b512a84963eb5f98a39d46',1,'esp_hidd_prf_api.h']]]
+  ['haliobuzzer_5ft',['halIOBuzzer_t',['../hal__io_8h.html#a77048c20189014382fad29049e68a08a',1,'hal_io.h']]],
+  ['halioir_5ft',['halIOIR_t',['../common_8h.html#af531911959683790ca7ae870f8462a16',1,'common.h']]],
+  ['hid_5fcommand_5ft',['hid_command_t',['../common_8h.html#ac228e3ad78247a53a08125518c5c2294',1,'common.h']]]
 ];

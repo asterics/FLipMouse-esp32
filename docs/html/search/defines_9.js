@@ -1,9 +1,16 @@
 var searchData=
 [
-  ['m',['M',['../hid__dev_8c.html#ae5c30dc4497ee36bd90bf416cc8ac289',1,'hid_dev.c']]],
-  ['module_5fid',['MODULE_ID',['../common_8h.html#aa407a75a23bf77b26269d3932ec0ff5f',1,'common.h']]],
-  ['mouse_5fbutton_5fleft',['MOUSE_BUTTON_LEFT',['../task__mouse_8h.html#a67d41b5dcdb6d241343bf97e15304079',1,'task_mouse.h']]],
-  ['mouse_5fbutton_5fmiddle',['MOUSE_BUTTON_MIDDLE',['../task__mouse_8h.html#ad3379a48b44213dfa6b756488082902a',1,'task_mouse.h']]],
-  ['mouse_5fbutton_5fright',['MOUSE_BUTTON_RIGHT',['../task__mouse_8h.html#ae62804387f4df3c1b2ab28e4ad8a7fa3',1,'task_mouse.h']]],
-  ['mouse_5fdefault_5fwheelsteps',['MOUSE_DEFAULT_WHEELSTEPS',['../task__mouse_8h.html#a48048c2c24428d1c5383dcb11e8f6692',1,'task_mouse.h']]]
+  ['layout_5fus_5fenglish',['LAYOUT_US_ENGLISH',['../keyboard_8c.html#abdc0bad07026dc79af21786f20351716',1,'LAYOUT_US_ENGLISH():&#160;keyboard.c'],['../keyboard_8c.html#abdc0bad07026dc79af21786f20351716',1,'LAYOUT_US_ENGLISH():&#160;keyboard.c']]],
+  ['layout_5fus_5finternational',['LAYOUT_US_INTERNATIONAL',['../keyboard_8c.html#a1638d6d17cf44a63e695eedae81b455d',1,'LAYOUT_US_INTERNATIONAL():&#160;keyboard.c'],['../keyboard_8c.html#a1638d6d17cf44a63e695eedae81b455d',1,'LAYOUT_US_INTERNATIONAL():&#160;keyboard.c'],['../keyboard_8c.html#a1638d6d17cf44a63e695eedae81b455d',1,'LAYOUT_US_INTERNATIONAL():&#160;keyboard.c'],['../keyboard_8c.html#a1638d6d17cf44a63e695eedae81b455d',1,'LAYOUT_US_INTERNATIONAL():&#160;keyboard.c']]],
+  ['led',['LED',['../hal__io_8h.html#a480a15dad4ba5947f98a09220a6c2827',1,'hal_io.h']]],
+  ['led_5fneopixel_5fcount',['LED_NEOPIXEL_COUNT',['../common_8h.html#a0bd1824bfb24736925069b2b686f13f3',1,'common.h']]],
+  ['log_5flevel_5fadc',['LOG_LEVEL_ADC',['../hal__adc_8c.html#a414c40444b2f8eb8384fece4ff19e800',1,'hal_adc.c']]],
+  ['log_5flevel_5fble',['LOG_LEVEL_BLE',['../HID__kbdmousejoystick_8cpp.html#a50dce6c85bf3af17283f8f9b313701f7',1,'HID_kbdmousejoystick.cpp']]],
+  ['log_5flevel_5fdns',['LOG_LEVEL_DNS',['../captdns_8c.html#a8845e4d3890a5bfa6fae387daf4485bc',1,'captdns.c']]],
+  ['log_5flevel_5fserial',['LOG_LEVEL_SERIAL',['../hal__serial_8c.html#aa2f9f3ab3ea3e3a75f53e6a54e88db65',1,'hal_serial.c']]],
+  ['log_5flevel_5fstorage',['LOG_LEVEL_STORAGE',['../hal__storage_8c.html#adacd33c7df6443c8387bacf3875607f8',1,'hal_storage.c']]],
+  ['log_5flevel_5fweb',['LOG_LEVEL_WEB',['../task__webgui_8c.html#a72bbc128e233a045692e0d9dcdcf21c6',1,'task_webgui.c']]],
+  ['log_5ftag',['LOG_TAG',['../config__switcher_8c.html#a7ce0df38eb467e59f209470c8f5ac4e6',1,'LOG_TAG():&#160;config_switcher.c'],['../flipmouse__fabi__esp32__kbdmouse__main_8c.html#a7ce0df38eb467e59f209470c8f5ac4e6',1,'LOG_TAG():&#160;flipmouse_fabi_esp32_kbdmouse_main.c'],['../task__commands_8c.html#a7ce0df38eb467e59f209470c8f5ac4e6',1,'LOG_TAG():&#160;task_commands.c'],['../task__debouncer_8c.html#a7ce0df38eb467e59f209470c8f5ac4e6',1,'LOG_TAG():&#160;task_debouncer.c'],['../task__infrared_8c.html#a7ce0df38eb467e59f209470c8f5ac4e6',1,'LOG_TAG():&#160;task_infrared.c'],['../task__joystick_8c.html#a7ce0df38eb467e59f209470c8f5ac4e6',1,'LOG_TAG():&#160;task_joystick.c'],['../task__kbd_8c.html#a7ce0df38eb467e59f209470c8f5ac4e6',1,'LOG_TAG():&#160;task_kbd.c'],['../task__macros_8c.html#a7ce0df38eb467e59f209470c8f5ac4e6',1,'LOG_TAG():&#160;task_macros.c'],['../task__mouse_8c.html#a7ce0df38eb467e59f209470c8f5ac4e6',1,'LOG_TAG():&#160;task_mouse.c'],['../task__webgui_8c.html#a7ce0df38eb467e59f209470c8f5ac4e6',1,'LOG_TAG():&#160;task_webgui.c'],['../hal__adc_8c.html#a7ce0df38eb467e59f209470c8f5ac4e6',1,'LOG_TAG():&#160;hal_adc.c'],['../hal__io_8c.html#a7ce0df38eb467e59f209470c8f5ac4e6',1,'LOG_TAG():&#160;hal_io.c'],['../hal__serial_8c.html#a7ce0df38eb467e59f209470c8f5ac4e6',1,'LOG_TAG():&#160;hal_serial.c'],['../hal__storage_8c.html#a7ce0df38eb467e59f209470c8f5ac4e6',1,'LOG_TAG():&#160;hal_storage.c'],['../captdns_8c.html#a7ce0df38eb467e59f209470c8f5ac4e6',1,'LOG_TAG():&#160;captdns.c'],['../keyboard_8c.html#a7ce0df38eb467e59f209470c8f5ac4e6',1,'LOG_TAG():&#160;keyboard.c']]],
+  ['logical_5fmaximum',['LOGICAL_MAXIMUM',['../HIDTypes_8h.html#a96887cc94222cbcad600759728141e27',1,'HIDTypes.h']]],
+  ['logical_5fminimum',['LOGICAL_MINIMUM',['../HIDTypes_8h.html#a07b7c86a9c45bd6ea64f76e5e7cda3cc',1,'HIDTypes.h']]]
 ];

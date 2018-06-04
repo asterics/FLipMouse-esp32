@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['consumer_5fcmd_5ft',['consumer_cmd_t',['../hid__dev_8h.html#aed4225041f5388cc8ad2a127bb8482d9',1,'hid_dev.h']]]
+  ['generalconfig_5ft',['generalConfig_t',['../common_8h.html#a1d17932316265a53a6982a2526a4cada',1,'common.h']]]
 ];

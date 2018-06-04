@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['joystick_5fcommand',['joystick_command',['../structjoystick__command.html',1,'']]],
-  ['joystick_5fdata',['joystick_data',['../structjoystick__data.html',1,'']]]
+  ['generalconfig',['generalConfig',['../structgeneralConfig.html',1,'']]],
+  ['generalutils',['GeneralUtils',['../classGeneralUtils.html',1,'']]]
 ];

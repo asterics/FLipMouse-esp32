@@ -1,11 +1,17 @@
 var searchData=
 [
-  ['esp_5fhidd_5fget_5fversion',['esp_hidd_get_version',['../esp__hidd__prf__api_8c.html#af65c55a902a6ac28657f22df1d9365ae',1,'esp_hidd_get_version(void):&#160;esp_hidd_prf_api.c'],['../esp__hidd__prf__api_8h.html#af65c55a902a6ac28657f22df1d9365ae',1,'esp_hidd_get_version(void):&#160;esp_hidd_prf_api.c']]],
-  ['esp_5fhidd_5fprf_5fcb_5fhdl',['esp_hidd_prf_cb_hdl',['../hid__device__le__prf_8c.html#add8f27ab149175c58a8bced1016df5a6',1,'hid_device_le_prf.c']]],
-  ['esp_5fhidd_5fprofile_5fdeinit',['esp_hidd_profile_deinit',['../esp__hidd__prf__api_8c.html#a4aca045d017710715909138e36a9c544',1,'esp_hidd_profile_deinit(void):&#160;esp_hidd_prf_api.c'],['../esp__hidd__prf__api_8h.html#a4aca045d017710715909138e36a9c544',1,'esp_hidd_profile_deinit(void):&#160;esp_hidd_prf_api.c']]],
-  ['esp_5fhidd_5fprofile_5finit',['esp_hidd_profile_init',['../esp__hidd__prf__api_8c.html#a4c4c8031f1e6ea5615c28b98d46d6232',1,'esp_hidd_profile_init(void):&#160;esp_hidd_prf_api.c'],['../esp__hidd__prf__api_8h.html#a4c4c8031f1e6ea5615c28b98d46d6232',1,'esp_hidd_profile_init(void):&#160;esp_hidd_prf_api.c']]],
-  ['esp_5fhidd_5fregister_5fcallbacks',['esp_hidd_register_callbacks',['../esp__hidd__prf__api_8c.html#a5256c1f0eb079f624ce5e09a47d5b89c',1,'esp_hidd_register_callbacks(esp_hidd_event_cb_t callbacks):&#160;esp_hidd_prf_api.c'],['../esp__hidd__prf__api_8h.html#a5256c1f0eb079f624ce5e09a47d5b89c',1,'esp_hidd_register_callbacks(esp_hidd_event_cb_t callbacks):&#160;esp_hidd_prf_api.c']]],
-  ['esp_5fhidd_5fsend_5fconsumer_5fvalue',['esp_hidd_send_consumer_value',['../esp__hidd__prf__api_8c.html#ac18cf225b99b4f39545ca562ac85fa97',1,'esp_hidd_send_consumer_value(uint16_t conn_id, uint8_t key_cmd, bool key_pressed):&#160;esp_hidd_prf_api.c'],['../esp__hidd__prf__api_8h.html#ac18cf225b99b4f39545ca562ac85fa97',1,'esp_hidd_send_consumer_value(uint16_t conn_id, uint8_t key_cmd, bool key_pressed):&#160;esp_hidd_prf_api.c']]],
-  ['esp_5fhidd_5fsend_5fkeyboard_5fvalue',['esp_hidd_send_keyboard_value',['../esp__hidd__prf__api_8c.html#a694ff6418e79f3372b3feba7483e3222',1,'esp_hidd_send_keyboard_value(uint16_t conn_id, key_mask_t special_key_mask, uint8_t *keyboard_cmd, uint8_t num_key):&#160;esp_hidd_prf_api.c'],['../esp__hidd__prf__api_8h.html#a694ff6418e79f3372b3feba7483e3222',1,'esp_hidd_send_keyboard_value(uint16_t conn_id, key_mask_t special_key_mask, uint8_t *keyboard_cmd, uint8_t num_key):&#160;esp_hidd_prf_api.c']]],
-  ['esp_5fhidd_5fsend_5fmouse_5fvalue',['esp_hidd_send_mouse_value',['../esp__hidd__prf__api_8c.html#a0e953976c5ad30d8508ac11bc61cb6b2',1,'esp_hidd_send_mouse_value(uint16_t conn_id, uint8_t mouse_button, int8_t mickeys_x, int8_t mickeys_y, int8_t wheel):&#160;esp_hidd_prf_api.c'],['../esp__hidd__prf__api_8h.html#a0e953976c5ad30d8508ac11bc61cb6b2',1,'esp_hidd_send_mouse_value(uint16_t conn_id, uint8_t mouse_button, int8_t mickeys_x, int8_t mickeys_y, int8_t wheel):&#160;esp_hidd_prf_api.c']]]
+  ['deadkey_5fto_5fkeycode',['deadkey_to_keycode',['../keyboard_8c.html#a6b593fa493aea40be410640981b1c181',1,'deadkey_to_keycode(uint16_t keycode, uint8_t locale):&#160;keyboard.c'],['../keyboard_8h.html#a6b593fa493aea40be410640981b1c181',1,'deadkey_to_keycode(uint16_t keycode, uint8_t locale):&#160;keyboard.c']]],
+  ['debouncercallback',['debouncerCallback',['../task__debouncer_8c.html#a4a76abdbb849aa0bbc66aa001c6f4af9',1,'task_debouncer.c']]],
+  ['decodedlength',['DecodedLength',['../GeneralUtils_8cpp.html#aa569d0da22756aeb5519b209daa42c11',1,'GeneralUtils.cpp']]],
+  ['delay',['delay',['../classTask.html#aa4b603c866f4b8e0f0c6b524bb0e287e',1,'Task']]],
+  ['deletetask',['deleteTask',['../classFreeRTOS.html#a965b07cf1ca57fd0eb61df092b98edab',1,'FreeRTOS']]],
+  ['dogeneralcmdparsing',['doGeneralCmdParsing',['../task__commands_8c.html#a7f6500be563a3dce7f0854fceed02fab',1,'task_commands.c']]],
+  ['doinfraredparsing',['doInfraredParsing',['../task__commands_8c.html#a937cdeb2f02b0c5d9a0f94a0f69e9328',1,'task_commands.c']]],
+  ['dojoystickparsing',['doJoystickParsing',['../task__commands_8c.html#afc7ebe31a124c2102f8b41577b6dc5b0',1,'task_commands.c']]],
+  ['dokeyboardparsing',['doKeyboardParsing',['../task__commands_8c.html#ac3c72c089d32dea93c45f4f9f8d1f244',1,'task_commands.c']]],
+  ['domacroparsing',['doMacroParsing',['../task__commands_8c.html#acdd5ac250a84f0f62d23f174b7366432',1,'task_commands.c']]],
+  ['domouseparsing',['doMouseParsing',['../task__commands_8c.html#a580d9f6a840975525358033a35f761d0',1,'task_commands.c']]],
+  ['domouthpiecesettingsparsing',['doMouthpieceSettingsParsing',['../task__commands_8c.html#a2ad28759e53bb5082853d8d004767115',1,'task_commands.c']]],
+  ['dostorageparsing',['doStorageParsing',['../task__commands_8c.html#a69b0c55558b32caa21407de8e2277be9',1,'task_commands.c']]],
+  ['dumpinfo',['dumpInfo',['../classGeneralUtils.html#a1698e9a6f3f4a3b49e00a4c7b200fa6b',1,'GeneralUtils']]]
 ];

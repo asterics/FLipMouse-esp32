@@ -94,7 +94,8 @@ Data Structures</h2></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structmouse__command.html">mouse_command</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structusb__command.html">usb_command</a></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structhid__command.html">hid_command</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">HID data to be sent via BLE or USB.  <a href="structhid__command.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structjoystick__command.html">joystick_command</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -233,8 +234,9 @@ Typedefs</h2></td></tr>
 <tr class="separator:a1d17932316265a53a6982a2526a4cada"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4f29037853f9d7a11aeb531c16986103"><td class="memItemLeft" align="right" valign="top">typedef struct <a class="el" href="structmouse__command.html">mouse_command</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="common_8h.html#a4f29037853f9d7a11aeb531c16986103">mouse_command_t</a></td></tr>
 <tr class="separator:a4f29037853f9d7a11aeb531c16986103"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a88d5a24e12401a0a28db04395ec8dadb"><td class="memItemLeft" align="right" valign="top">typedef struct <a class="el" href="structusb__command.html">usb_command</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="common_8h.html#a88d5a24e12401a0a28db04395ec8dadb">usb_command_t</a></td></tr>
-<tr class="separator:a88d5a24e12401a0a28db04395ec8dadb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac228e3ad78247a53a08125518c5c2294"><td class="memItemLeft" align="right" valign="top">typedef struct <a class="el" href="structhid__command.html">hid_command</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="common_8h.html#ac228e3ad78247a53a08125518c5c2294">hid_command_t</a></td></tr>
+<tr class="memdesc:ac228e3ad78247a53a08125518c5c2294"><td class="mdescLeft">&#160;</td><td class="mdescRight">HID data to be sent via BLE or USB.  <a href="#ac228e3ad78247a53a08125518c5c2294">More...</a><br /></td></tr>
+<tr class="separator:ac228e3ad78247a53a08125518c5c2294"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af0acd69c825ad599f4c9b9e371604996"><td class="memItemLeft" align="right" valign="top">typedef struct <a class="el" href="structjoystick__command.html">joystick_command</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="common_8h.html#af0acd69c825ad599f4c9b9e371604996">joystick_command_t</a></td></tr>
 <tr class="separator:af0acd69c825ad599f4c9b9e371604996"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a735049d5abb65dcaa7ba76917158a3b3"><td class="memItemLeft" align="right" valign="top">typedef struct <a class="el" href="structtaskNoParameterConfig.html">taskNoParameterConfig</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="common_8h.html#a735049d5abb65dcaa7ba76917158a3b3">taskNoParameterConfig_t</a></td></tr>
@@ -362,7 +364,7 @@ Variables</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="common_8h_source.html#l00108">108</a> of file <a class="el" href="common_8h_source.html">common.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="task__commands_8c_source.html#l00757">doGeneralCmdParsing()</a>, and <a class="el" href="hal__serial_8c_source.html#l00135">halSerialRXTask()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="task__commands_8c_source.html#l00749">doGeneralCmdParsing()</a>, and <a class="el" href="hal__serial_8c_source.html#l00123">halSerialRXTask()</a>.</p>
 
 </div>
 </div>
@@ -394,7 +396,7 @@ Variables</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="common_8h_source.html#l00317">317</a> of file <a class="el" href="common_8h_source.html">common.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="hal__adc_8c_source.html#l00350">halAdcProcessPressure()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="hal__adc_8c_source.html#l00364">halAdcProcessPressure()</a>.</p>
 
 </div>
 </div>
@@ -426,7 +428,7 @@ Variables</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="common_8h_source.html#l00343">343</a> of file <a class="el" href="common_8h_source.html">common.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="hal__adc_8c_source.html#l00350">halAdcProcessPressure()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="hal__adc_8c_source.html#l00364">halAdcProcessPressure()</a>.</p>
 
 </div>
 </div>
@@ -445,7 +447,7 @@ Variables</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="common_8h_source.html#l00117">117</a> of file <a class="el" href="common_8h_source.html">common.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="config__switcher_8c_source.html#l00280">configSwitcherTask()</a>, <a class="el" href="hal__adc_8c_source.html#l00350">halAdcProcessPressure()</a>, <a class="el" href="task__kbd_8c_source.html#l00146">sendKbd()</a>, and <a class="el" href="task__joystick_8c_source.html#l00123">task_joystick()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="config__switcher_8c_source.html#l00215">configUpdate()</a>, <a class="el" href="hal__adc_8c_source.html#l00364">halAdcProcessPressure()</a>, <a class="el" href="task__kbd_8c_source.html#l00144">sendKbd()</a>, <a class="el" href="task__joystick_8c_source.html#l00123">task_joystick()</a>, and <a class="el" href="task__mouse_8c_source.html#l00079">task_mouse()</a>.</p>
 
 </div>
 </div>
@@ -481,7 +483,7 @@ Variables</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="common_8h_source.html#l00115">115</a> of file <a class="el" href="common_8h_source.html">common.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="config__switcher_8c_source.html#l00280">configSwitcherTask()</a>, <a class="el" href="hal__adc_8c_source.html#l00350">halAdcProcessPressure()</a>, <a class="el" href="task__kbd_8c_source.html#l00146">sendKbd()</a>, <a class="el" href="task__joystick_8c_source.html#l00123">task_joystick()</a>, and <a class="el" href="task__mouse_8c_source.html#l00079">task_mouse()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="config__switcher_8c_source.html#l00215">configUpdate()</a>, <a class="el" href="hal__adc_8c_source.html#l00364">halAdcProcessPressure()</a>, <a class="el" href="task__kbd_8c_source.html#l00144">sendKbd()</a>, <a class="el" href="task__joystick_8c_source.html#l00123">task_joystick()</a>, and <a class="el" href="task__mouse_8c_source.html#l00079">task_mouse()</a>.</p>
 
 </div>
 </div>
@@ -499,7 +501,7 @@ Variables</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="common_8h_source.html#l00373">373</a> of file <a class="el" href="common_8h_source.html">common.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c_source.html#l00120">app_main()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c_source.html#l00095">app_main()</a>.</p>
 
 </div>
 </div>
@@ -596,7 +598,7 @@ Variables</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="common_8h_source.html#l00371">371</a> of file <a class="el" href="common_8h_source.html">common.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="hal__adc_8c_source.html#l00985">halAdcUpdateConfig()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="hal__adc_8c_source.html#l00983">halAdcUpdateConfig()</a>.</p>
 
 </div>
 </div>
@@ -611,11 +613,9 @@ Variables</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>All BLE tasks in <a class="el" href="hal__ble_8c.html">hal_ble.c</a>. </p>
+<p>All BLE tasks in hal_ble.c. </p>
 
 <p class="definition">Definition at line <a class="el" href="common_8h_source.html#l00375">375</a> of file <a class="el" href="common_8h_source.html">common.h</a>.</p>
-
-<p class="reference">Referenced by <a class="el" href="hal__ble_8c_source.html#l00455">halBLEInit()</a>.</p>
 
 </div>
 </div>
@@ -633,7 +633,7 @@ Variables</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="common_8h_source.html#l00376">376</a> of file <a class="el" href="common_8h_source.html">common.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="config__switcher_8c_source.html#l00602">configSwitcherInit()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="config__switcher_8c_source.html#l00612">configSwitcherInit()</a>.</p>
 
 </div>
 </div>
@@ -651,7 +651,7 @@ Variables</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="common_8h_source.html#l00372">372</a> of file <a class="el" href="common_8h_source.html">common.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="config__switcher_8c_source.html#l00280">configSwitcherTask()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="config__switcher_8c_source.html#l00300">configSwitcherTask()</a>.</p>
 
 </div>
 </div>
@@ -666,11 +666,11 @@ Variables</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>ID String to be printed on "AT ID" command. </p><dl class="todo"><dt><b><a class="el" href="todo.html#_todo000005">Todo:</a></b></dt><dd>Change this back to new version, when GUI is compatible </dd></dl>
+<p>ID String to be printed on "AT ID" command. </p><dl class="todo"><dt><b><a class="el" href="todo.html#_todo000006">Todo:</a></b></dt><dd>Change this back to new version, when GUI is compatible </dd></dl>
 
 <p class="definition">Definition at line <a class="el" href="common_8h_source.html#l00068">68</a> of file <a class="el" href="common_8h_source.html">common.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="task__commands_8c_source.html#l00757">doGeneralCmdParsing()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="task__commands_8c_source.html#l00749">doGeneralCmdParsing()</a>.</p>
 
 </div>
 </div>
@@ -692,7 +692,7 @@ Variables</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="common_8h_source.html#l00093">93</a> of file <a class="el" href="common_8h_source.html">common.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="hal__io_8c_source.html#l00544">halIOInit()</a>, and <a class="el" href="hal__io_8c_source.html#l00377">halIOLEDTask()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="hal__io_8c_source.html#l00550">halIOInit()</a>, and <a class="el" href="hal__io_8c_source.html#l00383">halIOLEDTask()</a>.</p>
 
 </div>
 </div>
@@ -730,7 +730,7 @@ Variables</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="common_8h_source.html#l00079">79</a> of file <a class="el" href="common_8h_source.html">common.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c_source.html#l00120">app_main()</a>, <a class="el" href="config__switcher_8c_source.html#l00602">configSwitcherInit()</a>, <a class="el" href="config__switcher_8c_source.html#l00280">configSwitcherTask()</a>, <a class="el" href="config__switcher_8c_source.html#l00245">configUpdateVB()</a>, <a class="el" href="task__commands_8c_source.html#l00391">doStorageParsing()</a>, <a class="el" href="hal__adc_8c_source.html#l01095">halAdcInit()</a>, <a class="el" href="hal__storage_8c_source.html#l00263">halStorageCreateDefault()</a>, <a class="el" href="hal__storage_8c_source.html#l01332">halStorageLoadGetVBConfigs()</a>, <a class="el" href="hal__storage_8c_source.html#l01642">halStorageStoreSetVBConfigs()</a>, <a class="el" href="task__commands_8c_source.html#l01589">printAllSlots()</a>, <a class="el" href="hal__adc_8c_source.html#l00798">task_calibration()</a>, <a class="el" href="config__switcher_8c_source.html#l00536">task_configswitcher()</a>, <a class="el" href="task__debouncer_8c_source.html#l00305">task_debouncer()</a>, <a class="el" href="task__infrared_8c_source.html#l00051">task_infrared()</a>, <a class="el" href="task__joystick_8c_source.html#l00123">task_joystick()</a>, <a class="el" href="task__kbd_8c_source.html#l00166">task_keyboard()</a>, <a class="el" href="task__macros_8c_source.html#l00050">task_macro()</a>, and <a class="el" href="task__mouse_8c_source.html#l00079">task_mouse()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c_source.html#l00095">app_main()</a>, <a class="el" href="config__switcher_8c_source.html#l00117">configPrintHighWaterMark()</a>, <a class="el" href="config__switcher_8c_source.html#l00612">configSwitcherInit()</a>, <a class="el" href="config__switcher_8c_source.html#l00300">configSwitcherTask()</a>, <a class="el" href="config__switcher_8c_source.html#l00251">configUpdateVB()</a>, <a class="el" href="task__commands_8c_source.html#l00391">doStorageParsing()</a>, <a class="el" href="hal__adc_8c_source.html#l01095">halAdcInit()</a>, <a class="el" href="hal__storage_8c_source.html#l00269">halStorageCreateDefault()</a>, <a class="el" href="hal__storage_8c_source.html#l01349">halStorageLoadGetVBConfigs()</a>, <a class="el" href="hal__storage_8c_source.html#l01671">halStorageStoreSetVBConfigs()</a>, <a class="el" href="task__commands_8c_source.html#l01581">printAllSlots()</a>, <a class="el" href="hal__adc_8c_source.html#l00796">task_calibration()</a>, <a class="el" href="config__switcher_8c_source.html#l00545">task_configswitcher()</a>, <a class="el" href="task__debouncer_8c_source.html#l00305">task_debouncer()</a>, <a class="el" href="task__infrared_8c_source.html#l00051">task_infrared()</a>, <a class="el" href="task__joystick_8c_source.html#l00123">task_joystick()</a>, <a class="el" href="task__kbd_8c_source.html#l00164">task_keyboard()</a>, <a class="el" href="task__macros_8c_source.html#l00050">task_macro()</a>, and <a class="el" href="task__mouse_8c_source.html#l00079">task_mouse()</a>.</p>
 
 </div>
 </div>
@@ -748,9 +748,9 @@ Variables</h2></td></tr>
 
 <p>NVS key for wifi password. </p>
 
-<p class="definition">Definition at line <a class="el" href="common_8h_source.html#l00570">570</a> of file <a class="el" href="common_8h_source.html">common.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="common_8h_source.html#l00581">581</a> of file <a class="el" href="common_8h_source.html">common.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="task__commands_8c_source.html#l00757">doGeneralCmdParsing()</a>, and <a class="el" href="task__webgui_8c_source.html#l00482">taskWebGUIInit()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="task__commands_8c_source.html#l00749">doGeneralCmdParsing()</a>, and <a class="el" href="task__webgui_8c_source.html#l00569">taskWebGUIInit()</a>.</p>
 
 </div>
 </div>
@@ -782,7 +782,7 @@ Variables</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="common_8h_source.html#l00304">304</a> of file <a class="el" href="common_8h_source.html">common.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="hal__adc_8c_source.html#l00350">halAdcProcessPressure()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="hal__adc_8c_source.html#l00364">halAdcProcessPressure()</a>.</p>
 
 </div>
 </div>
@@ -814,7 +814,7 @@ Variables</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="common_8h_source.html#l00330">330</a> of file <a class="el" href="common_8h_source.html">common.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="hal__adc_8c_source.html#l00350">halAdcProcessPressure()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="hal__adc_8c_source.html#l00364">halAdcProcessPressure()</a>.</p>
 
 </div>
 </div>
@@ -833,7 +833,7 @@ Variables</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="common_8h_source.html#l00097">97</a> of file <a class="el" href="common_8h_source.html">common.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c_source.html#l00120">app_main()</a>, <a class="el" href="config__switcher_8c_source.html#l00602">configSwitcherInit()</a>, <a class="el" href="config__switcher_8c_source.html#l00280">configSwitcherTask()</a>, <a class="el" href="config__switcher_8c_source.html#l00149">configTriggerUpdate()</a>, <a class="el" href="task__commands_8c_source.html#l00597">doInfraredParsing()</a>, <a class="el" href="task__commands_8c_source.html#l00391">doStorageParsing()</a>, <a class="el" href="hal__storage_8c_source.html#l00766">halStorageGetNameForNumber()</a>, <a class="el" href="hal__storage_8c_source.html#l00554">halStorageGetNameForNumberIR()</a>, <a class="el" href="hal__storage_8c_source.html#l00818">halStorageGetNumberForName()</a>, <a class="el" href="hal__storage_8c_source.html#l00894">halStorageGetNumberForNameIR()</a>, <a class="el" href="hal__storage_8c_source.html#l01747">halStorageLoadIR()</a>, <a class="el" href="hal__storage_8c_source.html#l01069">halStorageLoadNumber()</a>, <a class="el" href="hal__storage_8c_source.html#l01449">halStorageStore()</a>, <a class="el" href="hal__storage_8c_source.html#l01546">halStorageStoreIR()</a>, <a class="el" href="task__infrared_8c_source.html#l00153">infrared_record()</a>, <a class="el" href="task__commands_8c_source.html#l01589">printAllSlots()</a>, <a class="el" href="task__infrared_8c_source.html#l00051">task_infrared()</a>, and <a class="el" href="task__macros_8c_source.html#l00050">task_macro()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c_source.html#l00095">app_main()</a>, <a class="el" href="config__switcher_8c_source.html#l00612">configSwitcherInit()</a>, <a class="el" href="config__switcher_8c_source.html#l00300">configSwitcherTask()</a>, <a class="el" href="config__switcher_8c_source.html#l00160">configTriggerUpdate()</a>, <a class="el" href="task__commands_8c_source.html#l00589">doInfraredParsing()</a>, <a class="el" href="task__commands_8c_source.html#l00391">doStorageParsing()</a>, <a class="el" href="hal__storage_8c_source.html#l00759">halStorageGetNameForNumber()</a>, <a class="el" href="hal__storage_8c_source.html#l00540">halStorageGetNameForNumberIR()</a>, <a class="el" href="hal__storage_8c_source.html#l00815">halStorageGetNumberForName()</a>, <a class="el" href="hal__storage_8c_source.html#l00899">halStorageGetNumberForNameIR()</a>, <a class="el" href="hal__storage_8c_source.html#l01778">halStorageLoadIR()</a>, <a class="el" href="hal__storage_8c_source.html#l01078">halStorageLoadNumber()</a>, <a class="el" href="hal__storage_8c_source.html#l01468">halStorageStore()</a>, <a class="el" href="hal__storage_8c_source.html#l01571">halStorageStoreIR()</a>, <a class="el" href="task__infrared_8c_source.html#l00153">infrared_record()</a>, <a class="el" href="task__commands_8c_source.html#l01581">printAllSlots()</a>, <a class="el" href="config__switcher_8c_source.html#l00545">task_configswitcher()</a>, <a class="el" href="task__infrared_8c_source.html#l00051">task_infrared()</a>, and <a class="el" href="task__macros_8c_source.html#l00050">task_macro()</a>.</p>
 
 </div>
 </div>
@@ -852,7 +852,7 @@ Variables</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="common_8h_source.html#l00111">111</a> of file <a class="el" href="common_8h_source.html">common.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="hal__storage_8c_source.html#l00263">halStorageCreateDefault()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="hal__storage_8c_source.html#l00269">halStorageCreateDefault()</a>.</p>
 
 </div>
 </div>
@@ -870,7 +870,7 @@ Variables</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="common_8h_source.html#l00377">377</a> of file <a class="el" href="common_8h_source.html">common.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="task__commands_8c_source.html#l01813">taskCommandsInit()</a>, and <a class="el" href="task__commands_8c_source.html#l01830">taskCommandsRestart()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="task__commands_8c_source.html#l01805">taskCommandsInit()</a>, and <a class="el" href="task__commands_8c_source.html#l01822">taskCommandsRestart()</a>.</p>
 
 </div>
 </div>
@@ -888,7 +888,7 @@ Variables</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="common_8h_source.html#l00252">252</a> of file <a class="el" href="common_8h_source.html">common.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="hal__adc_8c_source.html#l00867">halAdcTaskThreshold()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="hal__adc_8c_source.html#l00865">halAdcTaskThreshold()</a>.</p>
 
 </div>
 </div>
@@ -906,7 +906,7 @@ Variables</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="common_8h_source.html#l00249">249</a> of file <a class="el" href="common_8h_source.html">common.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="hal__io_8c_source.html#l00124">gpio_isr_handler()</a>, and <a class="el" href="hal__storage_8c_source.html#l00263">halStorageCreateDefault()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="hal__io_8c_source.html#l00127">gpio_isr_handler()</a>, and <a class="el" href="hal__storage_8c_source.html#l00269">halStorageCreateDefault()</a>.</p>
 
 </div>
 </div>
@@ -924,7 +924,7 @@ Variables</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="common_8h_source.html#l00250">250</a> of file <a class="el" href="common_8h_source.html">common.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="hal__io_8c_source.html#l00124">gpio_isr_handler()</a>, and <a class="el" href="hal__storage_8c_source.html#l00263">halStorageCreateDefault()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="hal__io_8c_source.html#l00127">gpio_isr_handler()</a>.</p>
 
 </div>
 </div>
@@ -942,7 +942,7 @@ Variables</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="common_8h_source.html#l00248">248</a> of file <a class="el" href="common_8h_source.html">common.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="hal__io_8c_source.html#l00124">gpio_isr_handler()</a>, and <a class="el" href="hal__storage_8c_source.html#l00263">halStorageCreateDefault()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="hal__io_8c_source.html#l00127">gpio_isr_handler()</a>.</p>
 
 </div>
 </div>
@@ -963,7 +963,7 @@ Variables</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="common_8h_source.html#l00247">247</a> of file <a class="el" href="common_8h_source.html">common.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="hal__io_8c_source.html#l00124">gpio_isr_handler()</a>, and <a class="el" href="hal__storage_8c_source.html#l00263">halStorageCreateDefault()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="hal__io_8c_source.html#l00127">gpio_isr_handler()</a>, and <a class="el" href="hal__storage_8c_source.html#l00269">halStorageCreateDefault()</a>.</p>
 
 </div>
 </div>
@@ -981,7 +981,7 @@ Variables</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="common_8h_source.html#l00253">253</a> of file <a class="el" href="common_8h_source.html">common.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="hal__adc_8c_source.html#l00867">halAdcTaskThreshold()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="hal__adc_8c_source.html#l00865">halAdcTaskThreshold()</a>.</p>
 
 </div>
 </div>
@@ -999,7 +999,7 @@ Variables</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="common_8h_source.html#l00267">267</a> of file <a class="el" href="common_8h_source.html">common.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="task__commands_8c_source.html#l00757">doGeneralCmdParsing()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="task__commands_8c_source.html#l00749">doGeneralCmdParsing()</a>.</p>
 
 </div>
 </div>
@@ -1040,7 +1040,7 @@ Variables</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="common_8h_source.html#l00257">257</a> of file <a class="el" href="common_8h_source.html">common.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="hal__adc_8c_source.html#l00350">halAdcProcessPressure()</a>, and <a class="el" href="hal__storage_8c_source.html#l00263">halStorageCreateDefault()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="hal__adc_8c_source.html#l00364">halAdcProcessPressure()</a>, and <a class="el" href="hal__storage_8c_source.html#l00269">halStorageCreateDefault()</a>.</p>
 
 </div>
 </div>
@@ -1058,7 +1058,7 @@ Variables</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="common_8h_source.html#l00254">254</a> of file <a class="el" href="common_8h_source.html">common.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="hal__adc_8c_source.html#l00867">halAdcTaskThreshold()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="hal__adc_8c_source.html#l00865">halAdcTaskThreshold()</a>.</p>
 
 </div>
 </div>
@@ -1077,7 +1077,7 @@ Variables</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="common_8h_source.html#l00291">291</a> of file <a class="el" href="common_8h_source.html">common.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="config__switcher_8c_source.html#l00245">configUpdateVB()</a>, <a class="el" href="task__commands_8c_source.html#l00757">doGeneralCmdParsing()</a>, <a class="el" href="hal__adc_8c_source.html#l00798">task_calibration()</a>, <a class="el" href="task__commands_8c_source.html#l01386">task_commands()</a>, <a class="el" href="config__switcher_8c_source.html#l00536">task_configswitcher()</a>, <a class="el" href="task__infrared_8c_source.html#l00051">task_infrared()</a>, <a class="el" href="task__joystick_8c_source.html#l00123">task_joystick()</a>, <a class="el" href="task__kbd_8c_source.html#l00166">task_keyboard()</a>, <a class="el" href="task__macros_8c_source.html#l00050">task_macro()</a>, and <a class="el" href="task__mouse_8c_source.html#l00079">task_mouse()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="config__switcher_8c_source.html#l00251">configUpdateVB()</a>, <a class="el" href="task__commands_8c_source.html#l00749">doGeneralCmdParsing()</a>, <a class="el" href="hal__adc_8c_source.html#l00796">task_calibration()</a>, <a class="el" href="task__commands_8c_source.html#l01378">task_commands()</a>, <a class="el" href="config__switcher_8c_source.html#l00545">task_configswitcher()</a>, <a class="el" href="task__infrared_8c_source.html#l00051">task_infrared()</a>, <a class="el" href="task__joystick_8c_source.html#l00123">task_joystick()</a>, <a class="el" href="task__kbd_8c_source.html#l00164">task_keyboard()</a>, <a class="el" href="task__macros_8c_source.html#l00050">task_macro()</a>, and <a class="el" href="task__mouse_8c_source.html#l00079">task_mouse()</a>.</p>
 
 </div>
 </div>
@@ -1095,7 +1095,7 @@ Variables</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="common_8h_source.html#l00255">255</a> of file <a class="el" href="common_8h_source.html">common.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="hal__adc_8c_source.html#l00350">halAdcProcessPressure()</a>, and <a class="el" href="hal__storage_8c_source.html#l00263">halStorageCreateDefault()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="hal__adc_8c_source.html#l00364">halAdcProcessPressure()</a>, and <a class="el" href="hal__storage_8c_source.html#l00269">halStorageCreateDefault()</a>.</p>
 
 </div>
 </div>
@@ -1113,7 +1113,7 @@ Variables</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="common_8h_source.html#l00258">258</a> of file <a class="el" href="common_8h_source.html">common.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="hal__adc_8c_source.html#l00350">halAdcProcessPressure()</a>, and <a class="el" href="hal__storage_8c_source.html#l00263">halStorageCreateDefault()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="hal__adc_8c_source.html#l00364">halAdcProcessPressure()</a>, and <a class="el" href="hal__storage_8c_source.html#l00269">halStorageCreateDefault()</a>.</p>
 
 </div>
 </div>
@@ -1131,7 +1131,7 @@ Variables</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="common_8h_source.html#l00264">264</a> of file <a class="el" href="common_8h_source.html">common.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="hal__adc_8c_source.html#l00350">halAdcProcessPressure()</a>, and <a class="el" href="hal__adc_8c_source.html#l00128">halAdcProcessStrongMode()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="hal__adc_8c_source.html#l00364">halAdcProcessPressure()</a>, and <a class="el" href="hal__adc_8c_source.html#l00132">halAdcProcessStrongMode()</a>.</p>
 
 </div>
 </div>
@@ -1149,7 +1149,7 @@ Variables</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="common_8h_source.html#l00265">265</a> of file <a class="el" href="common_8h_source.html">common.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="hal__adc_8c_source.html#l00350">halAdcProcessPressure()</a>, and <a class="el" href="hal__adc_8c_source.html#l00128">halAdcProcessStrongMode()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="hal__adc_8c_source.html#l00364">halAdcProcessPressure()</a>, and <a class="el" href="hal__adc_8c_source.html#l00132">halAdcProcessStrongMode()</a>.</p>
 
 </div>
 </div>
@@ -1167,7 +1167,7 @@ Variables</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="common_8h_source.html#l00266">266</a> of file <a class="el" href="common_8h_source.html">common.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="hal__adc_8c_source.html#l00350">halAdcProcessPressure()</a>, and <a class="el" href="hal__adc_8c_source.html#l00128">halAdcProcessStrongMode()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="hal__adc_8c_source.html#l00364">halAdcProcessPressure()</a>, and <a class="el" href="hal__adc_8c_source.html#l00132">halAdcProcessStrongMode()</a>.</p>
 
 </div>
 </div>
@@ -1185,7 +1185,7 @@ Variables</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="common_8h_source.html#l00263">263</a> of file <a class="el" href="common_8h_source.html">common.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="hal__adc_8c_source.html#l00350">halAdcProcessPressure()</a>, and <a class="el" href="hal__adc_8c_source.html#l00128">halAdcProcessStrongMode()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="hal__adc_8c_source.html#l00364">halAdcProcessPressure()</a>, and <a class="el" href="hal__adc_8c_source.html#l00132">halAdcProcessStrongMode()</a>.</p>
 
 </div>
 </div>
@@ -1203,7 +1203,7 @@ Variables</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="common_8h_source.html#l00256">256</a> of file <a class="el" href="common_8h_source.html">common.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="hal__adc_8c_source.html#l00350">halAdcProcessPressure()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="hal__adc_8c_source.html#l00364">halAdcProcessPressure()</a>, and <a class="el" href="hal__storage_8c_source.html#l00269">halStorageCreateDefault()</a>.</p>
 
 </div>
 </div>
@@ -1221,7 +1221,7 @@ Variables</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="common_8h_source.html#l00260">260</a> of file <a class="el" href="common_8h_source.html">common.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="hal__adc_8c_source.html#l00350">halAdcProcessPressure()</a>, and <a class="el" href="hal__adc_8c_source.html#l00128">halAdcProcessStrongMode()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="hal__adc_8c_source.html#l00364">halAdcProcessPressure()</a>, and <a class="el" href="hal__adc_8c_source.html#l00132">halAdcProcessStrongMode()</a>.</p>
 
 </div>
 </div>
@@ -1239,7 +1239,7 @@ Variables</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="common_8h_source.html#l00261">261</a> of file <a class="el" href="common_8h_source.html">common.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="hal__adc_8c_source.html#l00350">halAdcProcessPressure()</a>, and <a class="el" href="hal__adc_8c_source.html#l00128">halAdcProcessStrongMode()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="hal__adc_8c_source.html#l00364">halAdcProcessPressure()</a>, and <a class="el" href="hal__adc_8c_source.html#l00132">halAdcProcessStrongMode()</a>.</p>
 
 </div>
 </div>
@@ -1257,7 +1257,7 @@ Variables</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="common_8h_source.html#l00262">262</a> of file <a class="el" href="common_8h_source.html">common.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="hal__adc_8c_source.html#l00350">halAdcProcessPressure()</a>, and <a class="el" href="hal__adc_8c_source.html#l00128">halAdcProcessStrongMode()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="hal__adc_8c_source.html#l00364">halAdcProcessPressure()</a>, and <a class="el" href="hal__adc_8c_source.html#l00132">halAdcProcessStrongMode()</a>.</p>
 
 </div>
 </div>
@@ -1275,7 +1275,7 @@ Variables</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="common_8h_source.html#l00259">259</a> of file <a class="el" href="common_8h_source.html">common.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="hal__adc_8c_source.html#l00350">halAdcProcessPressure()</a>, and <a class="el" href="hal__adc_8c_source.html#l00128">halAdcProcessStrongMode()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="hal__adc_8c_source.html#l00364">halAdcProcessPressure()</a>, and <a class="el" href="hal__adc_8c_source.html#l00132">halAdcProcessStrongMode()</a>.</p>
 
 </div>
 </div>
@@ -1293,7 +1293,7 @@ Variables</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="common_8h_source.html#l00251">251</a> of file <a class="el" href="common_8h_source.html">common.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="hal__adc_8c_source.html#l00867">halAdcTaskThreshold()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="hal__adc_8c_source.html#l00865">halAdcTaskThreshold()</a>.</p>
 
 </div>
 </div>
@@ -1312,7 +1312,7 @@ Variables</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="common_8h_source.html#l00121">121</a> of file <a class="el" href="common_8h_source.html">common.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="task__webgui_8c_source.html#l00389">taskWebGUIEnDisable()</a>, and <a class="el" href="task__webgui_8c_source.html#l00315">wifi_event_handler()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="task__webgui_8c_source.html#l00459">taskWebGUIEnDisable()</a>, and <a class="el" href="task__webgui_8c_source.html#l00388">wifi_event_handler()</a>.</p>
 
 </div>
 </div>
@@ -1331,7 +1331,7 @@ Variables</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="common_8h_source.html#l00123">123</a> of file <a class="el" href="common_8h_source.html">common.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="task__webgui_8c_source.html#l00389">taskWebGUIEnDisable()</a>, and <a class="el" href="task__webgui_8c_source.html#l00315">wifi_event_handler()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="task__webgui_8c_source.html#l00459">taskWebGUIEnDisable()</a>, and <a class="el" href="task__webgui_8c_source.html#l00388">wifi_event_handler()</a>.</p>
 
 </div>
 </div>
@@ -1349,9 +1349,9 @@ Variables</h2></td></tr>
 
 <p>Minutes between last client disconnected and WiFi is switched off. </p>
 
-<p class="definition">Definition at line <a class="el" href="common_8h_source.html#l00573">573</a> of file <a class="el" href="common_8h_source.html">common.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="common_8h_source.html#l00584">584</a> of file <a class="el" href="common_8h_source.html">common.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="task__webgui_8c_source.html#l00482">taskWebGUIInit()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="task__webgui_8c_source.html#l00569">taskWebGUIInit()</a>.</p>
 
 </div>
 </div>
@@ -1408,6 +1408,30 @@ Variables</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Output buzzer noise. </p>
+
+</div>
+</div>
+<a id="ac228e3ad78247a53a08125518c5c2294"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac228e3ad78247a53a08125518c5c2294">&#9670;&nbsp;</a></span>hid_command_t</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">typedef struct <a class="el" href="structhid__command.html">hid_command</a>  <a class="el" href="common_8h.html#ac228e3ad78247a53a08125518c5c2294">hid_command_t</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>HID data to be sent via BLE or USB. </p>
+<p>First byte determines type of command:</p><ul>
+<li>'M' Mouse data (parameters: buttons[uint8_t]/X[int8_t]/Y[int8_t]/wheel[int8_t]</li>
+<li>'K' Keyboard data (parameters: modifier [uint8_t], 6x keycodes [uint8_t]</li>
+<li>'J' Joystick data (see <a class="el" href="task__joystick_8c.html" title="FUNCTIONAL TASK - joystick handling. ">task_joystick.c</a> for parameters) <dl class="section see"><dt>See also</dt><dd><a class="el" href="common_8h.html#a841902610ed5a9d5ee171749a85a8b8c" title="Queue for sending HID commands to USB. ">hid_usb</a> </dd>
+<dd>
+<a class="el" href="common_8h.html#a4d504fcad8a2fb54bd8af573af7d4834" title="Queue for sending HID commands to BLE. ">hid_ble</a> </dd></dl>
+</li>
+</ul>
 
 </div>
 </div>
@@ -1520,20 +1544,6 @@ Variables</h2></td></tr>
 
 </div>
 </div>
-<a id="a88d5a24e12401a0a28db04395ec8dadb"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a88d5a24e12401a0a28db04395ec8dadb">&#9670;&nbsp;</a></span>usb_command_t</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">typedef struct <a class="el" href="structusb__command.html">usb_command</a>  <a class="el" href="common_8h.html#a88d5a24e12401a0a28db04395ec8dadb">usb_command_t</a></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
 <h2 class="groupheader">Enumeration Type Documentation</h2>
 <a id="ac27b6f4710923c6689834e86aea228ac"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ac27b6f4710923c6689834e86aea228ac">&#9670;&nbsp;</a></span>command_type_t</h2>
@@ -1592,7 +1602,7 @@ Variables</h2></td></tr>
 <tr><td class="fieldname"><a id="aecc70331ee0aea41d03158f13365fbdfabf479fe1b5cb3349124fdf3f25f10560"></a>IR_OVERFLOW&#160;</td><td class="fielddoc"></td></tr>
 </table>
 
-<p class="definition">Definition at line <a class="el" href="common_8h_source.html#l00555">555</a> of file <a class="el" href="common_8h_source.html">common.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="common_8h_source.html#l00566">566</a> of file <a class="el" href="common_8h_source.html">common.h</a>.</p>
 
 </div>
 </div>
@@ -1695,9 +1705,9 @@ Variables</h2></td></tr>
 <dd>
 currentConfig </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c_source.html#l00062">62</a> of file <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c_source.html">flipmouse_fabi_esp32_kbdmouse_main.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c_source.html#l00063">63</a> of file <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c_source.html">flipmouse_fabi_esp32_kbdmouse_main.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c_source.html#l00120">app_main()</a>, <a class="el" href="task__commands_8c_source.html#l00127">checkqueues()</a>, <a class="el" href="config__switcher_8c_source.html#l00602">configSwitcherInit()</a>, <a class="el" href="config__switcher_8c_source.html#l00280">configSwitcherTask()</a>, <a class="el" href="config__switcher_8c_source.html#l00149">configTriggerUpdate()</a>, and <a class="el" href="config__switcher_8c_source.html#l00536">task_configswitcher()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c_source.html#l00095">app_main()</a>, <a class="el" href="task__commands_8c_source.html#l00127">checkqueues()</a>, <a class="el" href="config__switcher_8c_source.html#l00612">configSwitcherInit()</a>, <a class="el" href="config__switcher_8c_source.html#l00300">configSwitcherTask()</a>, <a class="el" href="config__switcher_8c_source.html#l00160">configTriggerUpdate()</a>, and <a class="el" href="config__switcher_8c_source.html#l00545">task_configswitcher()</a>.</p>
 
 </div>
 </div>
@@ -1725,7 +1735,7 @@ currentConfig </dd></dl>
 
 <p class="definition">Definition at line <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c_source.html#l00057">57</a> of file <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c_source.html">flipmouse_fabi_esp32_kbdmouse_main.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c_source.html#l00120">app_main()</a>, <a class="el" href="config__switcher_8c_source.html#l00280">configSwitcherTask()</a>, <a class="el" href="hal__adc_8c_source.html#l00350">halAdcProcessPressure()</a>, <a class="el" href="task__kbd_8c_source.html#l00146">sendKbd()</a>, <a class="el" href="task__joystick_8c_source.html#l00123">task_joystick()</a>, <a class="el" href="task__mouse_8c_source.html#l00079">task_mouse()</a>, <a class="el" href="task__webgui_8c_source.html#l00389">taskWebGUIEnDisable()</a>, <a class="el" href="task__webgui_8c_source.html#l00482">taskWebGUIInit()</a>, and <a class="el" href="task__webgui_8c_source.html#l00315">wifi_event_handler()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c_source.html#l00095">app_main()</a>, <a class="el" href="config__switcher_8c_source.html#l00215">configUpdate()</a>, <a class="el" href="hal__adc_8c_source.html#l00364">halAdcProcessPressure()</a>, <a class="el" href="task__kbd_8c_source.html#l00144">sendKbd()</a>, <a class="el" href="task__joystick_8c_source.html#l00123">task_joystick()</a>, <a class="el" href="task__mouse_8c_source.html#l00079">task_mouse()</a>, <a class="el" href="task__webgui_8c_source.html#l00459">taskWebGUIEnDisable()</a>, <a class="el" href="task__webgui_8c_source.html#l00569">taskWebGUIInit()</a>, and <a class="el" href="task__webgui_8c_source.html#l00388">wifi_event_handler()</a>.</p>
 
 </div>
 </div>
@@ -1742,10 +1752,12 @@ currentConfig </dd></dl>
 </div><div class="memdoc">
 
 <p>Queue for sending HID commands to BLE. </p>
+<p>Queue for sending HID commands to BLE.</p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="common_8h.html#a4f29037853f9d7a11aeb531c16986103">mouse_command_t</a> </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c_source.html#l00064">64</a> of file <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c_source.html">flipmouse_fabi_esp32_kbdmouse_main.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c_source.html#l00065">65</a> of file <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c_source.html">flipmouse_fabi_esp32_kbdmouse_main.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c_source.html#l00120">app_main()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c_source.html#l00095">app_main()</a>.</p>
 
 </div>
 </div>
@@ -1763,9 +1775,9 @@ currentConfig </dd></dl>
 
 <p>Queue for sending HID commands to USB. </p>
 
-<p class="definition">Definition at line <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c_source.html#l00063">63</a> of file <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c_source.html">flipmouse_fabi_esp32_kbdmouse_main.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c_source.html#l00064">64</a> of file <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c_source.html">flipmouse_fabi_esp32_kbdmouse_main.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c_source.html#l00120">app_main()</a>, <a class="el" href="task__commands_8c_source.html#l00127">checkqueues()</a>, <a class="el" href="hal__adc_8c_source.html#l01095">halAdcInit()</a>, <a class="el" href="hal__adc_8c_source.html#l00350">halAdcProcessPressure()</a>, <a class="el" href="hal__io_8c_source.html#l00377">halIOLEDTask()</a>, <a class="el" href="hal__serial_8c_source.html#l00279">halSerialHIDTask()</a>, <a class="el" href="hal__serial_8c_source.html#l00486">halSerialReset()</a>, <a class="el" href="task__joystick_8c_source.html#l00123">task_joystick()</a>, <a class="el" href="task__kbd_8c_source.html#l00166">task_keyboard()</a>, and <a class="el" href="task__mouse_8c_source.html#l00079">task_mouse()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c_source.html#l00095">app_main()</a>, <a class="el" href="task__commands_8c_source.html#l00127">checkqueues()</a>, <a class="el" href="hal__adc_8c_source.html#l01095">halAdcInit()</a>, <a class="el" href="hal__adc_8c_source.html#l00364">halAdcProcessPressure()</a>, <a class="el" href="hal__io_8c_source.html#l00383">halIOLEDTask()</a>, <a class="el" href="hal__serial_8c_source.html#l00273">halSerialHIDTask()</a>, <a class="el" href="hal__serial_8c_source.html#l00482">halSerialReset()</a>, <a class="el" href="task__kbd_8c_source.html#l00144">sendKbd()</a>, <a class="el" href="task__joystick_8c_source.html#l00123">task_joystick()</a>, and <a class="el" href="task__mouse_8c_source.html#l00079">task_mouse()</a>.</p>
 
 </div>
 </div>
@@ -1782,9 +1794,9 @@ currentConfig </dd></dl>
 </div><div class="memdoc">
 <p>queue which receives joystick commands, triggered via BLE </p>
 
-<p class="definition">Definition at line <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c_source.html#l00061">61</a> of file <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c_source.html">flipmouse_fabi_esp32_kbdmouse_main.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c_source.html#l00062">62</a> of file <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c_source.html">flipmouse_fabi_esp32_kbdmouse_main.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c_source.html#l00120">app_main()</a>, <a class="el" href="task__commands_8c_source.html#l00127">checkqueues()</a>, <a class="el" href="hal__adc_8c_source.html#l01095">halAdcInit()</a>, <a class="el" href="hal__ble_8c_source.html#l00353">halBleTaskJoystick()</a>, and <a class="el" href="task__joystick_8c_source.html#l00123">task_joystick()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c_source.html#l00095">app_main()</a>, <a class="el" href="task__commands_8c_source.html#l00127">checkqueues()</a>, and <a class="el" href="hal__adc_8c_source.html#l01095">halAdcInit()</a>.</p>
 
 </div>
 </div>
@@ -1801,9 +1813,9 @@ currentConfig </dd></dl>
 </div><div class="memdoc">
 <p>NOTE: keyboard queues receive uint16 data type, which is either directly used as keycode by either HID or serial task (if high byte is != 0) OR parsed by keyboard helper functions. In this case multibyte text (unicode) should use only low byte for each byte of the input textqueue which receives ble keycodes which needs to be pressed </p>
 
-<p class="definition">Definition at line <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c_source.html#l00058">58</a> of file <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c_source.html">flipmouse_fabi_esp32_kbdmouse_main.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c_source.html#l00059">59</a> of file <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c_source.html">flipmouse_fabi_esp32_kbdmouse_main.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c_source.html#l00120">app_main()</a>, <a class="el" href="task__commands_8c_source.html#l00127">checkqueues()</a>, <a class="el" href="hal__ble_8c_source.html#l00180">halBleTaskKeyboardPress()</a>, and <a class="el" href="task__kbd_8c_source.html#l00166">task_keyboard()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c_source.html#l00095">app_main()</a>, and <a class="el" href="task__commands_8c_source.html#l00127">checkqueues()</a>.</p>
 
 </div>
 </div>
@@ -1820,9 +1832,9 @@ currentConfig </dd></dl>
 </div><div class="memdoc">
 <p>queue which receives ble keycodes which needs to be released </p>
 
-<p class="definition">Definition at line <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c_source.html#l00059">59</a> of file <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c_source.html">flipmouse_fabi_esp32_kbdmouse_main.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c_source.html#l00060">60</a> of file <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c_source.html">flipmouse_fabi_esp32_kbdmouse_main.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c_source.html#l00120">app_main()</a>, <a class="el" href="task__commands_8c_source.html#l00127">checkqueues()</a>, <a class="el" href="hal__ble_8c_source.html#l00252">halBleTaskKeyboardRelease()</a>, and <a class="el" href="task__kbd_8c_source.html#l00166">task_keyboard()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c_source.html#l00095">app_main()</a>, and <a class="el" href="task__commands_8c_source.html#l00127">checkqueues()</a>.</p>
 
 </div>
 </div>
@@ -1839,9 +1851,9 @@ currentConfig </dd></dl>
 </div><div class="memdoc">
 <p>queue which receives mouse commands, triggered via BLE </p>
 
-<p class="definition">Definition at line <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c_source.html#l00060">60</a> of file <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c_source.html">flipmouse_fabi_esp32_kbdmouse_main.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c_source.html#l00061">61</a> of file <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c_source.html">flipmouse_fabi_esp32_kbdmouse_main.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c_source.html#l00120">app_main()</a>, <a class="el" href="task__commands_8c_source.html#l00127">checkqueues()</a>, <a class="el" href="hal__adc_8c_source.html#l01095">halAdcInit()</a>, <a class="el" href="hal__adc_8c_source.html#l00350">halAdcProcessPressure()</a>, and <a class="el" href="hal__ble_8c_source.html#l00304">halBleTaskMouse()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c_source.html#l00095">app_main()</a>, <a class="el" href="task__commands_8c_source.html#l00127">checkqueues()</a>, and <a class="el" href="hal__adc_8c_source.html#l01095">halAdcInit()</a>.</p>
 
 </div>
 </div>
@@ -1859,9 +1871,9 @@ currentConfig </dd></dl>
 
 <p>Currently active radio state. </p>
 
-<p class="definition">Definition at line <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c_source.html#l00066">66</a> of file <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c_source.html">flipmouse_fabi_esp32_kbdmouse_main.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c_source.html#l00067">67</a> of file <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c_source.html">flipmouse_fabi_esp32_kbdmouse_main.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c_source.html#l00120">app_main()</a>, and <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c_source.html#l00080">switch_radio()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c_source.html#l00095">app_main()</a>.</p>
 
 </div>
 </div>
@@ -1885,7 +1897,7 @@ currentConfig </dd></dl>
 
 <p class="definition">Definition at line <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c_source.html#l00056">56</a> of file <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c_source.html">flipmouse_fabi_esp32_kbdmouse_main.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c_source.html#l00120">app_main()</a>, <a class="el" href="task__debouncer_8c_source.html#l00180">debouncerCallback()</a>, <a class="el" href="hal__io_8c_source.html#l00124">gpio_isr_handler()</a>, <a class="el" href="hal__adc_8c_source.html#l01095">halAdcInit()</a>, <a class="el" href="hal__adc_8c_source.html#l00128">halAdcProcessStrongMode()</a>, <a class="el" href="hal__adc_8c_source.html#l00867">halAdcTaskThreshold()</a>, and <a class="el" href="task__debouncer_8c_source.html#l00305">task_debouncer()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c_source.html#l00095">app_main()</a>, <a class="el" href="task__debouncer_8c_source.html#l00180">debouncerCallback()</a>, <a class="el" href="hal__io_8c_source.html#l00127">gpio_isr_handler()</a>, <a class="el" href="hal__adc_8c_source.html#l01095">halAdcInit()</a>, <a class="el" href="hal__adc_8c_source.html#l00132">halAdcProcessStrongMode()</a>, <a class="el" href="hal__adc_8c_source.html#l00865">halAdcTaskThreshold()</a>, and <a class="el" href="task__debouncer_8c_source.html#l00305">task_debouncer()</a>.</p>
 
 </div>
 </div>
@@ -1909,7 +1921,7 @@ currentConfig </dd></dl>
 
 <p class="definition">Definition at line <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c_source.html#l00055">55</a> of file <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c_source.html">flipmouse_fabi_esp32_kbdmouse_main.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c_source.html#l00120">app_main()</a>, <a class="el" href="task__debouncer_8c_source.html#l00180">debouncerCallback()</a>, <a class="el" href="hal__adc_8c_source.html#l01095">halAdcInit()</a>, <a class="el" href="hal__adc_8c_source.html#l00798">task_calibration()</a>, <a class="el" href="config__switcher_8c_source.html#l00536">task_configswitcher()</a>, <a class="el" href="task__debouncer_8c_source.html#l00305">task_debouncer()</a>, <a class="el" href="task__infrared_8c_source.html#l00051">task_infrared()</a>, <a class="el" href="task__joystick_8c_source.html#l00123">task_joystick()</a>, <a class="el" href="task__kbd_8c_source.html#l00166">task_keyboard()</a>, <a class="el" href="task__macros_8c_source.html#l00050">task_macro()</a>, and <a class="el" href="task__mouse_8c_source.html#l00079">task_mouse()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c_source.html#l00095">app_main()</a>, <a class="el" href="task__debouncer_8c_source.html#l00180">debouncerCallback()</a>, <a class="el" href="hal__adc_8c_source.html#l01095">halAdcInit()</a>, <a class="el" href="hal__adc_8c_source.html#l00796">task_calibration()</a>, <a class="el" href="config__switcher_8c_source.html#l00545">task_configswitcher()</a>, <a class="el" href="task__debouncer_8c_source.html#l00305">task_debouncer()</a>, <a class="el" href="task__infrared_8c_source.html#l00051">task_infrared()</a>, <a class="el" href="task__joystick_8c_source.html#l00123">task_joystick()</a>, <a class="el" href="task__kbd_8c_source.html#l00164">task_keyboard()</a>, <a class="el" href="task__macros_8c_source.html#l00050">task_macro()</a>, and <a class="el" href="task__mouse_8c_source.html#l00079">task_mouse()</a>.</p>
 
 </div>
 </div>

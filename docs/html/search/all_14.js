@@ -8,6 +8,11 @@ var searchData=
   ['t_5fmouse',['T_MOUSE',['../common_8h.html#ac27b6f4710923c6689834e86aea228aca641942cf217e5ff4dd65ff9a699d9d45',1,'common.h']]],
   ['t_5fnofunction',['T_NOFUNCTION',['../common_8h.html#ac27b6f4710923c6689834e86aea228aca43adee93f5ac14f200b55ebb92de2cd4',1,'common.h']]],
   ['t_5fsendir',['T_SENDIR',['../common_8h.html#ac27b6f4710923c6689834e86aea228aca1e122797dcfb476a22864607873d9fe9',1,'common.h']]],
+  ['tag',['tag',['../Task_8cpp.html#a025a1d43fa715d8704775f6ec17d9397',1,'Task.cpp']]],
+  ['take',['take',['../classFreeRTOS_1_1Semaphore.html#a67fa9bf777be48332a30154e006827fd',1,'FreeRTOS::Semaphore::take(std::string owner=&quot;&lt;Unknown&gt;&quot;)'],['../classFreeRTOS_1_1Semaphore.html#a16aae1a6d6d09542d5af82f8b38fdd69',1,'FreeRTOS::Semaphore::take(uint32_t timeoutMs, std::string owner=&quot;&lt;Unknown&gt;&quot;)']]],
+  ['task',['Task',['../classTask.html',1,'Task'],['../classTask.html#a3db47e6fe693170a64a636ee93a1f645',1,'Task::Task()']]],
+  ['task_2ecpp',['Task.cpp',['../Task_8cpp.html',1,'']]],
+  ['task_2eh',['Task.h',['../Task_8h.html',1,'']]],
   ['task_5fcalib_5fstacksize',['TASK_CALIB_STACKSIZE',['../hal__adc_8h.html#a7b570974f67cc3cded3ddf23af457655',1,'hal_adc.h']]],
   ['task_5fcalibration',['task_calibration',['../hal__adc_8c.html#a3217185bc86562dee8617ded3872022f',1,'task_calibration(taskNoParameterConfig_t *param):&#160;hal_adc.c'],['../hal__adc_8h.html#a3217185bc86562dee8617ded3872022f',1,'task_calibration(taskNoParameterConfig_t *param):&#160;hal_adc.c']]],
   ['task_5fcim_2ec',['task_cim.c',['../task__cim_8c.html',1,'']]],
@@ -36,7 +41,6 @@ var searchData=
   ['task_5fhal_5fir_5fsend_5fstacksize',['TASK_HAL_IR_SEND_STACKSIZE',['../hal__io_8h.html#a5822ca81a5eecda08d725fea3f98ed6a',1,'hal_io.h']]],
   ['task_5fhal_5fled_5fpriority',['TASK_HAL_LED_PRIORITY',['../hal__io_8h.html#aae2c47fa297e6591a48b145b8223ed8a',1,'hal_io.h']]],
   ['task_5fhal_5fled_5fstacksize',['TASK_HAL_LED_STACKSIZE',['../hal__io_8h.html#af104025de9174910a63b2a995c55efcb',1,'hal_io.h']]],
-  ['task_5fhalble_5fstacksize',['TASK_HALBLE_STACKSIZE',['../hal__ble_8h.html#ae755abe4e9fee17dd29035a97ea7d87a',1,'hal_ble.h']]],
   ['task_5finfrared',['task_infrared',['../task__infrared_8c.html#a2950159444d03958630c6731bd1600c9',1,'task_infrared(taskInfraredConfig_t *param):&#160;task_infrared.c'],['../task__infrared_8h.html#a2950159444d03958630c6731bd1600c9',1,'task_infrared(taskInfraredConfig_t *param):&#160;task_infrared.c']]],
   ['task_5finfrared_2ec',['task_infrared.c',['../task__infrared_8c.html',1,'']]],
   ['task_5finfrared_2eh',['task_infrared.h',['../task__infrared_8h.html',1,'']]],
@@ -97,6 +101,7 @@ var searchData=
   ['timer_5fpress',['TIMER_PRESS',['../task__debouncer_8c.html#aab82228926c8203d1a96fc410d88be3a',1,'task_debouncer.c']]],
   ['timer_5frelease',['TIMER_RELEASE',['../task__debouncer_8c.html#a025a71347a9af5f07629d555c254262f',1,'task_debouncer.c']]],
   ['todo_20list',['Todo List',['../todo.html',1,'']]],
+  ['tolower',['toLower',['../classGeneralUtils.html#a03192aa2510994528f5cb095f9a455fb',1,'GeneralUtils']]],
   ['tone',['TONE',['../hal__io_8h.html#abb482f8bb919f023ca580b4971821011',1,'hal_io.h']]],
   ['tone_5fcalib_5fduration',['TONE_CALIB_DURATION',['../tones_8h.html#a9041070507f00a0e5f51a95a51b2ef37',1,'tones.h']]],
   ['tone_5fcalib_5ffreq',['TONE_CALIB_FREQ',['../tones_8h.html#afae154e1b86561cf245f7a9f93259312',1,'tones.h']]],
@@ -121,7 +126,8 @@ var searchData=
   ['tone_5fstrongsip_5fexit_5fduration',['TONE_STRONGSIP_EXIT_DURATION',['../tones_8h.html#ac3d17f1d21ea36bc0cbd5b09a408f542',1,'tones.h']]],
   ['tone_5fstrongsip_5fexit_5ffreq',['TONE_STRONGSIP_EXIT_FREQ',['../tones_8h.html#a3f3bd0af0543f259ae0380df06fe38c2',1,'tones.h']]],
   ['tones_2eh',['tones.h',['../tones_8h.html',1,'']]],
-  ['trans_5fid',['trans_id',['../structhidd__clcb__t.html#afb84f454f4b4003af634bb8eca597834',1,'hidd_clcb_t']]],
+  ['tostring',['toString',['../classFreeRTOS_1_1Semaphore.html#a98e90c9cf596e4b214dd5a1c0ff745d7',1,'FreeRTOS::Semaphore']]],
   ['triggertask',['TRIGGERTASK',['../task__commands_8c.html#a7860b6904b2ba2dd906d189ada5f1e17a50c64ae796b6cf92c249f1a90f98a992',1,'task_commands.c']]],
-  ['type',['type',['../structhid__report__map__t.html#af18e90bd29fbc1e4c729604b320584f7',1,'hid_report_map_t::type()'],['../structhidRptMap__t.html#a42e8284ef1e7aa903a10c034e3aa716a',1,'hidRptMap_t::type()'],['../structtaskJoystickConfig.html#acb07402bd16f33e0d51000846973622a',1,'taskJoystickConfig::type()'],['../structtaskKeyboardConfig.html#adca07379749166ca12eb631f84a727dd',1,'taskKeyboardConfig::type()'],['../structtaskMouseConfig.html#a7f48393904d131e50914afdf637a76be',1,'taskMouseConfig::type()']]]
+  ['trim',['trim',['../classGeneralUtils.html#a4b4d634fc97c00316fc5ab7655f4a001',1,'GeneralUtils']]],
+  ['type',['type',['../structtaskJoystickConfig.html#acb07402bd16f33e0d51000846973622a',1,'taskJoystickConfig::type()'],['../structtaskKeyboardConfig.html#adca07379749166ca12eb631f84a727dd',1,'taskKeyboardConfig::type()'],['../structtaskMouseConfig.html#a7f48393904d131e50914afdf637a76be',1,'taskMouseConfig::type()']]]
 ];

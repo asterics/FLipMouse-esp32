@@ -1,12 +1,14 @@
 var searchData=
 [
-  ['value',['value',['../structtaskJoystickConfig.html#ae18bad953cd8aabe23f15899a3daf353',1,'taskJoystickConfig']]],
-  ['values',['valueS',['../structtaskJoystickConfig.html#a4430e2c8ce7d902743a3a7d41bdae309',1,'taskJoystickConfig']]],
-  ['vb',['vb',['../structstorageHeader.html#ab3ae028aacc6395888ca0a9a2fdc5854',1,'storageHeader']]],
-  ['virtualbutton',['virtualButton',['../structtaskConfigSwitcherConfig.html#acf206e3d16ac612266677ae74fb39b92',1,'taskConfigSwitcherConfig::virtualButton()'],['../structtaskNoParameterConfig.html#ae7e56968b4aa5b8b0f0a4e8b9eb5c645',1,'taskNoParameterConfig::virtualButton()'],['../structtaskInfraredConfig.html#a871be820b32558da7fc06caf82cbed2d',1,'taskInfraredConfig::virtualButton()'],['../structtaskJoystickConfig.html#a6732297a0a6980e348c034a5333e16e0',1,'taskJoystickConfig::virtualButton()'],['../structtaskKeyboardConfig.html#aae706eddea395cbff84ab46814bcc9ae',1,'taskKeyboardConfig::virtualButton()'],['../structtaskMacrosConfig.html#a90172887c433e7a4d098ef1c8e37e53d',1,'taskMacrosConfig::virtualButton()'],['../structtaskMouseConfig.html#a3bb6fa49c72ff534b4178abf12b213f6',1,'taskMouseConfig::virtualButton()']]],
-  ['virtualbuttoncfgsize',['virtualButtonCfgSize',['../structgeneralConfig.html#a40d6d403b6be0d607c79e2a36e56b297',1,'generalConfig']]],
-  ['virtualbuttoncommand',['virtualButtonCommand',['../structgeneralConfig.html#a98d9a4aa6f20d96934a99e63f280e429',1,'generalConfig']]],
-  ['virtualbuttonconfig',['virtualButtonConfig',['../structgeneralConfig.html#ad54324c99dcd927be3cd155a0ee64dfa',1,'generalConfig']]],
-  ['virtualbuttonsin',['virtualButtonsIn',['../flipmouse__fabi__esp32__kbdmouse__main_8c.html#a591ffaa399081915a0eab951f83f93e2',1,'virtualButtonsIn():&#160;flipmouse_fabi_esp32_kbdmouse_main.c'],['../common_8h.html#a591ffaa399081915a0eab951f83f93e2',1,'virtualButtonsIn():&#160;flipmouse_fabi_esp32_kbdmouse_main.c']]],
-  ['virtualbuttonsout',['virtualButtonsOut',['../flipmouse__fabi__esp32__kbdmouse__main_8c.html#a3633668cff0a27ea52ca662673978667',1,'virtualButtonsOut():&#160;flipmouse_fabi_esp32_kbdmouse_main.c'],['../common_8h.html#a3633668cff0a27ea52ca662673978667',1,'virtualButtonsOut():&#160;flipmouse_fabi_esp32_kbdmouse_main.c']]]
+  ['wheel',['wheel',['../structmouse__command.html#a813db5c3e3e2d7f013972f54b8257464',1,'mouse_command']]],
+  ['wheel_5fstepsize',['wheel_stepsize',['../structgeneralConfig.html#a36225b09e3c7254252c495c6e36f4c33',1,'generalConfig']]],
+  ['wifiactive',['wifiActive',['../task__webgui_8c.html#a51afaf9187cd21748bc4143cf6ff0239',1,'task_webgui.c']]],
+  ['wifihttpserverhandle_5ft',['wifiHTTPServerHandle_t',['../task__webgui_8c.html#ac9102aa6e5ae70986ec840ec85676e31',1,'task_webgui.c']]],
+  ['wifipw',['wifipw',['../task__webgui_8c.html#a6fbc89c5167735a2e2b04eebb93bcd34',1,'task_webgui.c']]],
+  ['wifitimer',['wifiTimer',['../task__webgui_8c.html#a4c0381f5a7dcb7609ee5cfe1fd540e47',1,'task_webgui.c']]],
+  ['wifiwsserverhandle_5ft',['wifiWSServerHandle_t',['../task__webgui_8c.html#ab944d3c0e8a161cc7a3e75f2c9be3995',1,'task_webgui.c']]],
+  ['ws_5fconn',['WS_conn',['../websocket_8c.html#a8df807500b69b8dc1778ce905e474599',1,'websocket.c']]],
+  ['ws_5fsec_5fconkey',['WS_sec_conKey',['../websocket_8c.html#a8cc98814ac08186b7e1226bd0f5a1892',1,'websocket.c']]],
+  ['ws_5fsec_5fws_5fkeys',['WS_sec_WS_keys',['../websocket_8c.html#ab79338070b1a4fd4f95b944609338bcd',1,'websocket.c']]],
+  ['ws_5fsrv_5fhs',['WS_srv_hs',['../websocket_8c.html#abe2857dd54127b730bf1ec20fa6625a0',1,'websocket.c']]]
 ];

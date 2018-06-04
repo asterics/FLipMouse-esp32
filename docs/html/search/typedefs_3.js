@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['generalconfig_5ft',['generalConfig_t',['../common_8h.html#a1d17932316265a53a6982a2526a4cada',1,'common.h']]]
+  ['irstate_5ft',['irstate_t',['../common_8h.html#a24a8084ac55ddbcf555f8b931294609b',1,'common.h']]]
 ];

@@ -1,5 +1,6 @@
 var searchData=
 [
+  ['wait',['wait',['../classFreeRTOS_1_1Semaphore.html#a023cb404ff897bb39064b454732ccf21',1,'FreeRTOS::Semaphore']]],
   ['waitfornewatcmd',['WAITFORNEWATCMD',['../task__commands_8c.html#a7860b6904b2ba2dd906d189ada5f1e17a8430aa1deedfa38beb0b766f5f2ab411',1,'task_commands.c']]],
   ['websocket_2ec',['websocket.c',['../websocket_8c.html',1,'']]],
   ['websocket_2eh',['websocket.h',['../websocket_8h.html',1,'']]],
@@ -13,6 +14,7 @@ var searchData=
   ['wifi_5foff_5ftime',['WIFI_OFF_TIME',['../common_8h.html#a7c133f995819f3e61446b4881e582b13',1,'common.h']]],
   ['wifi_5ftimer_5fcb',['wifi_timer_cb',['../task__webgui_8c.html#ae5ad2f76f20781fd8c89e542bcc8a551',1,'task_webgui.c']]],
   ['wifiactive',['wifiActive',['../task__webgui_8c.html#a51afaf9187cd21748bc4143cf6ff0239',1,'task_webgui.c']]],
+  ['wifierrortostring',['wifiErrorToString',['../classGeneralUtils.html#ad485c229090167eaa4c8a70028ce5a52',1,'GeneralUtils']]],
   ['wifihttpserverhandle_5ft',['wifiHTTPServerHandle_t',['../task__webgui_8c.html#ac9102aa6e5ae70986ec840ec85676e31',1,'task_webgui.c']]],
   ['wifipw',['wifipw',['../task__webgui_8c.html#a6fbc89c5167735a2e2b04eebb93bcd34',1,'task_webgui.c']]],
   ['wifistartstopofftimer',['wifiStartStopOffTimer',['../task__webgui_8c.html#a7f89c77fa56e7ac560e2720baedf07eb',1,'task_webgui.c']]],

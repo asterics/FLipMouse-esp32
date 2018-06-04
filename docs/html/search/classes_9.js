@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['usb_5fcommand',['usb_command',['../structusb__command.html',1,'']]]
+  ['ringbuffer',['Ringbuffer',['../classRingbuffer.html',1,'']]]
 ];

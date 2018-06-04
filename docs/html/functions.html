@@ -73,12 +73,6 @@ $(function() {
 <li>adc
 : <a class="el" href="structgeneralConfig.html#a240e09a6b422a0e74be3d497211e196f">generalConfig</a>
 </li>
-<li>app_id
-: <a class="el" href="structhidd__inst__t.html#ae2fbd36c4b2598940c376f3113b03618">hidd_inst_t</a>
-</li>
-<li>att_tbl
-: <a class="el" href="structhidd__inst__t.html#aa9c02a26d9d8ad56449dcf038394275d">hidd_inst_t</a>
-</li>
 <li>axis
 : <a class="el" href="structadc__config.html#a79ae56f983038a1020fbf9d5dc725f78">adc_config</a>
 </li>
@@ -86,14 +80,17 @@ $(function() {
 
 
 <h3><a id="index_b"></a>- b -</h3><ul>
-<li>bcdHID
-: <a class="el" href="structhids__hid__info__t.html#a55b34921645aab92f01e72c8a8f17fc4">hids_hid_info_t</a>
+<li>base64Decode()
+: <a class="el" href="classGeneralUtils.html#af43c8ecc3449ea441a2a8e88a50a34d6">GeneralUtils</a>
 </li>
-<li>bCountryCode
-: <a class="el" href="structhids__hid__info__t.html#a15063382de6fd7569077883cbf721d4c">hids_hid_info_t</a>
+<li>base64Encode()
+: <a class="el" href="classGeneralUtils.html#abe8373207df0ef16bc66338b4ec8d298">GeneralUtils</a>
 </li>
 <li>ble_active
 : <a class="el" href="structgeneralConfig.html#a17813a10fd440c59164989a29d8a02a7">generalConfig</a>
+</li>
+<li>BLEBeacon()
+: <a class="el" href="classBLEBeacon.html#ad844fda70a921bc4112d0d6e3c8cf973">BLEBeacon</a>
 </li>
 <li>buf
 : <a class="el" href="structatcmd.html#a51596a774c660087fa29028aa2f72942">atcmd</a>
@@ -110,38 +107,15 @@ $(function() {
 <li>buttons
 : <a class="el" href="structmouse__command.html#afbf7acf4a966848d57312cbaed9896e1">mouse_command</a>
 </li>
-<li>buttons1
-: <a class="el" href="structjoystick__data.html#ae89042e1655f553f3edf02ba5d86533c">joystick_data</a>
-</li>
-<li>buttons2
-: <a class="el" href="structjoystick__data.html#a7b1f1f0db9ff22424623b9564ff7f6d0">joystick_data</a>
-</li>
 </ul>
 
 
 <h3><a id="index_c"></a>- c -</h3><ul>
-<li>cccdHandle
-: <a class="el" href="structhid__report__map__t.html#a4d8de6f01789180784099d58e594f725">hid_report_map_t</a>
-, <a class="el" href="structhidRptMap__t.html#a93dbdeea466d75a55743433ec19c4524">hidRptMap_t</a>
-</li>
 <li>cmdName
 : <a class="el" href="structtaskInfraredConfig.html#add25c6a4a9ed3ece5c032434e6befc4c">taskInfraredConfig</a>
 </li>
 <li>conenction
 : <a class="el" href="structWebSocket__frame__t.html#ac9eacd729955dbb748383be89c40d210">WebSocket_frame_t</a>
-</li>
-<li>congest
-: <a class="el" href="structhidd__clcb__t.html#ad8abd2b6ed031a08d305bc03d45102c7">hidd_clcb_t</a>
-</li>
-<li>conn_id
-: <a class="el" href="structesp__hidd__cb__param__t_1_1hidd__connect__evt__param.html#a0d96fc89710fa208904cc660c2d53038">esp_hidd_cb_param_t::hidd_connect_evt_param</a>
-, <a class="el" href="structhidd__clcb__t.html#aac41144094eddd5672195fe67001218f">hidd_clcb_t</a>
-</li>
-<li>connect
-: <a class="el" href="unionesp__hidd__cb__param__t.html#a70cd49d0078cd76a368794639ad3a3a6">esp_hidd_cb_param_t</a>
-</li>
-<li>connected
-: <a class="el" href="structhidd__clcb__t.html#ad7688ff1b454f5f445931be8d1d3487e">hidd_clcb_t</a>
 </li>
 <li>count
 : <a class="el" href="structhalIOIR.html#afd3cecb29246569077b5348487fb5d62">halIOIR</a>
@@ -149,15 +123,13 @@ $(function() {
 <li>countryCode
 : <a class="el" href="structgeneralConfig.html#a7894347d712056056521db904a444a30">generalConfig</a>
 </li>
-<li>cur_srvc_id
-: <a class="el" href="structhidd__clcb__t.html#a753dbdb0ac0971d06092328aa80cbb68">hidd_clcb_t</a>
-</li>
 </ul>
 
 
 <h3><a id="index_d"></a>- d -</h3><ul>
 <li>data
-: <a class="el" href="structusb__command.html#ab3f9140a2088b7f6c3a5eb976984e915">usb_command</a>
+: <a class="el" href="structhid__command.html#a3c6b1d6c54c3d53d5efee995848546c7">hid_command</a>
+, <a class="el" href="structHID__REPORT.html#a84fce9b79d9f558c2a0cae096b6e5686">HID_REPORT</a>
 </li>
 <li>deadzone_x
 : <a class="el" href="structadc__config.html#a11186d7ca4d27ce6177e17b028a71fac">adc_config</a>
@@ -183,20 +155,20 @@ $(function() {
 <li>debounce_release_vb
 : <a class="el" href="structgeneralConfig.html#af85e6550b4f79779187d628cb187d55b">generalConfig</a>
 </li>
-<li>deinit_finish
-: <a class="el" href="unionesp__hidd__cb__param__t.html#a3826b75a6d80c42d6dfe92a2f57053e0">esp_hidd_cb_param_t</a>
+<li>delay()
+: <a class="el" href="classTask.html#aa4b603c866f4b8e0f0c6b524bb0e287e">Task</a>
 </li>
-<li>description
-: <a class="el" href="structprf__char__pres__fmt.html#acc0aa4c749ac1fb4f7d0416f17b9afbe">prf_char_pres_fmt</a>
+<li>deleteTask()
+: <a class="el" href="classFreeRTOS.html#a965b07cf1ca57fd0eb61df092b98edab">FreeRTOS</a>
 </li>
 <li>deviceIdentifier
 : <a class="el" href="structgeneralConfig.html#a40cad6af386ec12784926fcc16e0ba24">generalConfig</a>
 </li>
-<li>disconnect
-: <a class="el" href="unionesp__hidd__cb__param__t.html#a814b1955e8b23567a0fcf6b6e164b30b">esp_hidd_cb_param_t</a>
-</li>
 <li>down
 : <a class="el" href="structadcData.html#a4a052112c750f6d483eabc08cb43b6c3">adcData</a>
+</li>
+<li>dumpInfo()
+: <a class="el" href="classGeneralUtils.html#a1698e9a6f3f4a3b49e00a4c7b200fa6b">GeneralUtils</a>
 </li>
 <li>duration
 : <a class="el" href="structhalIOBuzzer.html#a6fee679bc63857c97b18a867a8905b61">halIOBuzzer</a>
@@ -205,11 +177,11 @@ $(function() {
 
 
 <h3><a id="index_e"></a>- e -</h3><ul>
-<li>enabled
-: <a class="el" href="structhidd__le__env__t.html#a1d2f34382a87a726b6c343ffd53c8a5e">hidd_le_env_t</a>
+<li>endsWith()
+: <a class="el" href="classGeneralUtils.html#ade237631b5595e2426f9e86fc6e38932">GeneralUtils</a>
 </li>
-<li>exponent
-: <a class="el" href="structprf__char__pres__fmt.html#a99917c87ee0b06949bafa19db51df997">prf_char_pres_fmt</a>
+<li>errorToString()
+: <a class="el" href="classGeneralUtils.html#a25e466e54ff002f54bfb7e1f43bd401b">GeneralUtils</a>
 </li>
 </ul>
 
@@ -220,12 +192,6 @@ $(function() {
 </li>
 <li>FIN
 : <a class="el" href="structWS__frame__header__t.html#a7dacd9fce032c224582902261a8ae422">WS_frame_header_t</a>
-</li>
-<li>flags
-: <a class="el" href="structhids__hid__info__t.html#a5175ab79e23e51bc16aef1722d4256c7">hids_hid_info_t</a>
-</li>
-<li>format
-: <a class="el" href="structprf__char__pres__fmt.html#a571d6ee1eda17b6c99968ebf17335bdd">prf_char_pres_fmt</a>
 </li>
 <li>frame_header
 : <a class="el" href="structWebSocket__frame__t.html#a84f939e93501d69c861b87d4de78e1e8">WebSocket_frame_t</a>
@@ -240,70 +206,52 @@ $(function() {
 <li>gain
 : <a class="el" href="structadc__config.html#a1ef95e4bb2ef589011d5aa34eb6686e2">adc_config</a>
 </li>
-<li>gatt_if
-: <a class="el" href="structhidd__le__env__t.html#aecd0c5c0d0e90395704d7b202b126f49">hidd_le_env_t</a>
+<li>getData()
+: <a class="el" href="classBLEBeacon.html#a432029f4255f9d1d2788da7a7ba0b3aa">BLEBeacon</a>
 </li>
-<li>gatts_if
-: <a class="el" href="structesp__hidd__cb__param__t_1_1hidd__init__finish__evt__param.html#ac398ae7a7ff95c856b4963b13d18bf0d">esp_hidd_cb_param_t::hidd_init_finish_evt_param</a>
+<li>getMajor()
+: <a class="el" href="classBLEBeacon.html#ac9c306880f7207fff319e9c2a9990ca8">BLEBeacon</a>
+</li>
+<li>getManufacturerId()
+: <a class="el" href="classBLEBeacon.html#a02292b7d0523a427368cfe5572b4a124">BLEBeacon</a>
+</li>
+<li>getMinor()
+: <a class="el" href="classBLEBeacon.html#a5ff0ae212d51d6edd642c22e4ba679d7">BLEBeacon</a>
+</li>
+<li>getProximityUUID()
+: <a class="el" href="classBLEBeacon.html#ac84790151ad7c1a12c1337b69ae2dd89">BLEBeacon</a>
+</li>
+<li>getSignalPower()
+: <a class="el" href="classBLEBeacon.html#a39116559ee51c1da1415010ee67524eb">BLEBeacon</a>
+</li>
+<li>getTimeSinceStart()
+: <a class="el" href="classFreeRTOS.html#aa2f4b1bd2944ae5e0c97a5dcbca65e66">FreeRTOS</a>
+</li>
+<li>give()
+: <a class="el" href="classFreeRTOS_1_1Semaphore.html#ad1aa158e37d15363b4441482fae82dd8">FreeRTOS::Semaphore</a>
+</li>
+<li>giveFromISR()
+: <a class="el" href="classFreeRTOS_1_1Semaphore.html#a4446a195e3eee6704b4ad09528bedc0b">FreeRTOS::Semaphore</a>
 </li>
 </ul>
 
 
 <h3><a id="index_h"></a>- h -</h3><ul>
-<li>handle
-: <a class="el" href="structhid__report__map__t.html#aeb8592d58f344c97f105c45b5565a27b">hid_report_map_t</a>
-, <a class="el" href="structhidRptMap__t.html#ae381ed8df03d72c0c1fee2165c5ca16f">hidRptMap_t</a>
-</li>
 <li>hat
 : <a class="el" href="structjoystick__command.html#a6e12e92f960ddcf08e0e43d34cfd3592">joystick_command</a>
-, <a class="el" href="structjoystick__data.html#ad557e516f2e51201d40a2c4763133afc">joystick_data</a>
 </li>
-<li>hidd_cb
-: <a class="el" href="structhidd__le__env__t.html#aab629632ec1f2985b677665d70fd7673">hidd_le_env_t</a>
-</li>
-<li>hidd_clcb
-: <a class="el" href="structhidd__le__env__t.html#a15c6e0ce9a047b288e579ac04e143e3f">hidd_le_env_t</a>
-</li>
-<li>hidd_feature
-: <a class="el" href="structhidd__inst__t.html#adc2ac38f3426bca30f7ecdfdfb37ec8f">hidd_inst_t</a>
-</li>
-<li>hidd_inst
-: <a class="el" href="structhidd__le__env__t.html#a73047337a01f2ba1c816e11b5d6e055a">hidd_le_env_t</a>
-</li>
-<li>hidFlags
-: <a class="el" href="structhid__dev__cfg__t.html#ad96ef6af30387edf9c0ef15a5b4c4370">hid_dev_cfg_t</a>
-</li>
-<li>hids_nb
-: <a class="el" href="structhidd__inst__t.html#ac791116e6308c4dba843b9f683d992f1">hidd_inst_t</a>
+<li>hexDump()
+: <a class="el" href="classGeneralUtils.html#a0624d2bba035e50c4073074da675a606">GeneralUtils</a>
 </li>
 </ul>
 
 
 <h3><a id="index_i"></a>- i -</h3><ul>
-<li>id
-: <a class="el" href="structhid__report__map__t.html#aba0c6d07799c078484a01448e4d4b026">hid_report_map_t</a>
-, <a class="el" href="structhidRptMap__t.html#ad338f2087494951f12e7a810fae463f5">hidRptMap_t</a>
-</li>
-<li>idleTimeout
-: <a class="el" href="structhid__dev__cfg__t.html#a5079bf74447d0a8b33e9db4ea9788bb6">hid_dev_cfg_t</a>
-</li>
-<li>in_use
-: <a class="el" href="structhidd__clcb__t.html#aa7f4716107ea37701cfd5d97a96d6fbc">hidd_clcb_t</a>
-</li>
-<li>init_finish
-: <a class="el" href="unionesp__hidd__cb__param__t.html#ae8d840a7abce7fcdaf029d57764fcf81">esp_hidd_cb_param_t</a>
-</li>
-<li>inst_id
-: <a class="el" href="structhidd__le__env__t.html#a4103c29a8c2e95d569a065255d470a23">hidd_le_env_t</a>
+<li>ipToString()
+: <a class="el" href="classGeneralUtils.html#a6060e23d9a79cad1d9684282b1b8eec3">GeneralUtils</a>
 </li>
 <li>irtimeout
 : <a class="el" href="structgeneralConfig.html#a88673af628a8671eddf9052d151256b8">generalConfig</a>
-</li>
-<li>is_primery
-: <a class="el" href="structhidd__le__env__t.html#a1f357f48384c6c6a3eabd0e613d95ea4">hidd_le_env_t</a>
-</li>
-<li>is_take
-: <a class="el" href="structhidd__le__env__t.html#a7d66b83d4c43a7473f092d4c7be7285b">hidd_le_env_t</a>
 </li>
 </ul>
 
@@ -321,7 +269,10 @@ $(function() {
 </li>
 <li>len
 : <a class="el" href="structatcmd.html#a4ad6f059af1f26830a7f89f48dad6de5">atcmd</a>
-, <a class="el" href="structusb__command.html#a6c7ff390c16126f22adb8d9c324c6f3d">usb_command</a>
+, <a class="el" href="structhid__command.html#aef964e507b2cc706d520126b667d172c">hid_command</a>
+</li>
+<li>length
+: <a class="el" href="structHID__REPORT.html#a5c1fa84726cea8d83eb3a0554aca4d8a">HID_REPORT</a>
 </li>
 <li>locale
 : <a class="el" href="structgeneralConfig.html#a297f00d796db3d7105e3ac2d107c958c">generalConfig</a>
@@ -333,27 +284,27 @@ $(function() {
 <li>macro
 : <a class="el" href="structtaskMacrosConfig.html#afad18618f01a725fddace1a6d87a4e2a">taskMacrosConfig</a>
 </li>
+<li>major
+: <a class="el" href="classBLEBeacon.html#a4e72fa0797f2d17ed3d13bf674549e74">BLEBeacon</a>
+</li>
+<li>manufacturerId
+: <a class="el" href="classBLEBeacon.html#a0ace0f493e35174bbcc928d0f9a417f7">BLEBeacon</a>
+</li>
 <li>mask
 : <a class="el" href="structWS__frame__header__t.html#a8c71d9062d41dcc79d92e85411364600">WS_frame_header_t</a>
 </li>
 <li>max_speed
 : <a class="el" href="structadc__config.html#aef02e47cb7e548a8ae00d37b0fc07ee0">adc_config</a>
 </li>
+<li>minor
+: <a class="el" href="classBLEBeacon.html#ac91edd24117110c3bcdc802c63b94c95">BLEBeacon</a>
+</li>
 <li>mode
 : <a class="el" href="structadc__config.html#aa7d64dd7ac2c834788b9aef800f3780e">adc_config</a>
-, <a class="el" href="structhid__report__map__t.html#a09b1cdb57c44ef17155b2a57a210dd9c">hid_report_map_t</a>
-, <a class="el" href="structhidRptMap__t.html#acbb231ab2b9f8ab944ccedfcd047711d">hidRptMap_t</a>
 , <a class="el" href="structtaskJoystickConfig.html#abb9778029e518c1f9f481530228d0998">taskJoystickConfig</a>
 </li>
-</ul>
-
-
-<h3><a id="index_n"></a>- n -</h3><ul>
-<li>name_space
-: <a class="el" href="structprf__char__pres__fmt.html#a7e08fc76eb58b15502b557e15c4501f2">prf_char_pres_fmt</a>
-</li>
-<li>ntf_handle
-: <a class="el" href="structhidd__inst__t.html#ac3343ae2a3ed4e61bfc6fc9b40714729">hidd_inst_t</a>
+<li>modifier
+: <a class="el" href="structKEYMAP.html#a5d7326b9ed8828cad67cb2e1e31f1616">KEYMAP</a>
 </li>
 </ul>
 
@@ -385,38 +336,21 @@ $(function() {
 : <a class="el" href="structWebSocket__frame__t.html#a705b9e952f155b1faad92c1b56196f1a">WebSocket_frame_t</a>
 , <a class="el" href="structWS__frame__header__t.html#a449521f0961f1091189c631f8fdd1999">WS_frame_header_t</a>
 </li>
-<li>pending_evt
-: <a class="el" href="structhidd__inst__t.html#a919407be158d871681708a6986837618">hidd_inst_t</a>
-</li>
-<li>pending_hal
-: <a class="el" href="structhidd__inst__t.html#a1309de066f9180311cb21532b6fe81ce">hidd_inst_t</a>
-</li>
 <li>pressure
 : <a class="el" href="structadcData.html#ab8dd40e7779ed6f4894c678d2b315d09">adcData</a>
 </li>
-<li>proto_mode
-: <a class="el" href="structhidd__inst__t.html#ad6ca0019e7e6401dbf0fdd9a32af13d8">hidd_inst_t</a>
+<li>pressure_raw
+: <a class="el" href="structadcData.html#af069f35c5fe5d1e1afd7abb7a1be7512">adcData</a>
+</li>
+<li>proximityUUID
+: <a class="el" href="classBLEBeacon.html#a6391d98c042fd8fe69cd26d54137cead">BLEBeacon</a>
 </li>
 </ul>
 
 
 <h3><a id="index_r"></a>- r -</h3><ul>
-<li>remote_bda
-: <a class="el" href="structesp__hidd__cb__param__t_1_1hidd__connect__evt__param.html#a3227bcea2587ee9ead9e1b7196d2de5e">esp_hidd_cb_param_t::hidd_connect_evt_param</a>
-, <a class="el" href="structesp__hidd__cb__param__t_1_1hidd__disconnect__evt__param.html#ac8ef9a20592cbd51326dac5ab5525cf6">esp_hidd_cb_param_t::hidd_disconnect_evt_param</a>
-, <a class="el" href="structhidd__clcb__t.html#aafd3134d0947d2888f22377271a21d33">hidd_clcb_t</a>
-</li>
-<li>report_char_cfg
-: <a class="el" href="structhidd__feature__t.html#abe1eb24fc371723e35f701cce1a0c362">hidd_feature_t</a>
-</li>
-<li>report_id
-: <a class="el" href="structhids__report__ref__t.html#a746996be83455c34c48bf26487a0f525">hids_report_ref_t</a>
-</li>
-<li>report_nb
-: <a class="el" href="structhidd__feature__t.html#aa9495c3e6f7cbf29a400245a6047a617">hidd_feature_t</a>
-</li>
-<li>report_type
-: <a class="el" href="structhids__report__ref__t.html#a19de2c91f00b797996ec2cc47c0ff87b">hids_report_ref_t</a>
+<li>receive()
+: <a class="el" href="classRingbuffer.html#a2de1d3d2c869875883b351e66212dfef">Ringbuffer</a>
 </li>
 <li>reportraw
 : <a class="el" href="structadc__config.html#a6f3ea052a4b3edf28c0939286e6c4ef4">adc_config</a>
@@ -424,24 +358,70 @@ $(function() {
 <li>reserved
 : <a class="el" href="structWS__frame__header__t.html#a2107b57c46141938ba56968c21397046">WS_frame_header_t</a>
 </li>
+<li>returnItem()
+: <a class="el" href="classRingbuffer.html#a145b135c71d2e715f13bdbe186e45cc6">Ringbuffer</a>
+</li>
 <li>right
 : <a class="el" href="structadcData.html#aac97a6c1840b8874c8fae91265d51707">adcData</a>
+</li>
+<li>Ringbuffer()
+: <a class="el" href="classRingbuffer.html#a32e23dca7a30bc6d1d4b5c10ecbfbc52">Ringbuffer</a>
+</li>
+<li>run()
+: <a class="el" href="classTask.html#a399f60ad8cd91d34dba2de57b4ac6d65">Task</a>
 </li>
 </ul>
 
 
 <h3><a id="index_s"></a>- s -</h3><ul>
+<li>Semaphore()
+: <a class="el" href="classFreeRTOS_1_1Semaphore.html#a0dbcd86df7fb789e05eee07f744df721">FreeRTOS::Semaphore</a>
+</li>
+<li>send()
+: <a class="el" href="classRingbuffer.html#a2c25e9e9c8af7a653f8847dc97545fd1">Ringbuffer</a>
+</li>
 <li>sensitivity_x
 : <a class="el" href="structadc__config.html#a81465c39748fa52d1b773f34ad4ee435">adc_config</a>
 </li>
 <li>sensitivity_y
 : <a class="el" href="structadc__config.html#adbfe1bd3388e5274fd37ffb27c6a719a">adc_config</a>
 </li>
-<li>slider_left
-: <a class="el" href="structjoystick__data.html#a4a807700ce03cf13b94cf8b97c744653">joystick_data</a>
+<li>setCore()
+: <a class="el" href="classTask.html#a5ec932fb35fd295c78eafcf06af1d91d">Task</a>
 </li>
-<li>slider_right
-: <a class="el" href="structjoystick__data.html#a218ba3d9aee6cd81fa8321ba0754fadb">joystick_data</a>
+<li>setData()
+: <a class="el" href="classBLEBeacon.html#a4aac04f602e38f66aa62a13e570b05ef">BLEBeacon</a>
+</li>
+<li>setMajor()
+: <a class="el" href="classBLEBeacon.html#a3183011c76f0226ede67b2496c9ee900">BLEBeacon</a>
+</li>
+<li>setManufacturerId()
+: <a class="el" href="classBLEBeacon.html#afda041d9173befa2605bc6b01779ddc7">BLEBeacon</a>
+</li>
+<li>setMinor()
+: <a class="el" href="classBLEBeacon.html#ab7f497162a5ee827b8574058433a6d77">BLEBeacon</a>
+</li>
+<li>setName()
+: <a class="el" href="classFreeRTOS_1_1Semaphore.html#a24047020ab820d4f641bc39bfab643df">FreeRTOS::Semaphore</a>
+, <a class="el" href="classTask.html#a23abd79183a5c2bb1e6d3ff37b1cbf23">Task</a>
+</li>
+<li>setPriority()
+: <a class="el" href="classTask.html#aaa220be4e5007ede0bd3e5349d36eae9">Task</a>
+</li>
+<li>setProximityUUID()
+: <a class="el" href="classBLEBeacon.html#a5be6658f331c0cab1b0e5fc72f739054">BLEBeacon</a>
+</li>
+<li>setSignalPower()
+: <a class="el" href="classBLEBeacon.html#a0c7bc7e8bf97430bcd02fbab5bc47cce">BLEBeacon</a>
+</li>
+<li>setStackSize()
+: <a class="el" href="classTask.html#afe0f5594c56b8cc7ac96c2198d5d81b4">Task</a>
+</li>
+<li>signalPower
+: <a class="el" href="classBLEBeacon.html#af8a79dc4a1cf8433b12c570b2d7a71ec">BLEBeacon</a>
+</li>
+<li>sleep()
+: <a class="el" href="classFreeRTOS.html#abea19fd141147c054f47c6a00e77f2ff">FreeRTOS</a>
 </li>
 <li>sliderLeft
 : <a class="el" href="structjoystick__command.html#a2639bb410d9dfe09a897cf7903595fbd">joystick_command</a>
@@ -456,23 +436,40 @@ $(function() {
 <li>slotversion
 : <a class="el" href="structgeneralConfig.html#a346d50e48981b23684bd04c371212a08">generalConfig</a>
 </li>
-<li>state
-: <a class="el" href="structesp__hidd__cb__param__t_1_1hidd__deinit__finish__evt__param.html#aead8cf8834062cfa90a418aeb7dd7a71">esp_hidd_cb_param_t::hidd_deinit_finish_evt_param</a>
-, <a class="el" href="structesp__hidd__cb__param__t_1_1hidd__init__finish__evt__param.html#a33c7c87def3302bcaa923c620d31b1d9">esp_hidd_cb_param_t::hidd_init_finish_evt_param</a>
+<li>split()
+: <a class="el" href="classGeneralUtils.html#addd9bb2f367a86841e48f5aa67f1d003">GeneralUtils</a>
+</li>
+<li>start()
+: <a class="el" href="classTask.html#a6f13d13787e21dc929b61d112b863433">Task</a>
+</li>
+<li>startTask()
+: <a class="el" href="classFreeRTOS.html#ae2540d35409fe97ce0c95c3b4a3dd9e6">FreeRTOS</a>
 </li>
 <li>status
 : <a class="el" href="structhalIOIR.html#acc1ca503a0bbc3afd243a97708623157">halIOIR</a>
 </li>
+<li>stop()
+: <a class="el" href="classTask.html#aba5eb3d6c2a034aa0e319383fbec68c4">Task</a>
+</li>
 <li>strongmode
 : <a class="el" href="structadcData.html#a62810368e3b696872cc81f4914b60bd5">adcData</a>
 </li>
-<li>svc_features
-: <a class="el" href="structhidd__feature__t.html#a254c99f1e3115e399a088611e1e93123">hidd_feature_t</a>
+<li>subType
+: <a class="el" href="classBLEBeacon.html#a463788f221ce57967832322e649f3e4e">BLEBeacon</a>
+</li>
+<li>subTypeLength
+: <a class="el" href="classBLEBeacon.html#a8ace2509f8f532bdfc2f1b733c9b626e">BLEBeacon</a>
 </li>
 </ul>
 
 
 <h3><a id="index_t"></a>- t -</h3><ul>
+<li>take()
+: <a class="el" href="classFreeRTOS_1_1Semaphore.html#a67fa9bf777be48332a30154e006827fd">FreeRTOS::Semaphore</a>
+</li>
+<li>Task()
+: <a class="el" href="classTask.html#a3db47e6fe693170a64a636ee93a1f645">Task</a>
+</li>
 <li>threshold_puff
 : <a class="el" href="structadc__config.html#ab2a5777fb85654dc54c30cf2f5709eee">adc_config</a>
 </li>
@@ -485,13 +482,17 @@ $(function() {
 <li>threshold_strongsip
 : <a class="el" href="structadc__config.html#af75e92c1536fb2354789bdaff799887d">adc_config</a>
 </li>
-<li>trans_id
-: <a class="el" href="structhidd__clcb__t.html#afb84f454f4b4003af634bb8eca597834">hidd_clcb_t</a>
+<li>toLower()
+: <a class="el" href="classGeneralUtils.html#a03192aa2510994528f5cb095f9a455fb">GeneralUtils</a>
+</li>
+<li>toString()
+: <a class="el" href="classFreeRTOS_1_1Semaphore.html#a98e90c9cf596e4b214dd5a1c0ff745d7">FreeRTOS::Semaphore</a>
+</li>
+<li>trim()
+: <a class="el" href="classGeneralUtils.html#a4b4d634fc97c00316fc5ab7655f4a001">GeneralUtils</a>
 </li>
 <li>type
-: <a class="el" href="structhid__report__map__t.html#af18e90bd29fbc1e4c729604b320584f7">hid_report_map_t</a>
-, <a class="el" href="structhidRptMap__t.html#a42e8284ef1e7aa903a10c034e3aa716a">hidRptMap_t</a>
-, <a class="el" href="structtaskJoystickConfig.html#acb07402bd16f33e0d51000846973622a">taskJoystickConfig</a>
+: <a class="el" href="structtaskJoystickConfig.html#acb07402bd16f33e0d51000846973622a">taskJoystickConfig</a>
 , <a class="el" href="structtaskKeyboardConfig.html#adca07379749166ca12eb631f84a727dd">taskKeyboardConfig</a>
 , <a class="el" href="structtaskMouseConfig.html#a7f48393904d131e50914afdf637a76be">taskMouseConfig</a>
 </li>
@@ -499,11 +500,11 @@ $(function() {
 
 
 <h3><a id="index_u"></a>- u -</h3><ul>
-<li>unit
-: <a class="el" href="structprf__char__pres__fmt.html#ad62b809a225e2f43b30491ba33e835a1">prf_char_pres_fmt</a>
-</li>
 <li>up
 : <a class="el" href="structadcData.html#adeac5c55d7b34831cedb2b2adfd82b17">adcData</a>
+</li>
+<li>usage
+: <a class="el" href="structKEYMAP.html#aff54406e2a674448eaafbc3c66ab18ab">KEYMAP</a>
 </li>
 <li>usb_active
 : <a class="el" href="structgeneralConfig.html#ae603cecf166e37fe963e124388e30f6a">generalConfig</a>
@@ -543,11 +544,17 @@ $(function() {
 
 
 <h3><a id="index_w"></a>- w -</h3><ul>
+<li>wait()
+: <a class="el" href="classFreeRTOS_1_1Semaphore.html#a023cb404ff897bb39064b454732ccf21">FreeRTOS::Semaphore</a>
+</li>
 <li>wheel
 : <a class="el" href="structmouse__command.html#a813db5c3e3e2d7f013972f54b8257464">mouse_command</a>
 </li>
 <li>wheel_stepsize
 : <a class="el" href="structgeneralConfig.html#a36225b09e3c7254252c495c6e36f4c33">generalConfig</a>
+</li>
+<li>wifiErrorToString()
+: <a class="el" href="classGeneralUtils.html#ad485c229090167eaa4c8a70028ce5a52">GeneralUtils</a>
 </li>
 </ul>
 
@@ -555,12 +562,7 @@ $(function() {
 <h3><a id="index_x"></a>- x -</h3><ul>
 <li>x
 : <a class="el" href="structadcData.html#a50d4601bcd5fd87f7155211dc41b8688">adcData</a>
-</li>
-<li>X
-: <a class="el" href="structjoystick__data.html#ab634210498256fb469fdbbacb8e24aa4">joystick_data</a>
-</li>
-<li>x
-: <a class="el" href="structmouse__command.html#a2f4038a527180df9bd55555dc5e1a9c0">mouse_command</a>
+, <a class="el" href="structmouse__command.html#a2f4038a527180df9bd55555dc5e1a9c0">mouse_command</a>
 </li>
 <li>Xaxis
 : <a class="el" href="structjoystick__command.html#a937843a36ba52d109090944f9954f785">joystick_command</a>
@@ -571,12 +573,7 @@ $(function() {
 <h3><a id="index_y"></a>- y -</h3><ul>
 <li>y
 : <a class="el" href="structadcData.html#a114414adadfec12f82ad409a76fe9308">adcData</a>
-</li>
-<li>Y
-: <a class="el" href="structjoystick__data.html#a36b738e01d4e8767c7170df18f7e48b8">joystick_data</a>
-</li>
-<li>y
-: <a class="el" href="structmouse__command.html#afd982356713c00311d2c5f7ce0915220">mouse_command</a>
+, <a class="el" href="structmouse__command.html#afd982356713c00311d2c5f7ce0915220">mouse_command</a>
 </li>
 <li>Yaxis
 : <a class="el" href="structjoystick__command.html#a0ad527c0e88d339e35ae95fca7d20d5d">joystick_command</a>
@@ -585,17 +582,24 @@ $(function() {
 
 
 <h3><a id="index_z"></a>- z -</h3><ul>
-<li>Z
-: <a class="el" href="structjoystick__data.html#a41a29cd80ccb325fb3b3699d1d12a952">joystick_data</a>
-</li>
-<li>Z_rotate
-: <a class="el" href="structjoystick__data.html#a4b34e1186d40a0d1ac9b433bafe45fb6">joystick_data</a>
-</li>
 <li>Zaxis
 : <a class="el" href="structjoystick__command.html#ae0129a8dfbc174406ad5b893733806c8">joystick_command</a>
 </li>
 <li>Zrotate
 : <a class="el" href="structjoystick__command.html#a5157c085e921e2efb810b5b0e3ae5313">joystick_command</a>
+</li>
+</ul>
+
+
+<h3><a id="index_0x7e"></a>- ~ -</h3><ul>
+<li>~Ringbuffer()
+: <a class="el" href="classRingbuffer.html#ae23608683e0e717cad3a9e2a30b2fcc6">Ringbuffer</a>
+</li>
+<li>~Semaphore()
+: <a class="el" href="classFreeRTOS_1_1Semaphore.html#a48a1e933f99dba1ef838b0cef45a57f7">FreeRTOS::Semaphore</a>
+</li>
+<li>~Task()
+: <a class="el" href="classTask.html#a3ecf499ea35fb4a96853969a1e1cbbce">Task</a>
 </li>
 </ul>
 </div><!-- contents -->

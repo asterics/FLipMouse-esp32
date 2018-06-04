@@ -1,23 +1,9 @@
 var searchData=
 [
-  ['s_5fwl_5fhandle',['s_wl_handle',['../hal__storage_8c.html#a9d1f6636715d2cd2af21e20bc5e26afa',1,'hal_storage.c']]],
-  ['sec_5fconn',['sec_conn',['../hal__ble_8c.html#a11274ca008e2a3199074e7037c665a38',1,'hal_ble.c']]],
-  ['sensitivity_5fx',['sensitivity_x',['../structadc__config.html#a81465c39748fa52d1b773f34ad4ee435',1,'adc_config']]],
-  ['sensitivity_5fy',['sensitivity_y',['../structadc__config.html#adbfe1bd3388e5274fd37ffb27c6a719a',1,'adc_config']]],
-  ['serialsendingsem',['serialsendingsem',['../hal__serial_8c.html#af8aa2305d1905c876a30e25bf34cc480',1,'hal_serial.c']]],
-  ['slider_5fleft',['slider_left',['../structjoystick__data.html#a4a807700ce03cf13b94cf8b97c744653',1,'joystick_data']]],
-  ['slider_5fright',['slider_right',['../structjoystick__data.html#a218ba3d9aee6cd81fa8321ba0754fadb',1,'joystick_data']]],
-  ['sliderleft',['sliderLeft',['../structjoystick__command.html#a2639bb410d9dfe09a897cf7903595fbd',1,'joystick_command']]],
-  ['sliderright',['sliderRight',['../structjoystick__command.html#aa9700f0cb798326dfed3a28c1e8f5793',1,'joystick_command']]],
-  ['slotname',['slotName',['../structtaskConfigSwitcherConfig.html#a28b1ab4ccf1aa8814a9b81d58d5c7bd5',1,'taskConfigSwitcherConfig::slotName()'],['../structgeneralConfig.html#a1d383c1fdfd705732cac3a1d435078e0',1,'generalConfig::slotName()']]],
-  ['slotversion',['slotversion',['../structgeneralConfig.html#a346d50e48981b23684bd04c371212a08',1,'generalConfig']]],
-  ['sockfd',['sockFd',['../captdns_8c.html#a5d4975d0f40bc307555843159c622cb1',1,'captdns.c']]],
-  ['state',['state',['../structesp__hidd__cb__param__t_1_1hidd__init__finish__evt__param.html#a33c7c87def3302bcaa923c620d31b1d9',1,'esp_hidd_cb_param_t::hidd_init_finish_evt_param::state()'],['../structesp__hidd__cb__param__t_1_1hidd__deinit__finish__evt__param.html#aead8cf8834062cfa90a418aeb7dd7a71',1,'esp_hidd_cb_param_t::hidd_deinit_finish_evt_param::state()']]],
-  ['status',['status',['../structhalIOIR.html#acc1ca503a0bbc3afd243a97708623157',1,'halIOIR']]],
-  ['storagecurrentslotnumber',['storageCurrentSlotNumber',['../hal__storage_8c.html#a5c097404b5dfa34bdac65865586dac5a',1,'hal_storage.c']]],
-  ['storagecurrenttid',['storageCurrentTID',['../hal__storage_8c.html#ab7bc6f83a4f91dba2d5b3d1edeedf4b1',1,'hal_storage.c']]],
-  ['storagecurrenttidholder',['storageCurrentTIDHolder',['../hal__storage_8c.html#a687cf5b473fc94d8fafca390fcc11a1f',1,'hal_storage.c']]],
-  ['storagecurrentvbnumber',['storageCurrentVBNumber',['../hal__storage_8c.html#ab5f3387fe559c96c7523a59e28b0a74b',1,'hal_storage.c']]],
-  ['strongmode',['strongmode',['../structadcData.html#a62810368e3b696872cc81f4914b60bd5',1,'adcData']]],
-  ['svc_5ffeatures',['svc_features',['../structhidd__feature__t.html#a254c99f1e3115e399a088611e1e93123',1,'hidd_feature_t']]]
+  ['tag',['tag',['../Task_8cpp.html#a025a1d43fa715d8704775f6ec17d9397',1,'Task.cpp']]],
+  ['threshold_5fpuff',['threshold_puff',['../structadc__config.html#ab2a5777fb85654dc54c30cf2f5709eee',1,'adc_config']]],
+  ['threshold_5fsip',['threshold_sip',['../structadc__config.html#af6c4e0d00401de68d93fd86168fd423b',1,'adc_config']]],
+  ['threshold_5fstrongpuff',['threshold_strongpuff',['../structadc__config.html#acdbc84647448c993d00662e69d838848',1,'adc_config']]],
+  ['threshold_5fstrongsip',['threshold_strongsip',['../structadc__config.html#af75e92c1536fb2354789bdaff799887d',1,'adc_config']]],
+  ['type',['type',['../structtaskJoystickConfig.html#acb07402bd16f33e0d51000846973622a',1,'taskJoystickConfig::type()'],['../structtaskKeyboardConfig.html#adca07379749166ca12eb631f84a727dd',1,'taskKeyboardConfig::type()'],['../structtaskMouseConfig.html#a7f48393904d131e50914afdf637a76be',1,'taskMouseConfig::type()']]]
 ];

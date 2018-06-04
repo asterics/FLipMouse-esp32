@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['fat_5fserve',['fat_serve',['../task__webgui_8c.html#a6602b92d93539366ba1c5535690ebe7e',1,'task_webgui.c']]]
+  ['endswith',['endsWith',['../classGeneralUtils.html#ade237631b5595e2426f9e86fc6e38932',1,'GeneralUtils']]],
+  ['errortostring',['errorToString',['../classGeneralUtils.html#a25e466e54ff002f54bfb7e1f43bd401b',1,'GeneralUtils']]]
 ];

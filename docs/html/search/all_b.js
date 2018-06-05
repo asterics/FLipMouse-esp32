@@ -35,8 +35,6 @@ var searchData=
   ['keyboard_2ec',['keyboard.c',['../keyboard_8c.html',1,'']]],
   ['keyboard_2eh',['keyboard.h',['../keyboard_8h.html',1,'']]],
   ['keyboard_5faction',['keyboard_action',['../task__kbd_8h.html#aff3bf982a86299e69b007b0d16a45227',1,'task_kbd.h']]],
-  ['keyboard_5fble_5fpress',['keyboard_ble_press',['../flipmouse__fabi__esp32__kbdmouse__main_8c.html#af6712dd167c6d09e2c4f92e545c4b527',1,'keyboard_ble_press():&#160;flipmouse_fabi_esp32_kbdmouse_main.c'],['../common_8h.html#af6712dd167c6d09e2c4f92e545c4b527',1,'keyboard_ble_press():&#160;flipmouse_fabi_esp32_kbdmouse_main.c']]],
-  ['keyboard_5fble_5frelease',['keyboard_ble_release',['../flipmouse__fabi__esp32__kbdmouse__main_8c.html#a6abced931709a05f1af06406aed36620',1,'keyboard_ble_release():&#160;flipmouse_fabi_esp32_kbdmouse_main.c'],['../common_8h.html#a6abced931709a05f1af06406aed36620',1,'keyboard_ble_release():&#160;flipmouse_fabi_esp32_kbdmouse_main.c']]],
   ['keyboard_5flayouts',['keyboard_layouts',['../keyboard_8h.html#a2a924c746739f7a895f76d13ef8e6e5f',1,'keyboard.h']]],
   ['keycode_5farr',['keycode_arr',['../task__kbd_8c.html#ad1166880215085313402bbc253b781e5',1,'task_kbd.c']]],
   ['keycode_5fis_5fmodifier',['keycode_is_modifier',['../keyboard_8c.html#aa5712a49152638257c16d39ea798a43e',1,'keycode_is_modifier(uint16_t keycode):&#160;keyboard.c'],['../keyboard_8h.html#aa5712a49152638257c16d39ea798a43e',1,'keycode_is_modifier(uint16_t keycode):&#160;keyboard.c']]],

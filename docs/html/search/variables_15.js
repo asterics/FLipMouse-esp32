@@ -1,7 +1,5 @@
 var searchData=
 [
-  ['x',['x',['../structmouse__command.html#a2f4038a527180df9bd55555dc5e1a9c0',1,'mouse_command::x()'],['../structadcData.html#a50d4601bcd5fd87f7155211dc41b8688',1,'adcData::x()']]],
-  ['xaxis',['Xaxis',['../structjoystick__command.html#a937843a36ba52d109090944f9954f785',1,'joystick_command']]],
-  ['xtimerdirection',['xTimerDirection',['../task__debouncer_8c.html#a9ccc9e17849266659f211b03861ae038',1,'task_debouncer.c']]],
-  ['xtimers',['xTimers',['../task__debouncer_8c.html#ac7c8d1bdf42262a7331008e325845e37',1,'task_debouncer.c']]]
+  ['y',['y',['../structmouse__command.html#afd982356713c00311d2c5f7ce0915220',1,'mouse_command::y()'],['../structadcData.html#a114414adadfec12f82ad409a76fe9308',1,'adcData::y()']]],
+  ['yaxis',['Yaxis',['../structjoystick__command.html#a0ad527c0e88d339e35ae95fca7d20d5d',1,'joystick_command']]]
 ];

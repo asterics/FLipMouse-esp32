@@ -119,14 +119,6 @@ Variables</h2></td></tr>
 <tr class="separator:ae2b183880be8976139d636a3a714e315"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aaf12ce68f07ec96638046d2dbe8ffbea"><td class="memItemLeft" align="right" valign="top">SemaphoreHandle_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c.html#aaf12ce68f07ec96638046d2dbe8ffbea">switchRadioSem</a></td></tr>
 <tr class="separator:aaf12ce68f07ec96638046d2dbe8ffbea"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af6712dd167c6d09e2c4f92e545c4b527"><td class="memItemLeft" align="right" valign="top">QueueHandle_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c.html#af6712dd167c6d09e2c4f92e545c4b527">keyboard_ble_press</a></td></tr>
-<tr class="separator:af6712dd167c6d09e2c4f92e545c4b527"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6abced931709a05f1af06406aed36620"><td class="memItemLeft" align="right" valign="top">QueueHandle_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c.html#a6abced931709a05f1af06406aed36620">keyboard_ble_release</a></td></tr>
-<tr class="separator:a6abced931709a05f1af06406aed36620"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa3c7f09dbac02c97076a58d943afd747"><td class="memItemLeft" align="right" valign="top">QueueHandle_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c.html#aa3c7f09dbac02c97076a58d943afd747">mouse_movement_ble</a></td></tr>
-<tr class="separator:aa3c7f09dbac02c97076a58d943afd747"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae6da2ec03555c40a51588302e5879835"><td class="memItemLeft" align="right" valign="top">QueueHandle_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c.html#ae6da2ec03555c40a51588302e5879835">joystick_movement_ble</a></td></tr>
-<tr class="separator:ae6da2ec03555c40a51588302e5879835"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4701c432a28c389e4b8557f2fa3323d1"><td class="memItemLeft" align="right" valign="top">QueueHandle_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c.html#a4701c432a28c389e4b8557f2fa3323d1">config_switcher</a></td></tr>
 <tr class="memdesc:a4701c432a28c389e4b8557f2fa3323d1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Queue to receive config changing commands.  <a href="#a4701c432a28c389e4b8557f2fa3323d1">More...</a><br /></td></tr>
 <tr class="separator:a4701c432a28c389e4b8557f2fa3323d1"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -161,7 +153,7 @@ Variables</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c_source.html#l00053">53</a> of file <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c_source.html">flipmouse_fabi_esp32_kbdmouse_main.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c_source.html#l00095">app_main()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c_source.html#l00091">app_main()</a>.</p>
 
 </div>
 </div>
@@ -184,7 +176,7 @@ Variables</h2></td></tr>
 <p>Main task, created by esp-idf. </p>
 <p>This task is used to initialize all queues &amp; flags. In addition, all necessary tasks are created After initialisation, this task deletes itself. </p>
 
-<p class="definition">Definition at line <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c_source.html#l00095">95</a> of file <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c_source.html">flipmouse_fabi_esp32_kbdmouse_main.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c_source.html#l00091">91</a> of file <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c_source.html">flipmouse_fabi_esp32_kbdmouse_main.c</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -271,9 +263,9 @@ Here is the call graph for this function:</div>
 <dd>
 <a class="el" href="hal__io_8h.html#a7501b46689ced3389164f900567a5025" title="Timeout ([ms]) for triggering long press action handler. ">HAL_IO_LONGACTION_TIMEOUT</a> </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c_source.html#l00084">84</a> of file <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c_source.html">flipmouse_fabi_esp32_kbdmouse_main.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c_source.html#l00080">80</a> of file <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c_source.html">flipmouse_fabi_esp32_kbdmouse_main.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c_source.html#l00095">app_main()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c_source.html#l00091">app_main()</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
@@ -314,9 +306,9 @@ Here is the caller graph for this function:</div>
 <dd>
 currentConfig </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c_source.html#l00063">63</a> of file <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c_source.html">flipmouse_fabi_esp32_kbdmouse_main.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c_source.html#l00059">59</a> of file <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c_source.html">flipmouse_fabi_esp32_kbdmouse_main.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c_source.html#l00095">app_main()</a>, <a class="el" href="task__commands_8c_source.html#l00127">checkqueues()</a>, <a class="el" href="config__switcher_8c_source.html#l00612">configSwitcherInit()</a>, <a class="el" href="config__switcher_8c_source.html#l00300">configSwitcherTask()</a>, <a class="el" href="config__switcher_8c_source.html#l00160">configTriggerUpdate()</a>, and <a class="el" href="config__switcher_8c_source.html#l00545">task_configswitcher()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c_source.html#l00091">app_main()</a>, <a class="el" href="task__commands_8c_source.html#l00127">checkqueues()</a>, <a class="el" href="config__switcher_8c_source.html#l00612">configSwitcherInit()</a>, <a class="el" href="config__switcher_8c_source.html#l00300">configSwitcherTask()</a>, <a class="el" href="config__switcher_8c_source.html#l00160">configTriggerUpdate()</a>, and <a class="el" href="config__switcher_8c_source.html#l00545">task_configswitcher()</a>.</p>
 
 </div>
 </div>
@@ -344,7 +336,7 @@ currentConfig </dd></dl>
 
 <p class="definition">Definition at line <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c_source.html#l00057">57</a> of file <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c_source.html">flipmouse_fabi_esp32_kbdmouse_main.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c_source.html#l00095">app_main()</a>, <a class="el" href="config__switcher_8c_source.html#l00215">configUpdate()</a>, <a class="el" href="hal__adc_8c_source.html#l00364">halAdcProcessPressure()</a>, <a class="el" href="task__kbd_8c_source.html#l00144">sendKbd()</a>, <a class="el" href="task__joystick_8c_source.html#l00123">task_joystick()</a>, <a class="el" href="task__mouse_8c_source.html#l00079">task_mouse()</a>, <a class="el" href="task__webgui_8c_source.html#l00459">taskWebGUIEnDisable()</a>, <a class="el" href="task__webgui_8c_source.html#l00569">taskWebGUIInit()</a>, and <a class="el" href="task__webgui_8c_source.html#l00388">wifi_event_handler()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c_source.html#l00091">app_main()</a>, <a class="el" href="config__switcher_8c_source.html#l00215">configUpdate()</a>, <a class="el" href="hal__adc_8c_source.html#l00364">halAdcProcessPressure()</a>, <a class="el" href="task__kbd_8c_source.html#l00144">sendKbd()</a>, <a class="el" href="task__joystick_8c_source.html#l00123">task_joystick()</a>, <a class="el" href="task__mouse_8c_source.html#l00079">task_mouse()</a>, <a class="el" href="task__webgui_8c_source.html#l00459">taskWebGUIEnDisable()</a>, <a class="el" href="task__webgui_8c_source.html#l00569">taskWebGUIInit()</a>, and <a class="el" href="task__webgui_8c_source.html#l00388">wifi_event_handler()</a>.</p>
 
 </div>
 </div>
@@ -364,9 +356,9 @@ currentConfig </dd></dl>
 <p>Queue for sending HID commands to BLE.</p>
 <dl class="section see"><dt>See also</dt><dd><a class="el" href="common_8h.html#a4f29037853f9d7a11aeb531c16986103">mouse_command_t</a> </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c_source.html#l00065">65</a> of file <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c_source.html">flipmouse_fabi_esp32_kbdmouse_main.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c_source.html#l00061">61</a> of file <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c_source.html">flipmouse_fabi_esp32_kbdmouse_main.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c_source.html#l00095">app_main()</a>, <a class="el" href="hal__adc_8c_source.html#l00364">halAdcProcessPressure()</a>, <a class="el" href="task__kbd_8c_source.html#l00144">sendKbd()</a>, <a class="el" href="task__joystick_8c_source.html#l00123">task_joystick()</a>, and <a class="el" href="task__mouse_8c_source.html#l00079">task_mouse()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c_source.html#l00091">app_main()</a>, <a class="el" href="task__commands_8c_source.html#l00127">checkqueues()</a>, <a class="el" href="hal__adc_8c_source.html#l01095">halAdcInit()</a>, <a class="el" href="hal__adc_8c_source.html#l00364">halAdcProcessPressure()</a>, <a class="el" href="task__kbd_8c_source.html#l00144">sendKbd()</a>, <a class="el" href="task__joystick_8c_source.html#l00123">task_joystick()</a>, and <a class="el" href="task__mouse_8c_source.html#l00079">task_mouse()</a>.</p>
 
 </div>
 </div>
@@ -383,86 +375,11 @@ currentConfig </dd></dl>
 </div><div class="memdoc">
 
 <p>Queue for sending HID commands to USB. </p>
-
-<p class="definition">Definition at line <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c_source.html#l00064">64</a> of file <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c_source.html">flipmouse_fabi_esp32_kbdmouse_main.c</a>.</p>
-
-<p class="reference">Referenced by <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c_source.html#l00095">app_main()</a>, <a class="el" href="task__commands_8c_source.html#l00127">checkqueues()</a>, <a class="el" href="hal__adc_8c_source.html#l01095">halAdcInit()</a>, <a class="el" href="hal__adc_8c_source.html#l00364">halAdcProcessPressure()</a>, <a class="el" href="hal__io_8c_source.html#l00383">halIOLEDTask()</a>, <a class="el" href="hal__serial_8c_source.html#l00273">halSerialHIDTask()</a>, <a class="el" href="hal__serial_8c_source.html#l00482">halSerialReset()</a>, <a class="el" href="task__kbd_8c_source.html#l00144">sendKbd()</a>, <a class="el" href="task__joystick_8c_source.html#l00123">task_joystick()</a>, and <a class="el" href="task__mouse_8c_source.html#l00079">task_mouse()</a>.</p>
-
-</div>
-</div>
-<a id="ae6da2ec03555c40a51588302e5879835"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae6da2ec03555c40a51588302e5879835">&#9670;&nbsp;</a></span>joystick_movement_ble</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">QueueHandle_t joystick_movement_ble</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>queue which receives joystick commands, triggered via BLE </p>
-
-<p class="definition">Definition at line <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c_source.html#l00062">62</a> of file <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c_source.html">flipmouse_fabi_esp32_kbdmouse_main.c</a>.</p>
-
-<p class="reference">Referenced by <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c_source.html#l00095">app_main()</a>, <a class="el" href="task__commands_8c_source.html#l00127">checkqueues()</a>, and <a class="el" href="hal__adc_8c_source.html#l01095">halAdcInit()</a>.</p>
-
-</div>
-</div>
-<a id="af6712dd167c6d09e2c4f92e545c4b527"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af6712dd167c6d09e2c4f92e545c4b527">&#9670;&nbsp;</a></span>keyboard_ble_press</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">QueueHandle_t keyboard_ble_press</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>NOTE: keyboard queues receive uint16 data type, which is either directly used as keycode by either HID or serial task (if high byte is != 0) OR parsed by keyboard helper functions. In this case multibyte text (unicode) should use only low byte for each byte of the input textqueue which receives ble keycodes which needs to be pressed </p>
-
-<p class="definition">Definition at line <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c_source.html#l00059">59</a> of file <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c_source.html">flipmouse_fabi_esp32_kbdmouse_main.c</a>.</p>
-
-<p class="reference">Referenced by <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c_source.html#l00095">app_main()</a>, and <a class="el" href="task__commands_8c_source.html#l00127">checkqueues()</a>.</p>
-
-</div>
-</div>
-<a id="a6abced931709a05f1af06406aed36620"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a6abced931709a05f1af06406aed36620">&#9670;&nbsp;</a></span>keyboard_ble_release</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">QueueHandle_t keyboard_ble_release</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>queue which receives ble keycodes which needs to be released </p>
+<p>NOTE: keyboard queues receive uint16 data type, which is either directly used as keycode by either HID or serial task (if high byte is != 0) OR parsed by keyboard helper functions. In this case multibyte text (unicode) should use only low byte for each byte of the input text </p>
 
 <p class="definition">Definition at line <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c_source.html#l00060">60</a> of file <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c_source.html">flipmouse_fabi_esp32_kbdmouse_main.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c_source.html#l00095">app_main()</a>, and <a class="el" href="task__commands_8c_source.html#l00127">checkqueues()</a>.</p>
-
-</div>
-</div>
-<a id="aa3c7f09dbac02c97076a58d943afd747"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa3c7f09dbac02c97076a58d943afd747">&#9670;&nbsp;</a></span>mouse_movement_ble</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">QueueHandle_t mouse_movement_ble</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>queue which receives mouse commands, triggered via BLE </p>
-
-<p class="definition">Definition at line <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c_source.html#l00061">61</a> of file <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c_source.html">flipmouse_fabi_esp32_kbdmouse_main.c</a>.</p>
-
-<p class="reference">Referenced by <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c_source.html#l00095">app_main()</a>, <a class="el" href="task__commands_8c_source.html#l00127">checkqueues()</a>, and <a class="el" href="hal__adc_8c_source.html#l01095">halAdcInit()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c_source.html#l00091">app_main()</a>, <a class="el" href="task__commands_8c_source.html#l00127">checkqueues()</a>, <a class="el" href="hal__adc_8c_source.html#l01095">halAdcInit()</a>, <a class="el" href="hal__adc_8c_source.html#l00364">halAdcProcessPressure()</a>, <a class="el" href="hal__io_8c_source.html#l00383">halIOLEDTask()</a>, <a class="el" href="hal__serial_8c_source.html#l00273">halSerialHIDTask()</a>, <a class="el" href="hal__serial_8c_source.html#l00482">halSerialReset()</a>, <a class="el" href="task__kbd_8c_source.html#l00144">sendKbd()</a>, <a class="el" href="task__joystick_8c_source.html#l00123">task_joystick()</a>, and <a class="el" href="task__mouse_8c_source.html#l00079">task_mouse()</a>.</p>
 
 </div>
 </div>
@@ -480,9 +397,9 @@ currentConfig </dd></dl>
 
 <p>Currently active radio state. </p>
 
-<p class="definition">Definition at line <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c_source.html#l00067">67</a> of file <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c_source.html">flipmouse_fabi_esp32_kbdmouse_main.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c_source.html#l00063">63</a> of file <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c_source.html">flipmouse_fabi_esp32_kbdmouse_main.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c_source.html#l00095">app_main()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c_source.html#l00091">app_main()</a>.</p>
 
 </div>
 </div>
@@ -500,7 +417,7 @@ currentConfig </dd></dl>
 
 <p class="definition">Definition at line <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c_source.html#l00058">58</a> of file <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c_source.html">flipmouse_fabi_esp32_kbdmouse_main.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c_source.html#l00095">app_main()</a>, and <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c_source.html#l00084">switch_radio()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c_source.html#l00091">app_main()</a>, and <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c_source.html#l00080">switch_radio()</a>.</p>
 
 </div>
 </div>
@@ -524,7 +441,7 @@ currentConfig </dd></dl>
 
 <p class="definition">Definition at line <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c_source.html#l00056">56</a> of file <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c_source.html">flipmouse_fabi_esp32_kbdmouse_main.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c_source.html#l00095">app_main()</a>, <a class="el" href="task__debouncer_8c_source.html#l00180">debouncerCallback()</a>, <a class="el" href="hal__io_8c_source.html#l00127">gpio_isr_handler()</a>, <a class="el" href="hal__adc_8c_source.html#l01095">halAdcInit()</a>, <a class="el" href="hal__adc_8c_source.html#l00132">halAdcProcessStrongMode()</a>, <a class="el" href="hal__adc_8c_source.html#l00865">halAdcTaskThreshold()</a>, and <a class="el" href="task__debouncer_8c_source.html#l00305">task_debouncer()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c_source.html#l00091">app_main()</a>, <a class="el" href="task__debouncer_8c_source.html#l00180">debouncerCallback()</a>, <a class="el" href="hal__io_8c_source.html#l00127">gpio_isr_handler()</a>, <a class="el" href="hal__adc_8c_source.html#l01095">halAdcInit()</a>, <a class="el" href="hal__adc_8c_source.html#l00132">halAdcProcessStrongMode()</a>, <a class="el" href="hal__adc_8c_source.html#l00865">halAdcTaskThreshold()</a>, and <a class="el" href="task__debouncer_8c_source.html#l00305">task_debouncer()</a>.</p>
 
 </div>
 </div>
@@ -548,7 +465,7 @@ currentConfig </dd></dl>
 
 <p class="definition">Definition at line <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c_source.html#l00055">55</a> of file <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c_source.html">flipmouse_fabi_esp32_kbdmouse_main.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c_source.html#l00095">app_main()</a>, <a class="el" href="task__debouncer_8c_source.html#l00180">debouncerCallback()</a>, <a class="el" href="hal__adc_8c_source.html#l01095">halAdcInit()</a>, <a class="el" href="hal__adc_8c_source.html#l00796">task_calibration()</a>, <a class="el" href="config__switcher_8c_source.html#l00545">task_configswitcher()</a>, <a class="el" href="task__debouncer_8c_source.html#l00305">task_debouncer()</a>, <a class="el" href="task__infrared_8c_source.html#l00051">task_infrared()</a>, <a class="el" href="task__joystick_8c_source.html#l00123">task_joystick()</a>, <a class="el" href="task__kbd_8c_source.html#l00164">task_keyboard()</a>, <a class="el" href="task__macros_8c_source.html#l00050">task_macro()</a>, and <a class="el" href="task__mouse_8c_source.html#l00079">task_mouse()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c_source.html#l00091">app_main()</a>, <a class="el" href="task__debouncer_8c_source.html#l00180">debouncerCallback()</a>, <a class="el" href="hal__adc_8c_source.html#l01095">halAdcInit()</a>, <a class="el" href="hal__adc_8c_source.html#l00796">task_calibration()</a>, <a class="el" href="config__switcher_8c_source.html#l00545">task_configswitcher()</a>, <a class="el" href="task__debouncer_8c_source.html#l00305">task_debouncer()</a>, <a class="el" href="task__infrared_8c_source.html#l00051">task_infrared()</a>, <a class="el" href="task__joystick_8c_source.html#l00123">task_joystick()</a>, <a class="el" href="task__kbd_8c_source.html#l00164">task_keyboard()</a>, <a class="el" href="task__macros_8c_source.html#l00050">task_macro()</a>, and <a class="el" href="task__mouse_8c_source.html#l00079">task_mouse()</a>.</p>
 
 </div>
 </div>

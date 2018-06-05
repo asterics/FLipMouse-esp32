@@ -126,16 +126,9 @@ void printAllSlots(uint8_t printconfig);
  * @return 0 on uninitialized queues, 1 if all are initialized*/
 static int checkqueues(void)
 {
-  // check keyboard queues
+  // check HID queues
   if(hid_usb == 0) return 0;
-  if(keyboard_ble_press == 0) return 0;
-  if(keyboard_ble_release == 0) return 0;
-  
-  // check mouse queues
-  if(mouse_movement_ble == 0) return 0;
-  
-  //check joystick queues
-  if(joystick_movement_ble == 0) return 0;
+  if(hid_ble == 0) return 0;
   
   //house-keeping queues
   if(config_switcher == 0) return 0;

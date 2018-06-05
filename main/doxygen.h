@@ -52,6 +52,7 @@
  * @see task_calibration
  * @see task_macros
  * @see task_infrared
+ * @see task_joystick
  * 
  * The loading/unloading is done by the config switcher task
  * @see configSwitcherTask
@@ -75,6 +76,7 @@
  * @todo Implement buzzer in remaining task_* functions (strongsip/puff exit)
  * @todo Test Neopixels on FABI & FLipMouse
  * @todo Test AT MA (macros).
+ * @todo Maybe simplify task organization: only one task each function (one mouse task, one keyboard task)
  * @todo Debug buzzer, and buzzer activating tasks.
  * @todo Implement long press for virtual buttons (new VBs).
 */

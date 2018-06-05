@@ -1144,7 +1144,7 @@ esp_err_t halAdcInit(adc_config_t* params)
             return ESP_FAIL;
         }
     }
-    if(joystick_movement_ble == NULL || mouse_movement_ble == NULL || hid_usb == NULL)
+    if(hid_ble == NULL || hid_usb == NULL)
     {
         ESP_LOGE("hal_adc","queue uninitialized, exiting");
         return ESP_FAIL;

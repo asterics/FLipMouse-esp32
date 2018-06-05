@@ -56,10 +56,6 @@ EventGroupHandle_t virtualButtonsOut[NUMBER_VIRTUALBUTTONS];
 EventGroupHandle_t virtualButtonsIn[NUMBER_VIRTUALBUTTONS];
 EventGroupHandle_t connectionRoutingStatus;
 SemaphoreHandle_t switchRadioSem;
-QueueHandle_t keyboard_ble_press;
-QueueHandle_t keyboard_ble_release;
-QueueHandle_t mouse_movement_ble;
-QueueHandle_t joystick_movement_ble;
 QueueHandle_t config_switcher;
 QueueHandle_t hid_usb;
 QueueHandle_t hid_ble;
@@ -109,10 +105,6 @@ void app_main()
             virtualButtonsOut[i] = xEventGroupCreate();
         }
         //queues
-        keyboard_ble_press = xQueueCreate(10,sizeof(uint16_t));
-        keyboard_ble_release = xQueueCreate(10,sizeof(uint16_t));
-        mouse_movement_ble = xQueueCreate(10,sizeof(mouse_command_t));
-        joystick_movement_ble = xQueueCreate(10,sizeof(joystick_command_t)); //TBD: right size?
         config_switcher = xQueueCreate(5,sizeof(char)*SLOTNAME_LENGTH);
         hid_ble = xQueueCreate(10,sizeof(hid_command_t));
         hid_usb = xQueueCreate(10,sizeof(hid_command_t));
@@ -128,7 +120,7 @@ void app_main()
     {
         ESP_LOGD(LOG_TAG,"created new debouncer task");
     } else {
-        ESP_LOGE(LOG_TAG,"error creatin new debouncer task");
+        ESP_LOGE(LOG_TAG,"error creating new debouncer task");
     }
     
     //start adc continous task

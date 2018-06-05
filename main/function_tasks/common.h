@@ -190,15 +190,6 @@ extern EventGroupHandle_t connectionRoutingStatus;
  * byte of the input text
  **/
 
-/** queue which receives ble keycodes which needs to be pressed */
-extern QueueHandle_t keyboard_ble_press;
-/** queue which receives ble keycodes which needs to be released */
-extern QueueHandle_t keyboard_ble_release;
-/** queue which receives mouse commands, triggered via BLE */
-extern QueueHandle_t mouse_movement_ble;
-/** queue which receives joystick commands, triggered via BLE */
-extern QueueHandle_t joystick_movement_ble;
-
 /** @brief Queue for sending HID commands to USB */
 extern QueueHandle_t hid_usb;
 /** @brief Queue for sending HID commands to BLE */

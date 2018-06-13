@@ -87,10 +87,9 @@
 //common definitions & data for all of these functional tasks
 #include "common.h"
 
-//for creating the default slot, we need these includes:
-#include "task_kbd.h"
+//for creating the default slot & storing HID, we need these includes:
 #include "../config_switcher.h"
-#include "task_mouse.h"
+#include "task_hid.h"
 #include "task_debouncer.h"
 #include "hal_adc.h"
 
@@ -132,6 +131,39 @@ typedef struct storageHeader {
 } storageHeader_t;
 
 
+/** @brief Store a HID command chain to flash
+ * 
+ * This method stores a set of HID commands, starting with the given pointer
+ * to the HID command chain root, to flash. A command set is always stored for
+ * a defined slot number.
+ * 
+ * @param tid Transaction id
+ * @param cfg Pointer to HID command chain root
+ * @param slotnumber Number of the slot on which this config is used. Use 0xFF to ignore and use
+ * previous set slot number (by halStorageStore)
+ * @param cmdName Name of this IR command
+ * @return ESP_OK on success, ESP_FAIL otherwise
+ * */
+esp_err_t halStorageStoreHID(uint8_t slotnumber, hid_cmd_t *cfg, uint32_t tid);
+
+/** @brief Load a full HID chain
+ * 
+ * This method loads an entire HID chain for a given slot.
+ * 
+ * To start loading the commands, call halStorageStartTransaction to acquire
+ * a load/store transaction id. This is necessary to enable multitask access.
+ * Finally, if the command is loaded, call halStorageFinishTransaction to
+ * free the storage access to the other tasks or the next call.
+ * 
+ * @see halStorageStartTransaction
+ * @see halStorageFinishTransaction
+ * @param slotnumber Number of the slot on which this config is used. Use 0xFF to ignore and use
+ * previous set slot number (by halStorageLoadXXX) 
+ * @param tid Transaction ID, which must match the one given by halStorageStartTransaction
+ * @param cfg Pointer which will be the new root of the HID command chain
+ * @return ESP_OK if everything is fine, ESP_FAIL if the command was not successful (number not found, error loading)
+ * */
+esp_err_t halStorageLoadHID(uint8_t slotnumber, hid_cmd_t **cfg, uint32_t tid);
 
 /** @brief Load a string from NVS (global, no slot assignment)
  * 

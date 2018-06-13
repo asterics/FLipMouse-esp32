@@ -55,12 +55,10 @@
 #include "hal_serial.h"
 
 //include all functional tasks, making config structs available
-#include "task_kbd.h"
-#include "task_mouse.h"
+#include "task_hid.h"
 #include "task_debouncer.h"
 #include "task_infrared.h"
 #include "task_macros.h"
-#include "task_joystick.h"
 
 
 /** Stacksize for functional task task_configswitcher.

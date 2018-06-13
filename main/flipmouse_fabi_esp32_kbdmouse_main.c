@@ -106,8 +106,8 @@ void app_main()
         }
         //queues
         config_switcher = xQueueCreate(5,sizeof(char)*SLOTNAME_LENGTH);
-        hid_ble = xQueueCreate(10,sizeof(hid_command_t));
-        hid_usb = xQueueCreate(10,sizeof(hid_command_t));
+        hid_ble = xQueueCreate(32,sizeof(hid_cmd_t));
+        hid_usb = xQueueCreate(32,sizeof(hid_cmd_t));
         //semphores
         switchRadioSem = xSemaphoreCreateBinary();
         
@@ -121,6 +121,15 @@ void app_main()
         ESP_LOGD(LOG_TAG,"created new debouncer task");
     } else {
         ESP_LOGE(LOG_TAG,"error creating new debouncer task");
+    }
+
+    //start hid task
+    if(xTaskCreate(task_hid,"hid",TASK_HID_STACKSIZE, 
+        (void*)NULL,HID_TASK_PRIORITY, NULL) == pdPASS)
+    {
+        ESP_LOGD(LOG_TAG,"created new hid task");
+    } else {
+        ESP_LOGE(LOG_TAG,"error creating new hid task");
     }
     
     //start adc continous task

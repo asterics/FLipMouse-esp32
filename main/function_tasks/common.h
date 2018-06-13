@@ -362,6 +362,7 @@ extern QueueHandle_t config_switcher;
 #define HAL_ADC_TASK_PRIORITY     (tskIDLE_PRIORITY + 1)
 #define HAL_VB_TASK_PRIORITY  (tskIDLE_PRIORITY + 1)
 #define DEBOUNCER_TASK_PRIORITY  (tskIDLE_PRIORITY + 1)
+#define HID_TASK_PRIORITY  (tskIDLE_PRIORITY + 4)
 /** All BLE tasks in hal_ble.c. */
 #define HAL_BLE_TASK_PRIORITY_BASE  (tskIDLE_PRIORITY + 2)
 #define HAL_CONFIG_TASK_PRIORITY  (tskIDLE_PRIORITY + 1)
@@ -437,9 +438,7 @@ typedef struct adc_config {
 } adc_config_t;
 
 typedef enum {
-  T_MOUSE,
-  T_KEYBOARD,
-  T_JOYSTICK,
+  T_HID,
   T_CONFIGCHANGE,
   T_CALIBRATE,
   T_SENDIR,
@@ -516,6 +515,17 @@ typedef struct hid_command {
   /** @brief HID data */
   uint8_t data[16];
 } hid_command_t;
+
+
+///@note Highest bit determines press/release action. If set, it is a press!
+typedef struct hid_cmd hid_cmd_t;
+//struct __attribute__ ((packed)) hid_cmd_t {
+struct hid_cmd {
+  uint8_t vb;
+  uint8_t cmd[3];
+  char *atoriginal;
+  struct hid_cmd *next;
+}; 
 
 /**++++ TODO: move to task_joystick.h ++++*/
 typedef struct joystick_command {

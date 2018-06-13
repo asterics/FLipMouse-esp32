@@ -349,22 +349,22 @@ void halStorageCreateDefault(uint32_t tid)
   #ifdef DEVICE_FLIPMOUSE
   
   //add VB functions and config sizes for default slot
-  defaultCfg->virtualButtonCommand[VB_SIP] = T_MOUSE;
-  defaultCfg->virtualButtonCfgSize[VB_SIP] = sizeof(taskMouseConfig_t);
-  defaultCfg->virtualButtonCommand[VB_PUFF] = T_MOUSE;
-  defaultCfg->virtualButtonCfgSize[VB_PUFF] = sizeof(taskMouseConfig_t);
+  defaultCfg->virtualButtonCommand[VB_SIP] = T_HID;
+  //defaultCfg->virtualButtonCfgSize[VB_SIP] = sizeof(taskMouseConfig_t);
+  defaultCfg->virtualButtonCommand[VB_PUFF] = T_HID;
+  //defaultCfg->virtualButtonCfgSize[VB_PUFF] = sizeof(taskMouseConfig_t);
   defaultCfg->virtualButtonCommand[VB_STRONGSIP] = T_CALIBRATE;
   defaultCfg->virtualButtonCfgSize[VB_STRONGSIP] = sizeof(taskNoParameterConfig_t);
   defaultCfg->virtualButtonCommand[VB_STRONGPUFF] = T_CONFIGCHANGE;
   defaultCfg->virtualButtonCfgSize[VB_STRONGPUFF] = sizeof(taskConfigSwitcherConfig_t);
-  defaultCfg->virtualButtonCommand[VB_EXTERNAL1] = T_KEYBOARD;
-  defaultCfg->virtualButtonCfgSize[VB_EXTERNAL1] = sizeof(taskKeyboardConfig_t);
+  defaultCfg->virtualButtonCommand[VB_EXTERNAL1] = T_HID;
+  //defaultCfg->virtualButtonCfgSize[VB_EXTERNAL1] = sizeof(taskKeyboardConfig_t);
   defaultCfg->virtualButtonCommand[VB_INTERNAL2] = T_CONFIGCHANGE;
   defaultCfg->virtualButtonCfgSize[VB_INTERNAL2] = sizeof(taskConfigSwitcherConfig_t);
   
   #endif
   
-  
+  ///@todo Adapt default VB config for new HID task!!!
   #ifdef DEVICE_FABI
     ///@todo Add default VB config for FABI.
   #endif
@@ -388,7 +388,7 @@ void halStorageCreateDefault(uint32_t tid)
   } else { ESP_LOGE(LOG_TAG,"malloc error VB%u",VB_INTERNAL2); return; }
   
 
-  pConfig = malloc(sizeof(taskKeyboardConfig_t));
+  /*pConfig = malloc(sizeof(taskKeyboardConfig_t));
   if(pConfig != NULL)
   {
     ((taskKeyboardConfig_t *)pConfig)->type = PRESS_RELEASE_BUTTON;
@@ -415,7 +415,7 @@ void halStorageCreateDefault(uint32_t tid)
     ((taskMouseConfig_t *)pConfig)->actionparam = M_CLICK;
     ((taskMouseConfig_t *)pConfig)->virtualButton = VB_PUFF;
     defaultCfg->virtualButtonConfig[VB_PUFF] = pConfig;
-  } else { ESP_LOGE(LOG_TAG,"malloc error VB%u",VB_PUFF); return; }
+  } else { ESP_LOGE(LOG_TAG,"malloc error VB%u",VB_PUFF); return; }*/
   
   pConfig = malloc(sizeof(taskNoParameterConfig_t));
   if(pConfig != NULL)
@@ -1293,6 +1293,14 @@ esp_err_t halStorageDeleteSlot(int16_t slotnr, uint32_t tid)
       remove(file);
       f = NULL;
     }
+    sprintf(file,"%s/%03d_HID.fms",base_path,i); 
+    f = fopen(file, "rb");
+    if(f!=NULL)
+    {
+      fclose(f);
+      remove(file);
+      f = NULL;
+    }
     //not necessary, ESP32 uses preemption
     //taskYIELD();
   }
@@ -1317,6 +1325,14 @@ esp_err_t halStorageDeleteSlot(int16_t slotnr, uint32_t tid)
       if(ret != 0)
       {
         ESP_LOGI(LOG_TAG,"Stopped renaming @ slot %d VBs",i);
+        break;
+      }
+      sprintf(file,"%s/%03d_HID.fms",base_path,i); 
+      sprintf(filenew,"%s/%03d_HID.fms",base_path,i-1); 
+      rename(file,filenew);
+      if(ret != 0)
+      {
+        ESP_LOGI(LOG_TAG,"Stopped renaming @ slot %d HID",i);
         break;
       }
       //not necessary, ESP32 uses preemption
@@ -1649,6 +1665,111 @@ esp_err_t halStorageStoreIR(uint32_t tid, halIOIR_t *cfg, char *cmdName)
   return ESP_OK;
 }
 
+/** @brief Store a HID command chain to flash
+ * 
+ * This method stores a set of HID commands, starting with the given pointer
+ * to the HID command chain root, to flash. A command set is always stored for
+ * a defined slot number.
+ * 
+ * @param tid Transaction id
+ * @param cfg Pointer to HID command chain root
+ * @param slotnumber Number of the slot on which this config is used. Use 0xFF to ignore and use
+ * previous set slot number (by halStorageStore)
+ * @param cmdName Name of this IR command
+ * @return ESP_OK on success, ESP_FAIL otherwise
+ * */
+esp_err_t halStorageStoreHID(uint8_t slotnumber, hid_cmd_t *cfg, uint32_t tid)
+{
+  char file[sizeof(base_path)+12];
+
+  //basic FS checks
+  if(halStorageChecks(tid) != ESP_OK) return ESP_FAIL;
+  
+  //check if we should ignore the slotnumber and take the previously used one
+  if(slotnumber == 0xFF) slotnumber = storageCurrentSlotNumber;
+  
+  //check if the slotnumber is out of range
+  if(slotnumber > 250) 
+  {
+    ESP_LOGE(LOG_TAG,"Slotnumber too high: %u, maximum 250",slotnumber);
+    return ESP_FAIL;
+  }
+  
+  //create filename from slotnumber
+  sprintf(file,"%s/%03d_HID.fms",base_path,slotnumber);
+  
+  //open file for writing
+  #if LOG_LEVEL_STORAGE >= ESP_LOG_DEBUG
+  ESP_LOGD(LOG_TAG,"Opening file %s",file);
+  #endif
+  FILE *f = fopen(file, "wb");
+  if(f == NULL)
+  {
+    ESP_LOGE(LOG_TAG,"cannot open file for writing: %s",file);
+    return ESP_FAIL;
+  }
+  
+  fseek(f,0,SEEK_SET);
+  
+  //pointers for next and current command
+  hid_cmd_t *current = cfg;
+  hid_cmd_t store;
+  int count = 1;
+  
+  while(current != NULL) {
+    //copy data here to modify
+    memcpy(&store,current,sizeof(hid_cmd_t));
+    //check if an original AT string is available
+    if(store.atoriginal != NULL)
+    {
+      //if yes, we store the length in the "next" field.
+      store.next = (hid_cmd_t *)(strnlen(store.atoriginal,ATCMD_LENGTH)+1);
+    } else {
+      store.next = (hid_cmd_t *)0;
+    }
+    
+    #if LOG_LEVEL_STORAGE >= ESP_LOG_DEBUG
+    ESP_LOGD(LOG_TAG,"HID cmd @0x%04lX:",ftell(f));
+    ESP_LOG_BUFFER_HEXDUMP(LOG_TAG,&store,sizeof(hid_cmd_t),ESP_LOG_DEBUG);
+    #endif
+    
+    //write command itself
+    if(fwrite(&store,sizeof(hid_cmd_t),1,f) != 1)
+    {
+      ESP_LOGE(LOG_TAG, "Error storing HID cmd %d.",count);
+      fclose(f);
+      return ESP_FAIL;
+    }
+    //if available, store AT command
+    if(store.atoriginal != NULL)
+    {
+      char *atstring = store.atoriginal;
+      #if LOG_LEVEL_STORAGE >= ESP_LOG_DEBUG
+      ESP_LOGD(LOG_TAG,"HID AT cmd @0x%04lX:",ftell(f));
+      ESP_LOG_BUFFER_HEXDUMP(LOG_TAG,atstring,strnlen(atstring,ATCMD_LENGTH)+1,ESP_LOG_DEBUG);
+      #endif
+      
+      if(fwrite(atstring,strnlen(atstring,ATCMD_LENGTH)+1,1,f) != 1)
+      {
+        ESP_LOGE(LOG_TAG, "Error storing HID AT string %d.",count);
+        fclose(f);
+        return ESP_FAIL;
+      }
+    }
+    
+    //load next block
+    current = current->next;
+    //count for statistics
+    count++;
+  }
+  //logging
+  ESP_LOGI(LOG_TAG,"Stored %d HID commands @%d",count,slotnumber);
+  
+  //clean up
+  fclose(f);
+  return ESP_OK;
+}
+
 /** @brief Store a virtual button config struct
  * 
  * This method stores the config structs for virtual buttons.
@@ -1875,6 +1996,143 @@ esp_err_t halStorageLoadIR(char *cmdName, halIOIR_t *cfg, uint32_t tid)
   return ESP_OK;
 }
 
+/** @brief Load a full HID chain
+ * 
+ * This method loads an entire HID chain for a given slot.
+ * 
+ * To start loading the commands, call halStorageStartTransaction to acquire
+ * a load/store transaction id. This is necessary to enable multitask access.
+ * Finally, if the command is loaded, call halStorageFinishTransaction to
+ * free the storage access to the other tasks or the next call.
+ * 
+ * @see halStorageStartTransaction
+ * @see halStorageFinishTransaction
+ * @param slotnumber Number of the slot on which this config is used. Use 0xFF to ignore and use
+ * previous set slot number (by halStorageLoadXXX) 
+ * @param tid Transaction ID, which must match the one given by halStorageStartTransaction
+ * @param cfg Pointer which will be the new root of the HID command chain
+ * @return ESP_OK if everything is fine, ESP_FAIL if the command was not successful (number not found, error loading)
+ * */
+esp_err_t halStorageLoadHID(uint8_t slotnumber, hid_cmd_t **cfg, uint32_t tid)
+{
+  char file[sizeof(base_path)+12];
+  FILE *f;
+
+  //basic FS checks
+  if(halStorageChecks(tid) != ESP_OK) return ESP_FAIL;
+  
+  //check if we should ignore the slotnumber and take the previously used one
+  if(slotnumber == 0xFF) slotnumber = storageCurrentSlotNumber;
+  
+  //check if the slotnumber is out of range
+  if(slotnumber > 250) 
+  {
+    ESP_LOGE(LOG_TAG,"Slotnumber too high: %u, maximum 250",slotnumber);
+    return ESP_FAIL;
+  }
+  
+  //create filename from slotnumber
+  sprintf(file,"%s/%03d_HID.fms",base_path,slotnumber);
+  
+  //open file for reading
+  #if LOG_LEVEL_STORAGE >= ESP_LOG_DEBUG
+  ESP_LOGD(LOG_TAG,"Opening file %s",file);
+  #endif
+  f = fopen(file, "rb");
+
+  //if no file found, return...
+  if(f == NULL)
+  {
+    ESP_LOGI(LOG_TAG,"File not found: %s",file);
+    return ESP_FAIL;
+  }
+  
+  fseek(f,0,SEEK_SET);
+  
+  //begin with a new root
+  hid_cmd_t *root = NULL;
+  hid_cmd_t *current = NULL;
+  
+  //counter for checking if we have at least one full command
+  int count = 0;
+  size_t memused = 0;
+  
+  do {
+    hid_cmd_t *cmd = malloc(sizeof(hid_cmd_t));
+    memused += sizeof(hid_cmd_t);
+    
+    if(cmd == NULL)
+    {
+      ESP_LOGE(LOG_TAG,"Error malloc for HID cmd!");
+      return ESP_FAIL;
+    }
+    
+    if(fread(cmd,sizeof(hid_cmd_t),1,f) != 1)
+    {
+      if(feof(f)) 
+      {
+        ESP_LOGI(LOG_TAG,"Finished reading slot %d (feof, @cmd %d)",slotnumber,count);
+        break;
+      }
+      if(ferror(f))
+      {
+        free(cmd);
+        root = NULL;
+        ESP_LOGE(LOG_TAG,"Error %d reading cmd %d for slot %d",ferror(f),count,slotnumber);
+      }
+      break;
+    } else {
+      //check if we have an assigned AT command string
+      if(cmd->next != (hid_cmd_t*)0)
+      {
+        ESP_LOGI(LOG_TAG,"Alloc %d for AT string",(size_t)cmd->next);
+        cmd->atoriginal = malloc((size_t)cmd->next);
+        memused += (size_t)cmd->next;
+        if(cmd->atoriginal != NULL)
+        {
+          if(fread(cmd->atoriginal,(size_t)cmd->next,1,f) != 1)
+          {
+            free(cmd->atoriginal);
+            free(cmd);
+            root = NULL;
+            ESP_LOGE(LOG_TAG,"Error reading AT cmd %d for slot %d",count,slotnumber);
+            break;
+          }
+        } else ESP_LOGE(LOG_TAG,"Cannot alloc mem for AT string");
+      }
+      //now we know the string length, set value to NULL
+      cmd->next = NULL;
+      
+      //add command to chain
+      if(root == NULL) {
+        root = cmd;
+      } else {
+        current = root;
+        while(current->next != NULL) current = current->next;
+        current->next = cmd;
+      }
+      
+      //count up
+      count++;
+    }
+  } while(feof(f) == 0);
+  
+  //first, close file
+  if(f!=NULL) fclose(f);
+  
+  //if we have no valid command, return error
+  if(root == NULL) 
+  {
+    *cfg = NULL;
+    return ESP_FAIL;
+  }
+  
+  //everything fine, we have a new root with a defined amount of cmds.
+  *cfg = root;
+  ESP_LOGI(LOG_TAG,"Loaded %d HID cmds, heap used: %d B",count,memused);
+  return ESP_OK;
+}
+
 /** @brief Start a storage transaction
  * 
  * This method is used to start a transaction and needs to be called
@@ -1960,7 +2218,8 @@ esp_err_t halStorageFinishTransaction(uint32_t tid)
   //check if tid is valid
   if(tid == 0 || tid != storageCurrentTID)
   {
-    ESP_LOGW(LOG_TAG,"TID == 0, not a valid transaction id");
+    ESP_LOGW(LOG_TAG,"Not a valid transaction id (%d). Currently active: %d/%s",\
+      tid,storageCurrentTID,storageCurrentTIDHolder);
     return ESP_FAIL;
   }
   

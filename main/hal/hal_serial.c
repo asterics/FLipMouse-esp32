@@ -272,7 +272,7 @@ void halSerialRXTask(void *pvParameters)
  * */
 void halSerialHIDTask(void *param)
 {
-  hid_command_t rx;
+  hid_cmd_t rx;
   //RMT RAM has 64x32bit memory each block
   rmt_item32_t *rmtBuf = malloc(sizeof(rmt_item32_t)*64);
   
@@ -300,45 +300,21 @@ void halSerialHIDTask(void *param)
         //reset RMT offset
         rmtCount = 0;
         
-        //debug output
-        #if LOG_LEVEL_SERIAL >= ESP_LOG_DEBUG
-        switch(rx.data[0])
-        {
-          case 'M': ESP_LOGD(LOG_TAG,"USB Mouse: B: %d, X/Y: %d/%d, wheel: %d", \
-            rx.data[1],(int8_t)rx.data[2],(int8_t)rx.data[3],(int8_t)rx.data[4]);
-            break;
-          case 'K': ESP_LOGD(LOG_TAG,"USB Kbd: Mod: %d, keys: %d/%d/%d/%d/%d/%d", \
-            rx.data[1],rx.data[2],rx.data[3],rx.data[4],rx.data[5],rx.data[6],rx.data[7]);
-            break;
-          case 'J': ESP_LOGD(LOG_TAG,"USB joystick:");
-            ESP_LOG_BUFFER_HEXDUMP(LOG_TAG,&rx.data[1], 12 ,ESP_LOG_DEBUG);
-            break;
-          default: break;
-        }
-        #endif
-        
-        if(rx.data[0] != 'M' && rx.data[0] != 'K' && rx.data[0] != 'J') {
-          ESP_LOGE(LOG_TAG,"Unknown USB report");
-        }
-        
         //build RMT buffer
-        for(uint8_t i = 0; i<16; i++)
-        {
-          //if all bytes are processed, quit this loop
-          if(i==rx.len) break;
-          
+        for(uint8_t i = 0; i<3; i++)
+        {          
           //process 2 bits at once (one rmt item)
           for(uint8_t j = 0; j<4; j++)
           {
             //process even bit
-            if((rx.data[i] & (1<<(j*2))) != 0)
+            if((rx.cmd[i] & (1<<(j*2))) != 0)
             {
               item.duration0 = HAL_SERIAL_HID_DURATION_1; //long timing
             } else {
               item.duration0 = HAL_SERIAL_HID_DURATION_0; //short timing
             }
             //process odd bit
-            if((rx.data[i] & (1<<(j*2+1))) != 0)
+            if((rx.cmd[i] & (1<<(j*2+1))) != 0)
             {
               item.duration1 = HAL_SERIAL_HID_DURATION_1;
             } else {
@@ -374,6 +350,8 @@ void halSerialHIDTask(void *param)
           ESP_LOGE(LOG_TAG,"Cannot start RMT TX");
         }
         rmt_wait_tx_done(HAL_SERIAL_HID_CHANNEL,portMAX_DELAY);
+        ///@todo is this delay necessary?
+        //vTaskDelay(1); 
       }
     } else {
       ESP_LOGW(LOG_TAG,"usb hid queue not initialized, retry in 1s");

@@ -41,6 +41,8 @@
 
 /** Tag for ESP_LOG logging */
 #define LOG_TAG "cfgsw"
+/** @brief Set a global log limit for this file */
+#define LOG_LEVEL_CFGSW ESP_LOG_INFO
 
 /** Stacksize for continous task configSwitcherTask.
  * @see configSwitcherTask */
@@ -94,6 +96,8 @@ TaskHandle_t configswitcher_handle;
  * @see configUpdateIsStable
  * */
 SemaphoreHandle_t configUpdatePending = NULL;
+
+TimerHandle_t configTimer = NULL;
 
 /** Currently loaded configuration.*/
 generalConfig_t currentConfigLoaded;
@@ -201,6 +205,27 @@ esp_err_t configUpdateWaitStable(void)
     return ESP_FAIL;
   }
 }
+
+void configTimerCallback(TimerHandle_t xTimer)
+{
+  //reload ADC
+  if(halAdcUpdateConfig(&currentConfigLoaded.adc) != ESP_OK)
+  {
+    ESP_LOGE(LOG_TAG,"error reloading adc config");
+  }
+  
+  //set other config infos
+  ESP_LOGI(LOG_TAG,"setting connection bits (USB: %d, BLE: %d)",currentConfigLoaded.usb_active,currentConfigLoaded.ble_active);
+  if(currentConfigLoaded.ble_active != 0)  xEventGroupSetBits(connectionRoutingStatus,DATATO_BLE);
+  else xEventGroupClearBits(connectionRoutingStatus,DATATO_BLE);
+  if(currentConfigLoaded.usb_active != 0)  xEventGroupSetBits(connectionRoutingStatus,DATATO_USB);
+  else xEventGroupClearBits(connectionRoutingStatus,DATATO_USB);
+  
+  //reset HID channels (USB&BLE)
+  halBLEReset(0);
+  halSerialReset(0);
+}
+
 /** @brief Request config update
  * 
  * This method is requesting a config update for the general config.
@@ -214,23 +239,10 @@ esp_err_t configUpdateWaitStable(void)
  * */
 esp_err_t configUpdate(void)
 {
-  //reload ADC
-  if(halAdcUpdateConfig(&currentConfigLoaded.adc) != ESP_OK)
-  {
-    ESP_LOGE(LOG_TAG,"error reloading adc config");
-    return ESP_FAIL;
-  }
+  if(configTimer == NULL) return ESP_FAIL;
   
-  //set other config infos
-  ESP_LOGI(LOG_TAG,"setting connection bits (USB: %d, BLE: %d)",currentConfigLoaded.usb_active,currentConfigLoaded.ble_active);
-  if(currentConfigLoaded.ble_active != 0)  xEventGroupSetBits(connectionRoutingStatus,DATATO_BLE);
-  else xEventGroupClearBits(connectionRoutingStatus,DATATO_BLE);
-  if(currentConfigLoaded.usb_active != 0)  xEventGroupSetBits(connectionRoutingStatus,DATATO_USB);
-  else xEventGroupClearBits(connectionRoutingStatus,DATATO_USB);
-  
-  //reset HID channels (USB&BLE)
-  halBLEReset(0);
-  halSerialReset(0);
+  if(xTimerIsTimerActive(configTimer) == pdFALSE) xTimerStart(configTimer,10);
+  else xTimerReset(configTimer,0);
   return ESP_OK;
 }
 
@@ -384,43 +396,30 @@ void configSwitcherTask(void * params)
       {
         //if we are supposed to update VBs AND this one is not
         //to be updated, skip all the unloading/loading...
-        if((justupdate == 1) && (currentTaskParametersUpdate[i] == NULL)) continue;
+        //if we have a T_HID type, we still need to have a look, if we 
+        //need to unload a task.
+        if((justupdate == 1) && (currentTaskParametersUpdate[i] == NULL) && \
+          currentConfig.virtualButtonCommand[i] != T_HID) continue;
         
         //unload
         if(currentTasks[i] != NULL) vTaskDelete(currentTasks[i]);
         //if memory was previously allocated, free now
         if(currentTaskParameters[i] != NULL) free(currentTaskParameters[i]);
         
+        //if we have an HID command, we are finished for this VB.
+        //loading is already done (task_hid is running itself), config
+        //is either provided by command parser or loaded after this loop.
+        if(currentConfig.virtualButtonCommand[i] == T_HID) continue;
+        
         //determine which tasks should be loaded
         switch(currentConfig.virtualButtonCommand[i])
         {
-          case T_MOUSE: 
-            newTaskCode = (TaskFunction_t)task_mouse; 
-            currentTaskParameters[i] = malloc(sizeof(taskMouseConfig_t));
-            vbparametersize = sizeof(taskMouseConfig_t);
-            stacksize = TASK_MOUSE_STACKSIZE; 
-            ESP_LOGD(LOG_TAG,"creating new mouse task on VB %d",i);
-            break;
           case T_MACRO: 
             newTaskCode = (TaskFunction_t)task_macro; 
             currentTaskParameters[i] = malloc(sizeof(taskMacrosConfig_t));
             vbparametersize = sizeof(taskMacrosConfig_t);
             stacksize = TASK_MACROS_STACKSIZE; 
             ESP_LOGD(LOG_TAG,"creating new macro task on VB %d",i);
-            break;
-          case T_KEYBOARD: 
-            newTaskCode = (TaskFunction_t)task_keyboard; 
-            currentTaskParameters[i] = malloc(sizeof(taskKeyboardConfig_t));
-            vbparametersize = sizeof(taskKeyboardConfig_t);
-            stacksize = TASK_KEYBOARD_STACKSIZE; 
-            ESP_LOGD(LOG_TAG,"creating new keyboard task on VB %d",i);
-            break;
-          case T_JOYSTICK: 
-            newTaskCode = (TaskFunction_t)task_joystick; 
-            currentTaskParameters[i] = malloc(sizeof(taskJoystickConfig_t));
-            vbparametersize = sizeof(taskJoystickConfig_t);
-            stacksize = TASK_JOYSTICK_STACKSIZE; 
-            ESP_LOGD(LOG_TAG,"creating new joystick task on VB %d",i);
             break;
           case T_CONFIGCHANGE: 
             newTaskCode = (TaskFunction_t)task_configswitcher; 
@@ -443,6 +442,7 @@ void configSwitcherTask(void * params)
             vbparametersize = 0;
             ESP_LOGD(LOG_TAG,"creating new IR task on VB %d",i);
             break;
+          case T_HID:
           case T_NOFUNCTION:  
             newTaskCode = NULL; 
             //allocate just a little bit to have a pointer
@@ -499,6 +499,19 @@ void configSwitcherTask(void * params)
           currentTasks[i] = NULL;
           ESP_LOGD(LOG_TAG,"unused virtual button %d",i);
         }
+      }
+      
+      //load HID commands
+      hid_cmd_t *new = NULL;
+      if(halStorageLoadHID(0xFF,&new,tid) == ESP_OK)
+      {
+        if(task_hid_setCmdChain(new) != ESP_OK) {
+          ESP_LOGE(LOG_TAG,"Cannot set new HID cmd chain");
+        } else {
+          ESP_LOGI(LOG_TAG,"Updated new HID cmds");
+        }
+      } else {
+        ESP_LOGE(LOG_TAG,"Cannot load HID command set!");
       }
       
       //save newly loaded cfg
@@ -611,6 +624,8 @@ void task_configswitcher(taskConfigSwitcherConfig_t *param)
  * @return ESP_OK if everything is fined, ESP_FAIL otherwise */
 esp_err_t configSwitcherInit(void)
 {
+  //set log level to given log level
+  esp_log_level_set(LOG_TAG,LOG_LEVEL_CFGSW);
   //test if the config_switcher queue is initialized...
   if(config_switcher == NULL)
   {
@@ -629,6 +644,25 @@ esp_err_t configSwitcherInit(void)
   //init update semaphore
   configUpdatePending = xSemaphoreCreateBinary();
   xSemaphoreGive(configUpdatePending);
+  //init timer for slowing down updates
+  configTimer = xTimerCreate
+     ( /* Just a text name, not used by the RTOS
+       kernel. */
+       "cfgTimer",
+       /* The timer period in ticks, must be
+       greater than 0. */
+       50/portTICK_PERIOD_MS,
+       /* The timers will auto-reload themselves
+       when they expire. */
+       pdFALSE,
+       /* The ID is used to store a count of the
+       number of times the timer has expired, which
+       is initialised to 0. */
+       ( void * ) 0,
+       /* Each timer calls the same callback when
+       it expires. */
+       configTimerCallback
+     );
   
   //start configSwitcherTask
   if(xTaskCreate(configSwitcherTask,"configswitcher",CONFIGSWITCHERTASK_PERMANENT_STACKSIZE,(void *)NULL,

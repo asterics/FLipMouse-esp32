@@ -546,11 +546,7 @@ void halAdcTaskMouse(void * pvParameters)
     float moveVal, accumXpos = 0, accumYpos = 0;
     //todo: use a define for the delay here... (currently used: value from vTaskDelay())
     float accelFactor= 20 / 100000000.0f;
-    hid_command_t command;
-    command.len = 5;
-    command.data[0] = 'M';  //send a mouse report
-    command.data[1] = 0xFF; //for handling in hal_serial: having sticky buttons with 0xFF
-    
+    hid_cmd_t command;
     TickType_t xLastWakeTime;
     //set adc data reference for timer
     vTimerSetTimerID(adcStrongTimerHandle,&D);
@@ -609,13 +605,11 @@ void halAdcTaskMouse(void * pvParameters)
         //to USB/BLE. Instead, call halAdcProcessPressure
         if(D.strongmode == STRONG_NORMAL)
         {
-            //if at least one value is != 0, send to mouse.
-            if ((tempX != 0) || (tempY != 0))
+            if(tempX != 0)
             {
-                command.data[2] = tempX;
-                command.data[3] = tempY;
+                command.cmd[1] = tempX;
                 accumXpos -= tempX;
-                accumYpos -= tempY;
+                command.cmd[0] = 0x10; //send X axis
                 
                 //post values to mouse queue (USB and/or BLE)
                 if(xEventGroupGetBits(connectionRoutingStatus) & DATATO_USB)
@@ -624,6 +618,20 @@ void halAdcTaskMouse(void * pvParameters)
                 if(xEventGroupGetBits(connectionRoutingStatus) & DATATO_BLE)
                 { xQueueSend(hid_ble,&command,0); }
             }
+            if(tempY != 0)
+            {
+                command.cmd[1] = tempY;
+                accumYpos -= tempY;
+                command.cmd[0] = 0x11; //send Y axis
+                
+                //post values to mouse queue (USB and/or BLE)
+                if(xEventGroupGetBits(connectionRoutingStatus) & DATATO_USB)
+                { xQueueSend(hid_usb,&command,0); }
+                
+                if(xEventGroupGetBits(connectionRoutingStatus) & DATATO_BLE)
+                { xQueueSend(hid_ble,&command,0); }
+            }
+            
             //pressure sensor is handled in another function
             halAdcProcessPressure(&D);
         } else {
@@ -1065,7 +1073,8 @@ esp_err_t halAdcUpdateConfig(adc_config_t* params)
     //give mutex
     xSemaphoreGive(adcSem);
     //calibrate
-    halAdcCalibrate();
+    ///@todo If we calibrate here, it will get slow because this method is called every time one parameter is changed.
+    //halAdcCalibrate();
     return ESP_OK;
 }
 

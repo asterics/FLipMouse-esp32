@@ -51,30 +51,35 @@ individually to set a global value.
 **USB HID Commands**
 | Command | Parameter | Description | Available since | Implemented in v3 | FUNCTIONAL task |
 |:--------|:----------|:------------|:--------------|:--------------------|:----------------|
-| AT CL | --  | Click left mouse button | v2 | yes | yes (task_mouse) |
-| AT CR | --  | Click right mouse button  | v2 | yes | yes (task_mouse) |
-| AT CM | --  | Click middle mouse button  | v2 | yes | yes (task_mouse) |
-| AT CD | --  | Doubleclick left mouse button  | v2 | yes | yes (task_mouse) |
+| AT CL | --  | Click left mouse button | v2 | yes | yes (task_hid) |
+| AT CR | --  | Click right mouse button  | v2 | yes | yes (task_hid) |
+| AT CM | --  | Click middle mouse button  | v2 | yes | yes (task_hid) |
+| AT CD | --  | Doubleclick left mouse button  | v2 | yes | yes (task_hid) |
 |       |   |   ||| |
-| AT PL | --  | Press+hold left mouse button  | v2 | yes | yes (task_mouse) |
-| AT PR | --  | Press+hold right mouse button  | v2 | yes | yes (task_mouse) |
-| AT PM | --  | Press+hold middle mouse button  | v2 | yes | yes (task_mouse) |
+| AT HL/AT PL | --  | Press+hold left mouse button (if assigned to a VB, release depends on button release) | v2 | yes | yes (task_hid) |
+| AT HR/AT PR | --  | Press+hold right mouse button  (if assigned to a VB, release depends on button release) | v2 | yes | yes (task_hid) |
+| AT HM/AT PM | --  | Press+hold middle mouse button  (if assigned to a VB, release depends on button release) | v2 | yes | yes (task_hid) |
 |       |   |   ||| |
-| AT RL | --  | Release left mouse button  | v2 | yes | yes (task_mouse) |
-| AT RR | --  | Release right mouse button  | v2 | yes | yes (task_mouse) |
-| AT RM | --  | Release middle mouse button  | v2 | yes | yes (task_mouse) |
+| AT RL | --  | Release left mouse button  | v2 | yes | yes (task_hid) |
+| AT RR | --  | Release right mouse button  | v2 | yes | yes (task_hid) |
+| AT RM | --  | Release middle mouse button  | v2 | yes | yes (task_hid) |
 |       |   |   ||| |
-| AT WU | --  | Move mouse wheel up  | v2 | yes | yes (task_mouse) |
-| AT WD | --  | Move mouse wheel down  | v2 | yes | yes (task_mouse) |
+| AT TL | --  | Toggle left mouse button  | v2 | yes | yes (task_hid) |
+| AT TR | --  | Toggle right mouse button  | v2 | yes | yes (task_hid) |
+| AT TM | --  | Toggle middle mouse button  | v2 | yes | yes (task_hid) |
+|       |   |   ||| |
+| AT WU | --  | Move mouse wheel up  | v2 | yes | yes (task_hid) |
+| AT WD | --  | Move mouse wheel down  | v2 | yes | yes (task_hid) |
 | AT WS | number (1-127)  | Set mousewheel stepsize (e.g.: "AT WS 3" sets the stepsize to 3 rows)| v2 | yes | no |
 |       |   |   ||| |
-| AT MX | number  | Move mouse (X direction), e.g. AT MX -25  | v2 | yes | yes (task_mouse) |
-| AT MY | number  | Move mouse (Y direction), e.g. AT MY 10  | v2 | yes | yes (task_mouse) |
+| AT MX | number  | Move mouse (X direction), e.g. AT MX -25  | v2 | yes | yes (task_hid) |
+| AT MY | number  | Move mouse (Y direction), e.g. AT MY 10  | v2 | yes | yes (task_hid) |
 |       |   |   ||| |
-| AT KW | string  | Keyboard write (e.g. "AT KW Hi" types "Hi") | v2 | yes | yes (task_keyboard) |
-| AT KP | string  | Key press (e.g. "AT KP KEY_UP" presses & releases the up arrow key), a full list of supported key identifiers is provided on the bottom. | v2 | yes | yes (task_keyboard) |
-| AT KH | string  | Key hold (e.g. "AT KH KEY_UP" presses & holds the up arrow key), a full list of supported key identifiers is provided on the bottom  | v2 | untested | yes (task_keyboard) |
-| AT KR | string  | Key release (e.g. "AT KR KEY_UP" releases the up arrow key)  | v2 | untested | yes (task_keyboard) |
+| AT KW | string  | Keyboard write (e.g. "AT KW Hi" types "Hi") | v2 | yes | yes (task_hid) |
+| AT KP | string  | Key press ("click") (e.g. "AT KP KEY_UP" presses & releases the up arrow key), a full list of supported key identifiers is provided on the bottom. | v2 | yes | yes (task_hid) |
+| AT KH | string  | Key hold (e.g. "AT KH KEY_UP" presses & holds the up arrow key.), a full list of supported key identifiers is provided on the bottom  | v2 | untested | yes (task_hid) |
+| AT KR | string  | Key release (e.g. "AT KR KEY_UP" releases the up arrow key)  | v2 | untested | yes (task_hid) |
+| AT KT | string  | Key toggle (e.g. "AT KT KEY_UP" toggles the up arrow key)  | v2 | untested | yes (task_hid) |
 | AT RA | --  | Release all keys  | v2 | untested | no |
 **Storage commands** 
 | Command | Parameter | Description | Available since | Implemented in v3 | FUNCTIONAL task |
@@ -116,16 +121,16 @@ individually to set a global value.
 **Joystick settings**
 | Command | Parameter | Description | Available since | Implemented in v3 | FUNCTIONAL task |
 |:--------|:----------|:------------|:--------------|:--------------------|:----------------|
-| AT JX | number (0-1023) + number(0,1)  | Joystick X-axis <sup>[D](#footnoteD)</sup> | v2 | yes | yes (task_joystick) |
-| AT JY | number (0-1023) + number(0,1)  | Joystick Y-axis <sup>[D](#footnoteD)</sup> | v2 | yes | yes (task_joystick) |
-| AT JZ | number (0-1023) + number(0,1)  | Joystick Z-axis <sup>[D](#footnoteD)</sup> | v2 | yes | yes (task_joystick) |
-| AT JT | number (0-1023) + number(0,1)  | Joystick Z-rotate <sup>[D](#footnoteD)</sup> | v2 | yes | yes (task_joystick) |
-| AT JS | number (0-1023) + number(0,1)  | Joystick Slider left <sup>[D](#footnoteD)</sup> | v2 | yes | yes (task_joystick) |
-| AT JU | number (0-1023) + number(0,1)  | Joystick Slider right <sup>[D](#footnoteD)</sup> | v3 | untested | yes (task_joystick) |
-| AT JP | number (1-32)  | Button press | v2 | yes | yes (task_joystick) |
-| AT JC | number (1-32)  | Button press & release (on VB press & release) | v3 | yes | yes (task_joystick) |
-| AT JR | number (1-32)  | Button release | v2 | yes | yes (task_joystick) |
-| AT JH | number (-1, 0-315) + number(0,1) | Joystick hat (rest position: -1, 0-315 in 45° steps) <sup>[D](#footnoteD)</sup> | v2 | yes | yes (task_joystick) |
+| AT JX | number (0-1023) + number(0,1)  | Joystick X-axis <sup>[D](#footnoteD)</sup> | v2 | yes | yes (task_hid) |
+| AT JY | number (0-1023) + number(0,1)  | Joystick Y-axis <sup>[D](#footnoteD)</sup> | v2 | yes | yes (task_hid) |
+| AT JZ | number (0-1023) + number(0,1)  | Joystick Z-axis <sup>[D](#footnoteD)</sup> | v2 | yes | yes (task_hid) |
+| AT JT | number (0-1023) + number(0,1)  | Joystick Z-rotate <sup>[D](#footnoteD)</sup> | v2 | yes | yes (task_hid) |
+| AT JS | number (0-1023) + number(0,1)  | Joystick Slider left <sup>[D](#footnoteD)</sup> | v2 | yes | yes (task_hid) |
+| AT JU | number (0-1023) + number(0,1)  | Joystick Slider right <sup>[D](#footnoteD)</sup> | v3 | untested | yes (task_hid) |
+| AT JP | number (1-32)  | Button press (if assigned to a VB, release depends on button release) | v2 | yes | yes (task_hid) |
+| AT JC | number (1-32)  | Button click | v3 | yes | yes (task_hid) |
+| AT JR | number (1-32)  | Button release | v2 | yes | yes (task_hid) |
+| AT JH | number (-1, 0-315) + number(0,1) | Joystick hat (rest position: -1, 0-315 in 45° steps) <sup>[D](#footnoteD)</sup> | v2 | yes | yes (task_hid) |
 
 Please note, that joystick is currently not available for Bluetooth connections.
 
@@ -133,7 +138,7 @@ Please note, that joystick is currently not available for Bluetooth connections.
 
 If set to 0 (or no parameter given, compatible to v2), the axis/slider/hat won't be set to a different value except another VB is used to set it differently. 
 
-If set to 1, the axis/slider/hat will be released to its idle position on a VB release action (idle values: axis - 512; slider - 0; hat - -1).
+If set to 1, the axis/slider/hat will be released to its idle position on a VB release action (idle values: axis - 512; slider - 0; hat - -1). In singleshot mode, the release actions is sent immediately afterwards!
 
 **Infrared commands** 
 | Command | Parameter | Description | Available since | Implemented in v3 | FUNCTIONAL task |

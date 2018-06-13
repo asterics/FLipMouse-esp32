@@ -50,6 +50,8 @@
 
 /** Tag for ESP_LOG logging */
 #define LOG_TAG "cmdparser"
+/** @brief Set a global log limit for this file */
+#define LOG_LEVEL_CMDPARSER ESP_LOG_INFO
 
 /** Simple macro to short the command comparison (full AT cmd with 5 chars) */
 #define CMD(x) (memcmp(cmdBuffer,x,5) == 0)
@@ -102,8 +104,10 @@ uint8_t requestVBUpdate = VB_SINGLESHOT;
  * * <b>TRIGGERTASK</b> If this is returned by sub-parsers, the main task needs to
  *   trigger/process this command, either by assigning it to a VB or triggering it as
  *   singleshot task.
+ * * <b>HID</b> This state is used to determine an HID command, which is either directly sent
+ *   the BLE/USB queue (VB_SINGLESHOT) or added to the HID task.
  * */
-typedef enum pstate {NOACTION,WAITFORNEWATCMD,UNKNOWNCMD,TRIGGERTASK} parserstate_t;
+typedef enum pstate {NOACTION,WAITFORNEWATCMD,UNKNOWNCMD,TRIGGERTASK,HID} parserstate_t;
 
 /** simple helper function which sends back to the USB host "?"
  * and prints an error on the console with the given extra infos. */
@@ -135,13 +139,18 @@ static int checkqueues(void)
   
   return 1;
 }
-/*
-uint8_t doJoystickParsing(uint8_t *cmdBuffer, taskJoystickConfig_t *instance)
+
+/** @brief Helper to send a HID cmd directly to queues, depending on connection status
+ * @param cmd Hid command */
+void sendHIDCmd(hid_cmd_t *cmd)
 {
+  //post values to mouse queue (USB and/or BLE)
+  if(xEventGroupGetBits(connectionRoutingStatus) & DATATO_USB)
+  { xQueueSend(hid_usb,cmd,0); }
   
-  //not consumed, no command found for joystick
-  return 0;
-}*/
+  if(xEventGroupGetBits(connectionRoutingStatus) & DATATO_BLE)
+  { xQueueSend(hid_ble,cmd,0); }
+}
 
 parserstate_t doMouthpieceSettingsParsing(uint8_t *cmdBuffer, taskNoParameterConfig_t *instance)
 {
@@ -440,8 +449,6 @@ parserstate_t doStorageParsing(uint8_t *cmdBuffer, taskConfigSwitcherConfig_t *i
     {
       switch(currentcfg->virtualButtonCommand[i])
       {
-        case T_MOUSE: currentcfg->virtualButtonCfgSize[i] = sizeof(taskMouseConfig_t); break;
-        case T_KEYBOARD: currentcfg->virtualButtonCfgSize[i] = sizeof(taskKeyboardConfig_t); break;
         case T_CONFIGCHANGE: currentcfg->virtualButtonCfgSize[i] = sizeof(taskConfigSwitcherConfig_t); break;
         case T_CALIBRATE: currentcfg->virtualButtonCfgSize[i] = sizeof(taskNoParameterConfig_t); break;
         case T_SENDIR: currentcfg->virtualButtonCfgSize[i] = sizeof(taskInfraredConfig_t); break;
@@ -449,6 +456,19 @@ parserstate_t doStorageParsing(uint8_t *cmdBuffer, taskConfigSwitcherConfig_t *i
         default: break;
       }
     }
+    
+    //get HID handle
+    if(task_hid_enterCritical() == ESP_OK)
+    {
+      //store HID chain
+      halStorageStoreHID(slotnumber, task_hid_getCmdChain(),tid);
+      //exit HID critical section
+      task_hid_exitCritical();
+    } else {
+      ESP_LOGE(LOG_TAG,"Error entering HID critical section");
+    }
+    
+    /// todo save HID
     
     //store config to flash
     if(halStorageStoreSetVBConfigs(slotnumber,currentcfg,tid) != ESP_OK)
@@ -486,19 +506,22 @@ parserstate_t doStorageParsing(uint8_t *cmdBuffer, taskConfigSwitcherConfig_t *i
   return UNKNOWNCMD;
 }
 
-parserstate_t doJoystickParsing(uint8_t *cmdBuffer, taskJoystickConfig_t *instance, int length)
+parserstate_t doJoystickParsing(uint8_t *cmdBuffer, int length)
 {
   if(CMD4("AT J"))
   {
-    //clear any previous data
-    requestVBTask = (void (*)(void *))&task_joystick;
-    requestVBParameterSize = sizeof(taskJoystickConfig_t);
-    requestVBParameter = instance;
-    requestVBType = T_JOYSTICK;
-    memset(instance,0,sizeof(taskJoystickConfig_t));
-    //save to config
-    instance->virtualButton = requestVBUpdate;
-    //just to clear following checks a little bit.
+    //new hid command
+    hid_cmd_t cmd;
+    //second command for double click or release action
+    hid_cmd_t cmd2;
+    
+    //set everything up for updates:
+    //set vb with press action & clear any first command byte.
+    cmd.vb = requestVBUpdate | (0x80);
+    cmd2.vb = requestVBUpdate;
+    cmd.cmd[0] = 0;
+    cmd2.cmd[0] = 0;
+    //just to shorten following checks a little bit.
     char t = cmdBuffer[4];
     
     //param 1
@@ -515,7 +538,7 @@ parserstate_t doJoystickParsing(uint8_t *cmdBuffer, taskJoystickConfig_t *instan
         ESP_LOGE(LOG_TAG,"Joystick button out of range: %d",param1);
         sendErrorBack("Joystick button invalid");
         return UNKNOWNCMD;
-      } else instance->value = param1 - 1;
+      } else cmd2.cmd[1] = param1; cmd.cmd[1] = param1;
     }
     
     //parameter checks - hat
@@ -526,7 +549,7 @@ parserstate_t doJoystickParsing(uint8_t *cmdBuffer, taskJoystickConfig_t *instan
         ESP_LOGE(LOG_TAG,"Joystick hat out of range: %d",param1);
         sendErrorBack("Joystick hat value invalid");
         return UNKNOWNCMD;
-      } else instance->valueS = param1;
+      } else cmd2.cmd[1] = param1 | 0x80; cmd.cmd[1] = param1 | 0x80;
     }
     
     //parameter checks - axis
@@ -537,7 +560,14 @@ parserstate_t doJoystickParsing(uint8_t *cmdBuffer, taskJoystickConfig_t *instan
         ESP_LOGE(LOG_TAG,"Joystick axis out of range: %d",param1);
         sendErrorBack("Joystick axis value invalid");
         return UNKNOWNCMD;
-      } else instance->value = param1;
+      } else {
+        //this is the "set" action, update joystick value.
+        cmd.cmd[1] = param1 & 0xFF;
+        cmd.cmd[2] = (param1 & 0xFF00)>>8;
+        //if used, this would be the release action (setting to 512 for all axis; to 0 for sliders)
+        cmd2.cmd[1] = 0x00;
+        if(t == 'S' || t == 'U') cmd2.cmd[2] = 0; else cmd2.cmd[2] = 0x02;
+      }
     }
     
     //test release mode, but only if not a button.
@@ -546,34 +576,79 @@ parserstate_t doJoystickParsing(uint8_t *cmdBuffer, taskJoystickConfig_t *instan
       if(param2 > 1)
       {
         ESP_LOGW(LOG_TAG,"Joystick release mode invalid: %d, reset to 0",param2);
-        instance->mode = 0;
-      } else {
-        instance->mode = param2;
+        param2 = 0;
       }
     } else {
-      //just set to 0 for buttons
-      instance->mode = 0;
+      param2 = 0;
     }
     
     //map AT command (5th character) to joystick command
     switch(t)
     {
-      case 'X': instance->type = XAXIS; break;
-      case 'Y': instance->type = YAXIS; break;
-      case 'Z': instance->type = ZAXIS; break;
-      case 'T': instance->type = ZROTATE; break;
-      case 'S': instance->type = SLIDER_LEFT; break;
-      case 'U': instance->type = SLIDER_RIGHT; break;
-      case 'H': instance->type = HAT; break;
-      case 'P': instance->type = BUTTON_PRESS; break;
-      //AT JC -> button press but with release flag set.
-      case 'C': instance->type = BUTTON_PRESS; instance->mode = 1; break;
-      case 'R': instance->type = BUTTON_RELEASE; break;
-      default: return UNKNOWNCMD;
+      case 'X': cmd.cmd[0] = 0x34; if(param2) { cmd2.cmd[0] = 0x34; } break;
+      case 'Y': cmd.cmd[0] = 0x35; if(param2) { cmd2.cmd[0] = 0x35; } break;
+      case 'Z': cmd.cmd[0] = 0x36; if(param2) { cmd2.cmd[0] = 0x36; } break;
+      case 'T': cmd.cmd[0] = 0x37; if(param2) { cmd2.cmd[0] = 0x37; } break;
+      case 'S': cmd.cmd[0] = 0x38; if(param2) { cmd2.cmd[0] = 0x38; } break;
+      case 'U': cmd.cmd[0] = 0x39; if(param2) { cmd2.cmd[0] = 0x39; } break;
+      case 'H': cmd.cmd[0] = 0x31; if(param2) { cmd2.cmd[0] = 0x32; } break;
+      case 'P': cmd.cmd[0] = 0x31; if(param2) { cmd2.cmd[0] = 0x32; } break;
+      case 'C': cmd.cmd[0] = 0x30;
+      case 'R': cmd.cmd[0] = 0x32;
+      default: cmd.cmd[0] = 0; cmd2.cmd[0] = 0;
     }
     
-    //we want to have the config sent to the task (or mapped to a VB)
-    return TRIGGERTASK;
+    //if a command is found
+    if(cmd.cmd[0] != 0)
+    {
+      //if we have a singleshot, pass command to queue for immediate process
+      if(cmd.vb == VB_SINGLESHOT)
+      {
+        //post values to mouse queue (USB and/or BLE)
+        if(xEventGroupGetBits(connectionRoutingStatus) & DATATO_USB)
+        { xQueueSend(hid_usb,&cmd,0); }
+        
+        if(xEventGroupGetBits(connectionRoutingStatus) & DATATO_BLE)
+        { xQueueSend(hid_ble,&cmd,0); }
+        
+        //if we have a second action (release immediately), send it
+        if(cmd2.cmd[0] != 0)
+        {
+          //post values to mouse queue (USB and/or BLE)
+          if(xEventGroupGetBits(connectionRoutingStatus) & DATATO_USB)
+          { xQueueSend(hid_usb,&cmd2,0); }
+          
+          if(xEventGroupGetBits(connectionRoutingStatus) & DATATO_BLE)
+          { xQueueSend(hid_ble,&cmd2,0); }
+        }
+      } else {
+        //if it is assigned to a vb, 
+        //allocate original string (max len for joystick is ~16)
+        //add it to HID task
+        cmd.atoriginal = malloc(strnlen((char*)cmdBuffer,16)+1);
+        if(cmd.atoriginal == NULL) 
+        {
+          ESP_LOGE(LOG_TAG,"No memory for original AT");
+        } else {
+          strncpy(cmd.atoriginal,(char*)cmdBuffer,16);
+        }
+        if(task_hid_addCmd(&cmd,1) != ESP_OK)
+        {
+          ESP_LOGE(LOG_TAG,"Error adding to HID task");
+        }
+        
+        //if we have double action (double click)
+        //or press/release action, we have to assign a second HID command.
+        if(cmd2.cmd[0] != 0)
+        {
+          if(task_hid_addCmd(&cmd2,0) != ESP_OK)
+          {
+            ESP_LOGE(LOG_TAG,"Error adding 2nd to HID task");
+          }
+        }
+      }
+      return HID;
+    }
   }
   //not consumed, no command found for storage
   return UNKNOWNCMD;
@@ -961,6 +1036,7 @@ parserstate_t doGeneralCmdParsing(uint8_t *cmdBuffer)
     if(requestVBUpdate != VB_SINGLESHOT)
     {
       //set this button to be unused
+      ESP_LOGI(LOG_TAG,"NC -> unused");
       currentcfg->virtualButtonCommand[requestVBUpdate] = T_NOFUNCTION;
     }
     
@@ -1039,20 +1115,10 @@ parserstate_t doGeneralCmdParsing(uint8_t *cmdBuffer)
   return UNKNOWNCMD;
 }
 
-parserstate_t doKeyboardParsing(uint8_t *cmdBuffer, taskKeyboardConfig_t *kbdinstance, int length)
+parserstate_t doKeyboardParsing(uint8_t *cmdBuffer, int length)
 {
-  //clear any previous data
-  memset(kbdinstance,0,sizeof(taskKeyboardConfig_t));
   
-  //set everything up for updates
-  requestVBTask = (void (*)(void *))&task_keyboard;
-  requestVBParameterSize = sizeof(taskKeyboardConfig_t);
-  requestVBParameter = kbdinstance;
-  requestVBType = T_KEYBOARD;
   
-  //use global virtual button (normally VB_SINGLESHOT,
-  //can be changed by "AT BM"
-  kbdinstance->virtualButton = requestVBUpdate;
   int offset = 0;
   int offsetOut = 0;
   int offsetEnd = TASK_KEYBOARD_PARAMETERLENGTH-1;
@@ -1069,26 +1135,44 @@ parserstate_t doKeyboardParsing(uint8_t *cmdBuffer, taskKeyboardConfig_t *kbdins
     ESP_LOGE(LOG_TAG,"Major error, general config is NULL");
     return UNKNOWNCMD;
   }
-  
+  ///@todo Everything for keyboard & new hid_cmd_t. Change to new AT KH / KT / KP / KR
   /*++++ AT KW ++++*/
   if(CMD("AT KW")) {
-    //set keyboard to write
-    kbdinstance->type = WRITE;
     //remove \r & \n
     //cmdBuffer[length-2] = 0;
     //cmdBuffer[length-1] = 0;
+    
+    hid_cmd_t cmd;
+    memset(&cmd,0,sizeof(hid_cmd_t));
+    cmd.vb = requestVBUpdate | (0x80);
+    //if it is assigned to a vb, 
+    //allocate original string (max len for mouse is 12)
+    //add it to HID task
+    if(requestVBUpdate != VB_SINGLESHOT)
+    {
+      if(strnlen((char*)cmdBuffer,ATCMD_LENGTH) == ATCMD_LENGTH)
+      {
+        ESP_LOGE(LOG_TAG,"Too long AT cmd (or unterminated");
+      } else {
+        
+        cmd.atoriginal = malloc(strnlen((char*)cmdBuffer,ATCMD_LENGTH)+1);
+        if(cmd.atoriginal == NULL) 
+        {
+          ESP_LOGE(LOG_TAG,"No memory for original AT");
+        } else {
+          strcpy(cmd.atoriginal,(char*)cmdBuffer);
+        }
+      }
+    }
     
     //save each byte from KW string to keyboard instance
     //offset must be less then buffer length - 6 bytes for "AT KW "
     while(offset <= (length - 5))
     {
-      
-      
       //terminate...
       if(cmdBuffer[offset+6] == 0 || offsetOut == offsetEnd) break;
       
       //save original byte
-      kbdinstance->keycodes_text[offsetEnd] = cmdBuffer[offset+6];
       offsetEnd--;
       
       //parse ASCII/unicode to keycode sequence
@@ -1104,14 +1188,90 @@ parserstate_t doKeyboardParsing(uint8_t *cmdBuffer, taskKeyboardConfig_t *kbdins
         //is a deadkey necessary?
         if(deadkeyfirst != 0)
         {
-          kbdinstance->keycodes_text[offsetOut] = deadkeyfirst;
+          cmd.cmd[0] = 0x20; //press&release
+          cmd.cmd[1] = deadkeyfirst;
+          
+          //send the cmd either directly or save it to the HID task
+          if((cmd.vb & 0x7F) == VB_SINGLESHOT) {
+            sendHIDCmd(&cmd);
+          } else {
+            //if this was the first command in VB mode, we need to
+            //remove the pointer to the original string
+            //but we don't free it, this is done if the task_hid clears the list
+            //in addition, if it was the first command, set the adding to replace any old HID config.
+            if(cmd.atoriginal != NULL) 
+            {
+              task_hid_addCmd(&cmd,1);
+              cmd.atoriginal = NULL;
+            } else task_hid_addCmd(&cmd,0);
+          }
+          
           offsetOut++;
           ESP_LOGD(LOG_TAG, "Deadkey 0x%X@%d",deadkeyfirst,offsetOut);
         }
         
         //save keycode + modifier
-        kbdinstance->keycodes_text[offsetOut] = keycode | (modifier << 8);
         ESP_LOGD(LOG_TAG, "Keycode 0x%X@%d, modifier: 0x%X",keycode,offsetOut,modifier);
+        
+        //we need maximum 3 commands:
+        //press a modifier
+        //press&release keycode
+        //release a modifier
+        if(modifier){
+          cmd.cmd[0] = 0x25; cmd.cmd[1] = modifier;
+          //send the cmd either directly or save it to the HID task
+          if((cmd.vb & 0x7F) == VB_SINGLESHOT) {
+            sendHIDCmd(&cmd);
+            ESP_LOGI(LOG_TAG,"Sent modifier press (0x%2X)",modifier);
+          } else {
+            //if this was the first command in VB mode, we need to
+            //remove the pointer to the original string
+            //but we don't free it, this is done if the task_hid clears the list
+            //in addition, if it was the first command, set the adding to replace any old HID config.
+            if(cmd.atoriginal != NULL) 
+            {
+              task_hid_addCmd(&cmd,1);
+              cmd.atoriginal = NULL;
+            } else task_hid_addCmd(&cmd,0);
+          }
+        }
+        
+        cmd.cmd[0] = 0x20; cmd.cmd[1] = keycode;
+        //send the cmd either directly or save it to the HID task
+        if((cmd.vb & 0x7F) == VB_SINGLESHOT) {
+          sendHIDCmd(&cmd);
+          ESP_LOGI(LOG_TAG,"Sent keycode press&release (0x%2X)",keycode);
+        } else {
+          //if this was the first command in VB mode, we need to
+          //remove the pointer to the original string
+          //but we don't free it, this is done if the task_hid clears the list
+          //in addition, if it was the first command, set the adding to replace any old HID config.
+          if(cmd.atoriginal != NULL) 
+          {
+            task_hid_addCmd(&cmd,1);
+            cmd.atoriginal = NULL;
+          } else task_hid_addCmd(&cmd,0);
+        }
+        
+        if(modifier){
+          cmd.cmd[0] = 0x26; cmd.cmd[1] = modifier;
+          //send the cmd either directly or save it to the HID task
+          if((cmd.vb & 0x7F) == VB_SINGLESHOT) {
+            sendHIDCmd(&cmd);
+            ESP_LOGI(LOG_TAG,"Sent modifier release (0x%2X)",modifier);
+          } else {
+            //if this was the first command in VB mode, we need to
+            //remove the pointer to the original string
+            //but we don't free it, this is done if the task_hid clears the list
+            //in addition, if it was the first command, set the adding to replace any old HID config.
+            if(cmd.atoriginal != NULL) 
+            {
+              task_hid_addCmd(&cmd,1);
+              cmd.atoriginal = NULL;
+            } else task_hid_addCmd(&cmd,0);
+          }
+        }
+        
         offsetOut++;
       } else {
         ESP_LOGD(LOG_TAG, "Need another byte (unicode)");
@@ -1124,30 +1284,46 @@ parserstate_t doKeyboardParsing(uint8_t *cmdBuffer, taskKeyboardConfig_t *kbdins
         return UNKNOWNCMD;
       }
     }
-    //terminate keycode array with 0
-    ESP_LOGD(LOG_TAG,"Terminating @%d with 0",offsetOut);
-    kbdinstance->keycodes_text[offsetOut] = 0;
-    return TRIGGERTASK;
+    return HID;
   }
   
-  /*++++ AT KP + KH + KR ++++*/
+
+  /*++++ AT KP + KH + KR + KT ++++*/
   // (all commands with key identifiers)
   if(CMD4("AT K")) {
-    //set keyboard instance accordingly
-    switch(cmdBuffer[4])
+    
+    hid_cmd_t cmd;  //this would be the press or press&release action
+    memset(&cmd,0,sizeof(hid_cmd_t));
+    cmd.vb = requestVBUpdate | (0x80);
+    char t=cmdBuffer[4];
+    
+    //check if valid type of KB command
+    if((t != 'P') && (t != 'T') && (t != 'R') && (t != 'H')) return UNKNOWNCMD;
+    
+    //if it is assigned to a vb, 
+    //allocate original string (max len for mouse is 12)
+    //add it to HID task
+    if(requestVBUpdate != VB_SINGLESHOT)
     {
-      //KP: press with VB press flag, release with VB release flag
-      case 'P': kbdinstance->type = PRESS_RELEASE_BUTTON; break;
-      //KR: just release
-      case 'R': kbdinstance->type = RELEASE; break;
-      //KH: just press (hold)
-      case 'H': kbdinstance->type = PRESS; break;
-      default: return UNKNOWNCMD; break;
+      if(strnlen((char*)cmdBuffer,ATCMD_LENGTH) == ATCMD_LENGTH)
+      {
+        ESP_LOGE(LOG_TAG,"Too long AT cmd (or unterminated");
+      } else {
+        
+        cmd.atoriginal = malloc(strnlen((char*)cmdBuffer,ATCMD_LENGTH)+1);
+        if(cmd.atoriginal == NULL) 
+        {
+          ESP_LOGE(LOG_TAG,"No memory for original AT");
+        } else {
+          strcpy(cmd.atoriginal,(char*)cmdBuffer);
+        }
+      }
     }
 
     char *pch;
     uint8_t cnt = 0;
     uint16_t keycode = 0;
+    uint16_t releaseArr[16];
     pch = strpbrk((char *)&cmdBuffer[5]," ");
     while (pch != NULL)
     {
@@ -1164,32 +1340,56 @@ parserstate_t doKeyboardParsing(uint8_t *cmdBuffer, taskKeyboardConfig_t *kbdins
         if(keycode != 0)
         {
           //if found, save...
-          ESP_LOGD(LOG_TAG,"Keycode: %d",keycode);
+          ESP_LOGD(LOG_TAG,"Keycode: 0x%4X",keycode);
           
-          //get deadkeys
-          uint16_t deadk = 0;
-          deadk = deadkey_to_keycode(keycode, currentcfg->locale);
-          //found a deadkey
-          if(deadk != 0)
-          {
-            //save deadkey's keycode & modifier
-            kbdinstance->keycodes_text[cnt] = keycode_to_key(deadk) | \
-              (keycode_to_modifier(deadk, currentcfg->locale) << 8);
-            ESP_LOGI(LOG_TAG,"Deadkey (keycode + modifier): %4X @%d",kbdinstance->keycodes_text[cnt], cnt);
-            cnt++;
-          }
-          
+          //because we have KEY identifiers, no deadkey processing is
+          //done here.
+      
           //KEY_ * identifiers are either a key or a modifier
           //determine which type and save accordingly:
           if(keycode_is_modifier(keycode))
           {
-            kbdinstance->keycodes_text[cnt] = keycode_to_key(keycode) << 8;
+            //we are working with a modifier key here
+            cmd.cmd[1] = keycode & 0xFF;
+            switch(t)
+            {
+              case 'H': //KH + KP press on first action
+              case 'P': cmd.cmd[0] = 0x25; break;
+              case 'R': cmd.cmd[0] = 0x26; break; //KR release on first action
+              case 'T': cmd.cmd[0] = 0x27; break; //KT toggle on first action
+            }
           } else {
-            kbdinstance->keycodes_text[cnt] = keycode_to_key(keycode);
+            cmd.cmd[1] = keycode_to_key(keycode);
+            switch(t)
+            {
+              case 'H':
+              case 'P': cmd.cmd[0] = 0x21; break;
+              case 'R': cmd.cmd[0] = 0x22; break;
+              case 'T': cmd.cmd[0] = 0x23; break;
+            }
           }
-          ESP_LOGI(LOG_TAG,"Keycode + modifier: %4X @ %d",kbdinstance->keycodes_text[cnt], cnt);
+
+          //send the cmd either directly or save it to the HID task
+          if((cmd.vb & 0x7F) == VB_SINGLESHOT) {
+            sendHIDCmd(&cmd);
+            ESP_LOGI(LOG_TAG,"Sent action 0x%2X, keycode/modifier: 0x%2X",cmd.cmd[0],cmd.cmd[1]);
+          } else {
+            //if this was the first command in VB mode, we need to
+            //remove the pointer to the original string
+            //but we don't free it, this is done if the task_hid clears the list
+            //in addition, if it was the first command, set the adding to replace any old HID config.
+            if(cmd.atoriginal != NULL) 
+            {
+              task_hid_addCmd(&cmd,1);
+              cmd.atoriginal = NULL;
+            } else task_hid_addCmd(&cmd,0);
+          }
+          
+          //save for later release
+          releaseArr[cnt] = keycode;
           cnt++;
-          if(cnt == (TASK_KEYBOARD_PARAMETERLENGTH - 1))
+          
+          if(cnt == 14) //maximum 6 keycodes + 8 modifier bits
           {
             sendErrorBack("AT KP/KH/KR parameter too long");
             return UNKNOWNCMD;
@@ -1201,19 +1401,56 @@ parserstate_t doKeyboardParsing(uint8_t *cmdBuffer, taskKeyboardConfig_t *kbdins
       //split into tokens
       pch = strpbrk(pch+1, " ");
     }
+    
     //check if any key identifiers were found
     if(cnt == 0)
     {
       sendErrorBack("No KEY_ identifiers found");
       return UNKNOWNCMD;
     } else {
-      //terminate keycode array with 0
-      ESP_LOGD(LOG_TAG,"Terminating @%d with 0",cnt);
-      kbdinstance->keycodes_text[cnt] = 0;
-      return TRIGGERTASK;
+      //now we need to add the release actions.
+      //this is done ONLY for AT KP & AT KH:
+      //AT KP releases all keys immediately after pressing them.
+      //This is valid in VB mode and via AT commands on serial interface
+      //AT KH releases all keys on a VB release trigger. If we
+      //got that command via the serial interface, we don't do this (AT KR is needed)
+      
+      if((t=='P') || ((t=='H')&&(requestVBUpdate != VB_SINGLESHOT)))
+      {
+        //this has to be a press action too, but at the end
+        if(t=='P') cmd.vb = requestVBUpdate | 0x80;
+        //we need to have this action on a VB release trigger
+        if(t=='H') cmd.vb = requestVBUpdate;
+        
+        //now either send directly or add to HID task...
+        for(uint8_t i = 0; i<cnt; i++)
+        {
+          //check which command we need (release key or modifier)
+          if(keycode_is_modifier(releaseArr[i])) 
+          {
+            cmd.cmd[0] = 0x26; //release the modifier
+            //get key for this one
+            cmd.cmd[1] = releaseArr[i] & 0xFF;
+          } else {
+            cmd.cmd[0] = 0x22; //release the key
+            //get key for this one
+            cmd.cmd[1] = keycode_to_key(releaseArr[i]);
+          }
+          
+          //send the cmd either directly or save it to the HID task
+          if(requestVBUpdate == VB_SINGLESHOT) {
+            ESP_LOGI(LOG_TAG,"Sent release action 0x%2X, keycode/modifier: 0x%2X",cmd.cmd[0],cmd.cmd[1]);
+            sendHIDCmd(&cmd);
+          } else {
+            task_hid_addCmd(&cmd,0);
+          }
+        }
+      }
+      
+      return HID;
     }
   }
-  
+
   //not consumed, no command found for keyboard
   return UNKNOWNCMD;
 }
@@ -1244,53 +1481,70 @@ parserstate_t doMacroParsing(uint8_t *cmdBuffer, taskMacrosConfig_t *macroinstan
   return UNKNOWNCMD;
 }
 
-parserstate_t doMouseParsing(uint8_t *cmdBuffer, taskMouseConfig_t *mouseinstance)
+parserstate_t doMouseParsing(uint8_t *cmdBuffer)
 {
-  //clear any previous data
-  memset(mouseinstance,0,sizeof(taskMouseConfig_t));
+  //new hid command
+  hid_cmd_t cmd;
+  //second command for double click or release action
+  hid_cmd_t cmd2;
   
-  //set everything up for updates
-  requestVBTask = (void (*)(void *))&task_mouse;
-  requestVBParameterSize = sizeof(taskMouseConfig_t);
-  requestVBParameter = mouseinstance;
-  requestVBType = T_MOUSE;
+  memset(&cmd,0,sizeof(hid_cmd_t));
+  memset(&cmd2,0,sizeof(hid_cmd_t));
   
-  //use global virtual button (normally VB_SINGLESHOT,
-  //can be changed by "AT BM"
-  mouseinstance->virtualButton = requestVBUpdate;
+  //set everything up for updates:
+  //set vb with press action & clear any first command byte.
+  cmd.vb = requestVBUpdate | (0x80);
+  cmd2.vb = requestVBUpdate;
+  cmd.cmd[0] = 0;
+  cmd2.cmd[0] = 0;
+  //get mouse wheel steps
   int steps = 3;
-  
+  generalConfig_t *cfg = configGetCurrent();
+  if(cfg != NULL) steps = cfg->wheel_stepsize;
+
   /*++++ mouse clicks ++++*/
   //AT CL, AT CR, AT CM, AT CD
   if(CMD4("AT C"))
   {
-    mouseinstance->actionparam = M_CLICK;
     switch(cmdBuffer[4])
     {
       //do single clicks (left,right,middle)
-      case 'L': mouseinstance->type = LEFT; return TRIGGERTASK;
-      case 'R': mouseinstance->type = RIGHT; return TRIGGERTASK;
-      case 'M': mouseinstance->type = MIDDLE; return TRIGGERTASK;
+      case 'L': cmd.cmd[0] = 0x13; break;
+      case 'R': cmd.cmd[0] = 0x14; break;
+      case 'M': cmd.cmd[0] = 0x15; break;
       //do left double click
       case 'D': 
-        mouseinstance->type = LEFT;
-        mouseinstance->actionparam = M_DOUBLE; 
-        return TRIGGERTASK;
-      //not an AT C? command for mouse, return 0 (not consumed)
-      default: return UNKNOWNCMD;
+        cmd.cmd[0] = 0x13;
+        cmd2.cmd[0] = 0x13;
+        break;
+      //not an AT C? command for mouse
+      default: cmd.cmd[0] = 0;
+    }
+  }
+  
+  /*++++ mouse toggle ++++*/
+  //AT TL, TR, TM
+  if(CMD4("AT T"))
+  {
+    switch(cmdBuffer[4])
+    {
+      //do toggles (left,right,middle)
+      case 'L': cmd.cmd[0] = 0x1C; break;
+      case 'R': cmd.cmd[0] = 0x1D; break;
+      case 'M': cmd.cmd[0] = 0x1E; break;
+      //not an AT C? command for mouse
+      default: cmd.cmd[0] = 0;
     }
   }
   
   /*++++ mouse wheel up/down; set stepsize ++++*/
   if(CMD4("AT W"))
   {
-    mouseinstance->type = WHEEL;
-    mouseinstance->actionparam = M_UNUSED;
     switch(cmdBuffer[4])
     {
       //move mouse wheel up/down
-      case 'U': mouseinstance->actionvalue = mouse_get_wheel(); return TRIGGERTASK;
-      case 'D': mouseinstance->actionvalue = -mouse_get_wheel(); return TRIGGERTASK;
+      case 'U': cmd.cmd[0] = 0x12; cmd.cmd[1] = (int8_t)steps; break;
+      case 'D': cmd.cmd[0] = 0x12; cmd.cmd[1] = -((int8_t)steps); break;
       //set mouse wheel stepsize. If unsuccessful, default will return 0
       case 'S':
         steps = strtol((char*)&(cmdBuffer[6]),NULL,10);
@@ -1299,25 +1553,24 @@ parserstate_t doMouseParsing(uint8_t *cmdBuffer, taskMouseConfig_t *mouseinstanc
           sendErrorBack("Wheel size out of range! (1 to 127)");
           return UNKNOWNCMD;
         } else { 
-          mouse_set_wheel(steps);
+          if(cfg != NULL) cfg->wheel_stepsize = steps;
           ESP_LOGI(LOG_TAG,"Setting mouse wheel steps: %d",steps);
           return NOACTION;
         }
-      default: return UNKNOWNCMD;
+      default: cmd.cmd[0] = 0;
     }
   }
   
   /*++++ mouse button press ++++*/
   //AT PL, AT PR, AT PM
-  if(CMD4("AT P"))
+  if(CMD4("AT P") || CMD4("AT H"))
   {
-    mouseinstance->actionparam = M_HOLD;
     switch(cmdBuffer[4])
     {
-      case 'L': mouseinstance->type = LEFT; return TRIGGERTASK;
-      case 'R': mouseinstance->type = RIGHT; return TRIGGERTASK;
-      case 'M': mouseinstance->type = MIDDLE; return TRIGGERTASK;
-      default: return UNKNOWNCMD;
+      case 'L': cmd.cmd[0] = 0x16; cmd2.cmd[0] = 0x19; break;
+      case 'R': cmd.cmd[0] = 0x17; cmd2.cmd[0] = 0x1A; break;
+      case 'M': cmd.cmd[0] = 0x18; cmd2.cmd[0] = 0x1B; break;
+      default: cmd.cmd[0] = 0; cmd2.cmd[0] = 0;
     }
   }
   
@@ -1325,13 +1578,12 @@ parserstate_t doMouseParsing(uint8_t *cmdBuffer, taskMouseConfig_t *mouseinstanc
   //AT RL, AT RR, AT RM
   if(CMD4("AT R"))
   {
-    mouseinstance->actionparam = M_RELEASE;
     switch(cmdBuffer[4])
     {
-      case 'L': mouseinstance->type = LEFT; return TRIGGERTASK;
-      case 'R': mouseinstance->type = RIGHT; return TRIGGERTASK;
-      case 'M': mouseinstance->type = MIDDLE; return TRIGGERTASK;
-      default: return UNKNOWNCMD;
+      case 'L': cmd.cmd[0] = 0x19; break;
+      case 'R': cmd.cmd[0] = 0x1A; break;
+      case 'M': cmd.cmd[0] = 0x1B; break;
+      default: cmd.cmd[0] = 0; cmd2.cmd[0] = 0;
     }
   }  
   
@@ -1339,33 +1591,77 @@ parserstate_t doMouseParsing(uint8_t *cmdBuffer, taskMouseConfig_t *mouseinstanc
   //AT MX MY
   if(CMD4("AT M"))
   {
-    mouseinstance->actionparam = M_UNUSED;
-    //mouseinstance->actionvalue = atoi((char*)&(cmdBuffer[6]));
-    //mouseinstance->actionvalue = strtoimax((char*)&(cmdBuffer[6]),&endBuf,10);
     int param = strtol((char*)&(cmdBuffer[5]),NULL,10);
     if(param > 127 && param < -127)
     {
       ESP_LOGW(LOG_TAG,"AT M? parameter limit -127 - 127");
       return UNKNOWNCMD;
     } else {
-      mouseinstance->actionvalue = param;
+      cmd.cmd[1] = param;
     }
     switch(cmdBuffer[4])
     {
       case 'X': 
-        mouseinstance->type = X; 
-        ESP_LOGI(LOG_TAG,"Mouse move X, %d",mouseinstance->actionvalue);
-        return TRIGGERTASK;
+        cmd.cmd[0] = 0x10; 
+        ESP_LOGI(LOG_TAG,"Mouse move X, %d",cmd.cmd[1]);
+        break;;
       case 'Y': 
-        mouseinstance->type = Y; 
-        ESP_LOGI(LOG_TAG,"Mouse move Y, %d",mouseinstance->actionvalue);
-        return TRIGGERTASK;
-      default: return UNKNOWNCMD;
+        cmd.cmd[0] = 0x11;  
+        ESP_LOGI(LOG_TAG,"Mouse move Y, %d",cmd.cmd[1]);
+        break;
+      default: cmd.cmd[0] = 0;
     }
   }
 
-  //no mouse command found
-  return UNKNOWNCMD;
+  //if a command is found
+  if(cmd.cmd[0] != 0)
+  {
+    //if we have a singleshot, pass command to queue for immediate process
+    if(requestVBUpdate == VB_SINGLESHOT)
+    {
+      //post values to mouse queue (USB and/or BLE)
+      sendHIDCmd(&cmd);
+      
+      //if we do a double action (double click), send second action also in singleshot
+      if(cmd2.cmd[0] == 0x13)
+      {
+        sendHIDCmd(&cmd2);
+      }
+    } else {
+      //if it is assigned to a vb, 
+      //allocate original string (max len for mouse is 12)
+      //add it to HID task
+      if(strnlen((char*)cmdBuffer,13) == 13)
+      {
+        ESP_LOGE(LOG_TAG,"Unterminated AT cmd!");
+      } else {
+        cmd.atoriginal = malloc(strnlen((char*)cmdBuffer,12)+2);
+        ESP_LOGD(LOG_TAG,"Alloc %d for atoriginal @0X%08X",strnlen((char*)cmdBuffer,12)+2,(uint32_t)cmd.atoriginal);
+        if(cmd.atoriginal == NULL) 
+        {
+          ESP_LOGE(LOG_TAG,"No memory for original AT");
+        } else {
+          strcpy(cmd.atoriginal,(char*)cmdBuffer);
+        }
+      }
+      if(task_hid_addCmd(&cmd,1) != ESP_OK)
+      {
+        ESP_LOGE(LOG_TAG,"Error adding to HID task");
+      }
+      
+      //if we have double action (double click)
+      //or press/release action, we have to assign a second HID command.
+      if(cmd2.cmd[0] != 0)
+      {
+        if(task_hid_addCmd(&cmd2,0) != ESP_OK)
+        {
+          ESP_LOGE(LOG_TAG,"Error adding 2nd to HID task");
+        }
+      }
+    }
+    return HID;
+  //no command found.
+  } else { return UNKNOWNCMD; }
 }
  
 void task_commands(void *params)
@@ -1377,17 +1673,13 @@ void task_commands(void *params)
   uint8_t *commandBuffer = NULL;
 
   //parameters for different tasks
-  taskMouseConfig_t *cmdMouse = malloc(sizeof(taskMouseConfig_t));
-  taskKeyboardConfig_t *cmdKeyboard = malloc(sizeof(taskKeyboardConfig_t));
   taskNoParameterConfig_t *cmdNoConfig = malloc(sizeof(taskNoParameterConfig_t));
   taskConfigSwitcherConfig_t *cmdCfgSwitcher = malloc(sizeof(taskConfigSwitcherConfig_t));
   taskMacrosConfig_t *cmdMacros = malloc(sizeof(taskMacrosConfig_t));
   taskInfraredConfig_t *cmdInfrared = malloc(sizeof(taskInfraredConfig_t));
-  taskJoystickConfig_t *cmdJoystick = malloc(sizeof(taskJoystickConfig_t));
   
   //check if we have all our pointers
-  if(cmdMouse == NULL || cmdKeyboard == NULL || cmdJoystick == NULL || \
-    cmdNoConfig == NULL || cmdCfgSwitcher == NULL || cmdMacros == NULL || \
+  if(cmdNoConfig == NULL || cmdCfgSwitcher == NULL || cmdMacros == NULL || \
     cmdInfrared == NULL)
   {
     ESP_LOGE(LOG_TAG,"Cannot malloc memory for command parsing, EXIT!");
@@ -1437,13 +1729,13 @@ void task_commands(void *params)
       //or should be assigned to a VB.
       
       //mouse parsing (start with a defined parser state)
-      parserstate = doMouseParsing(commandBuffer,cmdMouse);
+      parserstate = doMouseParsing(commandBuffer);
       //other parsing
       if(parserstate == UNKNOWNCMD) { parserstate = doStorageParsing(commandBuffer,cmdCfgSwitcher); }
-      if(parserstate == UNKNOWNCMD) { parserstate = doKeyboardParsing(commandBuffer,cmdKeyboard,received); }
+      if(parserstate == UNKNOWNCMD) { parserstate = doKeyboardParsing(commandBuffer,received); }
       if(parserstate == UNKNOWNCMD) { parserstate = doGeneralCmdParsing(commandBuffer); }
       if(parserstate == UNKNOWNCMD) { parserstate = doInfraredParsing(commandBuffer,cmdInfrared); }
-      if(parserstate == UNKNOWNCMD) { parserstate = doJoystickParsing(commandBuffer,cmdJoystick,received); }
+      if(parserstate == UNKNOWNCMD) { parserstate = doJoystickParsing(commandBuffer,received); }
       if(parserstate == UNKNOWNCMD) { parserstate = doMouthpieceSettingsParsing(commandBuffer,cmdNoConfig); }
       if(parserstate == UNKNOWNCMD) { parserstate = doMacroParsing(commandBuffer,cmdMacros,received); }
       
@@ -1504,6 +1796,20 @@ void task_commands(void *params)
             continue;
           }
           break;
+        case HID:
+          //single shot actions are already done.
+          //if we have a VB update, the only thing we have to do here, is
+          //removing any old VB task, if it is not HID by
+          //triggering VB config update (which loads the config and triggers the update in config_switcher.c)
+          if(requestVBUpdate != VB_SINGLESHOT)
+          {
+            if(configUpdateVB(NULL,T_HID,requestVBUpdate) != ESP_OK)
+            {
+              ESP_LOGE(LOG_TAG,"Error updating VB config (removing task)!");
+            }
+            //reset to singleshot mode
+            requestVBUpdate = VB_SINGLESHOT;
+          }
         case WAITFORNEWATCMD:
           break;
         default: break;
@@ -1528,25 +1834,6 @@ void task_commands(void *params)
       //we either have a parserstate == 0 here -> no parser found
       //or we consumed this command.
       if(parserstate != UNKNOWNCMD) continue;
-      
-      //check reply by LPC USB chip:
-      if(memcmp(commandBuffer,"__OK__",6) == 0) continue;
-      
-      if(memcmp(commandBuffer,"_parameter error",16) == 0)
-      {
-        ESP_LOGE(LOG_TAG,"USB reply: parameter error");
-        continue;
-      }
-      if(memcmp(commandBuffer,"_unknown command",16) == 0)
-      {
-        ESP_LOGE(LOG_TAG,"USB reply: unknown cmd");
-        continue;
-      }
-      if(memcmp(commandBuffer,"_unknown error code",19) == 0)
-      {
-        ESP_LOGE(LOG_TAG,"USB reply: unknown error code");
-        continue;
-      }
       
       //if we are here, no parser was finding commands
       ESP_LOGW(LOG_TAG,"Invalid AT cmd (%d characters), flushing:",received);
@@ -1575,37 +1862,41 @@ void printAllSlots(uint8_t printconfig)
 {
   uint8_t slotCount = 0;
   uint32_t tid = 0;
-  uint8_t reportRawEnabled = 0;
   //contains slotname + "Slot%d:<slotname>\r\n"
   char slotName[SLOTNAME_LENGTH+1];
-  char outputstring[SLOTNAME_LENGTH+11];
+  char *outputstring = malloc(ATCMD_LENGTH+1);
   char parameterNumber[16];
   generalConfig_t *currentcfg = configGetCurrent();
   
+  if(outputstring == NULL)
+  {
+    ESP_LOGE(LOG_TAG,"Cannot malloc for outputstring");
+    return;
+  }
+  
   if(currentcfg == NULL)
   {
+    free(outputstring);
     ESP_LOGE(LOG_TAG,"Error, general config is NULL!!!");
     return;
   }
   
   if(halStorageStartTransaction(&tid, 10,LOG_TAG)!= ESP_OK)
   {
+    free(outputstring);
     ESP_LOGE(LOG_TAG,"Cannot print slot, unable to obtain storage");
     return;
   }
   
+  ESP_LOGI(LOG_TAG,"Got ID: %d",tid);
+  
   if(halStorageGetNumberOfSlots(tid, &slotCount) != ESP_OK)
   {
+    free(outputstring);
     halStorageFinishTransaction(tid);
     ESP_LOGE(LOG_TAG,"Cannot get slotcount");
     return;
   }
-  
-  //to be save, disable raw value output during slot printing
-  //and save current state for later.
-  reportRawEnabled = currentcfg->adc.reportraw;
-  currentcfg->adc.reportraw = 0;
-  halAdcUpdateConfig(&currentcfg->adc);
   
   //in compatibility mode, we initalize a slot here if none are available.
   #ifdef ACTIVATE_V25_COMPAT
@@ -1617,6 +1908,7 @@ void printAllSlots(uint8_t printconfig)
     if(halStorageGetNumberOfSlots(tid, &slotCount) != ESP_OK)
     {
       halStorageFinishTransaction(tid);
+      free(outputstring);
       ESP_LOGE(LOG_TAG,"Cannot get slotcount after creating default");
       return;
     }
@@ -1640,6 +1932,8 @@ void printAllSlots(uint8_t printconfig)
       sprintf(outputstring,"Slot:%s",slotName);
       halSerialSendUSBSerial(outputstring,strnlen(outputstring,SLOTNAME_LENGTH+11),10);
     }
+    
+    ///@todo Should we load the slot here?!? Currently not done, but where is the config coming from?
     
     //wait a little bit, avoiding overflows on PC/LPC side
     vTaskDelay(5);
@@ -1700,7 +1994,7 @@ void printAllSlots(uint8_t printconfig)
       halSerialSendUSBSerial(parameterNumber,strnlen(parameterNumber,16),10);
       
       //wait a little bit, avoiding overflows on PC/LPC side
-      vTaskDelay(10);
+      vTaskDelay(2);
       
       for(uint8_t j = 0; j<(NUMBER_VIRTUALBUTTONS*4); j++)
       {
@@ -1709,24 +2003,10 @@ void printAllSlots(uint8_t printconfig)
         halSerialSendUSBSerial(outputstring,strnlen(outputstring,SLOTNAME_LENGTH+11),10);
         switch(currentcfg->virtualButtonCommand[j])
         {
-          case T_MOUSE:
-            if(task_mouse_getAT(outputstring,currentcfg->virtualButtonConfig[j]) != ESP_OK)
+          case T_HID:
+            if(task_hid_getAT(outputstring,j) != ESP_OK)
             {
-              ESP_LOGW(LOG_TAG,"cannot reverse parse mouse AT cmd");
-              sprintf(outputstring,"AT NC");
-            }
-            break;
-          case T_KEYBOARD:
-            if(task_keyboard_getAT(outputstring,currentcfg->virtualButtonConfig[j]) != ESP_OK)
-            {
-              ESP_LOGW(LOG_TAG,"cannot reverse parse keyboard AT cmd");
-              sprintf(outputstring,"AT NC");
-            }
-            break;
-          case T_JOYSTICK:
-            if(task_joystick_getAT(outputstring,currentcfg->virtualButtonConfig[j]) != ESP_OK)
-            {
-              ESP_LOGW(LOG_TAG,"cannot reverse parse joystick AT cmd");
+              ESP_LOGW(LOG_TAG,"cannot reverse parse HID AT cmd");
               sprintf(outputstring,"AT NC");
             }
             break;
@@ -1777,12 +2057,8 @@ void printAllSlots(uint8_t printconfig)
   
   //terminate list by sending "END"
   halSerialSendUSBSerial("END",strnlen("END",SLOTNAME_LENGTH),10);
-  
-  //set report raw values back to previous state
-  currentcfg->adc.reportraw = reportRawEnabled;
-  halAdcUpdateConfig(&currentcfg->adc);
-  
   //release storage
+  free(outputstring);
   halStorageFinishTransaction(tid);
 }
 
@@ -1797,6 +2073,9 @@ void printAllSlots(uint8_t printconfig)
  * */
 esp_err_t taskCommandsInit(void)
 {
+  //set log level to given log level
+  esp_log_level_set(LOG_TAG,LOG_LEVEL_CMDPARSER);
+  //create receive task
   xTaskCreate(task_commands, "uart_rx_task", TASK_COMMANDS_STACKSIZE, NULL, TASK_COMMANDS_PRIORITY, &currentCommandTask);
   if(currentCommandTask == NULL)
   {

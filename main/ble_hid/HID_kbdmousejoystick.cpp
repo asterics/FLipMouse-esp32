@@ -56,6 +56,44 @@ uint8_t activateMouse = 0;
 ///@brief Is Joystick interface active?
 uint8_t activateJoystick = 0;
 
+/** @brief Currently active keyboard report
+ * This report is changed and sent on an incoming command
+ * 1. byte is the modifier, bytes 2-7 are keycodes
+ */
+uint8_t keyboard_report[8];
+
+
+/** @brief Currently active mouse report
+ * This report is changed and sent on an incoming command
+ * 1. byte is the button map, bytes 2-4 are X/Y/wheel (int8_t)
+ */
+uint8_t mouse_report[4];
+
+
+/** @brief Currently active joystick report
+ * This report is changed and sent on an incoming command
+ * Byte assignment:
+ * [0]			button mask 1 (buttons 0-7)
+ * [1]			button mask 2 (buttons 8-15)
+ * [2]			button mask 3 (buttons 16-23)
+ * [3]			button mask 4 (buttons 24-31)
+ * [4]			bit 0-3: hat
+ * [4]			bit 4-7: X axis low bits
+ * [5]			bit 0-5: X axis high bits
+ * [5]			bit 6-7: Y axis low bits
+ * [6]			bit 0-7: Y axis high bits
+ * [7]			bit 0-7: Z axis low bits
+ * [8]			bit 0-1: Z axis high bits
+ * [8]			bit 2-7: Z rotate low bits
+ * [9]			bit 0-3: Z rotate high bits
+ * [9]			bit 4-7: slider left low bits
+ * [10]			bit 0-5: slider left high bits
+ * [10]			bit 6-7: slider right low bits
+ * [11]			bit 0-7: slider right high bits
+ */
+uint8_t joystick_report[12];
+
+
 //static BLEHIDDevice class instance for communication (sending reports)
 static BLEHIDDevice* hid;
 //BLE server handle
@@ -216,7 +254,7 @@ class kbdOutputCB : public BLECharacteristicCallbacks {
 
 class BLETask : public Task {  
 	void run(void*){
-    hid_command_t rx;
+    hid_cmd_t rx;
   
     //Empty queue if initialized (there might be something left from last connection)
     if(hid_ble != nullptr) xQueueReset(hid_ble);
@@ -229,62 +267,235 @@ class BLETask : public Task {
         //pend on MQ, if timeout triggers, just wait again.
         if(xQueueReceive(hid_ble,&rx,portMAX_DELAY))
         {
-          //debug output
-          #if LOG_LEVEL_BLE >= ESP_LOG_DEBUG
-          switch(rx.data[0])
+          //parse command (similar to usb_bridge controller)
+          switch(rx.cmd[0] & 0xF0)
           {
-            case 'M': ESP_LOGD(LOG_TAG,"BLE Mouse: B: %d, X/Y: %d/%d, wheel: %d", \
-              rx.data[1],(int8_t)rx.data[2],(int8_t)rx.data[3],(int8_t)rx.data[4]);
+            //reset all reports
+            case 0x00:
+              halBLEReset(0);
               break;
-            case 'K': ESP_LOGD(LOG_TAG,"BLE Kbd: Mod: %d, keys: %d/%d/%d/%d/%d/%d", \
-              rx.data[1],rx.data[2],rx.data[3],rx.data[4],rx.data[5],rx.data[6],rx.data[7]);
+            //mouse handling
+            case 0x10:
+              switch(rx.cmd[0] & 0x0F)
+              {
+                case 0: //move X
+                  mouse_report[1] = rx.cmd[1];
+                  break;
+                case 1: //move Y
+                  mouse_report[2] = rx.cmd[1];
+                  break;
+                case 2: //move wheel
+                  mouse_report[3] = rx.cmd[1];
+                  break;
+                /* Press & release */
+                case 3: //left
+                  mouse_report[0] |= (1<<0);
+                  //send press report, wait for free EP (sending release is done after switch)
+                  inputMouse->setValue(mouse_report,sizeof(mouse_report));
+                  inputMouse->notify();
+                  mouse_report[0] &= ~(1<<0);
+                  break;
+                case 4: //right
+                  mouse_report[0] |= (1<<1);
+                  //send press report, wait for free EP (sending release is done after switch)
+                  inputMouse->setValue(mouse_report,sizeof(mouse_report));
+                  inputMouse->notify();
+                  mouse_report[0] &= ~(1<<1);
+                  break;
+                case 5: //middle
+                  mouse_report[0] |= (1<<2);
+                  //send press report, wait for free EP (sending release is done after switch)
+                  inputMouse->setValue(mouse_report,sizeof(mouse_report));
+                  inputMouse->notify();
+                  mouse_report[0] &= ~(1<<2);
+                  break;
+                /* Press */
+                case 6: //left
+                  mouse_report[0] |= (1<<0);
+                  break;
+                case 7: //right
+                  mouse_report[0] |= (1<<1);
+                  break;
+                case 8: //middle
+                  mouse_report[0] |= (1<<2);
+                  break;
+                /* Release */
+                case 9: //left
+                  mouse_report[0] &= ~(1<<0);
+                  break;
+                case 10: //right
+                  mouse_report[0] &= ~(1<<1);
+                  break;
+                case 11: //middle
+                  mouse_report[0] &= ~(1<<2);
+                  break;
+                /* Toggle */
+                case 12: //left
+                  mouse_report[0] ^= (1<<0);
+                  break;
+                case 13: //right
+                  mouse_report[0] ^= (1<<1);
+                  break;
+                case 14: //middle
+                  mouse_report[0] ^= (1<<2);
+                  break;
+                case 15: //reset mouse (excepting keyboard & joystick)
+                  halBLEReset((1<<0)|(1<<1));
+                  break;
+              }
+              inputMouse->setValue(mouse_report,sizeof(mouse_report));
+              inputMouse->notify();
               break;
-            case 'J': ESP_LOGD(LOG_TAG,"BLE joystick:");
-              ESP_LOG_BUFFER_HEXDUMP(LOG_TAG,&rx.data[1], 12 ,ESP_LOG_DEBUG);
+            //Keyboard handling
+            case 0x20:
+              switch(rx.cmd[0] & 0x0F)
+              {
+                case 0: //Press & release a key
+                  //press key & send
+                  add_keycode(rx.cmd[1], &keyboard_report[2]);
+                  inputKbd->setValue(keyboard_report,sizeof(keyboard_report));
+                  inputKbd->notify();
+                  //remove keycode
+                  //sending the second report is done after this switch
+                  remove_keycode(rx.cmd[1], &keyboard_report[2]);
+                  break;
+                case 1: //Press a key
+                  add_keycode(rx.cmd[1], &keyboard_report[2]);
+                  break;
+                case 2: //Release a key
+                  remove_keycode(rx.cmd[1], &keyboard_report[2]);
+                  break;
+                case 3:
+                  if(is_in_keycode_arr(rx.cmd[1],&keyboard_report[2])) remove_keycode(rx.cmd[1], &keyboard_report[2]);
+                  else add_keycode(rx.cmd[1], &keyboard_report[2]);
+                  break;
+                case 4: //Press & release a modifier (mask!)
+                  keyboard_report[0] |= rx.cmd[1];
+                  inputKbd->setValue(keyboard_report,sizeof(keyboard_report));
+                  inputKbd->notify();
+                  //remove modifier
+                  //sending the second report is done after this switch
+                  keyboard_report[0] &= ~rx.cmd[1];
+                  break;
+                case 5: //Press a modifier (mask!)
+                  keyboard_report[0] |= rx.cmd[1];
+                  break;
+                case 6: //Release a modifier (mask!)
+                  keyboard_report[0] &= ~rx.cmd[1];
+                  break;
+                case 7: //Toggle a modifier (mask!)
+                  keyboard_report[0] ^= rx.cmd[1];
+                  break;
+                case 15: //reset mouse (excepting mouse & joystick)
+                  halBLEReset((1<<1)|(1<<2));
+                  break;
+              }
+              inputKbd->setValue(keyboard_report,sizeof(keyboard_report));
+              inputKbd->notify();
               break;
-            default: break;
-          }
-          #endif
-          
-          //test if it is a supported report
-          if(rx.data[0] != 'M' && rx.data[0] != 'K' && rx.data[0] != 'J') {
-            ESP_LOGE(LOG_TAG,"Unknown USB report");
-            continue;
-          }
-          
-          //according to interface, notify via characteristics
-          switch(rx.data[0])
-          {
-            case 'M':
-              if(activateMouse)
+            case 0x30:
+              switch(rx.cmd[0] & 0x0F)
               {
-                inputMouse->setValue(&rx.data[1],4);
-                inputMouse->notify();
-              } else {
-                ESP_LOGW(LOG_TAG,"Mouse disabled, but report received");
+                case 0: //Press & release button/hat
+                  //test if it is buttons or hat?
+                  if((rx.cmd[1] & (1<<7)) == 0)
+                  {
+                    //buttons, map to corresponding bits in 4 bytes
+                    if(rx.cmd[1] <= 7) joystick_report[0] |= (1<<rx.cmd[1]);
+                    else if(rx.cmd[1] <= 15) joystick_report[1] |= (1<<(rx.cmd[1]-8));
+                    else if(rx.cmd[1] <= 24) joystick_report[2] |= (1<<(rx.cmd[1]-16));
+                    else if(rx.cmd[1] <= 31) joystick_report[3] |= (1<<(rx.cmd[1]-24));
+                  } else {
+                    //hat, remove bit 7 and set to report (don't touch 4 bits of X)
+                    joystick_report[4] = (joystick_report[4] & 0xF0) | (rx.cmd[1] & 0x0F);
+                  }
+                  //send press action
+                  inputJoystick->setValue(joystick_report,sizeof(joystick_report));
+                  inputJoystick->notify();
+                  //release button/hat
+                  //test if it is buttons or hat?
+                  if((rx.cmd[1] & (1<<7)) == 0)
+                  {
+                    //buttons, map to corresponding bits in 4 bytes
+                    if(rx.cmd[1] <= 7) joystick_report[0] &= ~(1<<rx.cmd[1]);
+                    else if(rx.cmd[1] <= 15) joystick_report[1] &= ~(1<<(rx.cmd[1]-8));
+                    else if(rx.cmd[1] <= 24) joystick_report[2] &= ~(1<<(rx.cmd[1]-16));
+                    else if(rx.cmd[1] <= 31) joystick_report[3] &= ~(1<<(rx.cmd[1]-24));
+                  } else {
+                    //hat release means always 15.
+                    joystick_report[4] = (joystick_report[4] & 0xF0) | 0x0F;
+                  }
+                  break;
+                case 1: //Press button/hat
+                  //test if it is buttons or hat?
+                  if((rx.cmd[1] & (1<<7)) == 0)
+                  {
+                    //buttons, map to corresponding bits in 4 bytes
+                    if(rx.cmd[1] <= 7) joystick_report[0] |= (1<<rx.cmd[1]);
+                    else if(rx.cmd[1] <= 15) joystick_report[1] |= (1<<(rx.cmd[1]-8));
+                    else if(rx.cmd[1] <= 24) joystick_report[2] |= (1<<(rx.cmd[1]-16));
+                    else if(rx.cmd[1] <= 31) joystick_report[3] |= (1<<(rx.cmd[1]-24));
+                  } else {
+                    //hat, remove bit 7 and set to report (don't touch 4 bits of X)
+                    joystick_report[4] = (joystick_report[4] & 0xF0) | (rx.cmd[1] & 0x0F);
+                  }
+                  break;
+                case 2: //Release button/hat
+                  //test if it is buttons or hat?
+                  if((rx.cmd[1] & (1<<7)) == 0)
+                  {
+                    //buttons, map to corresponding bits in 4 bytes
+                    if(rx.cmd[1] <= 7) joystick_report[0] &= ~(1<<rx.cmd[1]);
+                    else if(rx.cmd[1] <= 15) joystick_report[1] &= ~(1<<(rx.cmd[1]-8));
+                    else if(rx.cmd[1] <= 24) joystick_report[2] &= ~(1<<(rx.cmd[1]-16));
+                    else if(rx.cmd[1] <= 31) joystick_report[3] &= ~(1<<(rx.cmd[1]-24));
+                  } else {
+                    //hat release means always 15.
+                    joystick_report[4] = (joystick_report[4] & 0xF0) | 0x0F;
+                  }
+                  break;
+                case 4: //X Axis
+                  //preserve 4 bits of hat
+                  joystick_report[4] = (joystick_report[4] & 0x0F) | ((rx.cmd[1] & 0x0F) << 4);
+                  //preserve 2 bits of Y
+                  joystick_report[5] = (joystick_report[5] & 0xC0) | ((rx.cmd[1] & 0xF0) >> 4) | ((rx.cmd[2] & 0x03) << 4);
+                  break;
+                case 5: //Y Axis
+                  //preserve 6 bits of X
+                  joystick_report[5] = (joystick_report[5] & 0x3F) | ((rx.cmd[1] & 0x03) << 6);
+                  //save remaining Y
+                  joystick_report[6] = ((rx.cmd[1] & 0xFC) >> 2) | ((rx.cmd[2] & 0x03) << 6);
+                  break;
+                case 6: //Z Axis
+                  joystick_report[7] = rx.cmd[1];
+                  joystick_report[8] = (joystick_report[8] & 0xFC) | (rx.cmd[2] & 0x03);
+                  break;
+                case 7: //Z-rotate
+                  //preserve 2 bits of Z-axis
+                  joystick_report[8] = (joystick_report[8] & 0x03) | ((rx.cmd[1] & 0x3F) << 2);
+                  //preserve slider left & combine 2 bits of LSB & MSB to one nibble
+                  joystick_report[9] = (joystick_report[9] & 0xF0) | ((rx.cmd[1] & 0xC0) >> 6) | ((rx.cmd[2] & 0x03) << 2);
+                  break;
+                case 8: //slider left
+                  //preserve 4 bits of Z-rotate, add low nibble of first byte
+                  joystick_report[9] = (joystick_report[9] & 0x0F) | ((rx.cmd[1] & 0x0F) << 4);
+                  //preserve 2 bits of slider right, add high nibble of first byte and second byte
+                  joystick_report[10] = (joystick_report[10] & 0xC0) | ((rx.cmd[1] & 0xF0) >> 4) | ((rx.cmd[2] & 0x03) << 4);
+                  break;
+                case 9: //slider right
+                  //preserve 6 bits of slider left, add 2 bits for slider right
+                  joystick_report[10] = (joystick_report[10] & 0x3F) | ((rx.cmd[1] & 0x03) << 6);
+                  //save remaining slider right
+                  joystick_report[11] = ((rx.cmd[1] & 0xFC) >> 2) | ((rx.cmd[2] & 0x03) << 6);
+                  break;
+                case 15: //reset joystick (excepting mouse & keyboard)
+                  halBLEReset((1<<0)|(1<<2));
+                  break;
               }
-            break;
-            case 'K':
-              if(activateKeyboard)
-              {
-                uint8_t a[] = {rx.data[1],0,rx.data[2],rx.data[3],rx.data[4], \
-                  rx.data[5],rx.data[6],rx.data[7] };
-                inputKbd->setValue(a,sizeof(a));
-                inputKbd->notify();
-              } else {
-                ESP_LOGW(LOG_TAG,"Kbd disabled, but report received");
-              }
-            break;
-            case 'J':
-              if(activateJoystick)
-              {
-                inputJoystick->setValue(&rx.data[1],12);
-                inputJoystick->notify();
-              } else {
-                ESP_LOGW(LOG_TAG,"Joystick disabled, but report received");
-              }
-            break;
-          }
+              inputJoystick->setValue(joystick_report,sizeof(joystick_report));
+              inputJoystick->notify();
+              break;
+            }   
         }
       }
     } else {
@@ -651,25 +862,25 @@ extern "C" {
    * If nothing is set (exceptDevice = 0) all are reset
    * */
   void halBLEReset(uint8_t exceptDevice)
-  {
+  {    
     if(isConnected)
     {
       if(activateMouse && !(exceptDevice & (1<<2)))
       {
-        uint8_t a[] = {0,0,0,0};
-        inputMouse->setValue(a,sizeof(a));
+        memset(mouse_report,0,sizeof(mouse_report));
+        inputMouse->setValue(mouse_report,sizeof(mouse_report));
         inputMouse->notify();
       }
       if(activateKeyboard && !(exceptDevice & (1<<0)))
       {
-        uint8_t a[] = {0,0,0,0,0,0,0,0};
-        inputKbd->setValue(a,sizeof(a));
+        memset(keyboard_report,0,sizeof(keyboard_report));
+        inputKbd->setValue(keyboard_report,sizeof(keyboard_report));
         inputKbd->notify();
       }
       if(activateJoystick && !(exceptDevice & (1<<1)))
       {
-        uint8_t a[] = {0,0,0,0,0,0,0,0,0,0,0,0};
-        inputJoystick->setValue(a,sizeof(a));
+        memset(joystick_report,0,sizeof(joystick_report));
+        inputJoystick->setValue(joystick_report,sizeof(joystick_report));
         inputJoystick->notify();
       }
     } else {

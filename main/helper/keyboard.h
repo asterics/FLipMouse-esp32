@@ -139,6 +139,15 @@ uint8_t keycode_to_modifier(uint16_t keycode, uint8_t locale);
 uint8_t keycode_is_modifier(uint16_t keycode);
 
 
+/** @brief Test if key is in given keycode array
+ * @note The size of the keycode_arr parameter MUST be 6
+ * @param keycode Keycode to be tested
+ * @param keycode_arr Array to test
+ * @return 0 if the keycode is not in array, 1 if the keycode is in the array
+ */
+uint8_t is_in_keycode_arr(uint8_t keycode,uint8_t *keycode_arr);
+
+
 /** @brief Parse a keycode for deadkey input, step 3
  * 
  * This method parses a keycode for a possible deadkey

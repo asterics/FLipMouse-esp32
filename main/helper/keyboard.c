@@ -64,7 +64,8 @@
 #define LOG_TAG "KB"
 
 /** Helper macro to compare key identifiers, y must be of fixed size! */
-#define COMP(x,y) (memcmp(x,y,sizeof(y)-1) == 0)
+#define COMP(x,y) ((memcmp(x,y,sizeof(y)-1) == 0) && (x[sizeof(y)-1] == '\0' || \
+  x[sizeof(y)-1] == '\r' || x[sizeof(y)-1] == '\n' || x[sizeof(y)-1] == ' '))
 /** Helper macro to save key identifier, x must be a static string! */
 #define SAVE(x) if(buf_len > sizeof(x)) { memcpy(buffer,x,sizeof(x)); } else { return 2; } break
 
@@ -2007,7 +2008,7 @@ uint16_t deadkey_to_keycode(uint16_t keycode, uint8_t locale)
  **/
 uint8_t keycode_to_key(uint16_t keycode)
 {
-	uint8_t key = keycode & 0xFF;
+	uint8_t key = keycode & 0x3F;
 	if (key == KEY_NON_US_100) key = 100;
 	return key;
 }
@@ -2151,6 +2152,24 @@ uint8_t add_keycode(uint8_t keycode,uint8_t *keycode_arr)
 		}	
 	}
   return 1;
+}
+
+/** @brief Test if key is in given keycode array
+ * @note The size of the keycode_arr parameter MUST be 6
+ * @param keycode Keycode to be tested
+ * @param keycode_arr Array to test
+ * @return 0 if the keycode is not in array, 1 if the keycode is in the array
+ */
+uint8_t is_in_keycode_arr(uint8_t keycode,uint8_t *keycode_arr)
+{
+	if (keycode_arr[0] != keycode && keycode_arr[1] != keycode &&
+			keycode_arr[2] != keycode && keycode_arr[3] != keycode &&
+			keycode_arr[4] != keycode && keycode_arr[5] != keycode)
+	{
+		return 0;
+	} else {
+		return 1;
+	}
 }
 
 /** @brief Parse a key identifier to a keycode

@@ -19,9 +19,9 @@
  * beni@asterics-foundation.org>
  */
 /** @file 
- * @brief FUNCTIONAL TASK - HID handling
+ * @brief CONTINOUS TASK - HID handling
  * 
- * This module is used as functional task for all HID handling based
+ * This module is used as continous task for all HID handling based
  * on virtual buttons, containing:
  * * Mouse clicking, holding, pressing & release as well as movement (X/Y/Z)
  * * Keyboard press,hold,release & write

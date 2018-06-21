@@ -1121,7 +1121,6 @@ parserstate_t doKeyboardParsing(uint8_t *cmdBuffer, int length)
   
   int offset = 0;
   int offsetOut = 0;
-  int offsetEnd = TASK_KEYBOARD_PARAMETERLENGTH-1;
   uint8_t deadkeyfirst = 0;
   uint8_t modifier = 0;
   uint8_t keycode = 0;
@@ -1135,7 +1134,6 @@ parserstate_t doKeyboardParsing(uint8_t *cmdBuffer, int length)
     ESP_LOGE(LOG_TAG,"Major error, general config is NULL");
     return UNKNOWNCMD;
   }
-  ///@todo Everything for keyboard & new hid_cmd_t. Change to new AT KH / KT / KP / KR
   /*++++ AT KW ++++*/
   if(CMD("AT KW")) {
     //remove \r & \n
@@ -1170,10 +1168,7 @@ parserstate_t doKeyboardParsing(uint8_t *cmdBuffer, int length)
     while(offset <= (length - 5))
     {
       //terminate...
-      if(cmdBuffer[offset+6] == 0 || offsetOut == offsetEnd) break;
-      
-      //save original byte
-      offsetEnd--;
+      if(cmdBuffer[offset+6] == 0) break;
       
       //parse ASCII/unicode to keycode sequence
       keycode = unicode_to_keycode(cmdBuffer[offset+6], currentcfg->locale);
@@ -1277,12 +1272,7 @@ parserstate_t doKeyboardParsing(uint8_t *cmdBuffer, int length)
         ESP_LOGD(LOG_TAG, "Need another byte (unicode)");
       }
       offset++;
-      
-      if(offset == (TASK_KEYBOARD_PARAMETERLENGTH - 1))
-      {
-        sendErrorBack("AT KW parameter too long");
-        return UNKNOWNCMD;
-      }
+
     }
     return HID;
   }

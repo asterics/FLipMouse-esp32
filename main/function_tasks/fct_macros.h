@@ -32,8 +32,8 @@
  * @see VB_SINGLESHOT
  */
 
-#ifndef _TASK_MACROS_H
-#define _TASK_MACROS_H
+#ifndef _FCT_MACROS_H
+#define _FCT_MACROS_H
 
 #include <freertos/FreeRTOS.h>
 #include <freertos/event_groups.h>
@@ -42,45 +42,14 @@
 //common definitions & data for all of these functional tasks
 #include "common.h"
 #include "hal_serial.h"
-//#include "../config_switcher.h"
 
-/**@brief Stack size for macro functional task */
-#define TASK_MACROS_STACKSIZE 2048
-
-/** @brief Macro task configuration
- * @see task_macro
- * @see task_macro_getAT
- * */
-typedef struct taskMacrosConfig {
-  /** @brief Macro to be executed
-   * @note Maximum length is equal to slotname length
-   * @see SLOTNAME_LENGTH */
-  char macro[SLOTNAME_LENGTH];
-  /** @brief Number of virtual button which this instance will be attached to.
-   * 
-   * For one time triggering, use VB_SINGLESHOT
-   * @see VB_SINGLESHOT */
-  uint virtualButton;
-} taskMacrosConfig_t;
-
-/**@brief FUNCTIONAL TASK - Macro execution
+/**@brief FUNCTION - Macro execution
  * 
- * This task is used to trigger macro on a VB action.
+ * This function is used to trigger macro on a VB action.
  * 
- * @see taskMacrosConfig_t
- * @param param Task config
- * @see VB_SINGLESHOT
+ * @param param Macro command string
+ * @return ESP_OK on success, ESP_FAIL otherwise
  * */
-void task_macro(taskMacrosConfig_t *param);
+esp_err_t fct_macro(char *param);
 
-/** @brief Reverse Parsing - get AT command for macro VB
- * 
- * This function parses the current configuration of a virtual button
- * to an AT command used to print the configuration.
- * @param output Output string, where the full AT command will be stored
- * @param cfg Pointer to current macro configuration, used to parse.
- * @return ESP_OK if everything went fine, ESP_FAIL otherwise
- * */
-esp_err_t task_macro_getAT(char* output, void* cfg);
-
-#endif
+#endif /*_FCT_MACROS_H*/

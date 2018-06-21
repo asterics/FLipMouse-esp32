@@ -61,20 +61,6 @@
  
 static TaskHandle_t currentCommandTask = NULL;
 
-/** @todo documentate this stuff */
-  //function pointer to the task function which will eventuall be called
-  //in singleshot mode
-  void (*requestVBTask)(void *) = NULL;
-  
-  // parameter size which needs to be allocated for a VB config update
-  size_t requestVBParameterSize = 0;
-  
-  //pointer to VB parameter struct for VB config udpate
-  void *requestVBParameter = NULL;
-  
-  //reload parameter
-  command_type_t requestVBType = T_NOFUNCTION;
-
 /** If any parsing part requests a general config update, this variable
  * is set to 1. task_commands will reset it to 0 after the update */
 uint8_t requestUpdate = 0;
@@ -107,7 +93,7 @@ uint8_t requestVBUpdate = VB_SINGLESHOT;
  * * <b>HID</b> This state is used to determine an HID command, which is either directly sent
  *   the BLE/USB queue (VB_SINGLESHOT) or added to the HID task.
  * */
-typedef enum pstate {NOACTION,WAITFORNEWATCMD,UNKNOWNCMD,TRIGGERTASK,HID} parserstate_t;
+typedef enum pstate {NOACTION,UNKNOWNCMD,VB,HID} parserstate_t;
 
 /** simple helper function which sends back to the USB host "?"
  * and prints an error on the console with the given extra infos. */
@@ -152,24 +138,20 @@ void sendHIDCmd(hid_cmd_t *cmd)
   { xQueueSend(hid_ble,cmd,0); }
 }
 
-parserstate_t doMouthpieceSettingsParsing(uint8_t *cmdBuffer, taskNoParameterConfig_t *instance)
+parserstate_t doMouthpieceSettingsParsing(uint8_t *cmdBuffer)
 {
   generalConfig_t *currentcfg = configGetCurrent();
   
+  vb_cmd_t cmd;
   //clear any previous data
-  memset(instance,0,sizeof(taskNoParameterConfig_t));
-  instance->virtualButton = requestVBUpdate;
-  //set everything up for updates
-  requestVBTask = (void (*)(void *))&task_calibration;
-  requestVBParameterSize = sizeof(taskNoParameterConfig_t);
-  requestVBParameter = instance;
-  requestVBType = T_CALIBRATE;
+  memset(&cmd,0,sizeof(vb_cmd_t));
   
   /*++++ calibrate mouthpiece ++++*/
   if(CMD("AT CA"))
   {
+    ///@todo IP singleshot/cmd adding... + malloc strings!!!
     ESP_LOGI(LOG_TAG,"Calibrate");
-    return TRIGGERTASK;
+    return VB;
   }
   
   /*++++ stop report raw values ++++*/
@@ -390,21 +372,15 @@ parserstate_t doMouthpieceSettingsParsing(uint8_t *cmdBuffer, taskNoParameterCon
   return UNKNOWNCMD;
 }
 
-parserstate_t doStorageParsing(uint8_t *cmdBuffer, taskConfigSwitcherConfig_t *instance)
+parserstate_t doStorageParsing(uint8_t *cmdBuffer)
 {
   char slotname[SLOTNAME_LENGTH];
   uint32_t tid = 0;
   uint8_t slotnumber = 0;
   generalConfig_t * currentcfg = configGetCurrent();
-  //clear any previous data
-  memset(instance,0,sizeof(taskConfigSwitcherConfig_t));
-  
-  //set everything up for updates
-  instance->virtualButton = requestVBUpdate;
-  requestVBTask = (void (*)(void *))&task_configswitcher;
-  requestVBParameterSize = sizeof(taskConfigSwitcherConfig_t);
-  requestVBParameter = instance;
-  requestVBType = T_CONFIGCHANGE;
+  vb_cmd_t cmd;
+  //clear any data
+  memset(&cmd,0,sizeof(vb_cmd_t));
   
   /*++++ save slot ++++*/
   if(CMD("AT SA"))
@@ -444,18 +420,6 @@ parserstate_t doStorageParsing(uint8_t *cmdBuffer, taskConfigSwitcherConfig_t *i
       halStorageFinishTransaction(tid);
       return UNKNOWNCMD;
     }
-    //update config sizes
-    for(uint8_t i = 0; i<(NUMBER_VIRTUALBUTTONS*4); i++)
-    {
-      switch(currentcfg->virtualButtonCommand[i])
-      {
-        case T_CONFIGCHANGE: currentcfg->virtualButtonCfgSize[i] = sizeof(taskConfigSwitcherConfig_t); break;
-        case T_CALIBRATE: currentcfg->virtualButtonCfgSize[i] = sizeof(taskNoParameterConfig_t); break;
-        case T_SENDIR: currentcfg->virtualButtonCfgSize[i] = sizeof(taskInfraredConfig_t); break;
-        case T_NOFUNCTION: currentcfg->virtualButtonCfgSize[i] = sizeof(taskNoParameterConfig_t); break;
-        default: break;
-      }
-    }
     
     //get HID handle
     if(task_hid_enterCritical() == ESP_OK)
@@ -468,15 +432,8 @@ parserstate_t doStorageParsing(uint8_t *cmdBuffer, taskConfigSwitcherConfig_t *i
       ESP_LOGE(LOG_TAG,"Error entering HID critical section");
     }
     
-    /// todo save HID
-    
-    //store config to flash
-    if(halStorageStoreSetVBConfigs(slotnumber,currentcfg,tid) != ESP_OK)
-    {
-      ESP_LOGE(LOG_TAG,"Cannot store VBs");
-      halStorageFinishTransaction(tid);
-      return UNKNOWNCMD;
-    }
+    ///@todo Save VB configs similar to HID ->put HID/VB/general config into one command!
+  
     halStorageFinishTransaction(tid);
     return NOACTION;
   }
@@ -484,23 +441,58 @@ parserstate_t doStorageParsing(uint8_t *cmdBuffer, taskConfigSwitcherConfig_t *i
   /*++++ AT NE (load next) +++*/
   if(CMD("AT NE"))
   {
+    char command = "__NEXT";
     //save to config
-    instance->virtualButton = requestVBUpdate;
-    strcpy(instance->slotName,"__NEXT");
-    ESP_LOGI(LOG_TAG,"Load next, by parameter: %s",instance->slotName);
-    //we want to have the config sent to the task
-    return TRIGGERTASK;
+    if(requestVBUpdate == VB_SINGLESHOT)
+    {
+      xQueueSend(config_switcher,(void*)&command,(TickType_t)10);
+    } else {
+      vb_cmd_t cmd;
+      memset(&cmd,0,sizeof(vb_cmd_t));
+      cmd.vb = requestVBUpdate | 0x80;
+      cmd.cmd = T_CONFIGCHANGE;
+      cmd.atoriginal = malloc(strlen("AT NE")+1);
+      if(cmd.atoriginal != NULL)
+      {
+        strcpy(cmd.atoriginal,"AT NE");
+      } else ESP_LOGE(LOG_TAG,"Error allocating AT cmd string");
+      cmd.cmdparam = malloc(strlen("__NEXT")+1);
+      if(cmd.cmdparam != NULL)
+      {
+        strcpy(cmd.cmdparam,"__NEXT");
+      } else ESP_LOGE(LOG_TAG,"Error allocating cmdparam strign");
+      task_vb_addCmd(&cmd,1);
+    }
+    ESP_LOGI(LOG_TAG,"Load next");
+    return VB;
   }
   
   /*++++ AT LO (load) ++++*/
   if(CMD("AT LO"))
   {
     //save to config
-    instance->virtualButton = requestVBUpdate;
-    strncpy(instance->slotName,(char*)&cmdBuffer[6],SLOTNAME_LENGTH);
-    ESP_LOGI(LOG_TAG,"Load slot name: %s",instance->slotName);
-    //we want to have the config sent to the task
-    return TRIGGERTASK;
+    if(requestVBUpdate == VB_SINGLESHOT)
+    {
+      xQueueSend(config_switcher,(void*)&cmdBuffer[6],(TickType_t)10);
+    } else {
+      vb_cmd_t cmd;
+      memset(&cmd,0,sizeof(vb_cmd_t));
+      cmd.vb = requestVBUpdate | 0x80;
+      cmd.cmd = T_CONFIGCHANGE;
+      cmd.atoriginal = malloc(strlen((char*)cmdBuffer)+1);
+      if(cmd.atoriginal != NULL)
+      {
+        strcpy(cmd.atoriginal,(char*)cmdBuffer);
+      } else ESP_LOGE(LOG_TAG,"Error allocating AT cmd string");
+      cmd.cmdparam = malloc(strnlen((char*)&cmdBuffer[6],SLOTNAME_LENGTH)+1);
+      if(cmd.cmdparam != NULL)
+      {
+        strncpy(cmd.cmdparam,(char*)&cmdBuffer[6],SLOTNAME_LENGTH);
+      } else ESP_LOGE(LOG_TAG,"Error allocating cmdparam strign");
+      task_vb_addCmd(&cmd,1);
+    }
+    ESP_LOGI(LOG_TAG,"Load slot name: %s",cmd.cmdparam);
+    return VB;
   }
   //not consumed, no command found for storage
   return UNKNOWNCMD;
@@ -646,6 +638,8 @@ parserstate_t doJoystickParsing(uint8_t *cmdBuffer, int length)
             ESP_LOGE(LOG_TAG,"Error adding 2nd to HID task");
           }
         }
+        //reset to singleshot mode
+        requestVBUpdate = VB_SINGLESHOT;
       }
       return HID;
     }
@@ -654,29 +648,24 @@ parserstate_t doJoystickParsing(uint8_t *cmdBuffer, int length)
   return UNKNOWNCMD;
 }
 
-parserstate_t doInfraredParsing(uint8_t *cmdBuffer, taskInfraredConfig_t *instance)
+parserstate_t doInfraredParsing(uint8_t *cmdBuffer)
 {
   uint32_t tid;
   uint8_t param;
+  vb_cmd_t cmd;
+
   generalConfig_t *currentcfg = configGetCurrent();
   if(currentcfg == NULL)
   {
     ESP_LOGE(LOG_TAG,"Errroorrr: general config is NULL");
     return UNKNOWNCMD;
   }
-  //clear any previous data
-  memset(instance,0,sizeof(taskInfraredConfig_t));
   
   //use global virtual button (normally VB_SINGLESHOT,
   //can be changed by "AT BM"
-  instance->virtualButton = requestVBUpdate;
-  
-  //set everything up for updates
-  requestVBTask = (void (*)(void *))&task_infrared;
-  requestVBParameterSize = sizeof(taskInfraredConfig_t);
-  requestVBParameter = instance;
-  requestVBType = T_SENDIR;
-  
+  memset(&cmd,0,sizeof(vb_cmd_t));
+  cmd.vb = requestVBUpdate | 0x80;
+
   /*++++ AT IW ++++*/
   if(CMD("AT IW")) {
     if(halStorageStartTransaction(&tid,20,LOG_TAG) == ESP_OK)
@@ -755,9 +744,12 @@ parserstate_t doInfraredParsing(uint8_t *cmdBuffer, taskInfraredConfig_t *instan
   /*++++ AT IP ++++*/
   if(CMD("AT IP")) {
     //save cmd name to config instance
-    strncpy(instance->cmdName,(char*)&cmdBuffer[6],SLOTNAME_LENGTH);
+    
+    ///@todo IP singleshot/cmd adding... + malloc strings!!!
+    
+    //strncpy(instance->cmdName,(char*)&cmdBuffer[6],SLOTNAME_LENGTH);
     ESP_LOGD(LOG_TAG,"Play IR cmd %s",&cmdBuffer[6]);
-    return TRIGGERTASK;
+    return VB;
   }
   
   /*++++ AT IR ++++*/
@@ -1026,19 +1018,12 @@ parserstate_t doGeneralCmdParsing(uint8_t *cmdBuffer)
     } else {
       requestVBUpdate = param;
       ESP_LOGI(LOG_TAG,"New mode for VB %d:",param);
-      //return WAITFORNEWATCMD to definetly trigger nothing else
-      return WAITFORNEWATCMD;
+      return NOACTION;
     }
   }
   /*++++ AT NC ++++*/
   if(CMD("AT NC")) {
-    //requested VB is valid (not singleshot)?
-    if(requestVBUpdate != VB_SINGLESHOT)
-    {
-      //set this button to be unused
-      ESP_LOGI(LOG_TAG,"NC -> unused");
-      currentcfg->virtualButtonCommand[requestVBUpdate] = T_NOFUNCTION;
-    }
+    ///@todo remove this VB from HID&VB list!
     
     //reset VB number if NC is triggered -> VB is not used.
     requestVBUpdate = VB_SINGLESHOT;
@@ -1274,6 +1259,8 @@ parserstate_t doKeyboardParsing(uint8_t *cmdBuffer, int length)
       offset++;
 
     }
+    //reset to singleshot mode
+    requestVBUpdate = VB_SINGLESHOT;
     return HID;
   }
   
@@ -1436,7 +1423,8 @@ parserstate_t doKeyboardParsing(uint8_t *cmdBuffer, int length)
           }
         }
       }
-      
+      //reset to singleshot mode
+      requestVBUpdate = VB_SINGLESHOT;
       return HID;
     }
   }
@@ -1445,26 +1433,40 @@ parserstate_t doKeyboardParsing(uint8_t *cmdBuffer, int length)
   return UNKNOWNCMD;
 }
 
-parserstate_t doMacroParsing(uint8_t *cmdBuffer, taskMacrosConfig_t *macroinstance, int length)
+parserstate_t doMacroParsing(uint8_t *cmdBuffer, int length)
 {
   /*++++ AT MA (macro) ++++*/
   if(CMD("AT MA")) {
+    vb_cmd_t cmd;
     //clear any previous data
-    memset(macroinstance,0,sizeof(taskMacrosConfig_t));
-  
-    //set everything up for updates
-    requestVBTask = (void (*)(void *))&task_macro;
-    requestVBParameterSize = sizeof(taskMacrosConfig_t);
-    requestVBParameter = macroinstance;
-    requestVBType = T_MACRO;
+    memset(&cmd,0,sizeof(vb_cmd_t));
     
-    //save command string to task config.
-    strncpy(macroinstance->macro,(char*)&cmdBuffer[6],length-6);
-    
-    ESP_LOGD(LOG_TAG,"Saved macro '%s'",macroinstance->macro);
-    
-    //and tell to either call or save this task
-    return TRIGGERTASK;
+    //if we have a singleshot, pass command to queue for immediate process
+    if(requestVBUpdate == VB_SINGLESHOT)
+    {
+      fct_macro((char*)&cmdBuffer[6]);
+    } else {
+      //set VB accordingly
+      cmd.vb = requestVBUpdate | 0x80;
+      //set action type
+      cmd.cmd = T_MACRO;
+      //save param string
+      cmd.cmdparam = malloc(strnlen((char*)&cmdBuffer[6],ATCMD_LENGTH) + 1);
+      if(cmd.cmdparam != NULL)
+      {
+        strncpy(cmd.cmdparam,(char*)&cmdBuffer[6],ATCMD_LENGTH);
+      } else ESP_LOGE(LOG_TAG,"Cannot allocate macro string!");
+      //save original AT string
+      cmd.atoriginal = malloc(strnlen((char*)&cmdBuffer[6],ATCMD_LENGTH) + 1);
+      if(cmd.atoriginal != NULL)
+      {
+        strncpy(cmd.atoriginal,(char *)cmdBuffer,ATCMD_LENGTH);
+      } else ESP_LOGE(LOG_TAG,"Cannot allocate macro string!");
+      //save to VB task (replace any existing VB)
+      task_vb_addCmd(&cmd,1);
+    }
+    ESP_LOGD(LOG_TAG,"Saved/triggered macro '%s'",(char*)&cmdBuffer[6]);
+    return VB;
   }
   
   //not consumed...
@@ -1648,6 +1650,8 @@ parserstate_t doMouseParsing(uint8_t *cmdBuffer)
           ESP_LOGE(LOG_TAG,"Error adding 2nd to HID task");
         }
       }
+      //reset to singleshot mode
+      requestVBUpdate = VB_SINGLESHOT;
     }
     return HID;
   //no command found.
@@ -1661,21 +1665,6 @@ void task_commands(void *params)
   //used for return values of doXXXParsing functions
   parserstate_t parserstate;
   uint8_t *commandBuffer = NULL;
-
-  //parameters for different tasks
-  taskNoParameterConfig_t *cmdNoConfig = malloc(sizeof(taskNoParameterConfig_t));
-  taskConfigSwitcherConfig_t *cmdCfgSwitcher = malloc(sizeof(taskConfigSwitcherConfig_t));
-  taskMacrosConfig_t *cmdMacros = malloc(sizeof(taskMacrosConfig_t));
-  taskInfraredConfig_t *cmdInfrared = malloc(sizeof(taskInfraredConfig_t));
-  
-  //check if we have all our pointers
-  if(cmdNoConfig == NULL || cmdCfgSwitcher == NULL || cmdMacros == NULL || \
-    cmdInfrared == NULL)
-  {
-    ESP_LOGE(LOG_TAG,"Cannot malloc memory for command parsing, EXIT!");
-    vTaskDelete(NULL);
-    return;
-  }
 
   while(1)
   {
@@ -1718,93 +1707,23 @@ void task_commands(void *params)
       //AT command should be triggered as singleshot (== VB_SINGLESHOT)
       //or should be assigned to a VB.
       
+      /*++++ Start with parsing which is used for HID task (task_hid) ++++*/
+      
       //mouse parsing (start with a defined parser state)
       parserstate = doMouseParsing(commandBuffer);
       //other parsing
-      if(parserstate == UNKNOWNCMD) { parserstate = doStorageParsing(commandBuffer,cmdCfgSwitcher); }
-      if(parserstate == UNKNOWNCMD) { parserstate = doKeyboardParsing(commandBuffer,received); }
-      if(parserstate == UNKNOWNCMD) { parserstate = doGeneralCmdParsing(commandBuffer); }
-      if(parserstate == UNKNOWNCMD) { parserstate = doInfraredParsing(commandBuffer,cmdInfrared); }
       if(parserstate == UNKNOWNCMD) { parserstate = doJoystickParsing(commandBuffer,received); }
-      if(parserstate == UNKNOWNCMD) { parserstate = doMouthpieceSettingsParsing(commandBuffer,cmdNoConfig); }
-      if(parserstate == UNKNOWNCMD) { parserstate = doMacroParsing(commandBuffer,cmdMacros,received); }
+      if(parserstate == UNKNOWNCMD) { parserstate = doKeyboardParsing(commandBuffer,received); }
+      
+      /*++++ Second: parse commands which are used for VB task (task_vb) ++++*/
+      
+      if(parserstate == UNKNOWNCMD) { parserstate = doGeneralCmdParsing(commandBuffer); }
+      if(parserstate == UNKNOWNCMD) { parserstate = doInfraredParsing(commandBuffer); }
+      if(parserstate == UNKNOWNCMD) { parserstate = doMouthpieceSettingsParsing(commandBuffer); }
+      if(parserstate == UNKNOWNCMD) { parserstate = doMacroParsing(commandBuffer,received); }
+      if(parserstate == UNKNOWNCMD) { parserstate = doStorageParsing(commandBuffer); }
       
       ESP_LOGD(LOG_TAG,"Parserstate: %d",parserstate);
-      
-      switch(parserstate)
-      {
-        case UNKNOWNCMD:
-          break;
-        case NOACTION:
-          //not in singleshot, but parsing parts didn't request anything?!?
-          //maybe wrong combination of AT BM and another AT command
-          if(requestVBUpdate != VB_SINGLESHOT)
-          {
-            ESP_LOGE(LOG_TAG,"Error assigning this AT command to a button!");
-            requestVBUpdate = VB_SINGLESHOT;
-            continue;
-          }
-          break;
-        //the AT command tells us to trigger a task or save an instance to a VB
-        case TRIGGERTASK:
-          if(requestVBUpdate == VB_SINGLESHOT)
-          {
-            //just trigger as singleshot
-            ESP_LOGD(LOG_TAG,"Triggering singleshot");
-            if(requestVBTask != NULL && requestVBParameter != NULL)
-            {
-              //call in singleshot mode
-              requestVBTask(requestVBParameter);
-              //reset the VB task callback
-              requestVBTask = NULL;
-              continue;
-            } else {
-              ESP_LOGE(LOG_TAG,"Should trigger a singleshot, but task or params are NULL");
-            }
-          } else {
-            //attach to VB
-            //allocate new memory (the parameter pointers might be differ each time)
-            ESP_LOGD(LOG_TAG,"Attach new button mode");
-            void *vbconfigparam = malloc(requestVBParameterSize);
-            if(vbconfigparam != NULL)
-            {
-              //copy to new memory, which will be permanent after an config update
-              memcpy(vbconfigparam,requestVBParameter,requestVBParameterSize);
-            } else {
-              ESP_LOGE(LOG_TAG,"Error allocating VB config!");
-            }
-            //trigger VB config update (which loads the config and triggers the update in config_switcher.c)
-            if(configUpdateVB(vbconfigparam,requestVBType,requestVBUpdate) != ESP_OK)
-            {
-              ESP_LOGE(LOG_TAG,"Error updating VB config!");
-            } else {
-              ESP_LOGI(LOG_TAG,"VB %d updated in config!",requestVBUpdate);
-              ESP_LOG_BUFFER_HEXDUMP(LOG_TAG,vbconfigparam,requestVBParameterSize,ESP_LOG_DEBUG);
-            }
-            //reset to singleshot mode
-            requestVBUpdate = VB_SINGLESHOT;
-            continue;
-          }
-          break;
-        case HID:
-          //single shot actions are already done.
-          //if we have a VB update, the only thing we have to do here, is
-          //removing any old VB task, if it is not HID by
-          //triggering VB config update (which loads the config and triggers the update in config_switcher.c)
-          if(requestVBUpdate != VB_SINGLESHOT)
-          {
-            if(configUpdateVB(NULL,T_HID,requestVBUpdate) != ESP_OK)
-            {
-              ESP_LOGE(LOG_TAG,"Error updating VB config (removing task)!");
-            }
-            //reset to singleshot mode
-            requestVBUpdate = VB_SINGLESHOT;
-          }
-        case WAITFORNEWATCMD:
-          break;
-        default: break;
-      }
-      
       ESP_LOGD(LOG_TAG,"Cfg update: %d",requestUpdate);
 
       //if a general config update is required
@@ -1986,50 +1905,24 @@ void printAllSlots(uint8_t printconfig)
       //wait a little bit, avoiding overflows on PC/LPC side
       vTaskDelay(2);
       
+      //iterate over all possible VBs.
       for(uint8_t j = 0; j<(NUMBER_VIRTUALBUTTONS*4); j++)
       {
+        //print AT BM (button mode) command first
         sprintf(outputstring,"AT BM %02d",j);
         ESP_LOGD(LOG_TAG,"AT BM %02d",j);
         halSerialSendUSBSerial(outputstring,strnlen(outputstring,SLOTNAME_LENGTH+11),10);
-        switch(currentcfg->virtualButtonCommand[j])
+        //try to parse command either via HID or VB task
+        if(task_hid_getAT(outputstring,j) != ESP_OK)
         {
-          case T_HID:
-            if(task_hid_getAT(outputstring,j) != ESP_OK)
-            {
-              ESP_LOGW(LOG_TAG,"cannot reverse parse HID AT cmd");
-              sprintf(outputstring,"AT NC");
-            }
-            break;
-          case T_CONFIGCHANGE:
-            if(task_configswitcher_getAT(outputstring,currentcfg->virtualButtonConfig[j]) != ESP_OK)
-            {
-              ESP_LOGW(LOG_TAG,"cannot reverse parse cfg change AT cmd");
-              sprintf(outputstring,"AT NC");
-            }
-            break;
-          case T_MACRO:
-            if(task_macro_getAT(outputstring,currentcfg->virtualButtonConfig[j]) != ESP_OK)
-            {
-              ESP_LOGW(LOG_TAG,"cannot reverse parse macro AT cmd");
-              sprintf(outputstring,"AT NC");
-            }
-            break;
-          case T_CALIBRATE:
-            //no reverse parsing, no parameter...
-            sprintf(outputstring,"AT CA");
-            break;
-          case T_SENDIR:
-            if(task_infrared_getAT(outputstring,currentcfg->virtualButtonConfig[j]) != ESP_OK)
-            {
-              ESP_LOGW(LOG_TAG,"cannot reverse parse IR AT cmd");
-              sprintf(outputstring,"AT NC");
-            }
-            break;
-          case T_NOFUNCTION:
-          default:
+          if(task_vb_getAT(outputstring,j) != ESP_OK)
+          {
+            //if no command was found, this usually means this one is not used.
+            ESP_LOGW(LOG_TAG,"Unused VB, neither HID nor VB task found AT string");
             sprintf(outputstring,"AT NC");
-            break;
+          }
         }
+        //send back the config to the host.
         halSerialSendUSBSerial(outputstring,strnlen(outputstring,SLOTNAME_LENGTH+11),10);
         ESP_LOGD(LOG_TAG,"%s",outputstring);
         //delay 4 times

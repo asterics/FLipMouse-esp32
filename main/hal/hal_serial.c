@@ -393,12 +393,12 @@ int halSerialReceiveUSBSerial(uint8_t **data)
     //print heap info
     //heap_caps_print_heap_info(MALLOC_CAP_8BIT);
     ESP_LOGI("mem","Free heap: %dB",xPortGetFreeHeapSize());
-    //print tasks stack water mark
-    configPrintHighWaterMark();
     //print the CPU usage
+    //You need to activate trace facilities...
     //char *taskbuf = (char*)malloc(1024);
     //vTaskGetRunTimeStats(taskbuf);
     //ESP_LOGI("mem","Tasks:\n%s",taskbuf);
+    //free(taskbuf);
     return -1;
   }
 }

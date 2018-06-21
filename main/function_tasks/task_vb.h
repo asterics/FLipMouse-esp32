@@ -40,6 +40,7 @@
 //common definitions & data for all of these functional tasks
 #include "common.h"
 #include "../config_switcher.h"
+#include "fct_macros.h"
 
 #define TASK_VB_STACKSIZE 4096
 

@@ -56,40 +56,13 @@
 
 //include all functional tasks, making config structs available
 #include "task_hid.h"
+#include "task_vb.h"
 #include "task_debouncer.h"
-#include "task_infrared.h"
-#include "task_macros.h"
-
 
 /** Stacksize for functional task task_configswitcher.
  * @see task_configswitcher */
 #define TASK_CONFIGSWITCHER_STACKSIZE 2048
 
-/** @brief Parameter for functional task task_configswitcher.
- * @see task_configswitcher
- * @see config_switcher */
-typedef struct taskConfigSwitcherConfig {
-  /** Name of the slot to be loaded
-   * @note See config_switcher for special mode description (next, previous, ...)
-   * @see config_switcher **/
-  char slotName[SLOTNAME_LENGTH];
-  /** Number of virtual button which this instance will be attached to.
-   * @see VB_SINGLESHOT */
-  uint8_t virtualButton;
-} taskConfigSwitcherConfig_t;
-
-
-/** @brief Print current task stack high water marks */
-void configPrintHighWaterMark(void);
-
-/** @brief FUNCTIONAL TASK - Load another slot
- * 
- * This task is used to switch the configuration to another slot.
- * It is possible to load a slot by name or a previous/next/default slot.
- * 
- * @param param Task configuration
- * @see taskConfigSwitcherConfig_t*/
-void task_configswitcher(taskConfigSwitcherConfig_t *param);
 
 /** @brief Initializing the config switching functionality.
  * 
@@ -109,34 +82,6 @@ esp_err_t configSwitcherInit(void);
  * @return Pointer to the current config struct
  * */
 generalConfig_t* configGetCurrent(void);
-
-
-/** @brief Update one virtual button.
- * 
- * This function is used to update one virtual button config.
- * For example it is triggered by "AT BM xx" and the following 
- * AT command.
- * It saves the param pointer to the update param array and calls
- * configUpdate to trigger the reload.
- * @see configUpdate
- * @see currentTaskParametersUpdate
- * @param param FUNCTIONAL task parameter memory
- * @param type Type of new VB command
- * @param vb Number of virtualbutton to update
- * @return ESP_OK on success, ESP_FAIL otherwise
- * */
-esp_err_t configUpdateVB(void *param, command_type_t type, uint8_t vb);
-
-
-/** @brief Reverse Parsing - get AT command for configswitcher VB
- * 
- * This function parses the current configuration of a virtual button
- * to an AT command used to print the configuration.
- * @param output Output string, where the full AT command will be stored
- * @param cfg Pointer to current cfgswitcher configuration, used to parse.
- * @return ESP_OK if everything went fine, ESP_FAIL otherwise
- * */
-esp_err_t task_configswitcher_getAT(char* output, void* cfg);
 
 /** @brief Request config update
  * 

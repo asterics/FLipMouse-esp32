@@ -151,17 +151,8 @@
  * config change.
  * @note Can be called directly.
  **/
- void halAdcCalibrate(void);
+void halAdcCalibrate(void);
 
-/** @brief FUNCTIONAL TASK - Trigger zero-point calibration of mouthpiece
- * 
- * This task is used to trigger a zero-point calibration of
- * up/down/left/right input.
- * 
- * @param param Task configuration
- * @see halAdcCalibrate
- * @see taskNoParameterConfig_t*/
-void task_calibration(taskNoParameterConfig_t *param);
 
 /** @brief Reload ADC config
  * 

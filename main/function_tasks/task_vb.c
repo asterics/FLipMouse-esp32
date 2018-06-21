@@ -49,7 +49,7 @@
  * @see task_vb
  * @see task_vb_addCmd
  * @see task_vb_clearCmds*/
-vb_cmd_t *cmd_chain = NULL;
+static vb_cmd_t *cmd_chain = NULL;
 
 /** @brief Mask of active VBs, which are located in the VB cmd_chain. */
 uint8_t activeVBs[NUMBER_VIRTUALBUTTONS];
@@ -130,7 +130,37 @@ void task_vb(void *param)
               if(current->vb == vb)
               {
                 count++;
-                ///@todo Trigger commands here...
+                /* determine action to be triggered */
+                switch(current->cmd)
+                {
+                  case T_MACRO:
+                    if(current->cmdparam == NULL)
+                    {
+                      ESP_LOGE(LOG_TAG,"Param is null, cannot execute macro");
+                    } else {
+                      fct_macro(current->cmdparam);
+                    }
+                    break;
+                  case T_CONFIGCHANGE:
+                    if(current->cmdparam == NULL)
+                    {
+                      ESP_LOGE(LOG_TAG,"Param is null, cannot request config change");
+                    } else {
+                      ///@todo Send to config change queue
+                    }
+                  case T_CALIBRATE:
+                    halAdcCalibrate();
+                  case T_SENDIR:
+                    if(current->cmdparam == NULL)
+                    {
+                      ESP_LOGE(LOG_TAG,"Param is null, cannot send IR");
+                    } else {
+                      ///@todo Send IR command.
+                    }
+                  default:
+                    ESP_LOGE(LOG_TAG,"Unknown VB cmd type");
+                    break;
+                }
               }
               current = current->next;
             }

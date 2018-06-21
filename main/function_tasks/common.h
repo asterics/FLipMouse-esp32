@@ -438,15 +438,14 @@ typedef struct adc_config {
   uint16_t orientation;
 } adc_config_t;
 
-///@todo Will be removed, only 2 tasks will remain for action handling (task_hid & task_vb )
+/** @brief Type of VB command
+ * @see vb_cmd_t */
 typedef enum {
-  T_HID,
-  T_CONFIGCHANGE,
-  T_CALIBRATE,
-  T_SENDIR,
-  T_MACRO,
-  T_NOFUNCTION
-} command_type_t;
+  T_CONFIGCHANGE, /** @brief Config change request */
+  T_CALIBRATE, /** @brief Calibrationrequest */
+  T_SENDIR, /** @brief Send an IR command */
+  T_MACRO /** @brief Trigger macro execution */
+} vb_cmd_type_t;
 
 typedef struct generalConfig {
   uint32_t slotversion;
@@ -471,7 +470,8 @@ typedef struct generalConfig {
   uint16_t debounce_release;
   /** @brief Global anti-tremor time for idle */
   uint16_t debounce_idle;
-  /** @brief Enable/disable button learning mode */
+  /** @brief Enable/disable button learning mode
+   * @todo Move to "volatile" storage, independent from slot change */
   uint8_t button_learn;
   /** @brief Feedback mode.
    * 
@@ -489,13 +489,6 @@ typedef struct generalConfig {
   uint16_t debounce_idle_vb[NUMBER_VIRTUALBUTTONS*4];
   /** @brief Slotname of this config */
   char slotName[SLOTNAME_LENGTH];
-  
-  ///@todo Will be removed...
-  command_type_t virtualButtonCommand[NUMBER_VIRTUALBUTTONS*4];
-  ///@todo Will be removed
-  void* virtualButtonConfig[NUMBER_VIRTUALBUTTONS*4];
-  ///@todo Will be removed
-  size_t virtualButtonCfgSize[NUMBER_VIRTUALBUTTONS*4];
 } generalConfig_t;
 
 /** @brief One VB command (not HID), maybe an element of a command chain */
@@ -517,9 +510,8 @@ struct vb_cmd {
    * * If it is cleared, it is a release action 
    * */
   uint8_t vb;
-  /** @brief Type of command
-   * @todo Maybe replace with an enum*/
-  uint8_t cmd;
+  /** @brief Type of command */
+  vb_cmd_type_t cmd;
   /** @brief Original AT command string, might be NULL if not used */
   char *atoriginal;
   /** @brief Parameter string, e.g. for slot names. Might be NULL if not necessary */
@@ -560,12 +552,6 @@ struct hid_cmd {
   /** @brief Pointer to next HID command element, might be NULL. */
   struct hid_cmd *next;
 };
-
-typedef struct taskNoParameterConfig {
-  //number of virtual button which this instance will be attached to
-  uint8_t virtualButton;
-} taskNoParameterConfig_t;
-
 
 /** @brief State of IR receiver
  * 

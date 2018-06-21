@@ -51,7 +51,7 @@
  * @see task_hid
  * @see task_hid_addCmd
  * @see task_hid_clearCmds*/
-hid_cmd_t *cmd_chain = NULL;
+static hid_cmd_t *cmd_chain = NULL;
 
 /** @brief Mask of active VBs, which are located in the HID cmd_chain. */
 uint8_t activeVBs[NUMBER_VIRTUALBUTTONS];

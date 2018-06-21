@@ -454,11 +454,8 @@ void halAdcProcessPressure(adcData_t *D)
         //check if strong sip + up/down/left/right is set and
         //strong sip alone is unused
         #ifdef DEVICE_FLIPMOUSE
-        if(cfg->virtualButtonCommand[VB_STRONGSIP] == T_NOFUNCTION && \
-            (cfg->virtualButtonCommand[VB_STRONGSIP_UP] != T_NOFUNCTION || \
-            cfg->virtualButtonCommand[VB_STRONGSIP_DOWN] != T_NOFUNCTION || \
-            cfg->virtualButtonCommand[VB_STRONGSIP_LEFT] != T_NOFUNCTION || \
-            cfg->virtualButtonCommand[VB_STRONGSIP_RIGHT] != T_NOFUNCTION))
+        ///@todo How to test if VB is used?!?
+        if(0)
         {
             //if at least one strong action is defined and strong sip
             //is unused, enter strong sip mode
@@ -524,11 +521,8 @@ void halAdcProcessPressure(adcData_t *D)
         //check if strong puff + up/down/left/right is set and
         //strong puff alone is unused
         #ifdef DEVICE_FLIPMOUSE
-        if(cfg->virtualButtonCommand[VB_STRONGPUFF] == T_NOFUNCTION && \
-            (cfg->virtualButtonCommand[VB_STRONGPUFF_UP] != T_NOFUNCTION || \
-            cfg->virtualButtonCommand[VB_STRONGPUFF_DOWN] != T_NOFUNCTION || \
-            cfg->virtualButtonCommand[VB_STRONGPUFF_LEFT] != T_NOFUNCTION || \
-            cfg->virtualButtonCommand[VB_STRONGPUFF_RIGHT] != T_NOFUNCTION))
+        ///@todo How to test if VB is used?!?
+        if(0)
         {
             //if at least one strong action is defined and strong puff
             //is unused, enter strong puff mode
@@ -833,75 +827,6 @@ void halAdcCalibrate(void)
     }
     
     return;
-}
-
-
-
-/** @brief FUNCTIONAL TASK - Trigger zero-point calibration of mouthpiece
- * 
- * This task is used to trigger a zero-point calibration of
- * up/down/left/right input.
- * 
- * @param param Task configuration
- * @see halAdcCalibrate
- * @see taskNoParameterConfig_t*/
-void task_calibration(taskNoParameterConfig_t *param)
-{
-    EventBits_t uxBits = 0;
-    if(param == NULL)
-    {
-        ESP_LOGE(LOG_TAG,"parameter = NULL, cannot proceed");
-        while(1) vTaskDelay(100000/portTICK_PERIOD_MS);
-        return;
-    }
-    
-    //calculate array index of EventGroup array (each 4 VB have an own EventGroup)
-    uint8_t evGroupIndex = param->virtualButton / 4;
-    //calculate bitmask offset within the EventGroup
-    uint8_t evGroupShift = param->virtualButton % 4;
-    //final pointer to the EventGroup used by this task
-    EventGroupHandle_t *evGroup = NULL;
-    //ticks between task timeouts
-    const TickType_t xTicksToWait = 2000 / portTICK_PERIOD_MS;
-    //local VB
-    uint8_t vb = param->virtualButton;
-    
-    if(vb != VB_SINGLESHOT)
-    {
-        //check for correct offset
-        if(evGroupIndex >= NUMBER_VIRTUALBUTTONS)
-        {
-            ESP_LOGE(LOG_TAG,"virtual button group unsupported: %d ",evGroupIndex);
-            while(1) vTaskDelay(100000/portTICK_PERIOD_MS);
-            return;
-        }
-        
-        //test if event groups are already initialized, otherwise exit immediately
-        while(virtualButtonsOut[evGroupIndex] == 0)
-        {
-            ESP_LOGE("task_calib","uninitialized event group for virtual buttons, retry in 1s");
-            vTaskDelay(1000/portTICK_PERIOD_MS);
-        } 
-        //save final event group for later
-        evGroup = virtualButtonsOut[evGroupIndex];
-    }
-
-    while(1)
-    {
-        //in single shot mode, just trigger calibration & return
-        if(vb == VB_SINGLESHOT)
-        {
-            halAdcCalibrate();
-            return;
-        }
-        //wait for the flag
-        uxBits = xEventGroupWaitBits(evGroup,(1<<evGroupShift),pdTRUE,pdFALSE,xTicksToWait);
-        //test for a valid set flag (else branch would be timeout)
-        if(uxBits & (1<<evGroupShift))
-        {
-            halAdcCalibrate();
-        }
-    }
 }
 
 /** @brief HAL TASK - Threshold task for ADC

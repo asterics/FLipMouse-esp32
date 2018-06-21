@@ -70,13 +70,16 @@
 /*++++ All global todos, roadmap, ... ++++*/
 /**
  * @file 
- * @todo Implement learning mode
+ 
  * @todo Double check all functional tasks for any possible memory leaks (would result in crashes after using the device a while)
- * @todo Clarify AT KP/KR/KH commands on original FlipMouse, to be compatible... (especially for press/release with buttons & with multiple key identifiers)
  * @todo Implement buzzer in remaining task_* functions (strongsip/puff exit)
  * @todo Test Neopixels on FABI & FLipMouse
  * @todo Test AT MA (macros).
- * @todo Maybe simplify task organization: only one task each function (one mouse task, one keyboard task)
+ * @todo report raw is disabled on slot switch -> fix it
  * @todo Debug buzzer, and buzzer activating tasks.
+ 
+ * //// TODO for later
  * @todo Implement long press for virtual buttons (new VBs).
+ * @todo Test Neopixels on FABI & FLipMouse
+ * @todo Implement learning mode
 */

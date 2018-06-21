@@ -42,7 +42,7 @@ extern "C" {
 #include "common.h"
 
 /** @brief Queue for sending mouse reports
- * @see mouse_command_t */
+ * @see hid_cmd_t */
 extern QueueHandle_t hid_ble;
 
 /** @brief Activate/deactivate pairing mode

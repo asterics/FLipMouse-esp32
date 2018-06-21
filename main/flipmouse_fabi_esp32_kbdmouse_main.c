@@ -37,8 +37,6 @@
 #include "freertos/task.h"
 #include "freertos/event_groups.h"
 
-#include "function_tasks/task_kbd.h"
-#include "function_tasks/task_mouse.h"
 #include "function_tasks/task_debouncer.h"
 #include "function_tasks/task_commands.h"
 #include "function_tasks/task_webgui.h"

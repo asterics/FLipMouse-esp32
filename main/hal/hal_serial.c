@@ -463,35 +463,24 @@ void halSerialReset(uint8_t exceptDevice)
   //reset mouse
   if(!(exceptDevice & (1<<2))) 
   {
-    hid_command_t m;
-    m.len = 5;
-    m.data[0] = 'M';
-    m.data[1] = 0; //buttons
-    m.data[2] = 0; //X
-    m.data[3] = 0; //Y
-    m.data[4] = 0; //wheel
-    
+    hid_cmd_t m;
+    m.cmd[0] = 0x1F;
     //send to queue
     xQueueSend(hid_usb, &m, 0);
   }
   //reset keyboard
   if(!(exceptDevice & (1<<0)))
   {
-    hid_command_t k;
-    for(uint8_t i=1;i<=8;i++) k.data[i] = 0;
-    k.data[0] = 'K';
-    k.len = 9;
+    hid_cmd_t k;
+    k.cmd[0] = 0x2F;
     //send to queue
     xQueueSend(hid_usb, &k, 0);
   }
   //reset joystick
   if(!(exceptDevice & (1<<1)))
   {
-    hid_command_t j;
-    for(uint8_t i=1;i<=12;i++) j.data[i] = 0;
-    j.data[0] = 'J';
-    j.len = 13;
-    
+    hid_cmd_t j;
+    j.cmd[0] = 0x3F;
     //send to queue
     xQueueSend(hid_usb, &j, 0);
   }

@@ -399,6 +399,7 @@ typedef enum mouthpiece_mode {MOUSE, JOYSTICK, THRESHOLD} mouthpiece_mode_t;
  * 
  * TBD: describe all parameters...
  * 
+ * @todo Remove report raw from here & create new "volatile" config struct -> no need to save, but no need to overwrite on slot change
  * @see mouthpiece_mode_t
  * @see VB_SIP
  * @see VB_PUFF
@@ -437,6 +438,7 @@ typedef struct adc_config {
   uint16_t orientation;
 } adc_config_t;
 
+///@todo Will be removed, only 2 tasks will remain for action handling (task_hid & task_vb )
 typedef enum {
   T_HID,
   T_CONFIGCHANGE,
@@ -487,65 +489,77 @@ typedef struct generalConfig {
   uint16_t debounce_idle_vb[NUMBER_VIRTUALBUTTONS*4];
   /** @brief Slotname of this config */
   char slotName[SLOTNAME_LENGTH];
+  
+  ///@todo Will be removed...
   command_type_t virtualButtonCommand[NUMBER_VIRTUALBUTTONS*4];
+  ///@todo Will be removed
   void* virtualButtonConfig[NUMBER_VIRTUALBUTTONS*4];
+  ///@todo Will be removed
   size_t virtualButtonCfgSize[NUMBER_VIRTUALBUTTONS*4];
 } generalConfig_t;
 
-/**++++ TODO: move to task_mouse.h ++++*/
-typedef struct mouse_command {
-  int8_t x;
-  int8_t y;
-  int8_t wheel;
-  uint8_t buttons;
-} mouse_command_t;
+/** @brief One VB command (not HID), maybe an element of a command chain */
+typedef struct vb_cmd vb_cmd_t;
 
-/** @brief HID data to be sent via BLE or USB
+/** @brief One VB command (not HID), maybe an element of a command chain 
  * 
- * First byte determines type of command:
- * * 'M' Mouse data (parameters: buttons[uint8_t]/X[int8_t]/Y[int8_t]/wheel[int8_t]
- * * 'K' Keyboard data (parameters: modifier [uint8_t], 6x keycodes [uint8_t]
- * * 'J' Joystick data (see task_joystick.c for parameters)
- * @see hid_usb
- * @see hid_ble
- */
-typedef struct hid_command {
-  /** @brief Length of payload */
-  uint8_t len;
-  /** @brief HID data */
-  uint8_t data[16];
-} hid_command_t;
-
-
-///@note Highest bit determines press/release action. If set, it is a press!
-typedef struct hid_cmd hid_cmd_t;
-//struct __attribute__ ((packed)) hid_cmd_t {
-struct hid_cmd {
+ * This struct is used for VB commands, which are not HID commands.
+ * 
+ * @todo Document this struct more.
+ * @see task_vb_addCmd
+ * @see task_vb_clearCmds
+ * @see task_vb_getCmdChain
+ * @see task_vb_setCmdChain */
+struct vb_cmd {
+  /** @brief Number of virtual button. MSB signals if this is a press or
+   * release action:
+   * * If it is set (mask: 0x80), it is a press action
+   * * If it is cleared, it is a release action 
+   * */
   uint8_t vb;
-  uint8_t cmd[3];
+  /** @brief Type of command
+   * @todo Maybe replace with an enum*/
+  uint8_t cmd;
+  /** @brief Original AT command string, might be NULL if not used */
   char *atoriginal;
-  struct hid_cmd *next;
-}; 
+  /** @brief Parameter string, e.g. for slot names. Might be NULL if not necessary */
+  char *cmdparam;
+  /** @brief Pointer to next VB command element, might be NULL. */
+  struct vb_cmd *next;
+};
 
-/**++++ TODO: move to task_joystick.h ++++*/
-typedef struct joystick_command {
-  /** @brief Button mask, allows up to 32 different buttons */
-  uint32_t buttonmask;
-  /** @brief X-axis value, 0-1023 */
-  uint16_t Xaxis;
-  /** @brief Y-axis value, 0-1023 */
-  uint16_t Yaxis;
-  /** @brief Z-axis value, 0-1023 */
-  uint16_t Zaxis;
-  /** @brief Z-rotate value, 0-1023 */
-  uint16_t Zrotate;
-  /** @brief Slider left value, 0-1023 */
-  uint16_t sliderLeft;
-  /** @brief Slider right value, 0-1023 */
-  uint16_t sliderRight;
-  /** @brief Hat position (0-360), mapped to 8 directions. Use <0 for no pressing*/
-  int16_t hat;
-} joystick_command_t;
+
+/** @brief One HID command, maybe an element of a command chain */
+typedef struct hid_cmd hid_cmd_t;
+
+/** @brief  One HID command, maybe an element of a command chain
+ *
+ * This struct is used either as one element to be passed to hal_serial
+ * or the BLE class OR it is used to form a chained list of all HID
+ * commands, which are currently active. task_hid takes care
+ * of maintaining a list of all active VBs, if one gets triggered (via
+ * task_debouncer), the HID task walks through this list for one or more
+ * (in case of multiple press/release actions) HID commands, which are
+ * sent to the BLE/USB HAL.
+ * @see task_hid_addCmd
+ * @see task_hid_clearCmds
+ * @see task_hid_getCmdChain
+ * @see task_hid_setCmdChain */
+struct hid_cmd {
+  /** @brief Number of virtual button. MSB signals if this is a press or
+   * release action:
+   * * If it is set (mask: 0x80), it is a press action
+   * * If it is cleared, it is a release action 
+   * */
+  uint8_t vb;
+  /** @brief Command to be sent, see HID_kbdmousejoystick.cpp or the
+   * usb_bridge for explanations. */
+  uint8_t cmd[3];
+  /** @brief Original AT command string, might be NULL if not used */
+  char *atoriginal;
+  /** @brief Pointer to next HID command element, might be NULL. */
+  struct hid_cmd *next;
+};
 
 typedef struct taskNoParameterConfig {
   //number of virtual button which this instance will be attached to
@@ -566,10 +580,10 @@ typedef struct taskNoParameterConfig {
  * @see TASK_HAL_IR_RECV_MAXIMUM_EDGES*/
 typedef enum irstate {IR_IDLE,IR_RECEIVING,IR_TOOSHORT,IR_FINISHED,IR_OVERFLOW} irstate_t;
 
-/** @brief Output buzzer noise */
+/** @brief Output IR command */
 typedef struct halIOIR {
   /** Buffer for IR signal
-   * @warning Do not free this buffer! It will be freed by transmitting task
+   * @warning Do not free this buffer! It will be freed by transmitting function
    * @note In case of receiving, this buffer can be freed. */
   rmt_item32_t *buffer;
   /** Count of rmt_item32_t items */

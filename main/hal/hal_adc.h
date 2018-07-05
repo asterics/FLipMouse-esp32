@@ -57,6 +57,22 @@
 
 #ifdef DEVICE_FLIPMOUSE
 
+/** @brief on-the-fly calibration - sliding window size
+ * 
+ * We do an on-the-fly calibration if the mouthpiece is assumed idle.
+ * This value represents the amount of last values to be used.
+ * @see HAL_IO_ADC_OTF_THRESHOLD
+ */
+#define HAL_IO_ADC_OTF_COUNT 3
+/** @brief on-the-fly calibration - calibration threshold
+ * 
+ * We do an on-the-fly calibration if the mouthpiece is assumed idle.
+ * This value represents the threshold which is used to calibrate
+ * (sum of deltas of all channels is less)
+ * @see HAL_IO_ADC_OTF_COUNT
+ */
+#define HAL_IO_ADC_OTF_THRESHOLD  20
+
 /** @brief ADC input pin for "up" channel of FSR
  * @note For adapting this pin, change HAL_IO_ADC_CHANNEL_UP as well!
  * @see HAL_IO_ADC_CHANNEL_UP */

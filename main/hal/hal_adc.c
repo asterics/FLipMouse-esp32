@@ -38,6 +38,7 @@
  * 
  * @see adc_config_t
  * @todo Add CIM reporting...
+ * @todo Test the on-the-fly calibration
  * @todo Do Strong<Sip/puff>+<UP/DOWN/LEFT/RIGHT>
  * */
  
@@ -245,6 +246,8 @@ void halAdcReportRaw(uint32_t up, uint32_t down, uint32_t left, uint32_t right, 
  */
 void halAdcReadData(adcData_t *values)
 {
+    static int32_t otf_olds[4][HAL_IO_ADC_OTF_COUNT];
+    static uint8_t otf_counter = 0;
     //read all sensors
     int32_t tmp = 0;
     int32_t x,y;
@@ -285,7 +288,48 @@ void halAdcReadData(adcData_t *values)
         //save calibrated pressure value
         values->pressure = (uint32_t)(512+tmp);        
     }
-
+    
+    /*++++ on-the-fly calibration ++++*/
+    //If the ADC input does not change over a defined threshold
+    //we assume that the mouthpiece is left idle.
+    //To avoid any problems with the Velostat material (which tends to
+    //be not as good in idle mode as FSR sensors), we test here
+    //if the values don't change too much (although the absolute value
+    //might be different than before).
+    //In case of an idle mouthpiece, there should be a delta of ~1-3
+    //raw value steps each ADC iteration. 
+    
+    //currently used: accumulate 3 last deltas and check if ALL 4 inputs
+    //are assumed idle. If yes, adjust the offset values.
+    
+    //save these values
+    otf_olds[0][otf_counter] = left;
+    otf_olds[1][otf_counter] = right;
+    otf_olds[2][otf_counter] = up;
+    otf_olds[3][otf_counter] = down;
+    
+    //calculate deltas (from last to first element is done after loop)
+    int32_t delta_accum = 0;
+    for(uint8_t i = 0; i<(HAL_IO_ADC_OTF_COUNT-1);i++)
+    {
+        delta_accum += abs(otf_olds[0][i+1] - otf_olds[0][i]);
+        delta_accum += abs(otf_olds[1][i+1] - otf_olds[1][i]);
+        delta_accum += abs(otf_olds[2][i+1] - otf_olds[2][i]);
+        delta_accum += abs(otf_olds[3][i+1] - otf_olds[3][i]);
+    }
+    //get deltas from last/first value
+    delta_accum += abs(otf_olds[0][0] - otf_olds[0][HAL_IO_ADC_OTF_COUNT-1]);
+    delta_accum += abs(otf_olds[1][0] - otf_olds[1][HAL_IO_ADC_OTF_COUNT-1]);
+    delta_accum += abs(otf_olds[2][0] - otf_olds[2][HAL_IO_ADC_OTF_COUNT-1]);
+    delta_accum += abs(otf_olds[3][0] - otf_olds[3][HAL_IO_ADC_OTF_COUNT-1]);
+    
+    
+    //decide based on overall accumulated delta
+    if(delta_accum <= HAL_IO_ADC_OTF_THRESHOLD)
+    {
+        ESP_LOGW(LOG_TAG,"OTF calib! TBD!!");
+    }
+    
     //do the mouse rotation
     switch (adc_conf.orientation) {
       case 90: tmp=up; up=left; left=down; down=right; right=tmp; break;

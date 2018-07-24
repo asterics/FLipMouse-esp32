@@ -148,7 +148,7 @@ void ws_server_netconn_serve(struct netconn *conn) {
 						(unsigned char*) p_SHA1_result);
 
 				//hex to base64
-				p_buf = (char*) _base64_encode((unsigned char*) p_SHA1_result,
+				p_buf = (char*) base64_encode((unsigned char*) p_SHA1_result,
 						SHA1_RES_L, (size_t*) &i);
 
 				//free SHA1 input

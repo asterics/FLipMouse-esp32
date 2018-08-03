@@ -25,11 +25,7 @@
  * a storage area. In case of the ESP32 we use FAT with wear leveling,
  * which is provided by the esp-idf.
  * <b>Warning:</b> Please adjust the esp-idf to us 512Byte sectors and <b>mode "safety"</b>!
- * We don't do any safe copying, just building a checksum to detect
- * faulty slots.
  * 
- * This module can be used to store a config struct (generalConfig_t)
- * and the corresponding virtual button config structs to the storage.
  * 
  * Following commands are implemented here:
  * * list all slot names
@@ -44,8 +40,6 @@
  * * load an IR command
  * * get names for IR commands
  * 
- * This module starts one task on its own for maintaining the storage
- * access.
  * All methods called from this module will block via a semaphore until
  * the requested operation is finished.
  * 
@@ -55,17 +49,16 @@
  * 
  * Slots are stored in following naming convention (8.3 rule applies here):
  * general slot config:
- * xxx.fms (slot number, e.g., 001.fms for slot 1)
- * virtual button config for slot xxx
- * xxx_VB.fms
+ * xxx.fms (slot number, e.g., 000.fms for slot 1)
+ * infrared commands
+ * xxx_IR.fms
  * 
- * @note Maximum number of slots: 250! (e.g. 250.fms)
- * @note Maximum number of IR commands: 100 (0-100, e.g. IR_99.fms)
+ * @note Maximum number of slots: 250! (e.g. 000.fms - 249.fms)
+ * @note Maximum number of IR commands: 250 (e.g. IR_000.fms - IR_249.fms)
  * @note Use halStorageStartTransaction and halStorageFinishTransaction on begin/end of loading&storing (except for halStorageNVS* operations)
  * @warning Adjust the esp-idf (via "make menuconfig") to use 512B sectors
  * and mode <b>safety</b>!
  * 
- * @see generalConfig_t
  */
 
 #include "hal_storage.h"
@@ -312,7 +305,7 @@ void halStorageCreateDefault(uint32_t tid)
       if(target != NULL) fclose(target);
       slotnr++;
       //create target filename (overwrite current config)
-      sprintf(file,"%s/%3d.set",base_path,slotnr);
+      sprintf(file,"%s/%03d.set",base_path,slotnr);
       target = fopen(file, "wb");
       if(target == NULL)
       {
@@ -383,10 +376,7 @@ esp_err_t halStorageGetNumberOfSlots(uint32_t tid, uint8_t *slotsavailable)
     f = fopen(file, "rb");
     
     //check if this file is available
-    //TODO: should we re-arrange slots if one is deleted or should we
-    //search through all 255 possible slots? (might be slow if the slot
-    //is not found)
-    //Currently: return number of last valid found slot
+    //if one file is not available, we assume this is the end of configs
     if(f == NULL)
     {
       ESP_LOGI(LOG_TAG,"Available slots: %u",currentSlot);
@@ -424,14 +414,14 @@ esp_err_t halStorageGetNameForNumberIR(uint32_t tid, uint8_t slotnumber, char *c
   if(halStorageChecks(tid) != ESP_OK) return ESP_FAIL;
   
   //check for slot number
-  if(slotnumber >= 100)
+  if(slotnumber >= 250)
   {
-    ESP_LOGE(LOG_TAG,"IR commands maximum: 99");
+    ESP_LOGE(LOG_TAG,"IR commands maximum: 250");
     return ESP_FAIL;
   }
   
   //create filename string to search if this slot is available
-  sprintf(file,"%s/IR_%02d.fms",base_path,slotnumber);
+  sprintf(file,"%s/IR_%03d.fms",base_path,slotnumber);
   
   //open file for reading
   #if LOG_LEVEL_STORAGE >= ESP_LOG_DEBUG
@@ -451,14 +441,14 @@ esp_err_t halStorageGetNameForNumberIR(uint32_t tid, uint8_t slotnumber, char *c
   fread(&slotnamelen,sizeof(uint32_t),1,f);
   if(slotnamelen > SLOTNAME_LENGTH + 1)
   {
-    ESP_LOGE(LOG_TAG,"Slotname too long: %u",slotnamelen);
+    ESP_LOGE(LOG_TAG,"IR name too long: %u",slotnamelen);
     fclose(f);
     return ESP_FAIL;
   }
   fread(cmdName,sizeof(char),slotnamelen+1,f);
   cmdName[slotnamelen] = '\0';
   #if LOG_LEVEL_STORAGE >= ESP_LOG_DEBUG
-  ESP_LOGD(LOG_TAG,"Read slotname: %s, length %d",cmdName,slotnamelen);
+  ESP_LOGD(LOG_TAG,"IR name: %s, length %d",cmdName,slotnamelen);
   #endif
   
   //clean up & return
@@ -470,7 +460,7 @@ esp_err_t halStorageGetNameForNumberIR(uint32_t tid, uint8_t slotnumber, char *c
  * This function is used to delete one IR command or all commands (depending on
  * parameter slotnr)
  * 
- * @param slotnr Number of slot to be deleted. Use 100 to delete all slots
+ * @param slotnr Number of slot to be deleted. Use 250 to delete all slots
  * @note Setting slotnr to 100 deletes all IR slots.
  * @param tid Transaction id
  * @return ESP_OK if everything is fine, ESP_FAIL otherwise
@@ -481,7 +471,7 @@ esp_err_t halStorageDeleteIRCmd(uint8_t slotnr, uint32_t tid)
   char filenew[sizeof(base_path)+32];
   int ret;
   
-  if(slotnr > 100) 
+  if(slotnr > 250) 
   {
     ESP_LOGE(LOG_TAG,"Cannot delete IR, slotnr too high");
     return ESP_FAIL;
@@ -491,11 +481,11 @@ esp_err_t halStorageDeleteIRCmd(uint8_t slotnr, uint32_t tid)
   uint8_t from = slotnr;
   uint8_t to = slotnr;
   
-  //in case of deleting all slots, start at 1 and delete until 250
-  if(slotnr == 100)
+  //in case of deleting all slots, start at 0 and delete until 249
+  if(slotnr == 250)
   {
     from = 0;
-    to = 99;
+    to = 249;
   }
   
   //check for valid storage handle
@@ -504,32 +494,34 @@ esp_err_t halStorageDeleteIRCmd(uint8_t slotnr, uint32_t tid)
   //delete one or all slots
   for(uint8_t i = from; i<=to; i++)
   {
-    sprintf(file,"%s/IR_%02d.fms",base_path,i); 
+    sprintf(file,"%s/IR_%03d.fms",base_path,i); 
     remove(file);
     //not necessary, ESP32 uses preemption
     //taskYIELD();
   }
   
   //re-arrange all following slots (of course, only if not deleting all)
-  if(slotnr != 100)
+  if(slotnr != 250)
   {
     
-    for(uint8_t i = to+1; i<=99; i++)
+    for(uint8_t i = to+1; i<=249; i++)
     {
-      sprintf(file,"%s/IR_%02d.fms",base_path,i);
-      sprintf(filenew,"%s/IR_%02d.fms",base_path,i-1);
+      sprintf(file,"%s/IR_%03d.fms",base_path,i);
+      sprintf(filenew,"%s/IR_%03d.fms",base_path,i-1);
       ret = rename(file,filenew);
       if(ret != 0)
       {
         ESP_LOGI(LOG_TAG,"Stopped renaming @ IR cmd %d",i);
         break;
       }
-      //not necessary, ESP32 uses preemption
-      //taskYIELD();
     }
   }
-  
-  ESP_LOGW(LOG_TAG,"Deleted IR cmd %d (100 means: delete all)",slotnr);
+  if(slotnr == 250) 
+  {
+    ESP_LOGW(LOG_TAG,"Deleted all IR commands");
+  } else {
+    ESP_LOGI(LOG_TAG,"Deleted IR cmd %d",slotnr);
+  }
   return ESP_OK;
 }
 
@@ -555,7 +547,7 @@ esp_err_t halStorageGetNumberOfIRCmds(uint32_t tid, uint8_t *slotsavailable)
   
   do {
     //create filename string to search if this slot is available
-    sprintf(file,"%s/IR_%02d.fms",base_path,current);
+    sprintf(file,"%s/IR_%03d.fms",base_path,current);
     
     f = fopen(file, "rb");
     
@@ -570,7 +562,7 @@ esp_err_t halStorageGetNumberOfIRCmds(uint32_t tid, uint8_t *slotsavailable)
       fclose(f);
     }
     current++;
-    if(current == 100) break;
+    if(current == 250) break;
   } while(1);
   ESP_LOGI(LOG_TAG,"Available IR cmds: %u",count);
   *slotsavailable = count;
@@ -580,10 +572,10 @@ esp_err_t halStorageGetNumberOfIRCmds(uint32_t tid, uint8_t *slotsavailable)
 /** @brief Get the number of first available slot for an IR command
  * 
  * This method returns the number of the first available IR command slot.
- * An empty device will return 0
+ * An empty device will return 0, a full device 250
  * 
  * @param tid Transaction id
- * @param slotavailable Variable where the slot number will be stored
+ * @param slotavailable Variable where the free slot number will be stored
  * @see halStorageStartTransaction
  * @see halStorageFinishTransaction
  * @return ESP_OK if tid is valid and slot count is valid, ESP_FAIL otherwise (no free slot)
@@ -591,35 +583,30 @@ esp_err_t halStorageGetNumberOfIRCmds(uint32_t tid, uint8_t *slotsavailable)
 esp_err_t halStorageGetFreeIRCmdSlot(uint32_t tid, uint8_t *slotavailable)
 {
   uint8_t current = 0;
-  char file[sizeof(base_path)+32];
-  FILE *f;
 
   if(halStorageChecks(tid) != ESP_OK) return ESP_FAIL;
   
-  do {
-    //create filename string to search if this slot is available
-    sprintf(file,"%s/IR_%02d.fms",base_path,current);
-    
-    //open file for reading
-    #if LOG_LEVEL_STORAGE >= ESP_LOG_DEBUG
-    ESP_LOGD(LOG_TAG,"Opening file %s",file);
-    #endif
-    
-    f = fopen(file, "rb");
-    
-    //check if this file is available
-    if(f == NULL)
-    {
-      *slotavailable = current;
-      return ESP_OK;
-    } else fclose(f);
-    current++;
-    if(current == 100) break;
-  } while(1);
+  if(halStorageGetNumberOfIRCmds(tid,&current) != ESP_OK)
+  {
+    ESP_LOGE(LOG_TAG,"Cannot get number of active IR cmds");
+    return ESP_FAIL;
+  }
   
-  ESP_LOGW(LOG_TAG,"No free IR slot");
-  return ESP_FAIL;
+  if(current == 250)
+  {
+    ESP_LOGW(LOG_TAG,"No free IR slot");
+    *slotavailable = 250;
+    return ESP_FAIL;
+  } else {
+    *slotavailable = current;
+  }
+  
+  return ESP_OK;
 }
+
+
+//////// TODO: ab hier auf andere slots anpassen.... ////////
+
 
 /** @brief Get the name of a slot number
  * 
@@ -636,9 +623,17 @@ esp_err_t halStorageGetFreeIRCmdSlot(uint32_t tid, uint8_t *slotavailable)
  * */
 esp_err_t halStorageGetNameForNumber(uint32_t tid, uint8_t slotnumber, char *slotname)
 {
-  uint32_t slotnamelen = 0;
+  //file name buffer
   char file[sizeof(base_path)+32];
+  //malloc a buffer for SLOTNAME_LENGTH + strlen("Slot XXX:")
+  char *slotnamebuf = malloc(SLOTNAME_LENGTH+10);
   FILE *f;
+  
+  if(slotnamebuf == NULL)
+  {
+    ESP_LOGE(LOG_TAG,"Cannot alloc buffer for slotname");
+    return ESP_FAIL;
+  }
 
   if(halStorageChecks(tid) != ESP_OK) return ESP_FAIL;
   
@@ -653,28 +648,36 @@ esp_err_t halStorageGetNameForNumber(uint32_t tid, uint8_t slotnumber, char *slo
   
   if(f == NULL)
   {
-    ESP_LOGW(LOG_TAG,"Invalid slot number %d, cannot load file",slotnumber);
+    ESP_LOGW(LOG_TAG,"Invalid file");
+    free(slotnamebuf);
     return ESP_FAIL;
   }
   
   fseek(f,0,SEEK_SET);
 
   //read slot name
-  fread(&slotnamelen,sizeof(uint32_t),1,f);
-  if(slotnamelen > SLOTNAME_LENGTH + 1)
+  fgets(slotnamebuf,SLOTNAME_LENGTH+10,f);
+  //check if we have "Slot XXX:"
+  if((strcmp(slotnamebuf,"Slot ") == 0) && (strpbrk(slotnamebuf,":") != NULL))
   {
-    ESP_LOGE(LOG_TAG,"Slotname length too high: %u",slotnamelen);
+    //if yes, strip "Slot..." & save to caller
+    char *begin = strpbrk(slotnamebuf,":");
+    strncpy(slotname,begin+1,SLOTNAME_LENGTH);
+  } else {
+    //if no, config is invalid
+    ESP_LOGE(LOG_TAG,"Missing \"Slot XXX:\" tag!");
+    free(slotnamebuf);
     fclose(f);
     return ESP_FAIL;
   }
-  fread(slotname,sizeof(char),slotnamelen+1,f);
-  slotname[slotnamelen] = '\0';
+  
   #if LOG_LEVEL_STORAGE >= ESP_LOG_DEBUG
-  ESP_LOGD(LOG_TAG,"Read slotname: %s, length %d",slotname,slotnamelen);
+  ESP_LOGD(LOG_TAG,"Read slotname: %s",slotname);
   #endif
   
   //clean up & return
   if(f!=NULL) fclose(f);
+  free(slotnamebuf);
   return ESP_OK;
 }
 
@@ -693,59 +696,24 @@ esp_err_t halStorageGetNameForNumber(uint32_t tid, uint8_t slotnumber, char *slo
 esp_err_t halStorageGetNumberForName(uint32_t tid, uint8_t *slotnumber, char *slotname)
 {
   uint8_t currentSlot = 0;
-  uint32_t slotnamelen = 0;
-  char file[sizeof(base_path)+32];
   char fileSlotName[SLOTNAME_LENGTH+4];
-  FILE *f;
 
   if(halStorageChecks(tid) != ESP_OK) return ESP_FAIL;
   
   do {
-    //create filename string to search if this slot is available
-    sprintf(file,"%s/%03d.fms",base_path,currentSlot);
-    
-    //open file for reading
-    #if LOG_LEVEL_STORAGE >= ESP_LOG_DEBUG
-    ESP_LOGD(LOG_TAG,"Opening file %s",file);
-    #endif
-    f = fopen(file, "rb");
-    
-    //check if this file is available
-    //TODO: should we re-arrange slots if one is deleted or should we
-    //search through all 255 possible slots? (might be slow if the slot
-    //is not found)
-    //Currently: return ESP_FAIL for first not found file
-    if(f == NULL)
+    //get name for slot number
+    if(halStorageGetNameForNumber(tid,currentSlot,fileSlotName) != ESP_OK)
     {
-      #if LOG_LEVEL_STORAGE >= ESP_LOG_DEBUG
-      ESP_LOGD(LOG_TAG,"Stopped at slot number %u, didn't found the given name",currentSlot);
-      #endif
       *slotnumber = 0;
+      ESP_LOGI(LOG_TAG,"Cannot find slot %s",slotname);
       return ESP_FAIL;
     }
     
-    fseek(f,0,SEEK_SET);
-  
-    //read slot name
-    fread(&slotnamelen,sizeof(uint32_t),1,f);
-    if(slotnamelen > SLOTNAME_LENGTH + 1)
-    {
-      ESP_LOGE(LOG_TAG,"Slotname length too high: %u",slotnamelen);
-      fclose(f);
-      return ESP_FAIL;
-    }
-    fread(fileSlotName,sizeof(char),slotnamelen+1,f);
-    fileSlotName[slotnamelen] = '\0';
-    #if LOG_LEVEL_STORAGE >= ESP_LOG_DEBUG
-    ESP_LOGD(LOG_TAG,"Read slotname: %s, length %d",slotname,slotnamelen);
-    #endif
-      
     //compare parameter & file slotname
     if(strcmp(slotname, fileSlotName) == 0)
     {
       //found a slot
       *slotnumber = currentSlot;
-      fclose(f);
       #if LOG_LEVEL_STORAGE >= ESP_LOG_DEBUG
       ESP_LOGD(LOG_TAG,"Found slot \"%s\" @%u",slotname,currentSlot);
       #endif
@@ -754,15 +722,13 @@ esp_err_t halStorageGetNumberForName(uint32_t tid, uint8_t *slotnumber, char *sl
     
     //go to next possible slot & clean up
     currentSlot++;
-    fclose(f);
   } while(1);
 
   //we should never be here...
-  if(f!=NULL) fclose(f);
   return ESP_OK;
 }
 
-/** @brief Get the number of an IR command
+/** @brief Get the number for an IR cmd name
  * 
  * This method returns the number of the given IR command name.
  * An invalid name will return ESP_OK and a slotnumber of 0xFF.
@@ -777,73 +743,35 @@ esp_err_t halStorageGetNumberForName(uint32_t tid, uint8_t *slotnumber, char *sl
 esp_err_t halStorageGetNumberForNameIR(uint32_t tid, uint8_t *slotnumber, char *cmdName)
 {
   uint8_t currentSlot = 0;
-  uint32_t slotnamelen = 0;
-  char file[sizeof(base_path)+32];
   char fileSlotName[SLOTNAME_LENGTH+4];
-  FILE *f;
 
   if(halStorageChecks(tid) != ESP_OK) return ESP_FAIL;
   
   do {
-    //check for limit of slots
-    if(currentSlot == 100)
+    //get name for slot number
+    if(halStorageGetNameForNumberIR(tid,currentSlot,fileSlotName) != ESP_OK)
     {
-      ESP_LOGW(LOG_TAG,"Finished search, didn't find name %s",cmdName);
-      *slotnumber = 0xFF;
-      return ESP_OK;
-    }
-    
-    //create filename string to search if this slot is available
-    sprintf(file,"%s/IR_%02d.fms",base_path,currentSlot);
-    
-    //open file for reading
-    f = fopen(file, "rb");
-    
-    //check if this file is available
-    //TODO: should we re-arrange slots if one is deleted or should we
-    //search through all 255 possible slots? (might be slow if the slot
-    //is not found)
-    if(f == NULL)
-    {
-      currentSlot++;
-      continue;
-    }
-    
-    fseek(f,0,SEEK_SET);
-  
-    //read slot name
-    fread(&slotnamelen,sizeof(uint32_t),1,f);
-    if(slotnamelen > SLOTNAME_LENGTH + 1)
-    {
-      ESP_LOGE(LOG_TAG,"Slotname length too high: %u",slotnamelen);
-      fclose(f);
+      *slotnumber = 0;
+      ESP_LOGI(LOG_TAG,"Cannot find IR cmd %s",cmdName);
       return ESP_FAIL;
     }
-    fread(fileSlotName,sizeof(char),slotnamelen+1,f);
-    fileSlotName[slotnamelen] = '\0';
-    #if LOG_LEVEL_STORAGE >= ESP_LOG_DEBUG
-    ESP_LOGD(LOG_TAG,"Read slotname: %s, length %d",fileSlotName,slotnamelen);
-    #endif
-      
+    
     //compare parameter & file slotname
     if(strcmp(cmdName, fileSlotName) == 0)
     {
       //found a slot
       *slotnumber = currentSlot;
-      fclose(f);
       #if LOG_LEVEL_STORAGE >= ESP_LOG_DEBUG
-      ESP_LOGD(LOG_TAG,"Found slot \"%s\" @%u",cmdName,currentSlot);
+      ESP_LOGD(LOG_TAG,"Found IR slot \"%s\" @%u",cmdName,currentSlot);
       #endif
       return ESP_OK;
     }
     
     //go to next possible slot & clean up
     currentSlot++;
-    fclose(f);
   } while(1);
 
   //we should never be here...
-  if(f!=NULL) fclose(f);
   return ESP_FAIL;
 }
 
@@ -929,7 +857,7 @@ esp_err_t halStorageLoad(hal_storage_load_action navigate, generalConfig_t *cfg,
 }
 
 
-/** @brief Load a slot by a slot number (starting with 1, 0 is default slot)
+/** @brief Load a slot by a slot number (starting with 0)
  * 
  * This method loads a slot & saves the general config to the given
  * config struct pointer.

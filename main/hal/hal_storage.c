@@ -259,15 +259,13 @@ esp_err_t halStorageChecks(uint32_t tid)
 
 /** @brief Create a new default slot
  * 
- * Create a new default slot in memory.
- * The default settings are hardcoded here to provide a fallback
- * solution.
+ * Copy the flashed default.set file to the working config.set file.
  * 
  * @param tid Valid transaction ID
- * @todo Change this default slot to usable settings
  * */
 void halStorageCreateDefault(uint32_t tid)
 {
+  char file[sizeof(base_path)+32];
   //check tid
   if(halStorageChecks(tid) != ESP_OK)
   {
@@ -275,94 +273,70 @@ void halStorageCreateDefault(uint32_t tid)
     return;
   }
   
-  //get storage from heap
-  generalConfig_t *defaultCfg = (generalConfig_t *)malloc(sizeof(generalConfig_t));
-  if(defaultCfg == NULL) ESP_LOGE(LOG_TAG,"CANNOT CREATE DEFAULT CONFIG, not enough memory");
-  esp_err_t ret;
-  
-  ESP_LOGW(LOG_TAG,"Creating new default config!");
-  
-  //fill up default slot
-  defaultCfg->ble_active = 1;
-  defaultCfg->usb_active = 1;
-  defaultCfg->slotversion = STORAGE_ID;
-  defaultCfg->locale = LAYOUT_GERMAN;
-  defaultCfg->wheel_stepsize = 3;
-  defaultCfg->irtimeout = 10;
-  defaultCfg->button_learn = 0;
-  
-  //set any debounce time to 0 (use default)
-  defaultCfg->debounce_press = 0;
-  defaultCfg->debounce_release = 0;
-  defaultCfg->debounce_idle = 0;
-  for(uint8_t i = 0; i<NUMBER_VIRTUALBUTTONS*4;i++)
-  {
-    defaultCfg->debounce_press_vb[i] = 0;
-    defaultCfg->debounce_release_vb[i] = 0;
-    defaultCfg->debounce_idle_vb[i] = 0;
-  }
-  
-  //default feedback mode: LED+buzzer
-  defaultCfg->feedback = 3;
-  
-  
-  strcpy(defaultCfg->slotName,"mouse");
-  
-  #ifdef DEVICE_FABI
-    defaultCfg->deviceIdentifier = 1;
-  #endif
+  //create filename string to open the default slot (either FABI or FLipMouse)
   #ifdef DEVICE_FLIPMOUSE
-    defaultCfg->deviceIdentifier = 0;
+    sprintf(file,"%s/flip.set",base_path);
   #endif
-  
-  defaultCfg->adc.orientation = 0;
-  defaultCfg->adc.acceleration = 50;
-  defaultCfg->adc.axis = 0;
-  defaultCfg->adc.deadzone_x = 40;
-  defaultCfg->adc.deadzone_y = 40;
-  defaultCfg->adc.max_speed = 50;
-  defaultCfg->adc.mode = MOUSE;
-  defaultCfg->adc.sensitivity_x = 60;
-  defaultCfg->adc.sensitivity_y = 60;
-  defaultCfg->adc.threshold_puff = 525;
-  defaultCfg->adc.threshold_sip = 500;
-  defaultCfg->adc.threshold_strongpuff = 800;
-  defaultCfg->adc.threshold_strongsip = 250;
-  defaultCfg->adc.reportraw = 0;
-  defaultCfg->adc.gain[0] = 50;
-  defaultCfg->adc.gain[1] = 50;
-  defaultCfg->adc.gain[2] = 50;
-  defaultCfg->adc.gain[3] = 50;
-  
-  
-  
-  ///@todo Adapt default VB config for new HID/VB task!!!
-  #ifdef DEVICE_FLIPMOUSE 
-  #endif
-  
-  
   #ifdef DEVICE_FABI
-    ///@todo Add default VB config for FABI.
+    sprintf(file,"%s/fabi.set",base_path);
   #endif
-  
-  //store general config
-  ret = halStorageStore(tid,defaultCfg,(char*)"mouse",0);
-  if(ret != ESP_OK)
+  FILE *source = fopen(file, "rb");
+  if(source == NULL)
   {
-    ESP_LOGE(LOG_TAG,"Error saving default general config!");
+    ESP_LOGE(LOG_TAG,"Cannot open default file for factory reset!");
     return;
   }
   
-  #ifdef DEVICE_FLIPMOUSE
+  //current slot number used for filename
+  int slotnr = 0;
+  //target file pointer
+  FILE *target = NULL;
+
+  //credits:
+  //https://stackoverflow.com/questions/1006797/tried-and-true-simple-file-copying-code-in-c#1010207
+  char *buffer = malloc(512);
+  if(buffer == NULL)
+  {
+    ESP_LOGE(LOG_TAG,"Cannot alloc buf for default slot");
+    fclose(source);
+    return;
+  }
+
+  //read file & open/close individual slot files
+  while (fgets(buffer, 512, source) != NULL)
+  {
+    //if we get a new slot by receiving a string "Slot X:<name>"
+    //we close the target file and open a new one.
+    if(strcmp(buffer,"Slot") == 0)
+    {
+      if(target != NULL) fclose(target);
+      slotnr++;
+      //create target filename (overwrite current config)
+      sprintf(file,"%s/%3d.set",base_path,slotnr);
+      target = fopen(file, "wb");
+      if(target == NULL)
+      {
+        ESP_LOGE(LOG_TAG,"Cannot open target config file \"%s\" for factory reset!",file);
+        if(source != NULL) fclose(source);
+        return;
+      }
+    }
+    
+    //write the buffer to the new file
+    if(fputs(buffer, target) == EOF)
+    {
+        ESP_LOGE(LOG_TAG,"write failed for default slot");
+        free(buffer);
+        fclose(source);
+        fclose(target);
+        return;
+    }
+  }
   
-  #endif
-  
-  #ifdef DEVICE_FABI
-    ///@todo Add default VB config for FABI.
-  #endif
-  
-  //finally, free general config
-  free(defaultCfg);
+  ESP_LOGI(LOG_TAG,"Factory reset, copied default file over config");
+  free(buffer);
+  fclose(source);
+  fclose(target);
 }
 
 /** @brief Get number of currently loaded slot

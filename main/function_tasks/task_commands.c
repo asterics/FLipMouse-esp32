@@ -441,7 +441,7 @@ parserstate_t doStorageParsing(uint8_t *cmdBuffer)
   /*++++ AT NE (load next) +++*/
   if(CMD("AT NE"))
   {
-    char command = "__NEXT";
+    char *command = "__NEXT";
     //save to config
     if(requestVBUpdate == VB_SINGLESHOT)
     {

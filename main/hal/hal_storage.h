@@ -275,13 +275,12 @@ esp_err_t halStorageGetFree(uint32_t *total, uint32_t *free);
  * @see hal_storage_load_action
  * @param navigate Action defining the next loaded slot (default or prev/next)
  * @param tid Transaction ID, which must match the one given by halStorageStartTransaction
- * @param cfg Pointer to a general config struct, which will be used to load the slot into
  * @return ESP_OK if everything is fine, ESP_FAIL if the command was not successful
  * */
-esp_err_t halStorageLoad(hal_storage_load_action navigate, generalConfig_t *cfg, uint32_t tid);
+esp_err_t halStorageLoad(hal_storage_load_action navigate, uint32_t tid);
 
 
-/** @brief Load a slot by a slot number (starting with 1, 0 is default slot)
+/** @brief Load a slot by a slot number (starting with 0)
  * 
  * This method loads a slot & saves the general config to the given
  * config struct pointer.
@@ -299,13 +298,11 @@ esp_err_t halStorageLoad(hal_storage_load_action navigate, generalConfig_t *cfg,
  * 
  * @see halStorageStartTransaction
  * @see halStorageFinishTransaction
- * @see halStorageLoadGetVBConfigs
  * @param slotnumber Number of the slot to be loaded
  * @param tid Transaction ID, which must match the one given by halStorageStartTransaction
- * @param cfg Pointer to a general config struct, which will be used to load the slot into
  * @return ESP_OK if everything is fine, ESP_FAIL if the command was not successful (slot number not found)
  * */
-esp_err_t halStorageLoadNumber(uint8_t slotnumber, generalConfig_t *cfg, uint32_t tid);
+esp_err_t halStorageLoadNumber(uint8_t slotnumber, uint32_t tid);
 
 
 /** @brief Load a slot by a slot name
@@ -328,10 +325,9 @@ esp_err_t halStorageLoadNumber(uint8_t slotnumber, generalConfig_t *cfg, uint32_
  * @see halStorageLoadGetVBConfigs
  * @param slotname Name of the slot to be loaded
  * @param tid Transaction ID, which must match the one given by halStorageStartTransaction
- * @param cfg Pointer to a general config struct, which will be used to load the slot into
  * @return ESP_OK if everything is fine, ESP_FAIL if the command was not successful (slot name not found)
  * */
-esp_err_t halStorageLoadName(char *slotname, generalConfig_t *cfg, uint32_t tid);
+esp_err_t halStorageLoadName(char *slotname, uint32_t tid);
 
 /** @brief Load an IR command by name
  * 

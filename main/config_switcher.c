@@ -225,17 +225,17 @@ void configSwitcherTask(void * params)
       if(strcmp(command,"__NEXT") == 0)
       {
         ESP_LOGD(LOG_TAG,"Load next slot");
-        ret = halStorageLoad(NEXT,&currentConfig,tid);
+        ret = halStorageLoad(NEXT,tid);
       } else if(strcmp(command,"__PREV") == 0) {
         ESP_LOGD(LOG_TAG,"Load prev slot");
-        ret = halStorageLoad(PREV,&currentConfig,tid);
+        ret = halStorageLoad(PREV,tid);
       } else if(strcmp(command,"__DEFAULT") == 0) {
         //load default slot (if not available, it will be created)
-        ret = halStorageLoad(DEFAULT,&currentConfig,tid);
+        ret = halStorageLoad(DEFAULT,tid);
         ESP_LOGD(LOG_TAG,"loading default");
       } else if(strcmp(command,"__RESTOREFACTORY") == 0) {
         ret = halStorageDeleteSlot(0,tid);
-        ret = halStorageLoad(DEFAULT,&currentConfig,tid);
+        ret = halStorageLoad(DEFAULT,tid);
         if(ret != ESP_OK)
         {
           ESP_LOGE(LOG_TAG,"Error deleting all slots");
@@ -252,7 +252,7 @@ void configSwitcherTask(void * params)
         justupdate = 1;
         ret = ESP_OK;
       } else  {
-        ret = halStorageLoadName(command,&currentConfig,tid);
+        ret = halStorageLoadName(command,tid);
         ESP_LOGD(LOG_TAG,"Load by name: %s",command);
       }
       

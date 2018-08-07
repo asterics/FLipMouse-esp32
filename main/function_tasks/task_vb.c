@@ -148,8 +148,10 @@ void task_vb(void *param)
                     } else {
                       xQueueSend(config_switcher,(void*)current->cmdparam,(TickType_t)10);
                     }
+                    break;
                   case T_CALIBRATE:
                     halAdcCalibrate();
+                    break;
                   case T_SENDIR:
                     if(current->cmdparam == NULL)
                     {
@@ -157,6 +159,7 @@ void task_vb(void *param)
                     } else {
                       ///@todo Send IR command.
                     }
+                    break;
                   default:
                     ESP_LOGE(LOG_TAG,"Unknown VB cmd type");
                     break;

@@ -146,7 +146,7 @@ void task_vb(void *param)
                     {
                       ESP_LOGE(LOG_TAG,"Param is null, cannot request config change");
                     } else {
-                      ///@todo Send to config change queue
+                      xQueueSend(config_switcher,(void*)current->cmdparam,(TickType_t)10);
                     }
                   case T_CALIBRATE:
                     halAdcCalibrate();

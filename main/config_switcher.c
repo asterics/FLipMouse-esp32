@@ -194,7 +194,6 @@ esp_err_t configUpdate(void)
 void configSwitcherTask(void * params)
 {
   char command[SLOTNAME_LENGTH];
-  generalConfig_t currentConfig;
   
   uint32_t tid = 0;
   uint8_t justupdate = 0;
@@ -244,13 +243,6 @@ void configSwitcherTask(void * params)
         }
         halStorageFinishTransaction(tid);
         continue;
-      } else if(strcmp(command,"__UPDATE") == 0) {
-        ESP_LOGD(LOG_TAG,"config update");
-        //on config updates, use the currentConfigLoaded,
-        //it is possible the currentConfigLoaded was changed by external parts
-        memcpy(&currentConfig,&currentConfigLoaded,sizeof(generalConfig_t));
-        justupdate = 1;
-        ret = ESP_OK;
       } else  {
         ret = halStorageLoadName(command,tid);
         ESP_LOGD(LOG_TAG,"Load by name: %s",command);
@@ -262,24 +254,6 @@ void configSwitcherTask(void * params)
         ESP_LOGE(LOG_TAG,"Error loading general slot config!");
         continue;
       }
-      
-      ///@todo load VB commands (similar to HID below, or maybe do it in one halStorage call...)
-      
-      //load HID commands
-      hid_cmd_t *new = NULL;
-      if(halStorageLoadHID(0xFF,&new,tid) == ESP_OK)
-      {
-        if(task_hid_setCmdChain(new) != ESP_OK) {
-          ESP_LOGE(LOG_TAG,"Cannot set new HID cmd chain");
-        } else {
-          ESP_LOGI(LOG_TAG,"Updated new HID cmds");
-        }
-      } else {
-        ESP_LOGE(LOG_TAG,"Cannot load HID command set!");
-      }
-      
-      //save newly loaded cfg
-      memcpy(&currentConfigLoaded,&currentConfig,sizeof(generalConfig_t));
       //reload general config
       configUpdate();
       

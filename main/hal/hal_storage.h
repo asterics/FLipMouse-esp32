@@ -131,41 +131,6 @@ typedef struct storageHeader {
   uint8_t vb;
 } storageHeader_t;
 
-
-/** @brief Store a HID command chain to flash
- * 
- * This method stores a set of HID commands, starting with the given pointer
- * to the HID command chain root, to flash. A command set is always stored for
- * a defined slot number.
- * 
- * @param tid Transaction id
- * @param cfg Pointer to HID command chain root
- * @param slotnumber Number of the slot on which this config is used. Use 0xFF to ignore and use
- * previous set slot number (by halStorageStore)
- * @param cmdName Name of this IR command
- * @return ESP_OK on success, ESP_FAIL otherwise
- * */
-esp_err_t halStorageStoreHID(uint8_t slotnumber, hid_cmd_t *cfg, uint32_t tid);
-
-/** @brief Load a full HID chain
- * 
- * This method loads an entire HID chain for a given slot.
- * 
- * To start loading the commands, call halStorageStartTransaction to acquire
- * a load/store transaction id. This is necessary to enable multitask access.
- * Finally, if the command is loaded, call halStorageFinishTransaction to
- * free the storage access to the other tasks or the next call.
- * 
- * @see halStorageStartTransaction
- * @see halStorageFinishTransaction
- * @param slotnumber Number of the slot on which this config is used. Use 0xFF to ignore and use
- * previous set slot number (by halStorageLoadXXX) 
- * @param tid Transaction ID, which must match the one given by halStorageStartTransaction
- * @param cfg Pointer which will be the new root of the HID command chain
- * @return ESP_OK if everything is fine, ESP_FAIL if the command was not successful (number not found, error loading)
- * */
-esp_err_t halStorageLoadHID(uint8_t slotnumber, hid_cmd_t **cfg, uint32_t tid);
-
 /** @brief Load a string from NVS (global, no slot assignment)
  * 
  * This method is used to load a string from a non-volatile storage.
@@ -300,9 +265,11 @@ esp_err_t halStorageLoad(hal_storage_load_action navigate, uint32_t tid);
  * @see halStorageFinishTransaction
  * @param slotnumber Number of the slot to be loaded
  * @param tid Transaction ID, which must match the one given by halStorageStartTransaction
+ * @param outputSerial Either the loaded AT commands are sent to the command parser (== 0) or sent to the serial output
+ * @note If sending to serial port, the slot name is printed as well ("Slot <number>:<name>).
  * @return ESP_OK if everything is fine, ESP_FAIL if the command was not successful (slot number not found)
  * */
-esp_err_t halStorageLoadNumber(uint8_t slotnumber, uint32_t tid);
+esp_err_t halStorageLoadNumber(uint8_t slotnumber, uint32_t tid, uint8_t outputSerial);
 
 
 /** @brief Load a slot by a slot name
@@ -469,14 +436,8 @@ esp_err_t halStorageStartTransaction(uint32_t *tid, TickType_t tickstowait, cons
  * */
 esp_err_t halStorageFinishTransaction(uint32_t tid);
 
-/** @brief Store a generalConfig_t struct
- * 
- * This method stores the general config for the given slotnumber.
- * A slot contains:
- * -) General Config
- * -) Slotname
- * -) Slotnumber (used for the filename)
- * -) MD5 sum (to check for corrupted content)
+
+/** @brief Store a slot
  * 
  * If there is already a slot with this given number, it is overwritten!
  * 
@@ -485,13 +446,12 @@ esp_err_t halStorageFinishTransaction(uint32_t tid);
  * until halStorageFinishTransaction is called !!
  * 
  * @param tid Transaction id
- * @param cfg Pointer to general config, can be freed after this call
- * @param slotname Name of this slot
+ * @param cfgstring Pointer to AT command. On first call use slotname here.
  * @param slotnumber Number where to store this slot
  * @return ESP_OK on success, ESP_FAIL otherwise
  * @see halStorageStoreSetVBConfigs
  * */
-esp_err_t halStorageStore(uint32_t tid,generalConfig_t *cfg, char *slotname, uint8_t slotnumber);
+esp_err_t halStorageStore(uint32_t tid, char *cfgstring, uint8_t slotnumber);
 
 /** @brief Store a virtual button config struct
  * 

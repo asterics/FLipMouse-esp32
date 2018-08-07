@@ -49,12 +49,12 @@
  * 
  * Slots are stored in following naming convention (8.3 rule applies here):
  * general slot config:
- * xxx.fms (slot number, e.g., 000.fms for slot 1)
+ * xxx.set (slot number, e.g., 000.set for slot 1)
  * infrared commands
- * xxx_IR.fms
+ * xxx_IR.set
  * 
- * @note Maximum number of slots: 250! (e.g. 000.fms - 249.fms)
- * @note Maximum number of IR commands: 250 (e.g. IR_000.fms - IR_249.fms)
+ * @note Maximum number of slots: 250! (e.g. 000.set - 249.set)
+ * @note Maximum number of IR commands: 250 (e.g. IR_000.set - IR_249.set)
  * @note Use halStorageStartTransaction and halStorageFinishTransaction on begin/end of loading&storing (except for halStorageNVS* operations)
  * @warning Adjust the esp-idf (via "make menuconfig") to use 512B sectors
  * and mode <b>safety</b>!
@@ -73,12 +73,13 @@ SemaphoreHandle_t halStorageMutex = NULL;
 static uint32_t storageCurrentTID = 0;
 /** @brief Currently activated slot number */
 static uint8_t storageCurrentSlotNumber = 0;
-/** @brief Currently used VB number.
- * 
- * This number is used for halStorageStoreSetVBConfigs only.
- * 
- * @see halStorageStoreSetVBConfigs */
-static uint8_t storageCurrentVBNumber = 0;
+/** @brief File handle currently used by store slot
+ * To append AT commands to a slot, multiple calls of
+ * halStorageStore are required. Consequently, this module needs to know
+ * which file is appended. This is saved in this file handle, and freed
+ * on halStorageFinishTransaction
+ * */
+static FILE *storeHandle = NULL;
 
 /** @brief Wear levelling handle */
 static wl_handle_t s_wl_handle = WL_INVALID_HANDLE;
@@ -236,7 +237,8 @@ esp_err_t halStorageChecks(uint32_t tid)
   //check if caller is allowed to call this function
   if(tid != storageCurrentTID)
   {
-    ESP_LOGE(LOG_TAG,"Caller did not start this transaction, failed!");
+    ESP_LOGE(LOG_TAG,"Caller (id: %d) did not start (id: %d - %s) this \
+      transaction, failed!",tid,storageCurrentTID,storageCurrentTIDHolder);
     return ESP_FAIL;
   }
   
@@ -366,7 +368,7 @@ esp_err_t halStorageGetNumberOfSlots(uint32_t tid, uint8_t *slotsavailable)
   
   do {
     //create filename string to search if this slot is available
-    sprintf(file,"%s/%03d.fms",base_path,currentSlot);
+    sprintf(file,"%s/%03d.set",base_path,currentSlot);
     
     //open file for reading
     #if LOG_LEVEL_STORAGE >= ESP_LOG_DEBUG
@@ -421,7 +423,7 @@ esp_err_t halStorageGetNameForNumberIR(uint32_t tid, uint8_t slotnumber, char *c
   }
   
   //create filename string to search if this slot is available
-  sprintf(file,"%s/IR_%03d.fms",base_path,slotnumber);
+  sprintf(file,"%s/IR_%03d.set",base_path,slotnumber);
   
   //open file for reading
   #if LOG_LEVEL_STORAGE >= ESP_LOG_DEBUG
@@ -494,7 +496,7 @@ esp_err_t halStorageDeleteIRCmd(uint8_t slotnr, uint32_t tid)
   //delete one or all slots
   for(uint8_t i = from; i<=to; i++)
   {
-    sprintf(file,"%s/IR_%03d.fms",base_path,i); 
+    sprintf(file,"%s/IR_%03d.set",base_path,i); 
     remove(file);
     //not necessary, ESP32 uses preemption
     //taskYIELD();
@@ -506,8 +508,8 @@ esp_err_t halStorageDeleteIRCmd(uint8_t slotnr, uint32_t tid)
     
     for(uint8_t i = to+1; i<=249; i++)
     {
-      sprintf(file,"%s/IR_%03d.fms",base_path,i);
-      sprintf(filenew,"%s/IR_%03d.fms",base_path,i-1);
+      sprintf(file,"%s/IR_%03d.set",base_path,i);
+      sprintf(filenew,"%s/IR_%03d.set",base_path,i-1);
       ret = rename(file,filenew);
       if(ret != 0)
       {
@@ -547,7 +549,7 @@ esp_err_t halStorageGetNumberOfIRCmds(uint32_t tid, uint8_t *slotsavailable)
   
   do {
     //create filename string to search if this slot is available
-    sprintf(file,"%s/IR_%03d.fms",base_path,current);
+    sprintf(file,"%s/IR_%03d.set",base_path,current);
     
     f = fopen(file, "rb");
     
@@ -604,9 +606,19 @@ esp_err_t halStorageGetFreeIRCmdSlot(uint32_t tid, uint8_t *slotavailable)
   return ESP_OK;
 }
 
-
-//////// TODO: ab hier auf andere slots anpassen.... ////////
-
+//credits:
+//https://stackoverflow.com/questions/1515195/how-to-remove-n-or-t-from-a-given-string-in-c
+void strip(char *s) {
+  char *p2 = s;
+  while(*s != '\0') {
+    if(*s != '\t' && *s != '\n') {
+      *p2++ = *s++;
+    } else {
+      ++s;
+    }
+  }
+  *p2 = '\0';
+}
 
 /** @brief Get the name of a slot number
  * 
@@ -638,7 +650,7 @@ esp_err_t halStorageGetNameForNumber(uint32_t tid, uint8_t slotnumber, char *slo
   if(halStorageChecks(tid) != ESP_OK) return ESP_FAIL;
   
   //create filename string to search if this slot is available
-  sprintf(file,"%s/%03d.fms",base_path,slotnumber);
+  sprintf(file,"%s/%03d.set",base_path,slotnumber);
   
   //open file for reading
   #if LOG_LEVEL_STORAGE >= ESP_LOG_DEBUG
@@ -658,14 +670,16 @@ esp_err_t halStorageGetNameForNumber(uint32_t tid, uint8_t slotnumber, char *slo
   //read slot name
   fgets(slotnamebuf,SLOTNAME_LENGTH+10,f);
   //check if we have "Slot XXX:"
-  if((strcmp(slotnamebuf,"Slot ") == 0) && (strpbrk(slotnamebuf,":") != NULL))
+  if((strncmp(slotnamebuf,"Slot",strlen("Slot")) == 0) && (strpbrk(slotnamebuf,":") != NULL))
   {
     //if yes, strip "Slot..." & save to caller
     char *begin = strpbrk(slotnamebuf,":");
+    //remove \n \r
+    strip(begin);
     strncpy(slotname,begin+1,SLOTNAME_LENGTH);
   } else {
     //if no, config is invalid
-    ESP_LOGE(LOG_TAG,"Missing \"Slot XXX:\" tag!");
+    ESP_LOGE(LOG_TAG,"Missing \"Slot XXX:\" tag (%s)!",slotnamebuf);
     free(slotnamebuf);
     fclose(f);
     return ESP_FAIL;
@@ -817,14 +831,14 @@ esp_err_t halStorageLoad(hal_storage_load_action navigate, uint32_t tid)
       //check if we are at the last slot, if yes load first, increment otherwise
       if((slotCount-1) == storageCurrentSlotNumber) storageCurrentSlotNumber = 0;
       else storageCurrentSlotNumber++;
-      ret = halStorageLoadNumber(storageCurrentSlotNumber,tid);
+      ret = halStorageLoadNumber(storageCurrentSlotNumber,tid,0);
       //if NEXT does not succeed (because of a deleted slot or something else)
       //retry with storageCurrentSlotNumber = 1;
       if(ret != ESP_OK)
       {
         ESP_LOGI(LOG_TAG,"Resetting current slot number to 0");
         storageCurrentSlotNumber = 0;
-        ret = halStorageLoadNumber(storageCurrentSlotNumber,tid);
+        ret = halStorageLoadNumber(storageCurrentSlotNumber,tid,0);
       }
       return ret;
     break;
@@ -832,19 +846,19 @@ esp_err_t halStorageLoad(hal_storage_load_action navigate, uint32_t tid)
       //check if we are at the first slot, if yes load last, decrement otherwise
       if(storageCurrentSlotNumber == 0) storageCurrentSlotNumber = slotCount - 1;
       else storageCurrentSlotNumber--;
-      ret = halStorageLoadNumber(storageCurrentSlotNumber,tid);
+      ret = halStorageLoadNumber(storageCurrentSlotNumber,tid,0);
       //if NEXT does not succeed (because of a deleted slot or something else)
       //retry with storageCurrentSlotNumber = 1;
       if(ret != ESP_OK)
       {
         ESP_LOGI(LOG_TAG,"Resetting current slot number to 0");
         storageCurrentSlotNumber = 0;
-        ret = halStorageLoadNumber(storageCurrentSlotNumber,tid);
+        ret = halStorageLoadNumber(storageCurrentSlotNumber,tid,0);
       }
       return ret;  
     break;
     case DEFAULT:
-      return halStorageLoadNumber(0,tid);
+      return halStorageLoadNumber(0,tid,0);
     break;
     case RESTOREFACTORYSETTINGS:
     break;
@@ -875,9 +889,12 @@ esp_err_t halStorageLoad(hal_storage_load_action navigate, uint32_t tid)
  * @see halStorageFinishTransaction
  * @param slotnumber Number of the slot to be loaded
  * @param tid Transaction ID, which must match the one given by halStorageStartTransaction
+ * @param outputSerial Either the loaded AT commands are sent to the command parser (== 0) or sent to the serial output
+ * @note If sending to serial port, the slot name is printed as well ("Slot <number>:<name>).
+ * @note If param outputserial is set to 1, the full config is printed. If set to 2, only slotnames are printed (used for "AT LI")
  * @return ESP_OK if everything is fine, ESP_FAIL if the command was not successful (slot number not found)
  * */
-esp_err_t halStorageLoadNumber(uint8_t slotnumber, uint32_t tid)
+esp_err_t halStorageLoadNumber(uint8_t slotnumber, uint32_t tid, uint8_t outputSerial)
 {
   char file[sizeof(base_path)+32];
   char slotname[SLOTNAME_LENGTH+10];
@@ -890,9 +907,9 @@ esp_err_t halStorageLoadNumber(uint8_t slotnumber, uint32_t tid)
     return ESP_FAIL;
   }
   
-  //file naming convention for general config: xxx.fms
+  //file naming convention for general config: xxx.set
   //create filename from slotnumber
-  sprintf(file,"%s/%03d.fms",base_path,slotnumber);
+  sprintf(file,"%s/%03d.set",base_path,slotnumber);
   
   //open file for reading
   #if LOG_LEVEL_STORAGE >= ESP_LOG_DEBUG
@@ -919,15 +936,21 @@ esp_err_t halStorageLoadNumber(uint8_t slotnumber, uint32_t tid)
 
   /*++++ read slot name ++++*/
   fgets(slotname,SLOTNAME_LENGTH+10,f);
+  strip(slotname);
   //check if we have "Slot XXX:"
-  if((strcmp(slotname,"Slot ") == 0) && (strpbrk(slotname,":") != NULL))
+  if((strncmp(slotname,"Slot",strlen("Slot")) == 0) && (strpbrk(slotname,":") != NULL))
   {
-    //if yes, strip "Slot..." & save to caller
+    //if outputting to serial port, send the slot name
+    if(outputSerial != 0)
+    {
+      halSerialSendUSBSerial(slotname,strnlen(slotname,SLOTNAME_LENGTH+10),10);
+    }
+    //if yes, strip "Slot..." & save for logging
     char *begin = strpbrk(slotname,":");
     strncpy(slotname,begin+1,SLOTNAME_LENGTH);
   } else {
     //if no, config is invalid
-    ESP_LOGE(LOG_TAG,"Missing \"Slot XXX:\" tag!");
+    ESP_LOGE(LOG_TAG,"Missing \"Slot XXX:\" tag (%s)!",slotname);
     fclose(f);
     return ESP_FAIL;
   }
@@ -938,7 +961,7 @@ esp_err_t halStorageLoadNumber(uint8_t slotnumber, uint32_t tid)
 
   /*++++ read each line as AT cmd ++++*/
   uint32_t cmdcount = 0;
-  while(1)
+  while(outputSerial != 2)
   {
     //allocate one line
     char *at = malloc(ATCMD_LENGTH);
@@ -954,34 +977,68 @@ esp_err_t halStorageLoadNumber(uint8_t slotnumber, uint32_t tid)
         free(at);
         break;
     }
-    //create an atcmd struct
-    atcmd_t cmd;
-    cmd.buf = (uint8_t *)at;
-    cmd.len = strnlen(at,ATCMD_LENGTH);
     
-    //send to queue (but wait if full!)
-    if(halSerialATCmds != NULL)
+    //either we send to serial port (outputSerial != 0) or
+    //feed the command to the halSerialATCmds queue, which is processed
+    //by task_commands. In this case, we need an AT cmd struct with
+    //a buffer that gets freed there after processing.
+    //
+    //Sending to serial port is used for outputting the config to the
+    //serial port (GUI processing via C# GUI). In this case a char
+    //buffer is given to halSerial, after sending on the serial port
+    //(or an additional stream receiver -> WebGUI's websocket) it is freed.
+    
+    if(outputSerial == 0)
     {
+      //create an atcmd struct
+      atcmd_t cmd;
+      cmd.buf = (uint8_t *)at;
+      cmd.len = strnlen(at,ATCMD_LENGTH);
+      
+      //wait for an initialized queue
+      uint32_t timeout = 0;
+      while(halSerialATCmds == NULL)
+      {
+        vTaskDelay(100/portTICK_PERIOD_MS);
+        timeout++;
+        if(timeout == 30)
+        {
+          ESP_LOGE(LOG_TAG,"AT cmd queue is NULL, cannot send cmd");
+          fclose(f);
+          free(at);
+          return ESP_FAIL;
+        }
+      }
+      //send at cmd to queue
       if(xQueueSend(halSerialATCmds,(void*)&cmd,10) != pdTRUE)
       {
         ESP_LOGE(LOG_TAG,"AT cmd queue is full, cannot send cmd");
         free(at);
       } else {
+        //remove \r \n for printing...
+        strip(at);
         ESP_LOGI(LOG_TAG,"Sent AT cmd with len %d to queue: %s",cmd.len,at);
       }
       cmdcount++;
     } else {
-      ESP_LOGE(LOG_TAG,"AT cmd queue is NULL, cannot send cmd");
-      fclose(f);
+      //remove \r \n for printing...
+      strip(at);
+      //send data line to serial port
+      if(halSerialSendUSBSerial(at,strnlen(at,ATCMD_LENGTH),100/portTICK_PERIOD_MS) == -1)
+      {
+        ESP_LOGE(LOG_TAG,"Buffer overflow on serial");
+      } else {
+        ESP_LOGI(LOG_TAG,"Sent serial config with len %d to queue: %s",strnlen(at,ATCMD_LENGTH),at);
+      }
+      cmdcount++;
       free(at);
-      return ESP_FAIL;
     }
   }
   
-  ESP_LOGI(LOG_TAG,"Loaded slot %s,nr: %d, %u commands",slotname,slotnumber, cmdcount);
+  ESP_LOGI(LOG_TAG,"Loaded slot %s,nr: %d, %u commands",slotname,slotnumber,cmdcount);
   
-  //save current slot number
-  storageCurrentSlotNumber = slotnumber;
+  //save current slot number, if processed by parser
+  if(outputSerial == 0) storageCurrentSlotNumber = slotnumber;
   //clean up
   fclose(f);
   
@@ -1020,7 +1077,7 @@ esp_err_t halStorageLoadName(char *slotname, uint32_t tid)
     return ESP_FAIL;
   }
   
-  return halStorageLoadNumber(slotnumber,tid);
+  return halStorageLoadNumber(slotnumber,tid,0);
 }
 
 /** @brief Delete one or all slots
@@ -1062,7 +1119,7 @@ esp_err_t halStorageDeleteSlot(int16_t slotnr, uint32_t tid)
   //delete one or all slots
   for(uint8_t i = from; i<=to; i++)
   {
-    sprintf(file,"%s/%03d.fms",base_path,i); 
+    sprintf(file,"%s/%03d.set",base_path,i); 
     f = fopen(file, "rb");
     if(f!=NULL)
     {
@@ -1080,8 +1137,8 @@ esp_err_t halStorageDeleteSlot(int16_t slotnr, uint32_t tid)
     
     for(uint8_t i = to+1; i<=250; i++)
     {
-      sprintf(file,"%s/%03d.fms",base_path,i);
-      sprintf(filenew,"%s/%03d.fms",base_path,i-1);
+      sprintf(file,"%s/%03d.set",base_path,i);
+      sprintf(filenew,"%s/%03d.set",base_path,i-1);
       ret = rename(file,filenew);
       if(ret != 0)
       {
@@ -1096,15 +1153,8 @@ esp_err_t halStorageDeleteSlot(int16_t slotnr, uint32_t tid)
   ESP_LOGI(LOG_TAG,"Deleted slot %d (-1 means delete all), renamed remaining",slotnr);
   return ESP_OK;
 }
-//TODO: alles hier...
-/** @brief Store a generalConfig_t struct
- * 
- * This method stores the general config for the given slotnumber.
- * A slot contains: <br>
- * -) General Config
- * -) Slotname
- * -) Slotnumber (used for the filename)
- * -) MD5 sum (to check for corrupted content)
+
+/** @brief Store a slot
  * 
  * If there is already a slot with this given number, it is overwritten!
  * 
@@ -1113,99 +1163,59 @@ esp_err_t halStorageDeleteSlot(int16_t slotnr, uint32_t tid)
  * until halStorageFinishTransaction is called !!
  * 
  * @param tid Transaction id
- * @param cfg Pointer to general config, can be freed after this call
- * @param slotname Name of this slot
- * @param slotnumber Number where to store this slot
+ * @param cfgstring Pointer to AT command. On first call use slotname here.
+ * @param slotnumber Number where to store this slot. Only used on first call!
  * @return ESP_OK on success, ESP_FAIL otherwise
  * @see halStorageStoreSetVBConfigs
  * */
-esp_err_t halStorageStore(uint32_t tid, generalConfig_t *cfg, char *slotname, uint8_t slotnumber)
+esp_err_t halStorageStore(uint32_t tid, char *cfgstring, uint8_t slotnumber)
 {
   char file[sizeof(base_path)+12];
-  char nullterm = '\0';
-  uint32_t namelen;
-  unsigned char md5sumfile[16];
   
   if(halStorageChecks(tid) != ESP_OK) return ESP_FAIL;
   
-  if(slotnumber > 250) 
+  if(slotnumber >= 250) 
   {
-    ESP_LOGE(LOG_TAG,"Slotnumber too high: %d, maximum 250",slotnumber);
+    ESP_LOGE(LOG_TAG,"Slotnumber too high: %d, 0-249",slotnumber);
     return ESP_FAIL;
   }
   
-  if(strnlen(slotname,SLOTNAME_LENGTH) == SLOTNAME_LENGTH)
+  //on first call, check if slot name length is lower than maximum
+  if(storeHandle == NULL && strnlen(cfgstring,SLOTNAME_LENGTH) == SLOTNAME_LENGTH)
   {
     ESP_LOGE(LOG_TAG,"Slotname too long!");
     return ESP_FAIL;
   }
   
-  //file naming convention for general config: xxx.fms
-  //each general config file contains:
-  //Name string (\0 terminated)
-  //16Bytes of MD5 checksum (calculated over general config, no slot name)
-  //XXXBytes of generalConfig_t struct
-  
-  //create filename from slotnumber
-  sprintf(file,"%s/%03d.fms",base_path,slotnumber);
-  
-  //open file for writing
-  #if LOG_LEVEL_STORAGE >= ESP_LOG_DEBUG
-  ESP_LOGD(LOG_TAG,"Opening file %s",file);
-  #endif
-  FILE *f = fopen(file, "wb");
-  if(f == NULL)
+  //open file for writing, only if not already opened
+  if(storeHandle == NULL)
   {
-    ESP_LOGE(LOG_TAG,"cannot open file for writing: %s",file);
-    return ESP_FAIL;
-  }
-  
-  fseek(f,0,SEEK_SET);
-  
-  //write slot name (size of string + 1x '\0' char)
-  namelen = strnlen(slotname,SLOTNAME_LENGTH);
-  fwrite(&namelen,sizeof(uint32_t),1, f);
-  fwrite(slotname,sizeof(char),namelen, f);
-  fwrite(&nullterm,sizeof(char),1, f);
+    //file naming convention for general config: xxx.set
+    //create filename from slotnumber
+    sprintf(file,"%s/%03d.set",base_path,slotnumber);
     
-  //store slot name to general config
-  strcpy(cfg->slotName,slotname);
-  
-  //write MD5sum of saved slot
-  mbedtls_md5((unsigned char *)cfg, sizeof(generalConfig_t), md5sumfile);
-  if(fwrite(md5sumfile,sizeof(unsigned char),16,f) != 16)
-  {
-    //did not write a full checksum
-    ESP_LOGE(LOG_TAG,"Error writing checksum");
-    fclose(f);
-    return ESP_FAIL;
-  } else {
     #if LOG_LEVEL_STORAGE >= ESP_LOG_DEBUG
-    ESP_LOGD(LOG_TAG,"Written MD5 checksum:");
-    ESP_LOG_BUFFER_HEXDUMP(LOG_TAG,md5sumfile,sizeof(md5sumfile),ESP_LOG_DEBUG);
+    ESP_LOGD(LOG_TAG,"Opening file %s",file);
     #endif
-  }
-  
-  //write remaining general config
-  if(fwrite(cfg,sizeof(generalConfig_t),1,f) != 1)
-  {
-    //did not write a full config
-    ESP_LOGE(LOG_TAG,"Error writing general config");
-    fclose(f);
-    return ESP_FAIL;
+    storeHandle = fopen(file, "wb");
+    if(storeHandle == NULL)
+    {
+      ESP_LOGE(LOG_TAG,"cannot open file for writing: %s",file);
+      return ESP_FAIL;
+    }
+    
+    //write slot name if freshly opened file
+    char slotname[SLOTNAME_LENGTH+3];
+    sprintf(slotname,"Slot %d:%s",slotnumber,cfgstring);
+    fputs(slotname,storeHandle);
+    
+    ///@todo not necessary anymore?
+    //save current slot number to access the VB configs
+    storageCurrentSlotNumber = slotnumber;
   } else {
-    ESP_LOGI(LOG_TAG,"Stored slotnumber %u with %u bytes payload", slotnumber, sizeof(generalConfig_t));
-    #if LOG_LEVEL_STORAGE >= ESP_LOG_DEBUG
-    ESP_LOG_BUFFER_HEXDUMP(LOG_TAG,cfg,sizeof(generalConfig_t),ESP_LOG_VERBOSE);
-    #endif
+    //file was opened on previous call, append AT cmds now.
+    fputs(cfgstring,storeHandle);
   }
-  
-  //clean up
-  fclose(f);
-  
-  //save current slot number to access the VB configs
-  storageCurrentSlotNumber = slotnumber;
-  
   return ESP_OK;
 }
 
@@ -1259,7 +1269,7 @@ esp_err_t halStorageStoreIR(uint32_t tid, halIOIR_t *cfg, char *cmdName)
   }
   
   //create filename from slotnumber
-  sprintf(file,"%s/IR_%02d.fms",base_path,cmdnumber);
+  sprintf(file,"%s/IR_%02d.set",base_path,cmdnumber);
   
   //open file for writing
   #if LOG_LEVEL_STORAGE >= ESP_LOG_DEBUG
@@ -1303,113 +1313,6 @@ esp_err_t halStorageStoreIR(uint32_t tid, halIOIR_t *cfg, char *cmdName)
   return ESP_OK;
 }
 
-
-//TODO: entfernen...
-/** @brief Store a HID command chain to flash
- * 
- * This method stores a set of HID commands, starting with the given pointer
- * to the HID command chain root, to flash. A command set is always stored for
- * a defined slot number.
- * 
- * @param tid Transaction id
- * @param cfg Pointer to HID command chain root
- * @param slotnumber Number of the slot on which this config is used. Use 0xFF to ignore and use
- * previous set slot number (by halStorageStore)
- * @param cmdName Name of this IR command
- * @return ESP_OK on success, ESP_FAIL otherwise
- * */
-esp_err_t halStorageStoreHID(uint8_t slotnumber, hid_cmd_t *cfg, uint32_t tid)
-{
-  char file[sizeof(base_path)+12];
-
-  //basic FS checks
-  if(halStorageChecks(tid) != ESP_OK) return ESP_FAIL;
-  
-  //check if we should ignore the slotnumber and take the previously used one
-  if(slotnumber == 0xFF) slotnumber = storageCurrentSlotNumber;
-  
-  //check if the slotnumber is out of range
-  if(slotnumber > 250) 
-  {
-    ESP_LOGE(LOG_TAG,"Slotnumber too high: %u, maximum 250",slotnumber);
-    return ESP_FAIL;
-  }
-  
-  //create filename from slotnumber
-  sprintf(file,"%s/%03d_HID.fms",base_path,slotnumber);
-  
-  //open file for writing
-  #if LOG_LEVEL_STORAGE >= ESP_LOG_DEBUG
-  ESP_LOGD(LOG_TAG,"Opening file %s",file);
-  #endif
-  FILE *f = fopen(file, "wb");
-  if(f == NULL)
-  {
-    ESP_LOGE(LOG_TAG,"cannot open file for writing: %s",file);
-    return ESP_FAIL;
-  }
-  
-  fseek(f,0,SEEK_SET);
-  
-  //pointers for next and current command
-  hid_cmd_t *current = cfg;
-  hid_cmd_t store;
-  int count = 1;
-  
-  while(current != NULL) {
-    //copy data here to modify
-    memcpy(&store,current,sizeof(hid_cmd_t));
-    //check if an original AT string is available
-    if(store.atoriginal != NULL)
-    {
-      //if yes, we store the length in the "next" field.
-      store.next = (hid_cmd_t *)(strnlen(store.atoriginal,ATCMD_LENGTH)+1);
-    } else {
-      store.next = (hid_cmd_t *)0;
-    }
-    
-    #if LOG_LEVEL_STORAGE >= ESP_LOG_DEBUG
-    ESP_LOGD(LOG_TAG,"HID cmd @0x%04lX:",ftell(f));
-    ESP_LOG_BUFFER_HEXDUMP(LOG_TAG,&store,sizeof(hid_cmd_t),ESP_LOG_DEBUG);
-    #endif
-    
-    //write command itself
-    if(fwrite(&store,sizeof(hid_cmd_t),1,f) != 1)
-    {
-      ESP_LOGE(LOG_TAG, "Error storing HID cmd %d.",count);
-      fclose(f);
-      return ESP_FAIL;
-    }
-    //if available, store AT command
-    if(store.atoriginal != NULL)
-    {
-      char *atstring = store.atoriginal;
-      #if LOG_LEVEL_STORAGE >= ESP_LOG_DEBUG
-      ESP_LOGD(LOG_TAG,"HID AT cmd @0x%04lX:",ftell(f));
-      ESP_LOG_BUFFER_HEXDUMP(LOG_TAG,atstring,strnlen(atstring,ATCMD_LENGTH)+1,ESP_LOG_DEBUG);
-      #endif
-      
-      if(fwrite(atstring,strnlen(atstring,ATCMD_LENGTH)+1,1,f) != 1)
-      {
-        ESP_LOGE(LOG_TAG, "Error storing HID AT string %d.",count);
-        fclose(f);
-        return ESP_FAIL;
-      }
-    }
-    
-    //load next block
-    current = current->next;
-    //count for statistics
-    count++;
-  }
-  //logging
-  ESP_LOGI(LOG_TAG,"Stored %d HID commands @%d",count,slotnumber);
-  
-  //clean up
-  fclose(f);
-  return ESP_OK;
-}
-
 /** @brief Load an IR command by name
  * 
  * This method loads an IR command from storage.
@@ -1446,7 +1349,7 @@ esp_err_t halStorageLoadIR(char *cmdName, halIOIR_t *cfg, uint32_t tid)
   
   do {
     //create filename string to search if this slot is available
-    sprintf(file,"%s/IR_%02d.fms",base_path,currentSlot);
+    sprintf(file,"%s/IR_%02d.set",base_path,currentSlot);
     
     //open file for reading
     #if LOG_LEVEL_STORAGE >= ESP_LOG_DEBUG
@@ -1527,144 +1430,6 @@ esp_err_t halStorageLoadIR(char *cmdName, halIOIR_t *cfg, uint32_t tid)
   return ESP_OK;
 }
 
-//TODO: entfernen...
-/** @brief Load a full HID chain
- * 
- * This method loads an entire HID chain for a given slot.
- * 
- * To start loading the commands, call halStorageStartTransaction to acquire
- * a load/store transaction id. This is necessary to enable multitask access.
- * Finally, if the command is loaded, call halStorageFinishTransaction to
- * free the storage access to the other tasks or the next call.
- * 
- * @see halStorageStartTransaction
- * @see halStorageFinishTransaction
- * @param slotnumber Number of the slot on which this config is used. Use 0xFF to ignore and use
- * previous set slot number (by halStorageLoadXXX) 
- * @param tid Transaction ID, which must match the one given by halStorageStartTransaction
- * @param cfg Pointer which will be the new root of the HID command chain
- * @return ESP_OK if everything is fine, ESP_FAIL if the command was not successful (number not found, error loading)
- * */
-esp_err_t halStorageLoadHID(uint8_t slotnumber, hid_cmd_t **cfg, uint32_t tid)
-{
-  char file[sizeof(base_path)+12];
-  FILE *f;
-
-  //basic FS checks
-  if(halStorageChecks(tid) != ESP_OK) return ESP_FAIL;
-  
-  //check if we should ignore the slotnumber and take the previously used one
-  if(slotnumber == 0xFF) slotnumber = storageCurrentSlotNumber;
-  
-  //check if the slotnumber is out of range
-  if(slotnumber > 250) 
-  {
-    ESP_LOGE(LOG_TAG,"Slotnumber too high: %u, maximum 250",slotnumber);
-    return ESP_FAIL;
-  }
-  
-  //create filename from slotnumber
-  sprintf(file,"%s/%03d_HID.fms",base_path,slotnumber);
-  
-  //open file for reading
-  #if LOG_LEVEL_STORAGE >= ESP_LOG_DEBUG
-  ESP_LOGD(LOG_TAG,"Opening file %s",file);
-  #endif
-  f = fopen(file, "rb");
-
-  //if no file found, return...
-  if(f == NULL)
-  {
-    ESP_LOGI(LOG_TAG,"File not found: %s",file);
-    return ESP_FAIL;
-  }
-  
-  fseek(f,0,SEEK_SET);
-  
-  //begin with a new root
-  hid_cmd_t *root = NULL;
-  hid_cmd_t *current = NULL;
-  
-  //counter for checking if we have at least one full command
-  int count = 0;
-  size_t memused = 0;
-  
-  do {
-    hid_cmd_t *cmd = malloc(sizeof(hid_cmd_t));
-    memused += sizeof(hid_cmd_t);
-    
-    if(cmd == NULL)
-    {
-      ESP_LOGE(LOG_TAG,"Error malloc for HID cmd!");
-      return ESP_FAIL;
-    }
-    
-    if(fread(cmd,sizeof(hid_cmd_t),1,f) != 1)
-    {
-      if(feof(f)) 
-      {
-        ESP_LOGI(LOG_TAG,"Finished reading slot %d (feof, @cmd %d)",slotnumber,count);
-        break;
-      }
-      if(ferror(f))
-      {
-        free(cmd);
-        root = NULL;
-        ESP_LOGE(LOG_TAG,"Error %d reading cmd %d for slot %d",ferror(f),count,slotnumber);
-      }
-      break;
-    } else {
-      //check if we have an assigned AT command string
-      if(cmd->next != (hid_cmd_t*)0)
-      {
-        ESP_LOGI(LOG_TAG,"Alloc %d for AT string",(size_t)cmd->next);
-        cmd->atoriginal = malloc((size_t)cmd->next);
-        memused += (size_t)cmd->next;
-        if(cmd->atoriginal != NULL)
-        {
-          if(fread(cmd->atoriginal,(size_t)cmd->next,1,f) != 1)
-          {
-            free(cmd->atoriginal);
-            free(cmd);
-            root = NULL;
-            ESP_LOGE(LOG_TAG,"Error reading AT cmd %d for slot %d",count,slotnumber);
-            break;
-          }
-        } else ESP_LOGE(LOG_TAG,"Cannot alloc mem for AT string");
-      }
-      //now we know the string length, set value to NULL
-      cmd->next = NULL;
-      
-      //add command to chain
-      if(root == NULL) {
-        root = cmd;
-      } else {
-        current = root;
-        while(current->next != NULL) current = current->next;
-        current->next = cmd;
-      }
-      
-      //count up
-      count++;
-    }
-  } while(feof(f) == 0);
-  
-  //first, close file
-  if(f!=NULL) fclose(f);
-  
-  //if we have no valid command, return error
-  if(root == NULL) 
-  {
-    *cfg = NULL;
-    return ESP_FAIL;
-  }
-  
-  //everything fine, we have a new root with a defined amount of cmds.
-  *cfg = root;
-  ESP_LOGI(LOG_TAG,"Loaded %d HID cmds, heap used: %d B",count,memused);
-  return ESP_OK;
-}
-
 /** @brief Start a storage transaction
  * 
  * This method is used to start a transaction and needs to be called
@@ -1705,8 +1470,6 @@ esp_err_t halStorageStartTransaction(uint32_t *tid, TickType_t tickstowait, cons
     } while (storageCurrentTID == 0); //create random numbers until its not 0
     //save TID to calling task
     *tid = storageCurrentTID;
-    //reset current VB number to zero, detecting non-consecutive access in VB write.
-    storageCurrentVBNumber = 0;
     //save caller's name for tracking
     strncpy(storageCurrentTIDHolder,caller,sizeof(storageCurrentTIDHolder));
     if(s_wl_handle == WL_INVALID_HANDLE)
@@ -1754,6 +1517,13 @@ esp_err_t halStorageFinishTransaction(uint32_t tid)
       tid,storageCurrentTID,storageCurrentTIDHolder);
     return ESP_FAIL;
   }
+  
+  //if we have used a store file handle, close it.
+  if(storeHandle != NULL) fclose(storeHandle);
+  
+  //reset caller & id
+  storageCurrentTID = 0;
+  strncpy(storageCurrentTIDHolder,"",2);
   
   //give mutex back
   xSemaphoreGive(halStorageMutex);

@@ -129,6 +129,15 @@ void app_main()
     } else {
         ESP_LOGE(LOG_TAG,"error creating new hid task");
     }
+
+    //start VB task
+    if(xTaskCreate(task_vb,"vb",TASK_VB_STACKSIZE, 
+        (void*)NULL,VB_TASK_PRIORITY, NULL) == pdPASS)
+    {
+        ESP_LOGD(LOG_TAG,"created new vb task");
+    } else {
+        ESP_LOGE(LOG_TAG,"error creating new vb task");
+    }
     
     //start adc continous task
     if(halAdcInit(NULL) == ESP_OK)

@@ -112,6 +112,14 @@ void sendErrorBack(const char* extrainfo)
  **/
 void printAllSlots(uint8_t printconfig);
 
+/** @brief Save current config to flash
+ * 
+ * This method is used to reverse parse each module's setup to be saved in
+ * an AT command format. A valid tid is necessary for saving data.
+ * 
+ * @param slotname Slot name*/
+void storeSlot(char* slotname);
+
 /** just check all queues if they are initialized
  * @return 0 on uninitialized queues, 1 if all are initialized*/
 static int checkqueues(void)
@@ -252,7 +260,7 @@ parserstate_t doMouthpieceSettingsParsing(uint8_t *cmdBuffer)
       switch(cmdBuffer[4])
       {
         case 'X': currentcfg->adc.sensitivity_x = param; requestUpdate = 1; return NOACTION;
-        case 'Y': currentcfg->adc.sensitivity_x = param; requestUpdate = 1; return NOACTION;
+        case 'Y': currentcfg->adc.sensitivity_y = param; requestUpdate = 1; return NOACTION;
         case 'C': currentcfg->adc.acceleration = param; requestUpdate = 1; return NOACTION;
         default: return UNKNOWNCMD;
       }
@@ -337,16 +345,18 @@ parserstate_t doMouthpieceSettingsParsing(uint8_t *cmdBuffer)
   //AT TS/TP
   if(CMD4("AT S"))
   {
-    unsigned int param = strtol((char*)&(cmdBuffer[5]),NULL,10);
-    ESP_LOGI(LOG_TAG,"Threshold strong %c, %d",cmdBuffer[4],param);
+    unsigned int param = 0;
     switch(cmdBuffer[4])
     {
       case 'S':
+        param = strtol((char*)&(cmdBuffer[5]),NULL,10);
         if(param > 512)
         {
           sendErrorBack("Threshold strong sip is 0-512");
           return UNKNOWNCMD;
         } else {
+          
+          ESP_LOGI(LOG_TAG,"Threshold strong sip, %d",param);
           currentcfg->adc.threshold_strongsip = param;
           requestUpdate = 1;
           return NOACTION;
@@ -354,11 +364,13 @@ parserstate_t doMouthpieceSettingsParsing(uint8_t *cmdBuffer)
       break;
       
       case 'P':
+        param = strtol((char*)&(cmdBuffer[5]),NULL,10);
         if(param < 512 || param > 1023)
         {
           sendErrorBack("Threshold strong puff is 512-1023");
           return UNKNOWNCMD;
         } else {
+          ESP_LOGI(LOG_TAG,"Threshold strong puff, %d",param);
           currentcfg->adc.threshold_strongpuff = param;
           requestUpdate = 1;
           return NOACTION;
@@ -375,9 +387,7 @@ parserstate_t doMouthpieceSettingsParsing(uint8_t *cmdBuffer)
 parserstate_t doStorageParsing(uint8_t *cmdBuffer)
 {
   char slotname[SLOTNAME_LENGTH];
-  uint32_t tid = 0;
-  uint8_t slotnumber = 0;
-  generalConfig_t * currentcfg = configGetCurrent();
+  //generalConfig_t * currentcfg = configGetCurrent();
   vb_cmd_t cmd;
   //clear any data
   memset(&cmd,0,sizeof(vb_cmd_t));
@@ -394,47 +404,10 @@ parserstate_t doStorageParsing(uint8_t *cmdBuffer)
       return UNKNOWNCMD;
     }
     
-    if(halStorageStartTransaction(&tid,10,LOG_TAG) != ESP_OK)
-    {
-      ESP_LOGE(LOG_TAG,"Cannot start storage transaction");
-      return UNKNOWNCMD;
-    }
+    //a copy of slot name
     strncpy(slotname,(char*)&cmdBuffer[6],SLOTNAME_LENGTH);
-    
-    //check if name is already used (returns ESP_OK)
-    if(halStorageGetNumberForName(tid, &slotnumber, slotname) != ESP_OK)
-    {
-      //name not used.
-      //get number of currently active slots, and add one for a new slot
-      halStorageGetNumberOfSlots(tid, &slotnumber);
-      ESP_LOGI(LOG_TAG,"Save new slot %d under name: %s",slotnumber,slotname);
-    } else {
-      //name is already used, overwrite
-      ESP_LOGI(LOG_TAG,"Overwrite slot %d under name: %s",slotnumber,slotname);
-    }
-    
-    //store general config
-    if(halStorageStore(tid,currentcfg,slotname,slotnumber) != ESP_OK)
-    {
-      ESP_LOGE(LOG_TAG,"Cannot store general cfg");
-      halStorageFinishTransaction(tid);
-      return UNKNOWNCMD;
-    }
-    
-    //get HID handle
-    if(task_hid_enterCritical() == ESP_OK)
-    {
-      //store HID chain
-      halStorageStoreHID(slotnumber, task_hid_getCmdChain(),tid);
-      //exit HID critical section
-      task_hid_exitCritical();
-    } else {
-      ESP_LOGE(LOG_TAG,"Error entering HID critical section");
-    }
-    
-    ///@todo Save VB configs similar to HID ->put HID/VB/general config into one command!
-  
-    halStorageFinishTransaction(tid);
+    //and store it.
+    storeSlot(slotname);
     return NOACTION;
   }
   
@@ -491,7 +464,7 @@ parserstate_t doStorageParsing(uint8_t *cmdBuffer)
       } else ESP_LOGE(LOG_TAG,"Error allocating cmdparam strign");
       task_vb_addCmd(&cmd,1);
     }
-    ESP_LOGI(LOG_TAG,"Load slot name: %s",cmd.cmdparam);
+    ESP_LOGI(LOG_TAG,"Load slot name: %s",&cmdBuffer[6]);
     return VB;
   }
   //not consumed, no command found for storage
@@ -1769,39 +1742,16 @@ void task_commands(void *params)
  **/
 void printAllSlots(uint8_t printconfig)
 {
+  uint32_t tid;
   uint8_t slotCount = 0;
-  uint32_t tid = 0;
-  //contains slotname + "Slot%d:<slotname>\r\n"
-  char slotName[SLOTNAME_LENGTH+1];
-  char *outputstring = malloc(ATCMD_LENGTH+1);
-  char parameterNumber[16];
-  generalConfig_t *currentcfg = configGetCurrent();
-  
-  if(outputstring == NULL)
-  {
-    ESP_LOGE(LOG_TAG,"Cannot malloc for outputstring");
-    return;
-  }
-  
-  if(currentcfg == NULL)
-  {
-    free(outputstring);
-    ESP_LOGE(LOG_TAG,"Error, general config is NULL!!!");
-    return;
-  }
   
   if(halStorageStartTransaction(&tid, 10,LOG_TAG)!= ESP_OK)
   {
-    free(outputstring);
     ESP_LOGE(LOG_TAG,"Cannot print slot, unable to obtain storage");
     return;
   }
-  
-  ESP_LOGI(LOG_TAG,"Got ID: %d",tid);
-  
   if(halStorageGetNumberOfSlots(tid, &slotCount) != ESP_OK)
   {
-    free(outputstring);
     halStorageFinishTransaction(tid);
     ESP_LOGE(LOG_TAG,"Cannot get slotcount");
     return;
@@ -1810,14 +1760,13 @@ void printAllSlots(uint8_t printconfig)
   //in compatibility mode, we initalize a slot here if none are available.
   #ifdef ACTIVATE_V25_COMPAT
   ///@todo Is this the same behaviour? Create a slot if AT LI is called...
-  if(slotCount == 0 && printconfig != 0)
+  if(slotCount == 0 && printconfig == 1)
   {
     ESP_LOGW(LOG_TAG,"V2.5 Compat: creating default slot 0 (mouse)");
     halStorageCreateDefault(tid);
     if(halStorageGetNumberOfSlots(tid, &slotCount) != ESP_OK)
     {
       halStorageFinishTransaction(tid);
-      free(outputstring);
       ESP_LOGE(LOG_TAG,"Cannot get slotcount after creating default");
       return;
     }
@@ -1826,81 +1775,144 @@ void printAllSlots(uint8_t printconfig)
   //check every slot
   for(uint8_t i = 0; i<slotCount; i++)
   {
-    if(halStorageGetNameForNumber(tid,i,slotName) != ESP_OK)
-    {
-      ESP_LOGE(LOG_TAG,"cannot get slotname");
-      continue;
-    }
-    
-    //print slot name (different for AT LA and AT LI :-( )
+    //either print slot name ("AT LI")
     if(printconfig == 0)
     {
-      sprintf(outputstring,"Slot%d:%s",i,slotName);
-      halSerialSendUSBSerial(outputstring,strnlen(outputstring,SLOTNAME_LENGTH+11),10);
+      //or the whole config
+      halStorageLoadNumber(i,tid,2);
     } else {
-      sprintf(outputstring,"Slot:%s",slotName);
-      halSerialSendUSBSerial(outputstring,strnlen(outputstring,SLOTNAME_LENGTH+11),10);
+      //or the whole config
+      halStorageLoadNumber(i,tid,1);
     }
+  }
+  //send "END" 
+  halSerialSendUSBSerial("END",strnlen("END",SLOTNAME_LENGTH),10);
+  //finish storage session
+  halStorageFinishTransaction(tid);
+}
+
+/** @brief Save current config to flash
+ * 
+ * This method is used to reverse parse each module's setup to be saved in
+ * an AT command format. A valid tid is necessary for saving data.
+ * 
+ * @param slotname Slot name*/
+void storeSlot(char* slotname)
+{
+  uint8_t slotnumber = 0;
+  uint32_t tid = 0;
+  //contains slotname + "Slot%d:<slotname>\r\n"
+  char slotName[SLOTNAME_LENGTH+1];
+  char parameterNumber[16];
+  generalConfig_t *currentcfg = configGetCurrent();
+  
+  if(halStorageStartTransaction(&tid, 10,LOG_TAG)!= ESP_OK)
+  {
+    ESP_LOGE(LOG_TAG,"Cannot store slot, unable to obtain storage");
+    return;
+  }
+  
+  //check if name is already used (returns ESP_OK)
+  if(halStorageGetNumberForName(tid, &slotnumber, slotname) != ESP_OK)
+  {
+    //name not used.
+    //get number of currently active slots, and add one for a new slot
+    halStorageGetNumberOfSlots(tid, &slotnumber);
+    ///@todo Should we increment here or not? Should work -> 1 active slot -> save new config @1
+    ESP_LOGI(LOG_TAG,"Save new slot %d under name: %s",slotnumber,slotname);
+  } else {
+    //name is already used, overwrite
+    ESP_LOGI(LOG_TAG,"Overwrite slot %d under name: %s",slotnumber,slotname);
+  }
     
-    ///@todo Should we load the slot here?!? Currently not done, but where is the config coming from?
-    
-    //wait a little bit, avoiding overflows on PC/LPC side
-    vTaskDelay(5);
-    
-    //only print slot config if requested 
-    if(printconfig != 0)
-    {
-      sprintf(parameterNumber,"AT AX %d",currentcfg->adc.sensitivity_x);
-      halSerialSendUSBSerial(parameterNumber,strnlen(parameterNumber,16),10);
-      sprintf(parameterNumber,"AT AY %d",currentcfg->adc.sensitivity_y);
-      halSerialSendUSBSerial(parameterNumber,strnlen(parameterNumber,16),10);
-      sprintf(parameterNumber,"AT DX %d",currentcfg->adc.deadzone_x);
-      halSerialSendUSBSerial(parameterNumber,strnlen(parameterNumber,16),10);
-      sprintf(parameterNumber,"AT DY %d",currentcfg->adc.deadzone_y);
-      halSerialSendUSBSerial(parameterNumber,strnlen(parameterNumber,16),10);
+  //start a new config by calling with the slotname
+  if(halStorageStore(tid,slotname,slotnumber) != ESP_OK)
+  {
+    ESP_LOGE(LOG_TAG,"Cannot start new slot");
+    halStorageFinishTransaction(tid);
+    return;
+  }
+  
+  if(halStorageStartTransaction(&tid,10,LOG_TAG) != ESP_OK)
+  {
+    ESP_LOGE(LOG_TAG,"Cannot start storage transaction");
+    return;
+  } else {
+    ESP_LOGI(LOG_TAG,"Got ID: %d",tid);
+  }
+
+  char *outputstring = malloc(ATCMD_LENGTH+1);
+  if(outputstring == NULL)
+  {
+    halStorageFinishTransaction(tid);
+    ESP_LOGE(LOG_TAG,"Cannot malloc for outputstring");
+    return;
+  }
+  
+  if(currentcfg == NULL)
+  {
+    free(outputstring);
+    halStorageFinishTransaction(tid);
+    ESP_LOGE(LOG_TAG,"Error, general config is NULL!!!");
+    return;
+  }
       
-      sprintf(parameterNumber,"AT MS %d",currentcfg->adc.max_speed);
-      halSerialSendUSBSerial(parameterNumber,strnlen(parameterNumber,16),10);
-      sprintf(parameterNumber,"AT AC %d",currentcfg->adc.acceleration);
-      halSerialSendUSBSerial(parameterNumber,strnlen(parameterNumber,16),10);
-      sprintf(parameterNumber,"AT TS %d",currentcfg->adc.threshold_sip);
-      halSerialSendUSBSerial(parameterNumber,strnlen(parameterNumber,16),10);
-      sprintf(parameterNumber,"AT TP %d",currentcfg->adc.threshold_puff);
-      halSerialSendUSBSerial(parameterNumber,strnlen(parameterNumber,16),10);
-      sprintf(parameterNumber,"AT WS %d",currentcfg->wheel_stepsize);
-      halSerialSendUSBSerial(parameterNumber,strnlen(parameterNumber,16),10);
-      sprintf(parameterNumber,"AT SP %d",currentcfg->adc.threshold_strongpuff);
-      halSerialSendUSBSerial(parameterNumber,strnlen(parameterNumber,16),10);
-      sprintf(parameterNumber,"AT SS %d",currentcfg->adc.threshold_strongsip);
-      halSerialSendUSBSerial(parameterNumber,strnlen(parameterNumber,16),10);
-      
-      switch(currentcfg->adc.mode)
-      {
-        case MOUSE: sprintf(parameterNumber,"AT MM 1"); break;
-        case JOYSTICK: sprintf(parameterNumber,"AT MM 2"); break;
-        case THRESHOLD: sprintf(parameterNumber,"AT MM 0"); break;
-      }
-      halSerialSendUSBSerial(parameterNumber,strnlen(parameterNumber,16),10);
-      
-      
-      sprintf(parameterNumber,"AT GU %d",currentcfg->adc.gain[0]);
-      halSerialSendUSBSerial(parameterNumber,strnlen(parameterNumber,16),10);
-      sprintf(parameterNumber,"AT GD %d",currentcfg->adc.gain[1]);
-      halSerialSendUSBSerial(parameterNumber,strnlen(parameterNumber,16),10);
-      sprintf(parameterNumber,"AT GL %d",currentcfg->adc.gain[2]);
-      halSerialSendUSBSerial(parameterNumber,strnlen(parameterNumber,16),10);
-      sprintf(parameterNumber,"AT GR %d",currentcfg->adc.gain[3]);
-      halSerialSendUSBSerial(parameterNumber,strnlen(parameterNumber,16),10);
-      sprintf(parameterNumber,"AT RO %d",currentcfg->adc.orientation);
-      halSerialSendUSBSerial(parameterNumber,strnlen(parameterNumber,16),10);
-      
-      
-      //return: 0 if nothing is active, 1 for USB only, 2 for BLE only, 3 for both
-      uint8_t btret = 0;
-      if(currentcfg->ble_active != 0) btret+=2;
-      if(currentcfg->usb_active != 0) btret+=1;
-      sprintf(parameterNumber,"AT BT %d",btret);
-      halSerialSendUSBSerial(parameterNumber,strnlen(parameterNumber,16),10);
+  sprintf(outputstring,"Slot %d:%s",slotnumber,slotName);
+  halStorageStore(tid,outputstring,slotnumber);
+  
+  sprintf(parameterNumber,"AT AX %d",currentcfg->adc.sensitivity_x);
+  halStorageStore(tid,outputstring,0);
+  sprintf(parameterNumber,"AT AY %d",currentcfg->adc.sensitivity_y);
+  halStorageStore(tid,outputstring,0);
+  sprintf(parameterNumber,"AT DX %d",currentcfg->adc.deadzone_x);
+  halStorageStore(tid,outputstring,0);
+  sprintf(parameterNumber,"AT DY %d",currentcfg->adc.deadzone_y);
+  halStorageStore(tid,outputstring,0);
+  
+  sprintf(parameterNumber,"AT MS %d",currentcfg->adc.max_speed);
+  halStorageStore(tid,outputstring,0);
+  sprintf(parameterNumber,"AT AC %d",currentcfg->adc.acceleration);
+  halStorageStore(tid,outputstring,0);
+  sprintf(parameterNumber,"AT TS %d",currentcfg->adc.threshold_sip);
+  halStorageStore(tid,outputstring,0);
+  sprintf(parameterNumber,"AT TP %d",currentcfg->adc.threshold_puff);
+  halStorageStore(tid,outputstring,0);
+  sprintf(parameterNumber,"AT WS %d",currentcfg->wheel_stepsize);
+  halStorageStore(tid,outputstring,0);
+  sprintf(parameterNumber,"AT SP %d",currentcfg->adc.threshold_strongpuff);
+  halStorageStore(tid,outputstring,0);
+  sprintf(parameterNumber,"AT SS %d",currentcfg->adc.threshold_strongsip);
+  halStorageStore(tid,outputstring,0);
+  
+  switch(currentcfg->adc.mode)
+  {
+    case MOUSE: sprintf(parameterNumber,"AT MM 1"); break;
+    case JOYSTICK: sprintf(parameterNumber,"AT MM 2"); break;
+    case THRESHOLD: sprintf(parameterNumber,"AT MM 0"); break;
+  }
+  halStorageStore(tid,outputstring,0);
+  
+  
+  sprintf(parameterNumber,"AT GU %d",currentcfg->adc.gain[0]);
+  halStorageStore(tid,outputstring,0);
+  sprintf(parameterNumber,"AT GD %d",currentcfg->adc.gain[1]);
+  halStorageStore(tid,outputstring,0);
+  sprintf(parameterNumber,"AT GL %d",currentcfg->adc.gain[2]);
+  halStorageStore(tid,outputstring,0);
+  sprintf(parameterNumber,"AT GR %d",currentcfg->adc.gain[3]);
+  halStorageStore(tid,outputstring,0);
+  sprintf(parameterNumber,"AT RO %d",currentcfg->adc.orientation);
+  halStorageStore(tid,outputstring,0);
+  
+  
+  //return: 0 if nothing is active, 1 for USB only, 2 for BLE only, 3 for both
+  uint8_t btret = 0;
+  if(currentcfg->ble_active != 0) btret+=2;
+  if(currentcfg->usb_active != 0) btret+=1;
+  sprintf(parameterNumber,"AT BT %d",btret);
+  halStorageStore(tid,outputstring,0);
+  
+  /*
       
       //wait a little bit, avoiding overflows on PC/LPC side
       vTaskDelay(2);
@@ -1937,9 +1949,8 @@ void printAllSlots(uint8_t printconfig)
       vTaskDelay(5);
     }
   }
-  
-  //terminate list by sending "END"
-  halSerialSendUSBSerial("END",strnlen("END",SLOTNAME_LENGTH),10);
+   
+  * */
   //release storage
   free(outputstring);
   halStorageFinishTransaction(tid);

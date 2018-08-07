@@ -157,7 +157,22 @@ parserstate_t doMouthpieceSettingsParsing(uint8_t *cmdBuffer)
   /*++++ calibrate mouthpiece ++++*/
   if(CMD("AT CA"))
   {
-    ///@todo IP singleshot/cmd adding... + malloc strings!!!
+    //calibrate now or send command to task_vb
+    if(requestVBUpdate == VB_SINGLESHOT)
+    {
+      halAdcCalibrate();
+    } else {
+      vb_cmd_t cmd;
+      memset(&cmd,0,sizeof(vb_cmd_t));
+      cmd.vb = requestVBUpdate | 0x80;
+      cmd.cmd = T_CALIBRATE;
+      cmd.atoriginal = malloc(strlen("AT CA")+1);
+      if(cmd.atoriginal != NULL)
+      {
+        strcpy(cmd.atoriginal,"AT CA");
+      } else ESP_LOGE(LOG_TAG,"Error allocating AT cmd string");
+      task_vb_addCmd(&cmd,1);
+    }
     ESP_LOGI(LOG_TAG,"Calibrate");
     return VB;
   }

@@ -1205,8 +1205,9 @@ esp_err_t halStorageStore(uint32_t tid, char *cfgstring, uint8_t slotnumber)
     }
     
     //write slot name if freshly opened file
-    char slotname[SLOTNAME_LENGTH+3];
-    sprintf(slotname,"Slot %d:%s",slotnumber,cfgstring);
+    char slotname[SLOTNAME_LENGTH+11];
+    //we start numbering IN the config file with "1" -> increment given slot number
+    sprintf(slotname,"Slot %d:%s",slotnumber+1,cfgstring);
     fputs(slotname,storeHandle);
     
     ///@todo not necessary anymore?

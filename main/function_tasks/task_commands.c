@@ -414,11 +414,11 @@ parserstate_t doStorageParsing(uint8_t *cmdBuffer)
   /*++++ AT NE (load next) +++*/
   if(CMD("AT NE"))
   {
-    char *command = "__NEXT";
+    strncpy(slotname,"__NEXT",SLOTNAME_LENGTH);
     //save to config
     if(requestVBUpdate == VB_SINGLESHOT)
     {
-      xQueueSend(config_switcher,(void*)&command,(TickType_t)10);
+      xQueueSend(config_switcher,(void*)slotname,(TickType_t)10);
     } else {
       vb_cmd_t cmd;
       memset(&cmd,0,sizeof(vb_cmd_t));
@@ -1513,15 +1513,14 @@ parserstate_t doMouseParsing(uint8_t *cmdBuffer)
       //set mouse wheel stepsize. If unsuccessful, default will return 0
       case 'S':
         steps = strtol((char*)&(cmdBuffer[6]),NULL,10);
-        if(steps > 127 || steps < 1)
+        if(steps > 127 || steps < 1) 
         {
-          sendErrorBack("Wheel size out of range! (1 to 127)");
-          return UNKNOWNCMD;
-        } else { 
-          if(cfg != NULL) cfg->wheel_stepsize = steps;
-          ESP_LOGI(LOG_TAG,"Setting mouse wheel steps: %d",steps);
-          return NOACTION;
+          steps = 3;
+          ESP_LOGI(LOG_TAG,"Mouse wheel steps out of range, reset to 3");
         }
+        if(cfg != NULL) cfg->wheel_stepsize = steps;
+        ESP_LOGI(LOG_TAG,"Setting mouse wheel steps: %d",steps);
+        return NOACTION;
       default: cmd.cmd[0] = 0;
     }
   }
@@ -1801,15 +1800,14 @@ void storeSlot(char* slotname)
 {
   uint8_t slotnumber = 0;
   uint32_t tid = 0;
-  //contains slotname + "Slot%d:<slotname>\r\n"
-  char slotName[SLOTNAME_LENGTH+1];
-  char parameterNumber[16];
   generalConfig_t *currentcfg = configGetCurrent();
   
-  if(halStorageStartTransaction(&tid, 10,LOG_TAG)!= ESP_OK)
+  if(halStorageStartTransaction(&tid,10,LOG_TAG) != ESP_OK)
   {
-    ESP_LOGE(LOG_TAG,"Cannot store slot, unable to obtain storage");
+    ESP_LOGE(LOG_TAG,"Cannot start storage transaction");
     return;
+  } else {
+    ESP_LOGI(LOG_TAG,"Got ID: %d",tid);
   }
   
   //check if name is already used (returns ESP_OK)
@@ -1832,14 +1830,8 @@ void storeSlot(char* slotname)
     halStorageFinishTransaction(tid);
     return;
   }
-  
-  if(halStorageStartTransaction(&tid,10,LOG_TAG) != ESP_OK)
-  {
-    ESP_LOGE(LOG_TAG,"Cannot start storage transaction");
-    return;
-  } else {
-    ESP_LOGI(LOG_TAG,"Got ID: %d",tid);
-  }
+  //add NL character
+  halStorageStore(tid,"\n",0);
 
   char *outputstring = malloc(ATCMD_LENGTH+1);
   if(outputstring == NULL)
@@ -1856,52 +1848,49 @@ void storeSlot(char* slotname)
     ESP_LOGE(LOG_TAG,"Error, general config is NULL!!!");
     return;
   }
-      
-  sprintf(outputstring,"Slot %d:%s",slotnumber,slotName);
-  halStorageStore(tid,outputstring,slotnumber);
   
-  sprintf(parameterNumber,"AT AX %d",currentcfg->adc.sensitivity_x);
+  sprintf(outputstring,"AT AX %d\n",currentcfg->adc.sensitivity_x);
   halStorageStore(tid,outputstring,0);
-  sprintf(parameterNumber,"AT AY %d",currentcfg->adc.sensitivity_y);
+  sprintf(outputstring,"AT AY %d\n",currentcfg->adc.sensitivity_y);
   halStorageStore(tid,outputstring,0);
-  sprintf(parameterNumber,"AT DX %d",currentcfg->adc.deadzone_x);
+  sprintf(outputstring,"AT DX %d\n",currentcfg->adc.deadzone_x);
   halStorageStore(tid,outputstring,0);
-  sprintf(parameterNumber,"AT DY %d",currentcfg->adc.deadzone_y);
+  sprintf(outputstring,"AT DY %d\n",currentcfg->adc.deadzone_y);
   halStorageStore(tid,outputstring,0);
   
-  sprintf(parameterNumber,"AT MS %d",currentcfg->adc.max_speed);
+  sprintf(outputstring,"AT MS %d\n",currentcfg->adc.max_speed);
   halStorageStore(tid,outputstring,0);
-  sprintf(parameterNumber,"AT AC %d",currentcfg->adc.acceleration);
+  sprintf(outputstring,"AT AC %d\n",currentcfg->adc.acceleration);
   halStorageStore(tid,outputstring,0);
-  sprintf(parameterNumber,"AT TS %d",currentcfg->adc.threshold_sip);
+  sprintf(outputstring,"AT TS %d\n",currentcfg->adc.threshold_sip);
   halStorageStore(tid,outputstring,0);
-  sprintf(parameterNumber,"AT TP %d",currentcfg->adc.threshold_puff);
+  sprintf(outputstring,"AT TP %d\n",currentcfg->adc.threshold_puff);
   halStorageStore(tid,outputstring,0);
-  sprintf(parameterNumber,"AT WS %d",currentcfg->wheel_stepsize);
+  sprintf(outputstring,"AT WS %d\n",currentcfg->wheel_stepsize);
   halStorageStore(tid,outputstring,0);
-  sprintf(parameterNumber,"AT SP %d",currentcfg->adc.threshold_strongpuff);
+  sprintf(outputstring,"AT SP %d\n",currentcfg->adc.threshold_strongpuff);
   halStorageStore(tid,outputstring,0);
-  sprintf(parameterNumber,"AT SS %d",currentcfg->adc.threshold_strongsip);
+  sprintf(outputstring,"AT SS %d\n",currentcfg->adc.threshold_strongsip);
   halStorageStore(tid,outputstring,0);
   
   switch(currentcfg->adc.mode)
   {
-    case MOUSE: sprintf(parameterNumber,"AT MM 1"); break;
-    case JOYSTICK: sprintf(parameterNumber,"AT MM 2"); break;
-    case THRESHOLD: sprintf(parameterNumber,"AT MM 0"); break;
+    case MOUSE: sprintf(outputstring,"AT MM 1\n"); break;
+    case JOYSTICK: sprintf(outputstring,"AT MM 2\n"); break;
+    case THRESHOLD: sprintf(outputstring,"AT MM 0\n"); break;
   }
   halStorageStore(tid,outputstring,0);
   
   
-  sprintf(parameterNumber,"AT GU %d",currentcfg->adc.gain[0]);
+  sprintf(outputstring,"AT GU %d\n",currentcfg->adc.gain[0]);
   halStorageStore(tid,outputstring,0);
-  sprintf(parameterNumber,"AT GD %d",currentcfg->adc.gain[1]);
+  sprintf(outputstring,"AT GD %d\n",currentcfg->adc.gain[1]);
   halStorageStore(tid,outputstring,0);
-  sprintf(parameterNumber,"AT GL %d",currentcfg->adc.gain[2]);
+  sprintf(outputstring,"AT GL %d\n",currentcfg->adc.gain[2]);
   halStorageStore(tid,outputstring,0);
-  sprintf(parameterNumber,"AT GR %d",currentcfg->adc.gain[3]);
+  sprintf(outputstring,"AT GR %d\n",currentcfg->adc.gain[3]);
   halStorageStore(tid,outputstring,0);
-  sprintf(parameterNumber,"AT RO %d",currentcfg->adc.orientation);
+  sprintf(outputstring,"AT RO %d\n",currentcfg->adc.orientation);
   halStorageStore(tid,outputstring,0);
   
   
@@ -1909,48 +1898,34 @@ void storeSlot(char* slotname)
   uint8_t btret = 0;
   if(currentcfg->ble_active != 0) btret+=2;
   if(currentcfg->usb_active != 0) btret+=1;
-  sprintf(parameterNumber,"AT BT %d",btret);
+  sprintf(outputstring,"AT BT %d\n",btret);
   halStorageStore(tid,outputstring,0);
-  
-  /*
       
-      //wait a little bit, avoiding overflows on PC/LPC side
-      vTaskDelay(2);
-      
-      //iterate over all possible VBs.
-      for(uint8_t j = 0; j<(NUMBER_VIRTUALBUTTONS*4); j++)
+  //iterate over all possible VBs.
+  for(uint8_t j = 0; j<VB_MAX; j++)
+  {
+    //print AT BM (button mode) command first
+    sprintf(outputstring,"AT BM %02d\n",j);
+    ///@todo remove this logging tag
+    ESP_LOGD(LOG_TAG,"AT BM %02d",j);
+    halStorageStore(tid,outputstring,0);
+    //try to parse command either via HID or VB task
+    if(task_hid_getAT(outputstring,j) != ESP_OK)
+    {
+      if(task_vb_getAT(outputstring,j) != ESP_OK)
       {
-        //print AT BM (button mode) command first
-        sprintf(outputstring,"AT BM %02d",j);
-        ESP_LOGD(LOG_TAG,"AT BM %02d",j);
-        halSerialSendUSBSerial(outputstring,strnlen(outputstring,SLOTNAME_LENGTH+11),10);
-        //try to parse command either via HID or VB task
-        if(task_hid_getAT(outputstring,j) != ESP_OK)
-        {
-          if(task_vb_getAT(outputstring,j) != ESP_OK)
-          {
-            //if no command was found, this usually means this one is not used.
-            ESP_LOGW(LOG_TAG,"Unused VB, neither HID nor VB task found AT string");
-            sprintf(outputstring,"AT NC");
-          }
-        }
-        //send back the config to the host.
-        halSerialSendUSBSerial(outputstring,strnlen(outputstring,SLOTNAME_LENGTH+11),10);
-        ESP_LOGD(LOG_TAG,"%s",outputstring);
-        //delay 4 times
-        if((j % NUMBER_VIRTUALBUTTONS) == 0)
-        {
-          //wait a little bit, avoiding overflows on PC/LPC side
-          vTaskDelay(5);
-        }
+        //if no command was found, this usually means this one is not used.
+        ESP_LOGI(LOG_TAG,"Unused VB, neither HID nor VB task found AT string");
+        sprintf(outputstring,"AT NC");
       }
-      
-      //wait a little bit, avoiding overflows on PC/LPC side
-      vTaskDelay(5);
     }
+    //store reverse parsed at string
+    halStorageStore(tid,outputstring,0);
+    halStorageStore(tid,"\n",0);
+    ///@todo remove this logging tag
+    ESP_LOGD(LOG_TAG,"%s",outputstring);
   }
-   
-  * */
+
   //release storage
   free(outputstring);
   halStorageFinishTransaction(tid);

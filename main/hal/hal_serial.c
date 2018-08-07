@@ -56,7 +56,7 @@
   #define HAL_SERIAL_TASK_STACKSIZE 2048
 #else
   //if you set log level to WARN, 1k is sufficient
-  #define HAL_SERIAL_TASK_STACKSIZE 1024
+  #define HAL_SERIAL_TASK_STACKSIZE 1536
 #endif
 
 /** @brief Ticks until the UART receive function has a timeout and gives back received data.*

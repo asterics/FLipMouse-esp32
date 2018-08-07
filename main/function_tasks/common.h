@@ -363,6 +363,7 @@ extern QueueHandle_t config_switcher;
 #define HAL_VB_TASK_PRIORITY  (tskIDLE_PRIORITY + 1)
 #define DEBOUNCER_TASK_PRIORITY  (tskIDLE_PRIORITY + 1)
 #define HID_TASK_PRIORITY  (tskIDLE_PRIORITY + 4)
+#define VB_TASK_PRIORITY  (tskIDLE_PRIORITY + 4)
 /** All BLE tasks in hal_ble.c. */
 #define HAL_BLE_TASK_PRIORITY_BASE  (tskIDLE_PRIORITY + 2)
 #define HAL_CONFIG_TASK_PRIORITY  (tskIDLE_PRIORITY + 1)

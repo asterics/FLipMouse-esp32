@@ -427,7 +427,8 @@ int halSerialSendUSBSerial(char *data, uint32_t length, TickType_t ticks_to_wait
   {
     if(outputcb(data,length) != ESP_OK)
     {
-      ESP_LOGE(LOG_TAG,"Additional stream cannot be sent");
+      ESP_LOGE(LOG_TAG,"Additional stream cannot be sent,removing stream!");
+      outputcb = NULL;
     }
   }
   

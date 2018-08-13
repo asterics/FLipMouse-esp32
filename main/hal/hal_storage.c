@@ -283,7 +283,7 @@ void halStorageCreateDefault(uint32_t tid)
   }
   
   //current slot number used for filename
-  int slotnr = 0;
+  int slotnr = -1;
   //target file pointer
   FILE *target = NULL;
 
@@ -302,7 +302,8 @@ void halStorageCreateDefault(uint32_t tid)
   {
     //if we get a new slot by receiving a string "Slot X:<name>"
     //we close the target file and open a new one.
-    if(strcmp(buffer,"Slot") == 0)
+    //need to do it with strncmp to have a prefix check
+    if(strncmp("Slot", buffer, strlen("Slot")) == 0)
     {
       if(target != NULL) fclose(target);
       slotnr++;
@@ -312,6 +313,7 @@ void halStorageCreateDefault(uint32_t tid)
       if(target == NULL)
       {
         ESP_LOGE(LOG_TAG,"Cannot open target config file \"%s\" for factory reset!",file);
+        free(buffer);
         if(source != NULL) fclose(source);
         return;
       }
@@ -891,7 +893,8 @@ esp_err_t halStorageLoad(hal_storage_load_action navigate, uint32_t tid)
  * @param tid Transaction ID, which must match the one given by halStorageStartTransaction
  * @param outputSerial Either the loaded AT commands are sent to the command parser (== 0) or sent to the serial output
  * @note If sending to serial port, the slot name is printed as well ("Slot <number>:<name>).
- * @note If param outputserial is set to 1, the full config is printed. If set to 2, only slotnames are printed (used for "AT LI")
+ * @note If param outputserial is set to 1, the full config is printed. If set to 2, only slotnames are printed (used for "AT LI").
+ * In addition, for compatibility reasons, AT LI outputs e.g. "Slot 1:mouse", AT LA outputs "Slot:mouse".
  * @return ESP_OK if everything is fine, ESP_FAIL if the command was not successful (slot number not found)
  * */
 esp_err_t halStorageLoadNumber(uint8_t slotnumber, uint32_t tid, uint8_t outputSerial)
@@ -940,14 +943,41 @@ esp_err_t halStorageLoadNumber(uint8_t slotnumber, uint32_t tid, uint8_t outputS
   //check if we have "Slot XXX:"
   if((strncmp(slotname,"Slot",strlen("Slot")) == 0) && (strpbrk(slotname,":") != NULL))
   {
-    //if outputting to serial port, send the slot name
-    if(outputSerial != 0)
-    {
-      halSerialSendUSBSerial(slotname,strnlen(slotname,SLOTNAME_LENGTH+10),10);
-    }
     //if yes, strip "Slot..." & save for logging
     char *begin = strpbrk(slotname,":");
     strncpy(slotname,begin+1,SLOTNAME_LENGTH);
+    //output to serial, note that we need to have compatibility to v2.5:
+    //"AT LI" -> "Slot 1:mouse"
+    //"AT LA" -< "Slot:mouse"
+    
+    //get a new buffer
+    char *serialout = malloc(strnlen(slotname,SLOTNAME_LENGTH)+10);
+    if(serialout == NULL && outputSerial != 0)
+    {
+      ESP_LOGE(LOG_TAG,"Cannot malloc for serial output!");
+    } else {
+      switch(outputSerial)
+      {
+        case 1: //"AT LA"
+          sprintf(serialout,"Slot:%s",slotname);
+          if(halSerialSendUSBSerial(serialout,strnlen(serialout,SLOTNAME_LENGTH+10),10) == -1)
+          {
+            ESP_LOGE(LOG_TAG,"Buffer overflow on serial");
+          }
+          break;
+        case 2: //"AT LI"
+          sprintf(serialout,"Slot %d:%s",slotnumber+1,slotname);
+          if(halSerialSendUSBSerial(serialout,strnlen(serialout,SLOTNAME_LENGTH+10),10) == -1)
+          {
+            ESP_LOGE(LOG_TAG,"Buffer overflow on serial");
+          }
+        break;
+        case 0: //no output
+        default: break;
+      }
+    }
+    //free buffer
+    if(serialout != NULL) free(serialout);
   } else {
     //if no, config is invalid
     ESP_LOGE(LOG_TAG,"Missing \"Slot XXX:\" tag (%s)!",slotname);

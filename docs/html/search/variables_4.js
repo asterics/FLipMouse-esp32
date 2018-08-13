@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['data',['data',['../structHID__REPORT.html#a84fce9b79d9f558c2a0cae096b6e5686',1,'HID_REPORT::data()'],['../structhid__command.html#a3c6b1d6c54c3d53d5efee995848546c7',1,'hid_command::data()']]],
+  ['data',['data',['../structHID__REPORT.html#a84fce9b79d9f558c2a0cae096b6e5686',1,'HID_REPORT']]],
   ['deadkey_5fusint',['deadkey_USINT',['../keyboard_8c.html#a229e41acc78a3d889c7911f17e90e147',1,'keyboard.c']]],
   ['deadzone_5fx',['deadzone_x',['../structadc__config.html#a11186d7ca4d27ce6177e17b028a71fac',1,'adc_config']]],
   ['deadzone_5fy',['deadzone_y',['../structadc__config.html#a9958f90daee761db302bd2c077a42272',1,'adc_config']]],

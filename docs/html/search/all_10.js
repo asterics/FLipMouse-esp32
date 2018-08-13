@@ -10,8 +10,6 @@ var searchData=
   ['physical_5fmaximum',['PHYSICAL_MAXIMUM',['../HIDTypes_8h.html#a0b9346c6ff3c082bc855e82bae30fe36',1,'HIDTypes.h']]],
   ['physical_5fminimum',['PHYSICAL_MINIMUM',['../HIDTypes_8h.html#aeee1ac77441b43263ae19b3dd401348a',1,'HIDTypes.h']]],
   ['pop',['POP',['../HIDTypes_8h.html#a435d049cc68235e2f41c37d87e8655bc',1,'HIDTypes.h']]],
-  ['press',['PRESS',['../task__kbd_8h.html#aff3bf982a86299e69b007b0d16a45227a6e70a672c8edfbcdf18c8204913e285d',1,'task_kbd.h']]],
-  ['press_5frelease_5fbutton',['PRESS_RELEASE_BUTTON',['../task__kbd_8h.html#aff3bf982a86299e69b007b0d16a45227a64b216d07776d1f5df5f7ad88c73fcab',1,'task_kbd.h']]],
   ['pressure',['pressure',['../structadcData.html#ab8dd40e7779ed6f4894c678d2b315d09',1,'adcData']]],
   ['pressure_5fidle',['pressure_idle',['../hal__adc_8c.html#a6ec177d729e9f63e08546c4bc8649e78',1,'hal_adc.c']]],
   ['pressure_5fraw',['pressure_raw',['../structadcData.html#af069f35c5fe5d1e1afd7abb7a1be7512',1,'adcData']]],

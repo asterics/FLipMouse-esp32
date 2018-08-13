@@ -172,7 +172,7 @@ Functions</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="task__infrared_8c_source.html#l00153">153</a> of file <a class="el" href="task__infrared_8c_source.html">task_infrared.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="task__commands_8c_source.html#l00582">doInfraredParsing()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="task__commands_8c_source.html#l00639">doInfraredParsing()</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -180,12 +180,14 @@ Here is the call graph for this function:</div>
 <map name="task__infrared_8c_a3b5b7c90c92398748f28c75b55edccda_cgraph" id="task__infrared_8c_a3b5b7c90c92398748f28c75b55edccda_cgraph">
 <area shape="rect" id="node2" href="hal__storage_8c.html#aead99606f84645b2bb6ae000461bf819" title="Start a storage transaction. " alt="" coords="165,17,345,44"/>
 <area shape="rect" id="node4" href="hal__storage_8c.html#ace0ac79b0e2b273d97e5b806de9eb493" title="Store an infrared command to storage. " alt="" coords="190,93,319,120"/>
-<area shape="rect" id="node8" href="hal__storage_8c.html#a00b5db14e24d7ada8a42aa6b3f1a1cb7" title="Finish a storage transaction. " alt="" coords="161,144,348,171"/>
-<area shape="rect" id="node9" href="hal__serial_8c.html#af78683f30da18cfc19c2c91006ec6155" title="Send serial bytes to USB&#45;Serial (USB&#45;CDC) " alt="" coords="173,195,336,221"/>
+<area shape="rect" id="node10" href="hal__storage_8c.html#a00b5db14e24d7ada8a42aa6b3f1a1cb7" title="Finish a storage transaction. " alt="" coords="161,144,348,171"/>
+<area shape="rect" id="node11" href="hal__serial_8c.html#af78683f30da18cfc19c2c91006ec6155" title="Send serial bytes to USB&#45;Serial (USB&#45;CDC) " alt="" coords="173,195,336,221"/>
 <area shape="rect" id="node3" href="hal__storage_8c.html#a606e5842dd354f1fb4a738ba95c6d5d1" title="internal function to init the filesystem if handle is invalid " alt="" coords="454,5,557,32"/>
-<area shape="rect" id="node5" href="hal__storage_8c.html#a4b6566ef5b69c85d422df52435c95d36" title="Internal helper to check for a valid WL handle and the correct tid. " alt="" coords="663,107,792,133"/>
-<area shape="rect" id="node6" href="hal__storage_8c.html#a531bc39bc2808762298d14b79ac453cd" title="Get the number of an IR command. " alt="" coords="396,107,615,133"/>
-<area shape="rect" id="node7" href="hal__storage_8c.html#ae5e6fcc8c1bdff7f78009830bc78f260" title="Get the number of first available slot for an IR command. " alt="" coords="407,157,603,184"/>
+<area shape="rect" id="node5" href="hal__storage_8c.html#a4b6566ef5b69c85d422df52435c95d36" title="Internal helper to check for a valid WL handle and the correct tid. " alt="" coords="929,157,1059,184"/>
+<area shape="rect" id="node6" href="hal__storage_8c.html#a531bc39bc2808762298d14b79ac453cd" title="Get the number for an IR cmd name. " alt="" coords="396,107,615,133"/>
+<area shape="rect" id="node8" href="hal__storage_8c.html#ae5e6fcc8c1bdff7f78009830bc78f260" title="Get the number of first available slot for an IR command. " alt="" coords="407,208,603,235"/>
+<area shape="rect" id="node7" href="hal__storage_8c.html#a53912e9159b29e5fc974a127dbf0982f" title="Get the name of an infrared command stored at the given slot number. " alt="" coords="663,157,881,184"/>
+<area shape="rect" id="node9" href="hal__storage_8c.html#a1495c793604980c76b334f6a6d553c3c" title="Get the number of stored IR commands. " alt="" coords="665,259,879,285"/>
 </map>
 </div>
 <div class="dynheader">
@@ -193,7 +195,7 @@ Here is the caller graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="task__infrared_8c_a3b5b7c90c92398748f28c75b55edccda_icgraph.png" border="0" usemap="#task__infrared_8c_a3b5b7c90c92398748f28c75b55edccda_icgraph" alt=""/></div>
 <map name="task__infrared_8c_a3b5b7c90c92398748f28c75b55edccda_icgraph" id="task__infrared_8c_a3b5b7c90c92398748f28c75b55edccda_icgraph">
-<area shape="rect" id="node2" href="task__commands_8c.html#a937cdeb2f02b0c5d9a0f94a0f69e9328" title="doInfraredParsing" alt="" coords="161,31,285,57"/>
+<area shape="rect" id="node2" href="task__commands_8c.html#a69b696a381aec817e617d2b33da045f5" title="doInfraredParsing" alt="" coords="161,31,285,57"/>
 <area shape="rect" id="node3" href="task__commands_8c.html#a7b36c39275d773aaedcb327ef4e1516f" title="task_commands" alt="" coords="333,31,452,57"/>
 <area shape="rect" id="node4" href="task__commands_8h.html#aedb896e40753227f80768e09d3748419" title="Init the command parser. " alt="" coords="513,5,645,32"/>
 <area shape="rect" id="node6" href="task__commands_8h.html#a26091155b4d85093239033d689f363d0" title="Restart the command parser task. " alt="" coords="500,56,657,83"/>
@@ -272,8 +274,6 @@ Here is the call graph for this function:</div>
 <dl class="section see"><dt>See also</dt><dd><a class="el" href="common_8h.html#a784ceb4b2d4c4fb77baa99646c6e5035">VB_SINGLESHOT</a> </dd></dl>
 
 <p class="definition">Definition at line <a class="el" href="task__infrared_8c_source.html#l00051">51</a> of file <a class="el" href="task__infrared_8c_source.html">task_infrared.c</a>.</p>
-
-<p class="reference">Referenced by <a class="el" href="task__commands_8c_source.html#l00582">doInfraredParsing()</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -284,18 +284,6 @@ Here is the call graph for this function:</div>
 <area shape="rect" id="node6" href="hal__storage_8c.html#a00b5db14e24d7ada8a42aa6b3f1a1cb7" title="Finish a storage transaction. " alt="" coords="151,107,337,133"/>
 <area shape="rect" id="node3" href="hal__storage_8c.html#a606e5842dd354f1fb4a738ba95c6d5d1" title="internal function to init the filesystem if handle is invalid " alt="" coords="399,5,501,32"/>
 <area shape="rect" id="node5" href="hal__storage_8c.html#a4b6566ef5b69c85d422df52435c95d36" title="Internal helper to check for a valid WL handle and the correct tid. " alt="" coords="385,56,515,83"/>
-</map>
-</div>
-<div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="task__infrared_8c_a2950159444d03958630c6731bd1600c9_icgraph.png" border="0" usemap="#task__infrared_8c_a2950159444d03958630c6731bd1600c9_icgraph" alt=""/></div>
-<map name="task__infrared_8c_a2950159444d03958630c6731bd1600c9_icgraph" id="task__infrared_8c_a2950159444d03958630c6731bd1600c9_icgraph">
-<area shape="rect" id="node2" href="task__commands_8c.html#a937cdeb2f02b0c5d9a0f94a0f69e9328" title="doInfraredParsing" alt="" coords="151,31,275,57"/>
-<area shape="rect" id="node3" href="task__commands_8c.html#a7b36c39275d773aaedcb327ef4e1516f" title="task_commands" alt="" coords="323,31,441,57"/>
-<area shape="rect" id="node4" href="task__commands_8h.html#aedb896e40753227f80768e09d3748419" title="Init the command parser. " alt="" coords="502,5,634,32"/>
-<area shape="rect" id="node6" href="task__commands_8h.html#a26091155b4d85093239033d689f363d0" title="Restart the command parser task. " alt="" coords="489,56,647,83"/>
-<area shape="rect" id="node5" href="flipmouse__fabi__esp32__kbdmouse__main_8c.html#abce06be17fc37d675118a678a8100a36" title="Main task, created by esp&#45;idf. " alt="" coords="695,5,773,32"/>
 </map>
 </div>
 
@@ -338,26 +326,6 @@ Here is the caller graph for this function:</div>
 <dl class="section return"><dt>Returns</dt><dd>ESP_OK if everything went fine, ESP_FAIL otherwise </dd></dl>
 
 <p class="definition">Definition at line <a class="el" href="task__infrared_8c_source.html#l00290">290</a> of file <a class="el" href="task__infrared_8c_source.html">task_infrared.c</a>.</p>
-
-<p class="reference">Referenced by <a class="el" href="task__commands_8c_source.html#l01574">printAllSlots()</a>.</p>
-<div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="task__infrared_8c_a1e71679519e33c714fcdf3ce9023191e_icgraph.png" border="0" usemap="#task__infrared_8c_a1e71679519e33c714fcdf3ce9023191e_icgraph" alt=""/></div>
-<map name="task__infrared_8c_a1e71679519e33c714fcdf3ce9023191e_icgraph" id="task__infrared_8c_a1e71679519e33c714fcdf3ce9023191e_icgraph">
-<area shape="rect" id="node2" href="task__commands_8c.html#ad59215648a26578c22baa7ceae099e0e" title="Print the current slot configurations (general settings + VBs) " alt="" coords="192,56,284,83"/>
-<area shape="rect" id="node3" href="task__commands_8c.html#a7f6500be563a3dce7f0854fceed02fab" title="doGeneralCmdParsing" alt="" coords="509,5,662,32"/>
-<area shape="rect" id="node8" href="task__commands_8c.html#acea81ba8a182ae78feb2db6418fc1806" title="sendErrorBack" alt="" coords="332,81,440,108"/>
-<area shape="rect" id="node4" href="task__commands_8c.html#a7b36c39275d773aaedcb327ef4e1516f" title="task_commands" alt="" coords="731,107,849,133"/>
-<area shape="rect" id="node5" href="task__commands_8h.html#aedb896e40753227f80768e09d3748419" title="Init the command parser. " alt="" coords="910,81,1042,108"/>
-<area shape="rect" id="node7" href="task__commands_8h.html#a26091155b4d85093239033d689f363d0" title="Restart the command parser task. " alt="" coords="897,132,1055,159"/>
-<area shape="rect" id="node6" href="flipmouse__fabi__esp32__kbdmouse__main_8c.html#abce06be17fc37d675118a678a8100a36" title="Main task, created by esp&#45;idf. " alt="" coords="1103,81,1181,108"/>
-<area shape="rect" id="node9" href="task__commands_8c.html#afc7ebe31a124c2102f8b41577b6dc5b0" title="doJoystickParsing" alt="" coords="521,56,650,83"/>
-<area shape="rect" id="node10" href="task__commands_8c.html#ac3c72c089d32dea93c45f4f9f8d1f244" title="doKeyboardParsing" alt="" coords="518,107,653,133"/>
-<area shape="rect" id="node11" href="task__commands_8c.html#a580d9f6a840975525358033a35f761d0" title="doMouseParsing" alt="" coords="526,157,645,184"/>
-<area shape="rect" id="node12" href="task__commands_8c.html#a2ad28759e53bb5082853d8d004767115" title="doMouthpieceSettingsParsing" alt="" coords="488,208,683,235"/>
-</map>
-</div>
 
 </div>
 </div>

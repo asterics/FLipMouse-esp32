@@ -26,5 +26,6 @@ var searchData=
   ['vb_5fstrongsip_5fleft',['VB_STRONGSIP_LEFT',['../common_8h.html#a062cb47d56bb555bf5125b6b6c407da8',1,'common.h']]],
   ['vb_5fstrongsip_5fright',['VB_STRONGSIP_RIGHT',['../common_8h.html#aab9c9881e5418ab71f5641c18d1009d9',1,'common.h']]],
   ['vb_5fstrongsip_5fup',['VB_STRONGSIP_UP',['../common_8h.html#a8ace42783967b4342b05b6c0770890ad',1,'common.h']]],
+  ['vb_5ftask_5fpriority',['VB_TASK_PRIORITY',['../common_8h.html#a33dbc73e3e4d30cb68fdd3416da6df3c',1,'common.h']]],
   ['vb_5fup',['VB_UP',['../common_8h.html#ac9e5139cb56568693244c234d156f76b',1,'common.h']]]
 ];

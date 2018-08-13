@@ -4,12 +4,11 @@ var searchData=
   ['a4_5fto_5fa3',['a4_to_a3',['../GeneralUtils_8cpp.html#a7411144c56c08ac97c24e7bf2ff8455e',1,'GeneralUtils.cpp']]],
   ['acceleration',['acceleration',['../structadc__config.html#afb2cb90e7914378d9ddb0cb4454f865e',1,'adc_config']]],
   ['acceltime_5fmax',['ACCELTIME_MAX',['../hal__adc_8h.html#ac80fdb9ea494aaef387ac0edc94d1660',1,'hal_adc.h']]],
-  ['actionparam',['actionparam',['../structtaskMouseConfig.html#a23a47eb19ec057e0cd04496f14505793',1,'taskMouseConfig']]],
-  ['actionvalue',['actionvalue',['../structtaskMouseConfig.html#a0a4c781dcc83991397fb5e3bfadf11c0',1,'taskMouseConfig']]],
   ['activate_5fv25_5fcompat',['ACTIVATE_V25_COMPAT',['../common_8h.html#a37499353b5b6092e953f3ffc8a463bf5',1,'common.h']]],
   ['activatejoystick',['activateJoystick',['../HID__kbdmousejoystick_8cpp.html#a4d2c03a5216c65b26e16ed8f7bce33b7',1,'HID_kbdmousejoystick.cpp']]],
   ['activatekeyboard',['activateKeyboard',['../HID__kbdmousejoystick_8cpp.html#a44e9880302517bbf48fbe55d2c5766ef',1,'HID_kbdmousejoystick.cpp']]],
   ['activatemouse',['activateMouse',['../HID__kbdmousejoystick_8cpp.html#ac3f66528ae5998f5103e68807fd3d45f',1,'HID_kbdmousejoystick.cpp']]],
+  ['activevbs',['activeVBs',['../task__hid_8c.html#ae3fe9687ee209ba0d3a26728d56665b8',1,'activeVBs():&#160;task_hid.c'],['../task__vb_8c.html#ae3fe9687ee209ba0d3a26728d56665b8',1,'activeVBs():&#160;task_vb.c']]],
   ['adc',['adc',['../structgeneralConfig.html#a240e09a6b422a0e74be3d497211e196f',1,'generalConfig']]],
   ['adc_5fconf',['adc_conf',['../hal__adc_8c.html#a069922e040bf440177f02d80b3f203cf',1,'hal_adc.c']]],
   ['adc_5fconfig',['adc_config',['../structadc__config.html',1,'']]],
@@ -25,6 +24,7 @@ var searchData=
   ['atcmd',['atcmd',['../structatcmd.html',1,'']]],
   ['atcmd_5flength',['ATCMD_LENGTH',['../common_8h.html#a0a9fad923b344cf2efca72441a81817a',1,'common.h']]],
   ['atcmd_5ft',['atcmd_t',['../hal__serial_8h.html#a1929a11fd2a8ebc7e1182bfaf19d5d74',1,'hal_serial.h']]],
+  ['atoriginal',['atoriginal',['../structvb__cmd.html#a6843da72aef12090ea7e675962c3ae60',1,'vb_cmd::atoriginal()'],['../structhid__cmd.html#a6800586791d89d42ad670578f101686d',1,'hid_cmd::atoriginal()']]],
   ['axis',['axis',['../structadc__config.html#a79ae56f983038a1020fbf9d5dc725f78',1,'adc_config']]],
   ['at_2dcommands_20_2f_20communication_20api',['AT-commands / Communication API',['../md__home_beni_sync_Projects_FH_FLipMouse-esp32_main_README_AT_command_API.html',1,'']]]
 ];

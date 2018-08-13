@@ -1,8 +1,9 @@
 var searchData=
 [
-  ['value',['value',['../structtaskJoystickConfig.html#ae18bad953cd8aabe23f15899a3daf353',1,'taskJoystickConfig']]],
-  ['values',['valueS',['../structtaskJoystickConfig.html#a4430e2c8ce7d902743a3a7d41bdae309',1,'taskJoystickConfig']]],
-  ['vb',['vb',['../structstorageHeader.html#ab3ae028aacc6395888ca0a9a2fdc5854',1,'storageHeader']]],
+  ['vb',['vb',['../structvb__cmd.html#a639787c4ddc61e597cae44d414d1b920',1,'vb_cmd::vb()'],['../structhid__cmd.html#abb9eaa3e429961413b5d0be7d2c6914f',1,'hid_cmd::vb()'],['../structstorageHeader.html#ab3ae028aacc6395888ca0a9a2fdc5854',1,'storageHeader::vb()'],['../task__commands_8c.html#a7860b6904b2ba2dd906d189ada5f1e17a79a6bccb28c3fc9724e711909c27353c',1,'VB():&#160;task_commands.c']]],
+  ['vb_5fcmd',['vb_cmd',['../structvb__cmd.html',1,'']]],
+  ['vb_5fcmd_5ft',['vb_cmd_t',['../common_8h.html#a66f473b9d6a9bf4f0856fec2b31bdd06',1,'common.h']]],
+  ['vb_5fcmd_5ftype_5ft',['vb_cmd_type_t',['../common_8h.html#a47e93826a9f0fae7469a39030c9cc0ef',1,'common.h']]],
   ['vb_5fdown',['VB_DOWN',['../common_8h.html#ae632adac4c2cbf494b5e27503aeb10e6',1,'common.h']]],
   ['vb_5fexternal1',['VB_EXTERNAL1',['../common_8h.html#a60dd10a4dea05105f297d604f1d7ba4e',1,'common.h']]],
   ['vb_5fexternal2',['VB_EXTERNAL2',['../common_8h.html#a998d2a4a3ffc3ae563e85e4e80dd9d9e',1,'common.h']]],
@@ -29,11 +30,10 @@ var searchData=
   ['vb_5fstrongsip_5fleft',['VB_STRONGSIP_LEFT',['../common_8h.html#a062cb47d56bb555bf5125b6b6c407da8',1,'common.h']]],
   ['vb_5fstrongsip_5fright',['VB_STRONGSIP_RIGHT',['../common_8h.html#aab9c9881e5418ab71f5641c18d1009d9',1,'common.h']]],
   ['vb_5fstrongsip_5fup',['VB_STRONGSIP_UP',['../common_8h.html#a8ace42783967b4342b05b6c0770890ad',1,'common.h']]],
+  ['vb_5ftask_5fpriority',['VB_TASK_PRIORITY',['../common_8h.html#a33dbc73e3e4d30cb68fdd3416da6df3c',1,'common.h']]],
   ['vb_5fup',['VB_UP',['../common_8h.html#ac9e5139cb56568693244c234d156f76b',1,'common.h']]],
-  ['virtualbutton',['virtualButton',['../structtaskConfigSwitcherConfig.html#acf206e3d16ac612266677ae74fb39b92',1,'taskConfigSwitcherConfig::virtualButton()'],['../structtaskNoParameterConfig.html#ae7e56968b4aa5b8b0f0a4e8b9eb5c645',1,'taskNoParameterConfig::virtualButton()'],['../structtaskInfraredConfig.html#a871be820b32558da7fc06caf82cbed2d',1,'taskInfraredConfig::virtualButton()'],['../structtaskJoystickConfig.html#a6732297a0a6980e348c034a5333e16e0',1,'taskJoystickConfig::virtualButton()'],['../structtaskKeyboardConfig.html#aae706eddea395cbff84ab46814bcc9ae',1,'taskKeyboardConfig::virtualButton()'],['../structtaskMacrosConfig.html#a90172887c433e7a4d098ef1c8e37e53d',1,'taskMacrosConfig::virtualButton()'],['../structtaskMouseConfig.html#a3bb6fa49c72ff534b4178abf12b213f6',1,'taskMouseConfig::virtualButton()']]],
-  ['virtualbuttoncfgsize',['virtualButtonCfgSize',['../structgeneralConfig.html#a40d6d403b6be0d607c79e2a36e56b297',1,'generalConfig']]],
-  ['virtualbuttoncommand',['virtualButtonCommand',['../structgeneralConfig.html#a98d9a4aa6f20d96934a99e63f280e429',1,'generalConfig']]],
-  ['virtualbuttonconfig',['virtualButtonConfig',['../structgeneralConfig.html#ad54324c99dcd927be3cd155a0ee64dfa',1,'generalConfig']]],
+  ['vbcmdsem',['vbCmdSem',['../task__vb_8c.html#a7666b964234f3637cc8479d87c2cc711',1,'task_vb.c']]],
+  ['virtualbutton',['virtualButton',['../structtaskInfraredConfig.html#a871be820b32558da7fc06caf82cbed2d',1,'taskInfraredConfig']]],
   ['virtualbuttonsin',['virtualButtonsIn',['../flipmouse__fabi__esp32__kbdmouse__main_8c.html#a591ffaa399081915a0eab951f83f93e2',1,'virtualButtonsIn():&#160;flipmouse_fabi_esp32_kbdmouse_main.c'],['../common_8h.html#a591ffaa399081915a0eab951f83f93e2',1,'virtualButtonsIn():&#160;flipmouse_fabi_esp32_kbdmouse_main.c']]],
   ['virtualbuttonsout',['virtualButtonsOut',['../flipmouse__fabi__esp32__kbdmouse__main_8c.html#a3633668cff0a27ea52ca662673978667',1,'virtualButtonsOut():&#160;flipmouse_fabi_esp32_kbdmouse_main.c'],['../common_8h.html#a3633668cff0a27ea52ca662673978667',1,'virtualButtonsOut():&#160;flipmouse_fabi_esp32_kbdmouse_main.c']]]
 ];

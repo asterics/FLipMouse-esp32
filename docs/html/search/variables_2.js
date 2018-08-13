@@ -8,7 +8,5 @@ var searchData=
   ['buf_5fsize_5ftx',['BUF_SIZE_TX',['../hal__serial_8c.html#a8742cd480180fcaba3079eb3c707bb0e',1,'hal_serial.c']]],
   ['buffer',['buffer',['../structhalIOIR.html#a10f36898f86566eb85d3ea20ef447cec',1,'halIOIR']]],
   ['button_5flearn',['button_learn',['../structgeneralConfig.html#a5604b791b1617a88bc4b93558ffb3233',1,'generalConfig']]],
-  ['buttonmask',['buttonmask',['../structjoystick__command.html#a0ae14864387d5bf1661ce7b4b971c546',1,'joystick_command']]],
-  ['buttons',['buttons',['../structmouse__command.html#afbf7acf4a966848d57312cbaed9896e1',1,'mouse_command']]],
   ['buzzer_5ftimer',['buzzer_timer',['../hal__io_8c.html#a12ba3496a9b2eb05639e046ed0282f8a',1,'hal_io.c']]]
 ];

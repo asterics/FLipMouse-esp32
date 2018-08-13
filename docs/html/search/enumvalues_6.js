@@ -26,6 +26,5 @@ var searchData=
   ['layout_5funited_5fkingdom',['LAYOUT_UNITED_KINGDOM',['../keyboard_8h.html#a2a924c746739f7a895f76d13ef8e6e5fa8fbe37e1f0126be9403ec3c1707681d1',1,'keyboard.h']]],
   ['layout_5fus_5fenglish',['LAYOUT_US_ENGLISH',['../keyboard_8h.html#a2a924c746739f7a895f76d13ef8e6e5fae35b2a9242d8a33f7287bc63add45992',1,'keyboard.h']]],
   ['layout_5fus_5finternational',['LAYOUT_US_INTERNATIONAL',['../keyboard_8h.html#a2a924c746739f7a895f76d13ef8e6e5fa5fa1d89173823bebfe8c0b61571fc0f8',1,'keyboard.h']]],
-  ['left',['LEFT',['../task__mouse_8h.html#ad99a95527afeac61cb05911c7695d942adb45120aafd37a973140edee24708065',1,'task_mouse.h']]],
   ['left_5farrow',['LEFT_ARROW',['../HIDKeyboardTypes_8h.html#abcd4e84ddc43717d65d285a4facf84a0a5dfa7318822abaa401347107d89ae9ed',1,'LEFT_ARROW():&#160;HIDKeyboardTypes.h'],['../SampleKeyboardTypes_8h.html#abcd4e84ddc43717d65d285a4facf84a0a5dfa7318822abaa401347107d89ae9ed',1,'LEFT_ARROW():&#160;SampleKeyboardTypes.h']]]
 ];

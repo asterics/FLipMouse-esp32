@@ -92,14 +92,15 @@ $(function() {
 <li>CMD4
 : <a class="el" href="task__commands_8c.html#a3857f5c8268c235bcaf6beb2cf5edfee">task_commands.c</a>
 </li>
+<li>cmd_chain
+: <a class="el" href="task__hid_8c.html#a8cdce7a647d3e6f63206c020c4737d39">task_hid.c</a>
+, <a class="el" href="task__vb_8c.html#af2c811f9c6ca9279546cd21ee7e5449c">task_vb.c</a>
+</li>
 <li>CMDQUEUE_SIZE
 : <a class="el" href="hal__serial_8c.html#ad0911c183882187e70480f1925cc0c55">hal_serial.c</a>
 </li>
 <li>COLLECTION
 : <a class="el" href="HIDTypes_8h.html#a61aa97d7d528976513d47119219304ad">HIDTypes.h</a>
-</li>
-<li>command_type_t
-: <a class="el" href="common_8h.html#ac27b6f4710923c6689834e86aea228ac">common.h</a>
 </li>
 <li>COMP
 : <a class="el" href="keyboard_8c.html#ab5451811c8920dcc67f9c8fcc51395a9">keyboard.c</a>
@@ -130,25 +131,27 @@ $(function() {
 , <a class="el" href="common_8h.html#a4701c432a28c389e4b8557f2fa3323d1">common.h</a>
 </li>
 <li>configGetCurrent()
-: <a class="el" href="config__switcher_8c.html#a921538bec34d128a44a748fd5a2c391f">config_switcher.c</a>
-, <a class="el" href="config__switcher_8h.html#a921538bec34d128a44a748fd5a2c391f">config_switcher.h</a>
-</li>
-<li>configPrintHighWaterMark()
-: <a class="el" href="config__switcher_8c.html#a069ecb4ce2a93159f930ac60751d9f3f">config_switcher.c</a>
-, <a class="el" href="config__switcher_8h.html#a069ecb4ce2a93159f930ac60751d9f3f">config_switcher.h</a>
+: <a class="el" href="config__switcher_8h.html#a921538bec34d128a44a748fd5a2c391f">config_switcher.h</a>
+, <a class="el" href="config__switcher_8c.html#a921538bec34d128a44a748fd5a2c391f">config_switcher.c</a>
 </li>
 <li>configswitcher_handle
 : <a class="el" href="config__switcher_8c.html#abd2fb9b048f1de98ee98dd54077541c2">config_switcher.c</a>
 </li>
 <li>configSwitcherInit()
-: <a class="el" href="config__switcher_8h.html#aafed047c8d04b814a85239e031cbad7b">config_switcher.h</a>
-, <a class="el" href="config__switcher_8c.html#aafed047c8d04b814a85239e031cbad7b">config_switcher.c</a>
+: <a class="el" href="config__switcher_8c.html#aafed047c8d04b814a85239e031cbad7b">config_switcher.c</a>
+, <a class="el" href="config__switcher_8h.html#aafed047c8d04b814a85239e031cbad7b">config_switcher.h</a>
 </li>
 <li>configSwitcherTask()
 : <a class="el" href="config__switcher_8c.html#af5af5079d1982d42e165039e6de7e40a">config_switcher.c</a>
 </li>
 <li>CONFIGSWITCHERTASK_PERMANENT_STACKSIZE
 : <a class="el" href="config__switcher_8c.html#a4a49dfb0d8cde2c693f0340e885fb50c">config_switcher.c</a>
+</li>
+<li>configTimer
+: <a class="el" href="config__switcher_8c.html#a07dd8255ed715264f903a6e22fae09da">config_switcher.c</a>
+</li>
+<li>configTimerCallback()
+: <a class="el" href="config__switcher_8c.html#a634f0179096daf06df87ba5cd1789d6b">config_switcher.c</a>
 </li>
 <li>configTriggerUpdate()
 : <a class="el" href="config__switcher_8c.html#a12e56de03844b9ca18468658c7f9263f">config_switcher.c</a>
@@ -160,32 +163,19 @@ $(function() {
 <li>configUpdatePending
 : <a class="el" href="config__switcher_8c.html#a7265e5121ad81b52fb8a0e4334b42118">config_switcher.c</a>
 </li>
-<li>configUpdateVB()
-: <a class="el" href="config__switcher_8h.html#a20db6aabb98f5c9c7cea48e950bada5b">config_switcher.h</a>
-, <a class="el" href="config__switcher_8c.html#a20db6aabb98f5c9c7cea48e950bada5b">config_switcher.c</a>
-</li>
 <li>configUpdateWaitStable()
-: <a class="el" href="config__switcher_8c.html#a27ed39a214ff60cc13af7058e8f4722e">config_switcher.c</a>
-, <a class="el" href="config__switcher_8h.html#a27ed39a214ff60cc13af7058e8f4722e">config_switcher.h</a>
+: <a class="el" href="config__switcher_8h.html#a27ed39a214ff60cc13af7058e8f4722e">config_switcher.h</a>
+, <a class="el" href="config__switcher_8c.html#a27ed39a214ff60cc13af7058e8f4722e">config_switcher.c</a>
 </li>
 <li>connectionRoutingStatus
-: <a class="el" href="common_8h.html#ae2b183880be8976139d636a3a714e315">common.h</a>
-, <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c.html#ae2b183880be8976139d636a3a714e315">flipmouse_fabi_esp32_kbdmouse_main.c</a>
+: <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c.html#ae2b183880be8976139d636a3a714e315">flipmouse_fabi_esp32_kbdmouse_main.c</a>
+, <a class="el" href="common_8h.html#ae2b183880be8976139d636a3a714e315">common.h</a>
 </li>
 <li>currentCommandTask
 : <a class="el" href="task__commands_8c.html#a1441452b2b1c337c41096e3d0bf2fdd6">task_commands.c</a>
 </li>
 <li>currentConfigLoaded
 : <a class="el" href="config__switcher_8c.html#a73c577cdbcaa9439f9458a9e5d39c143">config_switcher.c</a>
-</li>
-<li>currentTaskParameters
-: <a class="el" href="config__switcher_8c.html#a04ff31fa74901c29c54c862980d47823">config_switcher.c</a>
-</li>
-<li>currentTaskParametersUpdate
-: <a class="el" href="config__switcher_8c.html#aceb033b9bef9bb354a3b2c4734b4ec9d">config_switcher.c</a>
-</li>
-<li>currentTasks
-: <a class="el" href="config__switcher_8c.html#a67130d7a5483b1a7cee6badb08e0dbc6">config_switcher.c</a>
 </li>
 </ul>
 </div><!-- contents -->

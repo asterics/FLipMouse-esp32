@@ -23,6 +23,5 @@ var searchData=
   ['getvb_5frelease',['GETVB_RELEASE',['../common_8h.html#ad1de1a8ecf1ef7183498e94b1cf8bc0b',1,'common.h']]],
   ['give',['give',['../classFreeRTOS_1_1Semaphore.html#ad1aa158e37d15363b4441482fae82dd8',1,'FreeRTOS::Semaphore::give()'],['../classFreeRTOS_1_1Semaphore.html#ad6ad56219f257dada3ad820ebbe8ec12',1,'FreeRTOS::Semaphore::give(uint32_t value)']]],
   ['givefromisr',['giveFromISR',['../classFreeRTOS_1_1Semaphore.html#a4446a195e3eee6704b4ad09528bedc0b',1,'FreeRTOS::Semaphore']]],
-  ['globaljoystickstate',['globalJoystickState',['../task__joystick_8c.html#a9829fda25d379588b78c335a42964bb1',1,'task_joystick.c']]],
   ['gpio_5fisr_5fhandler',['gpio_isr_handler',['../hal__io_8c.html#addfc4a2f0cb7848979817346b6f53afc',1,'hal_io.c']]]
 ];

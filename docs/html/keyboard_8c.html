@@ -88,7 +88,7 @@ $(function() {
 Macros</h2></td></tr>
 <tr class="memitem:a7ce0df38eb467e59f209470c8f5ac4e6"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="keyboard_8c.html#a7ce0df38eb467e59f209470c8f5ac4e6">LOG_TAG</a>&#160;&#160;&#160;&quot;KB&quot;</td></tr>
 <tr class="separator:a7ce0df38eb467e59f209470c8f5ac4e6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab5451811c8920dcc67f9c8fcc51395a9"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="keyboard_8c.html#ab5451811c8920dcc67f9c8fcc51395a9">COMP</a>(x,  y)&#160;&#160;&#160;(memcmp(x,y,sizeof(y)-1) == 0)</td></tr>
+<tr class="memitem:ab5451811c8920dcc67f9c8fcc51395a9"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="keyboard_8c.html#ab5451811c8920dcc67f9c8fcc51395a9">COMP</a>(x,  y)</td></tr>
 <tr class="separator:ab5451811c8920dcc67f9c8fcc51395a9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a74737b7419bce75262b34ece12a7f7eb"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="keyboard_8c.html#a74737b7419bce75262b34ece12a7f7eb">SAVE</a>(x)&#160;&#160;&#160;if(buf_len &gt; sizeof(x)) { memcpy(buffer,x,sizeof(x)); } else { return 2; } break</td></tr>
 <tr class="separator:a74737b7419bce75262b34ece12a7f7eb"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -125,12 +125,15 @@ Functions</h2></td></tr>
 <tr class="memitem:aaa2d4d5bce20b87c88be1a9a33aa85a4"><td class="memItemLeft" align="right" valign="top">uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="keyboard_8c.html#aaa2d4d5bce20b87c88be1a9a33aa85a4">parse_for_keycode</a> (uint8_t inputdata, uint8_t locale, uint8_t *keycode_modifier, uint8_t *deadkey_first_keycode)</td></tr>
 <tr class="memdesc:aaa2d4d5bce20b87c88be1a9a33aa85a4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Parse an incoming byte for a keycode.  <a href="#aaa2d4d5bce20b87c88be1a9a33aa85a4">More...</a><br /></td></tr>
 <tr class="separator:aaa2d4d5bce20b87c88be1a9a33aa85a4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a999cf21107da9c1a7e3797e72d95045b"><td class="memItemLeft" align="right" valign="top">uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="keyboard_8c.html#a999cf21107da9c1a7e3797e72d95045b">remove_keycode</a> (uint8_t keycode, uint8_t *<a class="el" href="task__kbd_8c.html#ad1166880215085313402bbc253b781e5">keycode_arr</a>)</td></tr>
+<tr class="memitem:a999cf21107da9c1a7e3797e72d95045b"><td class="memItemLeft" align="right" valign="top">uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="keyboard_8c.html#a999cf21107da9c1a7e3797e72d95045b">remove_keycode</a> (uint8_t keycode, uint8_t *keycode_arr)</td></tr>
 <tr class="memdesc:a999cf21107da9c1a7e3797e72d95045b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Remove a keycode from the given HID keycode array.  <a href="#a999cf21107da9c1a7e3797e72d95045b">More...</a><br /></td></tr>
 <tr class="separator:a999cf21107da9c1a7e3797e72d95045b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5aebbf68f68f1d3212fb187ff156e5c1"><td class="memItemLeft" align="right" valign="top">uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="keyboard_8c.html#a5aebbf68f68f1d3212fb187ff156e5c1">add_keycode</a> (uint8_t keycode, uint8_t *<a class="el" href="task__kbd_8c.html#ad1166880215085313402bbc253b781e5">keycode_arr</a>)</td></tr>
+<tr class="memitem:a5aebbf68f68f1d3212fb187ff156e5c1"><td class="memItemLeft" align="right" valign="top">uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="keyboard_8c.html#a5aebbf68f68f1d3212fb187ff156e5c1">add_keycode</a> (uint8_t keycode, uint8_t *keycode_arr)</td></tr>
 <tr class="memdesc:a5aebbf68f68f1d3212fb187ff156e5c1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Add a keycode to the given HID keycode array.  <a href="#a5aebbf68f68f1d3212fb187ff156e5c1">More...</a><br /></td></tr>
 <tr class="separator:a5aebbf68f68f1d3212fb187ff156e5c1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad90d52c58808035b4247e82df77d93ac"><td class="memItemLeft" align="right" valign="top">uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="keyboard_8c.html#ad90d52c58808035b4247e82df77d93ac">is_in_keycode_arr</a> (uint8_t keycode, uint8_t *keycode_arr)</td></tr>
+<tr class="memdesc:ad90d52c58808035b4247e82df77d93ac"><td class="mdescLeft">&#160;</td><td class="mdescRight">Test if key is in given keycode array.  <a href="#ad90d52c58808035b4247e82df77d93ac">More...</a><br /></td></tr>
+<tr class="separator:ad90d52c58808035b4247e82df77d93ac"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a74d92b54cde636cae76575e8b0cad378"><td class="memItemLeft" align="right" valign="top">uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="keyboard_8c.html#a74d92b54cde636cae76575e8b0cad378">parseIdentifierToKeycode</a> (char *keyidentifier)</td></tr>
 <tr class="memdesc:a74d92b54cde636cae76575e8b0cad378"><td class="mdescLeft">&#160;</td><td class="mdescRight">Parse a key identifier to a keycode.  <a href="#a74d92b54cde636cae76575e8b0cad378">More...</a><br /></td></tr>
 <tr class="separator:a74d92b54cde636cae76575e8b0cad378"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -211,15 +214,15 @@ Variables</h2></td></tr>
         <tr>
           <td></td>
           <td>)</td>
-          <td></td><td>&#160;&#160;&#160;(memcmp(x,y,sizeof(y)-1) == 0)</td>
+          <td></td><td></td>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Helper macro to compare key identifiers, y must be of fixed size! </p>
+<b>Value:</b><div class="fragment"><div class="line">((memcmp(x,y,<span class="keyword">sizeof</span>(y)-1) == 0) &amp;&amp; (x[<span class="keyword">sizeof</span>(y)-1] == <span class="charliteral">&#39;\0&#39;</span> || \</div><div class="line">  x[<span class="keyword">sizeof</span>(y)-1] == <span class="charliteral">&#39;\r&#39;</span> || x[<span class="keyword">sizeof</span>(y)-1] == <span class="charliteral">&#39;\n&#39;</span> || x[<span class="keyword">sizeof</span>(y)-1] == <span class="charliteral">&#39; &#39;</span>))</div></div><!-- fragment --><p>Helper macro to compare key identifiers, y must be of fixed size! </p>
 
 <p class="definition">Definition at line <a class="el" href="keyboard_8c_source.html#l00067">67</a> of file <a class="el" href="keyboard_8c_source.html">keyboard.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="keyboard_8c_source.html#l02169">parseIdentifierToKeycode()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="keyboard_8c_source.html#l02188">parseIdentifierToKeycode()</a>.</p>
 
 </div>
 </div>
@@ -235,7 +238,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="reference">Referenced by <a class="el" href="keyboard_8c_source.html#l02553">get_hid_country_code()</a>, and <a class="el" href="keyboard_8c_source.html#l01925">unicode_to_keycode()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="keyboard_8c_source.html#l02572">get_hid_country_code()</a>, and <a class="el" href="keyboard_8c_source.html#l01926">unicode_to_keycode()</a>.</p>
 
 </div>
 </div>
@@ -265,7 +268,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="reference">Referenced by <a class="el" href="keyboard_8c_source.html#l02553">get_hid_country_code()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="keyboard_8c_source.html#l02572">get_hid_country_code()</a>.</p>
 
 </div>
 </div>
@@ -325,7 +328,7 @@ Variables</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="keyboard_8c_source.html#l00064">64</a> of file <a class="el" href="keyboard_8c_source.html">keyboard.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="keyboard_8c_source.html#l01983">deadkey_to_keycode()</a>, <a class="el" href="keyboard_8c_source.html#l02553">get_hid_country_code()</a>, <a class="el" href="keyboard_8c_source.html#l02026">keycode_to_modifier()</a>, and <a class="el" href="keyboard_8c_source.html#l01925">unicode_to_keycode()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="keyboard_8c_source.html#l01984">deadkey_to_keycode()</a>, <a class="el" href="keyboard_8c_source.html#l02572">get_hid_country_code()</a>, <a class="el" href="keyboard_8c_source.html#l02027">keycode_to_modifier()</a>, and <a class="el" href="keyboard_8c_source.html#l01926">unicode_to_keycode()</a>.</p>
 
 </div>
 </div>
@@ -346,9 +349,9 @@ Variables</h2></td></tr>
 </div><div class="memdoc">
 <p>Helper macro to save key identifier, x must be a static string! </p>
 
-<p class="definition">Definition at line <a class="el" href="keyboard_8c_source.html#l00069">69</a> of file <a class="el" href="keyboard_8c_source.html">keyboard.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="keyboard_8c_source.html#l00070">70</a> of file <a class="el" href="keyboard_8c_source.html">keyboard.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="keyboard_8c_source.html#l02349">parseKeycodeToIdentifier()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="keyboard_8c_source.html#l02368">parseKeycodeToIdentifier()</a>.</p>
 
 </div>
 </div>
@@ -390,24 +393,7 @@ Variables</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>0 if the keycode was added, 1 if the keycode was already in the array, 2 if there was no space </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="keyboard_8c_source.html#l02131">2131</a> of file <a class="el" href="keyboard_8c_source.html">keyboard.c</a>.</p>
-
-<p class="reference">Referenced by <a class="el" href="task__kbd_8c_source.html#l00164">task_keyboard()</a>.</p>
-<div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="keyboard_8c_a5aebbf68f68f1d3212fb187ff156e5c1_icgraph.png" border="0" usemap="#keyboard_8c_a5aebbf68f68f1d3212fb187ff156e5c1_icgraph" alt=""/></div>
-<map name="keyboard_8c_a5aebbf68f68f1d3212fb187ff156e5c1_icgraph" id="keyboard_8c_a5aebbf68f68f1d3212fb187ff156e5c1_icgraph">
-<area shape="rect" id="node2" href="task__kbd_8h.html#a8ff4618047a049178bfb1d60abfefb5d" title="FUNCTIONAL TASK &#45; trigger keyboard actions. " alt="" coords="152,31,259,57"/>
-<area shape="rect" id="node3" href="config__switcher_8c.html#af5af5079d1982d42e165039e6de7e40a" title="CONTINOUS TASK &#45; Config switcher task, internal config reloading. " alt="" coords="307,5,444,32"/>
-<area shape="rect" id="node6" href="task__commands_8c.html#ac3c72c089d32dea93c45f4f9f8d1f244" title="doKeyboardParsing" alt="" coords="308,56,443,83"/>
-<area shape="rect" id="node4" href="config__switcher_8h.html#aafed047c8d04b814a85239e031cbad7b" title="Initializing the config switching functionality. " alt="" coords="492,5,619,32"/>
-<area shape="rect" id="node5" href="flipmouse__fabi__esp32__kbdmouse__main_8c.html#abce06be17fc37d675118a678a8100a36" title="Main task, created by esp&#45;idf. " alt="" coords="872,31,951,57"/>
-<area shape="rect" id="node7" href="task__commands_8c.html#a7b36c39275d773aaedcb327ef4e1516f" title="task_commands" alt="" coords="496,56,615,83"/>
-<area shape="rect" id="node8" href="task__commands_8h.html#aedb896e40753227f80768e09d3748419" title="Init the command parser. " alt="" coords="679,56,811,83"/>
-<area shape="rect" id="node9" href="task__commands_8h.html#a26091155b4d85093239033d689f363d0" title="Restart the command parser task. " alt="" coords="667,107,824,133"/>
-</map>
-</div>
+<p class="definition">Definition at line <a class="el" href="keyboard_8c_source.html#l02132">2132</a> of file <a class="el" href="keyboard_8c_source.html">keyboard.c</a>.</p>
 
 </div>
 </div>
@@ -451,15 +437,15 @@ Here is the caller graph for this function:</div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>0 if no deadkey needs to be pressed, the deadkey keycode otherwise </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="keyboard_8c_source.html#l01983">1983</a> of file <a class="el" href="keyboard_8c_source.html">keyboard.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="keyboard_8c_source.html#l01984">1984</a> of file <a class="el" href="keyboard_8c_source.html">keyboard.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="task__commands_8c_source.html#l01042">doKeyboardParsing()</a>, and <a class="el" href="keyboard_8c_source.html#l02051">parse_for_keycode()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="task__commands_8c_source.html#l01091">doKeyboardParsing()</a>, and <a class="el" href="keyboard_8c_source.html#l02052">parse_for_keycode()</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="keyboard_8c_a6b593fa493aea40be410640981b1c181_icgraph.png" border="0" usemap="#keyboard_8c_a6b593fa493aea40be410640981b1c181_icgraph" alt=""/></div>
 <map name="keyboard_8c_a6b593fa493aea40be410640981b1c181_icgraph" id="keyboard_8c_a6b593fa493aea40be410640981b1c181_icgraph">
-<area shape="rect" id="node2" href="task__commands_8c.html#ac3c72c089d32dea93c45f4f9f8d1f244" title="doKeyboardParsing" alt="" coords="199,31,333,57"/>
+<area shape="rect" id="node2" href="task__commands_8c.html#a30b4c99ded33188ea79b55159263bc7b" title="doKeyboardParsing" alt="" coords="199,31,333,57"/>
 <area shape="rect" id="node7" href="keyboard_8h.html#aaa2d4d5bce20b87c88be1a9a33aa85a4" title="Parse an incoming byte for a keycode. " alt="" coords="200,81,332,108"/>
 <area shape="rect" id="node3" href="task__commands_8c.html#a7b36c39275d773aaedcb327ef4e1516f" title="task_commands" alt="" coords="381,31,500,57"/>
 <area shape="rect" id="node4" href="task__commands_8h.html#aedb896e40753227f80768e09d3748419" title="Init the command parser. " alt="" coords="561,5,693,32"/>
@@ -498,7 +484,7 @@ Here is the caller graph for this function:</div>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="keyboard_8c_source.html#l02553">2553</a> of file <a class="el" href="keyboard_8c_source.html">keyboard.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="keyboard_8c_source.html#l02572">2572</a> of file <a class="el" href="keyboard_8c_source.html">keyboard.c</a>.</p>
 
 </div>
 </div>
@@ -554,7 +540,7 @@ Here is the caller graph for this function:</div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>0 if no keycode is found; the keycode otherwise </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="keyboard_8c_source.html#l02531">2531</a> of file <a class="el" href="keyboard_8c_source.html">keyboard.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="keyboard_8c_source.html#l02550">2550</a> of file <a class="el" href="keyboard_8c_source.html">keyboard.c</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -567,6 +553,47 @@ Here is the call graph for this function:</div>
 <area shape="rect" id="node6" href="keyboard_8c.html#a464318439ffe82e71e063a5c9582aa69" title="Mask the keycode to get the HID keycode, step 4. " alt="" coords="343,157,461,184"/>
 </map>
 </div>
+
+</div>
+</div>
+<a id="ad90d52c58808035b4247e82df77d93ac"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad90d52c58808035b4247e82df77d93ac">&#9670;&nbsp;</a></span>is_in_keycode_arr()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint8_t is_in_keycode_arr </td>
+          <td>(</td>
+          <td class="paramtype">uint8_t&#160;</td>
+          <td class="paramname"><em>keycode</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint8_t *&#160;</td>
+          <td class="paramname"><em>keycode_arr</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Test if key is in given keycode array. </p>
+<dl class="section note"><dt>Note</dt><dd>The size of the keycode_arr parameter MUST be 6 </dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">keycode</td><td>Keycode to be tested </td></tr>
+    <tr><td class="paramname">keycode_arr</td><td>Array to test </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>0 if the keycode is not in array, 1 if the keycode is in the array </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="keyboard_8c_source.html#l02163">2163</a> of file <a class="el" href="keyboard_8c_source.html">keyboard.c</a>.</p>
 
 </div>
 </div>
@@ -595,15 +622,15 @@ Here is the call graph for this function:</div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>0 if a normal keycode, 1 if a modifier key </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="keyboard_8c_source.html#l00354">354</a> of file <a class="el" href="keyboard_8c_source.html">keyboard.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="keyboard_8c_source.html#l00355">355</a> of file <a class="el" href="keyboard_8c_source.html">keyboard.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="task__commands_8c_source.html#l01042">doKeyboardParsing()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="task__commands_8c_source.html#l01091">doKeyboardParsing()</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="keyboard_8c_aa5712a49152638257c16d39ea798a43e_icgraph.png" border="0" usemap="#keyboard_8c_aa5712a49152638257c16d39ea798a43e_icgraph" alt=""/></div>
 <map name="keyboard_8c_aa5712a49152638257c16d39ea798a43e_icgraph" id="keyboard_8c_aa5712a49152638257c16d39ea798a43e_icgraph">
-<area shape="rect" id="node2" href="task__commands_8c.html#ac3c72c089d32dea93c45f4f9f8d1f244" title="doKeyboardParsing" alt="" coords="195,31,329,57"/>
+<area shape="rect" id="node2" href="task__commands_8c.html#a30b4c99ded33188ea79b55159263bc7b" title="doKeyboardParsing" alt="" coords="195,31,329,57"/>
 <area shape="rect" id="node3" href="task__commands_8c.html#a7b36c39275d773aaedcb327ef4e1516f" title="task_commands" alt="" coords="377,31,496,57"/>
 <area shape="rect" id="node4" href="task__commands_8h.html#aedb896e40753227f80768e09d3748419" title="Init the command parser. " alt="" coords="557,5,689,32"/>
 <area shape="rect" id="node6" href="task__commands_8h.html#a26091155b4d85093239033d689f363d0" title="Restart the command parser task. " alt="" coords="544,56,701,83"/>
@@ -639,15 +666,15 @@ Here is the caller graph for this function:</div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>8-bit keycode for HID </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="keyboard_8c_source.html#l02008">2008</a> of file <a class="el" href="keyboard_8c_source.html">keyboard.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="keyboard_8c_source.html#l02009">2009</a> of file <a class="el" href="keyboard_8c_source.html">keyboard.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="task__commands_8c_source.html#l01042">doKeyboardParsing()</a>, and <a class="el" href="keyboard_8c_source.html#l02051">parse_for_keycode()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="task__commands_8c_source.html#l01091">doKeyboardParsing()</a>, and <a class="el" href="keyboard_8c_source.html#l02052">parse_for_keycode()</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="keyboard_8c_a464318439ffe82e71e063a5c9582aa69_icgraph.png" border="0" usemap="#keyboard_8c_a464318439ffe82e71e063a5c9582aa69_icgraph" alt=""/></div>
 <map name="keyboard_8c_a464318439ffe82e71e063a5c9582aa69_icgraph" id="keyboard_8c_a464318439ffe82e71e063a5c9582aa69_icgraph">
-<area shape="rect" id="node2" href="task__commands_8c.html#ac3c72c089d32dea93c45f4f9f8d1f244" title="doKeyboardParsing" alt="" coords="171,31,305,57"/>
+<area shape="rect" id="node2" href="task__commands_8c.html#a30b4c99ded33188ea79b55159263bc7b" title="doKeyboardParsing" alt="" coords="171,31,305,57"/>
 <area shape="rect" id="node7" href="keyboard_8h.html#aaa2d4d5bce20b87c88be1a9a33aa85a4" title="Parse an incoming byte for a keycode. " alt="" coords="172,81,304,108"/>
 <area shape="rect" id="node3" href="task__commands_8c.html#a7b36c39275d773aaedcb327ef4e1516f" title="task_commands" alt="" coords="353,31,472,57"/>
 <area shape="rect" id="node4" href="task__commands_8h.html#aedb896e40753227f80768e09d3748419" title="Init the command parser. " alt="" coords="533,5,665,32"/>
@@ -695,17 +722,17 @@ Here is the caller graph for this function:</div>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>8-bit keycode for HID</dd></dl>
-<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000031">Todo:</a></b></dt><dd>Add remaining modifier keys (according to keylayouts.h, for example KEY_GUI) </dd></dl>
+<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000040">Todo:</a></b></dt><dd>Add remaining modifier keys (according to keylayouts.h, for example KEY_GUI) </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="keyboard_8c_source.html#l02026">2026</a> of file <a class="el" href="keyboard_8c_source.html">keyboard.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="keyboard_8c_source.html#l02027">2027</a> of file <a class="el" href="keyboard_8c_source.html">keyboard.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="task__commands_8c_source.html#l01042">doKeyboardParsing()</a>, and <a class="el" href="keyboard_8c_source.html#l02051">parse_for_keycode()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="task__commands_8c_source.html#l01091">doKeyboardParsing()</a>, and <a class="el" href="keyboard_8c_source.html#l02052">parse_for_keycode()</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="keyboard_8c_acdbf297ed74d4534f035e0732c2f1081_icgraph.png" border="0" usemap="#keyboard_8c_acdbf297ed74d4534f035e0732c2f1081_icgraph" alt=""/></div>
 <map name="keyboard_8c_acdbf297ed74d4534f035e0732c2f1081_icgraph" id="keyboard_8c_acdbf297ed74d4534f035e0732c2f1081_icgraph">
-<area shape="rect" id="node2" href="task__commands_8c.html#ac3c72c089d32dea93c45f4f9f8d1f244" title="doKeyboardParsing" alt="" coords="196,31,331,57"/>
+<area shape="rect" id="node2" href="task__commands_8c.html#a30b4c99ded33188ea79b55159263bc7b" title="doKeyboardParsing" alt="" coords="196,31,331,57"/>
 <area shape="rect" id="node7" href="keyboard_8h.html#aaa2d4d5bce20b87c88be1a9a33aa85a4" title="Parse an incoming byte for a keycode. " alt="" coords="197,81,329,108"/>
 <area shape="rect" id="node3" href="task__commands_8c.html#a7b36c39275d773aaedcb327ef4e1516f" title="task_commands" alt="" coords="379,31,497,57"/>
 <area shape="rect" id="node4" href="task__commands_8h.html#aedb896e40753227f80768e09d3748419" title="Init the command parser. " alt="" coords="558,5,690,32"/>
@@ -769,9 +796,9 @@ Here is the caller graph for this function:</div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>0 if another byte is needed or no keycode is found; the keycode otherwise </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="keyboard_8c_source.html#l02051">2051</a> of file <a class="el" href="keyboard_8c_source.html">keyboard.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="keyboard_8c_source.html#l02052">2052</a> of file <a class="el" href="keyboard_8c_source.html">keyboard.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="keyboard_8c_source.html#l02531">get_keycode()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="keyboard_8c_source.html#l02550">get_keycode()</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -822,15 +849,15 @@ Here is the caller graph for this function:</div>
 <dl class="section return"><dt>Returns</dt><dd>Keycode if found, 0 otherwise</dd></dl>
 <dl class="section see"><dt>See also</dt><dd><a class="el" href="keyboard_8c.html#a027266c03329f00b7bbfefd0e828463c" title="Parse a keycode to a key identifier. ">parseKeycodeToIdentifier</a> </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="keyboard_8c_source.html#l02169">2169</a> of file <a class="el" href="keyboard_8c_source.html">keyboard.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="keyboard_8c_source.html#l02188">2188</a> of file <a class="el" href="keyboard_8c_source.html">keyboard.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="task__commands_8c_source.html#l01042">doKeyboardParsing()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="task__commands_8c_source.html#l01091">doKeyboardParsing()</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="keyboard_8c_a74d92b54cde636cae76575e8b0cad378_icgraph.png" border="0" usemap="#keyboard_8c_a74d92b54cde636cae76575e8b0cad378_icgraph" alt=""/></div>
 <map name="keyboard_8c_a74d92b54cde636cae76575e8b0cad378_icgraph" id="keyboard_8c_a74d92b54cde636cae76575e8b0cad378_icgraph">
-<area shape="rect" id="node2" href="task__commands_8c.html#ac3c72c089d32dea93c45f4f9f8d1f244" title="doKeyboardParsing" alt="" coords="224,31,359,57"/>
+<area shape="rect" id="node2" href="task__commands_8c.html#a30b4c99ded33188ea79b55159263bc7b" title="doKeyboardParsing" alt="" coords="224,31,359,57"/>
 <area shape="rect" id="node3" href="task__commands_8c.html#a7b36c39275d773aaedcb327ef4e1516f" title="task_commands" alt="" coords="407,31,525,57"/>
 <area shape="rect" id="node4" href="task__commands_8h.html#aedb896e40753227f80768e09d3748419" title="Init the command parser. " alt="" coords="586,5,718,32"/>
 <area shape="rect" id="node6" href="task__commands_8h.html#a26091155b4d85093239033d689f363d0" title="Restart the command parser task. " alt="" coords="573,56,731,83"/>
@@ -886,28 +913,7 @@ Here is the caller graph for this function:</div>
 <dl class="section return"><dt>Returns</dt><dd>1 if found, 2 if buffer is too small, 0 if no key identifier was found</dd></dl>
 <dl class="section see"><dt>See also</dt><dd><a class="el" href="keyboard_8c.html#a74d92b54cde636cae76575e8b0cad378" title="Parse a key identifier to a keycode. ">parseIdentifierToKeycode</a> </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="keyboard_8c_source.html#l02349">2349</a> of file <a class="el" href="keyboard_8c_source.html">keyboard.c</a>.</p>
-
-<p class="reference">Referenced by <a class="el" href="task__kbd_8c_source.html#l00059">task_keyboard_getAT()</a>.</p>
-<div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="keyboard_8c_a027266c03329f00b7bbfefd0e828463c_icgraph.png" border="0" usemap="#keyboard_8c_a027266c03329f00b7bbfefd0e828463c_icgraph" alt=""/></div>
-<map name="keyboard_8c_a027266c03329f00b7bbfefd0e828463c_icgraph" id="keyboard_8c_a027266c03329f00b7bbfefd0e828463c_icgraph">
-<area shape="rect" id="node2" href="task__kbd_8h.html#a43469aecbc3cd22a6ed1e6a73dc978bf" title="Reverse Parsing &#45; get AT command for keyboard VB. " alt="" coords="224,56,373,83"/>
-<area shape="rect" id="node3" href="task__commands_8c.html#ad59215648a26578c22baa7ceae099e0e" title="Print the current slot configurations (general settings + VBs) " alt="" coords="421,56,513,83"/>
-<area shape="rect" id="node4" href="task__commands_8c.html#a7f6500be563a3dce7f0854fceed02fab" title="doGeneralCmdParsing" alt="" coords="738,5,891,32"/>
-<area shape="rect" id="node9" href="task__commands_8c.html#acea81ba8a182ae78feb2db6418fc1806" title="sendErrorBack" alt="" coords="561,81,669,108"/>
-<area shape="rect" id="node5" href="task__commands_8c.html#a7b36c39275d773aaedcb327ef4e1516f" title="task_commands" alt="" coords="960,107,1079,133"/>
-<area shape="rect" id="node6" href="task__commands_8h.html#aedb896e40753227f80768e09d3748419" title="Init the command parser. " alt="" coords="1139,81,1271,108"/>
-<area shape="rect" id="node8" href="task__commands_8h.html#a26091155b4d85093239033d689f363d0" title="Restart the command parser task. " alt="" coords="1127,132,1284,159"/>
-<area shape="rect" id="node7" href="flipmouse__fabi__esp32__kbdmouse__main_8c.html#abce06be17fc37d675118a678a8100a36" title="Main task, created by esp&#45;idf. " alt="" coords="1332,81,1411,108"/>
-<area shape="rect" id="node10" href="task__commands_8c.html#afc7ebe31a124c2102f8b41577b6dc5b0" title="doJoystickParsing" alt="" coords="750,56,879,83"/>
-<area shape="rect" id="node11" href="task__commands_8c.html#ac3c72c089d32dea93c45f4f9f8d1f244" title="doKeyboardParsing" alt="" coords="747,107,882,133"/>
-<area shape="rect" id="node12" href="task__commands_8c.html#a580d9f6a840975525358033a35f761d0" title="doMouseParsing" alt="" coords="755,157,874,184"/>
-<area shape="rect" id="node13" href="task__commands_8c.html#a2ad28759e53bb5082853d8d004767115" title="doMouthpieceSettingsParsing" alt="" coords="717,208,912,235"/>
-</map>
-</div>
+<p class="definition">Definition at line <a class="el" href="keyboard_8c_source.html#l02368">2368</a> of file <a class="el" href="keyboard_8c_source.html">keyboard.c</a>.</p>
 
 </div>
 </div>
@@ -948,24 +954,7 @@ Here is the caller graph for this function:</div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>0 if the keycode was removed, 1 if the keycode was not in the array </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="keyboard_8c_source.html#l02109">2109</a> of file <a class="el" href="keyboard_8c_source.html">keyboard.c</a>.</p>
-
-<p class="reference">Referenced by <a class="el" href="task__kbd_8c_source.html#l00164">task_keyboard()</a>.</p>
-<div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="keyboard_8c_a999cf21107da9c1a7e3797e72d95045b_icgraph.png" border="0" usemap="#keyboard_8c_a999cf21107da9c1a7e3797e72d95045b_icgraph" alt=""/></div>
-<map name="keyboard_8c_a999cf21107da9c1a7e3797e72d95045b_icgraph" id="keyboard_8c_a999cf21107da9c1a7e3797e72d95045b_icgraph">
-<area shape="rect" id="node2" href="task__kbd_8h.html#a8ff4618047a049178bfb1d60abfefb5d" title="FUNCTIONAL TASK &#45; trigger keyboard actions. " alt="" coords="175,31,281,57"/>
-<area shape="rect" id="node3" href="config__switcher_8c.html#af5af5079d1982d42e165039e6de7e40a" title="CONTINOUS TASK &#45; Config switcher task, internal config reloading. " alt="" coords="329,5,467,32"/>
-<area shape="rect" id="node6" href="task__commands_8c.html#ac3c72c089d32dea93c45f4f9f8d1f244" title="doKeyboardParsing" alt="" coords="331,56,465,83"/>
-<area shape="rect" id="node4" href="config__switcher_8h.html#aafed047c8d04b814a85239e031cbad7b" title="Initializing the config switching functionality. " alt="" coords="515,5,641,32"/>
-<area shape="rect" id="node5" href="flipmouse__fabi__esp32__kbdmouse__main_8c.html#abce06be17fc37d675118a678a8100a36" title="Main task, created by esp&#45;idf. " alt="" coords="895,31,973,57"/>
-<area shape="rect" id="node7" href="task__commands_8c.html#a7b36c39275d773aaedcb327ef4e1516f" title="task_commands" alt="" coords="519,56,637,83"/>
-<area shape="rect" id="node8" href="task__commands_8h.html#aedb896e40753227f80768e09d3748419" title="Init the command parser. " alt="" coords="702,56,834,83"/>
-<area shape="rect" id="node9" href="task__commands_8h.html#a26091155b4d85093239033d689f363d0" title="Restart the command parser task. " alt="" coords="689,107,847,133"/>
-</map>
-</div>
+<p class="definition">Definition at line <a class="el" href="keyboard_8c_source.html#l02110">2110</a> of file <a class="el" href="keyboard_8c_source.html">keyboard.c</a>.</p>
 
 </div>
 </div>
@@ -1013,15 +1002,15 @@ Here is the caller graph for this function:</div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>0 if no keycode was found (invalid cpoint), the keycode otherwise </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="keyboard_8c_source.html#l01925">1925</a> of file <a class="el" href="keyboard_8c_source.html">keyboard.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="keyboard_8c_source.html#l01926">1926</a> of file <a class="el" href="keyboard_8c_source.html">keyboard.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="task__commands_8c_source.html#l01042">doKeyboardParsing()</a>, and <a class="el" href="keyboard_8c_source.html#l02051">parse_for_keycode()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="task__commands_8c_source.html#l01091">doKeyboardParsing()</a>, and <a class="el" href="keyboard_8c_source.html#l02052">parse_for_keycode()</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="keyboard_8c_add849eefda31316c7d22d45f49e261e2_icgraph.png" border="0" usemap="#keyboard_8c_add849eefda31316c7d22d45f49e261e2_icgraph" alt=""/></div>
 <map name="keyboard_8c_add849eefda31316c7d22d45f49e261e2_icgraph" id="keyboard_8c_add849eefda31316c7d22d45f49e261e2_icgraph">
-<area shape="rect" id="node2" href="task__commands_8c.html#ac3c72c089d32dea93c45f4f9f8d1f244" title="doKeyboardParsing" alt="" coords="195,31,329,57"/>
+<area shape="rect" id="node2" href="task__commands_8c.html#a30b4c99ded33188ea79b55159263bc7b" title="doKeyboardParsing" alt="" coords="195,31,329,57"/>
 <area shape="rect" id="node7" href="keyboard_8h.html#aaa2d4d5bce20b87c88be1a9a33aa85a4" title="Parse an incoming byte for a keycode. " alt="" coords="196,81,328,108"/>
 <area shape="rect" id="node3" href="task__commands_8c.html#a7b36c39275d773aaedcb327ef4e1516f" title="task_commands" alt="" coords="377,31,496,57"/>
 <area shape="rect" id="node4" href="task__commands_8h.html#aedb896e40753227f80768e09d3748419" title="Init the command parser. " alt="" coords="557,5,689,32"/>
@@ -1048,7 +1037,7 @@ Here is the caller graph for this function:</div>
 
 <p>Defines the bits and deadkeys itself for all available deadkeys for US_INTERNATIONAL. All other layouts have an equal array. If a layout does not have deadkeys at all, this array is of [2][1] dimension and initialised with {0,0}. </p>
 
-<p class="definition">Definition at line <a class="el" href="keyboard_8c_source.html#l00078">78</a> of file <a class="el" href="keyboard_8c_source.html">keyboard.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="keyboard_8c_source.html#l00079">79</a> of file <a class="el" href="keyboard_8c_source.html">keyboard.c</a>.</p>
 
 </div>
 </div>
@@ -1069,9 +1058,9 @@ Here is the caller graph for this function:</div>
 <dl class="section see"><dt>See also</dt><dd><a class="el" href="keyboard_8h.html#a2a924c746739f7a895f76d13ef8e6e5f" title="Available keyboard layouts (locales) ">keyboard_layouts</a> </dd></dl>
 <dl class="section warning"><dt>Warning</dt><dd>Locale offset is different to the deadkey arrays, we have LAYOUT_US_ENGLISH here. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="keyboard_8c_source.html#l00470">470</a> of file <a class="el" href="keyboard_8c_source.html">keyboard.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="keyboard_8c_source.html#l00471">471</a> of file <a class="el" href="keyboard_8c_source.html">keyboard.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="keyboard_8c_source.html#l01925">unicode_to_keycode()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="keyboard_8c_source.html#l01926">unicode_to_keycode()</a>.</p>
 
 </div>
 </div>
@@ -1086,16 +1075,16 @@ Here is the caller graph for this function:</div>
         </tr>
       </table>
 </div><div class="memdoc">
-<b>Initial value:</b><div class="fragment"><div class="line">= {</div><div class="line">  <a class="code" href="keyboard_8c.html#a229e41acc78a3d889c7911f17e90e147">deadkey_USINT</a>[1],</div><div class="line">  deadkey_DE[1],</div><div class="line">  deadkey_DEMAC[1],</div><div class="line">  deadkey_CAFR[1],</div><div class="line">  deadkey_CAINT[1],</div><div class="line">  deadkey_UK[1],</div><div class="line">  deadkey_FI[1],</div><div class="line">  deadkey_FR[1],</div><div class="line">  deadkey_DK[1],</div><div class="line">  deadkey_NW[1],</div><div class="line">  deadkey_SW[1],</div><div class="line">  deadkey_ES[1],</div><div class="line">  deadkey_PT[1],</div><div class="line">  deadkey_IT[1],</div><div class="line">  deadkey_PTBR[1],</div><div class="line">  deadkey_FRBE[1],</div><div class="line">  deadkey_DESW[1],</div><div class="line">  deadkey_FRSW[1],</div><div class="line">  deadkey_ESLAT[1],</div><div class="line">  deadkey_IR[1],</div><div class="line">  deadkey_IC[1],</div><div class="line">  deadkey_TK[1],</div><div class="line">  deadkey_CZ[1],</div><div class="line">  deadkey_SR[1]</div><div class="line">}</div><div class="ttc" id="keyboard_8c_html_a229e41acc78a3d889c7911f17e90e147"><div class="ttname"><a href="keyboard_8c.html#a229e41acc78a3d889c7911f17e90e147">deadkey_USINT</a></div><div class="ttdeci">const uint16_t deadkey_USINT[2][5]</div><div class="ttdoc">Defines the bits and deadkeys itself for all available deadkeys for US_INTERNATIONAL. All other layouts have an equal array. If a layout does not have deadkeys at all, this array is of [2][1] dimension and initialised with {0,0}. </div><div class="ttdef"><b>Definition:</b> <a href="keyboard_8c_source.html#l00078">keyboard.c:78</a></div></div>
+<b>Initial value:</b><div class="fragment"><div class="line">= {</div><div class="line">  <a class="code" href="keyboard_8c.html#a229e41acc78a3d889c7911f17e90e147">deadkey_USINT</a>[1],</div><div class="line">  deadkey_DE[1],</div><div class="line">  deadkey_DEMAC[1],</div><div class="line">  deadkey_CAFR[1],</div><div class="line">  deadkey_CAINT[1],</div><div class="line">  deadkey_UK[1],</div><div class="line">  deadkey_FI[1],</div><div class="line">  deadkey_FR[1],</div><div class="line">  deadkey_DK[1],</div><div class="line">  deadkey_NW[1],</div><div class="line">  deadkey_SW[1],</div><div class="line">  deadkey_ES[1],</div><div class="line">  deadkey_PT[1],</div><div class="line">  deadkey_IT[1],</div><div class="line">  deadkey_PTBR[1],</div><div class="line">  deadkey_FRBE[1],</div><div class="line">  deadkey_DESW[1],</div><div class="line">  deadkey_FRSW[1],</div><div class="line">  deadkey_ESLAT[1],</div><div class="line">  deadkey_IR[1],</div><div class="line">  deadkey_IC[1],</div><div class="line">  deadkey_TK[1],</div><div class="line">  deadkey_CZ[1],</div><div class="line">  deadkey_SR[1]</div><div class="line">}</div><div class="ttc" id="keyboard_8c_html_a229e41acc78a3d889c7911f17e90e147"><div class="ttname"><a href="keyboard_8c.html#a229e41acc78a3d889c7911f17e90e147">deadkey_USINT</a></div><div class="ttdeci">const uint16_t deadkey_USINT[2][5]</div><div class="ttdoc">Defines the bits and deadkeys itself for all available deadkeys for US_INTERNATIONAL. All other layouts have an equal array. If a layout does not have deadkeys at all, this array is of [2][1] dimension and initialised with {0,0}. </div><div class="ttdef"><b>Definition:</b> <a href="keyboard_8c_source.html#l00079">keyboard.c:79</a></div></div>
 </div><!-- fragment -->
 <p>Array of pointers to a deadkey keycodes array for each locale. </p>
 <p>We are using offset 1 from the deadkey_XXX array, because it contains the keycodes.</p>
 <dl class="section see"><dt>See also</dt><dd><a class="el" href="keyboard_8c.html#a229e41acc78a3d889c7911f17e90e147" title="Defines the bits and deadkeys itself for all available deadkeys for US_INTERNATIONAL. All other layouts have an equal array. If a layout does not have deadkeys at all, this array is of [2][1] dimension and initialised with {0,0}. ">deadkey_USINT</a> (or any other language) </dd></dl>
 <dl class="section warning"><dt>Warning</dt><dd>Locale offset is different here, because there is no LAYOUT_US_ENGLISH (no deadkeys at all) </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="keyboard_8c_source.html#l00411">411</a> of file <a class="el" href="keyboard_8c_source.html">keyboard.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="keyboard_8c_source.html#l00412">412</a> of file <a class="el" href="keyboard_8c_source.html">keyboard.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="keyboard_8c_source.html#l01983">deadkey_to_keycode()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="keyboard_8c_source.html#l01984">deadkey_to_keycode()</a>.</p>
 
 </div>
 </div>
@@ -1110,16 +1099,16 @@ Here is the caller graph for this function:</div>
         </tr>
       </table>
 </div><div class="memdoc">
-<b>Initial value:</b><div class="fragment"><div class="line">= {</div><div class="line">  <a class="code" href="keyboard_8c.html#a229e41acc78a3d889c7911f17e90e147">deadkey_USINT</a>[0],</div><div class="line">  deadkey_DE[0],</div><div class="line">  deadkey_DEMAC[0],</div><div class="line">  deadkey_CAFR[0],</div><div class="line">  deadkey_CAINT[0],</div><div class="line">  deadkey_UK[0],</div><div class="line">  deadkey_FI[0],</div><div class="line">  deadkey_FR[0],</div><div class="line">  deadkey_DK[0],</div><div class="line">  deadkey_NW[0],</div><div class="line">  deadkey_SW[0],</div><div class="line">  deadkey_ES[0],</div><div class="line">  deadkey_PT[0],</div><div class="line">  deadkey_IT[0],</div><div class="line">  deadkey_PTBR[0],</div><div class="line">  deadkey_FRBE[0],</div><div class="line">  deadkey_DESW[0],</div><div class="line">  deadkey_FRSW[0],</div><div class="line">  deadkey_ESLAT[0],</div><div class="line">  deadkey_IR[0],</div><div class="line">  deadkey_IC[0],</div><div class="line">  deadkey_TK[0],</div><div class="line">  deadkey_CZ[0],</div><div class="line">  deadkey_SR[0]</div><div class="line">}</div><div class="ttc" id="keyboard_8c_html_a229e41acc78a3d889c7911f17e90e147"><div class="ttname"><a href="keyboard_8c.html#a229e41acc78a3d889c7911f17e90e147">deadkey_USINT</a></div><div class="ttdeci">const uint16_t deadkey_USINT[2][5]</div><div class="ttdoc">Defines the bits and deadkeys itself for all available deadkeys for US_INTERNATIONAL. All other layouts have an equal array. If a layout does not have deadkeys at all, this array is of [2][1] dimension and initialised with {0,0}. </div><div class="ttdef"><b>Definition:</b> <a href="keyboard_8c_source.html#l00078">keyboard.c:78</a></div></div>
+<b>Initial value:</b><div class="fragment"><div class="line">= {</div><div class="line">  <a class="code" href="keyboard_8c.html#a229e41acc78a3d889c7911f17e90e147">deadkey_USINT</a>[0],</div><div class="line">  deadkey_DE[0],</div><div class="line">  deadkey_DEMAC[0],</div><div class="line">  deadkey_CAFR[0],</div><div class="line">  deadkey_CAINT[0],</div><div class="line">  deadkey_UK[0],</div><div class="line">  deadkey_FI[0],</div><div class="line">  deadkey_FR[0],</div><div class="line">  deadkey_DK[0],</div><div class="line">  deadkey_NW[0],</div><div class="line">  deadkey_SW[0],</div><div class="line">  deadkey_ES[0],</div><div class="line">  deadkey_PT[0],</div><div class="line">  deadkey_IT[0],</div><div class="line">  deadkey_PTBR[0],</div><div class="line">  deadkey_FRBE[0],</div><div class="line">  deadkey_DESW[0],</div><div class="line">  deadkey_FRSW[0],</div><div class="line">  deadkey_ESLAT[0],</div><div class="line">  deadkey_IR[0],</div><div class="line">  deadkey_IC[0],</div><div class="line">  deadkey_TK[0],</div><div class="line">  deadkey_CZ[0],</div><div class="line">  deadkey_SR[0]</div><div class="line">}</div><div class="ttc" id="keyboard_8c_html_a229e41acc78a3d889c7911f17e90e147"><div class="ttname"><a href="keyboard_8c.html#a229e41acc78a3d889c7911f17e90e147">deadkey_USINT</a></div><div class="ttdeci">const uint16_t deadkey_USINT[2][5]</div><div class="ttdoc">Defines the bits and deadkeys itself for all available deadkeys for US_INTERNATIONAL. All other layouts have an equal array. If a layout does not have deadkeys at all, this array is of [2][1] dimension and initialised with {0,0}. </div><div class="ttdef"><b>Definition:</b> <a href="keyboard_8c_source.html#l00079">keyboard.c:79</a></div></div>
 </div><!-- fragment -->
 <p>Array of pointers to a deadkey bits array for each locale. </p>
 <p>We are using offset 0 from the deadkey_XXX array, because it contains the bitmasks.</p>
 <dl class="section see"><dt>See also</dt><dd><a class="el" href="keyboard_8c.html#a229e41acc78a3d889c7911f17e90e147" title="Defines the bits and deadkeys itself for all available deadkeys for US_INTERNATIONAL. All other layouts have an equal array. If a layout does not have deadkeys at all, this array is of [2][1] dimension and initialised with {0,0}. ">deadkey_USINT</a> (or any other language) </dd></dl>
 <dl class="section warning"><dt>Warning</dt><dd>Locale offset is different here, because there is no LAYOUT_US_ENGLISH (no deadkeys at all) </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="keyboard_8c_source.html#l00374">374</a> of file <a class="el" href="keyboard_8c_source.html">keyboard.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="keyboard_8c_source.html#l00375">375</a> of file <a class="el" href="keyboard_8c_source.html">keyboard.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="keyboard_8c_source.html#l01983">deadkey_to_keycode()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="keyboard_8c_source.html#l01984">deadkey_to_keycode()</a>.</p>
 
 </div>
 </div>
@@ -1140,9 +1129,9 @@ Here is the caller graph for this function:</div>
 <dl class="section see"><dt>See also</dt><dd><a class="el" href="keyboard_8h.html#a2a924c746739f7a895f76d13ef8e6e5f" title="Available keyboard layouts (locales) ">keyboard_layouts</a> </dd></dl>
 <dl class="section warning"><dt>Warning</dt><dd>Locale offset is different to the ASCII array, we don't have LAYOUT_US_ENGLISH here. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="keyboard_8c_source.html#l01211">1211</a> of file <a class="el" href="keyboard_8c_source.html">keyboard.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="keyboard_8c_source.html#l01212">1212</a> of file <a class="el" href="keyboard_8c_source.html">keyboard.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="keyboard_8c_source.html#l01925">unicode_to_keycode()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="keyboard_8c_source.html#l01926">unicode_to_keycode()</a>.</p>
 
 </div>
 </div>
@@ -1160,9 +1149,9 @@ Here is the caller graph for this function:</div>
 
 <p>Defines all masks necessary for either getting modifiers or the keycode. </p>
 
-<p class="definition">Definition at line <a class="el" href="keyboard_8c_source.html#l00241">241</a> of file <a class="el" href="keyboard_8c_source.html">keyboard.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="keyboard_8c_source.html#l00242">242</a> of file <a class="el" href="keyboard_8c_source.html">keyboard.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="keyboard_8c_source.html#l01983">deadkey_to_keycode()</a>, <a class="el" href="keyboard_8c_source.html#l02026">keycode_to_modifier()</a>, <a class="el" href="keyboard_8c_source.html#l02051">parse_for_keycode()</a>, and <a class="el" href="keyboard_8c_source.html#l01925">unicode_to_keycode()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="keyboard_8c_source.html#l01984">deadkey_to_keycode()</a>, <a class="el" href="keyboard_8c_source.html#l02027">keycode_to_modifier()</a>, <a class="el" href="keyboard_8c_source.html#l02052">parse_for_keycode()</a>, and <a class="el" href="keyboard_8c_source.html#l01926">unicode_to_keycode()</a>.</p>
 
 </div>
 </div>

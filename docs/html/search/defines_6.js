@@ -25,5 +25,6 @@ var searchData=
   ['hid_5fdescriptor_5flength',['HID_DESCRIPTOR_LENGTH',['../HIDTypes_8h.html#a4831e19363be27a4ad38090f394029fb',1,'HIDTypes.h']]],
   ['hid_5fprotocol_5fnone',['HID_PROTOCOL_NONE',['../HIDTypes_8h.html#a050926404254a7fa1d6b5253a79abc59',1,'HIDTypes.h']]],
   ['hid_5fsubclass_5fnone',['HID_SUBCLASS_NONE',['../HIDTypes_8h.html#a1f7d3e3accc103eee60cb9a9162a7c49',1,'HIDTypes.h']]],
+  ['hid_5ftask_5fpriority',['HID_TASK_PRIORITY',['../common_8h.html#a80889630e97188001f443345538edfb4',1,'common.h']]],
   ['hid_5fversion_5f1_5f11',['HID_VERSION_1_11',['../HIDTypes_8h.html#aa28ccb382c55ee252b105cfc876480e1',1,'HIDTypes.h']]]
 ];

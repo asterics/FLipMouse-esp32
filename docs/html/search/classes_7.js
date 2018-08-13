@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['kbdoutputcb',['kbdOutputCB',['../classkbdOutputCB.html',1,'']]],
-  ['keymap',['KEYMAP',['../structKEYMAP.html',1,'']]]
+  ['ringbuffer',['Ringbuffer',['../classRingbuffer.html',1,'']]]
 ];

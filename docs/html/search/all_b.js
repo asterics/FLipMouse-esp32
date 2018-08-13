@@ -34,9 +34,8 @@ var searchData=
   ['key_5fvolume_5fup',['KEY_VOLUME_UP',['../HIDKeyboardTypes_8h.html#a4c3f9493757888ca99c1dab735cc62dbaedbb585f9e7ee87263a250c91542fb02',1,'KEY_VOLUME_UP():&#160;HIDKeyboardTypes.h'],['../SampleKeyboardTypes_8h.html#a4c3f9493757888ca99c1dab735cc62dbaedbb585f9e7ee87263a250c91542fb02',1,'KEY_VOLUME_UP():&#160;SampleKeyboardTypes.h']]],
   ['keyboard_2ec',['keyboard.c',['../keyboard_8c.html',1,'']]],
   ['keyboard_2eh',['keyboard.h',['../keyboard_8h.html',1,'']]],
-  ['keyboard_5faction',['keyboard_action',['../task__kbd_8h.html#aff3bf982a86299e69b007b0d16a45227',1,'task_kbd.h']]],
   ['keyboard_5flayouts',['keyboard_layouts',['../keyboard_8h.html#a2a924c746739f7a895f76d13ef8e6e5f',1,'keyboard.h']]],
-  ['keycode_5farr',['keycode_arr',['../task__kbd_8c.html#ad1166880215085313402bbc253b781e5',1,'task_kbd.c']]],
+  ['keyboard_5freport',['keyboard_report',['../HID__kbdmousejoystick_8cpp.html#afcd140786e5a4f34e23f60bc216c844d',1,'HID_kbdmousejoystick.cpp']]],
   ['keycode_5fis_5fmodifier',['keycode_is_modifier',['../keyboard_8c.html#aa5712a49152638257c16d39ea798a43e',1,'keycode_is_modifier(uint16_t keycode):&#160;keyboard.c'],['../keyboard_8h.html#aa5712a49152638257c16d39ea798a43e',1,'keycode_is_modifier(uint16_t keycode):&#160;keyboard.c']]],
   ['keycode_5fto_5fkey',['keycode_to_key',['../keyboard_8c.html#a464318439ffe82e71e063a5c9582aa69',1,'keycode_to_key(uint16_t keycode):&#160;keyboard.c'],['../keyboard_8h.html#a464318439ffe82e71e063a5c9582aa69',1,'keycode_to_key(uint16_t keycode):&#160;keyboard.c']]],
   ['keycode_5fto_5fmodifier',['keycode_to_modifier',['../keyboard_8c.html#acdbf297ed74d4534f035e0732c2f1081',1,'keycode_to_modifier(uint16_t keycode, uint8_t locale):&#160;keyboard.c'],['../keyboard_8h.html#acdbf297ed74d4534f035e0732c2f1081',1,'keycode_to_modifier(uint16_t keycode, uint8_t locale):&#160;keyboard.c']]],
@@ -45,7 +44,6 @@ var searchData=
   ['keycodes_5fdeadkey_5fbits',['keycodes_deadkey_bits',['../keyboard_8c.html#ab70ab5036ec28888431d1dc0ec37445b',1,'keyboard.c']]],
   ['keycodes_5fiso_5f8859_5f1',['keycodes_iso_8859_1',['../keyboard_8c.html#aac030c42fe73735fe4008f601eeb7892',1,'keyboard.c']]],
   ['keycodes_5fmasks',['keycodes_masks',['../keyboard_8c.html#a0ae734f3d887d01aa5f80a94a790811e',1,'keyboard.c']]],
-  ['keycodes_5ftext',['keycodes_text',['../structtaskKeyboardConfig.html#ac7eb90f9fb5788b1a3e5618533d6e1f0',1,'taskKeyboardConfig']]],
   ['keymap',['KEYMAP',['../structKEYMAP.html',1,'KEYMAP'],['../HIDKeyboardTypes_8h.html#a0f11bf75a5e09dfda04d2911563c1d15',1,'keymap():&#160;HIDKeyboardTypes.h'],['../SampleKeyboardTypes_8h.html#a0f11bf75a5e09dfda04d2911563c1d15',1,'keymap():&#160;SampleKeyboardTypes.h']]],
   ['keymap_5fsize',['KEYMAP_SIZE',['../HIDKeyboardTypes_8h.html#a5e211a72f1c517e77dba5773be0381db',1,'KEYMAP_SIZE():&#160;HIDKeyboardTypes.h'],['../SampleKeyboardTypes_8h.html#a5e211a72f1c517e77dba5773be0381db',1,'KEYMAP_SIZE():&#160;SampleKeyboardTypes.h']]]
 ];

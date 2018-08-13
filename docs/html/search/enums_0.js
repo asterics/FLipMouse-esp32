@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['command_5ftype_5ft',['command_type_t',['../common_8h.html#ac27b6f4710923c6689834e86aea228ac',1,'common.h']]]
+  ['function_5fkey',['FUNCTION_KEY',['../HIDKeyboardTypes_8h.html#abcd4e84ddc43717d65d285a4facf84a0',1,'FUNCTION_KEY():&#160;HIDKeyboardTypes.h'],['../SampleKeyboardTypes_8h.html#abcd4e84ddc43717d65d285a4facf84a0',1,'FUNCTION_KEY():&#160;SampleKeyboardTypes.h']]]
 ];

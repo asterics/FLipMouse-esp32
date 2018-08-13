@@ -142,6 +142,15 @@ Variables</h2></td></tr>
 <tr class="memitem:a4d2c03a5216c65b26e16ed8f7bce33b7"><td class="memItemLeft" align="right" valign="top">uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="HID__kbdmousejoystick_8cpp.html#a4d2c03a5216c65b26e16ed8f7bce33b7">activateJoystick</a> = 0</td></tr>
 <tr class="memdesc:a4d2c03a5216c65b26e16ed8f7bce33b7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Is Joystick interface active?  <a href="#a4d2c03a5216c65b26e16ed8f7bce33b7">More...</a><br /></td></tr>
 <tr class="separator:a4d2c03a5216c65b26e16ed8f7bce33b7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afcd140786e5a4f34e23f60bc216c844d"><td class="memItemLeft" align="right" valign="top">uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="HID__kbdmousejoystick_8cpp.html#afcd140786e5a4f34e23f60bc216c844d">keyboard_report</a> [8]</td></tr>
+<tr class="memdesc:afcd140786e5a4f34e23f60bc216c844d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Currently active keyboard report This report is changed and sent on an incoming command.  <a href="#afcd140786e5a4f34e23f60bc216c844d">More...</a><br /></td></tr>
+<tr class="separator:afcd140786e5a4f34e23f60bc216c844d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2808bdb6897db7e4f534a5caeebd6c2c"><td class="memItemLeft" align="right" valign="top">uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="HID__kbdmousejoystick_8cpp.html#a2808bdb6897db7e4f534a5caeebd6c2c">mouse_report</a> [4]</td></tr>
+<tr class="memdesc:a2808bdb6897db7e4f534a5caeebd6c2c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Currently active mouse report This report is changed and sent on an incoming command.  <a href="#a2808bdb6897db7e4f534a5caeebd6c2c">More...</a><br /></td></tr>
+<tr class="separator:a2808bdb6897db7e4f534a5caeebd6c2c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abdb3a56d4b603925e124be19fa225b13"><td class="memItemLeft" align="right" valign="top">uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="HID__kbdmousejoystick_8cpp.html#abdb3a56d4b603925e124be19fa225b13">joystick_report</a> [12]</td></tr>
+<tr class="memdesc:abdb3a56d4b603925e124be19fa225b13"><td class="mdescLeft">&#160;</td><td class="mdescRight">Currently active joystick report This report is changed and sent on an incoming command Byte assignment: [0] button mask 1 (buttons 0-7) [1] button mask 2 (buttons 8-15) [2] button mask 3 (buttons 16-23) [3] button mask 4 (buttons 24-31) [4] bit 0-3: hat [4] bit 4-7: X axis low bits [5] bit 0-5: X axis high bits [5] bit 6-7: Y axis low bits [6] bit 0-7: Y axis high bits [7] bit 0-7: Z axis low bits [8] bit 0-1: Z axis high bits [8] bit 2-7: Z rotate low bits [9] bit 0-3: Z rotate high bits [9] bit 4-7: slider left low bits [10] bit 0-5: slider left high bits [10] bit 6-7: slider right low bits [11] bit 0-7: slider right high bits.  <a href="#abdb3a56d4b603925e124be19fa225b13">More...</a><br /></td></tr>
+<tr class="separator:abdb3a56d4b603925e124be19fa225b13"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0ce80beed1a0a46ed788e9fddab97f6e"><td class="memItemLeft" align="right" valign="top">static BLEHIDDevice *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="HID__kbdmousejoystick_8cpp.html#a0ce80beed1a0a46ed788e9fddab97f6e">hid</a></td></tr>
 <tr class="separator:a0ce80beed1a0a46ed788e9fddab97f6e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac871c365764e0411a3c3806439b2b19d"><td class="memItemLeft" align="right" valign="top">BLEServer *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="HID__kbdmousejoystick_8cpp.html#ac871c365764e0411a3c3806439b2b19d">pServer</a></td></tr>
@@ -219,9 +228,9 @@ Variables</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="HID__kbdmousejoystick_8cpp_source.html#l00626">626</a> of file <a class="el" href="HID__kbdmousejoystick_8cpp_source.html">HID_kbdmousejoystick.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="HID__kbdmousejoystick_8cpp_source.html#l00837">837</a> of file <a class="el" href="HID__kbdmousejoystick_8cpp_source.html">HID_kbdmousejoystick.cpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c_source.html#l00091">app_main()</a>, and <a class="el" href="task__webgui_8c_source.html#l00535">wifi_timer_cb()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c_source.html#l00089">app_main()</a>, and <a class="el" href="task__webgui_8c_source.html#l00535">wifi_timer_cb()</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
@@ -270,9 +279,9 @@ Here is the caller graph for this function:</div>
 <p>Main init function to start HID interface (C interface) </p>
 <dl class="section see"><dt>See also</dt><dd><a class="el" href="common_8h.html#a4d504fcad8a2fb54bd8af573af7d4834" title="Queue for sending HID commands to BLE. ">hid_ble</a> </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="HID__kbdmousejoystick_8cpp_source.html#l00601">601</a> of file <a class="el" href="HID__kbdmousejoystick_8cpp_source.html">HID_kbdmousejoystick.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="HID__kbdmousejoystick_8cpp_source.html#l00812">812</a> of file <a class="el" href="HID__kbdmousejoystick_8cpp_source.html">HID_kbdmousejoystick.cpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c_source.html#l00091">app_main()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c_source.html#l00089">app_main()</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -313,7 +322,7 @@ Here is the caller graph for this function:</div>
 <dl class="todo"><dt><b><a class="el" href="todo.html#_todo000002">Todo:</a></b></dt><dd>Add interface to disable BLE &amp; free memory! (see long button handler in main) </dd></dl>
 <dl class="section return"><dt>Returns</dt><dd>0 if not connected, != 0 if connected </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="HID__kbdmousejoystick_8cpp_source.html#l00594">594</a> of file <a class="el" href="HID__kbdmousejoystick_8cpp_source.html">HID_kbdmousejoystick.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="HID__kbdmousejoystick_8cpp_source.html#l00805">805</a> of file <a class="el" href="HID__kbdmousejoystick_8cpp_source.html">HID_kbdmousejoystick.cpp</a>.</p>
 
 </div>
 </div>
@@ -342,23 +351,21 @@ Here is the caller graph for this function:</div>
 </dl>
 <p>(1&lt;&lt;0) excepts keyboard (1&lt;&lt;1) excepts joystick (1&lt;&lt;2) excepts mouse If nothing is set (exceptDevice = 0) all are reset </p>
 
-<p class="definition">Definition at line <a class="el" href="HID__kbdmousejoystick_8cpp_source.html#l00653">653</a> of file <a class="el" href="HID__kbdmousejoystick_8cpp_source.html">HID_kbdmousejoystick.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="HID__kbdmousejoystick_8cpp_source.html#l00864">864</a> of file <a class="el" href="HID__kbdmousejoystick_8cpp_source.html">HID_kbdmousejoystick.cpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="config__switcher_8c_source.html#l00215">configUpdate()</a>, and <a class="el" href="task__commands_8c_source.html#l00742">doGeneralCmdParsing()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="config__switcher_8c_source.html#l00141">configTimerCallback()</a>, and <a class="el" href="task__commands_8c_source.html#l00797">doGeneralCmdParsing()</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="HID__kbdmousejoystick_8cpp_accf307974a0046bce38582d0260bf841_icgraph.png" border="0" usemap="#HID__kbdmousejoystick_8cpp_accf307974a0046bce38582d0260bf841_icgraph" alt=""/></div>
 <map name="HID__kbdmousejoystick_8cpp_accf307974a0046bce38582d0260bf841_icgraph" id="HID__kbdmousejoystick_8cpp_accf307974a0046bce38582d0260bf841_icgraph">
-<area shape="rect" id="node2" href="config__switcher_8h.html#a4c2e410d8032c65c0700c6ca07429074" title="Request config update. " alt="" coords="179,69,278,96"/>
-<area shape="rect" id="node10" href="task__commands_8c.html#a7f6500be563a3dce7f0854fceed02fab" title="doGeneralCmdParsing" alt="" coords="152,132,305,159"/>
-<area shape="rect" id="node3" href="config__switcher_8c.html#af5af5079d1982d42e165039e6de7e40a" title="CONTINOUS TASK &#45; Config switcher task, internal config reloading. " alt="" coords="353,5,491,32"/>
-<area shape="rect" id="node6" href="task__commands_8c.html#a69b0c55558b32caa21407de8e2277be9" title="doStorageParsing" alt="" coords="359,56,485,83"/>
-<area shape="rect" id="node7" href="task__commands_8c.html#a7b36c39275d773aaedcb327ef4e1516f" title="task_commands" alt="" coords="543,107,661,133"/>
-<area shape="rect" id="node4" href="config__switcher_8h.html#aafed047c8d04b814a85239e031cbad7b" title="Initializing the config switching functionality. " alt="" coords="539,5,665,32"/>
-<area shape="rect" id="node5" href="flipmouse__fabi__esp32__kbdmouse__main_8c.html#abce06be17fc37d675118a678a8100a36" title="Main task, created by esp&#45;idf. " alt="" coords="919,31,997,57"/>
-<area shape="rect" id="node8" href="task__commands_8h.html#aedb896e40753227f80768e09d3748419" title="Init the command parser. " alt="" coords="726,56,858,83"/>
-<area shape="rect" id="node9" href="task__commands_8h.html#a26091155b4d85093239033d689f363d0" title="Restart the command parser task. " alt="" coords="713,107,871,133"/>
+<area shape="rect" id="node2" href="config__switcher_8c.html#a634f0179096daf06df87ba5cd1789d6b" title="configTimerCallback" alt="" coords="158,5,299,32"/>
+<area shape="rect" id="node5" href="task__commands_8c.html#a7f6500be563a3dce7f0854fceed02fab" title="doGeneralCmdParsing" alt="" coords="152,56,305,83"/>
+<area shape="rect" id="node3" href="config__switcher_8h.html#aafed047c8d04b814a85239e031cbad7b" title="Initializing the config switching functionality. " alt="" coords="353,5,480,32"/>
+<area shape="rect" id="node4" href="flipmouse__fabi__esp32__kbdmouse__main_8c.html#abce06be17fc37d675118a678a8100a36" title="Main task, created by esp&#45;idf. " alt="" coords="733,31,812,57"/>
+<area shape="rect" id="node6" href="task__commands_8c.html#a7b36c39275d773aaedcb327ef4e1516f" title="task_commands" alt="" coords="357,56,476,83"/>
+<area shape="rect" id="node7" href="task__commands_8h.html#aedb896e40753227f80768e09d3748419" title="Init the command parser. " alt="" coords="541,56,673,83"/>
+<area shape="rect" id="node8" href="task__commands_8h.html#a26091155b4d85093239033d689f363d0" title="Restart the command parser task. " alt="" coords="528,107,685,133"/>
 </map>
 </div>
 
@@ -389,7 +396,7 @@ Here is the caller graph for this function:</div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>ESP_OK on success, ESP_FAIL otherwise </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="HID__kbdmousejoystick_8cpp_source.html#l00579">579</a> of file <a class="el" href="HID__kbdmousejoystick_8cpp_source.html">HID_kbdmousejoystick.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="HID__kbdmousejoystick_8cpp_source.html#l00790">790</a> of file <a class="el" href="HID__kbdmousejoystick_8cpp_source.html">HID_kbdmousejoystick.cpp</a>.</p>
 
 </div>
 </div>
@@ -410,7 +417,7 @@ Here is the caller graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="HID__kbdmousejoystick_8cpp_source.html#l00057">57</a> of file <a class="el" href="HID__kbdmousejoystick_8cpp_source.html">HID_kbdmousejoystick.cpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="HID__kbdmousejoystick_8cpp_source.html#l00601">halBLEInit()</a>, and <a class="el" href="HID__kbdmousejoystick_8cpp_source.html#l00653">halBLEReset()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="HID__kbdmousejoystick_8cpp_source.html#l00812">halBLEInit()</a>, and <a class="el" href="HID__kbdmousejoystick_8cpp_source.html#l00864">halBLEReset()</a>.</p>
 
 </div>
 </div>
@@ -430,7 +437,7 @@ Here is the caller graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="HID__kbdmousejoystick_8cpp_source.html#l00053">53</a> of file <a class="el" href="HID__kbdmousejoystick_8cpp_source.html">HID_kbdmousejoystick.cpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="HID__kbdmousejoystick_8cpp_source.html#l00601">halBLEInit()</a>, and <a class="el" href="HID__kbdmousejoystick_8cpp_source.html#l00653">halBLEReset()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="HID__kbdmousejoystick_8cpp_source.html#l00812">halBLEInit()</a>, and <a class="el" href="HID__kbdmousejoystick_8cpp_source.html#l00864">halBLEReset()</a>.</p>
 
 </div>
 </div>
@@ -450,7 +457,7 @@ Here is the caller graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="HID__kbdmousejoystick_8cpp_source.html#l00055">55</a> of file <a class="el" href="HID__kbdmousejoystick_8cpp_source.html">HID_kbdmousejoystick.cpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="HID__kbdmousejoystick_8cpp_source.html#l00601">halBLEInit()</a>, and <a class="el" href="HID__kbdmousejoystick_8cpp_source.html#l00653">halBLEReset()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="HID__kbdmousejoystick_8cpp_source.html#l00812">halBLEInit()</a>, and <a class="el" href="HID__kbdmousejoystick_8cpp_source.html#l00864">halBLEReset()</a>.</p>
 
 </div>
 </div>
@@ -466,7 +473,7 @@ Here is the caller graph for this function:</div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="HID__kbdmousejoystick_8cpp_source.html#l00296">296</a> of file <a class="el" href="HID__kbdmousejoystick_8cpp_source.html">HID_kbdmousejoystick.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="HID__kbdmousejoystick_8cpp_source.html#l00507">507</a> of file <a class="el" href="HID__kbdmousejoystick_8cpp_source.html">HID_kbdmousejoystick.cpp</a>.</p>
 
 </div>
 </div>
@@ -490,9 +497,9 @@ Here is the caller graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="HID__kbdmousejoystick_8cpp_source.html#l00060">60</a> of file <a class="el" href="HID__kbdmousejoystick_8cpp_source.html">HID_kbdmousejoystick.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="HID__kbdmousejoystick_8cpp_source.html#l00098">98</a> of file <a class="el" href="HID__kbdmousejoystick_8cpp_source.html">HID_kbdmousejoystick.cpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="HID__kbdmousejoystick_8cpp_source.html#l00579">halBLESetPairing()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="HID__kbdmousejoystick_8cpp_source.html#l00790">halBLESetPairing()</a>.</p>
 
 </div>
 </div>
@@ -508,9 +515,9 @@ Here is the caller graph for this function:</div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="HID__kbdmousejoystick_8cpp_source.html#l00068">68</a> of file <a class="el" href="HID__kbdmousejoystick_8cpp_source.html">HID_kbdmousejoystick.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="HID__kbdmousejoystick_8cpp_source.html#l00106">106</a> of file <a class="el" href="HID__kbdmousejoystick_8cpp_source.html">HID_kbdmousejoystick.cpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="HID__kbdmousejoystick_8cpp_source.html#l00653">halBLEReset()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="HID__kbdmousejoystick_8cpp_source.html#l00864">halBLEReset()</a>.</p>
 
 </div>
 </div>
@@ -526,9 +533,9 @@ Here is the caller graph for this function:</div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="HID__kbdmousejoystick_8cpp_source.html#l00064">64</a> of file <a class="el" href="HID__kbdmousejoystick_8cpp_source.html">HID_kbdmousejoystick.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="HID__kbdmousejoystick_8cpp_source.html#l00102">102</a> of file <a class="el" href="HID__kbdmousejoystick_8cpp_source.html">HID_kbdmousejoystick.cpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="HID__kbdmousejoystick_8cpp_source.html#l00653">halBLEReset()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="HID__kbdmousejoystick_8cpp_source.html#l00864">halBLEReset()</a>.</p>
 
 </div>
 </div>
@@ -544,9 +551,9 @@ Here is the caller graph for this function:</div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="HID__kbdmousejoystick_8cpp_source.html#l00066">66</a> of file <a class="el" href="HID__kbdmousejoystick_8cpp_source.html">HID_kbdmousejoystick.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="HID__kbdmousejoystick_8cpp_source.html#l00104">104</a> of file <a class="el" href="HID__kbdmousejoystick_8cpp_source.html">HID_kbdmousejoystick.cpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="HID__kbdmousejoystick_8cpp_source.html#l00653">halBLEReset()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="HID__kbdmousejoystick_8cpp_source.html#l00864">halBLEReset()</a>.</p>
 
 </div>
 </div>
@@ -566,7 +573,50 @@ Here is the caller graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="HID__kbdmousejoystick_8cpp_source.html#l00050">50</a> of file <a class="el" href="HID__kbdmousejoystick_8cpp_source.html">HID_kbdmousejoystick.cpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="HID__kbdmousejoystick_8cpp_source.html#l00594">halBLEIsConnected()</a>, and <a class="el" href="HID__kbdmousejoystick_8cpp_source.html#l00653">halBLEReset()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="HID__kbdmousejoystick_8cpp_source.html#l00805">halBLEIsConnected()</a>, and <a class="el" href="HID__kbdmousejoystick_8cpp_source.html#l00864">halBLEReset()</a>.</p>
+
+</div>
+</div>
+<a id="abdb3a56d4b603925e124be19fa225b13"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abdb3a56d4b603925e124be19fa225b13">&#9670;&nbsp;</a></span>joystick_report</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint8_t joystick_report[12]</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Currently active joystick report This report is changed and sent on an incoming command Byte assignment: [0] button mask 1 (buttons 0-7) [1] button mask 2 (buttons 8-15) [2] button mask 3 (buttons 16-23) [3] button mask 4 (buttons 24-31) [4] bit 0-3: hat [4] bit 4-7: X axis low bits [5] bit 0-5: X axis high bits [5] bit 6-7: Y axis low bits [6] bit 0-7: Y axis high bits [7] bit 0-7: Z axis low bits [8] bit 0-1: Z axis high bits [8] bit 2-7: Z rotate low bits [9] bit 0-3: Z rotate high bits [9] bit 4-7: slider left low bits [10] bit 0-5: slider left high bits [10] bit 6-7: slider right low bits [11] bit 0-7: slider right high bits. </p>
+
+<p class="definition">Definition at line <a class="el" href="HID__kbdmousejoystick_8cpp_source.html#l00094">94</a> of file <a class="el" href="HID__kbdmousejoystick_8cpp_source.html">HID_kbdmousejoystick.cpp</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="HID__kbdmousejoystick_8cpp_source.html#l00864">halBLEReset()</a>.</p>
+
+</div>
+</div>
+<a id="afcd140786e5a4f34e23f60bc216c844d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afcd140786e5a4f34e23f60bc216c844d">&#9670;&nbsp;</a></span>keyboard_report</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint8_t keyboard_report[8]</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Currently active keyboard report This report is changed and sent on an incoming command. </p>
+<ol type="1">
+<li>byte is the modifier, bytes 2-7 are keycodes </li>
+</ol>
+
+<p class="definition">Definition at line <a class="el" href="HID__kbdmousejoystick_8cpp_source.html#l00063">63</a> of file <a class="el" href="HID__kbdmousejoystick_8cpp_source.html">HID_kbdmousejoystick.cpp</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="HID__kbdmousejoystick_8cpp_source.html#l00864">halBLEReset()</a>.</p>
 
 </div>
 </div>
@@ -592,7 +642,30 @@ Here is the caller graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="HID__kbdmousejoystick_8cpp_source.html#l00047">47</a> of file <a class="el" href="HID__kbdmousejoystick_8cpp_source.html">HID_kbdmousejoystick.cpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="HID__kbdmousejoystick_8cpp_source.html#l00626">halBLEEnDisable()</a>, and <a class="el" href="HID__kbdmousejoystick_8cpp_source.html#l00653">halBLEReset()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="HID__kbdmousejoystick_8cpp_source.html#l00837">halBLEEnDisable()</a>, and <a class="el" href="HID__kbdmousejoystick_8cpp_source.html#l00864">halBLEReset()</a>.</p>
+
+</div>
+</div>
+<a id="a2808bdb6897db7e4f534a5caeebd6c2c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2808bdb6897db7e4f534a5caeebd6c2c">&#9670;&nbsp;</a></span>mouse_report</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint8_t mouse_report[4]</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Currently active mouse report This report is changed and sent on an incoming command. </p>
+<ol type="1">
+<li>byte is the button map, bytes 2-4 are X/Y/wheel (int8_t) </li>
+</ol>
+
+<p class="definition">Definition at line <a class="el" href="HID__kbdmousejoystick_8cpp_source.html#l00070">70</a> of file <a class="el" href="HID__kbdmousejoystick_8cpp_source.html">HID_kbdmousejoystick.cpp</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="HID__kbdmousejoystick_8cpp_source.html#l00864">halBLEReset()</a>.</p>
 
 </div>
 </div>
@@ -608,7 +681,7 @@ Here is the caller graph for this function:</div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="HID__kbdmousejoystick_8cpp_source.html#l00070">70</a> of file <a class="el" href="HID__kbdmousejoystick_8cpp_source.html">HID_kbdmousejoystick.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="HID__kbdmousejoystick_8cpp_source.html#l00108">108</a> of file <a class="el" href="HID__kbdmousejoystick_8cpp_source.html">HID_kbdmousejoystick.cpp</a>.</p>
 
 </div>
 </div>
@@ -624,7 +697,7 @@ Here is the caller graph for this function:</div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="HID__kbdmousejoystick_8cpp_source.html#l00361">361</a> of file <a class="el" href="HID__kbdmousejoystick_8cpp_source.html">HID_kbdmousejoystick.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="HID__kbdmousejoystick_8cpp_source.html#l00572">572</a> of file <a class="el" href="HID__kbdmousejoystick_8cpp_source.html">HID_kbdmousejoystick.cpp</a>.</p>
 
 </div>
 </div>
@@ -640,9 +713,9 @@ Here is the caller graph for this function:</div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="HID__kbdmousejoystick_8cpp_source.html#l00062">62</a> of file <a class="el" href="HID__kbdmousejoystick_8cpp_source.html">HID_kbdmousejoystick.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="HID__kbdmousejoystick_8cpp_source.html#l00100">100</a> of file <a class="el" href="HID__kbdmousejoystick_8cpp_source.html">HID_kbdmousejoystick.cpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="HID__kbdmousejoystick_8cpp_source.html#l00579">halBLESetPairing()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="HID__kbdmousejoystick_8cpp_source.html#l00790">halBLESetPairing()</a>.</p>
 
 </div>
 </div>
@@ -662,7 +735,7 @@ Here is the caller graph for this function:</div>
 <p>This report map will be used on init do build a report map according to init functions (with activated interfaces).</p>
 <dl class="section note"><dt>Note</dt><dd>Report id is on all reports in offset 7. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="HID__kbdmousejoystick_8cpp_source.html#l00162">162</a> of file <a class="el" href="HID__kbdmousejoystick_8cpp_source.html">HID_kbdmousejoystick.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="HID__kbdmousejoystick_8cpp_source.html#l00200">200</a> of file <a class="el" href="HID__kbdmousejoystick_8cpp_source.html">HID_kbdmousejoystick.cpp</a>.</p>
 
 </div>
 </div>
@@ -682,7 +755,7 @@ Here is the caller graph for this function:</div>
 <p>This report map will be used on init do build a report map according to init functions (with activated interfaces).</p>
 <dl class="section note"><dt>Note</dt><dd>Report id is on all reports in offset 7. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="HID__kbdmousejoystick_8cpp_source.html#l00079">79</a> of file <a class="el" href="HID__kbdmousejoystick_8cpp_source.html">HID_kbdmousejoystick.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="HID__kbdmousejoystick_8cpp_source.html#l00117">117</a> of file <a class="el" href="HID__kbdmousejoystick_8cpp_source.html">HID_kbdmousejoystick.cpp</a>.</p>
 
 </div>
 </div>
@@ -714,7 +787,7 @@ Here is the caller graph for this function:</div>
 <p>This report map will be used on init do build a report map according to init functions (with activated interfaces).</p>
 <dl class="section note"><dt>Note</dt><dd>Report id is on all reports in offset 7. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="HID__kbdmousejoystick_8cpp_source.html#l00123">123</a> of file <a class="el" href="HID__kbdmousejoystick_8cpp_source.html">HID_kbdmousejoystick.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="HID__kbdmousejoystick_8cpp_source.html#l00161">161</a> of file <a class="el" href="HID__kbdmousejoystick_8cpp_source.html">HID_kbdmousejoystick.cpp</a>.</p>
 
 </div>
 </div>

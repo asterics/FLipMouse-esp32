@@ -207,7 +207,7 @@ Variables</h2></td></tr>
 <p>The LED output is configurable either to 3 PWM outputs for RGB LEDs or a Neopixel string with variable length (RGB LEDs use ledc facilities, Neopixels use RMT engine). To enable easy color settings, macros are provided (<a class="el" href="hal__io_8h.html#a480a15dad4ba5947f98a09220a6c2827" title="Macro to easily update the LEDs (RGB or Neopixel, depending on configuration) ">LED(r,g,b,m)</a>).</p>
 <p>IR receiving / sending is done via the RMT engine and is supported by macros as well.</p>
 <dl class="section note"><dt>Note</dt><dd>Compared to the tasks in the folder "function_tasks" all HAL tasks are singletons. Call init to initialize every necessary data structure.</dd></dl>
-<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000025">Todo:</a></b></dt><dd>Test LED driver (RGB &amp; Neopixel) </dd></dl>
+<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000033">Todo:</a></b></dt><dd>Test LED driver (RGB &amp; Neopixel) </dd></dl>
 
 <p class="definition">Definition in file <a class="el" href="hal__io_8h_source.html">hal_io.h</a>.</p>
 </div><h2 class="groupheader">Macro Definition Documentation</h2>
@@ -320,7 +320,7 @@ This pin will be used for starting a long press timer, where the handler is call
         </tr>
       </table>
 </div><div class="memdoc">
-<b>Value:</b><div class="fragment"><div class="line">{ \</div><div class="line">  generalConfig_t *cfg = <a class="code" href="config__switcher_8c.html#a921538bec34d128a44a748fd5a2c391f">configGetCurrent</a>(); \</div><div class="line">  if(cfg != NULL) { \</div><div class="line">      <span class="comment">/*check if feedback mode is set to LED output. If not: do nothing*/</span> \</div><div class="line">      if((cfg-&gt;feedback &amp; 0x01) != 0) { \</div><div class="line">        <span class="comment">/* set duty cycle (extend to 10bit) */</span> \</div><div class="line">        ledc_set_duty(LEDC_HIGH_SPEED_MODE,LEDC_CHANNEL_0,r * 4); \</div><div class="line">        ledc_set_duty(LEDC_HIGH_SPEED_MODE,LEDC_CHANNEL_1,g * 4); \</div><div class="line">        ledc_set_duty(LEDC_HIGH_SPEED_MODE,LEDC_CHANNEL_2,b * 4); \</div><div class="line">        ledc_update_duty(LEDC_HIGH_SPEED_MODE,LEDC_CHANNEL_0); \</div><div class="line">        ledc_update_duty(LEDC_HIGH_SPEED_MODE,LEDC_CHANNEL_1); \</div><div class="line">        ledc_update_duty(LEDC_HIGH_SPEED_MODE,LEDC_CHANNEL_2); \</div><div class="line">      } \</div><div class="line">  } \</div><div class="line">}</div><div class="ttc" id="config__switcher_8c_html_a921538bec34d128a44a748fd5a2c391f"><div class="ttname"><a href="config__switcher_8c.html#a921538bec34d128a44a748fd5a2c391f">configGetCurrent</a></div><div class="ttdeci">generalConfig_t * configGetCurrent(void)</div><div class="ttdoc">Get the current config struct. </div><div class="ttdef"><b>Definition:</b> <a href="config__switcher_8c_source.html#l00111">config_switcher.c:111</a></div></div>
+<b>Value:</b><div class="fragment"><div class="line">{ \</div><div class="line">  generalConfig_t *cfg = <a class="code" href="config__switcher_8c.html#a921538bec34d128a44a748fd5a2c391f">configGetCurrent</a>(); \</div><div class="line">  if(cfg != NULL) { \</div><div class="line">      <span class="comment">/*check if feedback mode is set to LED output. If not: do nothing*/</span> \</div><div class="line">      if((cfg-&gt;feedback &amp; 0x01) != 0) { \</div><div class="line">        <span class="comment">/* set duty cycle (extend to 10bit) */</span> \</div><div class="line">        ledc_set_duty(LEDC_HIGH_SPEED_MODE,LEDC_CHANNEL_0,r * 4); \</div><div class="line">        ledc_set_duty(LEDC_HIGH_SPEED_MODE,LEDC_CHANNEL_1,g * 4); \</div><div class="line">        ledc_set_duty(LEDC_HIGH_SPEED_MODE,LEDC_CHANNEL_2,b * 4); \</div><div class="line">        ledc_update_duty(LEDC_HIGH_SPEED_MODE,LEDC_CHANNEL_0); \</div><div class="line">        ledc_update_duty(LEDC_HIGH_SPEED_MODE,LEDC_CHANNEL_1); \</div><div class="line">        ledc_update_duty(LEDC_HIGH_SPEED_MODE,LEDC_CHANNEL_2); \</div><div class="line">      } \</div><div class="line">  } \</div><div class="line">}</div><div class="ttc" id="config__switcher_8c_html_a921538bec34d128a44a748fd5a2c391f"><div class="ttname"><a href="config__switcher_8c.html#a921538bec34d128a44a748fd5a2c391f">configGetCurrent</a></div><div class="ttdeci">generalConfig_t * configGetCurrent(void)</div><div class="ttdoc">Get the current config struct. </div><div class="ttdef"><b>Definition:</b> <a href="config__switcher_8c_source.html#l00082">config_switcher.c:82</a></div></div>
 </div><!-- fragment -->
 <p>Macro to easily update the LEDs (RGB or Neopixel, depending on configuration) </p>
 <dl class="params"><dt>Parameters</dt><dd>
@@ -336,7 +336,7 @@ This pin will be used for starting a long press timer, where the handler is call
 
 <p class="definition">Definition at line <a class="el" href="hal__io_8h_source.html#l00108">108</a> of file <a class="el" href="hal__io_8h_source.html">hal_io.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c_source.html#l00091">app_main()</a>, and <a class="el" href="config__switcher_8c_source.html#l00300">configSwitcherTask()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c_source.html#l00089">app_main()</a>, and <a class="el" href="config__switcher_8c_source.html#l00194">configSwitcherTask()</a>.</p>
 
 </div>
 </div>
@@ -403,7 +403,7 @@ This pin will be used for starting a long press timer, where the handler is call
   </table>
   </dd>
 </dl>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="common_8h.html#af531911959683790ca7ae870f8462a16" title="Output buzzer noise. ">halIOIR_t</a> </dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="common_8h.html#af531911959683790ca7ae870f8462a16" title="Output IR command. ">halIOIR_t</a> </dd></dl>
 
 <p class="definition">Definition at line <a class="el" href="hal__io_8h_source.html#l00100">100</a> of file <a class="el" href="hal__io_8h_source.html">hal_io.h</a>.</p>
 
@@ -699,7 +699,7 @@ This pin will be used for starting a long press timer, where the handler is call
 
 <p class="definition">Definition at line <a class="el" href="hal__io_8h_source.html#l00072">72</a> of file <a class="el" href="hal__io_8h_source.html">hal_io.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="config__switcher_8c_source.html#l00300">configSwitcherTask()</a>, <a class="el" href="hal__adc_8c_source.html#l00726">halAdcCalibrate()</a>, <a class="el" href="hal__adc_8c_source.html#l00364">halAdcProcessPressure()</a>, <a class="el" href="task__infrared_8c_source.html#l00153">infrared_record()</a>, and <a class="el" href="task__infrared_8c_source.html#l00051">task_infrared()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="config__switcher_8c_source.html#l00194">configSwitcherTask()</a>, <a class="el" href="hal__adc_8c_source.html#l00772">halAdcCalibrate()</a>, <a class="el" href="hal__adc_8c_source.html#l00408">halAdcProcessPressure()</a>, <a class="el" href="task__infrared_8c_source.html#l00153">infrared_record()</a>, and <a class="el" href="task__infrared_8c_source.html#l00051">task_infrared()</a>.</p>
 
 </div>
 </div>
@@ -754,7 +754,7 @@ Clear the handler by passing a void function pointer.</dd></dl>
 
 <p class="definition">Definition at line <a class="el" href="hal__io_8c_source.html#l00529">529</a> of file <a class="el" href="hal__io_8c_source.html">hal_io.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c_source.html#l00091">app_main()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c_source.html#l00089">app_main()</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
@@ -793,7 +793,7 @@ Here is the caller graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="hal__io_8c_source.html#l00550">550</a> of file <a class="el" href="hal__io_8c_source.html">hal_io.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c_source.html#l00091">app_main()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c_source.html#l00089">app_main()</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -899,7 +899,7 @@ Here is the caller graph for this function:</div>
 </div><div class="memdoc">
 
 <p>Queue to pend for any incoming infrared remote commands. </p>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="common_8h.html#af531911959683790ca7ae870f8462a16" title="Output buzzer noise. ">halIOIR_t</a> </dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="common_8h.html#af531911959683790ca7ae870f8462a16" title="Output IR command. ">halIOIR_t</a> </dd></dl>
 
 <p class="definition">Definition at line <a class="el" href="hal__io_8h_source.html#l00333">333</a> of file <a class="el" href="hal__io_8h_source.html">hal_io.h</a>.</p>
 
@@ -920,7 +920,7 @@ Here is the caller graph for this function:</div>
 </div><div class="memdoc">
 
 <p>Queue to trigger any sending of infrared remote commands. </p>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="common_8h.html#af531911959683790ca7ae870f8462a16" title="Output buzzer noise. ">halIOIR_t</a> </dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="common_8h.html#af531911959683790ca7ae870f8462a16" title="Output IR command. ">halIOIR_t</a> </dd></dl>
 
 <p class="definition">Definition at line <a class="el" href="hal__io_8h_source.html#l00336">336</a> of file <a class="el" href="hal__io_8h_source.html">hal_io.h</a>.</p>
 

@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['radio_5fstatus_5ft',['radio_status_t',['../common_8h.html#ab6afacea6a7310707d47839506c30a73',1,'common.h']]]
+  ['vb_5fcmd_5ftype_5ft',['vb_cmd_type_t',['../common_8h.html#a47e93826a9f0fae7469a39030c9cc0ef',1,'common.h']]]
 ];

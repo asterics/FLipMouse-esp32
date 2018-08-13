@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['ringbuffer',['Ringbuffer',['../classRingbuffer.html',1,'']]]
+  ['task',['Task',['../classTask.html',1,'']]],
+  ['taskinfraredconfig',['taskInfraredConfig',['../structtaskInfraredConfig.html',1,'']]]
 ];

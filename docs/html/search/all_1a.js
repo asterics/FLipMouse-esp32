@@ -1,5 +1,6 @@
 var searchData=
 [
-  ['zaxis',['Zaxis',['../structjoystick__command.html#ae0129a8dfbc174406ad5b893733806c8',1,'joystick_command::Zaxis()'],['../task__joystick_8h.html#abf75ccdaa7e07cca73bb6a704a317a91a8829518a104e6e6d7e5ba689bc309bc3',1,'ZAXIS():&#160;task_joystick.h']]],
-  ['zrotate',['Zrotate',['../structjoystick__command.html#a5157c085e921e2efb810b5b0e3ae5313',1,'joystick_command::Zrotate()'],['../task__joystick_8h.html#abf75ccdaa7e07cca73bb6a704a317a91add897f7e87a9cb17eff4386250c46a10',1,'ZROTATE():&#160;task_joystick.h']]]
+  ['_7eringbuffer',['~Ringbuffer',['../classRingbuffer.html#ae23608683e0e717cad3a9e2a30b2fcc6',1,'Ringbuffer']]],
+  ['_7esemaphore',['~Semaphore',['../classFreeRTOS_1_1Semaphore.html#a48a1e933f99dba1ef838b0cef45a57f7',1,'FreeRTOS::Semaphore']]],
+  ['_7etask',['~Task',['../classTask.html#a3ecf499ea35fb4a96853969a1e1cbbce',1,'Task']]]
 ];

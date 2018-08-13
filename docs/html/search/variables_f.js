@@ -1,22 +1,11 @@
 var searchData=
 [
-  ['s_5fwl_5fhandle',['s_wl_handle',['../hal__storage_8c.html#a9d1f6636715d2cd2af21e20bc5e26afa',1,'hal_storage.c']]],
-  ['sensitivity_5fx',['sensitivity_x',['../structadc__config.html#a81465c39748fa52d1b773f34ad4ee435',1,'adc_config']]],
-  ['sensitivity_5fy',['sensitivity_y',['../structadc__config.html#adbfe1bd3388e5274fd37ffb27c6a719a',1,'adc_config']]],
-  ['serialsendingsem',['serialsendingsem',['../hal__serial_8c.html#af8aa2305d1905c876a30e25bf34cc480',1,'hal_serial.c']]],
-  ['signalpower',['signalPower',['../classBLEBeacon.html#af8a79dc4a1cf8433b12c570b2d7a71ec',1,'BLEBeacon::signalPower()'],['../BLEBeacon_8h.html#ab2395eb171039ad2d0c920133b5c7468',1,'signalPower():&#160;BLEBeacon.h']]],
-  ['sliderleft',['sliderLeft',['../structjoystick__command.html#a2639bb410d9dfe09a897cf7903595fbd',1,'joystick_command']]],
-  ['sliderright',['sliderRight',['../structjoystick__command.html#aa9700f0cb798326dfed3a28c1e8f5793',1,'joystick_command']]],
-  ['slotname',['slotName',['../structtaskConfigSwitcherConfig.html#a28b1ab4ccf1aa8814a9b81d58d5c7bd5',1,'taskConfigSwitcherConfig::slotName()'],['../structgeneralConfig.html#a1d383c1fdfd705732cac3a1d435078e0',1,'generalConfig::slotName()']]],
-  ['slotversion',['slotversion',['../structgeneralConfig.html#a346d50e48981b23684bd04c371212a08',1,'generalConfig']]],
-  ['sockfd',['sockFd',['../captdns_8c.html#a5d4975d0f40bc307555843159c622cb1',1,'captdns.c']]],
-  ['status',['status',['../structhalIOIR.html#acc1ca503a0bbc3afd243a97708623157',1,'halIOIR']]],
-  ['storagecurrentslotnumber',['storageCurrentSlotNumber',['../hal__storage_8c.html#a5c097404b5dfa34bdac65865586dac5a',1,'hal_storage.c']]],
-  ['storagecurrenttid',['storageCurrentTID',['../hal__storage_8c.html#ab7bc6f83a4f91dba2d5b3d1edeedf4b1',1,'hal_storage.c']]],
-  ['storagecurrenttidholder',['storageCurrentTIDHolder',['../hal__storage_8c.html#a687cf5b473fc94d8fafca390fcc11a1f',1,'hal_storage.c']]],
-  ['storagecurrentvbnumber',['storageCurrentVBNumber',['../hal__storage_8c.html#ab5f3387fe559c96c7523a59e28b0a74b',1,'hal_storage.c']]],
-  ['strongmode',['strongmode',['../structadcData.html#a62810368e3b696872cc81f4914b60bd5',1,'adcData']]],
-  ['subtype',['subType',['../classBLEBeacon.html#a463788f221ce57967832322e649f3e4e',1,'BLEBeacon::subType()'],['../BLEBeacon_8h.html#a58421f5f67894191ba9e81fe3c6e4a8b',1,'subType():&#160;BLEBeacon.h']]],
-  ['subtypelength',['subTypeLength',['../classBLEBeacon.html#a8ace2509f8f532bdfc2f1b733c9b626e',1,'BLEBeacon::subTypeLength()'],['../BLEBeacon_8h.html#a153ad9574e21679d465e3813968ba77c',1,'subTypeLength():&#160;BLEBeacon.h']]],
-  ['switchradiosem',['switchRadioSem',['../flipmouse__fabi__esp32__kbdmouse__main_8c.html#aaf12ce68f07ec96638046d2dbe8ffbea',1,'flipmouse_fabi_esp32_kbdmouse_main.c']]]
+  ['passkey',['passKey',['../HID__kbdmousejoystick_8cpp.html#a0fbc2777796e89bee432478ee5a554cf',1,'HID_kbdmousejoystick.cpp']]],
+  ['payload',['payload',['../structWebSocket__frame__t.html#ad662d85165fa1e01aeb7f48c451c0264',1,'WebSocket_frame_t']]],
+  ['payload_5flength',['payload_length',['../structWS__frame__header__t.html#a449521f0961f1091189c631f8fdd1999',1,'WS_frame_header_t::payload_length()'],['../structWebSocket__frame__t.html#a705b9e952f155b1faad92c1b56196f1a',1,'WebSocket_frame_t::payload_length()']]],
+  ['pressure',['pressure',['../structadcData.html#ab8dd40e7779ed6f4894c678d2b315d09',1,'adcData']]],
+  ['pressure_5fidle',['pressure_idle',['../hal__adc_8c.html#a6ec177d729e9f63e08546c4bc8649e78',1,'hal_adc.c']]],
+  ['pressure_5fraw',['pressure_raw',['../structadcData.html#af069f35c5fe5d1e1afd7abb7a1be7512',1,'adcData']]],
+  ['proximityuuid',['proximityUUID',['../classBLEBeacon.html#a6391d98c042fd8fe69cd26d54137cead',1,'BLEBeacon::proximityUUID()'],['../BLEBeacon_8h.html#ac17a0ced1a91d5cd6e7f796193f39b87',1,'proximityUUID():&#160;BLEBeacon.h']]],
+  ['pserver',['pServer',['../HID__kbdmousejoystick_8cpp.html#ac871c365764e0411a3c3806439b2b19d',1,'HID_kbdmousejoystick.cpp']]]
 ];

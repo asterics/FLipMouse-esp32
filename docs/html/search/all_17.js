@@ -1,11 +1,9 @@
 var searchData=
 [
   ['wait',['wait',['../classFreeRTOS_1_1Semaphore.html#a023cb404ff897bb39064b454732ccf21',1,'FreeRTOS::Semaphore']]],
-  ['waitfornewatcmd',['WAITFORNEWATCMD',['../task__commands_8c.html#a7860b6904b2ba2dd906d189ada5f1e17a8430aa1deedfa38beb0b766f5f2ab411',1,'task_commands.c']]],
   ['websocket_2ec',['websocket.c',['../websocket_8c.html',1,'']]],
   ['websocket_2eh',['websocket.h',['../websocket_8h.html',1,'']]],
   ['websocket_5fframe_5ft',['WebSocket_frame_t',['../structWebSocket__frame__t.html',1,'']]],
-  ['wheel',['wheel',['../structmouse__command.html#a813db5c3e3e2d7f013972f54b8257464',1,'mouse_command::wheel()'],['../task__mouse_8h.html#ad99a95527afeac61cb05911c7695d942ac7b6c6728ce2073ebab56d038205e7b3',1,'WHEEL():&#160;task_mouse.h']]],
   ['wheel_5fstepsize',['wheel_stepsize',['../structgeneralConfig.html#a36225b09e3c7254252c495c6e36f4c33',1,'generalConfig']]],
   ['wifi',['WIFI',['../common_8h.html#ab6afacea6a7310707d47839506c30a73a13e02909006158bf407b1093191dcf5b',1,'common.h']]],
   ['wifi_5factive',['WIFI_ACTIVE',['../common_8h.html#af11bf2c47cd0354ecfee72f9c88a4e2d',1,'common.h']]],
@@ -20,7 +18,6 @@ var searchData=
   ['wifistartstopofftimer',['wifiStartStopOffTimer',['../task__webgui_8c.html#a7f89c77fa56e7ac560e2720baedf07eb',1,'task_webgui.c']]],
   ['wifitimer',['wifiTimer',['../task__webgui_8c.html#a4c0381f5a7dcb7609ee5cfe1fd540e47',1,'task_webgui.c']]],
   ['wifiwsserverhandle_5ft',['wifiWSServerHandle_t',['../task__webgui_8c.html#ab944d3c0e8a161cc7a3e75f2c9be3995',1,'task_webgui.c']]],
-  ['write',['WRITE',['../task__kbd_8h.html#aff3bf982a86299e69b007b0d16a45227a61aa7ff70b76bff0fda378cf61d6afbc',1,'task_kbd.h']]],
   ['ws_5fclient_5fkey_5fl',['WS_CLIENT_KEY_L',['../websocket_8c.html#acc455c54a3617bfc60f6540f3c6876b6',1,'websocket.c']]],
   ['ws_5fconn',['WS_conn',['../websocket_8c.html#a8df807500b69b8dc1778ce905e474599',1,'websocket.c']]],
   ['ws_5fframe_5fheader_5ft',['WS_frame_header_t',['../structWS__frame__header__t.html',1,'']]],

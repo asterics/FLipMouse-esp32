@@ -70,14 +70,8 @@
 /*++++ All global todos, roadmap, ... ++++*/
 /**
  * @file 
- 
- * @todo Double check all functional tasks for any possible memory leaks (would result in crashes after using the device a while)
  * @todo Implement buzzer in remaining task_* functions (strongsip/puff exit)
- * @todo Test Neopixels on FABI & FLipMouse
  * @todo Test AT MA (macros).
- * @todo report raw is disabled on slot switch -> fix it
- * @todo Debug buzzer, and buzzer activating tasks.
- 
  * //// TODO for later
  * @todo Implement long press for virtual buttons (new VBs).
  * @todo Test Neopixels on FABI & FLipMouse

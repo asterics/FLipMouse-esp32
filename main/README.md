@@ -4,7 +4,7 @@ The FLipMouse (Finger- and Lipmouse) is a device, which is intended to be a repl
 Instead of moving the mouse device with your hand and clicking with your fingers, you move the mouse cursor by applying very low forces to the mouthpiece.
 The clicking functionality is done by sip and puff at the mouthpiece.
 
-This device is originally designed for people with motor disablities, which can not or will not efford a medical device as mouse replacement.
+This device is originally designed for people with motor disablities, which can not or will not afford a medical device as mouse replacement.
 
 Our goal is to provide an affordable solution for everybody who is not able to use a PC or smartphone in the usual way.
 

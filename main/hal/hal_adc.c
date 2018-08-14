@@ -69,6 +69,7 @@ typedef struct adcData {
     uint32_t pressure_raw;
     int32_t x;
     int32_t y;
+    uint8_t calibrate_request;
     strong_action_t strongmode;
 } adcData_t;
 
@@ -104,11 +105,21 @@ static uint32_t pressure_idle;
  * we entered a STRONG_PUFF or STRONG_SIP mode and no action was triggered*/
 TimerHandle_t adcStrongTimerHandle;
 
-
-/*
-void halAdcTaskMouse(void * pvParameters);
-void halAdcTaskJoystick(void * pvParameters);
-void halAdcTaskThreshold(void * pvParameters);*/
+/** @brief Validate the input value and replace with default if not matching
+ * @param value Value to be validated
+ * @param min Minimum value. If "value" is below this value, "default" is returned
+ * @param max Maximum value. If "value" is above this value, "default" is returned
+ * @param defaultValue Default value if parameter "value" is not within given range
+ * @return Fixed value
+ * @note Works only for unsigned values! */
+uint32_t validate(uint32_t value, uint32_t min, uint32_t max, uint32_t defaultValue)
+{
+    if(value>max) return defaultValue;
+    //we need to test if min != 0, otherwise i
+    //if(min != 0 && value<min) return defaultValue;
+    if(value<min) return defaultValue;
+    return value;
+}
 
 /** @brief Trigger strong sip/puff + action according to input data
  * 
@@ -246,7 +257,12 @@ void halAdcReportRaw(uint32_t up, uint32_t down, uint32_t left, uint32_t right, 
  */
 void halAdcReadData(adcData_t *values)
 {
-    static int32_t otf_olds[4][HAL_IO_ADC_OTF_COUNT];
+    //4 sensors, maximum of 15 values are allowed (set by "AT OC")
+    static int32_t otf_olds[4][15];
+    //current index in otf_olds array
+    static uint8_t otf_cb_index = 0;
+    //count of otf events -> if 10 subsequent events below threshold happened
+    //calibration is started.
     static uint8_t otf_counter = 0;
     //read all sensors
     int32_t tmp = 0;
@@ -302,15 +318,20 @@ void halAdcReadData(adcData_t *values)
     //currently used: accumulate 3 last deltas and check if ALL 4 inputs
     //are assumed idle. If yes, adjust the offset values.
     
+    //validate config once before, if something went wrong we might have
+    //an array-out-of-bounds problem
+    adc_conf.otf_count = validate(adc_conf.otf_count,5,15,HAL_IO_ADC_OTF_COUNT);
+    adc_conf.otf_idle = validate(adc_conf.otf_idle,0,15,HAL_IO_ADC_OTF_THRESHOLD);
+    
     //save these values
-    otf_olds[0][otf_counter] = left;
-    otf_olds[1][otf_counter] = right;
-    otf_olds[2][otf_counter] = up;
-    otf_olds[3][otf_counter] = down;
+    otf_olds[0][otf_cb_index] = left;
+    otf_olds[1][otf_cb_index] = right;
+    otf_olds[2][otf_cb_index] = up;
+    otf_olds[3][otf_cb_index] = down;
     
     //calculate deltas (from last to first element is done after loop)
     int32_t delta_accum = 0;
-    for(uint8_t i = 0; i<(HAL_IO_ADC_OTF_COUNT-1);i++)
+    for(uint8_t i = 0; i<(adc_conf.otf_count-1);i++)
     {
         delta_accum += abs(otf_olds[0][i+1] - otf_olds[0][i]);
         delta_accum += abs(otf_olds[1][i+1] - otf_olds[1][i]);
@@ -318,16 +339,28 @@ void halAdcReadData(adcData_t *values)
         delta_accum += abs(otf_olds[3][i+1] - otf_olds[3][i]);
     }
     //get deltas from last/first value
-    delta_accum += abs(otf_olds[0][0] - otf_olds[0][HAL_IO_ADC_OTF_COUNT-1]);
-    delta_accum += abs(otf_olds[1][0] - otf_olds[1][HAL_IO_ADC_OTF_COUNT-1]);
-    delta_accum += abs(otf_olds[2][0] - otf_olds[2][HAL_IO_ADC_OTF_COUNT-1]);
-    delta_accum += abs(otf_olds[3][0] - otf_olds[3][HAL_IO_ADC_OTF_COUNT-1]);
+    delta_accum += abs(otf_olds[0][0] - otf_olds[0][adc_conf.otf_count-1]);
+    delta_accum += abs(otf_olds[1][0] - otf_olds[1][adc_conf.otf_count-1]);
+    delta_accum += abs(otf_olds[2][0] - otf_olds[2][adc_conf.otf_count-1]);
+    delta_accum += abs(otf_olds[3][0] - otf_olds[3][adc_conf.otf_count-1]);
+    
+    //next element
+    otf_cb_index = (otf_cb_index+1)%adc_conf.otf_count;
     
     
     //decide based on overall accumulated delta
-    if(delta_accum <= HAL_IO_ADC_OTF_THRESHOLD)
+    if(delta_accum <= adc_conf.otf_idle)
     {
-        ESP_LOGW(LOG_TAG,"OTF calib! TBD!!");
+        if(otf_counter == 5)
+        {
+            ///@todo Test OTF calibration more with different values & different sensor setup, activate here afterwards!
+            //values->calibrate_request = 1;
+            ESP_LOGI(LOG_TAG,"OTF now!");
+        } else {
+            otf_counter++;
+        }
+    } else {
+        otf_counter = 0;
     }
     
     //do the mouse rotation
@@ -589,6 +622,7 @@ void halAdcTaskMouse(void * pvParameters)
     //set adc data reference for timer
     vTimerSetTimerID(adcStrongTimerHandle,&D);
     
+    
     while(1)
     {
         //get mutex
@@ -599,7 +633,10 @@ void halAdcTaskMouse(void * pvParameters)
         }
         
         //read out the analog voltages from all 5 channels (including deadzone)
+        //& set calibrate request to 0 before
+        D.calibrate_request = 0;
         halAdcReadData(&D);
+        
         
         //if you want to slow down, uncomment following two lines
         //ESP_LOGD(LOG_TAG,"X/Y square, X/Y ellipse: %d/%d, %d/%d",tempX,tempY,D.x,D.y);
@@ -679,6 +716,9 @@ void halAdcTaskMouse(void * pvParameters)
         
         //give mutex
         xSemaphoreGive(adcSem);
+        
+        //if OTF calibration is requested:
+        if(D.calibrate_request != 0) halAdcCalibrate();
         
         //delay the task.
         vTaskDelayUntil( &xLastWakeTime, 20/portTICK_PERIOD_MS);
@@ -992,7 +1032,10 @@ esp_err_t halAdcUpdateConfig(adc_config_t* params)
         } else ESP_LOGW(LOG_TAG, "no valid task handle, no task deleted");
     }
     #endif
-        
+    
+    //check for invalid input
+    params->otf_count = validate(params->otf_count,5,15,HAL_IO_ADC_OTF_COUNT);
+    params->otf_idle = validate(params->otf_idle,0,15,HAL_IO_ADC_OTF_THRESHOLD);
     
     //clear pending button flags
     //TBD...

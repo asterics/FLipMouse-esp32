@@ -437,6 +437,11 @@ typedef struct adc_config {
   uint8_t axis;
   /** FLipMouse orientation, 0,90,180 or 270° */
   uint16_t orientation;
+  /** On-the-fly calibration, count of idle events before triggering calibration */
+  uint8_t otf_count;
+  /** On-the-fly calibration, level of detecting idle (all raw values need to change less
+   * than this value to be detected as idle) */
+  uint8_t otf_idle;
 } adc_config_t;
 
 /** @brief Type of VB command

@@ -118,6 +118,9 @@ individually to set a global value.
 | AT GD | number (0-100)  | "down" sensor gain  | v2 | yes | no |
 | AT GL | number (0-100)  | "left" sensor gain  | v2 | yes | no |
 | AT GR | number (0-100)  | "right" sensor gain  | v2 | yes | no |
+| AT OT | number (0-15)   | On-the-fly calibration, threshold for detecting idle | v3 | yes | no |
+| AT OC | number (5-15)   | On-the-fly calibration, idle counter before calibrating | v3 | yes | no |
+
 **Joystick settings**
 | Command | Parameter | Description | Available since | Implemented in v3 | FUNCTIONAL task |
 |:--------|:----------|:------------|:--------------|:--------------------|:----------------|

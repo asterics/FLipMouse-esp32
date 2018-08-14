@@ -303,6 +303,36 @@ parserstate_t doMouthpieceSettingsParsing(uint8_t *cmdBuffer)
     }
   }
   
+  /*++++ on the fly calibration ++++*/
+  //AT DX, DY
+  if(CMD4("AT O"))
+  {
+    unsigned int param = strtol((char*)&(cmdBuffer[5]),NULL,10);
+    //assign to threshold or counter
+    switch(cmdBuffer[4])
+    {
+      case 'C': 
+        if(param < 5 || param > 15)
+        {
+          sendErrorBack("OTF counter: 5-15");
+          return UNKNOWNCMD;
+        }
+        currentcfg->adc.otf_count = param; requestUpdate = 1; 
+        ESP_LOGI(LOG_TAG,"OTF counter: %d",param);
+        return NOACTION;
+      case 'T': 
+        if(param > 15)
+        {
+          sendErrorBack("OTF idle threshold: 0-15");
+          return UNKNOWNCMD;
+        }
+        currentcfg->adc.otf_idle = param; requestUpdate = 1; 
+        ESP_LOGI(LOG_TAG,"OTF idle threshold: %d",param);
+        return NOACTION;
+      default: return UNKNOWNCMD;
+    }
+  }
+  
   /*++++ mouthpiece mouse - maximum speed ++++*/
   //AT MS
   if(CMD("AT MS"))

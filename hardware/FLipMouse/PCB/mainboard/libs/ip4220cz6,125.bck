@@ -1,0 +1,8 @@
+EESchema-DOCLIB  Version 2.0
+#
+$CMP IP4220CZ6,125
+D Schottky diode array, TVS ESD protection
+K diode tvs schottky array ESD USB
+$ENDCMP
+#
+#End Doc Library

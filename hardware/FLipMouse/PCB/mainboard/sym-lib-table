@@ -1,0 +1,6 @@
+(sym_lib_table
+  (lib (name ESP32-footprints-Shem-Lib)(type Legacy)(uri ${KIPRJMOD}/libs/ESP32-Footprints/ESP32-footprints-Shem-Lib.lib)(options "")(descr ""))
+  (lib (name LPC11)(type Legacy)(uri ${KIPRJMOD}/libs/LPC11.lib)(options "")(descr ""))
+  (lib (name LED1)(type Legacy)(uri ${KIPRJMOD}/libs/LED.lib)(options "")(descr ""))
+  (lib (name ip4220cz6,125)(type Legacy)(uri ${KIPRJMOD}/libs/ip4220cz6,125.lib)(options "")(descr ""))
+)

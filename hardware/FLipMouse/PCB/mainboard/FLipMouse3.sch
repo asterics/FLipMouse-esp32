@@ -1316,9 +1316,7 @@ Wire Wire Line
 	2350 7400 2350 6950
 Connection ~ 2350 6950
 Wire Wire Line
-	2800 7400 2800 7350
-Wire Wire Line
-	2800 7350 2100 7350
+	2500 7350 2100 7350
 Wire Wire Line
 	2100 7350 2100 7700
 Wire Wire Line
@@ -2170,30 +2168,6 @@ $EndComp
 Text Label 14650 9400 2    60   ~ 0
 EXT1
 Wire Wire Line
-	2050 7250 2500 7250
-Wire Wire Line
-	2500 7400 2500 7250
-Connection ~ 2500 7250
-Wire Wire Line
-	2500 7250 3100 7250
-Wire Wire Line
-	2600 7400 2600 7300
-Wire Wire Line
-	2600 7300 3050 7300
-Wire Wire Line
-	3050 7300 3050 7550
-$Comp
-L power:VBUS #PWR0119
-U 1 1 5C037606
-P 3050 7550
-F 0 "#PWR0119" H 3050 7400 50  0001 C CNN
-F 1 "VBUS" H 3050 7700 50  0000 C CNN
-F 2 "" H 3050 7550 50  0001 C CNN
-F 3 "" H 3050 7550 50  0001 C CNN
-	1    3050 7550
-	0    1    -1   0   
-$EndComp
-Wire Wire Line
 	11500 1500 11500 2000
 Wire Wire Line
 	11400 2000 11500 2000
@@ -2442,4 +2416,13 @@ Wire Notes Line
 	700  8250 700  10250
 Wire Notes Line width 12 style solid
 	5150 10400 550  10400
+Wire Wire Line
+	2600 7250 2600 7400
+Connection ~ 2600 7250
+Wire Wire Line
+	2600 7250 3100 7250
+Wire Wire Line
+	2050 7250 2600 7250
+Wire Wire Line
+	2500 7350 2500 7400
 $EndSCHEMATC

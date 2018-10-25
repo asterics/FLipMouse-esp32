@@ -68,7 +68,7 @@ static char wifipw[64];
 /** @brief Static HTTP HTML header */
 const static char http_html_hdr[] = "HTTP/1.1 200 OK\r\n";
 /** @brief Static HTTP redirect header */
-const static char http_redir_hdr[] = "HTTP/1.1 302 Found\r\nLocation: http://192.168.4.1/index.htm\r\n\Expires: Mon, 26 Jul 1997 05:00:00 GMT\r\nCache-Control: no-cache\r\nPragma: no-cache\r\nCache-Control: post-check=0, pre-check=0\r\n";
+const static char http_redir_hdr[] = "HTTP/1.1 302 Found\r\nLocation: http://192.168.4.1/index.htm\r\n\Expires: Mon, 26 Jul 1997 05:00:00 GMT\r\nCache-Control: no-cache, no-store, must-revalidate\r\nPragma: no-cache\r\nCache-Control: post-check=0, pre-check=0\r\nContent-Length: 0\r\n";
 
 /** Mutex to lock fat access */
 SemaphoreHandle_t  fatSem;
@@ -182,6 +182,12 @@ void ws_server(void *pvParameters) {
   vTaskDelete(NULL);
 }
 
+/** @brief Helper, sending redirect header */
+void redirect(char* resource, int fd)
+{
+  send(fd, http_redir_hdr, sizeof(http_redir_hdr) - 1, 0);
+  ESP_LOGI(LOG_TAG,"Sending redirect for %s",resource);
+}
 
 /** @brief Serve static content from FAT
  * 
@@ -190,23 +196,61 @@ void ws_server(void *pvParameters) {
  * @param conn Currently active connection
  */
 void fat_serve(char* resource, int fd) {
+  //if we serve a html file for a different URL, Content Type
+  //is not set correctly (no file ending given).
+  //Set this value to != 0 to force ContentType = text/html
+  uint8_t force_html = 0;
+  
+  //testing for special URLS, which should be handled by
+  //redirects or other captive portal logic
+  //URL source: https://stackoverflow.com/questions/46289283/esp8266-captive-portal-with-pop-up
+  
+  if(strcmp(resource,"/fwlink") == 0) { redirect(resource, fd); return; }
+  if(strcmp(resource,"/connecttest.txt") == 0) { redirect(resource, fd); return; }
+  if(strcmp(resource,"/hotspot-detect.html") == 0) { redirect(resource, fd); return; }
+  if(strcmp(resource,"/library/test/success.html") == 0) { redirect(resource, fd); return; }
+  if(strcmp(resource,"/kindle-wifi/wifistub.html") == 0) { redirect(resource, fd); return; }
+  
+  //do NOT redirect for Android, instead serve root file.
+  //if(strcmp(resource,"/generate_204") == 0) { redirect(resource, fd); return; }
+  //if(strcmp(resource,"/gen_204") == 0) { redirect(resource, fd); return; }
+  
+  //if we have a very long filename, rewrite for index.htm...
+  //we had a DoubleExceptionVector for long names (not supported by FAT)
+  if(strlen(resource) > 32) sprintf(resource,"/index.htm");
   
   if(xSemaphoreTake(fatSem,200) == pdTRUE)
   {
-  
     //basepath + 8.3 file + folder + margin
     char file[sizeof(base_path)+32];
     
-    sprintf(file,"%s%s",base_path,resource);
+    //Captive portal:
+    //for all devices which do NOT want a redirect, serve index file
+    if(strcmp(resource,"/generate_204") == 0) {
+      sprintf(file,"%s%s",base_path,"/index.htm");
+      force_html = 1; //force content type
+    } else if(strcmp(resource,"/gen_204") == 0) {
+      sprintf(file,"%s%s",base_path,"/index.htm");
+      force_html = 1; //force content type
+    } else {
+      sprintf(file,"%s%s",base_path,resource);
+    }
     ESP_LOGI(LOG_TAG,"serving from FAT: %s",file);
 		
 		// open the file for reading
 		FILE* f = fopen(file, "r");
 		if(f == NULL) {
-			ESP_LOGW(LOG_TAG,"Resource not found: %s, sending redirect", file);
-      send(fd, http_redir_hdr, sizeof(http_redir_hdr) - 1, 0);
-      xSemaphoreGive(fatSem);
-			return;
+      ESP_LOGW(LOG_TAG,"Resource not found: %s, opening index.htm", file);
+      sprintf(file,"%s%s",base_path,"/index.htm");
+      f = fopen(file, "r");
+      force_html = 1; //force content type
+      if(f == NULL)
+      {
+        ESP_LOGE(LOG_TAG,"Index not found? Sending redirect...");
+        send(fd, http_redir_hdr, sizeof(http_redir_hdr) - 1, 0);
+        xSemaphoreGive(fatSem);
+        return;
+      }
 		}
     
     //get the size of this file (for html header)
@@ -223,7 +267,7 @@ void fat_serve(char* resource, int fd) {
     if(strcmp(&resource[reslen-4],".css") == 0)
     {
       snprintf(hdr,36,"Content-Type: text/css\r\n");
-    } else if(strcmp(&resource[reslen-4],".htm") == 0) {
+    } else if(strcmp(&resource[reslen-4],".htm") == 0 || force_html != 0) {
       snprintf(hdr,36,"Content-Type: text/html\r\n");
     } else if(strcmp(&resource[reslen-3],".js") == 0) {
       snprintf(hdr,36,"Content-Type: text/javascript\r\n");
@@ -282,7 +326,7 @@ static void http_server_netconn_serve(int fd) {
   }
 
   //read incoming
-  int size = recv(fd,buf,MAX_BUFF_SIZE,0);
+  int size = recv(fd,buf,MAX_BUFF_SIZE-1,0);
   #if (LOG_LEVEL_WEB >= ESP_LOG_DEBUG)
   ESP_LOGD(LOG_TAG,"recv size: %d",size);
   #endif

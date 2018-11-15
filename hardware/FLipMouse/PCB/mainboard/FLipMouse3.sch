@@ -6,11 +6,11 @@ $Descr A3 16535 11693
 encoding utf-8
 Sheet 1 1
 Title "FLipMouse3"
-Date "2018-02-14"
+Date "2018-11-15"
 Rev "v3.1"
 Comp "AsTeRICS Foundation"
 Comment1 ""
-Comment2 ""
+Comment2 "Art. Number: 30310200"
 Comment3 "beni@asterics-foundation.org"
 Comment4 "(c) Benjamin Aigner, 2018"
 $EndDescr
@@ -116,10 +116,10 @@ F 3 "" V 14025 3450 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L Device:R R11
+L Device:R R10
 U 1 1 5A81C7FF
 P 13950 3100
-F 0 "R11" V 14030 3100 50  0000 C CNN
+F 0 "R10" V 14030 3100 50  0000 C CNN
 F 1 "1k5" V 13950 3100 50  0000 C CNN
 F 2 "Resistor_SMD:R_0603_1608Metric" V 13880 3100 50  0001 C CNN
 F 3 "" H 13950 3100 50  0001 C CNN
@@ -193,10 +193,10 @@ F 3 "" H 11450 7150 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L Device:R R22
+L Device:R R21
 U 1 1 5A81D7F8
 P 1250 6300
-F 0 "R22" V 1350 6300 50  0000 C CNN
+F 0 "R21" V 1350 6300 50  0000 C CNN
 F 1 "1M" V 1250 6300 50  0000 C CNN
 F 2 "Resistor_SMD:R_0603_1608Metric" V 1180 6300 50  0001 C CNN
 F 3 "" H 1250 6300 50  0001 C CNN
@@ -602,7 +602,7 @@ Text Label 6000 4700 2    60   ~ 0
 E_RESET
 Text Label 6600 3000 2    60   ~ 0
 B_2
-Text Label 6600 2700 2    60   ~ 0
+Text Label 8450 2650 0    60   ~ 0
 B_0
 Text Label 6600 2900 2    60   ~ 0
 B_1
@@ -616,14 +616,14 @@ Text Label 6600 3100 2    60   ~ 0
 B_PAIR
 Text Label 13700 1650 2    60   ~ 0
 LED1
-Text Label 9350 1700 0    60   ~ 0
+Text Label 8450 1950 0    60   ~ 0
 LED1
 $Comp
 L Device:CP C18
 U 1 1 5A81B5B8
 P 14800 5650
 F 0 "C18" H 14825 5750 50  0000 L CNN
-F 1 "100uF" H 14825 5550 50  0000 L CNN
+F 1 "15uF" H 14825 5550 50  0000 L CNN
 F 2 "Capacitor_Tantalum_SMD:CP_EIA-3216-18_Kemet-A" H 14838 5500 50  0001 C CNN
 F 3 "" H 14800 5650 50  0001 C CNN
 	1    14800 5650
@@ -878,7 +878,7 @@ L LED1:SK6812 D3
 U 1 1 5A8F213F
 P 14000 1650
 F 0 "D3" H 14200 1875 50  0000 R BNN
-F 1 "SK6812" V 13750 1900 50  0000 L TNN
+F 1 "SK6812" H 13600 1400 50  0000 L TNN
 F 2 "LED_SMD:LED_SK6812_PLCC4_5.0x5.0mm_P3.2mm" H 14050 1350 50  0001 L TNN
 F 3 "" H 14100 1275 50  0001 L TNN
 	1    14000 1650
@@ -887,68 +887,13 @@ $EndComp
 $Comp
 L power:VBUS #PWR036
 U 1 1 5A8F25CB
-P 14000 1350
-F 0 "#PWR036" H 14000 1200 50  0001 C CNN
-F 1 "VBUS" H 14000 1500 50  0000 C CNN
-F 2 "" H 14000 1350 50  0001 C CNN
-F 3 "" H 14000 1350 50  0001 C CNN
-	1    14000 1350
-	1    0    0    -1  
-$EndComp
-$Comp
-L power:GND #PWR037
-U 1 1 5A8F26CC
-P 14000 2050
-F 0 "#PWR037" H 14000 1800 50  0001 C CNN
-F 1 "GND" H 14000 1900 50  0000 C CNN
-F 2 "" H 14000 2050 50  0001 C CNN
-F 3 "" H 14000 2050 50  0001 C CNN
-	1    14000 2050
-	1    0    0    -1  
-$EndComp
-$Comp
-L Device:Q_NMOS_GSD Q6
-U 1 1 5A8F367A
-P 9150 1900
-F 0 "Q6" H 9350 1950 50  0000 L CNN
-F 1 "BSH108" H 9350 1850 50  0000 L CNN
-F 2 "Package_TO_SOT_SMD:SOT-23" H 9350 2000 50  0001 C CNN
-F 3 "" H 9150 1900 50  0001 C CNN
-	1    9150 1900
-	1    0    0    -1  
-$EndComp
-$Comp
-L power:GND #PWR038
-U 1 1 5A8F394D
-P 9250 2100
-F 0 "#PWR038" H 9250 1850 50  0001 C CNN
-F 1 "GND" H 9250 1950 50  0000 C CNN
-F 2 "" H 9250 2100 50  0001 C CNN
-F 3 "" H 9250 2100 50  0001 C CNN
-	1    9250 2100
-	1    0    0    -1  
-$EndComp
-$Comp
-L Device:R R10
-U 1 1 5A8F3BAC
-P 9250 1550
-F 0 "R10" V 9330 1550 50  0000 C CNN
-F 1 "1k5" V 9250 1550 50  0000 C CNN
-F 2 "Resistor_SMD:R_0603_1608Metric" V 9180 1550 50  0001 C CNN
-F 3 "" H 9250 1550 50  0001 C CNN
-	1    9250 1550
-	1    0    0    -1  
-$EndComp
-$Comp
-L power:VBUS #PWR039
-U 1 1 5A8F3E36
-P 9250 1300
-F 0 "#PWR039" H 9250 1150 50  0001 C CNN
-F 1 "VBUS" H 9250 1450 50  0000 C CNN
-F 2 "" H 9250 1300 50  0001 C CNN
-F 3 "" H 9250 1300 50  0001 C CNN
-	1    9250 1300
-	1    0    0    -1  
+P 13650 1350
+F 0 "#PWR036" H 13650 1200 50  0001 C CNN
+F 1 "VBUS" H 13650 1500 50  0000 C CNN
+F 2 "" H 13650 1350 50  0001 C CNN
+F 3 "" H 13650 1350 50  0001 C CNN
+	1    13650 1350
+	0    -1   -1   0   
 $EndComp
 $Comp
 L Connector:TestPoint TP2
@@ -1251,13 +1196,13 @@ Wire Notes Line
 Wire Notes Line
 	13400 2250 13400 900 
 Wire Notes Line
-	9850 4150 9850 900 
+	9250 4150 9250 900 
 Wire Notes Line
-	9850 900  5500 900 
+	9250 900  5500 900 
 Wire Notes Line
 	5500 900  5500 4150
 Wire Notes Line
-	5500 4150 9850 4150
+	5500 4150 9250 4150
 Wire Notes Line
 	14450 4150 13400 4150
 Wire Notes Line
@@ -1267,22 +1212,11 @@ Wire Notes Line
 Wire Notes Line
 	13400 4150 13400 2450
 Wire Wire Line
-	14000 2050 14000 1950
-Wire Wire Line
-	9250 1400 9250 1300
-Connection ~ 9250 1700
-Wire Wire Line
 	8950 2850 8450 2850
 Wire Wire Line
 	8800 2750 8450 2750
 Wire Wire Line
 	3650 2100 3500 2100
-Wire Wire Line
-	8500 1900 8850 1900
-Wire Wire Line
-	8500 1900 8500 1950
-Wire Wire Line
-	8500 1950 8450 1950
 NoConn ~ 3500 4700
 Wire Wire Line
 	3550 5700 3550 5600
@@ -1367,10 +1301,10 @@ $EndComp
 Wire Wire Line
 	5800 2100 6600 2100
 $Comp
-L Device:R R21
+L Device:R R11
 U 1 1 5B080FEC
 P 5800 1850
-F 0 "R21" V 5880 1850 50  0000 C CNN
+F 0 "R11" V 5880 1850 50  0000 C CNN
 F 1 "10k" V 5800 1850 50  0000 C CNN
 F 2 "Resistor_SMD:R_0603_1608Metric" V 5730 1850 50  0001 C CNN
 F 3 "" H 5800 1850 50  0001 C CNN
@@ -1406,26 +1340,8 @@ F 3 "" H 5800 2550 50  0001 C CNN
 $EndComp
 Wire Wire Line
 	5800 2550 5800 2400
-$Comp
-L Device:Jumper_NO_Small JP1
-U 1 1 5B0839D4
-P 8950 1700
-F 0 "JP1" H 8950 1780 50  0000 C CNN
-F 1 "IO direct" H 8950 1850 50  0000 C CNN
-F 2 "Jumper:SolderJumper-2_P1.3mm_Open_Pad1.0x1.5mm" H 8950 1700 50  0001 C CNN
-F 3 "" H 8950 1700 50  0001 C CNN
-	1    8950 1700
-	1    0    0    -1  
-$EndComp
 Wire Wire Line
 	6300 1750 6300 2000
-Wire Wire Line
-	9050 1700 9250 1700
-Wire Wire Line
-	8850 1900 8850 1700
-Connection ~ 8850 1900
-Text Notes 8900 1200 2    60   ~ 0
-route 3v3 directly\nto Neopixel
 Wire Wire Line
 	800  3250 800  3500
 Wire Wire Line
@@ -1475,15 +1391,11 @@ Wire Wire Line
 Wire Wire Line
 	1750 6450 1750 6650
 Wire Wire Line
-	9250 1700 9350 1700
-Wire Wire Line
 	2850 7050 2950 7050
 Wire Wire Line
 	2350 6950 3900 6950
 Wire Wire Line
 	2950 7050 3850 7050
-Wire Wire Line
-	8850 1900 8950 1900
 Wire Wire Line
 	1250 6000 1750 6000
 Wire Wire Line
@@ -1725,7 +1637,7 @@ L Device:R R1
 U 1 1 5BB2D608
 P 8850 6900
 F 0 "R1" H 8920 6946 50  0000 L CNN
-F 1 "22R,min 0.125W" H 9300 6700 50  0000 L CNN
+F 1 "15R,min 0.125W" H 9300 6700 50  0000 L CNN
 F 2 "Resistor_SMD:R_0603_1608Metric" V 8780 6900 50  0001 C CNN
 F 3 "~" H 8850 6900 50  0001 C CNN
 	1    8850 6900
@@ -1736,7 +1648,7 @@ L Device:R R2
 U 1 1 5BB2D887
 P 9250 6900
 F 0 "R2" H 9320 6946 50  0000 L CNN
-F 1 "22R,min 0.125W" H 9300 6600 50  0000 L CNN
+F 1 "15R,min 0.125W" H 9300 6600 50  0000 L CNN
 F 2 "Resistor_SMD:R_0603_1608Metric" V 9180 6900 50  0001 C CNN
 F 3 "~" H 9250 6900 50  0001 C CNN
 	1    9250 6900
@@ -2026,7 +1938,7 @@ Text Label 14650 9300 2    60   ~ 0
 FSR3
 Text Label 15150 9300 0    60   ~ 0
 FSR4
-Text Label 8450 2650 0    60   ~ 0
+Text Label 6600 2700 2    60   ~ 0
 EXT1
 Text Label 5850 9250 3    60   ~ 0
 SDA
@@ -2092,13 +2004,12 @@ Text Label 7750 9300 0    60   ~ 0
 EXT1
 Text Label 7750 9200 0    60   ~ 0
 EXT2
-Text Label 7750 9400 0    60   ~ 0
-ESP_TX
 Text Label 7250 9400 2    60   ~ 0
-ESP_RX
+EXT_TX
+Text Label 7750 9400 0    60   ~ 0
+EXT_RX
 NoConn ~ 11450 2800
 NoConn ~ 11600 2800
-NoConn ~ 8450 2950
 NoConn ~ 2850 9400
 $Comp
 L Connector:Conn_01x04_Female J1
@@ -2176,7 +2087,6 @@ Wire Wire Line
 	11500 2000 11500 2300
 Text Label 8000 3650 3    60   ~ 0
 EXT2
-NoConn ~ 8450 2450
 NoConn ~ 11400 1400
 NoConn ~ 11400 1600
 NoConn ~ 11400 1900
@@ -2197,14 +2107,6 @@ F 3 "~" H 15750 10250 50  0001 C CNN
 	1    15750 10250
 	1    0    0    -1  
 $EndComp
-Wire Notes Line
-	8900 1250 8900 1500
-Wire Notes Line
-	8900 1500 8850 1450
-Wire Notes Line
-	8850 1450 8950 1450
-Wire Notes Line
-	8950 1450 8900 1500
 Wire Wire Line
 	4600 1150 4600 1400
 Wire Wire Line
@@ -2307,7 +2209,7 @@ Sensor board connector
 Wire Notes Line width 12 style solid
 	5350 9850 5350 8100
 Wire Notes Line width 12 style solid
-	10550 8100 10550 9850
+	5350 10050 5350 11050
 Wire Notes Line width 12 style solid
 	10550 8100 5350 8100
 Text Notes 6950 8350 0    120  ~ 24
@@ -2425,4 +2327,111 @@ Wire Wire Line
 	2050 7250 2600 7250
 Wire Wire Line
 	2500 7350 2500 7400
+NoConn ~ 2800 7400
+$Comp
+L Device:D D8
+U 1 1 5C376CB2
+P 13850 1350
+F 0 "D8" H 13850 1134 50  0000 C CNN
+F 1 "1N4148WS" H 13850 1225 50  0000 C CNN
+F 2 "Diode_SMD:D_SOD-323" H 13850 1350 50  0001 C CNN
+F 3 "~" H 13850 1350 50  0001 C CNN
+	1    13850 1350
+	-1   0    0    1   
+$EndComp
+$Comp
+L power:GNDD #PWR0119
+U 1 1 5C393ED2
+P 14000 2050
+F 0 "#PWR0119" H 14000 1800 50  0001 C CNN
+F 1 "GNDD" H 14000 1925 50  0000 C CNN
+F 2 "" H 14000 2050 50  0001 C CNN
+F 3 "" H 14000 2050 50  0001 C CNN
+	1    14000 2050
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	14000 2050 14000 1950
+Wire Wire Line
+	13650 1350 13700 1350
+Text Label 8450 2950 0    60   ~ 0
+EXT_TX
+Text Label 8450 2450 0    60   ~ 0
+EXT_RX
+$Comp
+L Mechanical:MountingHole LOGO1
+U 1 1 5C40D9CD
+P 6500 10500
+F 0 "LOGO1" H 6600 10546 50  0000 L CNN
+F 1 "Logo_FLipMouse" H 6600 10455 50  0000 L CNN
+F 2 "Logo:flipmouse_11x5" H 6500 10500 50  0001 C CNN
+F 3 "~" H 6500 10500 50  0001 C CNN
+	1    6500 10500
+	1    0    0    -1  
+$EndComp
+$Comp
+L Mechanical:MountingHole LOGO2
+U 1 1 5C40DF40
+P 6500 10700
+F 0 "LOGO2" H 6600 10746 50  0000 L CNN
+F 1 "Logo_WEEE" H 6600 10655 50  0000 L CNN
+F 2 "Symbol:WEEE-Logo_4.2x6mm_SilkScreen" H 6500 10700 50  0001 C CNN
+F 3 "~" H 6500 10700 50  0001 C CNN
+	1    6500 10700
+	1    0    0    -1  
+$EndComp
+$Comp
+L Mechanical:MountingHole LOGO3
+U 1 1 5C40DFF4
+P 6500 10900
+F 0 "LOGO3" H 6600 10946 50  0000 L CNN
+F 1 "Logo_CE" H 6600 10855 50  0000 L CNN
+F 2 "Logo:CE" H 6500 10900 50  0001 C CNN
+F 3 "~" H 6500 10900 50  0001 C CNN
+	1    6500 10900
+	1    0    0    -1  
+$EndComp
+$Comp
+L Mechanical:MountingHole FID1
+U 1 1 5C41D5C3
+P 5950 10500
+F 0 "FID1" V 5904 10600 50  0000 L CNN
+F 1 "Fiducial" V 5995 10600 50  0000 L CNN
+F 2 "Fiducial:Fiducial_0.5mm_Dia_1mm_Outer" H 5950 10500 50  0001 C CNN
+F 3 "~" H 5950 10500 50  0001 C CNN
+	1    5950 10500
+	0    1    1    0   
+$EndComp
+$Comp
+L Mechanical:MountingHole FID2
+U 1 1 5C42B940
+P 5950 10700
+F 0 "FID2" V 5904 10800 50  0000 L CNN
+F 1 "Fiducial" V 5995 10800 50  0000 L CNN
+F 2 "Fiducial:Fiducial_0.5mm_Dia_1mm_Outer" H 5950 10700 50  0001 C CNN
+F 3 "~" H 5950 10700 50  0001 C CNN
+	1    5950 10700
+	0    1    1    0   
+$EndComp
+$Comp
+L Mechanical:MountingHole FID3
+U 1 1 5C42BA2C
+P 5950 10900
+F 0 "FID3" V 5904 11000 50  0000 L CNN
+F 1 "Fiducial" V 5995 11000 50  0000 L CNN
+F 2 "Fiducial:Fiducial_0.5mm_Dia_1mm_Outer" H 5950 10900 50  0001 C CNN
+F 3 "~" H 5950 10900 50  0001 C CNN
+	1    5950 10900
+	0    1    1    0   
+$EndComp
+Wire Notes Line width 12 style solid
+	10550 8100 10550 9850
+Wire Notes Line width 12 style solid
+	8050 10050 8050 11050
+Wire Notes Line width 12 style solid
+	5350 10050 8050 10050
+Wire Notes Line width 12 style solid
+	5350 11050 8050 11050
+Text Notes 6150 10300 0    120  ~ 24
+Production
 $EndSCHEMATC

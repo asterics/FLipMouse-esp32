@@ -17,3 +17,4 @@
 * EXT header RX/TX definition
 * Neopixel is non-inverted driven
 * Added a MEMS micro on IO33 (EXT_1)
+* FABI: Buzzer & B6 switched!

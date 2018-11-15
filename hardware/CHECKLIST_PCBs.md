@@ -7,7 +7,7 @@
 * Revision correct?
 * Readable? Use text for annotation and better reading
 * Re-annotate, if parts changed (change name in Schematic, import netlist via timestamp in PCB!)
-* Export BOM & check for changes (CSV->ODS)
+* Export BOM & check for changes (CSV->ODS); print out for QM
 * Export PDF of Schematic, print out for QM
 
 ## PCB
@@ -22,8 +22,9 @@
 * Product number
 * Numbers for partly manual assembly
 * Check USB lines (symmetric, GND plane underneath, no sharp corners)
-* Print out for QM
+* Print out for QM, save files: one combined PDF for TOP, one for BOT (include: Cu,Silks,CrtYd&EdgeCuts layers); one PDF containing layers on single pages (F/BCu; F/BSilks; F/BCrtYd; EdgeCuts)
 
 ## General
 
 * Does this change have side-effects on other PCB/firmware (e.g. FLipMouse: adding SDA/SCL to LPC, if we use these communication in firmware, it has to be adopted to FABI as well)
+* Double check pin assignment, especially for ESP32 (some input only pins!)

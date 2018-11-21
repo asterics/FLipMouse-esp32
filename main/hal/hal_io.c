@@ -83,7 +83,6 @@
  **/
 QueueHandle_t halIOLEDQueue = NULL;
 
-#if defined(DEVICE_FLIPMOUSE) && defined(LED_USE_NEOPIXEL)
 /** @brief Double buffering for neopixels - buffer 1 */
 struct led_color_t *neop_buf1 = NULL;
 /** @brief Double buffering for neopixels - buffer 2 */
@@ -95,7 +94,6 @@ struct led_strip_t led_strip = {
       .gpio = HAL_IO_PIN_NEOPIXEL,
       .led_strip_length = LED_NEOPIXEL_COUNT
   };
-#endif
 
 /** @brief Currently active long press handler, null if not used 
  * @see halIOAddLongPressHandler*/
@@ -383,13 +381,6 @@ void halIOBuzzerTask(void * param)
 void halIOLEDTask(void * param)
 {
   uint32_t recv = 0;
-  #if defined(DEVICE_FLIPMOUSE) && !defined(LED_USE_NEOPIXEL)
-  uint32_t duty = 0;
-  uint32_t fade = 0;
-  #endif
-  #ifdef DEVICE_FABI
-  hid_command_t cmd;
-  #endif
   generalConfig_t *cfg = configGetCurrent();
   
   if(halIOLEDQueue == NULL)
@@ -414,71 +405,6 @@ void halIOLEDTask(void * param)
       //check if feedback mode is set to LED output. If not: do nothing
       if((cfg->feedback & 0x01) == 0) continue;
       
-      //one Neopixel LED is mounted on FABI, driven by the USB chip
-      #ifdef DEVICE_FABI
-      
-      //'L' + <red> + <green> + <blue> + '\0'
-      cmd.data[0] = 'L';
-      cmd.data[1] = recv & 0x000000FF;
-      cmd.data[2] = ((recv & 0x0000FF00) >> 8);
-      cmd.data[3] = ((recv & 0x00FF0000) >> 16);
-      cmd.len = 4;
-      //send to USB chip
-      xQueueSend(hid_usb,&cmd,10);
-      #endif
-      
-      //FLipMouse with RGB LEDs
-      #if defined(DEVICE_FLIPMOUSE) && !defined(LED_USE_NEOPIXEL)
-      
-      //updates received, sending to ledc driver
-      
-      //get fading time, unit is 10ms
-      fade = ((recv & 0xFF000000) >> 24) * 10;
-      ESP_LOGI(LOG_TAG,"LED fade time: %d",fade);
-      
-      //set fade with time (target duty and fading time)
-      
-      //1.) RED: map to 10bit and set to fading unit
-      duty = (recv & 0x000000FF) * 2 * 2; 
-      //if(ledc_set_fade_with_time(LEDC_HIGH_SPEED_MODE,LEDC_CHANNEL_0, 
-      //  duty, fade) != ESP_OK)
-      if(ledc_set_duty(LEDC_HIGH_SPEED_MODE,LEDC_CHANNEL_0,duty) != ESP_OK)
-      {
-        ESP_LOGE(LOG_TAG,"LED R: error setting fade");
-      }
-      ESP_LOGI(LOG_TAG,"LED R: %d",duty);
-      
-      //2.) GREEN: map to 10bit and set to fading unit
-      duty = ((recv & 0x0000FF00) >> 8) * 2 * 2; 
-      //if(ledc_set_fade_with_time(LEDC_HIGH_SPEED_MODE,LEDC_CHANNEL_1, 
-      //  duty, fade) != ESP_OK)
-      if(ledc_set_duty(LEDC_HIGH_SPEED_MODE,LEDC_CHANNEL_1,duty) != ESP_OK)
-      {
-        ESP_LOGE(LOG_TAG,"LED R: error setting fade");
-      }
-      ESP_LOGI(LOG_TAG,"LED G: %d",duty);
-      
-      //3.) BLUE: map to 10bit and set to fading unit
-      duty = ((recv & 0x00FF0000) >> 16) * 2 * 2; 
-      //if(ledc_set_fade_with_time(LEDC_HIGH_SPEED_MODE,LEDC_CHANNEL_2, 
-      //  duty, fade) != ESP_OK)
-      if(ledc_set_duty(LEDC_HIGH_SPEED_MODE,LEDC_CHANNEL_2,duty) != ESP_OK)
-      {
-        ESP_LOGE(LOG_TAG,"LED R: error setting fade");
-      }
-      ESP_LOGI(LOG_TAG,"LED B: %d",duty);
-      
-      //start fading for RGB
-      //ledc_fade_start(LEDC_HIGH_SPEED_MODE, LEDC_CHANNEL_0, LEDC_FADE_NO_WAIT);
-      //ledc_fade_start(LEDC_HIGH_SPEED_MODE, LEDC_CHANNEL_1, LEDC_FADE_NO_WAIT);
-      //ledc_fade_start(LEDC_HIGH_SPEED_MODE, LEDC_CHANNEL_2, LEDC_FADE_NO_WAIT);
-      ledc_update_duty(LEDC_HIGH_SPEED_MODE,LEDC_CHANNEL_0);
-      ledc_update_duty(LEDC_HIGH_SPEED_MODE,LEDC_CHANNEL_1);
-      ledc_update_duty(LEDC_HIGH_SPEED_MODE,LEDC_CHANNEL_2);
-      
-      #endif
-      
-      #if defined(DEVICE_FLIPMOUSE) && defined(LED_USE_NEOPIXEL)
       //determine mode
       switch(((recv & 0x00FF0000) >> 16))
       {
@@ -500,10 +426,6 @@ void halIOLEDTask(void * param)
           ESP_LOGE(LOG_TAG,"Unknown Neopixel animation mode");
           break;
       }
-      
-      
-      #endif
-      
     }
   }
 }
@@ -672,58 +594,7 @@ esp_err_t halIOInit(void)
     return ESP_FAIL;
   }
   
-  
-  
-  #if defined(DEVICE_FLIPMOUSE) && !defined(LED_USE_NEOPIXEL)
-  /*++++ init RGB LEDc driver (only if Neopixels are not used and we have a FLipMouse) ++++*/
-  
-  //init RGB queue & ledc driver
-  halIOLEDQueue = xQueueCreate(8,sizeof(uint32_t));
-  ledc_timer_config_t led_timer = {
-    .duty_resolution = LEDC_TIMER_10_BIT, // resolution of PWM duty
-    .freq_hz = 5000,                      // frequency of PWM signal
-    .speed_mode = LEDC_HIGH_SPEED_MODE,           // timer mode
-    .timer_num = LEDC_TIMER_0            // timer index
-  };
-  // Set configuration of timer0 for high speed channels
-  if(ledc_timer_config(&led_timer) != ESP_OK)
-  {
-    ESP_LOGE(LOG_TAG,"Error in ledc_timer_config");
-  }
-  ledc_channel_config_t led_channel[3] = {
-    {
-      .channel    = LEDC_CHANNEL_0,
-      .duty       = 0,
-      .gpio_num   = HAL_IO_PIN_LED_RED,
-      .speed_mode = LEDC_HIGH_SPEED_MODE,
-      .timer_sel  = LEDC_TIMER_0
-    } , {
-      .channel    = LEDC_CHANNEL_1,
-      .duty       = 0,
-      .gpio_num   = HAL_IO_PIN_LED_GREEN,
-      .speed_mode = LEDC_HIGH_SPEED_MODE,
-      .timer_sel  = LEDC_TIMER_0
-    } , {
-      .channel    = LEDC_CHANNEL_2,
-      .duty       = 0,
-      .gpio_num   = HAL_IO_PIN_LED_BLUE,
-      .speed_mode = LEDC_HIGH_SPEED_MODE,
-      .timer_sel  = LEDC_TIMER_0
-    }
-  };
-  //apply config to LED driver channels
-  for (uint8_t ch = 0; ch < 3; ch++) {
-    if(ledc_channel_config(&led_channel[ch]) != ESP_OK)
-    {
-      ESP_LOGE(LOG_TAG,"Error in ledc_channel_config");
-    }
-  }
-  //activate fading
-  ledc_fade_func_install(0);
-  #endif
-  
-  #if defined(DEVICE_FLIPMOUSE) && defined(LED_USE_NEOPIXEL)
-  /*++++ init Neopixel driver (only if we have a FLipMouse configured for Neopixels) ++++*/
+  /*++++ init Neopixel driver ++++*/
   neop_buf1 = malloc(sizeof(struct led_color_t)*LED_NEOPIXEL_COUNT);
   neop_buf2 = malloc(sizeof(struct led_color_t)*LED_NEOPIXEL_COUNT);
   if(neop_buf1 == NULL || neop_buf2 == NULL)
@@ -742,7 +613,7 @@ esp_err_t halIOInit(void)
     ESP_LOGE(LOG_TAG,"Error initializing led strip (Neopixels)!");
     return ESP_FAIL;
   }
-  #endif
+
   /*++++ INIT buzzer ++++*/
   //we will use the LEDC unit for the buzzer
   //because RMT has no lower frequency than 611Hz (according to example)

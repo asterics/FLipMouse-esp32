@@ -106,19 +106,8 @@
  * @param m Fade time [10¹ms] or animation mode
  * @see halIOLEDQueue */
 #define LED(r,g,b,m) { \
-  generalConfig_t *cfg = configGetCurrent(); \
-  if(cfg != NULL) { \
-      /*check if feedback mode is set to LED output. If not: do nothing*/ \
-      if((cfg->feedback & 0x01) != 0) { \
-        /* set duty cycle (extend to 10bit) */ \
-        ledc_set_duty(LEDC_HIGH_SPEED_MODE,LEDC_CHANNEL_0,r * 4); \
-        ledc_set_duty(LEDC_HIGH_SPEED_MODE,LEDC_CHANNEL_1,g * 4); \
-        ledc_set_duty(LEDC_HIGH_SPEED_MODE,LEDC_CHANNEL_2,b * 4); \
-        ledc_update_duty(LEDC_HIGH_SPEED_MODE,LEDC_CHANNEL_0); \
-        ledc_update_duty(LEDC_HIGH_SPEED_MODE,LEDC_CHANNEL_1); \
-        ledc_update_duty(LEDC_HIGH_SPEED_MODE,LEDC_CHANNEL_2); \
-      } \
-  } \
+  /** @todo Adapt to Neopixel! */ \
+  ESP_LOGW(LOG_TAG,"LED macro currently unimplemented"); \
 }
 
 #ifdef DEVICE_FLIPMOUSE
@@ -128,35 +117,24 @@
 /** @brief PIN - GPIO pin for external button 2 (FLipMouse) */
 #define HAL_IO_PIN_BUTTON_EXT2  27
 /** @brief PIN - GPIO pin for internal button 1 (FLipMouse) */
-#define HAL_IO_PIN_BUTTON_INT1  22
+#define HAL_IO_PIN_BUTTON_INT1  5
 /** @brief PIN - GPIO pin for internal button 2 (FLipMouse) */
-#define HAL_IO_PIN_BUTTON_INT2  23
+#define HAL_IO_PIN_BUTTON_INT2  14
 /** @brief PIN - GPIO pin for buzzer (FLipMouse)
  * @note We will use ledc drivers for the buzzer*/
 #define HAL_IO_PIN_BUZZER       25
 /** @brief PIN - GPIO pin for IR receiver (TSOP) (FLipMouse) 
  * @note IR will be done with the RMT driver*/
-#define HAL_IO_PIN_IR_RECV      19
+#define HAL_IO_PIN_IR_RECV      12
 /** @brief PIN - GPIO pin for IR sender (IR-LED) (FLipMouse)
  * @note IR will be done with the RMT driver */
 #define HAL_IO_PIN_IR_SEND      21
+/**@brief PIN - GPIO pin for Neopixel onboard LED (&maybe future front LED) */
+#define HAL_IO_PIN_NEOPIXEL     22
+/** @brief PIN - GPIO pin for external modules */
+#define HAL_IO_PIN_EXT          2
 
-/** @brief PIN - GPIO pin for status LED (RGB) - RED  (FLipMouse)
- * @note LEDs are driven by LEDC driver */
-#define HAL_IO_PIN_LED_RED      12
-/** @brief PIN - GPIO pin for status LED (RGB) - GREEN (FLipMouse)
- * @note LEDs are driven by LEDC driver */
-#define HAL_IO_PIN_LED_GREEN    13
-/** @brief PIN - GPIO pin for status LED (RGB) - BLUE (FLipMouse)
- * @note LEDs are driven by LEDC driver */
-#define HAL_IO_PIN_LED_BLUE     14
-
-#ifdef LED_USE_NEOPIXEL
-/**@brief PIN - GPIO pin for Neopixel LED strip */
-#define HAL_IO_PIN_NEOPIXEL     2
-#endif
-
-#endif
+#endif /* DEVICE_FLIPMOUSE */
 
 #ifdef DEVICE_FABI
 
@@ -186,7 +164,7 @@
  * @note IR will be done with the RMT driver */
 #define HAL_IO_PIN_IR_SEND      19
 
-#endif
+#endif /* DEVICE_FABI */
 
 
 /** @brief PIN - which one is used for Wifi/BLE (long action handler)?

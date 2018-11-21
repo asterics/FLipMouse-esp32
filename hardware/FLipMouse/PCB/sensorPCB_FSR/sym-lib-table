@@ -1,0 +1,3 @@
+(sym_lib_table
+  (lib (name SPU0410)(type Legacy)(uri /home/beni/sync/Projects/FH/FLipMouse-esp32/hardware/FLipMouse/PCB/sensorPCB_FSR/SPU0410.lib)(options "")(descr ""))
+)

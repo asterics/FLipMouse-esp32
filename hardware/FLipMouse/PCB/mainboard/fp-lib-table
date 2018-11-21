@@ -4,4 +4,5 @@
   (lib (name SOT457)(type KiCad)(uri "$(KIPRJMOD)/libs/SOT457.pretty")(options "")(descr ""))
   (lib (name SFH4244)(type KiCad)(uri ${KIPRJMOD}/libs/SFH4244.pretty)(options "")(descr ""))
   (lib (name MPXV7007GP)(type KiCad)(uri ${KIPRJMOD}/libs/MPXV7007GP.pretty)(options "")(descr ""))
+  (lib (name JackPlug)(type KiCad)(uri ${KIPRJMOD}/libs/JackPlug.pretty)(options "")(descr ""))
 )

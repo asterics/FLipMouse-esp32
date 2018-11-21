@@ -6,7 +6,7 @@ $Descr A3 16535 11693
 encoding utf-8
 Sheet 1 1
 Title "FLipMouse3"
-Date "2018-02-14"
+Date "2018-11-15"
 Rev "v3.1"
 Comp "AsTeRICS Foundation"
 Comment1 ""
@@ -1160,7 +1160,7 @@ Wire Notes Line
 Wire Notes Line
 	13200 4150 10900 4150
 Wire Notes Line
-	10900 4150 10900 900 
+	10900 4100 10900 850 
 Wire Notes Line
 	10900 900  13200 900 
 Wire Notes Line
@@ -2014,23 +2014,23 @@ NoConn ~ 2850 9400
 $Comp
 L Connector:Conn_01x04_Female J1
 U 1 1 5BF9CD2C
-P 11200 1400
-F 0 "J1" H 11250 1600 50  0000 C CNN
-F 1 "PJ320D" V 11250 1350 50  0000 C CNN
-F 2 "Connector_Audio:Jack_3.5mm_PJ320D_Horizontal" H 11200 1400 50  0001 C CNN
-F 3 "~" H 11200 1400 50  0001 C CNN
-	1    11200 1400
+P 11200 1300
+F 0 "J1" H 11250 1500 50  0000 C CNN
+F 1 "PJ320D" V 11250 1250 50  0000 C CNN
+F 2 "Connector_Audio:Jack_3.5mm_PJ320D_Horizontal" H 11200 1300 50  0001 C CNN
+F 3 "~" H 11200 1300 50  0001 C CNN
+	1    11200 1300
 	-1   0    0    -1  
 $EndComp
 $Comp
 L Connector:Conn_01x04_Female J2
 U 1 1 5BF9D36C
-P 11200 1900
-F 0 "J2" H 11250 2100 50  0000 C CNN
-F 1 "PJ320D" V 11250 1850 50  0000 C CNN
-F 2 "Connector_Audio:Jack_3.5mm_PJ320D_Horizontal" H 11200 1900 50  0001 C CNN
-F 3 "~" H 11200 1900 50  0001 C CNN
-	1    11200 1900
+P 11200 1800
+F 0 "J2" H 11250 2000 50  0000 C CNN
+F 1 "PJ320D" V 11250 1750 50  0000 C CNN
+F 2 "Connector_Audio:Jack_3.5mm_PJ320D_Horizontal" H 11200 1800 50  0001 C CNN
+F 3 "~" H 11200 1800 50  0001 C CNN
+	1    11200 1800
 	-1   0    0    -1  
 $EndComp
 Wire Wire Line
@@ -2039,8 +2039,6 @@ Connection ~ 11900 1300
 Wire Wire Line
 	11400 1800 12050 1800
 Connection ~ 12050 1800
-Wire Wire Line
-	11400 1500 11500 1500
 $Comp
 L Connector_Generic:Conn_02x05_Odd_Even J3
 U 1 1 5BC0619F
@@ -2078,19 +2076,10 @@ F 3 "" H 11500 2300 50  0001 C CNN
 $EndComp
 Text Label 14650 9400 2    60   ~ 0
 EXT1
-Wire Wire Line
-	11500 1500 11500 2000
-Wire Wire Line
-	11400 2000 11500 2000
-Connection ~ 11500 2000
-Wire Wire Line
-	11500 2000 11500 2300
 Text Label 8000 3650 3    60   ~ 0
 EXT2
 NoConn ~ 11400 1400
-NoConn ~ 11400 1600
 NoConn ~ 11400 1900
-NoConn ~ 11400 2100
 NoConn ~ 8450 1850
 Wire Wire Line
 	6900 9300 7250 9300
@@ -2434,4 +2423,15 @@ Wire Notes Line width 12 style solid
 	5350 11050 8050 11050
 Text Notes 6150 10300 0    120  ~ 24
 Production
+Wire Wire Line
+	11500 1200 11400 1200
+Wire Wire Line
+	11500 1200 11500 1700
+NoConn ~ 11400 1500
+Wire Wire Line
+	11400 1700 11500 1700
+Connection ~ 11500 1700
+Wire Wire Line
+	11500 1700 11500 2300
+NoConn ~ 11400 2000
 $EndSCHEMATC

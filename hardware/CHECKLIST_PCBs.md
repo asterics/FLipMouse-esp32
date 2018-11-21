@@ -22,7 +22,8 @@
 * Product number
 * Numbers for partly manual assembly
 * Check USB lines (symmetric, GND plane underneath, no sharp corners)
-* Print out for QM, save files: one combined PDF for TOP, one for BOT (include: Cu,Silks,CrtYd&EdgeCuts layers); one PDF containing layers on single pages (F/BCu; F/BSilks; F/BCrtYd; EdgeCuts)
+* Print out for QM, save files: one combined PDF for TOP, one for BOT (include: Cu,Silks,CrtYd&EdgeCuts layers); one PDF containing layers on single pages (F/BCu; F/BSilks; F/BCrtYd)
+* Update 3D Image of TOP/BOT
 
 ## General
 

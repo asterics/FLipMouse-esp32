@@ -37,9 +37,8 @@
  * actions handled by task_debouncer). This handler is usually used for
  * activating and deactivating the WiFi interface.
  * 
- * The LED output is configurable either to 3 PWM outputs for RGB LEDs
- * or a Neopixel string with variable length (RGB LEDs use ledc facilities,
- * Neopixels use RMT engine). To enable easy color settings, macros are provided
+ * The LED output is provided via (at least) one Neopixel LED.
+ * To enable easy color settings, a macro is provided
  * (LED(r,g,b,m)).
  * 
  * IR receiving / sending is done via the RMT engine and is supported by macros
@@ -151,18 +150,20 @@
 /** @brief PIN - GPIO pin for external button 6 (FABI) */
 #define HAL_IO_PIN_BUTTON_EXT6  26
 /** @brief PIN - GPIO pin for external button 7 (FABI) */
-#define HAL_IO_PIN_BUTTON_EXT7  27
+#define HAL_IO_PIN_BUTTON_EXT7  14
 /** @brief PIN - GPIO pin for internal button 1 (FABI) */
 #define HAL_IO_PIN_BUTTON_INT1  23
 /** @brief PIN - GPIO pin for buzzer (FABI)
  * @note We will use ledc drivers for the buzzer*/
-#define HAL_IO_PIN_BUZZER       14
+#define HAL_IO_PIN_BUZZER       27
 /** @brief PIN - GPIO pin for IR receiver (TSOP) (FABI) 
  * @note IR will be done with the RMT driver*/
 #define HAL_IO_PIN_IR_RECV      35
 /** @brief PIN - GPIO pin for IR sender (IR-LED) (FABI)
  * @note IR will be done with the RMT driver */
 #define HAL_IO_PIN_IR_SEND      19
+/**@brief PIN - GPIO pin for Neopixel onboard LED */
+#define HAL_IO_PIN_NEOPIXEL     22
 
 #endif /* DEVICE_FABI */
 

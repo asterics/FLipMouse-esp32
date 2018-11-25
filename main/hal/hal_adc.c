@@ -241,7 +241,50 @@ void halAdcReportRaw(uint32_t up, uint32_t down, uint32_t left, uint32_t right, 
     }
 }
 
-/** @brief Read out analog voltages, apply sensor gain and deadzone
+#ifdef DEVICE_FABI
+/** @brief Read out analog voltages (sip/puff only) - FABI
+ * 
+ * Internally used function for sensor readings & applying the
+ * sensor gain.
+ * Furthermore, X&Y values are calculated by subtracting left/right and
+ * up/down, offset is used as well. 
+ * In addition, the deadzone is calculated as well (based on an elliptic curve).
+ * 
+ * @note You need to take adcSem before calling this function!
+ * 
+ * @param values Pointer to struct of all analog values
+ * @see adcData_t
+ * @see adcSem
+ */
+void halAdcReadData(adcData_t *values)
+{
+    //read all sensors
+    int32_t tmp = 0;
+    int32_t pressure = 0;
+
+    #ifdef HAL_IO_ADC_CHANNEL_PRESSURE
+        pressure = adc1_get_raw(HAL_IO_ADC_CHANNEL_PRESSURE);
+    #endif
+    if(pressure == -1) 
+    { 
+        ESP_LOGE(LOG_TAG,"Cannot read channel pressure"); return;
+    } else { 
+        //save raw value (for calibration)
+        values->pressure_raw = pressure;
+        
+        //limit range of output
+        tmp = pressure-pressure_idle;
+        if(tmp >= 512) tmp = 511;
+        if(tmp < -512)  tmp = -512;
+        //save calibrated pressure value
+        values->pressure = (uint32_t)(512+tmp);        
+    }
+}
+
+#endif /* DEVICE_FABI */
+
+#ifdef DEVICE_FLIPMOUSE
+/** @brief Read out analog voltages, apply sensor gain and deadzone - FLipMouse
  * 
  * Internally used function for sensor readings & applying the
  * sensor gain.
@@ -432,6 +475,7 @@ void halAdcReadData(adcData_t *values)
         values->y = 0;
     }
 }
+#endif /* DEVICE_FLIPMOUSE */
 
 /** @brief Process pressure sensor (sip & puff)
  * @todo Do everything here, no sip&puff currently available.
@@ -1034,8 +1078,10 @@ esp_err_t halAdcUpdateConfig(adc_config_t* params)
     #endif
     
     //check for invalid input
-    params->otf_count = validate(params->otf_count,5,15,HAL_IO_ADC_OTF_COUNT);
-    params->otf_idle = validate(params->otf_idle,0,15,HAL_IO_ADC_OTF_THRESHOLD);
+    #ifdef DEVICE_FLIPMOUSE
+        params->otf_count = validate(params->otf_count,5,15,HAL_IO_ADC_OTF_COUNT);
+        params->otf_idle = validate(params->otf_idle,0,15,HAL_IO_ADC_OTF_THRESHOLD);
+    #endif
     
     //clear pending button flags
     //TBD...

@@ -3,4 +3,5 @@
   (lib (name LED_SMD)(type KiCad)(uri "$(KIPRJMOD)/libs/LED_SMD.pretty")(options "")(descr ""))
   (lib (name SOT457)(type KiCad)(uri "$(KIPRJMOD)/libs/SOT457.pretty")(options "")(descr ""))
   (lib (name Mount)(type KiCad)(uri "$(KIPRJMOD)/libs/Mount.pretty")(options "")(descr ""))
+  (lib (name JackPlug)(type KiCad)(uri "$(KIPRJMOD)/libs/JackPlug.pretty")(options "")(descr ""))
 )

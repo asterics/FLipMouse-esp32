@@ -26,6 +26,26 @@
  * Uses the event flags of virtualButtonsIn and if a flag is set there,
  * the debouncer waits for a defined debouncing time and maps the flags
  * to virtualButtonsOut.
+ * 
+ * The debouncing itself can be controlled via following variables
+ * (these settings are located in the global config):
+ * 
+ * * Press debounce time
+ * * Release debounce time
+ * * Deadtime between two consecutive actions
+ * 
+ * If one of these values is set for one dedicated VB, it will be used.
+ * If there is no setting, the device's default will be used. If the
+ * there is no default setting for this device, a hardcoded debounce time
+ * of DEBOUNCETIME_MS is used.
+ * 
+ * @see DEBOUNCETIME_MS
+ * @see generalConfig_t
+ * 
+ * @todo Remove the timer handling here. It is much easier to 
+ * simply use one 64bit variable each event group and store following there:
+ * 4x 12bit for the tick counter WHEN the requested time is over (debouncing or deadtime)
+ * 4x 4bit for the type of action (WHAT), e.g., debouncing or deadtime lock.
  */
 
 

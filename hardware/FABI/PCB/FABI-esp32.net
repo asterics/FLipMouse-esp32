@@ -1,7 +1,7 @@
 (export (version D)
   (design
     (source /home/beni/sync/Projects/FH/FLipMouse-esp32/hardware/FABI/PCB/FABI-esp32.sch)
-    (date "Mon 19 Nov 2018 17:32:47 CET")
+    (date "Wed 28 Nov 2018 14:27:41 CET")
     (tool "Eeschema 5.0.1+dfsg1-3")
     (sheet (number 1) (name /) (tstamps /)
       (title_block
@@ -348,7 +348,7 @@
       (sheetpath (names /) (tstamps /))
       (tstamp 5A8EE517))
     (comp (ref U3)
-      (value LPC11U14FBD)
+      (value LPC11U24FBD)
       (footprint Package_QFP:LQFP-48_7x7mm_P0.5mm)
       (libsource (lib LPC11) (part LPC11U14FBD) (description ""))
       (sheetpath (names /) (tstamps /))

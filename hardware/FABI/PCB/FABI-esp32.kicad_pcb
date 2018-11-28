@@ -914,7 +914,7 @@
     )
   )
 
-  (module Buttons_Switches_THT:SW_Tactile_SPST_Angled_PTS645Vx83-2LFS (layer F.Cu) (tedit 5BF2E60E) (tstamp 5A8334E7)
+  (module Buttons_Switches_THT:SW_Tactile_SPST_Angled_PTS645Vx83-2LFS (layer F.Cu) (tedit 5BFE97DC) (tstamp 5A8334E7)
     (at 138.7602 110.2318 270)
     (descr "tactile switch SPST right angle, PTS645VL83-2 LFS")
     (tags "tactile switch SPST angled PTS645VL83-2 LFS C&K Button")
@@ -3267,7 +3267,7 @@
     (fp_text reference U3 (at 5.3488 4.065 180) (layer F.SilkS)
       (effects (font (size 1 1) (thickness 0.15)))
     )
-    (fp_text value LPC11U14FBD (at 0 6 90) (layer F.Fab)
+    (fp_text value LPC11U24FBD (at 0 6 90) (layer F.Fab)
       (effects (font (size 1 1) (thickness 0.15)))
     )
     (fp_line (start 3.13 3.75) (end 3.75 3.75) (layer F.CrtYd) (width 0.05))

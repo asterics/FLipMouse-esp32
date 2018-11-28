@@ -845,7 +845,7 @@ Text Notes 750  1050 0    60   ~ 0
 LPC11U14 - USB chipset
 Text Notes 14200 5000 0    60   ~ 0
 Decoupling ESP32
-Text Notes 11000 1100 0    60   ~ 0
+Text Notes 11000 1050 0    60   ~ 0
 External Buttons
 Text Notes 12750 5000 0    60   ~ 0
 PowerOff for ESP32
@@ -1160,7 +1160,7 @@ Wire Notes Line
 Wire Notes Line
 	13200 4150 10900 4150
 Wire Notes Line
-	10900 4100 10900 850 
+	10900 4100 10900 900 
 Wire Notes Line
 	10900 900  13200 900 
 Wire Notes Line
@@ -2015,9 +2015,9 @@ $Comp
 L Connector:Conn_01x04_Female J1
 U 1 1 5BF9CD2C
 P 11200 1300
-F 0 "J1" H 11250 1500 50  0000 C CNN
-F 1 "PJ320D" V 11250 1250 50  0000 C CNN
-F 2 "Connector_Audio:Jack_3.5mm_PJ320D_Horizontal" H 11200 1300 50  0001 C CNN
+F 0 "J1" H 11000 1450 50  0000 C CNN
+F 1 "SJ2-3574A" V 11250 1150 50  0000 C CNN
+F 2 "JackPlug:Jack_3.5mm_SJ2-357X" H 11200 1300 50  0001 C CNN
 F 3 "~" H 11200 1300 50  0001 C CNN
 	1    11200 1300
 	-1   0    0    -1  
@@ -2026,9 +2026,9 @@ $Comp
 L Connector:Conn_01x04_Female J2
 U 1 1 5BF9D36C
 P 11200 1800
-F 0 "J2" H 11250 2000 50  0000 C CNN
-F 1 "PJ320D" V 11250 1750 50  0000 C CNN
-F 2 "Connector_Audio:Jack_3.5mm_PJ320D_Horizontal" H 11200 1800 50  0001 C CNN
+F 0 "J2" H 11000 1950 50  0000 C CNN
+F 1 "SJ2-3574A" V 11250 1650 50  0000 C CNN
+F 2 "JackPlug:Jack_3.5mm_SJ2-357X" H 11200 1800 50  0001 C CNN
 F 3 "~" H 11200 1800 50  0001 C CNN
 	1    11200 1800
 	-1   0    0    -1  

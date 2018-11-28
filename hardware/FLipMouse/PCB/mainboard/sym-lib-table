@@ -3,4 +3,5 @@
   (lib (name LPC11)(type Legacy)(uri ${KIPRJMOD}/libs/LPC11.lib)(options "")(descr ""))
   (lib (name LED1)(type Legacy)(uri ${KIPRJMOD}/libs/LED.lib)(options "")(descr ""))
   (lib (name ip4220cz6,125)(type Legacy)(uri ${KIPRJMOD}/libs/ip4220cz6,125.lib)(options "")(descr ""))
+  (lib (name Omron_2SMPP)(type Legacy)(uri /home/beni/sync/Projects/FH/FLipMouse-esp32/hardware/FLipMouse/PCB/mainboard/libs/Omron_2SMPP.lib)(options "")(descr ""))
 )

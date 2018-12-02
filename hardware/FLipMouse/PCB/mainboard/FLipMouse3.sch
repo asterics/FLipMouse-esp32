@@ -6,7 +6,7 @@ $Descr A3 16535 11693
 encoding utf-8
 Sheet 1 1
 Title "FLipMouse3"
-Date "2018-11-15"
+Date "2018-12-02"
 Rev "v3.1"
 Comp "AsTeRICS Foundation"
 Comment1 ""
@@ -510,12 +510,12 @@ $EndComp
 $Comp
 L Connector_Generic:Conn_01x06 J7
 U 1 1 5A82E80B
-P 7450 5150
-F 0 "J7" H 7450 5450 50  0000 C CNN
-F 1 "Conn_01x06" H 7050 4800 50  0000 C CNN
-F 2 "Connector_PinSocket_1.27mm:PinSocket_1x06_P1.27mm_Vertical" H 7450 5150 50  0001 C CNN
-F 3 "" H 7450 5150 50  0001 C CNN
-	1    7450 5150
+P 9000 5150
+F 0 "J7" H 9000 5450 50  0000 C CNN
+F 1 "Conn_01x06" V 9150 5100 50  0000 C CNN
+F 2 "Connector_PinSocket_1.27mm:PinSocket_1x06_P1.27mm_Vertical" H 9000 5150 50  0001 C CNN
+F 3 "" H 9000 5150 50  0001 C CNN
+	1    9000 5150
 	1    0    0    -1  
 $EndComp
 $Comp
@@ -562,30 +562,30 @@ F 3 "" H 6500 4900 50  0001 C CNN
 	1    6500 4900
 	0    1    1    0   
 $EndComp
-Text Label 7250 5350 2    60   ~ 0
+Text Label 8800 5350 2    60   ~ 0
 U_RXD
-Text Label 7250 5250 2    60   ~ 0
+Text Label 8800 5250 2    60   ~ 0
 U_TXD
 $Comp
 L power:GNDD #PWR020
 U 1 1 5A83058B
-P 7250 4850
-F 0 "#PWR020" H 7250 4600 50  0001 C CNN
-F 1 "GNDD" H 7250 4725 50  0000 C CNN
-F 2 "" H 7250 4850 50  0001 C CNN
-F 3 "" H 7250 4850 50  0001 C CNN
-	1    7250 4850
+P 8800 4850
+F 0 "#PWR020" H 8800 4600 50  0001 C CNN
+F 1 "GNDD" H 8800 4725 50  0000 C CNN
+F 2 "" H 8800 4850 50  0001 C CNN
+F 3 "" H 8800 4850 50  0001 C CNN
+	1    8800 4850
 	-1   0    0    1   
 $EndComp
 $Comp
 L power:+3V3 #PWR021
 U 1 1 5A83079E
-P 6900 5150
-F 0 "#PWR021" H 6900 5000 50  0001 C CNN
-F 1 "+3V3" H 6900 5290 50  0000 C CNN
-F 2 "" H 6900 5150 50  0001 C CNN
-F 3 "" H 6900 5150 50  0001 C CNN
-	1    6900 5150
+P 8450 5150
+F 0 "#PWR021" H 8450 5000 50  0001 C CNN
+F 1 "+3V3" H 8450 5290 50  0000 C CNN
+F 2 "" H 8450 5150 50  0001 C CNN
+F 3 "" H 8450 5150 50  0001 C CNN
+	1    8450 5150
 	0    -1   -1   0   
 $EndComp
 Text Label 6600 2100 2    60   ~ 0
@@ -794,22 +794,14 @@ Text Label 8450 2550 0    60   ~ 0
 ESP_SIGNAL
 NoConn ~ 3500 1500
 NoConn ~ 3500 2000
-NoConn ~ 3500 4100
-NoConn ~ 3500 2400
-NoConn ~ 3500 2600
-NoConn ~ 3500 2500
-NoConn ~ 3500 2700
-NoConn ~ 3500 2900
+NoConn ~ 3500 5200
 NoConn ~ 3500 3300
 NoConn ~ 3500 3600
-NoConn ~ 3500 3800
 NoConn ~ 3500 4300
 NoConn ~ 3500 4400
-NoConn ~ 3500 4500
 NoConn ~ 3500 4600
 NoConn ~ 3500 4800
 NoConn ~ 3500 5100
-NoConn ~ 3500 5200
 NoConn ~ 3500 5300
 NoConn ~ 8450 2350
 NoConn ~ 7300 3650
@@ -870,7 +862,6 @@ F 3 "" H 2400 3500 60  0001 C CNN
 $EndComp
 NoConn ~ 3500 5000
 NoConn ~ 3500 4900
-NoConn ~ 3500 3900
 Text Label 7200 3650 3    60   ~ 0
 SDA
 $Comp
@@ -1005,11 +996,8 @@ Wire Wire Line
 	6700 5200 6700 4900
 Wire Wire Line
 	6000 5200 6700 5200
-Connection ~ 6650 5400
 Wire Wire Line
 	6000 5100 6650 5100
-Wire Wire Line
-	6650 5450 7250 5450
 Wire Wire Line
 	6650 5100 6650 5400
 Wire Wire Line
@@ -1019,13 +1007,9 @@ Wire Wire Line
 Wire Wire Line
 	6650 4900 6700 4900
 Wire Wire Line
-	7000 4900 7000 5050
+	8450 5150 8800 5150
 Wire Wire Line
-	7000 5050 7250 5050
-Wire Wire Line
-	6900 5150 7250 5150
-Wire Wire Line
-	7250 4950 7250 4850
+	8800 4950 8800 4850
 Connection ~ 15100 5500
 Wire Wire Line
 	15100 5500 15100 5400
@@ -1182,9 +1166,9 @@ Wire Notes Line
 Wire Notes Line
 	14750 2250 14750 900 
 Wire Notes Line
-	7650 5850 7650 4300
+	9250 5850 9250 4300
 Wire Notes Line
-	7650 4300 5500 4300
+	9250 4300 5500 4300
 Wire Notes Line
 	5500 4300 5500 5850
 Wire Notes Line
@@ -1358,8 +1342,6 @@ Wire Wire Line
 	14800 5500 15100 5500
 Wire Wire Line
 	6700 4900 7000 4900
-Wire Wire Line
-	6650 5400 6650 5450
 Wire Wire Line
 	15100 5500 15350 5500
 Wire Wire Line
@@ -1945,7 +1927,6 @@ SDA
 Text Label 6150 9250 3    60   ~ 0
 SCL
 NoConn ~ 3500 3400
-NoConn ~ 3500 3500
 NoConn ~ 3500 4000
 NoConn ~ 3500 4200
 Text Label 3500 1800 0    60   ~ 0
@@ -2105,8 +2086,6 @@ Wire Wire Line
 Connection ~ 3900 1600
 Wire Wire Line
 	3500 1600 3900 1600
-Text Notes 3550 3550 0    60   ~ 0
-J13-J15 are used for \nUART ISP bootloader\n(together with ESP_RX/TX)
 Text Notes 12350 800  0    120  ~ 24
 User Input / Output
 Wire Notes Line width 12 style solid
@@ -2226,7 +2205,7 @@ Wire Notes Line
 Text Notes 6750 8550 0    60   ~ 0
 Extension header
 Wire Notes Line
-	7650 5850 5500 5850
+	9250 5850 5500 5850
 Text Notes 6550 800  0    120  ~ 24
 ESP32 - main processor
 Wire Notes Line width 12 style solid
@@ -2434,4 +2413,79 @@ Connection ~ 11500 1700
 Wire Wire Line
 	11500 1700 11500 2300
 NoConn ~ 11400 2000
+Text Label 3500 2400 0    60   ~ 0
+FSR1
+Text Label 3500 2500 0    60   ~ 0
+FSR2
+Text Label 3500 2700 0    60   ~ 0
+FSR3
+Text Label 3500 2600 0    60   ~ 0
+FSR4
+Text Label 3500 2900 0    60   ~ 0
+PRESSURE
+Text Label 3500 3500 0    60   ~ 0
+E_P0
+Text Label 3500 3800 0    60   ~ 0
+U_TXD
+Text Label 3500 3900 0    60   ~ 0
+U_RXD
+Text Label 3500 4100 0    60   ~ 0
+E_RESET
+$Comp
+L Connector:TestPoint TP11
+U 1 1 5C06E7F7
+P 8600 5050
+F 0 "TP11" V 8700 5200 50  0000 C CNN
+F 1 "TP" V 8704 5124 50  0001 C CNN
+F 2 "TestPoint:TestPoint_Pad_D1.0mm" H 8800 5050 50  0001 C CNN
+F 3 "~" H 8800 5050 50  0001 C CNN
+	1    8600 5050
+	0    -1   -1   0   
+$EndComp
+$Comp
+L Connector:TestPoint TP21
+U 1 1 5C06E8C9
+P 8600 5450
+F 0 "TP21" V 8650 5700 50  0000 C CNN
+F 1 "TP" V 8700 5650 50  0001 C CNN
+F 2 "TestPoint:TestPoint_Pad_D1.0mm" H 8800 5450 50  0001 C CNN
+F 3 "~" H 8800 5450 50  0001 C CNN
+	1    8600 5450
+	0    -1   -1   0   
+$EndComp
+$Comp
+L Connector:TestPoint TP12
+U 1 1 5C06E995
+P 7000 4900
+F 0 "TP12" H 7058 4974 50  0000 L CNN
+F 1 "TP" H 7058 4929 50  0001 L CNN
+F 2 "TestPoint:TestPoint_Pad_D1.0mm" H 7200 4900 50  0001 C CNN
+F 3 "~" H 7200 4900 50  0001 C CNN
+	1    7000 4900
+	1    0    0    -1  
+$EndComp
+$Comp
+L Connector:TestPoint TP22
+U 1 1 5C06EA65
+P 7000 5400
+F 0 "TP22" H 7058 5474 50  0000 L CNN
+F 1 "TP" H 7058 5429 50  0001 L CNN
+F 2 "TestPoint:TestPoint_Pad_D1.0mm" H 7200 5400 50  0001 C CNN
+F 3 "~" H 7200 5400 50  0001 C CNN
+	1    7000 5400
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	6650 5400 7000 5400
+Connection ~ 6650 5400
+Wire Wire Line
+	8600 5050 8800 5050
+Wire Wire Line
+	8600 5450 8800 5450
+Text Notes 7300 5400 0    31   ~ 0
+To have auto-reset feature for ESP32,\nconnect:\nTP11 with TP12\nand\nTP21 with TP22\nexternally by wires.\nLPC11 is able to program the ESP32, \nbut in cases where we need a second \nprogrammer, use header J7
+Text Label 3500 4500 0    60   ~ 0
+SCL
+Text Notes 3700 4500 0    31   ~ 0
+Feed-Through Routing - workaround
 $EndSCHEMATC

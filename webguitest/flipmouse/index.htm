@@ -1,0 +1,621 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>FlipMouse Configuration</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="css/normal.css">
+    <link rel="stylesheet" href="css/skeleton.css">
+    <link rel="stylesheet" href="css/tabby.css">
+    <link rel="stylesheet" href="css/custom.css">
+    <link rel="stylesheet" href="css/slider.css">
+    <!--<script src="lib/androidc.js"></script>-->
+    <script src="lib/tabby.js"></script>
+    <script src="lib/domi18n.js"></script>
+
+    <script src="js/const.js"></script>
+    <script src="js/lquery.js"></script>
+    <script src="js/wsutil.js"></script>
+    <script src="js/arecomm.js"></script>
+    <script src="js/wscomm.js"></script>
+    <script src="js/flipcomm.js"></script>
+    <script src="js/mockcomm.js"></script>
+    <script src="js/tabbasic.js"></script>
+    <script src="js/tabsip.js"></script>
+    <script src="js/tabslot.js"></script>
+    <script src="js/tabact.js"></script>
+</head>
+<body>
+<div id="content">
+    <header class="row" role="banner">
+        <div>
+            <h1 id="mainHeading" tabindex="-1" class="nine columns" data-i18n>FLipMouse Configuration // FLipMouse Konfiguration</h1>
+            <span aria-hidden="true" class="show-mobile headerConnectIndicator green connectedIndicator" style="display: none" title="connected">&#x2713;</span>
+            <span aria-hidden="true" class="show-mobile headerConnectIndicator red disconnectedIndicator" title="not connected">&#x2717;</span>
+        </div>
+        <div class="three columns hide-mobile showscreenreader">
+            <div class="row">
+                <label class="seven columns" for="selectSlots" data-i18n>Select Slot // Slot auswählen</label>
+                <div class="five columns text-right">
+                    <span aria-hidden="true" style="display: none" class="connectedIndicator" title="connected">&#x2713;</span>
+                    <span aria-hidden="true" class="disconnectedIndicator" title="not connected">&#x2717;</span>
+                    <span id="connStateLabel" aria-hidden="false" class="hidden" data-i18n>connection status // Verbindungsstatus</span>
+                    <span id="connStateText" aria-hidden="false" aria-describedby="connStateLabel" aria-live="assertive" role="status" class="show-desktop" accesskey="p" data-i18n>not connected // nicht verbunden</span>
+                </div>
+            </div>
+            <select aria-hidden="true" id="selectSlots" class="slot-select row u-full-width" onchange="tabSlot.selectSlot(this)">
+            </select>
+        </div>
+    </header>
+    <div class="row hide-mobile" style="margin-bottom: 1.5em"></div>
+
+    <div data-tabs class="row" id="tabMenu" role="menubar" tabindex="-1" accesskey="0">
+        <div class="three columns hide-mobile showscreenreader"><button role="menuitem" onclick="toTab('#tabBasic')" class="menubutton button-primary" accesskey="1" data-tab id="tabBasicBtn" data-i18n>Basic Setup // Basis-Konfiguration</button></div>
+        <div class="three columns hide-mobile showscreenreader"><button role="menuitem" onclick="toTab('#tabPuff')" class="menubutton button-primary" accesskey="2" data-tab id="tabPuffBtn" data-i18n>Sip and Puff // Saug-Pustesteuerung</button></div>
+        <div class="three columns hide-mobile showscreenreader"><button role="menuitem" onclick="toTab('#tabSlots')" class="menubutton button-primary" accesskey="3" data-tab id="tabSlotsBtn" data-i18n>Slot configuration // Slot-Konfiguration</button></div>
+        <div class="three columns hide-mobile showscreenreader"><button role="menuitem" onclick="toTab('#tabActions')" class="menubutton button-primary" accesskey="4" data-tab id="tabActionsBtn" data-i18n>Action configuration // Konfiguration Aktionen</button></div>
+        <div class="show-mobile" aria-hidden="true"><button id="toNavLink" onclick="toNav()" class="button button-primary" data-tab data-i18n>&#x2630; Menu // &#x2630; Menü</button></div>
+        <div class="show-mobile" aria-hidden="true"><button id="toNavBackLink" style="display: none" onclick="toNavBack()" class="button button-primary" data-i18n>&#8592; Back // &#8592; Zurück</button></div>
+    </div>
+    <main data-tabs-content role="main">
+        <div aria-hidden="true" data-tabs-pane class="tabs-pane" id="tabNav">
+            <div id="tabNavContainer" class="row"></div>
+        </div>
+        <section aria-labelledby="tabBasicHeader" data-tabs-pane class="tabs-pane" id="tabBasic">
+            <div tabindex="-1">
+                <h2 id="tabBasicHeader" style="display: none" aria-hidden="false" data-i18n>Tab one - Basic FlipMouse Setup // Tab eins - FlipMouse Basiskonfiguration</h2>
+            </div>
+            <span id="posLiveA11yLabel" aria-hidden="false" class="hidden" data-i18n="">Current position of Flipmouse Stick // Aktuelle Position des Sticks der Flipmouse</span>
+            <span id="posLiveA11y" aria-describedby="posLiveA11yLabel" class="onlyscreenreader" role="status" aria-live="off" accesskey="q" tabindex="-1"></span>
+            <div id="basic-SENSITIVITY-single">
+                <label for="SENSITIVITY" data-i18n>Sensitivity: // Sensitivität:</label>
+                <a aria-hidden="true" class="u-pull-right" href="javascript:tabBasic.toggleShowXY('SENSITIVITY')" data-i18n>show x/y separately // zeige x/y getrennt</a>
+                <div class="row">
+                    <span aria-hidden="true" id="SENSITIVITY_VAL" class="text-center one column">0</span>
+                    <input type="range" oninput="tabBasic.basicSliderChanged(event)" onchange="tabBasic.basicSliderChanged(event)"
+                           id="SENSITIVITY" min="0" max="255" class="eleven columns" accesskey="a">
+                </div>
+            </div>
+            <div id="basic-SENSITIVITY-xy" style="display: none">
+                <label for="SENSITIVITY_X" data-i18n>Horizontal Sensitivity: // Sensitivität horizontal:</label>
+                <a aria-hidden="true" class="u-pull-right" href="javascript:tabBasic.toggleShowXY('SENSITIVITY')" data-i18n>hide separate x/y // zeige  x/y gemeinsam</a>
+                <div class="row">
+                    <span id="SENSITIVITY_X_VAL" class="text-center one column">0</span>
+                    <input type="range" oninput="tabBasic.basicSliderChanged(event)" onchange="tabBasic.basicSliderChanged(event)"
+                           id="SENSITIVITY_X" min="0" max="255" class="eleven columns">
+                </div>
+                <label for="SENSITIVITY_Y" data-i18n>Vertical Sensitivity: // Sensitivität vertikal:</label>
+                <div class="row">
+                    <span id="SENSITIVITY_Y_VAL" class="text-center one column">0</span>
+                    <input type="range" oninput="tabBasic.basicSliderChanged(event)" onchange="tabBasic.basicSliderChanged(event)"
+                           id="SENSITIVITY_Y" min="0" max="255" class="eleven columns">
+                </div>
+            </div>
+
+            <br/>
+            <div class="row">
+                <div aria-hidden="true" class="six columns">
+                    <div class="relative center-div cursorPosWrapper">
+                        <div id="orientationSign" class="back-layer full-height full-width" style="transform: rotate(270deg);">
+                            <div class="back-layer" style="top:100%; left: 35%; width: 30%; height: 10%; background-color: black; z-index: 2"></div>
+                        </div>
+                        <div id="deadZonePos" class="back-layer color-lightcyan"
+                             style="top: 40%; left: 40%; height: 20%; width: 20%;"></div>
+                        <div class="back-layer"
+                             style="left: 50%; height: 100%; border-right-style: solid; border-right-width: thin;"></div>
+                        <div class="back-layer"
+                             style="top: 50%; width: 100%; border-bottom-style: solid; border-bottom-width: thin;"></div>
+                        <button onclick="tabBasic.cursorPosZoomReset();" class="zoombutton" style="top: 55%;" title="Reset Zoom">&#8634;</button>
+                        <div id="cursorPosVal" class="back-layer" style="top: 40%;">110</div>
+                        <div id="cursorPos" class="back-layer" style="top: 50%; left: 50%;">
+                            <div class="back-layer" id="circle"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="five columns">
+                    <button onclick="actionAndToggle(flip.calibrate, [], ['#basic-button-calibrate', '#basic-button-calibrating'])">
+                        <span data-i18n id="basic-button-calibrate">Calibrate middle position // Mittelposition kalibrieren</span>
+                        <span id="basic-button-calibrating" style="display: none;" data-i18n>Calibrating... // wird kalibriert...</span>
+                    </button>
+                    <button onclick="actionAndToggle(flip.rotate, [], ['#basic-button-rotate', '#basic-button-rotating'])">
+                        <span data-i18n id="basic-button-rotate">&#x21bb; Rotate right // &#x21bb; Nach rechts drehen</span>
+                        <span id="basic-button-rotating" style="display: none;" data-i18n>Rotating... // wird gedreht...</span>
+                    </button>
+                </div>
+            </div>
+
+            <br/>
+            <div id="basic-DEADZONE-single">
+                <label lang="en" for="DEADZONE" aria->Deadzone:</label>
+                <a aria-hidden="true" class="u-pull-right" href="javascript:tabBasic.toggleShowXY('DEADZONE')" data-i18n>show x/y separately // zeige x/y getrennt</a>
+                <div class="row">
+                    <span aria-hidden="true" id="DEADZONE_VAL" class="text-center one column">0</span>
+                    <input type="range" oninput="tabBasic.basicSliderChanged(event)" onchange="tabBasic.basicSliderChanged(event)"
+                           id="DEADZONE" min="0" max="650" class="eleven columns" accesskey="s">
+                </div>
+            </div>
+            <div id="basic-DEADZONE-xy" style="display: none">
+                <label for="DEADZONE_X">Horizontal Deadzone:</label>
+                <a aria-hidden="true" class="u-pull-right" href="javascript:tabBasic.toggleShowXY('DEADZONE')" data-i18n>hide separate x/y // zeige x/y gemeinsam</a>
+                <div class="row">
+                    <span id="DEADZONE_X_VAL" class="text-center one column">0</span>
+                    <input type="range" oninput="tabBasic.basicSliderChanged(event)" onchange="tabBasic.basicSliderChanged(event)"
+                           id="DEADZONE_X" min="0" max="650" class="eleven columns">
+                </div>
+                <label for="DEADZONE_Y">Vertical Deadzone:</label>
+                <div class="row">
+                    <span id="DEADZONE_Y_VAL" class="text-center one column">0</span>
+                    <input type="range" oninput="tabBasic.basicSliderChanged(event)" onchange="tabBasic.basicSliderChanged(event)"
+                           id="DEADZONE_Y" min="0" max="650" class="eleven columns">
+                </div>
+            </div>
+
+
+            <br/>
+            <br/>
+            <div class="row">
+                <button id="basic-button" onclick="actionAndToggle(flip.save, [], ['#basic-button-normal', '#basic-button-saving'], '#save-basic-value-bar')" class="one-third" style="position: relative;">
+                    <i id="save-basic-value-bar" class="value-bar color-lightercyan" style="width: 0%;"></i>
+                    <span id="basic-button-normal" data-i18n>Save // Speichern</span>
+                    <span id="basic-button-saving" style="display: none;" data-i18n>Saving... // Wird
+                        gespeichert...
+                    </span>
+                </button>
+            </div>
+        </section>
+        <section aria-labelledby="tabPuffHeader" data-tabs-pane class="tabs-pane" id="tabPuff">
+            <div tabindex="-1">
+                <h2 id="tabPuffHeader" style="display: none" aria-hidden="false" data-i18n>Tab two - FlipMouse Sip and Puff Configuration // Tab zwei - FlipMouse Konfiguration Saug-/Pustesteuerung</h2>
+            </div>
+            <span id="pressureLiveA11yLabel" aria-hidden="false" class="hidden" data-i18n="">Current pressure value of Flipmouse // Aktueller Wert Druck der Flipmouse</span>
+            <span id="pressureLiveA11y" aria-describedby="pressureLiveA11yLabel" class="onlyscreenreader" role="status" aria-live="off" accesskey="w" tabindex="-1"></span>
+            <div id="tab-puff-container" class="relative">
+                <div class="row back-layer full-height full-width">
+                    <div aria-hidden="true" class="two columns"><span style="font-size: 1px; color: transparent">_</span></div>
+                    <div class="ten columns full-height relative">
+                        <div id="guide-current" class="back-layer full-height border-right-gray"
+                             style="width: 50%;"></div>
+                        <div id="guide-max" class="back-layer full-height border-right-red" style="width: 50%;"></div>
+                        <div id="guide-min" class="back-layer full-height border-right-blue" style="width: 50%;"></div>
+                    </div>
+                </div>
+
+                <br/>
+                <label for="SIP_THRESHOLD" data-i18n>Sip Threshold: // Schwellenwert Saugen:</label>
+                <div id="SIP_THRESHOLD_WRAPPER" class="row">
+                    <span aria-hidden="true" id="SIP_THRESHOLD_VAL" class="text-center two columns">0</span>
+                    <input type="range" oninput="tabSip.sipSliderChanged(this)" onchange="tabSip.sipSliderChanged(this)"
+                           id="SIP_THRESHOLD" min="0" max="1023" class="ten columns" accesskey="y"/>
+                </div>
+                <label for="SIP_STRONG_THRESHOLD" data-i18n>Strong Sip Threshold: // Schwellenwert Saugen
+                    stark:</label>
+                <div id="SIP_STRONG_THRESHOLD_WRAPPER" class="row">
+                    <span aria-hidden="true" id="SIP_STRONG_THRESHOLD_VAL" class="text-center two columns">0</span>
+                    <input type="range" oninput="tabSip.sipSliderChanged(this)" onchange="tabSip.sipSliderChanged(this)"
+                           id="SIP_STRONG_THRESHOLD" min="0" max="1023" class="ten columns" accesskey="x"/>
+                </div>
+
+                <br/>
+                <label aria-hidden="true" data-i18n>Live values: // Aktuelle Werte:</label>
+                <div class="row" aria-hidden="true">
+                    <div id="value-bar-wrapper" class="text-center two columns">
+                        <span data-i18n>current: // aktuell:</span><span id="currentValue">0</span>,
+                        <span>max:</span><span id="maxValue">0</span>,
+                        <span>min:</span><span id="minValue">-1</span>
+                    </div>
+                    <div class="ten columns"
+                         style="position:relative; height: 2em; border-style: solid; border-width: thin; background-color: transparent">
+                        <div id="sippuff-value-bar" class="value-bar" style="width: 50%;"></div>
+                    </div>
+                </div>
+
+                <br/>
+                <br/>
+                <label for="PUFF_THRESHOLD" data-i18n>Puff Threshold: // Schwellenwert Pusten:</label>
+                <div id="PUFF_THRESHOLD_WRAPPER" class="row">
+                    <span aria-hidden="true" id="PUFF_THRESHOLD_VAL" class="text-center two columns">0</span>
+                    <input type="range" oninput="tabSip.sipSliderChanged(this)" onchange="tabSip.sipSliderChanged(this)"
+                           id="PUFF_THRESHOLD" min="0" max="1023" class="ten columns" accesskey="c">
+                </div>
+                <label for="PUFF_STRONG_THRESHOLD" data-i18n>Strong Puff Threshold: // Schwellenwert Pusten
+                    stark:</label>
+                <div id="PUFF_STRONG_THRESHOLD_WRAPPER" class="row">
+                    <span aria-hidden="true" id="PUFF_STRONG_THRESHOLD_VAL" class="text-center two columns">0</span>
+                    <input type="range" oninput="tabSip.sipSliderChanged(this)" onchange="tabSip.sipSliderChanged(this)"
+                           id="PUFF_STRONG_THRESHOLD" min="0" max="1023" class="ten columns" accesskey="v">
+                </div>
+            </div>
+
+            <br/>
+            <br/>
+            <button id="sip-puff-button" onclick="actionAndToggle(flip.save, [], ['#sip-puff-button-normal', '#sip-puff-button-saving'], '#save-sip-value-bar')" class="u-full-width" style="position: relative;">
+                <i id="save-sip-value-bar" class="value-bar color-lightercyan" style="width: 0%;"></i>
+                <span id="sip-puff-button-normal" style="position: relative" data-i18n>Save // Speichern</span>
+                <span id="sip-puff-button-saving" style="display: none" data-i18n>Saving... // Wird
+                    gespeichert...
+                </span>
+            </button>
+        </section>
+        <section aria-labelledby="tabSlotsHeader" data-tabs-pane class="tabs-pane" id="tabSlots">
+            <div tabindex="-1">
+                <h2 id="tabSlotsHeader" style="display: none" aria-hidden="false" data-i18n>Tab 3 - FlipMouse Slot configuration // Tab 3 - FlipMouse Slot Konfiguration</h2>
+            </div>
+            <div class="row">
+                <label for="selectSlots2" data-i18n>Select active slot // Aktiven Slot auswählen</label>
+                <select id="selectSlots2" class="slot-select u-full-width" onchange="tabSlot.selectSlot(this)">
+                </select>
+            </div>
+
+            <br/>
+            <div class="row">
+                <div data-i18n>
+                    <label for="newSlotLabelEn">Create new slot</label>
+                    <label for="newSlotLabelDe">Neuen Slot anlegen</label>
+                </div>
+                <div data-i18n class="u-full-width">
+                    <input id="newSlotLabelEn" oninput="tabSlot.saveSlotLabelChanged(this)" type="text" class="u-full-width" placeholder="insert name for new slot" maxlength="15"/>
+                    <input id="newSlotLabelDe" oninput="tabSlot.saveSlotLabelChanged(this)" type="text" class="u-full-width" placeholder="Name für neuen Slot eingeben" maxlength="15"/>
+                </div>
+                <button id="create-slot-button" disabled onclick="tabSlot.createSlot(['#create-slot-button-normal', '#create-slot-button-saving'], '#create-slot-value-bar')" class="u-full-width" style="position: relative;">
+                    <i id="create-slot-value-bar" class="value-bar color-lightercyan" style="width: 0%;"></i>
+                    <span id="create-slot-button-normal" style="position: relative" data-i18n>Create Slot // Slot anlegen</span>
+                    <span id="create-slot-button-saving" style="display: none" data-i18n>creating slot... // Slot wird anlgelegt...</span>
+                </button>
+            </div>
+
+            <br/>
+            <div class="row">
+                <label for="selectSlotDelete" data-i18n>Delete Slot // Slot löschen</label>
+                <select id="selectSlotDelete" class="slot-select u-full-width">
+                </select>
+                <button id="delete-slot-button" onclick="tabSlot.deleteSlot(['#delete-slot-button-normal', '#delete-slot-button-saving'], '#delete-slot-value-bar')" class="u-full-width" style="position: relative;">
+                    <i id="delete-slot-value-bar" class="value-bar color-lightercyan" style="width: 0%;"></i>
+                    <span id="delete-slot-button-normal" style="position: relative" data-i18n>Delete Slot // Slot löschen</span>
+                    <span id="delete-slot-button-saving" style="display: none" data-i18n>deleting slot... // Slot wird gelöscht...</span>
+                </button>
+            </div>
+
+            <br/>
+            <div class="row">
+                <label for="reset-slot-button" data-i18n>Reset to default configuration // Rücksetzen auf Defaulteinstellungen</label>
+                <button id="reset-slot-button" onclick="tabSlot.resetConfig(['#reset-slot-button-normal', '#reset-slot-button-saving'], '#reset-slot-value-bar')" class="u-full-width" style="position: relative;">
+                    <i id="reset-slot-value-bar" class="value-bar color-lightercyan" style="width: 0%;"></i>
+                    <span id="reset-slot-button-normal" style="position: relative" data-i18n>Reset // Zurücksetzen</span>
+                    <span id="reset-slot-button-saving" style="display: none" data-i18n>Resetting... // Wird zurückgesetzt...</span>
+                </button>
+            </div>
+        </section>
+        <section aria-labelledby="tabActionsHeader" data-tabs-pane class="tabs-pane" id="tabActions">
+            <div tabindex="-1">
+                <h2 id="tabActionsHeader" style="display: none" aria-hidden="false" data-i18n>Tab 4 - FlipMouse Action configuration // Tab 4 - FlipMouse Konfiguration Aktionen</h2>
+            </div>
+            <div class="row">
+                <h3 id="fieldsetModeLabel" style="display: inline-block;" data-i18n>FlipMouse mode // FlipMouse Modus</h3>
+                <a aria-hidden="true" id="hideModeHelpTextA" data-i18n style="display: none" href="javascript:L.toggleInline('#showModeHelpTextA', '#hideModeHelpTextA');L.toggle('#modeHelpText');">hide info // verstecke Info</a>
+                <a aria-hidden="true" id="showModeHelpTextA" data-i18n href="javascript:L.toggleInline('#showModeHelpTextA', '#hideModeHelpTextA');L.toggle('#modeHelpText');">show info // zeige Info</a>
+            </div>
+            <div data-i18n id="modeHelpText" style="display: none" aria-hidden="false">
+                <p>Select the mode of the FLipMouse. In "Mouse" Mode the stick is used to move the mouse, in "Alternative" mode the stick can be used to trigger custom actions.</p>
+                <p>Wähle den FLipMouse Modus. Im "Maus" Modus bewegt der Stick die Maus, im "Alternative" Modus kann der Stick verwendet werden um benutzerdefinierte Aktionen auszulösen.</p>
+            </div>
+            <div class="row space-bottom">
+                <fieldset role="radiogroup" aria-labelledby="fieldsetModeLabel">
+                    <div class="six columns">
+                        <input aria-hidden="false" type="radio" name="modeRadio" role="radio" id="MODE_MOUSE" class="custom-radio" onchange="tabAction.selectMode(this)"/>
+                        <label for="MODE_MOUSE" class="button" data-i18n>Mouse // Maus</label>
+                    </div>
+                    <div class="six columns">
+                        <input aria-hidden="false" type="radio" name="modeRadio" role="radio" id="MODE_ALTERNATIVE" class="custom-radio" onchange="tabAction.selectMode(this)"/>
+                        <label for="MODE_ALTERNATIVE" class="button" data-i18n>Alternative // Alternativ</label>
+                    </div>
+                </fieldset>
+            </div>
+            <h3 data-i18n>Change actions // Aktionen ändern</h3>
+            <div class="row">
+                <label class="three columns text-right text-normal" for="selectActionButton" data-i18n>Action to define // Zu belegende Funktion</label>
+                <select id="selectActionButton" class="five columns" onchange="tabAction.selectActionButton(this.value)">
+                </select>
+                <div class="four columns">
+                    <span id="currentActionLabel" class="hide-tablet-inline" data-i18n>Current action: // Aktuelle Aktion:</span>
+                    <span id="currentAction" class="hide-mobile-inline"></span>
+                </div>
+            </div>
+            <div class="row" style="margin: 0.5em 0 0.5em 0">
+                <fieldset role="radiogroup" aria-labelledby="fieldsetActionCategoryLabel">
+                    <legend id="fieldsetActionCategoryLabel" class="three columns text-right text-normal" data-i18n>Action category // Aktions-Kategorie</legend>
+                    <div class="eight columns">
+                        <div class="three columns">
+                            <input checked aria-hidden="false" type="radio" name="actCatRadio" role="radio" id="LEARN_CAT_KEYBOARD" class="custom-radio" onchange="tabAction.selectActionCategory(this)"/>
+                            <label for="LEARN_CAT_KEYBOARD" class="button" data-i18n>Keyboard // Tastatur</label>
+                        </div>
+                        <div class="three columns">
+                            <input aria-hidden="false" type="radio" name="actCatRadio" role="radio" id="LEARN_CAT_MOUSE" class="custom-radio" onchange="tabAction.selectActionCategory(this)"/>
+                            <label for="LEARN_CAT_MOUSE" class="button" data-i18n>Mouse // Maus</label>
+                        </div>
+                        <div class="three columns">
+                            <input aria-hidden="false" type="radio" name="actCatRadio" role="radio" id="LEARN_CAT_FLIPACTIONS" class="custom-radio" onchange="tabAction.selectActionCategory(this)"/>
+                            <label for="LEARN_CAT_FLIPACTIONS" class="button">Flip</label>
+                        </div>
+                        <div class="three columns">
+                            <input aria-hidden="false" type="radio" name="actCatRadio" role="radio" id="LEARN_CAT_CUSTOM" class="custom-radio" onchange="tabAction.selectActionCategory(this)"/>
+                            <label for="LEARN_CAT_CUSTOM" class="button">Custom</label>
+                        </div>
+                    </div>
+                </fieldset>
+            </div>
+            <div id="WRAPPER_LEARN_CAT_KEYBOARD">
+                <div class="row">
+                    <label class="three columns text-right text-normal" for="INPUT_LEARN_CAT_KEYBOARD" data-i18n>Action Input // Eingabe Aktion</label>
+                    <input type="text" id="INPUT_LEARN_CAT_KEYBOARD" class="six columns" onkeydown="tabAction.handleKeyBoardEvent(event)" oninput="tabAction.handleOnKeyboardInput(event)" autocomplete="off"/>
+                   <button onclick="tabAction.resetRec()" class="two columns" data-i18n>Reset // Löschen</button>
+                </div>
+                <div class="row">
+                    <label id="labelSpecialKeys" class="three columns text-right text-normal" data-i18n>Special Keys // Spezialtasten</label>
+                    <div class="eight columns">
+                        <fieldset role="group" aria-labelledby="labelSpecialKeys">
+                            <button class="special-key" data-i18n onclick="tabAction.addSpecialKey(C.JS_KEYCODE_CTRL)">Ctrl // Strg</button>
+                            <button class="special-key" onclick="tabAction.addSpecialKey(C.JS_KEYCODE_ALT)">Alt</button>
+                            <button class="special-key" onclick="tabAction.addSpecialKey(C.JS_KEYCODE_SHIFT)">Shift</button>
+                            <button class="special-key" onclick="tabAction.addSpecialKey(C.JS_KEYCODE_GUI)">Win</button>
+                            <button class="special-key" onclick="tabAction.addSpecialKey(C.JS_KEYCODE_TAB)">Tab</button>
+                            <select aria-hidden="true" id="SELECT_LEARN_CAT_KEYBOARD_SPECIAL" onchange="tabAction.addSpecialKey(this.value)">
+                            </select>
+                        </fieldset>
+                    </div>
+                </div>
+                <div class="row">
+                    <label class="three columns text-right text-normal" data-i18n>Recorded AT Command // Aufgenommenes AT Kommando</label>
+                    <div id="recordedAtCmd" class="six columns space-bottom" data-i18n>(none) // (leer)</div>
+                    <div id="recordedActionA11y" aria-live="assertive" role="alert" aria-hidden="false" class="hidden"></div>
+                    <button id="buttonRecOK" onclick="tabAction.saveRec()" disabled class="two columns">OK</button>
+                </div>
+            </div>
+            <div id="WRAPPER_LEARN_CAT_MOUSE" class="row" style="display: none">
+                <label class="three columns text-right text-normal" for="SELECT_LEARN_CAT_MOUSE" data-i18n>Action // Aktion</label>
+                <select id="SELECT_LEARN_CAT_MOUSE" class="eight columns" onchange="tabAction.selectAtCmd(this.value)">
+                </select>
+            </div>
+            <div id="WRAPPER_LEARN_CAT_FLIPACTIONS" class="row" style="display: none">
+                <label class="three columns text-right text-normal" for="SELECT_LEARN_CAT_FLIPACTIONS" data-i18n>Action // Aktion</label>
+                <select id="SELECT_LEARN_CAT_FLIPACTIONS" class="eight columns" onchange="tabAction.selectAtCmd(this.value)">
+                </select>
+            </div>
+            <div id="WRAPPER_LEARN_CAT_CUSTOM" class="row" style="display: none">
+                <label class="three columns text-right text-normal" for="INPUT_LEARN_CAT_CUSTOM" data-i18n>AT command // AT Kommando</label>
+                <input type="text" id="INPUT_LEARN_CAT_CUSTOM" class="six columns">
+                <button class="two columns" onclick="tabAction.selectAtCmd(L('#INPUT_LEARN_CAT_CUSTOM').value)">OK</button>
+            </div>
+            <div id="WRAPPER_ADDITIONAL_FIELD_TEXT" class="row" style="display: none">
+                <label class="three columns text-right text-normal" for="ADDITIONAL_FIELD_TEXT" data-i18n>AT command // AT Kommando</label>
+                <input type="text" id="ADDITIONAL_FIELD_TEXT" class="six columns">
+                <button class="two columns" onclick="tabAction.setAtCmdWithAdditionalData(L('#ADDITIONAL_FIELD_TEXT').value)">OK</button>
+            </div>
+            <div id="WRAPPER_ADDITIONAL_FIELD_SELECT" class="row" style="display: none">
+                <label class="three columns text-right text-normal" for="ADDITIONAL_FIELD_SELECT" data-i18n></label>
+                <select id="ADDITIONAL_FIELD_SELECT" class="six columns">
+                </select>
+                <button class="two columns" onclick="tabAction.setAtCmdWithAdditionalData(L('#ADDITIONAL_FIELD_SELECT').value)">OK</button>
+            </div>
+
+
+            <br/>
+            <h3 data-i18n>Current saved mapping // Aktuelle gespeicherte Konfiguration</h3>
+            <div id="currentConfigTh" class="hide-mobile row thead" aria-hidden="true">
+                <div class="two columns" data-i18n>Description // Bezeichnung</div>
+                <div class="four columns" data-i18n>Current action // aktuelle Aktion</div>
+                <div class="four columns" data-i18n>Current AT command // aktuelles AT Kommando</div>
+            </div>
+            <ol id="currentConfigTb" class="tbody"></ol>
+
+            <br/>
+            <button id="save-action" onclick="actionAndToggle(flip.save, [], ['#save-action-button-normal', '#save-action-button-saving'], '#save-action-value-bar').then(function() {tabAction.init()})" class="u-full-width" style="position: relative;">
+                <i id="save-action-value-bar" class="value-bar color-lightercyan" style="width: 0%;"></i>
+                <span id="save-action-button-normal" style="position: relative" data-i18n>Save // Speichern</span>
+                <span id="save-action-button-saving" style="display: none" data-i18n>Saving... // Wird
+                    gespeichert...
+                </span>
+            </button>
+        </section>
+    </main>
+</div>
+
+<script>
+    window.onload = function () {
+        tabby.init();
+        domI18n({
+            selector: '[data-i18n]',
+            separator: ' // ',
+            languages: ['en', 'de']
+        });
+        L.loadScript('js/i18n/i18n_' + L.getLang() + '.js', 'js/i18n/i18n_en.js').then(function () {
+            L('html')[0].lang = window.lang;
+            window.flip = new FlipMouse(function (config) {
+                initWithConfig(config);
+                tabSlot.initSlots();
+                toTab(getCurrentTabId(), true);
+                testConnection();
+                setInterval(function () {
+                    testConnection();
+                }, 10000);
+                function testConnection() {
+                    flip.testConnection(true).then(function (isConnected) {
+                        L.setVisible('.connectedIndicator', isConnected, 'inline');
+                        L.setVisible('.disconnectedIndicator', !isConnected, 'inline');
+                        var oldState = L('#connStateText').innerHTML;
+                        var newState = isConnected ? L.translate('CONNECTED') : L.translate('NOT_CONNECTED');
+                        if(oldState != newState) {
+                            L('#connStateText').innerHTML = newState;
+                        }
+                    });
+                }
+            });
+        });
+    };
+
+    function initWithConfig(config) {
+        console.log('applying config:');
+        console.log(config);
+        if(!config) {
+            return;
+        }
+        setSliderValue(flip.SENSITIVITY_X, config[flip.SENSITIVITY_X]);
+        setSliderValue(flip.SENSITIVITY_Y, config[flip.SENSITIVITY_Y]);
+        setSliderValue('SENSITIVITY', config[flip.SENSITIVITY_X]);
+        setSliderValue(flip.DEADZONE_X, config[flip.DEADZONE_X]);
+        setSliderValue(flip.DEADZONE_Y, config[flip.DEADZONE_Y]);
+        setSliderValue('DEADZONE', config[flip.DEADZONE_X]);
+        setSliderValue(flip.SIP_THRESHOLD, config[flip.SIP_THRESHOLD]);
+        setSliderValue(flip.SIP_STRONG_THRESHOLD, config[flip.SIP_STRONG_THRESHOLD]);
+        setSliderValue(flip.PUFF_THRESHOLD, config[flip.PUFF_THRESHOLD]);
+        setSliderValue(flip.PUFF_STRONG_THRESHOLD, config[flip.PUFF_STRONG_THRESHOLD]);
+
+        if (config[flip.SENSITIVITY_X] != config[flip.SENSITIVITY_Y]) {
+            tabBasic.toggleShowXY('SENSITIVITY');
+        }
+        if (config[flip.DEADZONE_X] != config[flip.DEADZONE_Y]) {
+            tabBasic.toggleShowXY('DEADZONE');
+        }
+    }
+
+    function setSliderValue(constant, value, dontSetSlider) {
+        L('#' + constant + '_VAL').innerHTML = value;
+        if (!dontSetSlider) {
+            L('#' + constant).value = value;
+        }
+    }
+
+    function actionAndToggle(actionFunction, argList, toggleElementList, progressBarId) {
+        return new Promise(function (resolve) {
+            var maxProgress = 0;
+            var stopProgressBar = false;
+            argList = argList || [];
+            L.toggle.apply(null, toggleElementList);
+            var promise = actionFunction.apply(null, argList.concat(progressHandler));
+            if (promise && promise.then) {
+                promise.then(function () {
+                    if (progressBarId) {
+                        progressHandler(100, 100);
+                        setTimeout(function () {
+                            stopProgressBar = true;
+                            L(progressBarId).style = 'width: 0%;';
+                        }, 500);
+                    }
+                    L.toggle.apply(null, toggleElementList);
+                    resolve();
+                }, function () {
+                    stopProgressBar = true;
+                });
+            }
+
+            function progressHandler(progress, timeConstant) {
+                var startTime = L.getMs();
+                timeConstant = timeConstant || 1000;
+                if (progressBarId) {
+                    updateProgressBar(maxProgress);
+                }
+
+                function updateProgressBar(oldPrg) {
+                    setTimeout(function () {
+                        var t = L.getMs() - startTime;
+                        var p = (progress - oldPrg) * (1 - Math.exp(-t / timeConstant)) + oldPrg;
+                        if (p > maxProgress && !stopProgressBar) {
+                            maxProgress = p;
+                            L(progressBarId).style = 'width: ' + p + '%;';
+                            updateProgressBar(oldPrg);
+                        }
+                    }, 50);
+                }
+            }
+        });
+    }
+
+    function toTab(tabId, nofocus) {
+        tabId = parseTabId(tabId);
+        if(!tabId) {
+            tabId = '#tabBasic';
+        }
+        if(nofocus) {
+            L(tabId).setAttribute('data-tab-no-focus', true);
+        }
+        tabby.toggleTab(tabId);
+        if(nofocus) {
+            L(tabId).removeAttribute('data-tab-no-focus');
+        }
+        L.setSelected('.menubutton', false);
+        L.setSelected(tabId + 'Btn');
+        L.setVisible('#toNavLink');
+        L.setVisible('#toNavBackLink', false);
+        if(tabId != '#tabNav') {
+            window.lastNav = tabId;
+        }
+        if (tabId.indexOf('#tabBasic') > -1) {
+            toBasic();
+        } else if (tabId.indexOf('#tabPuff') > -1) {
+            toSipPuff();
+        } else if (tabId.indexOf('#tabSlots') > -1) {
+            toSlots();
+        } else if (tabId.indexOf('#tabActions') > -1) {
+            toActions();
+        } else if (tabId.indexOf('#tabNav') > -1) {
+            toNav();
+        }
+    }
+    
+    function toBasic() {
+        flip.startLiveValueListener(tabBasic.cursorPosValueHandler);
+    }
+
+    function toSipPuff() {
+        flip.startLiveValueListener(tabSip.sipPuffValueHandler);
+    }
+
+    function toSlots() {
+        flip.stopLiveValueListener();
+    }
+
+    function toActions() {
+        flip.stopLiveValueListener();
+        tabAction.init();
+    }
+
+    function toNav() {
+        tabby.toggleTab('#tabNav');
+        L.toggle('#toNavLink', '#toNavBackLink');
+
+        var tabNav = L('#tabNavContainer');
+        if(tabNav.hasChildNodes()) {
+            return;
+        }
+        var navItems = L('#tabMenu').children;
+        for (var i = 0; i < navItems.length-2; i++) {
+            var clone = navItems[i].cloneNode(true);
+            clone.className = '';
+            tabNav.appendChild(clone);
+        }
+    }
+
+    function toNavBack() {
+        L.toggle('#toNavLink', '#toNavBackLink');
+        if(window.lastNav && window.lastNav != '#tabNav') {
+            toTab(window.lastNav);
+        } else {
+            toTab('#tabBasic');
+        }
+    }
+
+    function getCurrentTabId() {
+        if(L('.tabs-pane.active')[0]) {
+            var id = parseTabId(L('.tabs-pane.active')[0].baseURI);
+        }
+        return id ? id : parseTabId(window.location.href);
+    }
+
+    function parseTabId(url) {
+        var tabId = url.indexOf('#') > -1 ? url.substring(url.indexOf('#')) : '';
+        if(tabId.indexOf('?') > -1) {
+            tabId = tabId.substring(0,tabId.indexOf('?'));
+        }
+        return tabId;
+    }
+</script>
+</body>
+</html>

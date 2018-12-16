@@ -1,0 +1,211 @@
+#content{
+    margin: 2em;
+}
+
+div[data-tabs] {
+    margin-bottom: 3em;
+}
+
+*:focus {
+    outline: none !important;
+}
+
+a[data-tab] {
+    width: 100%;
+    font-size: 1em;
+}
+
+button, .button {
+    font-size: 1em;
+    width: 100%;
+    height: auto; !important;
+    white-space: normal;
+    padding: 0; !important;
+}
+
+button:disabled, button:disabled div{
+    border-color: darkgray;
+    color: lightgray;
+}
+
+.special-key {
+    width: 7em;
+}
+
+br {
+    line-height: 250%;
+}
+
+.space-bottom {
+    margin-bottom: 0.5em;
+}
+
+.headerConnectIndicator {
+    float: right;
+    font-size: 1.5em;
+    margin-top: -3em;
+}
+
+.green {
+    color: green;
+}
+
+.red {
+    color: red;
+}
+
+.text-center{
+    text-align: center;
+}
+
+.text-normal {
+    font-style: normal;
+    font-weight: normal; !important;
+}
+
+.value-bar {
+    background-color: #9be7ff;
+    height: 100%;
+    position: absolute;
+    left: 0;
+    z-index: -10;
+}
+
+.back-layer {
+    position: absolute;
+    z-index: -1;
+}
+
+.full-height {
+     height: 100%;
+ }
+
+.full-width {
+    width: 100%;
+}
+
+.half-width {
+    width: 48%; !important;
+    float: left;
+}
+
+.tbody li {
+    list-style-type: none;
+    margin: 0; !important;
+}
+
+.thead div {
+    font-style: italic;
+}
+
+.relative {
+    position: relative;
+}
+
+.float-left{
+    float: left;
+}
+
+.border-right-blue {
+    border-right: dotted blue;
+}
+
+.border-right-red {
+    border-right: dotted red;
+}
+
+.border-right-gray {
+    border-right: medium dotted darkgray;
+}
+
+#tab-puff-container span, #tab-puff-container label {
+    background-color: white;
+    white-space: normal;
+}
+
+label {
+    display:inline-block;
+}
+
+.cursorPosWrapper {
+    border: medium solid;
+    background-color: transparent;
+    height: 200px;
+    width: 200px;
+    margin-bottom: 2em;
+}
+
+#circle {
+    width: 10px;
+    height: 10px;
+    background: red;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    border-radius: 5px;
+    top: -5px;
+    left: -5px;
+}
+
+.color-lightcyan {
+    background-color: #9be7ff;
+}
+
+.color-lightercyan {
+    background-color: #cceff9;
+}
+
+.zoombutton {
+    position: absolute;
+    line-height: 0; !important;
+    text-decoration: none;
+    border: thin solid;
+    height: 1.5em;
+    width: 1.5em;
+    text-align: center;
+    padding: 0; !important;
+}
+
+.center-div
+{
+    margin-right: auto;
+    margin-left: auto;
+}
+
+.hidden {
+    display: none;
+}
+
+button.selected, .custom-radio:checked ~ label {
+    border-width: 0.2em;
+    border-color: #33C3F0;
+    background-color: #cceff9;
+}
+
+.button-primary.selected {
+    border-width: 0.25em;
+    border-color: #33C3F0;
+    background-color: #0D5F77;
+    box-shadow: black ;
+}
+
+.custom-radio {
+    position: absolute;
+    z-index: -1;
+    opacity: 0;
+}
+
+.onlyscreenreader {
+    display: block !important;
+    position: absolute;
+    left:-9999px;
+}
+
+.connectedIndicator {
+    color: green;
+    display: inline;
+}
+
+.disconnectedIndicator {
+    color: red;
+    display: inline;
+}

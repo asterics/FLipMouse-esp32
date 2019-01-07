@@ -209,3 +209,7 @@ button.selected, .custom-radio:checked ~ label {
     color: red;
     display: inline;
 }
+
+.hide-init {
+    display: none;
+}

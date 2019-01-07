@@ -1,7 +1,7 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>FlipMouse Configuration</title>
+    <title>FABI Configuration</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="css/normal.css">
     <link rel="stylesheet" href="css/skeleton.css">
@@ -28,7 +28,7 @@
 <div id="content">
     <header class="row" role="banner">
         <div>
-            <h1 id="mainHeading" tabindex="-1" class="nine columns" data-i18n>FLipMouse Configuration // FLipMouse Konfiguration</h1>
+            <h1 id="mainHeading" tabindex="-1" class="nine columns" data-i18n>FABI Configuration // FABI Konfiguration</h1>
             <span aria-hidden="true" class="show-mobile headerConnectIndicator green connectedIndicator" style="display: none" title="connected">&#x2713;</span>
             <span aria-hidden="true" class="show-mobile headerConnectIndicator red disconnectedIndicator" title="not connected">&#x2717;</span>
         </div>
@@ -49,10 +49,10 @@
     <div class="row hide-mobile" style="margin-bottom: 1.5em"></div>
 
     <div data-tabs class="row" id="tabMenu" role="menubar" tabindex="-1" accesskey="0">
-        <div class="three columns hide-mobile showscreenreader"><button role="menuitem" onclick="toTab('#tabBasic')" class="menubutton button-primary" accesskey="1" data-tab id="tabBasicBtn" data-i18n>Basic Setup // Basis-Konfiguration</button></div>
-        <div class="three columns hide-mobile showscreenreader"><button role="menuitem" onclick="toTab('#tabPuff')" class="menubutton button-primary" accesskey="2" data-tab id="tabPuffBtn" data-i18n>Sip and Puff // Saug-Pustesteuerung</button></div>
-        <div class="three columns hide-mobile showscreenreader"><button role="menuitem" onclick="toTab('#tabSlots')" class="menubutton button-primary" accesskey="3" data-tab id="tabSlotsBtn" data-i18n>Slot configuration // Slot-Konfiguration</button></div>
-        <div class="three columns hide-mobile showscreenreader"><button role="menuitem" onclick="toTab('#tabActions')" class="menubutton button-primary" accesskey="4" data-tab id="tabActionsBtn" data-i18n>Action configuration // Konfiguration Aktionen</button></div>
+
+        <div class="four columns hide-mobile showscreenreader"><button role="menuitem" onclick="toTab('#tabPuff')" class="menubutton button-primary hide-init" accesskey="2" data-tab id="tabPuffBtn" data-i18n>Sip and Puff // Saug-Pustesteuerung</button></div>
+        <div class="four columns hide-mobile showscreenreader"><button role="menuitem" onclick="toTab('#tabSlots')" class="menubutton button-primary" accesskey="3" data-tab id="tabSlotsBtn" data-i18n>Slot configuration // Slot-Konfiguration</button></div>
+        <div class="four columns hide-mobile showscreenreader"><button role="menuitem" onclick="toTab('#tabActions')" class="menubutton button-primary" accesskey="4" data-tab id="tabActionsBtn" data-i18n>Action configuration // Konfiguration Aktionen</button></div>
         <div class="show-mobile" aria-hidden="true"><button id="toNavLink" onclick="toNav()" class="button button-primary" data-tab data-i18n>&#x2630; Menu // &#x2630; Menü</button></div>
         <div class="show-mobile" aria-hidden="true"><button id="toNavBackLink" style="display: none" onclick="toNavBack()" class="button button-primary" data-i18n>&#8592; Back // &#8592; Zurück</button></div>
     </div>
@@ -60,108 +60,7 @@
         <div aria-hidden="true" data-tabs-pane class="tabs-pane" id="tabNav">
             <div id="tabNavContainer" class="row"></div>
         </div>
-        <section aria-labelledby="tabBasicHeader" data-tabs-pane class="tabs-pane" id="tabBasic">
-            <div tabindex="-1">
-                <h2 id="tabBasicHeader" style="display: none" aria-hidden="false" data-i18n>Tab one - Basic FlipMouse Setup // Tab eins - FlipMouse Basiskonfiguration</h2>
-            </div>
-            <span id="posLiveA11yLabel" aria-hidden="false" class="hidden" data-i18n="">Current position of Flipmouse Stick // Aktuelle Position des Sticks der Flipmouse</span>
-            <span id="posLiveA11y" aria-describedby="posLiveA11yLabel" class="onlyscreenreader" role="status" aria-live="off" accesskey="q" tabindex="-1"></span>
-            <div id="basic-SENSITIVITY-single">
-                <label for="SENSITIVITY" data-i18n>Sensitivity: // Sensitivität:</label>
-                <a aria-hidden="true" class="u-pull-right" href="javascript:tabBasic.toggleShowXY('SENSITIVITY')" data-i18n>show x/y separately // zeige x/y getrennt</a>
-                <div class="row">
-                    <span aria-hidden="true" id="SENSITIVITY_VAL" class="text-center one column">0</span>
-                    <input type="range" oninput="tabBasic.basicSliderChanged(event)" onchange="tabBasic.basicSliderChanged(event)"
-                           id="SENSITIVITY" min="0" max="255" class="eleven columns" accesskey="a">
-                </div>
-            </div>
-            <div id="basic-SENSITIVITY-xy" style="display: none">
-                <label for="SENSITIVITY_X" data-i18n>Horizontal Sensitivity: // Sensitivität horizontal:</label>
-                <a aria-hidden="true" class="u-pull-right" href="javascript:tabBasic.toggleShowXY('SENSITIVITY')" data-i18n>hide separate x/y // zeige  x/y gemeinsam</a>
-                <div class="row">
-                    <span id="SENSITIVITY_X_VAL" class="text-center one column">0</span>
-                    <input type="range" oninput="tabBasic.basicSliderChanged(event)" onchange="tabBasic.basicSliderChanged(event)"
-                           id="SENSITIVITY_X" min="0" max="255" class="eleven columns">
-                </div>
-                <label for="SENSITIVITY_Y" data-i18n>Vertical Sensitivity: // Sensitivität vertikal:</label>
-                <div class="row">
-                    <span id="SENSITIVITY_Y_VAL" class="text-center one column">0</span>
-                    <input type="range" oninput="tabBasic.basicSliderChanged(event)" onchange="tabBasic.basicSliderChanged(event)"
-                           id="SENSITIVITY_Y" min="0" max="255" class="eleven columns">
-                </div>
-            </div>
 
-            <br/>
-            <div class="row">
-                <div aria-hidden="true" class="six columns">
-                    <div class="relative center-div cursorPosWrapper">
-                        <div id="orientationSign" class="back-layer full-height full-width" style="transform: rotate(270deg);">
-                            <div class="back-layer" style="top:100%; left: 35%; width: 30%; height: 10%; background-color: black; z-index: 2"></div>
-                        </div>
-                        <div id="deadZonePos" class="back-layer color-lightcyan"
-                             style="top: 40%; left: 40%; height: 20%; width: 20%;"></div>
-                        <div class="back-layer"
-                             style="left: 50%; height: 100%; border-right-style: solid; border-right-width: thin;"></div>
-                        <div class="back-layer"
-                             style="top: 50%; width: 100%; border-bottom-style: solid; border-bottom-width: thin;"></div>
-                        <button onclick="tabBasic.cursorPosZoomReset();" class="zoombutton" style="top: 55%;" title="Reset Zoom">&#8634;</button>
-                        <div id="cursorPosVal" class="back-layer" style="top: 40%;">110</div>
-                        <div id="cursorPos" class="back-layer" style="top: 50%; left: 50%;">
-                            <div class="back-layer" id="circle"></div>
-                        </div>
-                    </div>
-                </div>
-                <div class="five columns">
-                    <button onclick="actionAndToggle(flip.calibrate, [], ['#basic-button-calibrate', '#basic-button-calibrating'])">
-                        <span data-i18n id="basic-button-calibrate">Calibrate middle position // Mittelposition kalibrieren</span>
-                        <span id="basic-button-calibrating" style="display: none;" data-i18n>Calibrating... // wird kalibriert...</span>
-                    </button>
-                    <button onclick="actionAndToggle(flip.rotate, [], ['#basic-button-rotate', '#basic-button-rotating'])">
-                        <span data-i18n id="basic-button-rotate">&#x21bb; Rotate right // &#x21bb; Nach rechts drehen</span>
-                        <span id="basic-button-rotating" style="display: none;" data-i18n>Rotating... // wird gedreht...</span>
-                    </button>
-                </div>
-            </div>
-
-            <br/>
-            <div id="basic-DEADZONE-single">
-                <label lang="en" for="DEADZONE" aria->Deadzone:</label>
-                <a aria-hidden="true" class="u-pull-right" href="javascript:tabBasic.toggleShowXY('DEADZONE')" data-i18n>show x/y separately // zeige x/y getrennt</a>
-                <div class="row">
-                    <span aria-hidden="true" id="DEADZONE_VAL" class="text-center one column">0</span>
-                    <input type="range" oninput="tabBasic.basicSliderChanged(event)" onchange="tabBasic.basicSliderChanged(event)"
-                           id="DEADZONE" min="0" max="650" class="eleven columns" accesskey="s">
-                </div>
-            </div>
-            <div id="basic-DEADZONE-xy" style="display: none">
-                <label for="DEADZONE_X">Horizontal Deadzone:</label>
-                <a aria-hidden="true" class="u-pull-right" href="javascript:tabBasic.toggleShowXY('DEADZONE')" data-i18n>hide separate x/y // zeige x/y gemeinsam</a>
-                <div class="row">
-                    <span id="DEADZONE_X_VAL" class="text-center one column">0</span>
-                    <input type="range" oninput="tabBasic.basicSliderChanged(event)" onchange="tabBasic.basicSliderChanged(event)"
-                           id="DEADZONE_X" min="0" max="650" class="eleven columns">
-                </div>
-                <label for="DEADZONE_Y">Vertical Deadzone:</label>
-                <div class="row">
-                    <span id="DEADZONE_Y_VAL" class="text-center one column">0</span>
-                    <input type="range" oninput="tabBasic.basicSliderChanged(event)" onchange="tabBasic.basicSliderChanged(event)"
-                           id="DEADZONE_Y" min="0" max="650" class="eleven columns">
-                </div>
-            </div>
-
-
-            <br/>
-            <br/>
-            <div class="row">
-                <button id="basic-button" onclick="actionAndToggle(flip.save, [], ['#basic-button-normal', '#basic-button-saving'], '#save-basic-value-bar')" class="one-third" style="position: relative;">
-                    <i id="save-basic-value-bar" class="value-bar color-lightercyan" style="width: 0%;"></i>
-                    <span id="basic-button-normal" data-i18n>Save // Speichern</span>
-                    <span id="basic-button-saving" style="display: none;" data-i18n>Saving... // Wird
-                        gespeichert...
-                    </span>
-                </button>
-            </div>
-        </section>
         <section aria-labelledby="tabPuffHeader" data-tabs-pane class="tabs-pane" id="tabPuff">
             <div tabindex="-1">
                 <h2 id="tabPuffHeader" style="display: none" aria-hidden="false" data-i18n>Tab two - FlipMouse Sip and Puff Configuration // Tab zwei - FlipMouse Konfiguration Saug-/Pustesteuerung</h2>
@@ -285,30 +184,6 @@
             </div>
         </section>
         <section aria-labelledby="tabActionsHeader" data-tabs-pane class="tabs-pane" id="tabActions">
-            <div tabindex="-1">
-                <h2 id="tabActionsHeader" style="display: none" aria-hidden="false" data-i18n>Tab 4 - FlipMouse Action configuration // Tab 4 - FlipMouse Konfiguration Aktionen</h2>
-            </div>
-            <div class="row">
-                <h3 id="fieldsetModeLabel" style="display: inline-block;" data-i18n>FlipMouse mode // FlipMouse Modus</h3>
-                <a aria-hidden="true" id="hideModeHelpTextA" data-i18n style="display: none" href="javascript:L.toggleInline('#showModeHelpTextA', '#hideModeHelpTextA');L.toggle('#modeHelpText');">hide info // verstecke Info</a>
-                <a aria-hidden="true" id="showModeHelpTextA" data-i18n href="javascript:L.toggleInline('#showModeHelpTextA', '#hideModeHelpTextA');L.toggle('#modeHelpText');">show info // zeige Info</a>
-            </div>
-            <div data-i18n id="modeHelpText" style="display: none" aria-hidden="false">
-                <p>Select the mode of the FLipMouse. In "Mouse" Mode the stick is used to move the mouse, in "Alternative" mode the stick can be used to trigger custom actions.</p>
-                <p>Wähle den FLipMouse Modus. Im "Maus" Modus bewegt der Stick die Maus, im "Alternative" Modus kann der Stick verwendet werden um benutzerdefinierte Aktionen auszulösen.</p>
-            </div>
-            <div class="row space-bottom">
-                <fieldset role="radiogroup" aria-labelledby="fieldsetModeLabel">
-                    <div class="six columns">
-                        <input aria-hidden="false" type="radio" name="modeRadio" role="radio" id="MODE_MOUSE" class="custom-radio" onchange="tabAction.selectMode(this)"/>
-                        <label for="MODE_MOUSE" class="button" data-i18n>Mouse // Maus</label>
-                    </div>
-                    <div class="six columns">
-                        <input aria-hidden="false" type="radio" name="modeRadio" role="radio" id="MODE_ALTERNATIVE" class="custom-radio" onchange="tabAction.selectMode(this)"/>
-                        <label for="MODE_ALTERNATIVE" class="button" data-i18n>Alternative // Alternativ</label>
-                    </div>
-                </fieldset>
-            </div>
             <h3 data-i18n>Change actions // Aktionen ändern</h3>
             <div class="row">
                 <label class="three columns text-right text-normal" for="selectActionButton" data-i18n>Action to define // Zu belegende Funktion</label>
@@ -436,6 +311,13 @@
                 setInterval(function () {
                     testConnection();
                 }, 10000);
+
+                flip.isSipAndPuffLive().then((result) => {
+                    if (result === true) {
+                        document.getElementById("tabPuffBtn").classList.remove("hide-init");
+                    }
+                });
+
                 function testConnection() {
                     flip.testConnection(true).then(function (isConnected) {
                         L.setVisible('.connectedIndicator', isConnected, 'inline');
@@ -457,23 +339,10 @@
         if(!config) {
             return;
         }
-        setSliderValue(flip.SENSITIVITY_X, config[flip.SENSITIVITY_X]);
-        setSliderValue(flip.SENSITIVITY_Y, config[flip.SENSITIVITY_Y]);
-        setSliderValue('SENSITIVITY', config[flip.SENSITIVITY_X]);
-        setSliderValue(flip.DEADZONE_X, config[flip.DEADZONE_X]);
-        setSliderValue(flip.DEADZONE_Y, config[flip.DEADZONE_Y]);
-        setSliderValue('DEADZONE', config[flip.DEADZONE_X]);
         setSliderValue(flip.SIP_THRESHOLD, config[flip.SIP_THRESHOLD]);
         setSliderValue(flip.SIP_STRONG_THRESHOLD, config[flip.SIP_STRONG_THRESHOLD]);
         setSliderValue(flip.PUFF_THRESHOLD, config[flip.PUFF_THRESHOLD]);
         setSliderValue(flip.PUFF_STRONG_THRESHOLD, config[flip.PUFF_STRONG_THRESHOLD]);
-
-        if (config[flip.SENSITIVITY_X] != config[flip.SENSITIVITY_Y]) {
-            tabBasic.toggleShowXY('SENSITIVITY');
-        }
-        if (config[flip.DEADZONE_X] != config[flip.DEADZONE_Y]) {
-            tabBasic.toggleShowXY('DEADZONE');
-        }
     }
 
     function setSliderValue(constant, value, dontSetSlider) {
@@ -531,7 +400,7 @@
     function toTab(tabId, nofocus) {
         tabId = parseTabId(tabId);
         if(!tabId) {
-            tabId = '#tabBasic';
+            tabId = '#tabSlots';
         }
         if(nofocus) {
             L(tabId).setAttribute('data-tab-no-focus', true);
@@ -547,9 +416,7 @@
         if(tabId != '#tabNav') {
             window.lastNav = tabId;
         }
-        if (tabId.indexOf('#tabBasic') > -1) {
-            toBasic();
-        } else if (tabId.indexOf('#tabPuff') > -1) {
+        if (tabId.indexOf('#tabPuff') > -1) {
             toSipPuff();
         } else if (tabId.indexOf('#tabSlots') > -1) {
             toSlots();
@@ -558,10 +425,6 @@
         } else if (tabId.indexOf('#tabNav') > -1) {
             toNav();
         }
-    }
-    
-    function toBasic() {
-        flip.startLiveValueListener(tabBasic.cursorPosValueHandler);
     }
 
     function toSipPuff() {
@@ -598,7 +461,7 @@
         if(window.lastNav && window.lastNav != '#tabNav') {
             toTab(window.lastNav);
         } else {
-            toTab('#tabBasic');
+            toTab('#tabSlots');
         }
     }
 

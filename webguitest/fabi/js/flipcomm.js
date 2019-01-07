@@ -249,6 +249,21 @@ function FlipMouse(initFinished) {
         }
     };
 
+    // return 'true' if SipAndPuff device is available, else 'false'
+    thiz.isSipAndPuffLive = function () {
+        return new Promise(
+            function(resolve, reject) {
+		thiz.startLiveValueListener(function (livedata) {
+		    if (livedata) {
+			resolve(true);
+		    }
+		    else {
+			resolve(false);
+		    }
+		})
+	    })
+    };
+
     thiz.getConfig = function (constant, slot) {
         slot = slot || _currentSlot;
         return _config[slot] ? _config[slot][constant] : null;

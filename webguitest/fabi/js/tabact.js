@@ -2,16 +2,20 @@ window.tabAction = {};
 
 window.tabAction.init = function () {
     tabAction.initBtnModeActionTable();
-    var modes = flip.getConfig(flip.FLIPMOUSE_MODE) == C.FLIPMOUSE_MODE_MOUSE ? C.BTN_MODES_WITHOUT_STICK : C.BTN_MODES;
-    L('#selectActionButton').innerHTML = L.createSelectItems(modes);
-    L('#currentAction').innerHTML = getReadable(flip.getConfig(C.BTN_MODES[0]));
-    L('#' + flip.getConfig(flip.FLIPMOUSE_MODE)).checked = true;
+    var modes = C.BTN_MODES_WITHOUT_STICK;
 
-    L('#SELECT_LEARN_CAT_MOUSE').innerHTML = L.createSelectItems(C.AT_CMDS_MOUSE);
-    L('#SELECT_LEARN_CAT_FLIPACTIONS').innerHTML = L.createSelectItems(C.AT_CMDS_FLIP);
-    L('#SELECT_LEARN_CAT_KEYBOARD_SPECIAL').innerHTML = L.createSelectItems(C.SUPPORTED_KEYCODES, function (code) {
-        return C.KEYCODE_MAPPING[code];
-    }, 'SELECT_SPECIAL_KEY');
+    flip.isSipAndPuffLive().then((result) => {
+	if (result === false) {
+	    modes = modes.slice(0,-4);  //remove sip and puff options
+	}
+	L('#selectActionButton').innerHTML = L.createSelectItems(modes);
+	L('#currentAction').innerHTML = getReadable(flip.getConfig(C.BTN_MODES[0]));
+	L('#SELECT_LEARN_CAT_MOUSE').innerHTML = L.createSelectItems(C.AT_CMDS_MOUSE);
+	L('#SELECT_LEARN_CAT_FLIPACTIONS').innerHTML = L.createSelectItems(C.AT_CMDS_FLIP);
+	L('#SELECT_LEARN_CAT_KEYBOARD_SPECIAL').innerHTML = L.createSelectItems(C.SUPPORTED_KEYCODES, function (code) {
+            return C.KEYCODE_MAPPING[code];
+	}, 'SELECT_SPECIAL_KEY');
+    });
 };
 
 window.tabAction.initBtnModeActionTable = function () {
@@ -20,7 +24,7 @@ window.tabAction.initBtnModeActionTable = function () {
     var ariaDesc = '<span class="hidden" aria-hidden="false">' + L.translate('DESCRIPTION') + '</span>';
     var ariaAction = '<span class="hidden" aria-hidden="false">' + L.translate('CURR_ACTION') + '</span>';
     var ariaAtCmd = '<span class="hidden" aria-hidden="false">' + L.translate('CURR_AT_CMD') + '</span>';
-    var modes = flip.getConfig(flip.FLIPMOUSE_MODE) == C.FLIPMOUSE_MODE_MOUSE ? C.BTN_MODES_WITHOUT_STICK : C.BTN_MODES;
+    var modes = C.BTN_MODES_WITHOUT_STICK;
     modes.forEach(function (btnMode) {
         var liElm = L.createElement('li', 'row');
         var changeA = L.createElement('a', '', L.translate(btnMode));

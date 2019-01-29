@@ -120,7 +120,7 @@ L Device:R R10
 U 1 1 5A81C7FF
 P 13950 3100
 F 0 "R10" V 14030 3100 50  0000 C CNN
-F 1 "1k5" V 13950 3100 50  0000 C CNN
+F 1 "15R" V 13950 3100 50  0000 C CNN
 F 2 "Resistor_SMD:R_0603_1608Metric" V 13880 3100 50  0001 C CNN
 F 3 "" H 13950 3100 50  0001 C CNN
 	1    13950 3100
@@ -2483,7 +2483,7 @@ Wire Wire Line
 Wire Wire Line
 	8600 5450 8800 5450
 Text Notes 7300 5400 0    31   ~ 0
-To have auto-reset feature for ESP32,\nconnect:\nTP11 with TP12\nand\nTP21 with TP22\nexternally by wires.\nLPC11 is able to program the ESP32, \nbut in cases where we need a second \nprogrammer, use header J7
+To have auto-reset feature for ESP32,\nconnect:\nTP11 with TP12 (DTR)\nand\nTP21 with TP22 (RTS)\nexternally by wires.\nLPC11 is able to program the ESP32, \nbut in cases where we need a second \nprogrammer, use header J7
 Text Label 3500 4500 0    60   ~ 0
 SCL
 Text Notes 3700 4500 0    31   ~ 0

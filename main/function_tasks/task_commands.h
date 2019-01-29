@@ -49,7 +49,7 @@
 #include <inttypes.h>
 
 #include "hal_serial.h"
-#include "task_infrared.h"
+#include "fct_infrared.h"
 #include "keyboard.h"
 #include "../config_switcher.h"
 

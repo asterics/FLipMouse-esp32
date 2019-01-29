@@ -83,6 +83,10 @@ void task_vb(void *param)
     //wait 50ms
     vTaskDelay(50 / portTICK_PERIOD_MS);
     
+    //wait for stable config
+    if((xEventGroupWaitBits(systemStatus,SYSTEM_STABLECONFIG, \
+      pdFALSE,pdFALSE,100) & SYSTEM_STABLECONFIG) == 0) continue;
+    
     if(xSemaphoreTake(vbCmdSem,40) != pdTRUE)
     {
       ESP_LOGW(LOG_TAG,"VB mutex not free for task");
@@ -157,7 +161,7 @@ void task_vb(void *param)
                     {
                       ESP_LOGE(LOG_TAG,"Param is null, cannot send IR");
                     } else {
-                      ///@todo Send IR command.
+                      fct_infrared_send(current->cmdparam);
                     }
                     break;
                   default:
@@ -178,6 +182,61 @@ void task_vb(void *param)
     }
     xSemaphoreGive(vbCmdSem);
   }
+}
+
+
+/** @brief Remove command for a virtual button
+ * 
+ * This method removes any command from the list of commands
+ * which are assigned to this VB.
+ * 
+ * @param vb VB which should be removed
+ * @return ESP_OK if deleted, ESP_FAIL if not in list */
+esp_err_t task_vb_delCmd(uint8_t vb)
+{
+  //existing chain
+  vb_cmd_t *current = cmd_chain;
+  vb_cmd_t *prev = NULL;
+  uint count = 0;
+  #if LOG_LEVEL_VB >= ESP_LOG_DEBUG
+  ESP_LOGD(LOG_TAG,"Active vb before replace @%d: %d",(vb & 0x7F) / 4,activeVBs[(vb & 0x7F) / 4]);
+  #endif
+  //do as long as we don't have a null pointer
+  while(current != NULL)
+  {
+    //if the VB number matches (discarding press/release flag)
+    if((current->vb & 0x7F) == (vb & 0x7F))
+    {
+      //set pointer from previous element to next one
+      //but only if we are not at the head (no previous element)
+      if(prev != NULL) prev->next = current->next;
+      //if no previous element -> replace 
+      else cmd_chain = current->next;
+      
+      //remove the flags from activeVBs
+      if((current->vb & 0x80) != 0) activeVBs[(current->vb & 0x7F) / 4] &= ~(1<<((current->vb & 0x7F)%4));
+      else activeVBs[(current->vb & 0x7F) / 4] &= ~(1<<(((current->vb & 0x7F)%4)+4));
+      
+      //free an AT string
+      if(current->atoriginal != NULL) free(current->atoriginal);
+      //if set, free param string
+      if(current->cmdparam != NULL) free(current->cmdparam);
+      //free this element
+      free(current);
+      //just begin at the front again (easiest way if we removed the head)
+      current = cmd_chain;
+      prev = NULL;
+    } else { //does not match
+      //set pointers to next element
+      prev = current;
+      current = current->next;
+    }
+  }
+  #if LOG_LEVEL_VB >= ESP_LOG_DEBUG
+  ESP_LOGD(LOG_TAG,"Active vb after replace @%d: %d",(vb & 0x7F) / 4,activeVBs[(vb & 0x7F) / 4]);
+  #endif
+  if(count != 0) return ESP_OK;
+  else return ESP_FAIL;
 }
 
 /** @brief Add a new VB command for a virtual button
@@ -224,59 +283,19 @@ esp_err_t task_vb_addCmd(vb_cmd_t *newCmd, uint8_t replace)
   
   //existing chain, add to end
   vb_cmd_t *current = cmd_chain;
-  vb_cmd_t *prev = NULL;
   int count = 0;
   
   //if set, remove any previously set commands.
-  if(replace)
-  {
-    #if LOG_LEVEL_VB >= ESP_LOG_DEBUG
-    ESP_LOGD(LOG_TAG,"Active vb before replace @%d: %d",(newCmd->vb & 0x7F) / 4,activeVBs[(newCmd->vb & 0x7F) / 4]);
-    #endif
-    //do as long as we don't have a null pointer
-    while(current != NULL)
-    {
-      //if the VB number matches (discarding press/release flag)
-      if((current->vb & 0x7F) == (newCmd->vb & 0x7F))
-      {
-        //set pointer from previous element to next one
-        //but only if we are not at the head (no previous element)
-        if(prev != NULL) prev->next = current->next;
-        //if no previous element -> replace 
-        else cmd_chain = current->next;
-        
-        //remove the flags from activeVBs
-        if((current->vb & 0x80) != 0) activeVBs[(current->vb & 0x7F) / 4] &= ~(1<<((current->vb & 0x7F)%4));
-        else activeVBs[(current->vb & 0x7F) / 4] &= ~(1<<(((current->vb & 0x7F)%4)+4));
-        
-        //free an AT string
-        if(current->atoriginal != NULL) free(current->atoriginal);
-        //if set, free param string
-        if(current->cmdparam != NULL) free(current->cmdparam);
-        //free this element
-        free(current);
-        //just begin at the front again (easiest way if we removed the head)
-        current = cmd_chain;
-        prev = NULL;
-      } else { //does not match
-        //set pointers to next element
-        prev = current;
-        current = current->next;
-      }
-    }
-    #if LOG_LEVEL_VB >= ESP_LOG_DEBUG
-    ESP_LOGD(LOG_TAG,"Active vb after replace @%d: %d",(newCmd->vb & 0x7F) / 4,activeVBs[(newCmd->vb & 0x7F) / 4]);
-    #endif
-  }
+  if(replace) task_vb_delCmd(newCmd->vb);
   
   //allocate new command
   current = cmd_chain;
   vb_cmd_t *new;
-  new = malloc(sizeof(*new));
+  new = malloc(sizeof(vb_cmd_t));
   
   if(new != NULL)
   {
-    memcpy(new, newCmd, sizeof(*new));
+    memcpy(new, newCmd, sizeof(vb_cmd_t));
     //activate corresponding VB (task compares this variable against event flags)
     #if LOG_LEVEL_VB >= ESP_LOG_DEBUG
     ESP_LOGD(LOG_TAG,"Old value @%d: %d",(new->vb & 0x7F) / 4,activeVBs[(new->vb & 0x7F) / 4]);

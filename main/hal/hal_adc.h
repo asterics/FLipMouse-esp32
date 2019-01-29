@@ -75,6 +75,16 @@
  */
 #define HAL_IO_ADC_OTF_THRESHOLD  5
 
+/** @brief Lock time[ms] between calibration
+ * 
+ * Time[ms] which must pass at least before another calibration will
+ * be issued.
+ * 
+ * @see halAdcCalibrate
+ * @see adcCalibLast
+ */
+#define HAL_ADC_CALIB_LOCKTIME 50
+
 /** @brief ADC input pin for "up" channel of FSR
  * @note For adapting this pin, change HAL_IO_ADC_CHANNEL_UP as well!
  * @see HAL_IO_ADC_CHANNEL_UP */
@@ -86,7 +96,7 @@
 /** @brief ADC input pin for "left" channel of FSR
  * @note For adapting this pin, change HAL_IO_ADC_CHANNEL_LEFT as well!
  * @see HAL_IO_ADC_CHANNEL_LEFT */
-#define HAL_IO_PIN_ADC_LEFT     37
+#define HAL_IO_PIN_ADC_LEFT     39
 /** @brief ADC input pin for "right" channel of FSR
  * @note For adapting this pin, change HAL_IO_ADC_CHANNEL_RIGHT as well!
  * @see HAL_IO_ADC_CHANNEL_RIGHT */
@@ -114,7 +124,7 @@
 /** @brief ADC channel for FSR left
  * @note For adapting this channel, change HAL_IO_PIN_ADC_LEFT as well!
  * @see HAL_IO_PIN_ADC_LEFT */
-#define HAL_IO_ADC_CHANNEL_LEFT     ADC1_CHANNEL_1
+#define HAL_IO_ADC_CHANNEL_LEFT     ADC1_CHANNEL_3
 /** @brief ADC channel for FSR right
  * @note For adapting this channel, change HAL_IO_PIN_ADC_RIGHT as well!
  * @see HAL_IO_PIN_ADC_RIGHT */

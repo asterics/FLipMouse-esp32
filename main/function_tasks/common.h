@@ -83,7 +83,7 @@
  * If LED_USE_NEOPIXEL is set, this define is used to determine the
  * count of NEOPIXEL LEDs, which are used for color output
  * */
-#define LED_NEOPIXEL_COUNT  6
+#define LED_NEOPIXEL_COUNT  1
 
 
 /** maximum length for a slot name */
@@ -114,6 +114,33 @@
 #define WIFI_ACTIVE (1<<4)
 /** bitmask used to signal a FLipMouse/FABI has at least one connected Wifi client */
 #define WIFI_CLIENT_CONNECTED (1<<3)
+
+/** @brief Flag for signalling config updates
+ * 
+ * This flag is used to signal a config change.
+ * If this flag is set, the system will receive a lot of AT commands
+ * at once (config is saved in a .set file with AT commands).
+ * Therefore, a few features can be disabled while this flag is set:
+ * * Calibrating: ADC calibration can be done after config load, only one time
+ * * Connection reset
+ * * Debouncing: after this bit is cleared, all debouncer channels should be reset
+ * * task_hid: we don't want to send out any spurious hid commands
+ * * task_vb: we don't want to send out any spurious commands
+ * 
+ * @note Due to the limitation of FreeRTOS, which cannot block for clearing bits,
+ * we use the flag SYSTEM_STABLECONFIG for the exact counterpart.
+ * @see SYSTEM_STABLECONFIG
+ * */
+#define SYSTEM_LOADCONFIG (1<<0)
+
+/** @brief Stable & loaded config.
+ * Exact counterpart of SYSTEM_LOADCONFIG
+ * @see SYSTEM_LOADCONFIG
+ * */
+#define SYSTEM_STABLECONFIG (1<<1)
+
+/** @brief AT command queue is empty */
+#define SYSTEM_EMPTY_CMD_QUEUE (1<<2)
 
 /** @brief Event group array for all virtual buttons, used by functional tasks to be triggered.
  * 
@@ -172,6 +199,15 @@ extern EventGroupHandle_t virtualButtonsIn[NUMBER_VIRTUALBUTTONS];
  * @see WIFI_CLIENT_CONNECTED
  * */
 extern EventGroupHandle_t connectionRoutingStatus;
+
+/** @brief General system status 
+ * 
+ * Flag group signalling the general system status.
+ * 
+ * @note Detailed status description is given in the flag defines!
+ * @see SYSTEM_LOADCONFIG
+*/
+extern EventGroupHandle_t systemStatus;
 
 /** NOTE:
  * keyboard queues receive uint16 data type, which is either
@@ -352,20 +388,20 @@ extern QueueHandle_t config_switcher;
 
 
 /*++++ TASK PRIORITY ASSIGNMENT ++++*/
-#define HAL_ADC_TASK_PRIORITY     (tskIDLE_PRIORITY + 1)
-#define HAL_VB_TASK_PRIORITY  (tskIDLE_PRIORITY + 1)
-#define DEBOUNCER_TASK_PRIORITY  (tskIDLE_PRIORITY + 1)
+#define HAL_ADC_TASK_PRIORITY     (tskIDLE_PRIORITY + 2)
+#define DEBOUNCER_TASK_PRIORITY  (tskIDLE_PRIORITY + 2)
 #define HID_TASK_PRIORITY  (tskIDLE_PRIORITY + 4)
 #define VB_TASK_PRIORITY  (tskIDLE_PRIORITY + 4)
 /** All BLE tasks in hal_ble.c. */
 #define HAL_BLE_TASK_PRIORITY_BASE  (tskIDLE_PRIORITY + 2)
-#define HAL_CONFIG_TASK_PRIORITY  (tskIDLE_PRIORITY + 1)
-#define TASK_COMMANDS_PRIORITY  (tskIDLE_PRIORITY + 3)
+#define HAL_CONFIG_TASK_PRIORITY  (tskIDLE_PRIORITY + 5)
+#define TASK_COMMANDS_PRIORITY  (tskIDLE_PRIORITY + 5)
 
 /*++++ MAIN CONFIG STRUCT ++++*/
 
 /**
  * Mode of operation for the mouthpiece:<br>
+ * NONE       Do not do anything with the mouthpiece
  * MOUSE      Mouthpiece controls mouse cursor <br>
  *            Used parameters: <br>
  *              * max_speed
@@ -386,7 +422,7 @@ extern QueueHandle_t config_switcher;
  * @see VB_LEFT
  * @see VB_RIGHT
  * */
-typedef enum mouthpiece_mode {MOUSE, JOYSTICK, THRESHOLD} mouthpiece_mode_t;
+typedef enum mouthpiece_mode {NONE, MOUSE, JOYSTICK, THRESHOLD} mouthpiece_mode_t;
 
 /**
  * config for the ADC task & the analog mode of operation
@@ -423,9 +459,6 @@ typedef struct adc_config {
   uint16_t threshold_strongpuff;
   /** Enable report RAW values (!=0), values are sent via halSerialSendUSBSerial */
   uint8_t reportraw;
-  /** gain of each sensor (0-100), 50 means factor 1.
-   * array assignment: [0] = up, [1] = down, [2] = left, [3] = right*/
-  uint8_t gain[4];
   /** joystick axis assignment TBD: assign axis to numbers*/
   uint8_t axis;
   /** FLipMouse orientation, 0,90,180 or 270° */
@@ -576,6 +609,9 @@ typedef struct halIOIR {
   /** Status of receiver */
   irstate_t status;
 } halIOIR_t;
+
+/** @brief Strips away \\r\\t and \\n */
+void strip(char *s);
 
 /** @brief NVS key for wifi password */
 #define NVS_WIFIPW  "nvswifipw"

@@ -53,6 +53,7 @@
 EventGroupHandle_t virtualButtonsOut[NUMBER_VIRTUALBUTTONS];
 EventGroupHandle_t virtualButtonsIn[NUMBER_VIRTUALBUTTONS];
 EventGroupHandle_t connectionRoutingStatus;
+EventGroupHandle_t systemStatus;
 SemaphoreHandle_t switchRadioSem;
 QueueHandle_t config_switcher;
 QueueHandle_t hid_usb;
@@ -96,6 +97,8 @@ void app_main()
         //init all remaining rtos stuff
         //eventgroups
         connectionRoutingStatus = xEventGroupCreate();
+        systemStatus = xEventGroupCreate();
+        xEventGroupSetBits(systemStatus, SYSTEM_STABLECONFIG | SYSTEM_EMPTY_CMD_QUEUE);
         //init flags if not created
         for(uint8_t i = 0; i<NUMBER_VIRTUALBUTTONS; i++)
         {
@@ -111,15 +114,25 @@ void app_main()
         
     //exit critical section & resume all tasks for initialising
     xTaskResumeAll();
-
-    //start debouncer
-    if(xTaskCreate(task_debouncer,"debouncer",TASK_DEBOUNCER_STACKSIZE, 
-        (void*)NULL,DEBOUNCER_TASK_PRIORITY, NULL) == pdPASS)
+    
+    //start IO continous task
+    if(halIOInit() == ESP_OK)
     {
-        ESP_LOGD(LOG_TAG,"created new debouncer task");
+        ESP_LOGD(LOG_TAG,"initialized halIOInit");
+        //set LED to first slot directly on startup 
+        LED(0xFF,0,0,0);
     } else {
-        ESP_LOGE(LOG_TAG,"error creating new debouncer task");
+        ESP_LOGE(LOG_TAG,"error initializing halIOInit");
     }
+        
+    //start adc continous task
+    if(halAdcInit(NULL) == ESP_OK)
+    {
+        ESP_LOGD(LOG_TAG,"initialized halAdcInit");
+    } else {
+        ESP_LOGE(LOG_TAG,"error initializing halAdcInit");
+    }
+    halAdcCalibrate();
 
     //start hid task
     if(xTaskCreate(task_hid,"hid",TASK_HID_STACKSIZE, 
@@ -138,30 +151,7 @@ void app_main()
     } else {
         ESP_LOGE(LOG_TAG,"error creating new vb task");
     }
-    
-    //start adc continous task
-    if(halAdcInit(NULL) == ESP_OK)
-    {
-        ESP_LOGD(LOG_TAG,"initialized halAdcInit");
-    } else {
-        ESP_LOGE(LOG_TAG,"error initializing halAdcInit");
-    }
-    //start IO continous task
-    if(halIOInit() == ESP_OK)
-    {
-        ESP_LOGD(LOG_TAG,"initialized halIOInit");
-        //set LED to first slot directly on startup 
-        LED(0xFF,0,0,0);
-    } else {
-        ESP_LOGE(LOG_TAG,"error initializing halIOInit");
-    }
-    //start config switcher
-    if(configSwitcherInit() == ESP_OK)
-    {
-        ESP_LOGD(LOG_TAG,"initialized configSwitcherInit");
-    } else {
-        ESP_LOGE(LOG_TAG,"error initializing configSwitcherInit");
-    }
+
     //start BLE (all 3 interfaces active)
     if(halBLEInit(1,1,0) == ESP_OK)
     {
@@ -187,6 +177,16 @@ void app_main()
         ESP_LOGE(LOG_TAG,"error initializing taskCommands");
     }
     
+    //start debouncer
+    if(xTaskCreate(task_debouncer,"debouncer",TASK_DEBOUNCER_STACKSIZE, 
+        (void*)NULL,DEBOUNCER_TASK_PRIORITY, NULL) == pdPASS)
+    {
+        ESP_LOGD(LOG_TAG,"created new debouncer task");
+    } else {
+        ESP_LOGE(LOG_TAG,"error creating new debouncer task");
+    }
+
+    
     //initialize web framework
     if(taskWebGUIInit() == ESP_OK)
     {
@@ -202,10 +202,19 @@ void app_main()
     halBLEEnDisable(1);
     
     //calibrate directly after start-up
-    halAdcCalibrate();
+    //vTaskDelay(50/portTICK_PERIOD_MS);
+    
+    
+    //start config switcher
+    if(configSwitcherInit() == ESP_OK)
+    {
+        ESP_LOGD(LOG_TAG,"initialized configSwitcherInit");
+    } else {
+        ESP_LOGE(LOG_TAG,"error initializing configSwitcherInit");
+    }
     
     //delete this task after initializing.
-    ESP_LOGI(LOG_TAG,"Finished intializing!");
+    ESP_LOGI(LOG_TAG,"Finished initializing!");
     
     while(1)
     {

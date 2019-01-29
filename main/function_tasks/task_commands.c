@@ -171,6 +171,7 @@ parserstate_t doMouthpieceSettingsParsing(uint8_t *cmdBuffer)
       {
         strcpy(cmd.atoriginal,"AT CA");
       } else ESP_LOGE(LOG_TAG,"Error allocating AT cmd string");
+      task_hid_delCmd(cmd.vb);
       task_vb_addCmd(&cmd,1);
     }
     ESP_LOGI(LOG_TAG,"Calibrate");
@@ -218,8 +219,14 @@ parserstate_t doMouthpieceSettingsParsing(uint8_t *cmdBuffer)
         requestUpdate = 1; 
         return NOACTION;
         break;
+      case '3': 
+        ESP_LOGI(LOG_TAG,"AT MM set to none");
+        currentcfg->adc.mode = NONE; 
+        requestUpdate = 1; 
+        return NOACTION;
+        break;
       default: 
-        sendErrorBack("Mode is 0,1 or 2"); 
+        sendErrorBack("Mode is 0,1,2,3"); 
         return UNKNOWNCMD;
     }
   }
@@ -231,33 +238,10 @@ parserstate_t doMouthpieceSettingsParsing(uint8_t *cmdBuffer)
     {
       case MOUSE: currentcfg->adc.mode = THRESHOLD; break;
       case THRESHOLD: currentcfg->adc.mode = MOUSE; break;
-      case JOYSTICK: sendErrorBack("AT SW switches between mouse and threshold only"); break;
+      case JOYSTICK: case NONE: sendErrorBack("AT SW switches between mouse and threshold only"); break;
     }
     requestUpdate = 1;
     return NOACTION;
-  }
-  
-  /*++++ mouthpiece gain ++++*/
-  //AT GU, GD, GL, GR
-  if(CMD4("AT G"))
-  {
-    unsigned int param = strtol((char*)&(cmdBuffer[5]),NULL,10);
-    ESP_LOGI(LOG_TAG,"Gain %c, %d",cmdBuffer[4],param);
-    if(param > 100)
-    {
-      sendErrorBack("Gain is 0-100");
-      return UNKNOWNCMD;
-    } else {
-      //assign to gain value
-      switch(cmdBuffer[4])
-      {
-        case 'U': currentcfg->adc.gain[0] = param; requestUpdate = 1; return NOACTION;
-        case 'D': currentcfg->adc.gain[1] = param; requestUpdate = 1; return NOACTION;
-        case 'L': currentcfg->adc.gain[2] = param; requestUpdate = 1; return NOACTION;
-        case 'R': currentcfg->adc.gain[3] = param; requestUpdate = 1; return NOACTION;
-        default: return UNKNOWNCMD;
-      }
-    }
   }
   
   /*++++ mouthpiece sensitivity/acceleration ++++*/
@@ -440,10 +424,8 @@ parserstate_t doStorageParsing(uint8_t *cmdBuffer)
   /*++++ save slot ++++*/
   if(CMD("AT SA"))
   {
-    //trigger config update
-    configUpdate();
     //wait until configuration is stable
-    if(configUpdateWaitStable() != ESP_OK)
+    if(configUpdate(20) != ESP_OK)
     {
       ESP_LOGE(LOG_TAG,"Config not stable in time, cannot save");
       return UNKNOWNCMD;
@@ -478,7 +460,8 @@ parserstate_t doStorageParsing(uint8_t *cmdBuffer)
       if(cmd.cmdparam != NULL)
       {
         strcpy(cmd.cmdparam,"__NEXT");
-      } else ESP_LOGE(LOG_TAG,"Error allocating cmdparam strign");
+      } else ESP_LOGE(LOG_TAG,"Error allocating cmdparam string");
+      task_hid_delCmd(cmd.vb);
       task_vb_addCmd(&cmd,1);
     }
     ESP_LOGI(LOG_TAG,"Load next");
@@ -507,6 +490,7 @@ parserstate_t doStorageParsing(uint8_t *cmdBuffer)
       {
         strncpy(cmd.cmdparam,(char*)&cmdBuffer[6],SLOTNAME_LENGTH);
       } else ESP_LOGE(LOG_TAG,"Error allocating cmdparam strign");
+      task_hid_delCmd(cmd.vb);
       task_vb_addCmd(&cmd,1);
     }
     ESP_LOGI(LOG_TAG,"Load slot name: %s",&cmdBuffer[6]);
@@ -642,6 +626,7 @@ parserstate_t doJoystickParsing(uint8_t *cmdBuffer, int length)
         } else {
           strncpy(cmd.atoriginal,(char*)cmdBuffer,16);
         }
+        task_vb_delCmd(cmd.vb);
         if(task_hid_addCmd(&cmd,1) != ESP_OK)
         {
           ESP_LOGE(LOG_TAG,"Error adding to HID task");
@@ -651,6 +636,7 @@ parserstate_t doJoystickParsing(uint8_t *cmdBuffer, int length)
         //or press/release action, we have to assign a second HID command.
         if(cmd2.cmd[0] != 0)
         {
+          task_vb_delCmd(cmd2.vb);
           if(task_hid_addCmd(&cmd2,0) != ESP_OK)
           {
             ESP_LOGE(LOG_TAG,"Error adding 2nd to HID task");
@@ -760,11 +746,41 @@ parserstate_t doInfraredParsing(uint8_t *cmdBuffer)
   }
   
   /*++++ AT IP ++++*/
-  if(CMD("AT IP")) {
-    //save cmd name to config instance
-    
-    ///@todo IP singleshot/cmd adding... + malloc strings!!!
-    
+  if(CMD("AT IP")) {  
+    //if we have a singleshot, pass command to queue for immediate process
+    if(requestVBUpdate == VB_SINGLESHOT)
+    {
+      fct_infrared_send((char*)&cmdBuffer[6]);
+    } else {
+      //set action type
+      cmd.cmd = T_SENDIR;
+      
+      if(strnlen((char*)cmdBuffer,ATCMD_LENGTH) == ATCMD_LENGTH)
+      {
+        ESP_LOGE(LOG_TAG,"Too long AT cmd (or unterminated");
+      } else {
+        cmd.atoriginal = malloc(strnlen((char*)cmdBuffer,ATCMD_LENGTH)+1);
+        if(cmd.atoriginal == NULL) 
+        {
+          ESP_LOGE(LOG_TAG,"No memory for original AT");
+        } else {
+          strcpy(cmd.atoriginal,(char*)cmdBuffer);
+        }
+        //save param string
+        cmd.cmdparam = malloc(strnlen((char*)&cmdBuffer[6],ATCMD_LENGTH) + 1);
+        if(cmd.cmdparam != NULL)
+        {
+          strcpy(cmd.cmdparam,(char*)&cmdBuffer[6]);
+        } else ESP_LOGE(LOG_TAG,"Cannot allocate IR param string!");
+      }
+      
+      //save to VB task (replace any existing VB)
+      task_hid_delCmd(cmd.vb);
+      task_vb_addCmd(&cmd,1);
+      //reset to singleshot mode
+      requestVBUpdate = VB_SINGLESHOT;
+    }
+   
     //strncpy(instance->cmdName,(char*)&cmdBuffer[6],SLOTNAME_LENGTH);
     ESP_LOGD(LOG_TAG,"Play IR cmd %s",&cmdBuffer[6]);
     return VB;
@@ -773,7 +789,7 @@ parserstate_t doInfraredParsing(uint8_t *cmdBuffer)
   /*++++ AT IR ++++*/
   if(CMD("AT IR")) {
     //trigger record
-    if(infrared_record((char*)&cmdBuffer[6],1) == ESP_OK)
+    if(fct_infrared_record((char*)&cmdBuffer[6],1) == ESP_OK)
     {
       ESP_LOGD(LOG_TAG,"Recorded IR cmd %s",&cmdBuffer[6]);
       return NOACTION;
@@ -853,6 +869,26 @@ parserstate_t doGeneralCmdParsing(uint8_t *cmdBuffer)
         return UNKNOWNCMD;
     }
     requestUpdate = 1;
+    return NOACTION;  
+  }
+  /*++++ AT FW; firmware update ++++*/
+  if(CMD("AT FW")) {
+    //we need a HID command, because the firmware updates are triggered
+    //by the LPC chip.
+    hid_cmd_t cmd;
+    switch(cmdBuffer[6])
+    {
+      case '0':
+        cmd[0] = 0x02;
+        break;
+      case '1':
+        cmd[0] = 0x03;
+        break;
+      default:
+        sendErrorBack("Parameter out of range (0-1)");
+        return UNKNOWNCMD;
+    }
+    sendHIDCmd(&cmd);
     return NOACTION;  
   }
   
@@ -1197,6 +1233,7 @@ parserstate_t doKeyboardParsing(uint8_t *cmdBuffer, int length)
             //remove the pointer to the original string
             //but we don't free it, this is done if the task_hid clears the list
             //in addition, if it was the first command, set the adding to replace any old HID config.
+            task_vb_delCmd(cmd.vb);
             if(cmd.atoriginal != NULL) 
             {
               task_hid_addCmd(&cmd,1);
@@ -1226,6 +1263,7 @@ parserstate_t doKeyboardParsing(uint8_t *cmdBuffer, int length)
             //remove the pointer to the original string
             //but we don't free it, this is done if the task_hid clears the list
             //in addition, if it was the first command, set the adding to replace any old HID config.
+            task_vb_delCmd(cmd.vb);
             if(cmd.atoriginal != NULL) 
             {
               task_hid_addCmd(&cmd,1);
@@ -1244,6 +1282,7 @@ parserstate_t doKeyboardParsing(uint8_t *cmdBuffer, int length)
           //remove the pointer to the original string
           //but we don't free it, this is done if the task_hid clears the list
           //in addition, if it was the first command, set the adding to replace any old HID config.
+          task_vb_delCmd(cmd.vb);
           if(cmd.atoriginal != NULL) 
           {
             task_hid_addCmd(&cmd,1);
@@ -1262,6 +1301,7 @@ parserstate_t doKeyboardParsing(uint8_t *cmdBuffer, int length)
             //remove the pointer to the original string
             //but we don't free it, this is done if the task_hid clears the list
             //in addition, if it was the first command, set the adding to replace any old HID config.
+            task_vb_delCmd(cmd.vb);
             if(cmd.atoriginal != NULL) 
             {
               task_hid_addCmd(&cmd,1);
@@ -1373,6 +1413,7 @@ parserstate_t doKeyboardParsing(uint8_t *cmdBuffer, int length)
             //remove the pointer to the original string
             //but we don't free it, this is done if the task_hid clears the list
             //in addition, if it was the first command, set the adding to replace any old HID config.
+            task_vb_delCmd(cmd.vb);
             if(cmd.atoriginal != NULL) 
             {
               task_hid_addCmd(&cmd,1);
@@ -1437,6 +1478,7 @@ parserstate_t doKeyboardParsing(uint8_t *cmdBuffer, int length)
             ESP_LOGI(LOG_TAG,"Sent release action 0x%2X, keycode/modifier: 0x%2X",cmd.cmd[0],cmd.cmd[1]);
             sendHIDCmd(&cmd);
           } else {
+            task_vb_delCmd(cmd.vb);
             task_hid_addCmd(&cmd,0);
           }
         }
@@ -1468,20 +1510,31 @@ parserstate_t doMacroParsing(uint8_t *cmdBuffer, int length)
       cmd.vb = requestVBUpdate | 0x80;
       //set action type
       cmd.cmd = T_MACRO;
-      //save param string
-      cmd.cmdparam = malloc(strnlen((char*)&cmdBuffer[6],ATCMD_LENGTH) + 1);
-      if(cmd.cmdparam != NULL)
+      
+      if(strnlen((char*)cmdBuffer,ATCMD_LENGTH) == ATCMD_LENGTH)
       {
-        strncpy(cmd.cmdparam,(char*)&cmdBuffer[6],ATCMD_LENGTH);
-      } else ESP_LOGE(LOG_TAG,"Cannot allocate macro string!");
-      //save original AT string
-      cmd.atoriginal = malloc(strnlen((char*)&cmdBuffer[6],ATCMD_LENGTH) + 1);
-      if(cmd.atoriginal != NULL)
-      {
-        strncpy(cmd.atoriginal,(char *)cmdBuffer,ATCMD_LENGTH);
-      } else ESP_LOGE(LOG_TAG,"Cannot allocate macro string!");
+        ESP_LOGE(LOG_TAG,"Too long AT cmd (or unterminated");
+      } else {
+        cmd.atoriginal = malloc(strnlen((char*)cmdBuffer,ATCMD_LENGTH)+1);
+        if(cmd.atoriginal == NULL) 
+        {
+          ESP_LOGE(LOG_TAG,"No memory for original AT");
+        } else {
+          strcpy(cmd.atoriginal,(char*)cmdBuffer);
+        }
+        //save param string
+        cmd.cmdparam = malloc(strnlen((char*)&cmdBuffer[6],ATCMD_LENGTH) + 1);
+        if(cmd.cmdparam != NULL)
+        {
+          strcpy(cmd.cmdparam,(char*)&cmdBuffer[6]);
+        } else ESP_LOGE(LOG_TAG,"Cannot allocate IR param string!");
+      }
+      
       //save to VB task (replace any existing VB)
+      task_hid_delCmd(cmd.vb);
       task_vb_addCmd(&cmd,1);
+      //reset to singleshot mode
+      requestVBUpdate = VB_SINGLESHOT;
     }
     ESP_LOGD(LOG_TAG,"Saved/triggered macro '%s'",(char*)&cmdBuffer[6]);
     return VB;
@@ -1653,6 +1706,7 @@ parserstate_t doMouseParsing(uint8_t *cmdBuffer)
           strcpy(cmd.atoriginal,(char*)cmdBuffer);
         }
       }
+      task_vb_delCmd(cmd.vb);
       if(task_hid_addCmd(&cmd,1) != ESP_OK)
       {
         ESP_LOGE(LOG_TAG,"Error adding to HID task");
@@ -1662,6 +1716,7 @@ parserstate_t doMouseParsing(uint8_t *cmdBuffer)
       //or press/release action, we have to assign a second HID command.
       if(cmd2.cmd[0] != 0)
       {
+        task_vb_delCmd(cmd2.vb);
         if(task_hid_addCmd(&cmd2,0) != ESP_OK)
         {
           ESP_LOGE(LOG_TAG,"Error adding 2nd to HID task");
@@ -1697,11 +1752,8 @@ void task_commands(void *params)
       //wait for incoming data
       received = halSerialReceiveUSBSerial(&commandBuffer);
       
-      
       //if no command received, try again...
       if(received == -1 || commandBuffer == NULL) continue;
-      
-      ESP_LOGD(LOG_TAG,"received %d: %s",received,commandBuffer);
       
       //special command "AT" without further command:
       //this one is used for serial input (with an additional line ending)
@@ -1742,11 +1794,19 @@ void task_commands(void *params)
       
       ESP_LOGD(LOG_TAG,"Parserstate: %d",parserstate);
       ESP_LOGD(LOG_TAG,"Cfg update: %d",requestUpdate);
+      
+      //if we have processed all commands (queue is empty),
+      //we set the corresponding flag
+      //check if there are still elements in the queue
+      if(uxQueueMessagesWaiting(halSerialATCmds) == 0)
+      {
+        xEventGroupSetBits(systemStatus,SYSTEM_EMPTY_CMD_QUEUE);
+      }
 
       //if a general config update is required
       if(requestUpdate != 0)
       {
-        if(configUpdate() != ESP_OK)
+        if(configUpdate(20) != ESP_OK)
         {
           ESP_LOGE(LOG_TAG,"Error updating general config!");
         } else {
@@ -1759,7 +1819,12 @@ void task_commands(void *params)
       //after all that parsing & config updates
       //we either have a parserstate == 0 here -> no parser found
       //or we consumed this command.
-      if(parserstate != UNKNOWNCMD) continue;
+      if(parserstate != UNKNOWNCMD)
+      {
+        strip((char*)commandBuffer);
+        ESP_LOGI(LOG_TAG,"[%d]: %s",received,commandBuffer);
+        continue;
+      }
       
       //if we are here, no parser was finding commands
       ESP_LOGW(LOG_TAG,"Invalid AT cmd (%d characters), flushing:",received);
@@ -1923,18 +1988,10 @@ void storeSlot(char* slotname)
     case MOUSE: sprintf(outputstring,"AT MM 1\n"); break;
     case JOYSTICK: sprintf(outputstring,"AT MM 2\n"); break;
     case THRESHOLD: sprintf(outputstring,"AT MM 0\n"); break;
+    case NONE: sprintf(outputstring,"AT MM 3\n"); break;
   }
   halStorageStore(tid,outputstring,0);
   
-  
-  sprintf(outputstring,"AT GU %d\n",currentcfg->adc.gain[0]);
-  halStorageStore(tid,outputstring,0);
-  sprintf(outputstring,"AT GD %d\n",currentcfg->adc.gain[1]);
-  halStorageStore(tid,outputstring,0);
-  sprintf(outputstring,"AT GL %d\n",currentcfg->adc.gain[2]);
-  halStorageStore(tid,outputstring,0);
-  sprintf(outputstring,"AT GR %d\n",currentcfg->adc.gain[3]);
-  halStorageStore(tid,outputstring,0);
   sprintf(outputstring,"AT RO %d\n",currentcfg->adc.orientation);
   halStorageStore(tid,outputstring,0);
   

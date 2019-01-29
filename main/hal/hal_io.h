@@ -105,9 +105,10 @@
  * @param m Fade time [10¹ms] or animation mode
  * @see halIOLEDQueue */
 #define LED(r,g,b,m) { \
-  /** @todo Adapt to Neopixel! */ \
-  ESP_LOGW(LOG_TAG,"LED macro currently unimplemented"); \
-}
+  if(halIOLEDQueue != NULL) { \
+  uint32_t colorupdate = ((m & 0xFF)<<24) | ((b & 0xFF)<<16) | ((g & 0xFF)<<8) | (r & 0xFF); \
+  xQueueSend(halIOLEDQueue, (void*)&colorupdate , (TickType_t) 0 ); \
+} }
 
 #ifdef DEVICE_FLIPMOUSE
 
@@ -116,9 +117,9 @@
 /** @brief PIN - GPIO pin for external button 2 (FLipMouse) */
 #define HAL_IO_PIN_BUTTON_EXT2  27
 /** @brief PIN - GPIO pin for internal button 1 (FLipMouse) */
-#define HAL_IO_PIN_BUTTON_INT1  5
+#define HAL_IO_PIN_BUTTON_INT1  14
 /** @brief PIN - GPIO pin for internal button 2 (FLipMouse) */
-#define HAL_IO_PIN_BUTTON_INT2  14
+#define HAL_IO_PIN_BUTTON_INT2  5
 /** @brief PIN - GPIO pin for buzzer (FLipMouse)
  * @note We will use ledc drivers for the buzzer*/
 #define HAL_IO_PIN_BUZZER       25
@@ -175,7 +176,7 @@
  * @see halIOAddLongPressHandler
  * @see HAL_IO_LONGACTION_TIMEOUT
  */
-#define HAL_IO_PIN_LONGACTION HAL_IO_PIN_BUTTON_INT1
+#define HAL_IO_PIN_LONGACTION HAL_IO_PIN_BUTTON_INT2
 
 /** @brief Timeout ([ms]) for triggering long press action handler.
  * 

@@ -42,7 +42,7 @@
 
 #include "sdkconfig.h"
 
-#define LOG_LEVEL_BLE ESP_LOG_DEBUG
+#define LOG_LEVEL_BLE ESP_LOG_INFO
 
 static char LOG_TAG[] = "halBLE";
 
@@ -248,7 +248,9 @@ const uint8_t reportMapJoystick[] = {
 class kbdOutputCB : public BLECharacteristicCallbacks {
 	void onWrite(BLECharacteristic* me){
 		uint8_t* value = (uint8_t*)(me->getValue().c_str());
+    #if LOG_LEVEL_BLE >= ESP_LOG_WARNING
 		ESP_LOGW(LOG_TAG, "Not implemented: special keys: %d", *value);
+    #endif
 	}
 };
 
@@ -565,7 +567,9 @@ class CBs: public BLEServerCallbacks {
     //restart advertising
     BLEAdvertising *pAdvertising = pServer->getAdvertising();
     pAdvertising->start();
+    #if LOG_LEVEL_BLE >= ESP_LOG_INFO
     ESP_LOGI(LOG_TAG,"Client disconnected, restarting advertising");
+    #endif
   }
 };
 
@@ -599,12 +603,15 @@ class CB_Security: public BLESecurityCallbacks {
 
   // CB on a completed authentication (not depending on status)
   void onAuthenticationComplete(esp_ble_auth_cmpl_t auth_cmpl){
+    #if LOG_LEVEL_BLE >= ESP_LOG_INFO
     if(auth_cmpl.success){
+      
       ESP_LOGI(LOG_TAG, "remote BD_ADDR:");
       esp_log_buffer_hex(LOG_TAG, auth_cmpl.bd_addr, sizeof(auth_cmpl.bd_addr));
       ESP_LOGI(LOG_TAG, "address type = %d", auth_cmpl.addr_type);
     }
-      ESP_LOGI(LOG_TAG, "pair status = %s", auth_cmpl.success ? "success" : "fail");
+    ESP_LOGI(LOG_TAG, "pair status = %s", auth_cmpl.success ? "success" : "fail");
+    #endif
   }
   
   // You need to confirm the given pin
@@ -629,7 +636,9 @@ class CB_Security: public BLESecurityCallbacks {
  * */
 class BLE_HOG: public Task {
 	void run(void *data) {
+    #if LOG_LEVEL_BLE >= ESP_LOG_DEBUG
 		ESP_LOGD(LOG_TAG, "Initialising BLE HID device.");
+    #endif
 
     /*
      * Create new task instances, if necessary
@@ -708,9 +717,10 @@ class BLE_HOG: public Task {
         outputKbd = hid->outputReport(reportID);
         outputKbd->setCallbacks(new kbdOutputCB());
         
+        #if LOG_LEVEL_BLE >= ESP_LOG_DEBUG
         ESP_LOGD(LOG_TAG,"Keyboard added @report ID %d, current report Map:", reportID);
         ESP_LOG_BUFFER_HEXDUMP(LOG_TAG,reportMap,(uint16_t)(reportMapCurrent-reportMap),ESP_LOG_DEBUG);
-        
+        #endif
         reportID++; //increase report id for next interface
       }
       //copy report map for joystick to allocated full report map, if activated
@@ -722,10 +732,10 @@ class BLE_HOG: public Task {
         
         //create in characteristics/reports for joystick
         inputJoystick = hid->inputReport(reportID);
-        
+        #if LOG_LEVEL_BLE >= ESP_LOG_DEBUG
         ESP_LOGD(LOG_TAG,"Joystick added @report ID %d, current report Map:", reportID);
         ESP_LOG_BUFFER_HEXDUMP(LOG_TAG,reportMap,(uint16_t)(reportMapCurrent-reportMap),ESP_LOG_DEBUG);
-        
+        #endif
         reportID++; //increase report id for next interface
       }
       //copy report map for mouse to allocated full report map, if activated
@@ -737,14 +747,15 @@ class BLE_HOG: public Task {
         
         //create in characteristics/reports for mouse
         inputMouse = hid->inputReport(reportID);
-        
+        #if LOG_LEVEL_BLE >= ESP_LOG_DEBUG
         ESP_LOGD(LOG_TAG,"Mouse added @report ID %d, current report Map:", reportID);
         ESP_LOG_BUFFER_HEXDUMP(LOG_TAG,reportMap,(uint16_t)(reportMapCurrent-reportMap),ESP_LOG_DEBUG);
-        
+        #endif
         reportID++; //increase report id for next interface
       }
-      
+      #if LOG_LEVEL_BLE >= ESP_LOG_INFO
       ESP_LOGI(LOG_TAG,"Final HID report map size: %d B",reportMapSize);
+      #endif
           
       /*
        * Set report map (here is initialized device driver on client side)
@@ -776,8 +787,9 @@ class BLE_HOG: public Task {
 		BLESecurity *pSecurity = new BLESecurity();
 		pSecurity->setAuthenticationMode(ESP_LE_AUTH_REQ_SC_BOND);
 		pSecurity->setCapability(ESP_IO_CAP_NONE);
-
+    #if LOG_LEVEL_BLE >= ESP_LOG_INFO
 		ESP_LOGI(LOG_TAG, "Advertising started!");
+    #endif
     vTaskDelete(NULL);
 	}
 };
@@ -842,7 +854,9 @@ extern "C" {
     } else {
       //disable
       BLEDevice::deinit();
+      #if LOG_LEVEL_BLE >= ESP_LOG_INFO
       ESP_LOGI(LOG_TAG,"Disable BLE device");
+      #endif
     }
     return ESP_OK;
   }
@@ -884,7 +898,9 @@ extern "C" {
         inputJoystick->notify();
       }
     } else {
-      ESP_LOGW(LOG_TAG,"Not connected, cannot reset");
+      #if LOG_LEVEL_BLE >= ESP_LOG_DEBUG
+      ESP_LOGD(LOG_TAG,"Not connected, cannot reset");
+      #endif
     }
   }
   

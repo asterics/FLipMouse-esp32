@@ -324,7 +324,7 @@ void halIOBuzzerTask(void * param)
   
   if(halIOBuzzerQueue == NULL)
   {
-    ESP_LOGW(LOG_TAG, "halIOLEDQueue not initialised");
+    ESP_LOGW(LOG_TAG, "halIOBuzzerQueue not initialised");
     while(halIOBuzzerQueue == NULL) vTaskDelay(1000/portTICK_PERIOD_MS);
   }
   
@@ -406,7 +406,7 @@ void halIOLEDTask(void * param)
       if((cfg->feedback & 0x01) == 0) continue;
       
       //determine mode
-      switch(((recv & 0x00FF0000) >> 16))
+      switch(((recv & 0xFF000000) >> 24))
       {
         //currently not supported, mapping to steady color
         case 1:
@@ -416,11 +416,13 @@ void halIOLEDTask(void * param)
           for(uint8_t i = 0; i<LED_NEOPIXEL_COUNT; i++)
           {
             //set the same color for each LED
-            led_strip_set_pixel_rgb(&led_strip, i,(recv & 0x000000FF), \
-              ((recv & 0x0000FF00) >> 8), ((recv & 0x00FF0000) >> 16));
+            led_strip_set_pixel_rgb(&led_strip, i,(recv & 0x000000FF)/2, \
+              ((recv & 0x0000FF00) >> 8)/2, ((recv & 0x00FF0000) >> 16)/2);
           }
           //show new color
           led_strip_show(&led_strip);
+          ESP_LOGD(LOG_TAG,"LED: 0x%02X/0x%02X/0x%02X",(recv & 0x000000FF), \
+              ((recv & 0x0000FF00) >> 8), ((recv & 0x00FF0000) >> 16));
           break;
         default:
           ESP_LOGE(LOG_TAG,"Unknown Neopixel animation mode");
@@ -562,6 +564,19 @@ esp_err_t halIOInit(void)
   }
   
   //receiver
+  gpio_config_t io_conf_rmt;
+  //disable pull-down mode
+  io_conf_rmt.pull_down_en = 0;
+  //interrupt of rising edge
+  io_conf_rmt.intr_type = 0;
+  //bit mask of the pins
+  io_conf_rmt.pin_bit_mask = (1ull<<HAL_IO_PIN_IR_RECV);
+  //set as input mode    
+  io_conf_rmt.mode = GPIO_MODE_INPUT;
+  //enable pull-up mode
+  io_conf_rmt.pull_up_en = 1;
+  gpio_config(&io_conf_rmt);
+  
   rmt_config_t rmt_rx;
   rmt_rx.channel = 4;
   rmt_rx.gpio_num = HAL_IO_PIN_IR_RECV;
@@ -611,6 +626,16 @@ esp_err_t halIOInit(void)
   if(led_strip_init(&led_strip) == false)
   {
     ESP_LOGE(LOG_TAG,"Error initializing led strip (Neopixels)!");
+    return ESP_FAIL;
+  }
+  //start LED update task
+  halIOLEDQueue = xQueueCreate(8,sizeof(uint32_t));
+  if(xTaskCreate(halIOLEDTask,"ledtask",TASK_HAL_LED_STACKSIZE, 
+    (void*)NULL,TASK_HAL_LED_PRIORITY, NULL) == pdPASS)
+  {
+    ESP_LOGD(LOG_TAG,"created LED task");
+  } else {
+    ESP_LOGE(LOG_TAG,"error creating LED task");
     return ESP_FAIL;
   }
 

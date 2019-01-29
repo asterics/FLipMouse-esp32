@@ -42,12 +42,6 @@
 #include "keyboard.h"
 #include "driver/rmt.h"
 
-/** @brief module firmware version
- * 
- * This string is used to determine the running firmware version.
- * It is printed on the "AT FW" command. */
-#define MODULE_ID "ESP32BT_v0.1"
-
 /** @brief Enable v2.5 compatibility
  * 
  * This define activates a few behavioural changes in the firmware

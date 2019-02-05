@@ -51,7 +51,7 @@
     <div data-tabs class="row" id="tabMenu" role="menubar" tabindex="-1" accesskey="0">
 
         <div class="four columns hide-mobile showscreenreader"><button role="menuitem" onclick="toTab('#tabPuff')" class="menubutton button-primary hide-init" accesskey="2" data-tab id="tabPuffBtn" data-i18n>Sip and Puff // Saug-Pustesteuerung</button></div>
-        <div class="four columns hide-mobile showscreenreader"><button role="menuitem" onclick="toTab('#tabSlots')" class="menubutton button-primary" accesskey="3" data-tab id="tabSlotsBtn" data-i18n>Slot configuration // Slot-Konfiguration</button></div>
+        <div class="four columns hide-mobile showscreenreader pull-left" id="slotTabDiv"><button role="menuitem" onclick="toTab('#tabSlots')" class="menubutton button-primary" accesskey="3" data-tab id="tabSlotsBtn" data-i18n>Slot configuration // Slot-Konfiguration</button></div>
         <div class="four columns hide-mobile showscreenreader"><button role="menuitem" onclick="toTab('#tabActions')" class="menubutton button-primary" accesskey="4" data-tab id="tabActionsBtn" data-i18n>Action configuration // Konfiguration Aktionen</button></div>
         <div class="show-mobile" aria-hidden="true"><button id="toNavLink" onclick="toNav()" class="button button-primary" data-tab data-i18n>&#x2630; Menu // &#x2630; Menü</button></div>
         <div class="show-mobile" aria-hidden="true"><button id="toNavBackLink" style="display: none" onclick="toNavBack()" class="button button-primary" data-i18n>&#8592; Back // &#8592; Zurück</button></div>
@@ -315,6 +315,7 @@
                 flip.isSipAndPuffLive().then((result) => {
                     if (result === true) {
                         document.getElementById("tabPuffBtn").classList.remove("hide-init");
+                        document.getElementById("slotTabDiv").classList.remove("pull-left");
                     }
                 });
 

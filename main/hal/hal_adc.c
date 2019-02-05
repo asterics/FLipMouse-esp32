@@ -736,7 +736,7 @@ void halAdcTaskMouse(void * pvParameters)
         
         if(debug_out_cnt++%HAL_ADC_RAW_DIVIDER == 0)
         {
-            ESP_LOGI(LOG_TAG,"raw x/y %d/%d; ",tempX,tempY);
+            ESP_LOGD(LOG_TAG,"mouse x/y %d/%d; ",tempX,tempY);
         }
         
         //TODO: wenn D.strongmode != noraml > eigene fkt. mit berechneten werten.

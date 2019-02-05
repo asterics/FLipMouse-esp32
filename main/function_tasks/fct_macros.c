@@ -78,7 +78,6 @@ esp_err_t fct_macro(char *param)
       if(memcmp(&param[start],"AT WA",5) == 0)
       {
         //if yes, delay this task.
-        ///@todo Should we improve here? If we hit a wait, all VB commands will be blocked for the given time (up to 30s...)
         uint32_t time = strtol((char*)&(param[start+6]),NULL,10);
         if(time < 30000)
         {

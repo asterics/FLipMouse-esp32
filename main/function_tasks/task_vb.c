@@ -201,6 +201,8 @@ esp_err_t task_vb_delCmd(uint8_t vb)
   #if LOG_LEVEL_VB >= ESP_LOG_DEBUG
   ESP_LOGD(LOG_TAG,"Active vb before replace @%d: %d",(vb & 0x7F) / 4,activeVBs[(vb & 0x7F) / 4]);
   #endif
+  
+  heap_caps_check_integrity_all(true);
   //do as long as we don't have a null pointer
   while(current != NULL)
   {
@@ -284,6 +286,18 @@ esp_err_t task_vb_addCmd(vb_cmd_t *newCmd, uint8_t replace)
   //existing chain, add to end
   vb_cmd_t *current = cmd_chain;
   int count = 0;
+  
+  //debugging...
+  #if LOG_LEVEL_VB >= ESP_LOG_DEBUG
+  while(current!=NULL)
+  {
+    count++;
+    ESP_LOGD(LOG_TAG,"%d:%2d:0x%X",count,current->vb,(uint32_t)current);
+    current = current->next;
+  }
+  current = cmd_chain;
+  count = 0;
+  #endif
   
   //if set, remove any previously set commands.
   if(replace) task_vb_delCmd(newCmd->vb);

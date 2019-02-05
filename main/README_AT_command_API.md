@@ -115,10 +115,6 @@ individually to set a global value.
 | AT SS | number (0-512)  | strong-sip action threshold  | v2 | yes | no |
 | AT TP | number (512-1023)  | puff action threshold  | v2 | yes | no |
 | AT SP | number (512-1023)  | strong-puff action threshold  | v2 | yes | no |
-| AT GU | number (0-100)  | "up" sensor gain  | v2 | yes | no |
-| AT GD | number (0-100)  | "down" sensor gain  | v2 | yes | no |
-| AT GL | number (0-100)  | "left" sensor gain  | v2 | yes | no |
-| AT GR | number (0-100)  | "right" sensor gain  | v2 | yes | no |
 | AT OT | number (0-15)   | On-the-fly calibration, threshold for detecting idle | v3 | yes | no |
 | AT OC | number (5-15)   | On-the-fly calibration, idle counter before calibrating | v3 | yes | no |
 
@@ -134,7 +130,7 @@ individually to set a global value.
 | AT JP | number (1-32)  | Button press (if assigned to a VB, release depends on button release) | v2 | yes | yes (task_hid) |
 | AT JC | number (1-32)  | Button click | v3 | yes | yes (task_hid) |
 | AT JR | number (1-32)  | Button release | v2 | yes | yes (task_hid) |
-| AT JH | number (-1, 0-315) + number(0,1) | Joystick hat (rest position: -1, 0-315 in 45° steps) <sup>[D](#footnoteD)</sup> | v2 | yes | yes (task_hid) |
+| AT JH | number (-1, 0-7) + number(0,1) | Joystick hat (rest position: -1, 0-7 (mapped to 45° steps)) <sup>[D](#footnoteD)</sup> | v2 | yes | yes (task_hid) |
 
 Please note, that joystick is currently not available for Bluetooth connections.
 
@@ -147,10 +143,10 @@ If set to 1, the axis/slider/hat will be released to its idle position on a VB r
 **Infrared commands** 
 | Command | Parameter | Description | Available since | Implemented in v3 | FUNCTIONAL task |
 |:--------|:----------|:------------|:--------------|:--------------------|:----------------|
-| AT IR | string  | record a new infrared command, store it with the given name  | v2 | yes | no |
-| AT IP | string  | replay a recorded IR command, stored with the given name  | v2 | yes | yes (task_infrared) |
-| AT IH | string  | play a hex string (replay a given hex string sent by "AT IR") | v3 | no | yes (task_infrared) |
-| AT IC | string  | clear an IR command, defined by the name  | v2 | yes | no |
+| AT IR | string (2-32chars)  | record a new infrared command, store it with the given name  | v2 | yes | no |
+| AT IP | string (2-32chars)  | replay a recorded IR command, stored with the given name  | v2 | yes | yes (task_infrared) |
+| AT IH | string (max: ~250chars)  | play a hex string (replay a given hex string sent by "AT IR") | v3 | no | yes (task_infrared) |
+| AT IC | string (2-32chars) | clear an IR command, defined by the name  | v2 | yes | no |
 | AT IW | --  | wipe all IR commands  | v2 | yes | no |
 | AT IT | number (2-100) | timeout for recording IR commands (time[ms] between 2 edges) | v2 | yes | no |
 | AT IL |   | list all available stored IR commands  | v2 | yes | no |

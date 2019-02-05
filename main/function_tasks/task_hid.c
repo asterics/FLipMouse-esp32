@@ -170,6 +170,8 @@ esp_err_t task_hid_delCmd(uint8_t vb)
   hid_cmd_t *prev = NULL;
   uint count = 0;
   
+  heap_caps_check_integrity_all(true);
+  
   #if LOG_LEVEL_HID >= ESP_LOG_DEBUG
   ESP_LOGD(LOG_TAG,"Active vb before removal @%d: %d",(vb & 0x7F) / 4,activeVBs[(vb & 0x7F) / 4]);
   #endif
@@ -177,7 +179,7 @@ esp_err_t task_hid_delCmd(uint8_t vb)
   while(current != NULL)
   {
     //if the VB number matches (discarding press/release flag)
-    if((vb & 0x7F) == (vb & 0x7F))
+    if((current->vb & 0x7F) == (vb & 0x7F))
     {
       //set pointer from previous element to next one
       //but only if we are not at the head (no previous element)
@@ -193,6 +195,7 @@ esp_err_t task_hid_delCmd(uint8_t vb)
       if(current->atoriginal != NULL) free(current->atoriginal);
       //free this element
       free(current);
+      
       //just begin at the front again (easiest way if we removed the head)
       current = cmd_chain;
       prev = NULL;
@@ -253,9 +256,25 @@ esp_err_t task_hid_addCmd(hid_cmd_t *newCmd, uint8_t replace)
     return ESP_FAIL;
   }
   
+  //set pointer of next element to NULL, so we have a defined
+  //invalid pointer to check for.
+  newCmd->next = NULL;
+  
   //existing chain, add to end
   hid_cmd_t *current = cmd_chain;
   int count = 0;
+  
+  //debugging...
+  #if LOG_LEVEL_HID >= ESP_LOG_DEBUG
+  while(current!=NULL)
+  {
+    count++;
+    ESP_LOGD(LOG_TAG,"%d:%2d:0x%X",count,current->vb,(uint32_t)current);
+    current = current->next;
+  }
+  current = cmd_chain;
+  count = 0;
+  #endif
   
   //if set, remove any previously set commands.
   if(replace) task_hid_delCmd(newCmd->vb);

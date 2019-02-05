@@ -233,7 +233,6 @@ function FlipMouse(initFinished) {
     thiz.stopLiveValueListener = function () {
         setLiveValueHandler(null);
         console.log('listening to live values stopped.');
-	
     };
 
     thiz.pauseLiveValueListener = function () {

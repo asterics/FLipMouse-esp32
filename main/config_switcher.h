@@ -92,21 +92,11 @@ generalConfig_t* configGetCurrent(void);
  *  
  * @see config_switcher
  * @see currentConfig
+ * @param block Time to wait for finished business before updating. 
+ * If 0, returns immediately if not possible.
  * @return ESP_OK on success, ESP_FAIL otherwise
  * */
-esp_err_t configUpdate(void);
+esp_err_t configUpdate(TickType_t time);
 
-
-/** @brief Wait until current configuration is stable
- * 
- * If the function configUpdateVB is called, a temporary task parameter
- * buffer is used. The full configuration is loaded if configUpdatePending
- * semaphore is free. If the configuration is to be saved, this semaphore
- * should be checked via this method.
- * 
- * @note This method blocks on the semaphore. 
- * @return ESP_OK if config is stable, ESP_FAIL if timeout happened
- * */
-esp_err_t configUpdateWaitStable(void);
 
 #endif

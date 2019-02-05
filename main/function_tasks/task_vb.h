@@ -41,6 +41,7 @@
 #include "common.h"
 #include "../config_switcher.h"
 #include "fct_macros.h"
+#include "fct_infrared.h"
 
 #define TASK_VB_STACKSIZE 4096
 
@@ -82,6 +83,15 @@ esp_err_t task_vb_setCmdChain(vb_cmd_t *chain);
  * 
  * @param param Unused */
 void task_vb(void *param);
+
+/** @brief Remove command for a virtual button
+ * 
+ * This method removes any command from the list of commands
+ * which are assigned to this VB.
+ * 
+ * @param vb VB which should be removed
+ * @return ESP_OK if deleted, ESP_FAIL if not in list */
+esp_err_t task_vb_delCmd(uint8_t vb);
 
 /** @brief Add a new VB command for a virtual button
  * 

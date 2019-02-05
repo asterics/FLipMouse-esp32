@@ -1,0 +1,4 @@
+(fp_lib_table
+  (lib (name fsrpad)(type KiCad)(uri ${KIPRJMOD}/fsrpad.pretty)(options "")(descr ""))
+  (lib (name SPU0410)(type KiCad)(uri ${KIPRJMOD}/SPU0410.pretty)(options "")(descr ""))
+)

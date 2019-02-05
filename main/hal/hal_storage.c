@@ -613,7 +613,7 @@ esp_err_t halStorageGetFreeIRCmdSlot(uint32_t tid, uint8_t *slotavailable)
 void strip(char *s) {
   char *p2 = s;
   while(*s != '\0') {
-    if(*s != '\t' && *s != '\n') {
+    if(*s != '\r' && *s != '\t' && *s != '\n') {
       *p2++ = *s++;
     } else {
       ++s;
@@ -860,6 +860,7 @@ esp_err_t halStorageLoad(hal_storage_load_action navigate, uint32_t tid)
       return ret;  
     break;
     case DEFAULT:
+      storageCurrentSlotNumber = 0;
       return halStorageLoadNumber(0,tid,0);
     break;
     case RESTOREFACTORYSETTINGS:
@@ -997,9 +998,19 @@ esp_err_t halStorageLoadNumber(uint8_t slotnumber, uint32_t tid, uint8_t outputS
     char *at = malloc(ATCMD_LENGTH);
     if(at == NULL)
     {
-      ESP_LOGE(LOG_TAG,"Cannot alloc mem for AT cmd line");
-      fclose(f);
-      return ESP_FAIL;
+      //if allocate didn't work first time, delay & wait for other
+      //tasks to process (& free memory).
+      ESP_LOGW(LOG_TAG,"Cannot alloc mem for AT cmd line, waiting.");
+      vTaskDelay(15);
+      //retry....
+      at = malloc(ATCMD_LENGTH);
+      //if it didn't work the second time, handle it like an error.
+      if(at == NULL)
+      {
+        ESP_LOGW(LOG_TAG,"Cannot alloc mem for AT cmd line, aborting!");
+        fclose(f);
+        return ESP_FAIL;
+      }
     }
     //read line, if EOF is reached free unused buffer & break loop
     if(fgets(at,ATCMD_LENGTH,f) == NULL)
@@ -1045,9 +1056,11 @@ esp_err_t halStorageLoadNumber(uint8_t slotnumber, uint32_t tid, uint8_t outputS
         ESP_LOGE(LOG_TAG,"AT cmd queue is full, cannot send cmd");
         free(at);
       } else {
+        ///@note we cannot print buffer here, might be already freed by task_commands.c
         //remove \r \n for printing...
-        strip(at);
-        ESP_LOGI(LOG_TAG,"Sent AT cmd with len %d to queue: %s",cmd.len,at);
+        //strip(at);
+        //at[cmd.len] = 0;
+        //ESP_LOGI(LOG_TAG,"[%d] %s",cmd.len,at);
       }
       cmdcount++;
     } else {
@@ -1064,7 +1077,7 @@ esp_err_t halStorageLoadNumber(uint8_t slotnumber, uint32_t tid, uint8_t outputS
       free(at);
     }
   }
-  
+  ///@todo Ab hier wäre es wieder passend den debouncer zu aktivieren?!?
   ESP_LOGI(LOG_TAG,"Loaded slot %s,nr: %d, %u commands",slotname,slotnumber,cmdcount);
   
   //save current slot number, if processed by parser
@@ -1282,20 +1295,14 @@ esp_err_t halStorageStoreIR(uint32_t tid, halIOIR_t *cfg, char *cmdName)
   uint8_t cmdnumber = 0;
   if(halStorageGetNumberForNameIR(tid, &cmdnumber, cmdName) != ESP_OK)
   {
-    ESP_LOGE(LOG_TAG,"Cannot check if name is already used");
-    return ESP_FAIL;
-  } else {
-    //if no slot with this name is found, find a free one.
-    if(cmdnumber == 0xFF)
+    if(halStorageGetFreeIRCmdSlot(tid,&cmdnumber) != ESP_OK)
     {
-      if(halStorageGetFreeIRCmdSlot(tid,&cmdnumber) != ESP_OK)
-      {
-        ESP_LOGE(LOG_TAG,"Cannot get a free slot for IR cmd");
-        return ESP_FAIL;
-      } else {
-        ESP_LOGI(LOG_TAG,"New IR slot @%d",cmdnumber);
-      }
+      ESP_LOGE(LOG_TAG,"Cannot get a free slot for IR cmd");
+      return ESP_FAIL;
+    } else {
+      ESP_LOGI(LOG_TAG,"New IR slot @%d",cmdnumber);
     }
+  } else {
     ESP_LOGI(LOG_TAG,"Overwriting @%d",cmdnumber);
   }
   

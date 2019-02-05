@@ -14,7 +14,7 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
  * MA 02110-1301, USA.
  * 
- * Copyright 2017 Benjamin Aigner <aignerb@technikum-wien.at,
+ * Copyright 2019 Benjamin Aigner <aignerb@technikum-wien.at,
  * beni@asterics-foundation.org>
 */
  /** 
@@ -24,27 +24,23 @@
  * This module is used to parse any incoming serial data from hal_serial
  * for valid AT commands.
  * If a valid command is detected, the corresponding action is triggered
- * (mostly by invoking a FUNCTIONAL task in singleshot mode).
+ * (mostly by invoking task_hid or task_vb via a hid_cmd_t or vb_cmd_t).
  * 
  * By issueing an <b>AT BM</b> command, the next issued AT command
  * will be assigned to a virtual button. This is done via setting
  * the requestVBUpdate variable to the VB number. One time only commands
  * (without AT BM) are defined as VB==VB_SINGLESHOT
  * 
- * In addition, this parser also takes care of switching to CIM mode if
- * requested.
- * The other way from CIM to AT mode is done by the task_cim module by
- * triggering taskCommandsRestart.
- * 
  * @see VB_SINGLESHOT
- * @see task_cim
  * @see hal_serial
  * @see atcmd_api
- * 
- * @todo CIM switching
+ * @see hid_cmd_t
+ * @see vb_cmd_t
  * 
  * @note Currently we are using unicode_to_keycode, because terminal programs use it this way.
  * For supporting unicode keystreams (UTF-8), the method parse_for_keycode needs to be used
+ * 
+ * @note The command parser itself is based on the cmd_parser project. See: <addlinkhere>
  * */
 #include "task_commands.h"
 
@@ -52,6 +48,64 @@
 #define LOG_TAG "cmdparser"
 /** @brief Set a global log limit for this file */
 #define LOG_LEVEL_CMDPARSER ESP_LOG_INFO
+
+/** @brief Global HID command for joystick
+ * This command is set by the command handlers.
+ * If one field was modified by a handler, it
+ * will be sent to task_hid */
+hid_cmd_t joystick;
+
+/** @brief Global release HID command for joystick
+ * This command is set by the command handlers.
+ * If one field was modified by a handler, it
+ * will be sent to task_hid */
+hid_cmd_t joystickR;
+
+/** @brief Global HID command for mouse
+ * This command is set by the command handlers.
+ * If one field was modified by a handler, it
+ * will be sent to task_hid */
+hid_cmd_t mouse;
+
+/** @brief Global HID command for general data transmitted via the HID interface.
+ * This command is set by the command handlers.
+ * If one field was modified by a handler, it
+ * will be sent to task_hid */
+hid_cmd_t general;
+
+/** @brief Global release HID command for mouse
+ * This command is set by the command handlers.
+ * If one field was modified by a handler, it
+ * will be sent to task_hid */
+hid_cmd_t mouseR;
+
+/** @brief Global HID command for mouse - 2nd action
+ * This command is set by the command handlers.
+ * This one is just used for double click.
+ * If one field was modified by a handler, it
+ * will be sent to task_hid */
+hid_cmd_t mouseD;
+
+/** @brief Global HID command for keyboard
+ * This command is set by the command handlers.
+ * If one field was modified by a handler, it
+ * will be sent to task_hid */
+hid_cmd_t keyboard;
+
+/** @brief Global release HID command for keyboard
+ * This command is set by the command handlers.
+ * If one field was modified by a handler, it
+ * will be sent to task_hid */
+hid_cmd_t keyboardR;
+
+/** @brief Global VB command */
+vb_cmd_t vbaction;
+
+/** @brief Pointer to current configuration
+ * @warning Must be set before calling the parser, will be modified there!
+ */
+generalConfig_t *currentCfg = NULL;
+
 
 /** Simple macro to short the command comparison (full AT cmd with 5 chars) */
 #define CMD(x) (memcmp(cmdBuffer,x,5) == 0)
@@ -72,9 +126,17 @@ uint8_t requestUpdate = 0;
  * task_commands will recognize this and triggers the VB update after
  * command parsing.
  * @see VB_SINGLESHOT
- * @see requestVBParameterSize
  * */
 uint8_t requestVBUpdate = VB_SINGLESHOT;
+
+/** @brief Currently used virtual button number.
+ * 
+ * If this variable is set to a value != 0, we know we should
+ * wait to reset requestVBUpdate to VB_SINGLESHOT until next command.
+ * @see VB_SINGLESHOT
+ * @see requestVBUpdate
+ * */
+uint8_t requestBM = 0;
 
 /** @brief Current state of parser
  * 
@@ -134,990 +196,840 @@ static int checkqueues(void)
   return 1;
 }
 
-/** @brief Helper to send a HID cmd directly to queues, depending on connection status
- * @param cmd Hid command */
-void sendHIDCmd(hid_cmd_t *cmd)
+/** @brief Helper to route a HID cmd either directly to queue or add it to the list
+ * @param sendCmd Hid command */
+void sendHIDCmd(hid_cmd_t *sendCmd, uint8_t vb, uint8_t* atorig, uint8_t replace)
 {
-  //post values to mouse queue (USB and/or BLE)
-  if(xEventGroupGetBits(connectionRoutingStatus) & DATATO_USB)
-  { xQueueSend(hid_usb,cmd,0); }
+  //check if this cmd contains data
+  hid_cmd_t emptyhid; memset(&emptyhid,0,sizeof(hid_cmd_t));
+  if(sendCmd == NULL) return;
+  if(memcmp(sendCmd,&emptyhid,sizeof(hid_cmd_t)) == 0) return;
   
-  if(xEventGroupGetBits(connectionRoutingStatus) & DATATO_BLE)
-  { xQueueSend(hid_ble,cmd,0); }
+  //send it directly, if singleshot is active
+  if(requestVBUpdate == VB_SINGLESHOT)
+  {
+    //post values to mouse queue (USB and/or BLE)
+    if(xEventGroupGetBits(connectionRoutingStatus) & DATATO_USB)
+    { xQueueSend(hid_usb,sendCmd,0); }
+    
+    if(xEventGroupGetBits(connectionRoutingStatus) & DATATO_BLE)
+    { xQueueSend(hid_ble,sendCmd,0); }
+    
+    if(sendCmd->atoriginal != NULL) free(sendCmd->atoriginal);
+  } else {
+    //update HID command (set VB, add original string)
+    sendCmd->vb = vb;
+    if(atorig != NULL)
+    {
+      sendCmd->atoriginal = strdup((char*)atorig);
+      if(sendCmd->atoriginal == NULL)
+      {
+        ESP_LOGE(LOG_TAG,"Error allocating AT cmd string");
+      }
+    } else {
+      sendCmd->atoriginal = NULL;
+    }
+    //add to HID cmd, remove from VB cmd
+    task_vb_delCmd(sendCmd->vb);
+    task_hid_addCmd(sendCmd,replace);
+  }
+}
+/** @brief Helper to route a VB cmd either directly to queue or add it to the list
+ * @param sendCmd Hid command */
+void sendVBCmd(vb_cmd_t *sendCmd, uint8_t vb, uint8_t* atorig, uint8_t replace)
+{
+  //check if this cmd contains data
+  vb_cmd_t emptyvb; memset(&emptyvb,0,sizeof(vb_cmd_t));
+  if(sendCmd == NULL) return;
+  if(memcmp(sendCmd,&emptyvb,sizeof(vb_cmd_t)) == 0) return;
+  
+  //send it directly, if singleshot is active
+  if(requestVBUpdate != VB_SINGLESHOT)
+  {
+    //update HID command (set VB, add original string)
+    sendCmd->vb = vb;
+    if(atorig != NULL)
+    {
+      sendCmd->atoriginal = strdup((char*)atorig);
+      if(sendCmd->atoriginal == NULL)
+      {
+        ESP_LOGE(LOG_TAG,"Error allocating AT cmd string");
+      }
+    } else {
+      sendCmd->atoriginal = NULL;
+    }
+    //add to HID cmd, remove from VB cmd
+    task_hid_delCmd(sendCmd->vb);
+    task_vb_addCmd(sendCmd,replace);
+  }
 }
 
-parserstate_t doMouthpieceSettingsParsing(uint8_t *cmdBuffer)
+/*++++ command handlers (implemented before commands[] ++++*/
+esp_err_t cmdId(char* orig, void* p1, void* p2) {
+  halSerialSendUSBSerial((char*)IDSTRING,sizeof(IDSTRING),20);
+  return ESP_OK;
+}
+esp_err_t cmdBm(char* orig, void* p1, void* p2) {
+  requestVBUpdate = (int32_t)p1;
+  //signal: we got a new VB, 
+  //do not reset it to VB_SINGLESHOT this time
+  requestBM = 1;
+  return ESP_OK;
+}
+esp_err_t cmdMa(char* orig, void* p1, void* p2) {
+  if(requestVBUpdate == VB_SINGLESHOT)
+  {
+    fct_macro((char*)p1);
+  } else {
+    vbaction.cmd = T_MACRO;
+    vbaction.cmdparam = malloc(strnlen((char*)p1,ATCMD_LENGTH)+1);
+    strncpy(vbaction.cmdparam,(char*)p1,strnlen((char*)p1,ATCMD_LENGTH));
+  }
+  return ESP_OK;
+}
+esp_err_t cmdWa(char* orig, void* p1, void* p2) {
+  //we don't do anything here. AT WA is just placed in this file
+  //for a fully implemented command table.
+  //AT WA is implemented in fct_macros.c, where the task is delayed
+  //for the given time before further commands are issued.
+  return ESP_OK;
+}
+esp_err_t cmdRo(char* orig, void* p1, void* p2) {
+  //check if we are "aligned" to 90°
+  if((((int32_t)p1 % 90) != 0) || currentCfg == NULL) return ESP_FAIL;
+  currentCfg->adc.orientation = (int32_t)p1;
+  return ESP_OK;
+}
+esp_err_t cmdBt(char* orig, void* p1, void* p2) {
+  if(currentCfg == NULL) return ESP_FAIL;
+  currentCfg->usb_active = ((int32_t)p1) & 0x01;
+  currentCfg->ble_active = (((int32_t)p1) & 0x02)>>1;
+  return ESP_OK;
+}
+esp_err_t cmdTt(char* orig, void* p1, void* p2) {
+  if(currentCfg == NULL) return ESP_FAIL;
+  ///TODO: not implemented yet.
+  return ESP_OK;
+}
+esp_err_t cmdAp(char* orig, void* p1, void* p2) {
+  if(currentCfg == NULL) return ESP_FAIL;
+  if(requestVBUpdate == VB_SINGLESHOT) currentCfg->debounce_press = (int32_t)p1;
+  else currentCfg->debounce_press_vb[requestVBUpdate] = (int32_t)p1;
+  return ESP_OK;
+}
+esp_err_t cmdAr(char* orig, void* p1, void* p2) {
+  if(currentCfg == NULL) return ESP_FAIL;
+  if(requestVBUpdate == VB_SINGLESHOT) currentCfg->debounce_release = (int32_t)p1;
+  else currentCfg->debounce_release_vb[requestVBUpdate] = (int32_t)p1;
+  return ESP_OK;
+}
+esp_err_t cmdAi(char* orig, void* p1, void* p2) {
+  if(currentCfg == NULL) return ESP_FAIL;
+  if(requestVBUpdate == VB_SINGLESHOT) currentCfg->debounce_idle = (int32_t)p1;
+  else currentCfg->debounce_idle_vb[requestVBUpdate] = (int32_t)p1;
+  return ESP_OK;
+}
+esp_err_t cmdFr(char* orig, void* p1, void* p2) {
+  uint32_t free,total;
+  if(halStorageGetFree(&total,&free) == ESP_OK)
+  {
+    char str[32];
+    sprintf(str,"FREE:%d%%,%d,%d",(uint8_t)(1-free/total)*100,total-free,free);
+    halSerialSendUSBSerial(str,strnlen(str,32),20);
+    return ESP_OK;
+  } else return ESP_FAIL;
+}
+esp_err_t cmdPw(char* orig, void* p1, void* p2)
 {
-  generalConfig_t *currentcfg = configGetCurrent();
-  
-  vb_cmd_t cmd;
-  //clear any previous data
-  memset(&cmd,0,sizeof(vb_cmd_t));
-  
-  /*++++ calibrate mouthpiece ++++*/
-  if(CMD("AT CA"))
-  {
-    //calibrate now or send command to task_vb
-    if(requestVBUpdate == VB_SINGLESHOT)
-    {
-      halAdcCalibrate();
-    } else {
-      vb_cmd_t cmd;
-      memset(&cmd,0,sizeof(vb_cmd_t));
-      cmd.vb = requestVBUpdate | 0x80;
-      cmd.cmd = T_CALIBRATE;
-      cmd.atoriginal = malloc(strlen("AT CA")+1);
-      if(cmd.atoriginal != NULL)
-      {
-        strcpy(cmd.atoriginal,"AT CA");
-      } else ESP_LOGE(LOG_TAG,"Error allocating AT cmd string");
-      task_vb_addCmd(&cmd,1);
-    }
-    ESP_LOGI(LOG_TAG,"Calibrate");
-    return VB;
-  }
-  
-  /*++++ stop report raw values ++++*/
-  if(CMD("AT ER"))
-  {
-    currentcfg->adc.reportraw = 0;
-    requestUpdate = 1;
-    ESP_LOGI(LOG_TAG,"Stop reporting raw values");
-    return NOACTION;
-  }
-  /*++++ start report raw values to serial ++++*/
-  if(CMD("AT SR"))
-  {
-    currentcfg->adc.reportraw = 1;
-    requestUpdate = 1;
-    ESP_LOGI(LOG_TAG,"Start reporting raw values");
-    return NOACTION;
-  }
-  
-  /*++++ mouthpiece mode ++++*/
-  if(CMD("AT MM"))
-  {
-    //assign ADC mode accordingly
-    switch(cmdBuffer[6])
-    {
-      case '0':
-        ESP_LOGI(LOG_TAG,"AT MM set to threshold");
-        currentcfg->adc.mode = THRESHOLD; 
-        requestUpdate = 1;
-        return NOACTION;
-        break;
-      case '1': 
-        ESP_LOGI(LOG_TAG,"AT MM set to mouse");
-        currentcfg->adc.mode = MOUSE; 
-        requestUpdate = 1; 
-        return NOACTION;
-        break;
-      case '2': 
-        ESP_LOGI(LOG_TAG,"AT MM set to joystick");
-        currentcfg->adc.mode = JOYSTICK; 
-        requestUpdate = 1; 
-        return NOACTION;
-        break;
-      default: 
-        sendErrorBack("Mode is 0,1 or 2"); 
-        return UNKNOWNCMD;
-    }
-  }
-  
-  /*++++ mouthpiece mode - switch ++++*/
-  if(CMD("AT SW"))
-  {
-    switch(currentcfg->adc.mode)
-    {
-      case MOUSE: currentcfg->adc.mode = THRESHOLD; break;
-      case THRESHOLD: currentcfg->adc.mode = MOUSE; break;
-      case JOYSTICK: sendErrorBack("AT SW switches between mouse and threshold only"); break;
-    }
-    requestUpdate = 1;
-    return NOACTION;
-  }
-  
-  /*++++ mouthpiece gain ++++*/
-  //AT GU, GD, GL, GR
-  if(CMD4("AT G"))
-  {
-    unsigned int param = strtol((char*)&(cmdBuffer[5]),NULL,10);
-    ESP_LOGI(LOG_TAG,"Gain %c, %d",cmdBuffer[4],param);
-    if(param > 100)
-    {
-      sendErrorBack("Gain is 0-100");
-      return UNKNOWNCMD;
-    } else {
-      //assign to gain value
-      switch(cmdBuffer[4])
-      {
-        case 'U': currentcfg->adc.gain[0] = param; requestUpdate = 1; return NOACTION;
-        case 'D': currentcfg->adc.gain[1] = param; requestUpdate = 1; return NOACTION;
-        case 'L': currentcfg->adc.gain[2] = param; requestUpdate = 1; return NOACTION;
-        case 'R': currentcfg->adc.gain[3] = param; requestUpdate = 1; return NOACTION;
-        default: return UNKNOWNCMD;
-      }
-    }
-  }
-  
-  /*++++ mouthpiece sensitivity/acceleration ++++*/
-  //AT AX, AY, AC
-  if(CMD4("AT A"))
-  {
-    unsigned int param = strtol((char*)&(cmdBuffer[5]),NULL,10);
-    ESP_LOGI(LOG_TAG,"Sensitivity/accel %c, %d",cmdBuffer[4],param);
-    if(param > 100)
-    {
-      sendErrorBack("Sensitivity/accel is 0-100");
-      return UNKNOWNCMD;
-    } else {
-      //assign to sensitivity/acceleration value
-      switch(cmdBuffer[4])
-      {
-        case 'X': currentcfg->adc.sensitivity_x = param; requestUpdate = 1; return NOACTION;
-        case 'Y': currentcfg->adc.sensitivity_y = param; requestUpdate = 1; return NOACTION;
-        case 'C': currentcfg->adc.acceleration = param; requestUpdate = 1; return NOACTION;
-        default: return UNKNOWNCMD;
-      }
-    }
-  }
-  
-  /*++++ mouthpiece deadzone ++++*/
-  //AT DX, DY
-  if(CMD4("AT D"))
-  {
-    unsigned int param = strtol((char*)&(cmdBuffer[5]),NULL,10);
-    ESP_LOGI(LOG_TAG,"Deadzone %c, %d",cmdBuffer[4],param);
-    if(param > 10000)
-    {
-      sendErrorBack("Deadzone is 0-10000");
-      return UNKNOWNCMD;
-    } else {
-      //assign to sensitivity/acceleration value
-      switch(cmdBuffer[4])
-      {
-        case 'X': currentcfg->adc.deadzone_x = param; requestUpdate = 1; return NOACTION;
-        case 'Y': currentcfg->adc.deadzone_y = param; requestUpdate = 1; return NOACTION;
-        default: return UNKNOWNCMD;
-      }
-    }
-  }
-  
-  /*++++ on the fly calibration ++++*/
-  //AT DX, DY
-  if(CMD4("AT O"))
-  {
-    unsigned int param = strtol((char*)&(cmdBuffer[5]),NULL,10);
-    //assign to threshold or counter
-    switch(cmdBuffer[4])
-    {
-      case 'C': 
-        if(param < 5 || param > 15)
-        {
-          sendErrorBack("OTF counter: 5-15");
-          return UNKNOWNCMD;
-        }
-        currentcfg->adc.otf_count = param; requestUpdate = 1; 
-        ESP_LOGI(LOG_TAG,"OTF counter: %d",param);
-        return NOACTION;
-      case 'T': 
-        if(param > 15)
-        {
-          sendErrorBack("OTF idle threshold: 0-15");
-          return UNKNOWNCMD;
-        }
-        currentcfg->adc.otf_idle = param; requestUpdate = 1; 
-        ESP_LOGI(LOG_TAG,"OTF idle threshold: %d",param);
-        return NOACTION;
-      default: return UNKNOWNCMD;
-    }
-  }
-  
-  /*++++ mouthpiece mouse - maximum speed ++++*/
-  //AT MS
-  if(CMD("AT MS"))
-  {
-    unsigned int param = strtol((char*)&(cmdBuffer[5]),NULL,10);
-    ESP_LOGI(LOG_TAG,"Maximum speed %d",param);
-    if(param > 100)
-    {
-      sendErrorBack("Maximum speed is 0-100");
-      return UNKNOWNCMD;
-    } else {
-      //assign to maximum speed
-      currentcfg->adc.max_speed = param; 
-      requestUpdate = 1; 
-      return NOACTION;
-    }
-  }
-  
-  /*++++ threshold sip/puff++++*/
-  //AT TS/TP
-  if(CMD4("AT T"))
-  {
-    unsigned int param = strtol((char*)&(cmdBuffer[5]),NULL,10);
-    ESP_LOGI(LOG_TAG,"Threshold %c, %d",cmdBuffer[4],param);
-    switch(cmdBuffer[4])
-    {
-      case 'S':
-        if(param > 512)
-        {
-          sendErrorBack("Threshold sip is 0-512");
-          return UNKNOWNCMD;
-        } else {
-          currentcfg->adc.threshold_sip = param;
-          requestUpdate = 1;
-          return NOACTION;
-        }
-      break;
-      
-      case 'P':
-        if(param < 512 || param > 1023)
-        {
-          sendErrorBack("Threshold puff is 512-1023");
-          return UNKNOWNCMD;
-        } else {
-          currentcfg->adc.threshold_puff = param;
-          requestUpdate = 1;
-          return NOACTION;
-        }
-      break;
-      default: return UNKNOWNCMD;
-    }
-  }
-  
-  /*++++ threshold strong sip/puff++++*/
-  //AT TS/TP
-  if(CMD4("AT S"))
-  {
-    unsigned int param = 0;
-    switch(cmdBuffer[4])
-    {
-      case 'S':
-        param = strtol((char*)&(cmdBuffer[5]),NULL,10);
-        if(param > 512)
-        {
-          sendErrorBack("Threshold strong sip is 0-512");
-          return UNKNOWNCMD;
-        } else {
-          
-          ESP_LOGI(LOG_TAG,"Threshold strong sip, %d",param);
-          currentcfg->adc.threshold_strongsip = param;
-          requestUpdate = 1;
-          return NOACTION;
-        }
-      break;
-      
-      case 'P':
-        param = strtol((char*)&(cmdBuffer[5]),NULL,10);
-        if(param < 512 || param > 1023)
-        {
-          sendErrorBack("Threshold strong puff is 512-1023");
-          return UNKNOWNCMD;
-        } else {
-          ESP_LOGI(LOG_TAG,"Threshold strong puff, %d",param);
-          currentcfg->adc.threshold_strongpuff = param;
-          requestUpdate = 1;
-          return NOACTION;
-        }
-      break;
-      default: return UNKNOWNCMD;
-    }
-  }
-
-  //not consumed, no command found for mouthpiece settings
-  return UNKNOWNCMD;
+  return halStorageNVSStoreString(NVS_WIFIPW,(char*)p1);
+}
+esp_err_t cmdFw(char* orig, void* p1, void* p2) {
+  general.cmd[0] = ((int32_t) p1)+2; //valid: 0x02 / 0x03
+  return ESP_OK;
 }
 
-parserstate_t doStorageParsing(uint8_t *cmdBuffer)
-{
-  char slotname[SLOTNAME_LENGTH];
-  //generalConfig_t * currentcfg = configGetCurrent();
-  vb_cmd_t cmd;
-  //clear any data
-  memset(&cmd,0,sizeof(vb_cmd_t));
-  
-  /*++++ save slot ++++*/
-  if(CMD("AT SA"))
-  {
-    //trigger config update
-    configUpdate();
-    //wait until configuration is stable
-    if(configUpdateWaitStable() != ESP_OK)
-    {
-      ESP_LOGE(LOG_TAG,"Config not stable in time, cannot save");
-      return UNKNOWNCMD;
-    }
-    
-    //a copy of slot name
-    strncpy(slotname,(char*)&cmdBuffer[6],SLOTNAME_LENGTH);
-    //and store it.
-    storeSlot(slotname);
-    return NOACTION;
-  }
-  
-  /*++++ AT NE (load next) +++*/
-  if(CMD("AT NE"))
-  {
-    strncpy(slotname,"__NEXT",SLOTNAME_LENGTH);
-    //save to config
-    if(requestVBUpdate == VB_SINGLESHOT)
-    {
-      xQueueSend(config_switcher,(void*)slotname,(TickType_t)10);
-    } else {
-      vb_cmd_t cmd;
-      memset(&cmd,0,sizeof(vb_cmd_t));
-      cmd.vb = requestVBUpdate | 0x80;
-      cmd.cmd = T_CONFIGCHANGE;
-      cmd.atoriginal = malloc(strlen("AT NE")+1);
-      if(cmd.atoriginal != NULL)
-      {
-        strcpy(cmd.atoriginal,"AT NE");
-      } else ESP_LOGE(LOG_TAG,"Error allocating AT cmd string");
-      cmd.cmdparam = malloc(strlen("__NEXT")+1);
-      if(cmd.cmdparam != NULL)
-      {
-        strcpy(cmd.cmdparam,"__NEXT");
-      } else ESP_LOGE(LOG_TAG,"Error allocating cmdparam strign");
-      task_vb_addCmd(&cmd,1);
-    }
-    ESP_LOGI(LOG_TAG,"Load next");
-    return VB;
-  }
-  
-  /*++++ AT LO (load) ++++*/
-  if(CMD("AT LO"))
-  {
-    //save to config
-    if(requestVBUpdate == VB_SINGLESHOT)
-    {
-      xQueueSend(config_switcher,(void*)&cmdBuffer[6],(TickType_t)10);
-    } else {
-      vb_cmd_t cmd;
-      memset(&cmd,0,sizeof(vb_cmd_t));
-      cmd.vb = requestVBUpdate | 0x80;
-      cmd.cmd = T_CONFIGCHANGE;
-      cmd.atoriginal = malloc(strlen((char*)cmdBuffer)+1);
-      if(cmd.atoriginal != NULL)
-      {
-        strcpy(cmd.atoriginal,(char*)cmdBuffer);
-      } else ESP_LOGE(LOG_TAG,"Error allocating AT cmd string");
-      cmd.cmdparam = malloc(strnlen((char*)&cmdBuffer[6],SLOTNAME_LENGTH)+1);
-      if(cmd.cmdparam != NULL)
-      {
-        strncpy(cmd.cmdparam,(char*)&cmdBuffer[6],SLOTNAME_LENGTH);
-      } else ESP_LOGE(LOG_TAG,"Error allocating cmdparam strign");
-      task_vb_addCmd(&cmd,1);
-    }
-    ESP_LOGI(LOG_TAG,"Load slot name: %s",&cmdBuffer[6]);
-    return VB;
-  }
-  //not consumed, no command found for storage
-  return UNKNOWNCMD;
+/*++++ Mouse HID command handlers ++++*/
+esp_err_t cmdCl(char* orig, void* p1, void* p2) {
+  mouse.cmd[0] = 0x13; return ESP_OK;
+}
+esp_err_t cmdCr(char* orig, void* p1, void* p2) {
+  mouse.cmd[0] = 0x14; return ESP_OK;
+}
+esp_err_t cmdCm(char* orig, void* p1, void* p2) {
+  mouse.cmd[0] = 0x15; return ESP_OK;
+}
+esp_err_t cmdCd(char* orig, void* p1, void* p2) {
+  mouse.cmd[0] = 0x13;
+  mouseD.cmd[0] = 0x13; return ESP_OK;
+}
+esp_err_t cmdHl(char* orig, void* p1, void* p2) {
+  mouse.cmd[0] = 0x16;
+  mouseR.cmd[0] = 0x19; return ESP_OK;
+}
+esp_err_t cmdHr(char* orig, void* p1, void* p2) {
+  mouse.cmd[0] = 0x17;
+  mouseR.cmd[0] = 0x1A; return ESP_OK;
+}
+esp_err_t cmdHm(char* orig, void* p1, void* p2) {
+  mouse.cmd[0] = 0x18;
+  mouseR.cmd[0] = 0x1B; return ESP_OK;
+}
+esp_err_t cmdRl(char* orig, void* p1, void* p2) {
+  mouse.cmd[0] = 0x19; return ESP_OK;
+}
+esp_err_t cmdRr(char* orig, void* p1, void* p2) {
+  mouse.cmd[0] = 0x1A; return ESP_OK;
+}
+esp_err_t cmdRm(char* orig, void* p1, void* p2) {
+  mouse.cmd[0] = 0x1B; return ESP_OK;
+}
+esp_err_t cmdTl(char* orig, void* p1, void* p2) {
+  mouse.cmd[0] = 0x1C; return ESP_OK;
+}
+esp_err_t cmdTr(char* orig, void* p1, void* p2) {
+  mouse.cmd[0] = 0x1D; return ESP_OK;
+}
+esp_err_t cmdTm(char* orig, void* p1, void* p2) {
+  mouse.cmd[0] = 0x1E; return ESP_OK;
+}
+esp_err_t cmdWu(char* orig, void* p1, void* p2) {
+  if(currentCfg == NULL) return ESP_FAIL;
+  mouse.cmd[0] = 0x12; 
+  mouse.cmd[1] = currentCfg->wheel_stepsize;
+  return ESP_OK;
+}
+esp_err_t cmdWd(char* orig, void* p1, void* p2) {
+  if(currentCfg == NULL) return ESP_FAIL;
+  mouse.cmd[0] = 0x12; 
+  mouse.cmd[1] = -currentCfg->wheel_stepsize;
+  return ESP_OK;
+}
+esp_err_t cmdWs(char* orig, void* p1, void* p2) {
+  if(currentCfg == NULL) return ESP_FAIL;
+  currentCfg->wheel_stepsize = (int32_t)p1;
+  return ESP_OK;
+}
+esp_err_t cmdMx(char* orig, void* p1, void* p2) {
+  if(currentCfg == NULL) return ESP_FAIL;
+  mouse.cmd[0] = 0x10; 
+  mouse.cmd[1] = (int32_t)p1;
+  return ESP_OK;
+}
+esp_err_t cmdMy(char* orig, void* p1, void* p2) {
+  if(currentCfg == NULL) return ESP_FAIL;
+  mouse.cmd[0] = 0x11; 
+  mouse.cmd[1] = (int32_t)p1;
+  return ESP_OK;
 }
 
-parserstate_t doJoystickParsing(uint8_t *cmdBuffer, int length)
+/*++++ Keyboard HID command handlers ++++*/
+esp_err_t keyboard_helper_parsekeycode(char t, uint8_t *buf)
 {
-  if(CMD4("AT J"))
+  hid_cmd_t cmd;  //this would be the press or press&release action
+  memset(&cmd,0,sizeof(hid_cmd_t));
+  //if the first HID cmd is sent, this flag is set.
+  uint8_t deleted = 0;
+  char *pch;
+  uint8_t cnt = 0;
+  uint16_t keycode = 0;
+  uint16_t releaseArr[16];
+  pch = strpbrk((char *)&buf[5]," ");
+  while (pch != NULL)
   {
-    //new hid command
-    hid_cmd_t cmd;
-    //second command for double click or release action
-    hid_cmd_t cmd2;
-    
-    //set everything up for updates:
-    //set vb with press action & clear any first command byte.
-    cmd.vb = requestVBUpdate | (0x80);
-    cmd2.vb = requestVBUpdate;
-    cmd.cmd[0] = 0;
-    cmd2.cmd[0] = 0;
-    //just to shorten following checks a little bit.
-    char t = cmdBuffer[4];
-    
-    //param 1
-    char *endparam1;
-    int32_t param1 = strtol((char*)&(cmdBuffer[5]),&endparam1,10);
-    //param 2 (release mode for commands), starting with end of param1 parsing
-    unsigned int param2 = strtol(endparam1,NULL,10);
-    
-    //parameter checks - buttons
-    if(t == 'P' || t == 'C' || t == 'R')
+    ESP_LOGD(LOG_TAG,"Token: %s",pch+1);
+    //check if token seems to be a KEY_*
+    if(memcmp(pch+1,"KEY_",4) != 0)
     {
-      if(param1 > 32 || param1 < 1)
-      {
-        ESP_LOGE(LOG_TAG,"Joystick button out of range: %d",param1);
-        sendErrorBack("Joystick button invalid");
-        return UNKNOWNCMD;
-      } else cmd2.cmd[1] = param1; cmd.cmd[1] = param1;
-    }
-    
-    //parameter checks - hat
-    if(t == 'H')
-    {
-      if(param1 > 315 || param1 < -1)
-      {
-        ESP_LOGE(LOG_TAG,"Joystick hat out of range: %d",param1);
-        sendErrorBack("Joystick hat value invalid");
-        return UNKNOWNCMD;
-      } else cmd2.cmd[1] = param1 | 0x80; cmd.cmd[1] = param1 | 0x80;
-    }
-    
-    //parameter checks - axis
-    if(t == 'X' || t == 'Y' || t == 'Z' || t == 'T' || t == 'S' || t == 'U')
-    {
-      if(param1 > 1023 || param1 < 0)
-      {
-        ESP_LOGE(LOG_TAG,"Joystick axis out of range: %d",param1);
-        sendErrorBack("Joystick axis value invalid");
-        return UNKNOWNCMD;
-      } else {
-        //this is the "set" action, update joystick value.
-        cmd.cmd[1] = param1 & 0xFF;
-        cmd.cmd[2] = (param1 & 0xFF00)>>8;
-        //if used, this would be the release action (setting to 512 for all axis; to 0 for sliders)
-        cmd2.cmd[1] = 0x00;
-        if(t == 'S' || t == 'U') cmd2.cmd[2] = 0; else cmd2.cmd[2] = 0x02;
-      }
-    }
-    
-    //test release mode, but only if not a button.
-    if(!(t=='P' || t=='C' || t=='R'))
-    {
-      if(param2 > 1)
-      {
-        ESP_LOGW(LOG_TAG,"Joystick release mode invalid: %d, reset to 0",param2);
-        param2 = 0;
-      }
+      if(cnt == 0) ESP_LOGW(LOG_TAG,"Not a valid KEY_* identifier");
     } else {
-      param2 = 0;
-    }
-    
-    //map AT command (5th character) to joystick command
-    switch(t)
-    {
-      case 'X': cmd.cmd[0] = 0x34; if(param2) { cmd2.cmd[0] = 0x34; } break;
-      case 'Y': cmd.cmd[0] = 0x35; if(param2) { cmd2.cmd[0] = 0x35; } break;
-      case 'Z': cmd.cmd[0] = 0x36; if(param2) { cmd2.cmd[0] = 0x36; } break;
-      case 'T': cmd.cmd[0] = 0x37; if(param2) { cmd2.cmd[0] = 0x37; } break;
-      case 'S': cmd.cmd[0] = 0x38; if(param2) { cmd2.cmd[0] = 0x38; } break;
-      case 'U': cmd.cmd[0] = 0x39; if(param2) { cmd2.cmd[0] = 0x39; } break;
-      case 'H': cmd.cmd[0] = 0x31; if(param2) { cmd2.cmd[0] = 0x32; } break;
-      case 'P': cmd.cmd[0] = 0x31; if(param2) { cmd2.cmd[0] = 0x32; } break;
-      case 'C': cmd.cmd[0] = 0x30;
-      case 'R': cmd.cmd[0] = 0x32;
-      default: cmd.cmd[0] = 0; cmd2.cmd[0] = 0;
-    }
-    
-    //if a command is found
-    if(cmd.cmd[0] != 0)
-    {
-      //if we have a singleshot, pass command to queue for immediate process
-      if(cmd.vb == VB_SINGLESHOT)
+      //parse identifier to keycode
+      keycode = parseIdentifierToKeycode(pch+1);
+
+      if(keycode != 0)
       {
-        //post values to mouse queue (USB and/or BLE)
-        if(xEventGroupGetBits(connectionRoutingStatus) & DATATO_USB)
-        { xQueueSend(hid_usb,&cmd,0); }
+        //if found, save...
+        ESP_LOGD(LOG_TAG,"Keycode: 0x%4X",keycode);
         
-        if(xEventGroupGetBits(connectionRoutingStatus) & DATATO_BLE)
-        { xQueueSend(hid_ble,&cmd,0); }
-        
-        //if we have a second action (release immediately), send it
-        if(cmd2.cmd[0] != 0)
+        //because we have KEY identifiers, no deadkey processing is
+        //done here.
+    
+        //KEY_ * identifiers are either a key or a modifier
+        //determine which type and save accordingly:
+        if(keycode_is_modifier(keycode))
         {
-          //post values to mouse queue (USB and/or BLE)
-          if(xEventGroupGetBits(connectionRoutingStatus) & DATATO_USB)
-          { xQueueSend(hid_usb,&cmd2,0); }
-          
-          if(xEventGroupGetBits(connectionRoutingStatus) & DATATO_BLE)
-          { xQueueSend(hid_ble,&cmd2,0); }
-        }
-      } else {
-        //if it is assigned to a vb, 
-        //allocate original string (max len for joystick is ~16)
-        //add it to HID task
-        cmd.atoriginal = malloc(strnlen((char*)cmdBuffer,16)+1);
-        if(cmd.atoriginal == NULL) 
-        {
-          ESP_LOGE(LOG_TAG,"No memory for original AT");
-        } else {
-          strncpy(cmd.atoriginal,(char*)cmdBuffer,16);
-        }
-        if(task_hid_addCmd(&cmd,1) != ESP_OK)
-        {
-          ESP_LOGE(LOG_TAG,"Error adding to HID task");
-        }
-        
-        //if we have double action (double click)
-        //or press/release action, we have to assign a second HID command.
-        if(cmd2.cmd[0] != 0)
-        {
-          if(task_hid_addCmd(&cmd2,0) != ESP_OK)
+          //we are working with a modifier key here
+          cmd.cmd[1] = keycode & 0xFF;
+          switch(t)
           {
-            ESP_LOGE(LOG_TAG,"Error adding 2nd to HID task");
+            case 'H': //KH + KP press on first action
+            case 'P': cmd.cmd[0] = 0x25; break;
+            case 'R': cmd.cmd[0] = 0x26; break; //KR release on first action
+            case 'T': cmd.cmd[0] = 0x27; break; //KT toggle on first action
+          }
+        } else {
+          cmd.cmd[1] = keycode_to_key(keycode);
+          switch(t)
+          {
+            case 'H':
+            case 'P': cmd.cmd[0] = 0x21; break;
+            case 'R': cmd.cmd[0] = 0x22; break;
+            case 'T': cmd.cmd[0] = 0x23; break;
           }
         }
-        //reset to singleshot mode
-        requestVBUpdate = VB_SINGLESHOT;
+
+        //send the cmd either directly or save it to the HID task
+        if(deleted == 0) sendHIDCmd(&cmd,requestVBUpdate,buf,1);        
+        else sendHIDCmd(&cmd,requestVBUpdate,NULL,0);
+        deleted = 1;
+        //save for later release
+        releaseArr[cnt] = keycode;
+        cnt++;
+        
+        if(cnt == 14) //maximum 6 keycodes + 8 modifier bits
+        {
+          sendErrorBack("AT KP/KH/KR parameter too long");
+          return UNKNOWNCMD;
+        }
+      } else {
+        ESP_LOGW(LOG_TAG,"No keycode found for this token.");
       }
-      return HID;
+    }
+    //split into tokens
+    pch = strpbrk(pch+1, " ");
+  }
+  //check if any key identifiers were found
+  if(cnt == 0)
+  {
+    return ESP_FAIL;
+  }
+  //now we need to add the release actions.
+  //this is done ONLY for AT KP & AT KH:
+  //AT KP releases all keys immediately after pressing them.
+  //This is valid in VB mode and via AT commands on serial interface
+  //AT KH releases all keys on a VB release trigger. If we
+  //got that command via the serial interface, we don't do this (AT KR is needed)
+  
+  if((t=='P') || ((t=='H')&&(requestVBUpdate != VB_SINGLESHOT)))
+  {
+    //this has to be a press action too, but at the end
+    if(t=='P') cmd.vb = requestVBUpdate | 0x80;
+    //we need to have this action on a VB release trigger
+    if(t=='H') cmd.vb = requestVBUpdate;
+    
+    //now either send directly or add to HID task...
+    for(uint8_t i = 0; i<cnt; i++)
+    {
+      //check which command we need (release key or modifier)
+      if(keycode_is_modifier(releaseArr[i])) 
+      {
+        cmd.cmd[0] = 0x26; //release the modifier
+        //get key for this one
+        cmd.cmd[1] = releaseArr[i] & 0xFF;
+      } else {
+        cmd.cmd[0] = 0x22; //release the key
+        //get key for this one
+        cmd.cmd[1] = keycode_to_key(releaseArr[i]);
+      }
+      
+      if(deleted == 0) sendHIDCmd(&cmd,requestVBUpdate,buf,1);        
+      else sendHIDCmd(&cmd,requestVBUpdate,NULL,0);
+      deleted = 1;
+      ESP_LOGI(LOG_TAG,"Sent release action 0x%2X, keycode/modifier: 0x%2X",cmd.cmd[0],cmd.cmd[1]);
     }
   }
-  //not consumed, no command found for storage
-  return UNKNOWNCMD;
+  return ESP_OK;
+}
+esp_err_t cmdKw(char* orig, void* p1, void* p2) {
+  int offset = 0;
+  int offsetOut = 0;
+  uint8_t deadkeyfirst = 0;
+  uint8_t modifier = 0;
+  uint8_t keycode = 0;
+  hid_cmd_t cmd;
+  //if the first HID cmd is sent, this flag is set.
+  uint8_t deleted = 0;
+  memset(&cmd,0,sizeof(hid_cmd_t));
+
+  //save each byte from KW string to keyboard instance
+  //offset must be less then buffer length - 6 bytes for "AT KW "
+  size_t length = strlen((char*)p1);
+  while(offset <= length)
+  {
+    //terminate...
+    if(((char*)p1)[offset] == 0) break;
+    
+    //parse ASCII/unicode to keycode sequence
+    keycode = unicode_to_keycode(((char*)p1)[offset], currentCfg->locale);
+    deadkeyfirst = deadkey_to_keycode(keycode,currentCfg->locale);
+    if(deadkeyfirst != 0) deadkeyfirst = keycode_to_key(deadkeyfirst);
+    modifier = keycode_to_modifier(keycode, currentCfg->locale);
+    keycode = keycode_to_key(keycode);
+    
+    //if a keycode is found
+    if(keycode != 0)
+    {
+      //is a deadkey necessary?
+      if(deadkeyfirst != 0)
+      {
+        cmd.cmd[0] = 0x20; //press&release
+        cmd.cmd[1] = deadkeyfirst;
+        
+        //send the cmd either directly or save it to the HID task
+        if(deleted == 0) sendHIDCmd(&cmd,requestVBUpdate,(uint8_t*)orig,1);        
+        else sendHIDCmd(&cmd,requestVBUpdate,NULL,0);
+        deleted = 1;
+        
+        offsetOut++;
+        ESP_LOGD(LOG_TAG, "Deadkey 0x%X@%d",deadkeyfirst,offsetOut);
+      }
+      
+      //save keycode + modifier
+      ESP_LOGD(LOG_TAG, "Keycode 0x%X@%d, modifier: 0x%X",keycode,offsetOut,modifier);
+      
+      //we need maximum 3 commands:
+      //press a modifier
+      //press&release keycode
+      //release a modifier
+      if(modifier){
+        cmd.cmd[0] = 0x25; cmd.cmd[1] = modifier;
+        //send the cmd either directly or save it to the HID task
+        if(deleted == 0) sendHIDCmd(&cmd,requestVBUpdate,(uint8_t*)orig,1);        
+        else sendHIDCmd(&cmd,requestVBUpdate,NULL,0);
+        deleted = 1;
+      }
+      
+      cmd.cmd[0] = 0x20; cmd.cmd[1] = keycode;
+      //send the cmd either directly or save it to the HID task
+      if(deleted == 0) sendHIDCmd(&cmd,requestVBUpdate,(uint8_t*)orig,1);        
+      else sendHIDCmd(&cmd,requestVBUpdate,NULL,0);
+      deleted = 1;
+      
+      if(modifier){
+        cmd.cmd[0] = 0x26; cmd.cmd[1] = modifier;
+        //send the cmd either directly or save it to the HID task
+        if(deleted == 0) sendHIDCmd(&cmd,requestVBUpdate,(uint8_t*)orig,1);        
+        else sendHIDCmd(&cmd,requestVBUpdate,NULL,0);
+        deleted = 1;
+      }
+      
+      offsetOut++;
+    } else {
+      ESP_LOGD(LOG_TAG, "Need another byte (unicode)");
+    }
+    offset++;
+  }
+  return ESP_OK;
+}
+esp_err_t cmdKp(char* orig, void* p1, void* p2) {
+  return keyboard_helper_parsekeycode('P',(uint8_t*)orig);}
+esp_err_t cmdKh(char* orig, void* p1, void* p2) {
+  return keyboard_helper_parsekeycode('H',(uint8_t*)orig);}
+esp_err_t cmdKr(char* orig, void* p1, void* p2) {
+  return keyboard_helper_parsekeycode('R',(uint8_t*)orig);}
+esp_err_t cmdKt(char* orig, void* p1, void* p2) {
+  return keyboard_helper_parsekeycode('T',(uint8_t*)orig);}
+esp_err_t cmdRa(char* orig, void* p1, void* p2) {
+  halBLEReset(0xFE);
+  halSerialReset(0xFE);
+  return ESP_OK;
 }
 
-parserstate_t doInfraredParsing(uint8_t *cmdBuffer)
-{
+/*++++ Storage related handlers ++++*/
+esp_err_t cmdSa(char* orig, void* p1, void* p2) {
+  storeSlot((char*)p1);
+  return ESP_OK;
+}
+esp_err_t cmdLo(char* orig, void* p1, void* p2) {
+  if(requestVBUpdate == VB_SINGLESHOT)
+  {
+    xQueueSend(config_switcher,p1,(TickType_t)10);
+  } else {
+    vbaction.cmd = T_CONFIGCHANGE;
+  }
+  return ESP_OK;
+}
+esp_err_t cmdLa(char* orig, void* p1, void* p2) {
+  printAllSlots(1); return ESP_OK;
+}
+esp_err_t cmdLi(char* orig, void* p1, void* p2) {
+  printAllSlots(0); return ESP_OK;
+}
+esp_err_t cmdNe(char* orig, void* p1, void* p2) {
+  if(requestVBUpdate == VB_SINGLESHOT)
+  {
+    char slotname[SLOTNAME_LENGTH] = "__NEXT";
+    xQueueSend(config_switcher,(void*)slotname,(TickType_t)10);
+  } else {
+    vbaction.cmd = T_CONFIGCHANGE;
+    vbaction.cmdparam = malloc(strlen("__NEXT")+1);
+    strcpy(vbaction.cmdparam,"__NEXT");
+  }
+  return ESP_OK;
+}
+esp_err_t cmdDe(char* orig, void* p1, void* p2) {
   uint32_t tid;
-  uint8_t param;
-  vb_cmd_t cmd;
-
-  generalConfig_t *currentcfg = configGetCurrent();
-  if(currentcfg == NULL)
-  {
-    ESP_LOGE(LOG_TAG,"Errroorrr: general config is NULL");
-    return UNKNOWNCMD;
-  }
-  
-  //use global virtual button (normally VB_SINGLESHOT,
-  //can be changed by "AT BM"
-  memset(&cmd,0,sizeof(vb_cmd_t));
-  cmd.vb = requestVBUpdate | 0x80;
-
-  /*++++ AT IW ++++*/
-  if(CMD("AT IW")) {
-    if(halStorageStartTransaction(&tid,20,LOG_TAG) == ESP_OK)
-    {
-      if(halStorageDeleteIRCmd(100,tid) != ESP_OK)
-      {
-        ESP_LOGE(LOG_TAG,"Cannot delete all IR cmds");
-      }
-      halStorageFinishTransaction(tid);
-    } else {
-      ESP_LOGE(LOG_TAG,"Cannot start transaction");
-    }
-    return NOACTION;
-  }
-  
-  
-  /*++++ AT IX (delete one IR cmd by number) ++++*/
-  if(CMD("AT IX")) {
-    param = strtol((char*)&(cmdBuffer[6]),NULL,10);
-    if(param < 1 || param > 99)
-    {
-      ESP_LOGW(LOG_TAG,"Invalid IR slot nr %d",param);
-      return UNKNOWNCMD;
-    }
-    if(halStorageStartTransaction(&tid,20,LOG_TAG) == ESP_OK)
-    {
-      if(halStorageDeleteIRCmd(param,tid) != ESP_OK)
-      {
-        ESP_LOGE(LOG_TAG,"Cannot delete IR cmd %d",param);
-      }
-      halStorageFinishTransaction(tid);
-    } else {
-      ESP_LOGE(LOG_TAG,"Cannot start transaction");
-    }
-    return NOACTION;
-  }
-  
-  /*++++ AT IT ++++*/
-  if(CMD("AT IT")) {
-    //set the IR timeout in ms
-    param = strtol((char*)&(cmdBuffer[6]),NULL,10);
-    if(param <= 100 && param >= 2)
-    {
-      currentcfg->irtimeout = param;
-      ESP_LOGD(LOG_TAG,"Set IR timeout to %d ms",param);
-      requestUpdate = 1;
-    } else {
-      ESP_LOGE(LOG_TAG,"IR timeout %d is not possible",param);
-    }
-    return NOACTION;
-  }
-  
-  /*++++ AT IC ++++*/
-  if(CMD("AT IC")) {
-    if(halStorageStartTransaction(&tid,20,LOG_TAG) == ESP_OK)
-    {
-      uint8_t nr = 0;
-      if(halStorageGetNumberForNameIR(tid,&nr,(char*)&cmdBuffer[6]) == ESP_OK)
-      {
-        if(halStorageDeleteIRCmd(nr,tid) != ESP_OK)
-        {
-          ESP_LOGE(LOG_TAG,"Cannot delete IR cmd %s",&cmdBuffer[6]);
-        } else {
-          ESP_LOGI(LOG_TAG,"Deleted IR slot %s @%d",&cmdBuffer[6],nr);
-          return NOACTION;
-        }
-      } else {
-        ESP_LOGE(LOG_TAG,"No slot found for IR cmd %s",&cmdBuffer[6]);
-      }
-      halStorageFinishTransaction(tid);
-    } else {
-      ESP_LOGE(LOG_TAG,"Cannot start transaction");
-    }
-  }
-  
-  /*++++ AT IP ++++*/
-  if(CMD("AT IP")) {
-    //save cmd name to config instance
-    
-    ///@todo IP singleshot/cmd adding... + malloc strings!!!
-    
-    //strncpy(instance->cmdName,(char*)&cmdBuffer[6],SLOTNAME_LENGTH);
-    ESP_LOGD(LOG_TAG,"Play IR cmd %s",&cmdBuffer[6]);
-    return VB;
-  }
-  
-  /*++++ AT IR ++++*/
-  if(CMD("AT IR")) {
-    //trigger record
-    if(infrared_record((char*)&cmdBuffer[6],1) == ESP_OK)
-    {
-      ESP_LOGD(LOG_TAG,"Recorded IR cmd %s",&cmdBuffer[6]);
-      return NOACTION;
-    } else {
-      return UNKNOWNCMD;
-    }
-  }
-  
-  /*++++ AT IL ++++*/
-  if(CMD("AT IL")) {
-    if(halStorageStartTransaction(&tid,20,LOG_TAG) == ESP_OK)
-    {
-      uint8_t count = 0;
-      uint8_t printed = 0;
-      char name[SLOTNAME_LENGTH+1];
-      char output[SLOTNAME_LENGTH+10];
-      halStorageGetNumberOfIRCmds(tid,&count);
-      if(halStorageGetNumberOfIRCmds(tid,&count) == ESP_OK)
-      {
-        for(uint8_t i = 0; i<100;i++)
-        {
-          //load name, if available
-          if(halStorageGetNameForNumberIR(tid,i,name) == ESP_OK)
-          {
-            //if available: print out on serial and increase number of 
-            //printed IR cmds
-            sprintf(output,"IRCommand%d:%s",printed,name);
-            halSerialSendUSBSerial(output,strnlen(output,SLOTNAME_LENGTH+10),10);
-            printed++;
-          }
-          //if we have printed the same count as available IR slots, finish
-          if(printed == count) 
-          {
-            halStorageFinishTransaction(tid);
-            return NOACTION;
-          }
-        }
-      } else {
-        ESP_LOGE(LOG_TAG,"Cannot get IR cmd number");
-      }
-      halStorageFinishTransaction(tid);
-    } else {
-      ESP_LOGE(LOG_TAG,"Cannot start transaction");
-    }
-    return UNKNOWNCMD;
-  }
-  //not consumed, no command found for infrared
-  return UNKNOWNCMD;
+  esp_err_t retval;
+  retval = halStorageStartTransaction(&tid,20,LOG_TAG);
+  if(retval != ESP_OK) return retval;
+  retval = halStorageDeleteSlot(-1,tid);
+  halStorageFinishTransaction(tid);
+  return retval;
 }
-
-parserstate_t doGeneralCmdParsing(uint8_t *cmdBuffer)
-{
-  uint16_t param = 0;
-  uint8_t param8 = 0;
-  generalConfig_t *currentcfg;
-  
-  currentcfg = configGetCurrent();
-  if(currentcfg == NULL)
+esp_err_t cmdDl(char* orig, void* p1, void* p2) {
+  uint32_t tid;
+  esp_err_t retval;
+  retval = halStorageStartTransaction(&tid,20,LOG_TAG);
+  if(retval != ESP_OK) return retval;
+  retval = halStorageDeleteSlot((int32_t)p1,tid);
+  halStorageFinishTransaction(tid);
+  return retval;
+}
+esp_err_t cmdDn(char* orig, void* p1, void* p2) {
+  uint32_t tid;
+  uint8_t slotnumber;
+  esp_err_t retval;
+  retval = halStorageStartTransaction(&tid,20,LOG_TAG);
+  if(retval != ESP_OK) return retval;
+  retval = halStorageGetNumberForName(tid,&slotnumber,(char *)p1); 
+  if(retval != ESP_OK) {
+    halStorageFinishTransaction(tid);
+    return retval;
+  }
+  retval = halStorageDeleteSlot(slotnumber,tid);
+  halStorageFinishTransaction(tid);
+  return retval;
+}
+esp_err_t cmdNc(char* orig, void* p1, void* p2) {
+  if(requestVBUpdate != VB_SINGLESHOT)
   {
-    ESP_LOGE(LOG_TAG,"Current config is null, cannot update general cmd");
-    return UNKNOWNCMD;
-  }
-  
-  /*++++ AT FB; feedback ++++*/
-  if(CMD("AT FB")) {
-    switch(cmdBuffer[6])
-    {
-      case '0':
-      case '1':
-      case '2':
-      case '3':
-        currentcfg->feedback = cmdBuffer[6] - '0';
-        ESP_LOGD(LOG_TAG,"Setting feedback mode to %d",currentcfg->feedback);
-        break;
-      default:
-        sendErrorBack("Parameter out of range (0-3)");
-        return UNKNOWNCMD;
-    }
-    requestUpdate = 1;
-    return NOACTION;  
-  }
-  
-  /*++++ AT PW; wifi password ++++*/
-  if(CMD("AT PW")) {
-    if(strnlen((char*)&cmdBuffer[6],ATCMD_LENGTH-6) >= 8 && strnlen((char*)&cmdBuffer[6],ATCMD_LENGTH-6) <= 32)
-    {
-      halStorageNVSStoreString(NVS_WIFIPW,(char*)&cmdBuffer[6]);
-    } else {
-      sendErrorBack("Wifi PW len: 8-32 characters");
-      return UNKNOWNCMD;
-    }
-    requestUpdate = 1;
-    return NOACTION;  
-  }
-  
-  /*++++ AT BL; button learning ++++*/
-  if(CMD("AT BL")) {
-    switch(cmdBuffer[6])
-    {
-      case '0':
-      case '1':
-        currentcfg->button_learn = cmdBuffer[6] - '0';
-        ESP_LOGD(LOG_TAG,"Setting button learn mode to %d",currentcfg->button_learn);
-        break;
-      default:
-        sendErrorBack("Parameter out of range (0-1)");
-        return UNKNOWNCMD;
-    }
-    requestUpdate = 1;
-    return NOACTION;  
-  }
-  
-  ///@todo parse anti-tremor commands here.
-  /*++++ AT AP,AR,AI; anti-tremor ++++*/
-  if(CMD4("AT A")) {
-    //get the time value ([ms])
-    param = strtol((char*)&(cmdBuffer[6]),NULL,10);
-      
-    if(cmdBuffer[4] == 'P' || cmdBuffer[4] == 'R' || cmdBuffer[4] == 'I')
-    {
-      //check parameter range
-      if(param == 0 || param > 500)
-      {
-        sendErrorBack("Time out of range");
-        return UNKNOWNCMD;
-      }
-      
-      //should we apply it as global value or for an individual button?
-      if(requestVBUpdate == VB_SINGLESHOT)
-      {
-        switch(cmdBuffer[4])
-        {
-          case 'P': currentcfg->debounce_press = param;
-          case 'R': currentcfg->debounce_release = param;
-          case 'I': currentcfg->debounce_idle = param;
-        }
-      } else {
-        switch(cmdBuffer[4])
-        {
-          case 'P': currentcfg->debounce_press_vb[requestVBUpdate] = param;
-          case 'R': currentcfg->debounce_release_vb[requestVBUpdate] = param;
-          case 'I': currentcfg->debounce_idle_vb[requestVBUpdate] = param;
-        }
-        //reset to VB_SINGLESHOT after setting anti-tremor time.
-        requestVBUpdate = VB_SINGLESHOT;
-      }
-      //need to update.
-      requestUpdate = 1;
-    }
-  }
-  
-  /*++++ AT RO ++++*/
-  if(CMD("AT RO")) {
-    //set the mouthpiece orientation
-    param = strtol((char*)&(cmdBuffer[6]),NULL,10);
-    switch(param)
-    {
-      case 0:
-      case 90:
-      case 180:
-      case 270:
-        currentcfg->adc.orientation = param;
-        ESP_LOGI(LOG_TAG,"Set orientation to %d",param);
-        requestUpdate = 1;
-        break;
-      default:
-        ESP_LOGE(LOG_TAG,"Orientation %d not available",param);
-        break;
-    }
-    return NOACTION;
-  }
-  
-    
-  /*++++ AT RA ++++*/
-  if(CMD("AT RA")) {
-    //reset the reports (keyboard only, excepting all other parts)
-    halBLEReset(0xFE);
-    halSerialReset(0xFE);
-    return NOACTION;
-  }
-    
-  /*++++ AT FR (free space) ++++*/
-  if(CMD("AT FR")) {
-    uint32_t free,total;
-    if(halStorageGetFree(&total,&free) != ESP_OK)
-    {
-      ESP_LOGE(LOG_TAG,"Error getting free space");
-    } else {
-      char str[32];
-      sprintf(str,"FREE:%d%%,%d,%d",(uint8_t)(1-free/total)*100,total-free,free);
-      halSerialSendUSBSerial(str,strnlen(str,32),20);
-      ESP_LOGI(LOG_TAG,"Free space: %d, total: %d, percentage: %d",free,total,(uint8_t)(1-free/total)*100);
-    }
-    return NOACTION;
-  }
-    
-  /*++++ AT LA + LI ++++*/
-  if(CMD4("AT L")) {
-    switch(cmdBuffer[4])
-    {
-      //print current slot configurations
-      case 'A': printAllSlots(1); return NOACTION;
-      //print slot names only
-      case 'I': printAllSlots(0); return NOACTION;
-      default: return UNKNOWNCMD;
-    }
-  }
-    
-  /*++++ AT KL ++++*/
-  if(CMD("AT KL")) {
-    param8 = strtol((char*)&(cmdBuffer[6]),NULL,10);
-    if(param8 < LAYOUT_MAX)
-    {
-      ESP_LOGI(LOG_TAG,"Changed locale from %d to %d",currentcfg->locale,param8);
-      currentcfg->locale = param8;
-      requestUpdate = 1;
-      return NOACTION;
-    } else {
-      sendErrorBack("Locale out of range");
-      return UNKNOWNCMD;
-    }
-  }
-  
-  /*++++ AT ID ++++*/
-  if(CMD("AT ID")) {
-    uint32_t sent = halSerialSendUSBSerial((char*)IDSTRING,sizeof(IDSTRING),20);
-    if(sent != sizeof(IDSTRING)) 
-    {
-      ESP_LOGE(LOG_TAG,"Error sending response of AT ID");
-      return UNKNOWNCMD;
-    } else return NOACTION;
-  }
-  
-  /*++++ AT DE ++++*/
-  if(CMD("AT DE")) {
-    uint32_t tid;
-    if(halStorageStartTransaction(&tid,20,LOG_TAG) != ESP_OK)
-    {
-      return UNKNOWNCMD;
-    } else {
-      if(halStorageDeleteSlot(-1,tid) != ESP_OK)
-      {
-        sendErrorBack("Error deleting all slots");
-        halStorageFinishTransaction(tid);
-        return UNKNOWNCMD;
-      } else {
-        halStorageFinishTransaction(tid);
-        return NOACTION;
-      }
-    }
-  }
-  
-  /*++++ AT BM ++++*/
-  if(CMD("AT BM")) {
-    param = strtol((char*)&(cmdBuffer[6]),NULL,10);
-    if(param >= VB_MAX)
-    {
-      sendErrorBack("VB nr too high");
-      return UNKNOWNCMD;
-    } else {
-      requestVBUpdate = param;
-      ESP_LOGI(LOG_TAG,"New mode for VB %d:",param);
-      return NOACTION;
-    }
-  }
-  /*++++ AT NC ++++*/
-  if(CMD("AT NC")) {
-    ///@todo remove this VB from HID&VB list!
-    
-    //reset VB number if NC is triggered -> VB is not used.
+    task_hid_delCmd(requestVBUpdate);
+    task_vb_delCmd(requestVBUpdate);
     requestVBUpdate = VB_SINGLESHOT;
-    return NOACTION;
   }
-  
-  /*++++ AT DL ++++*/
-  if(CMD4("AT D")) {
-    uint32_t tid;
-    uint8_t slotnumber;
-    
-    if(halStorageStartTransaction(&tid,20,LOG_TAG) != ESP_OK)
-    {
-      return UNKNOWNCMD;
-    }
-    
-    switch(cmdBuffer[4])
-    {
-      //delete by given number
-      case 'L': slotnumber = strtol((char*)&(cmdBuffer[6]),NULL,10); break;
-      //delete by given name
-      case 'N': 
-        halStorageGetNumberForName(tid,&slotnumber,(char *)&cmdBuffer[6]); 
-        break;
-      default: 
-        halStorageFinishTransaction(tid);
-        return UNKNOWNCMD;
-    }
-    
-    if(halStorageDeleteSlot(slotnumber,tid) != ESP_OK)
-    {
-      sendErrorBack("Error deleting slot");
-      halStorageFinishTransaction(tid);
-      return UNKNOWNCMD;
-    } else {
-      halStorageFinishTransaction(tid);
-      return NOACTION;
-    }
-  }
-
-  /*++++ AT BT ++++*/
-  if(CMD("AT BT")) {
-    switch(cmdBuffer[6])
-    {
-      case '0': 
-        currentcfg->ble_active = 0;
-        currentcfg->usb_active = 0;
-        requestUpdate = 1;
-        return NOACTION;
-        break;
-      case '1': 
-        currentcfg->ble_active = 0;
-        currentcfg->usb_active = 1;
-        requestUpdate = 1;
-        return NOACTION;
-        break;
-      case '2': 
-        currentcfg->ble_active = 1;
-        currentcfg->usb_active = 0;
-        requestUpdate = 1;
-        return NOACTION;
-        break;
-      case '3': 
-        currentcfg->ble_active = 1;
-        currentcfg->usb_active = 1;
-        requestUpdate = 1;
-        return NOACTION;
-        break;
-      default: sendErrorBack("AT BT param"); return UNKNOWNCMD;
-    }
-  }
-      
-  //not consumed, no general command found
-  return UNKNOWNCMD;
+  return ESP_OK;
 }
 
+/*++++ Mouthpiece mode handlers ++++*/
+esp_err_t cmdMm(char* orig, void* p1, void* p2) {
+  if(currentCfg == NULL) return ESP_FAIL;
+  switch((int32_t)p1)
+  {
+    case 0: currentCfg->adc.mode = THRESHOLD; break;
+    case 1: currentCfg->adc.mode = MOUSE; break;
+    case 2: currentCfg->adc.mode = JOYSTICK; break;
+    case 3: currentCfg->adc.mode = NONE; break;
+    default: return ESP_FAIL;
+  }
+  return ESP_OK;
+}
+esp_err_t cmdSw(char* orig, void* p1, void* p2) {
+  switch(currentCfg->adc.mode)
+  {
+    case MOUSE: currentCfg->adc.mode = THRESHOLD; break;
+    case THRESHOLD: currentCfg->adc.mode = MOUSE; break;
+    case JOYSTICK: case NONE: return ESP_FAIL;
+  }
+  return ESP_OK;
+}
+esp_err_t cmdSr(char* orig, void* p1, void* p2) {
+  if(currentCfg == NULL) return ESP_FAIL;
+  currentCfg->adc.reportraw = 1;
+  return ESP_OK;
+}
+esp_err_t cmdEr(char* orig, void* p1, void* p2) {
+  if(currentCfg == NULL) return ESP_FAIL;
+  currentCfg->adc.reportraw = 0;
+  return ESP_OK;
+}
+esp_err_t cmdCa(char* orig, void* p1, void* p2) {
+  if(requestVBUpdate == VB_SINGLESHOT)
+  {
+    halAdcCalibrate();
+  } else {
+    vbaction.cmd = T_CALIBRATE;
+  }
+  return ESP_OK;
+}
+/*++++ joystick command handler ++++*/
+void joystick_helper_axis(uint8_t val1, uint8_t val2, uint16_t v)
+{
+  joystick.cmd[0] = val1;
+  joystick.cmd[1] = v & 0xFF;
+  joystick.cmd[2] = (v & 0xFF00)>>8;
+  joystickR.cmd[0] = val2;
+}
+
+esp_err_t cmdJx(char* orig, void* p1, void* p2) {
+  //if p2 is set, we need a release action.
+  if(((int32_t) p2) == 0) joystick_helper_axis(0x34,0,(int32_t) p1);
+  else joystick_helper_axis(0x34,0x34,(int32_t) p1);
+  return ESP_OK;
+}
+esp_err_t cmdJy(char* orig, void* p1, void* p2) {
+  //if p2 is set, we need a release action.
+  if(((int32_t) p2) == 0) joystick_helper_axis(0x35,0,(int32_t) p1);
+  else joystick_helper_axis(0x35,0x35,(int32_t) p1);
+  return ESP_OK;
+}
+esp_err_t cmdJz(char* orig, void* p1, void* p2) {
+  //if p2 is set, we need a release action.
+  if(((int32_t) p2) == 0) joystick_helper_axis(0x36,0,(int32_t) p1);
+  else joystick_helper_axis(0x36,0x36,(int32_t) p1);
+  return ESP_OK;
+}
+esp_err_t cmdJt(char* orig, void* p1, void* p2) {
+  //if p2 is set, we need a release action.
+  if(((int32_t) p2) == 0) joystick_helper_axis(0x37,0,(int32_t) p1);
+  else joystick_helper_axis(0x37,0x37,(int32_t) p1);
+  return ESP_OK;
+}
+esp_err_t cmdJs(char* orig, void* p1, void* p2) {
+  //if p2 is set, we need a release action.
+  if(((int32_t) p2) == 0) joystick_helper_axis(0x38,0,(int32_t) p1);
+  else joystick_helper_axis(0x38,0x38,(int32_t) p1);
+  return ESP_OK;
+}
+esp_err_t cmdJu(char* orig, void* p1, void* p2) {
+  //if p2 is set, we need a release action.
+  if(((int32_t) p2) == 0) joystick_helper_axis(0x39,0,(int32_t) p1);
+  else joystick_helper_axis(0x39,0x39,(int32_t)p1);
+  return ESP_OK;
+}
+esp_err_t cmdJp(char* orig, void* p1, void* p2) {
+  joystick.cmd[0] = 0x31;
+  joystick.cmd[1] = ((int32_t) p1)&0x7F; //high bit determines it is a joystick hat
+  return ESP_OK;
+}
+esp_err_t cmdJc(char* orig, void* p1, void* p2) {
+  joystick.cmd[0] = 0x30;
+  joystick.cmd[1] = ((int32_t) p1)&0x7F; //high bit determines it is a joystick hat
+  return ESP_OK;
+}
+esp_err_t cmdJr(char* orig, void* p1, void* p2) {
+  joystick.cmd[0] = 0x32;
+  joystick.cmd[1] = ((int32_t) p1)&0x7F; //high bit determines it is a joystick hat
+  return ESP_OK;
+}
+esp_err_t cmdJh(char* orig, void* p1, void* p2) {
+  joystick.cmd[0] = 0x32;
+  if(((int32_t) p1) == -1) joystick.cmd[1] = 0x8F;
+  else joystick.cmd[1] = (((int32_t) p1)&0x7F) | 0x80; //high bit determines it is a joystick hat
+  return ESP_OK;
+}
+esp_err_t cmdIr(char* orig, void* p1, void* p2) {
+  //trigger record
+  if(fct_infrared_record((char*)p1,1) == ESP_OK)
+  {
+    ESP_LOGD(LOG_TAG,"Recorded IR cmd %s",(char*)p1);
+    return ESP_OK;
+  } else return ESP_FAIL;
+}
+esp_err_t cmdIp(char* orig, void* p1, void* p2) {
+  if(requestVBUpdate == VB_SINGLESHOT)
+  {
+    fct_infrared_send((char*)p1);
+  } else {
+    //set action type
+    vbaction.cmd = T_SENDIR;
+    vbaction.cmdparam = malloc(strnlen((char*)p1,ATCMD_LENGTH)+1);
+    strncpy(vbaction.cmdparam,(char*)p1,strnlen((char*)p1,ATCMD_LENGTH));
+  }
+  return ESP_OK;
+}
+esp_err_t cmdIh(char* orig, void* p1, void* p2) {
+  return ESP_OK;
+}
+esp_err_t cmdIc(char* orig, void* p1, void* p2) {
+  uint32_t tid;
+  if(halStorageStartTransaction(&tid,20,LOG_TAG) == ESP_OK)
+  {
+    uint8_t nr = 0;
+    if(halStorageGetNumberForNameIR(tid,&nr,(char*)p1) == ESP_OK)
+    {
+      if(halStorageDeleteIRCmd(nr,tid) != ESP_OK)
+      {
+        ESP_LOGE(LOG_TAG,"Cannot delete IR cmd %s",(char*)p1);
+      } else {
+        ESP_LOGI(LOG_TAG,"Deleted IR slot %s @%d",(char*)p1,nr);
+        return NOACTION;
+      }
+    } else {
+      ESP_LOGE(LOG_TAG,"No slot found for IR cmd %s",(char*)p1);
+    }
+    halStorageFinishTransaction(tid);
+  } else {
+    ESP_LOGE(LOG_TAG,"Cannot start transaction");
+  }
+  return ESP_OK;
+}
+esp_err_t cmdIw(char* orig, void* p1, void* p2) {
+  uint32_t tid;
+  if(halStorageStartTransaction(&tid,20,LOG_TAG) == ESP_OK)
+  {
+    if(halStorageDeleteIRCmd(100,tid) != ESP_OK)
+    {
+      ESP_LOGE(LOG_TAG,"Cannot delete all IR cmds");
+    }
+    halStorageFinishTransaction(tid);
+  } else {
+    ESP_LOGE(LOG_TAG,"Cannot start transaction");
+  }
+  return ESP_OK;
+}
+esp_err_t cmdIl(char* orig, void* p1, void* p2) {
+  uint32_t tid;
+  if(halStorageStartTransaction(&tid,20,LOG_TAG) == ESP_OK)
+  {
+    uint8_t count = 0;
+    uint8_t printed = 0;
+    char name[SLOTNAME_LENGTH+1];
+    char output[SLOTNAME_LENGTH+10];
+    halStorageGetNumberOfIRCmds(tid,&count);
+    if(halStorageGetNumberOfIRCmds(tid,&count) == ESP_OK)
+    {
+      for(uint8_t i = 0; i<100;i++)
+      {
+        //load name, if available
+        if(halStorageGetNameForNumberIR(tid,i,name) == ESP_OK)
+        {
+          //if available: print out on serial and increase number of 
+          //printed IR cmds
+          sprintf(output,"IRCommand%d:%s",printed,name);
+          halSerialSendUSBSerial(output,strnlen(output,SLOTNAME_LENGTH+10),10);
+          printed++;
+        }
+        //if we have printed the same count as available IR slots, finish
+        if(printed == count) 
+        {
+          halStorageFinishTransaction(tid);
+          return ESP_OK;
+        }
+      }
+    } else {
+      ESP_LOGE(LOG_TAG,"Cannot get IR cmd number");
+    }
+    halStorageFinishTransaction(tid);
+  } else {
+    ESP_LOGE(LOG_TAG,"Cannot start transaction");
+  }
+  return ESP_FAIL;
+}
+esp_err_t cmdIx(char* orig, void* p1, void* p2) {
+  uint32_t tid;
+  if(halStorageStartTransaction(&tid,20,LOG_TAG) == ESP_OK)
+  {
+    if(halStorageDeleteIRCmd((int32_t)p1,tid) != ESP_OK)
+    {
+      ESP_LOGE(LOG_TAG,"Cannot delete IR cmd %d",(int32_t)p1);
+    }
+    halStorageFinishTransaction(tid);
+  } else {
+    ESP_LOGE(LOG_TAG,"Cannot start transaction");
+  }
+  return ESP_OK;
+}
+
+#define CMD_TARGET_TYPE generalConfig_t
+
+/*++++ command struct ++++*/
+const onecmd_t commands[] = {
+  // general commands
+  {"ID", {PARAM_NONE,PARAM_NONE},{0,0},{0,0},cmdId,0,NOCAST},
+  {"BM", {PARAM_NUMBER,PARAM_NONE},{0,0},{VB_MAX-1,0},cmdBm,0,NOCAST},
+  {"BL", {PARAM_NUMBER,PARAM_NONE},{0,0},{1,0},NULL,offsetof(CMD_TARGET_TYPE,button_learn),UINT8},
+  {"MA", {PARAM_STRING,PARAM_NONE},{5,0},{ATCMD_LENGTH-strlen(CMD_PREFIX)-CMD_LENGTH,0},cmdMa,0,NOCAST},
+  {"WA", {PARAM_NUMBER,PARAM_NONE},{0,0},{30000,0},cmdWa,0,NOCAST},
+  {"RO", {PARAM_NUMBER,PARAM_NONE},{0,0},{270,0},cmdRo,0,NOCAST},
+  {"KL", {PARAM_NUMBER,PARAM_NONE},{0,0},{24,0},NULL,offsetof(CMD_TARGET_TYPE,locale),UINT8},
+  {"BT", {PARAM_NUMBER,PARAM_NONE},{0,0},{3,0},cmdBt,0,NOCAST},
+  {"TT", {PARAM_NUMBER,PARAM_NONE},{100,0},{5000,0},cmdTt,0,NOCAST},
+  {"AP", {PARAM_NUMBER,PARAM_NONE},{1,0},{500,0},cmdAp,0,NOCAST},
+  {"AR", {PARAM_NUMBER,PARAM_NONE},{1,0},{500,0},cmdAr,0,NOCAST},
+  {"AI", {PARAM_NUMBER,PARAM_NONE},{1,0},{500,0},cmdAi,0,NOCAST},
+  {"FR", {PARAM_NONE,PARAM_NONE},{0,0},{0,0},cmdFr,0,NOCAST},
+  {"FB", {PARAM_NUMBER,PARAM_NONE},{0,0},{3,0},NULL,offsetof(CMD_TARGET_TYPE,feedback),UINT8},
+  {"PW", {PARAM_STRING,PARAM_NONE},{8,0},{32,0},cmdPw,0,NOCAST},
+  {"FW", {PARAM_NUMBER,PARAM_NONE},{0,0},{1,0},cmdFw,0,NOCAST},
+  // HID - mouse commands
+  {"CL", {PARAM_NONE,PARAM_NONE},{0,0},{0,0},cmdCl,0,NOCAST},
+  {"CR", {PARAM_NONE,PARAM_NONE},{0,0},{0,0},cmdCr,0,NOCAST},
+  {"CM", {PARAM_NONE,PARAM_NONE},{0,0},{0,0},cmdCm,0,NOCAST},
+  {"CD", {PARAM_NONE,PARAM_NONE},{0,0},{0,0},cmdCd,0,NOCAST},
+  {"HL", {PARAM_NONE,PARAM_NONE},{0,0},{0,0},cmdHl,0,NOCAST},
+  {"PL", {PARAM_NONE,PARAM_NONE},{0,0},{0,0},cmdHl,0,NOCAST},
+  {"HR", {PARAM_NONE,PARAM_NONE},{0,0},{0,0},cmdHr,0,NOCAST},
+  {"PR", {PARAM_NONE,PARAM_NONE},{0,0},{0,0},cmdHr,0,NOCAST},
+  {"HM", {PARAM_NONE,PARAM_NONE},{0,0},{0,0},cmdHm,0,NOCAST},
+  {"PM", {PARAM_NONE,PARAM_NONE},{0,0},{0,0},cmdHm,0,NOCAST},
+  {"RL", {PARAM_NONE,PARAM_NONE},{0,0},{0,0},cmdRl,0,NOCAST},
+  {"RR", {PARAM_NONE,PARAM_NONE},{0,0},{0,0},cmdRr,0,NOCAST},
+  {"RM", {PARAM_NONE,PARAM_NONE},{0,0},{0,0},cmdRm,0,NOCAST},
+  {"TL", {PARAM_NONE,PARAM_NONE},{0,0},{0,0},cmdTl,0,NOCAST},
+  {"TR", {PARAM_NONE,PARAM_NONE},{0,0},{0,0},cmdTr,0,NOCAST},
+  {"TM", {PARAM_NONE,PARAM_NONE},{0,0},{0,0},cmdTm,0,NOCAST},
+  {"WU", {PARAM_NONE,PARAM_NONE},{0,0},{0,0},cmdWu,0,NOCAST},
+  {"WD", {PARAM_NONE,PARAM_NONE},{0,0},{0,0},cmdWd,0,NOCAST},
+  {"WS", {PARAM_NUMBER,PARAM_NONE},{1,0},{127,0},cmdWs,0,NOCAST},
+  {"MX", {PARAM_NUMBER,PARAM_NONE},{-127,0},{127,0},cmdMx,0,NOCAST},
+  {"MY", {PARAM_NUMBER,PARAM_NONE},{-127,0},{127,0},cmdMy,0,NOCAST},
+  // HID - keyboard commands
+  {"KW", {PARAM_STRING,PARAM_NONE},{1,0},{ATCMD_LENGTH-strlen(CMD_PREFIX)-CMD_LENGTH,0},cmdKw,0,NOCAST},
+  {"KP", {PARAM_STRING,PARAM_NONE},{5,0},{ATCMD_LENGTH-strlen(CMD_PREFIX)-CMD_LENGTH,0},cmdKp,0,NOCAST},
+  {"KH", {PARAM_STRING,PARAM_NONE},{5,0},{ATCMD_LENGTH-strlen(CMD_PREFIX)-CMD_LENGTH,0},cmdKh,0,NOCAST},
+  {"KR", {PARAM_STRING,PARAM_NONE},{5,0},{ATCMD_LENGTH-strlen(CMD_PREFIX)-CMD_LENGTH,0},cmdKr,0,NOCAST},
+  {"KT", {PARAM_STRING,PARAM_NONE},{5,0},{ATCMD_LENGTH-strlen(CMD_PREFIX)-CMD_LENGTH,0},cmdKt,0,NOCAST},
+  {"RA", {PARAM_NONE,PARAM_NONE},{0,0},{0,0},cmdRa,0,NOCAST},
+  // storage commands
+  {"SA", {PARAM_STRING,PARAM_NONE},{1,0},{SLOTNAME_LENGTH,0},cmdSa,0,NOCAST},
+  {"LO", {PARAM_STRING,PARAM_NONE},{1,0},{SLOTNAME_LENGTH,0},cmdLo,0,NOCAST},
+  {"LA", {PARAM_NONE,PARAM_NONE},{0,0},{0,0},cmdLa,0,NOCAST},
+  {"LI", {PARAM_NONE,PARAM_NONE},{0,0},{0,0},cmdLi,0,NOCAST},
+  {"NE", {PARAM_NONE,PARAM_NONE},{0,0},{0,0},cmdNe,0,NOCAST},
+  {"DE", {PARAM_NONE,PARAM_NONE},{0,0},{0,0},cmdDe,0,NOCAST},
+  {"DL", {PARAM_NUMBER,PARAM_NONE},{0,0},{250,0},cmdDl,0,NOCAST},
+  {"DN", {PARAM_STRING,PARAM_NONE},{1,0},{SLOTNAME_LENGTH,0},cmdDn,0,NOCAST},
+  {"NC", {PARAM_NONE,PARAM_NONE},{0,0},{3,0},cmdNc,0,NOCAST},
+  // mouthpiece / ADC settings
+  {"MM", {PARAM_NUMBER,PARAM_NONE},{0,0},{2,0},cmdMm,0,NOCAST},
+  {"SW", {PARAM_NONE,PARAM_NONE},{0,0},{0,0},cmdSw,0,NOCAST},
+  {"SR", {PARAM_NONE,PARAM_NONE},{0,0},{0,0},cmdSr,0,NOCAST},
+  {"ER", {PARAM_NONE,PARAM_NONE},{0,0},{0,0},cmdEr,0,NOCAST},
+  {"CA", {PARAM_NONE,PARAM_NONE},{0,0},{0,0},cmdCa,0,NOCAST},
+  {"AX", {PARAM_NUMBER,PARAM_NONE},{0,0},{100,0},NULL,offsetof(CMD_TARGET_TYPE,adc.sensitivity_x),UINT8},
+  {"AY", {PARAM_NUMBER,PARAM_NONE},{0,0},{100,0},NULL,offsetof(CMD_TARGET_TYPE,adc.sensitivity_y),UINT8},
+  {"AC", {PARAM_NUMBER,PARAM_NONE},{0,0},{100,0},NULL,offsetof(CMD_TARGET_TYPE,adc.acceleration),UINT8},
+  {"MS", {PARAM_NUMBER,PARAM_NONE},{0,0},{100,0},NULL,offsetof(CMD_TARGET_TYPE,adc.max_speed),UINT8},
+  {"DX", {PARAM_NUMBER,PARAM_NONE},{0,0},{10000,0},NULL,offsetof(CMD_TARGET_TYPE,adc.deadzone_x),UINT8},
+  {"DY", {PARAM_NUMBER,PARAM_NONE},{0,0},{10000,0},NULL,offsetof(CMD_TARGET_TYPE,adc.deadzone_y),UINT8},
+  {"TS", {PARAM_NUMBER,PARAM_NONE},{0,0},{512,0},NULL,offsetof(CMD_TARGET_TYPE,adc.threshold_sip),UINT16},
+  {"SS", {PARAM_NUMBER,PARAM_NONE},{0,0},{512,0},NULL,offsetof(CMD_TARGET_TYPE,adc.threshold_strongsip),UINT16},
+  {"TP", {PARAM_NUMBER,PARAM_NONE},{512,0},{1023,0},NULL,offsetof(CMD_TARGET_TYPE,adc.threshold_puff),UINT16},
+  {"SP", {PARAM_NUMBER,PARAM_NONE},{512,0},{1023,0},NULL,offsetof(CMD_TARGET_TYPE,adc.threshold_strongpuff),UINT16},
+  
+  // joystick commands
+  {"JX", {PARAM_NUMBER,PARAM_NUMBER},{0,0},{1023,1},cmdJx,0,NOCAST},
+  {"JY", {PARAM_NUMBER,PARAM_NUMBER},{0,0},{1023,1},cmdJy,0,NOCAST},
+  {"JZ", {PARAM_NUMBER,PARAM_NUMBER},{0,0},{1023,1},cmdJz,0,NOCAST},
+  {"JT", {PARAM_NUMBER,PARAM_NUMBER},{0,0},{1023,1},cmdJt,0,NOCAST},
+  {"JS", {PARAM_NUMBER,PARAM_NUMBER},{0,0},{1023,1},cmdJs,0,NOCAST},
+  {"JU", {PARAM_NUMBER,PARAM_NUMBER},{0,0},{1023,1},cmdJu,0,NOCAST},
+  
+  {"JP", {PARAM_NUMBER,PARAM_NONE},{1,0},{32,0},cmdJp,0,NOCAST},
+  {"JC", {PARAM_NUMBER,PARAM_NONE},{1,0},{32,0},cmdJc,0,NOCAST},
+  {"JR", {PARAM_NUMBER,PARAM_NONE},{1,0},{32,0},cmdJr,0,NOCAST},
+  {"JH", {PARAM_NUMBER,PARAM_NUMBER},{-1,0},{315,1},cmdJh,0,NOCAST},
+  // IR commands
+  {"IR", {PARAM_STRING,PARAM_NONE},{2,0},{32,0},cmdIr,0,NOCAST},
+  {"IP", {PARAM_STRING,PARAM_NONE},{2,0},{32,0},cmdIp,0,NOCAST},
+  {"IH", {PARAM_STRING,PARAM_NONE},{2,0},{ATCMD_LENGTH-strlen(CMD_PREFIX)-CMD_LENGTH,0},cmdIh,0,NOCAST},
+  {"IC", {PARAM_STRING,PARAM_NONE},{2,0},{32,0},cmdIc,0,NOCAST},
+  {"IW", {PARAM_NONE,PARAM_NONE},{0,0},{0,0},cmdIw,0,NOCAST},
+  {"IT", {PARAM_NUMBER,PARAM_NONE},{2,0},{100,0},NULL,offsetof(CMD_TARGET_TYPE,irtimeout),UINT8},
+  {"IL", {PARAM_NONE,PARAM_NONE},{0,0},{0,0},cmdIl,0,NOCAST},
+  {"IX", {PARAM_NUMBER,PARAM_NONE},{1,0},{99,0},cmdIx,0,NOCAST},
+};
+
+#if 0
 parserstate_t doKeyboardParsing(uint8_t *cmdBuffer, int length)
 {
   
@@ -1197,6 +1109,7 @@ parserstate_t doKeyboardParsing(uint8_t *cmdBuffer, int length)
             //remove the pointer to the original string
             //but we don't free it, this is done if the task_hid clears the list
             //in addition, if it was the first command, set the adding to replace any old HID config.
+            task_vb_delCmd(cmd.vb);
             if(cmd.atoriginal != NULL) 
             {
               task_hid_addCmd(&cmd,1);
@@ -1226,6 +1139,7 @@ parserstate_t doKeyboardParsing(uint8_t *cmdBuffer, int length)
             //remove the pointer to the original string
             //but we don't free it, this is done if the task_hid clears the list
             //in addition, if it was the first command, set the adding to replace any old HID config.
+            task_vb_delCmd(cmd.vb);
             if(cmd.atoriginal != NULL) 
             {
               task_hid_addCmd(&cmd,1);
@@ -1244,6 +1158,7 @@ parserstate_t doKeyboardParsing(uint8_t *cmdBuffer, int length)
           //remove the pointer to the original string
           //but we don't free it, this is done if the task_hid clears the list
           //in addition, if it was the first command, set the adding to replace any old HID config.
+          task_vb_delCmd(cmd.vb);
           if(cmd.atoriginal != NULL) 
           {
             task_hid_addCmd(&cmd,1);
@@ -1262,6 +1177,7 @@ parserstate_t doKeyboardParsing(uint8_t *cmdBuffer, int length)
             //remove the pointer to the original string
             //but we don't free it, this is done if the task_hid clears the list
             //in addition, if it was the first command, set the adding to replace any old HID config.
+            task_vb_delCmd(cmd.vb);
             if(cmd.atoriginal != NULL) 
             {
               task_hid_addCmd(&cmd,1);
@@ -1373,6 +1289,7 @@ parserstate_t doKeyboardParsing(uint8_t *cmdBuffer, int length)
             //remove the pointer to the original string
             //but we don't free it, this is done if the task_hid clears the list
             //in addition, if it was the first command, set the adding to replace any old HID config.
+            task_vb_delCmd(cmd.vb);
             if(cmd.atoriginal != NULL) 
             {
               task_hid_addCmd(&cmd,1);
@@ -1437,6 +1354,7 @@ parserstate_t doKeyboardParsing(uint8_t *cmdBuffer, int length)
             ESP_LOGI(LOG_TAG,"Sent release action 0x%2X, keycode/modifier: 0x%2X",cmd.cmd[0],cmd.cmd[1]);
             sendHIDCmd(&cmd);
           } else {
+            task_vb_delCmd(cmd.vb);
             task_hid_addCmd(&cmd,0);
           }
         }
@@ -1451,322 +1369,123 @@ parserstate_t doKeyboardParsing(uint8_t *cmdBuffer, int length)
   return UNKNOWNCMD;
 }
 
-parserstate_t doMacroParsing(uint8_t *cmdBuffer, int length)
-{
-  /*++++ AT MA (macro) ++++*/
-  if(CMD("AT MA")) {
-    vb_cmd_t cmd;
-    //clear any previous data
-    memset(&cmd,0,sizeof(vb_cmd_t));
-    
-    //if we have a singleshot, pass command to queue for immediate process
-    if(requestVBUpdate == VB_SINGLESHOT)
-    {
-      fct_macro((char*)&cmdBuffer[6]);
-    } else {
-      //set VB accordingly
-      cmd.vb = requestVBUpdate | 0x80;
-      //set action type
-      cmd.cmd = T_MACRO;
-      //save param string
-      cmd.cmdparam = malloc(strnlen((char*)&cmdBuffer[6],ATCMD_LENGTH) + 1);
-      if(cmd.cmdparam != NULL)
-      {
-        strncpy(cmd.cmdparam,(char*)&cmdBuffer[6],ATCMD_LENGTH);
-      } else ESP_LOGE(LOG_TAG,"Cannot allocate macro string!");
-      //save original AT string
-      cmd.atoriginal = malloc(strnlen((char*)&cmdBuffer[6],ATCMD_LENGTH) + 1);
-      if(cmd.atoriginal != NULL)
-      {
-        strncpy(cmd.atoriginal,(char *)cmdBuffer,ATCMD_LENGTH);
-      } else ESP_LOGE(LOG_TAG,"Cannot allocate macro string!");
-      //save to VB task (replace any existing VB)
-      task_vb_addCmd(&cmd,1);
-    }
-    ESP_LOGD(LOG_TAG,"Saved/triggered macro '%s'",(char*)&cmdBuffer[6]);
-    return VB;
-  }
-  
-  //not consumed...
-  return UNKNOWNCMD;
-}
-
-parserstate_t doMouseParsing(uint8_t *cmdBuffer)
-{
-  //new hid command
-  hid_cmd_t cmd;
-  //second command for double click or release action
-  hid_cmd_t cmd2;
-  
-  memset(&cmd,0,sizeof(hid_cmd_t));
-  memset(&cmd2,0,sizeof(hid_cmd_t));
-  
-  //set everything up for updates:
-  //set vb with press action & clear any first command byte.
-  cmd.vb = requestVBUpdate | (0x80);
-  cmd2.vb = requestVBUpdate;
-  cmd.cmd[0] = 0;
-  cmd2.cmd[0] = 0;
-  //get mouse wheel steps
-  int steps = 3;
-  generalConfig_t *cfg = configGetCurrent();
-  if(cfg != NULL) steps = cfg->wheel_stepsize;
-
-  /*++++ mouse clicks ++++*/
-  //AT CL, AT CR, AT CM, AT CD
-  if(CMD4("AT C"))
-  {
-    switch(cmdBuffer[4])
-    {
-      //do single clicks (left,right,middle)
-      case 'L': cmd.cmd[0] = 0x13; break;
-      case 'R': cmd.cmd[0] = 0x14; break;
-      case 'M': cmd.cmd[0] = 0x15; break;
-      //do left double click
-      case 'D': 
-        cmd.cmd[0] = 0x13;
-        cmd2.cmd[0] = 0x13;
-        break;
-      //not an AT C? command for mouse
-      default: cmd.cmd[0] = 0;
-    }
-  }
-  
-  /*++++ mouse toggle ++++*/
-  //AT TL, TR, TM
-  if(CMD4("AT T"))
-  {
-    switch(cmdBuffer[4])
-    {
-      //do toggles (left,right,middle)
-      case 'L': cmd.cmd[0] = 0x1C; break;
-      case 'R': cmd.cmd[0] = 0x1D; break;
-      case 'M': cmd.cmd[0] = 0x1E; break;
-      //not an AT C? command for mouse
-      default: cmd.cmd[0] = 0;
-    }
-  }
-  
-  /*++++ mouse wheel up/down; set stepsize ++++*/
-  if(CMD4("AT W"))
-  {
-    switch(cmdBuffer[4])
-    {
-      //move mouse wheel up/down
-      case 'U': cmd.cmd[0] = 0x12; cmd.cmd[1] = (int8_t)steps; break;
-      case 'D': cmd.cmd[0] = 0x12; cmd.cmd[1] = -((int8_t)steps); break;
-      //set mouse wheel stepsize. If unsuccessful, default will return 0
-      case 'S':
-        steps = strtol((char*)&(cmdBuffer[6]),NULL,10);
-        if(steps > 127 || steps < 1) 
-        {
-          steps = 3;
-          ESP_LOGI(LOG_TAG,"Mouse wheel steps out of range, reset to 3");
-        }
-        if(cfg != NULL) cfg->wheel_stepsize = steps;
-        ESP_LOGI(LOG_TAG,"Setting mouse wheel steps: %d",steps);
-        return NOACTION;
-      default: cmd.cmd[0] = 0;
-    }
-  }
-  
-  /*++++ mouse button press ++++*/
-  //AT PL, AT PR, AT PM
-  if(CMD4("AT P") || CMD4("AT H"))
-  {
-    switch(cmdBuffer[4])
-    {
-      case 'L': cmd.cmd[0] = 0x16; cmd2.cmd[0] = 0x19; break;
-      case 'R': cmd.cmd[0] = 0x17; cmd2.cmd[0] = 0x1A; break;
-      case 'M': cmd.cmd[0] = 0x18; cmd2.cmd[0] = 0x1B; break;
-      default: cmd.cmd[0] = 0; cmd2.cmd[0] = 0;
-    }
-  }
-  
-  /*++++ mouse button release ++++*/
-  //AT RL, AT RR, AT RM
-  if(CMD4("AT R"))
-  {
-    switch(cmdBuffer[4])
-    {
-      case 'L': cmd.cmd[0] = 0x19; break;
-      case 'R': cmd.cmd[0] = 0x1A; break;
-      case 'M': cmd.cmd[0] = 0x1B; break;
-      default: cmd.cmd[0] = 0; cmd2.cmd[0] = 0;
-    }
-  }  
-  
-  /*++++ mouse move ++++*/
-  //AT MX MY
-  if(CMD4("AT M"))
-  {
-    int param = strtol((char*)&(cmdBuffer[5]),NULL,10);
-    if(param > 127 && param < -127)
-    {
-      ESP_LOGW(LOG_TAG,"AT M? parameter limit -127 - 127");
-      return UNKNOWNCMD;
-    } else {
-      cmd.cmd[1] = param;
-    }
-    switch(cmdBuffer[4])
-    {
-      case 'X': 
-        cmd.cmd[0] = 0x10; 
-        ESP_LOGI(LOG_TAG,"Mouse move X, %d",cmd.cmd[1]);
-        break;;
-      case 'Y': 
-        cmd.cmd[0] = 0x11;  
-        ESP_LOGI(LOG_TAG,"Mouse move Y, %d",cmd.cmd[1]);
-        break;
-      default: cmd.cmd[0] = 0;
-    }
-  }
-
-  //if a command is found
-  if(cmd.cmd[0] != 0)
-  {
-    //if we have a singleshot, pass command to queue for immediate process
-    if(requestVBUpdate == VB_SINGLESHOT)
-    {
-      //post values to mouse queue (USB and/or BLE)
-      sendHIDCmd(&cmd);
-      
-      //if we do a double action (double click), send second action also in singleshot
-      if(cmd2.cmd[0] == 0x13)
-      {
-        sendHIDCmd(&cmd2);
-      }
-    } else {
-      //if it is assigned to a vb, 
-      //allocate original string (max len for mouse is 12)
-      //add it to HID task
-      if(strnlen((char*)cmdBuffer,13) == 13)
-      {
-        ESP_LOGE(LOG_TAG,"Unterminated AT cmd!");
-      } else {
-        cmd.atoriginal = malloc(strnlen((char*)cmdBuffer,12)+2);
-        ESP_LOGD(LOG_TAG,"Alloc %d for atoriginal @0X%08X",strnlen((char*)cmdBuffer,12)+2,(uint32_t)cmd.atoriginal);
-        if(cmd.atoriginal == NULL) 
-        {
-          ESP_LOGE(LOG_TAG,"No memory for original AT");
-        } else {
-          strcpy(cmd.atoriginal,(char*)cmdBuffer);
-        }
-      }
-      if(task_hid_addCmd(&cmd,1) != ESP_OK)
-      {
-        ESP_LOGE(LOG_TAG,"Error adding to HID task");
-      }
-      
-      //if we have double action (double click)
-      //or press/release action, we have to assign a second HID command.
-      if(cmd2.cmd[0] != 0)
-      {
-        if(task_hid_addCmd(&cmd2,0) != ESP_OK)
-        {
-          ESP_LOGE(LOG_TAG,"Error adding 2nd to HID task");
-        }
-      }
-      //reset to singleshot mode
-      requestVBUpdate = VB_SINGLESHOT;
-    }
-    return HID;
-  //no command found.
-  } else { return UNKNOWNCMD; }
-}
- 
+#endif
 void task_commands(void *params)
 {
   uint8_t queuesready = checkqueues();
   int received;
   //used for return values of doXXXParsing functions
-  parserstate_t parserstate;
   uint8_t *commandBuffer = NULL;
 
   while(1)
   {
     if(queuesready)
     {
-      //free previously used buffer, only if not null
-      if(commandBuffer != NULL) 
-      {
-        free(commandBuffer);
-        commandBuffer = NULL;
-      }
-      
       //wait for incoming data
       received = halSerialReceiveUSBSerial(&commandBuffer);
-      
       
       //if no command received, try again...
       if(received == -1 || commandBuffer == NULL) continue;
       
-      ESP_LOGD(LOG_TAG,"received %d: %s",received,commandBuffer);
+      //before we start parsing anything, we need to be sure
+      //all global commands are cleared.
+      memset(&mouse,0,sizeof(hid_cmd_t));
+      memset(&mouseR,0,sizeof(hid_cmd_t));
+      memset(&mouseD,0,sizeof(hid_cmd_t));
+      memset(&keyboard,0,sizeof(hid_cmd_t));
+      memset(&keyboardR,0,sizeof(hid_cmd_t));
+      memset(&joystick,0,sizeof(hid_cmd_t));
+      memset(&joystickR,0,sizeof(hid_cmd_t));
+      memset(&general,0,sizeof(hid_cmd_t));
+      memset(&vbaction,0,sizeof(vb_cmd_t));
       
-      //special command "AT" without further command:
-      //this one is used for serial input (with an additional line ending)
-      if(received == 3 && memcmp(commandBuffer,"AT",3) == 0)
+      //to be sure, we want a valid cfg pointer...
+      currentCfg = configGetCurrent();
+      if(currentCfg == NULL)
       {
-        halSerialSendUSBSerial((char*)"OK",2,100);
+        ESP_LOGE(LOG_TAG,"Cannot proceed with parsing, config is NULL");
         continue;
       }
-      //this one is used for websocket input (no line ending)
-      if(received == 2 && memcmp(commandBuffer,"AT",2) == 0)
+      //now send it to the parser and validate result.
+      cmd_retval retvalparser = cmdParser((char*)commandBuffer,currentCfg);
+      
+      //take actions according to return value
+      //we need to clean up, so we cannot stop after this switch
+      switch(retvalparser)
       {
-        halSerialSendUSBSerial((char*)"OK",2,100);
-        continue;
+        case PREFIXONLY: //we received the prefix only, return "OK"
+          halSerialSendUSBSerial((char*)"OK",4,100);
+          break;
+        case POINTERERROR:
+          ESP_LOGE(LOG_TAG,"Pointer error, parser config illegal!");
+          break;
+        case HANDLERERROR:
+          ESP_LOGE(LOG_TAG,"Handler error, parser config illegal or handler has thrown an error!");
+          break;
+        case PARAMERROR:
+          halSerialSendUSBSerial((char*)"? - params",12,100);
+          break;
+        case FORMATERROR:
+          halSerialSendUSBSerial((char*)"? - format",12,100);
+          break;
+        case NOCOMMAND:
+          halSerialSendUSBSerial((char*)"?",3,100);
+          break;
+        case SUCCESS:
+          strip((char*)commandBuffer);
+          ESP_LOGI(LOG_TAG,"Success: %s",commandBuffer);
+          break;
       }
-
-      //do parsing :-)
-      //simplified into smaller functions, to make reading easy.
-      //
-      //the variable requestVBUpdate which is used to determine if an
-      //AT command should be triggered as singleshot (== VB_SINGLESHOT)
-      //or should be assigned to a VB.
       
-      /*++++ Start with parsing which is used for HID task (task_hid) ++++*/
-      
-      //mouse parsing (start with a defined parser state)
-      parserstate = doMouseParsing(commandBuffer);
-      //other parsing
-      if(parserstate == UNKNOWNCMD) { parserstate = doJoystickParsing(commandBuffer,received); }
-      if(parserstate == UNKNOWNCMD) { parserstate = doKeyboardParsing(commandBuffer,received); }
-      
-      /*++++ Second: parse commands which are used for VB task (task_vb) ++++*/
-      
-      if(parserstate == UNKNOWNCMD) { parserstate = doGeneralCmdParsing(commandBuffer); }
-      if(parserstate == UNKNOWNCMD) { parserstate = doInfraredParsing(commandBuffer); }
-      if(parserstate == UNKNOWNCMD) { parserstate = doMouthpieceSettingsParsing(commandBuffer); }
-      if(parserstate == UNKNOWNCMD) { parserstate = doMacroParsing(commandBuffer,received); }
-      if(parserstate == UNKNOWNCMD) { parserstate = doStorageParsing(commandBuffer); }
-      
-      ESP_LOGD(LOG_TAG,"Parserstate: %d",parserstate);
-      ESP_LOGD(LOG_TAG,"Cfg update: %d",requestUpdate);
-
-      //if a general config update is required
-      if(requestUpdate != 0)
+      //do further things only if successful:
+      //1.) we need to check if some handler modified any of
+      //the hid_cmd_t or vb_cmd_t structs (mouse,general,keyboard,
+      //joystick,vbaction).
+      //2.) If yes, we need to send these structs to the corresponding
+      //queues. We need to do this always, because these structs are used
+      //by all handlers.
+      //3.) the generalConfig_t struct might be modified too. We
+      //call configUpdate(), but only if there are no more commands
+      //remaining.
+      if(retvalparser == SUCCESS)
       {
-        if(configUpdate() != ESP_OK)
+        //now send all VBs. They are checked for data in the helper.
+        sendVBCmd(&vbaction,requestVBUpdate | (0x80),commandBuffer,1);
+        //sendVBCmd(&generalR,requestVBUpdate,(char*)commandBuffer); //currently unused
+        
+        //HID related
+        sendHIDCmd(&mouse,requestVBUpdate | (0x80),commandBuffer,1);
+        sendHIDCmd(&mouseD,requestVBUpdate | (0x80),commandBuffer,1);
+        sendHIDCmd(&mouseR,requestVBUpdate,commandBuffer,1);
+        sendHIDCmd(&joystick,requestVBUpdate | (0x80),commandBuffer,1);
+        sendHIDCmd(&joystickR,requestVBUpdate,commandBuffer,1);
+        //we need to reset requestVBUpdate to VB_SINGLESHOT
+        //in the case the processed command here was NOT "AT BM"
+        //currently no better solution as comparing the command.
+        if(requestBM != 0)
         {
-          ESP_LOGE(LOG_TAG,"Error updating general config!");
+          ESP_LOGD(LOG_TAG,"Got an BM request, not resetting VB now.");
+          requestBM = 0;
         } else {
-          ESP_LOGD(LOG_TAG,"requesting config update");
+          ESP_LOGD(LOG_TAG,"Resetting to VB_SINGLESHOT");
+          requestVBUpdate = VB_SINGLESHOT;
         }
-        requestUpdate = 0;
-        continue;
       }
       
-      //after all that parsing & config updates
-      //we either have a parserstate == 0 here -> no parser found
-      //or we consumed this command.
-      if(parserstate != UNKNOWNCMD) continue;
-      
-      //if we are here, no parser was finding commands
-      ESP_LOGW(LOG_TAG,"Invalid AT cmd (%d characters), flushing:",received);
-      ESP_LOG_BUFFER_CHAR_LEVEL(LOG_TAG,commandBuffer,received, ESP_LOG_WARN);
-      //halSerialFlushRX();
-      //ESP_LOG_BUFFER_HEXDUMP(LOG_TAG,commandBuffer,received,ESP_LOG_DEBUG);
-      halSerialSendUSBSerial((char*)"?",1,100);
+      //free used buffer (MANDATORY here!), only if valid
+      if(commandBuffer != NULL) free(commandBuffer);
+
+      //if we have processed all commands (queue is empty),
+      //we set the corresponding flag
+      //check if there are still elements in the queue
+      if(uxQueueMessagesWaiting(halSerialATCmds) == 0)
+      {
+        //no more commands, ready to update config
+        if(configUpdate(20) != ESP_OK) ESP_LOGE(LOG_TAG,"Error updating general config!");
+        else ESP_LOGD(LOG_TAG,"requesting config update");
+        //yeah, processed everything, tell it to the whole firmware :-)
+        xEventGroupSetBits(systemStatus,SYSTEM_EMPTY_CMD_QUEUE);
+      }
     } else {
       //check again for initialized queues
       ESP_LOGE(LOG_TAG,"Queues uninitialized, rechecking in 1s");
@@ -1894,6 +1613,8 @@ void storeSlot(char* slotname)
     return;
   }
   
+  ///TODO: should be possible to do this following stuff with a nice loop over the command array?!?
+  
   sprintf(outputstring,"AT AX %d\n",currentcfg->adc.sensitivity_x);
   halStorageStore(tid,outputstring,0);
   sprintf(outputstring,"AT AY %d\n",currentcfg->adc.sensitivity_y);
@@ -1923,18 +1644,10 @@ void storeSlot(char* slotname)
     case MOUSE: sprintf(outputstring,"AT MM 1\n"); break;
     case JOYSTICK: sprintf(outputstring,"AT MM 2\n"); break;
     case THRESHOLD: sprintf(outputstring,"AT MM 0\n"); break;
+    case NONE: sprintf(outputstring,"AT MM 3\n"); break;
   }
   halStorageStore(tid,outputstring,0);
   
-  
-  sprintf(outputstring,"AT GU %d\n",currentcfg->adc.gain[0]);
-  halStorageStore(tid,outputstring,0);
-  sprintf(outputstring,"AT GD %d\n",currentcfg->adc.gain[1]);
-  halStorageStore(tid,outputstring,0);
-  sprintf(outputstring,"AT GL %d\n",currentcfg->adc.gain[2]);
-  halStorageStore(tid,outputstring,0);
-  sprintf(outputstring,"AT GR %d\n",currentcfg->adc.gain[3]);
-  halStorageStore(tid,outputstring,0);
   sprintf(outputstring,"AT RO %d\n",currentcfg->adc.orientation);
   halStorageStore(tid,outputstring,0);
   
@@ -1990,7 +1703,7 @@ esp_err_t taskCommandsInit(void)
   //set log level to given log level
   esp_log_level_set(LOG_TAG,LOG_LEVEL_CMDPARSER);
   //create receive task
-  xTaskCreate(task_commands, "uart_rx_task", TASK_COMMANDS_STACKSIZE, NULL, TASK_COMMANDS_PRIORITY, &currentCommandTask);
+  xTaskCreate(task_commands, "cmdtask", TASK_COMMANDS_STACKSIZE, NULL, TASK_COMMANDS_PRIORITY, &currentCommandTask);
   if(currentCommandTask == NULL)
   {
     ESP_LOGE(LOG_TAG,"Error initializing command parser task");
@@ -2011,4 +1724,226 @@ esp_err_t taskCommandsRestart(void)
   xTaskCreate(task_commands, "uart_rx_task", TASK_COMMANDS_STACKSIZE, NULL, TASK_COMMANDS_PRIORITY, &currentCommandTask);
   if(currentCommandTask != NULL) return ESP_OK;
   else return ESP_FAIL;
+}
+
+
+/** @brief Main parser
+ * 
+ * This parser is called with one finished (and 0-terminated line).
+ * It does following steps:
+ * * Parameter checking (empty target pointer, empty data string)
+ * * Input length checking (should be at least the prefix)
+ * * If the prefix is the only data, it will return a special case
+ * * Searching through the constant command array
+ * * If a match is found, the command parameter structure is checked
+ * * Validating input values against the given ranges
+ * * Executing the handler (if it is != NULL) or modifying the target struct
+ * 
+ * @note This is part of an external project, see https://gitlab.com/ba.1150/cmd_parser_esp32
+ * @return See cmd_retval. SUCCESS on success.
+ */
+cmd_retval cmdParser(char * data, generalConfig_t *target)
+{
+    uint32_t len; //length of input string, 
+    esp_err_t retval = ESP_FAIL; //return value of handler
+    uint16_t i; //general index
+    uint16_t matchedcmds = 0; //count of matched&executed commands
+    
+    //1.) check for valid pointers
+    if(data == NULL) return ESP_FAIL;
+    if(target == NULL) return POINTERERROR;
+    
+    //2.) check if this string is terminated
+    //iterate over the string, as long as we don't reach max size or
+    //find a \0
+    for(i = 0; i<CMD_MAXLENGTH; i++) if(data[i] == '\0') break;
+    //if this iteration went until the end, this string is unterminated
+    if(i == CMD_MAXLENGTH) return FORMATERROR;
+    
+    //3.) check for length, should be at least the prefix
+    len=strnlen(data,CMD_MAXLENGTH);
+    if(len==strlen(CMD_PREFIX) || len==(strlen(CMD_PREFIX)-1))
+    {
+        //note we check the prefix minus 1 character.
+        //helps us if we have "AT" or "AT "
+        if(strncasecmp(data,CMD_PREFIX,strlen(CMD_PREFIX)-1) == 0) return PREFIXONLY;
+        else return FORMATERROR;
+    }
+    if(len < (strlen(CMD_PREFIX) + CMD_LENGTH))
+    {
+        //command is shorter than prefix + command
+        //(e.g. "AT RO" -> "AT " 3 + "RO" 2)
+        return FORMATERROR;
+    }
+    //4.) check for the prefix
+    if(strncasecmp(data,CMD_PREFIX,strlen(CMD_PREFIX)) != 0)
+    {
+        //didn't got the prefix, return
+        return FORMATERROR;
+    }
+    
+    //5.) now search array of commands for a match
+    //
+    ESP_LOGV("cmdparser","Comparing: %s with:::",&data[strlen(CMD_PREFIX)]);
+    for(uint32_t id = 0; id<(sizeof(commands) / sizeof(onecmd_t)); id++)
+    {
+        //we iterate over the whole array. length is determined by
+        //getting size of full command array and dividing it by size of one command
+        
+        //compare the command strings
+        ESP_LOGV("cmdparser","%s, result: %d", commands[id].name, \
+            strncasecmp(&data[strlen(CMD_PREFIX)],commands[id].name,CMD_LENGTH));
+        if(strncasecmp(&data[strlen(CMD_PREFIX)],commands[id].name,CMD_LENGTH) == 0)
+        {
+            //found that command.
+            //now we want to execute this command:
+            //a.) extract parameters accordingly
+            //b.) we need to check the parameter(s) for validity
+            //c.) execute handler / modify target data
+            //d.) cleanup
+            
+            //possible future parameters for handlers
+            //int32_t parami[2] = {0,0};
+            //char* params[2] = {NULL,NULL};
+            void * paramFinal[2] = {NULL,NULL};
+            uint16_t offsetStart = 0;
+            uint16_t offsetEnd = 0;
+            char * e;
+            
+            ESP_LOGD("cmdparser","Found matching cmd at %d",id);
+            
+            //a.) do the parameter parsing/extraction for both possible active parameters.
+            for(i = 0; i<2; i++)
+            {
+                switch(commands[id].ptype[i])
+                {
+                    case PARAM_NONE: break; //nothing to do here.
+                    case PARAM_NUMBER:
+                        //set offset accordingly:
+                        //first parameter starts after prefix, command and a space
+                        if(i == 0) offsetStart = strlen(CMD_PREFIX) + CMD_LENGTH + 1;
+                        //second parameter: we start search first space from the end.
+                        if(i == 1)
+                        {
+                            char* t = &data[len];
+                            while(t-- != data && *t != ' ');
+                            offsetStart = t-data;
+                        }
+                    
+                        //parse the parameter for a number
+                        paramFinal[i] = (void*)strtol(&data[offsetStart],&e,10);
+                        //with endptr, we can check if there was a number at all
+                        if(e==&data[offsetStart]) return PARAMERROR;
+                        
+                        ESP_LOGD("cmdparser","Param %d, int: %d",i,(int32_t)paramFinal[i]);
+                        //b.) parameter check
+                        if((int32_t)paramFinal[i] > commands[id].max[i] || (int32_t)paramFinal[i] < commands[id].min[i]) return PARAMERROR;
+                        break;
+                    case PARAM_STRING:
+                        //for strings we always need the last appearing space char
+                        e = &data[len];
+                        while(e-- != data && *e != ' ');
+                        ESP_LOGV("cmdparser","last space @%d",e-data);
+                    
+                        //set offset accordingly:
+                        //first parameter starts after prefix, command and a space
+                        if(i == 0)
+                        {
+                            offsetStart = strlen(CMD_PREFIX) + CMD_LENGTH + 1;
+                            //end is either determined by string length
+                            //if there is no space except at the beginning
+                            if(e-data <= CMD_LENGTH + strlen(CMD_PREFIX)) offsetEnd = len;
+                            //or it is defined by the last occuring space char
+                            else offsetEnd = e-data;
+                            //special case: one parameter string: don't split at spaces.
+                            if(commands[id].ptype[i+1] == PARAM_NONE) offsetEnd = len;
+                        }
+                        //second parameter: we start from character after last space
+                        if(i == 1)
+                        {
+                            offsetStart = e-data+1;
+                            //special case: the detected space character is equal to
+                            //the space between cmd and parameter ->
+                            //we don't want to include the previous int
+                            //-> abort
+                            if(offsetStart == strlen(CMD_PREFIX)+CMD_LENGTH+1) return PARAMERROR;
+                            //another special case: first a int, then a string.
+                            //don't split the string at spaces, especially not from back to front
+                            if(commands[id].ptype[i-1] == PARAM_NUMBER)
+                            {
+                                offsetStart = strlen(CMD_PREFIX)+CMD_LENGTH+1;
+                                while(data[offsetStart] != '\0' && data[offsetStart++] != ' ');
+                            }
+                            offsetEnd = len;
+                        }
+                        ESP_LOGV("cmdparser","str from %d to %d",offsetStart,offsetEnd);
+                        
+                        //b.) param check
+                        if((offsetEnd - offsetStart) > commands[id].max[i] || \
+                            (offsetEnd - offsetStart) < commands[id].min[i]) return PARAMERROR;
+                        
+                        //allocate memory for this string
+                        paramFinal[i] = malloc(offsetEnd - offsetStart+1);
+                        if(paramFinal[i] == NULL) return FORMATERROR;
+                        //save the string pointer.
+                        //Note: no \0  included here.
+                        strncpy(paramFinal[i],&data[offsetStart],offsetEnd-offsetStart);
+                        //terminate the new string
+                        ((char*)paramFinal[i])[offsetEnd-offsetStart] = '\0';
+                        ESP_LOGD("cmdparser","Param %d, str: %s",i,(char*)paramFinal[i]);
+                        break;
+                }
+            }
+            
+            //c.) Now we either execute the handler or modify data
+            if(commands[id].handler == NULL)
+            {
+                //cast the parsed data into the given target type
+                //note: we check for each size individually if we
+                //write only within target
+                size_t length = 0;
+                
+                switch(commands[id].type)
+                {
+                    case UINT8: 
+                    case INT8: 
+                        length = 1;
+                        retval = ESP_OK;
+                        break;
+                    case UINT16: 
+                    case INT16: 
+                        length = 2;
+                        retval = ESP_OK;
+                        break;
+                    case UINT32: 
+                    case INT32: 
+                        length = 4;
+                        retval = ESP_OK;
+                        break;
+                    case NOCAST: break; //should not be here. No handler and no given casting...
+                }
+                //if we found a match, try to copy
+                if(retval == ESP_OK)
+                {
+                    //check for limits
+                    if(commands[id].offset > sizeof(CMD_TARGET_TYPE)-length) retval = ESP_FAIL;
+                    else memcpy(&(((uint8_t *)target)[commands[id].offset]),&paramFinal[0],length);
+                }
+            } else retval = commands[id].handler(data,paramFinal[0],paramFinal[1]);
+            
+            //d.) cleanup (free allocated strings)
+            if(commands[id].ptype[0] == PARAM_STRING && paramFinal[0] != NULL) free(paramFinal[0]);
+            if(commands[id].ptype[1] == PARAM_STRING && paramFinal[1] != NULL) free(paramFinal[1]);
+            matchedcmds++;
+            
+            //stop if the handler was not successful
+            if((commands[id].handler != NULL) && (retval != ESP_OK)) return HANDLERERROR;
+            //or if had some kind of pointer error
+            if((commands[id].handler == NULL) && (retval != ESP_OK)) return POINTERERROR;
+        }
+        //if no match, continue search
+    }
+    ESP_LOGD("cmdparser","Searched %d commands, found %d",(sizeof(commands) / sizeof(onecmd_t)),matchedcmds);
+    if(matchedcmds != 0) return SUCCESS;
+    else return NOCOMMAND;
 }

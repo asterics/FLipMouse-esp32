@@ -50,6 +50,9 @@
 /** @brief ADC log level */
 #define LOG_LEVEL_ADC ESP_LOG_INFO
 
+/** @brief Define how much ADC readings are skipped until one is printed */
+#define HAL_ADC_RAW_DIVIDER 16
+
 /** @brief Current strong sip&puff + mouthpiece mode
  * 
  * It is possible to add another 8 virtual buttons by triggering
@@ -84,6 +87,13 @@ TaskHandle_t adcHandle = NULL;
  * */
 adc_config_t adc_conf;
 
+/** @brief Last calibrate tick time
+ * 
+ * This value is used to determine the last time calibration was started.
+ * 
+ * @see HAL_ADC_CALIB_LOCKTIME*/
+TickType_t adcCalibLast = 0;
+
 /** @brief Semaphore for ADC readings.
  * 
  * This semaphore is used to switch between halADCTask<Joystick,Mouse,Threshold>
@@ -98,7 +108,7 @@ esp_adc_cal_characteristics_t characteristics;
 /** offset values, calibrated via "Calibration middle position" */
 static int32_t offsetx,offsety;
 /** pressure offset, calibrated by halAdcCalibrate */
-static uint32_t pressure_idle;
+static int32_t pressure_idle;
 
 /** @brief Timer for strong mode timeout
  * This timer is used for a timeout moving back to STRONG_NORMAL if
@@ -241,7 +251,8 @@ void halAdcReportRaw(uint32_t up, uint32_t down, uint32_t left, uint32_t right, 
     }
 }
 
-/** @brief Read out analog voltages, apply sensor gain and deadzone
+#ifdef DEVICE_FABI
+/** @brief Read out analog voltages (sip/puff only) - FABI
  * 
  * Internally used function for sensor readings & applying the
  * sensor gain.
@@ -257,6 +268,49 @@ void halAdcReportRaw(uint32_t up, uint32_t down, uint32_t left, uint32_t right, 
  */
 void halAdcReadData(adcData_t *values)
 {
+    //read all sensors
+    int32_t tmp = 0;
+    int32_t pressure = 0;
+
+    #ifdef HAL_IO_ADC_CHANNEL_PRESSURE
+        pressure = adc1_get_raw(HAL_IO_ADC_CHANNEL_PRESSURE);
+    #endif
+    if(pressure == -1) 
+    { 
+        ESP_LOGE(LOG_TAG,"Cannot read channel pressure"); return;
+    } else { 
+        //save raw value (for calibration)
+        values->pressure_raw = pressure;
+        
+        //limit range of output
+        tmp = pressure-pressure_idle;
+        if(tmp >= 512) tmp = 511;
+        if(tmp < -512)  tmp = -512;
+        //save calibrated pressure value
+        values->pressure = (uint32_t)(512+tmp);        
+    }
+}
+
+#endif /* DEVICE_FABI */
+
+#ifdef DEVICE_FLIPMOUSE
+/** @brief Read out analog voltages, apply sensor gain and deadzone - FLipMouse
+ * 
+ * Internally used function for sensor readings & applying the
+ * sensor gain.
+ * Furthermore, X&Y values are calculated by subtracting left/right and
+ * up/down, offset is used as well. 
+ * In addition, the deadzone is calculated as well (based on an elliptic curve).
+ * 
+ * @note You need to take adcSem before calling this function!
+ * 
+ * @param values Pointer to struct of all analog values
+ * @see adcData_t
+ * @see adcSem
+ */
+void halAdcReadData(adcData_t *values)
+{
+    #ifdef USE_OTF_ALPHA
     //4 sensors, maximum of 15 values are allowed (set by "AT OC")
     static int32_t otf_olds[4][15];
     //current index in otf_olds array
@@ -264,11 +318,15 @@ void halAdcReadData(adcData_t *values)
     //count of otf events -> if 10 subsequent events below threshold happened
     //calibration is started.
     static uint8_t otf_counter = 0;
+    #endif
     //read all sensors
     int32_t tmp = 0;
     int32_t x,y;
     int32_t up,down,left,right,pressure;
     up = down = left = right = pressure = 0;
+    ///@see HAL_ADC_RAW_DIVIDER
+    static uint32_t debug_out_cnt = 0;
+    
     
     //read sensor data & apply characteristics
     #ifdef HAL_IO_ADC_CHANNEL_UP
@@ -290,22 +348,13 @@ void halAdcReadData(adcData_t *values)
     #ifdef HAL_IO_ADC_CHANNEL_PRESSURE
         pressure = adc1_get_raw(HAL_IO_ADC_CHANNEL_PRESSURE);
     #endif
-    if(pressure == -1) 
+    if(pressure == -1 || up == -1 || down == -1 || left == -1 || right == -1)
     { 
         ESP_LOGE(LOG_TAG,"Cannot read channel pressure"); return;
-    } else { 
-        //save raw value (for calibration)
-        values->pressure_raw = pressure;
-        
-        //limit range of output
-        tmp = pressure-pressure_idle;
-        if(tmp >= 512) tmp = 511;
-        if(tmp < -512)  tmp = -512;
-        //save calibrated pressure value
-        values->pressure = (uint32_t)(512+tmp);        
     }
     
     /*++++ on-the-fly calibration ++++*/
+    #ifdef USE_OTF_ALPHA
     //If the ADC input does not change over a defined threshold
     //we assume that the mouthpiece is left idle.
     //To avoid any problems with the Velostat material (which tends to
@@ -362,6 +411,7 @@ void halAdcReadData(adcData_t *values)
     } else {
         otf_counter = 0;
     }
+    #endif
     
     //do the mouse rotation
     switch (adc_conf.orientation) {
@@ -369,16 +419,20 @@ void halAdcReadData(adcData_t *values)
       case 180: tmp=up; up=down; down=tmp; tmp=right; right=left; left=tmp; break;
       case 270: tmp=up; up=right; right=down; down=left; left=tmp;break;
     }
-        
-    //apply individual sensor gain
-    values->up = up * adc_conf.gain[0] / 50;
-    values->down = down * adc_conf.gain[1] / 50;
-    values->left = left * adc_conf.gain[2] / 50;
-    values->right = right * adc_conf.gain[3] / 50;
+    
+    //save raw values to data struct
+    values->left = left;
+    values->right = right;
+    values->up = up;
+    values->down = down;
+    values->pressure_raw = pressure;
+    
+    //process pressure
+    values->pressure = pressure - pressure_idle + 512;
     
     //calculate X and Y values
-    x = (values->left - values->right) - offsetx;
-    y = (values->up - values->down) - offsety;
+    x = (left - right) - offsetx;
+    y = (up - down) - offsety;
     
     //apply elliptic deadzone
     //formula:
@@ -431,7 +485,12 @@ void halAdcReadData(adcData_t *values)
         values->x = 0;
         values->y = 0;
     }
+    if(debug_out_cnt++%HAL_ADC_RAW_DIVIDER == 0)
+    {
+        ESP_LOGD(LOG_TAG,"raw x/y %d/%d; ",values->x,values->y);
+    }
 }
+#endif /* DEVICE_FLIPMOUSE */
 
 /** @brief Process pressure sensor (sip & puff)
  * @todo Do everything here, no sip&puff currently available.
@@ -617,11 +676,11 @@ void halAdcTaskMouse(void * pvParameters)
     float moveVal, accumXpos = 0, accumYpos = 0;
     //todo: use a define for the delay here... (currently used: value from vTaskDelay())
     float accelFactor= 20 / 100000000.0f;
-    hid_cmd_t command;
+    hid_cmd_t command,command2;
     TickType_t xLastWakeTime;
     //set adc data reference for timer
     vTimerSetTimerID(adcStrongTimerHandle,&D);
-    
+    uint32_t debug_out_cnt = 0;
     
     while(1)
     {
@@ -675,12 +734,34 @@ void halAdcTaskMouse(void * pvParameters)
         if(tempY > 127) tempY = 127;
         if(tempY < -127) tempY = -127;
         
+        if(debug_out_cnt++%HAL_ADC_RAW_DIVIDER == 0)
+        {
+            ESP_LOGI(LOG_TAG,"raw x/y %d/%d; ",tempX,tempY);
+        }
+        
         //TODO: wenn D.strongmode != noraml > eigene fkt. mit berechneten werten.
         //if we are in a special strong mode, do NOT send accumulated data
-        //to USB/BLE. Instead, call halAdcProcessPressure
+        //to USB/BLE. Instead, call halAdcProcessStrongMode
         if(D.strongmode == STRONG_NORMAL)
         {
-            if(tempX != 0)
+            if(tempX != 0 && tempY != 0)
+            {
+                command.cmd[0] = 0x01;
+                command.cmd[1] = tempX;
+                command.cmd[2] = tempY;
+                
+                accumXpos -= tempX;
+                accumYpos -= tempY;
+                
+                //post values to mouse queue (USB and/or BLE)
+                if(xEventGroupGetBits(connectionRoutingStatus) & DATATO_USB)
+                { xQueueSend(hid_usb,&command,0); }
+                
+                if(xEventGroupGetBits(connectionRoutingStatus) & DATATO_BLE)
+                { xQueueSend(hid_ble,&command,0); }
+            }
+            
+            if(tempX != 0 && tempY == 0)
             {
                 command.cmd[1] = tempX;
                 accumXpos -= tempX;
@@ -693,18 +774,18 @@ void halAdcTaskMouse(void * pvParameters)
                 if(xEventGroupGetBits(connectionRoutingStatus) & DATATO_BLE)
                 { xQueueSend(hid_ble,&command,0); }
             }
-            if(tempY != 0)
+            if(tempY != 0 && tempX == 0)
             {
-                command.cmd[1] = tempY;
+                command2.cmd[1] = tempY;
                 accumYpos -= tempY;
-                command.cmd[0] = 0x11; //send Y axis
+                command2.cmd[0] = 0x11; //send Y axis
                 
                 //post values to mouse queue (USB and/or BLE)
                 if(xEventGroupGetBits(connectionRoutingStatus) & DATATO_USB)
-                { xQueueSend(hid_usb,&command,0); }
+                { xQueueSend(hid_usb,&command2,0); }
                 
                 if(xEventGroupGetBits(connectionRoutingStatus) & DATATO_BLE)
-                { xQueueSend(hid_ble,&command,0); }
+                { xQueueSend(hid_ble,&command2,0); }
             }
             
             //pressure sensor is handled in another function
@@ -814,9 +895,19 @@ void halAdcCalibrate(void)
     //check for initialized mutex
     if(adcSem == NULL) return;
     
+    //if we are updating now, do not calibrate.
+    if((xEventGroupGetBits(systemStatus) & SYSTEM_STABLECONFIG) == 0) return;
+    
     //get mutex
     if(xSemaphoreTake(adcSem, (TickType_t) 20))
     {
+        if((xTaskGetTickCount() - adcCalibLast) < (HAL_ADC_CALIB_LOCKTIME / portTICK_PERIOD_MS))
+        {
+            ESP_LOGI(LOG_TAG,"Calibration lock time not passed yet");
+            //give mutex to enable tasks again
+            xSemaphoreGive(adcSem);
+            return;
+        }
         ESP_LOGI(LOG_TAG,"Starting calibration, offsets: %d/%d",offsetx,offsety);
         adcData_t D;
         
@@ -825,6 +916,9 @@ void halAdcCalibrate(void)
         uint32_t left = 0;
         uint32_t right = 0;
         uint32_t pressure = 0;
+        
+        //save for next iteration
+        adcCalibLast = xTaskGetTickCount();
         
         //read values itself & accumulate (8sensor readings)
         for(uint8_t i = 0; i<8; i++)
@@ -1034,8 +1128,10 @@ esp_err_t halAdcUpdateConfig(adc_config_t* params)
     #endif
     
     //check for invalid input
-    params->otf_count = validate(params->otf_count,5,15,HAL_IO_ADC_OTF_COUNT);
-    params->otf_idle = validate(params->otf_idle,0,15,HAL_IO_ADC_OTF_THRESHOLD);
+    #ifdef DEVICE_FLIPMOUSE
+        params->otf_count = validate(params->otf_count,5,15,HAL_IO_ADC_OTF_COUNT);
+        params->otf_idle = validate(params->otf_idle,0,15,HAL_IO_ADC_OTF_THRESHOLD);
+    #endif
     
     //clear pending button flags
     //TBD...
@@ -1061,7 +1157,9 @@ esp_err_t halAdcUpdateConfig(adc_config_t* params)
                 xTaskCreate(halAdcTaskThreshold,"ADC_TASK",4096,NULL,HAL_ADC_TASK_PRIORITY,&adcHandle);
                 ESP_LOGI(LOG_TAG,"created ADC task for threshold, handle %d",(uint32_t)adcHandle);
                 break;
-            
+            case NONE:
+                ESP_LOGI(LOG_TAG,"no ADC task necessary");
+                break;
             default:
                ESP_LOGE(LOG_TAG,"unknown mode (unconfigured), cannot startup task.");
                return ESP_FAIL;

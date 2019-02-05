@@ -59,10 +59,22 @@
 //used to get current locale information
 #include "../config_switcher.h"
 
+/** @brief TX pin for serial IF to LPC chip */
 #define HAL_SERIAL_TXPIN      (GPIO_NUM_17)
+/** @brief RTX pin for serial IF to LPC chip */
 #define HAL_SERIAL_RXPIN      (GPIO_NUM_16)
+/** @brief signalling pin for serial IF to LPC chip
+ * @see halSerialSendUSBSerial */
 #define HAL_SERIAL_HIDPIN     (GPIO_NUM_18)
+/** @brief UART unit number for serial IF to LPC chip */
 #define HAL_SERIAL_UART       (UART_NUM_2)
+
+/** @brief TX pin for serial IF to addon boards
+ * @note Currently unused, reserved for future additions */
+#define HAL_SERIAL_EXT_TXPIN      (GPIO_NUM_4)
+/** @brief RX pin for serial IF to addon boards
+ * @note Currently unused, reserved for future additions */
+#define HAL_SERIAL_EXT_RXPIN      (GPIO_NUM_19)
 
 /**@brief Sets line ending character
  * According to FLipMouse GUI PortIO.cs, \r is used */

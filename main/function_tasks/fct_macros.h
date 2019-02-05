@@ -19,17 +19,15 @@
  * beni@asterics-foundation.org>
  */
 /** @file 
- * @brief FUNCTIONAL TASK - Execute macros
+ * @brief FUNCTION - Execute macros
  * 
- * This module is used as functional task for sending macros to the
- * command parser.
+ * This module is used for sending macros to the command parser.
  * 
  * Macros in context of FLipMouse/FABI are a string of concatenated
  * AT commands, equal to normal AT commands sent by the host.
  * 
  * @note AT command separation is done by a semicolon (';')
- * @see task_macros
- * @see VB_SINGLESHOT
+ * @warning If you want to write the semicolon within a macro, use AT KP with the corresponding keycode!
  */
 
 #ifndef _FCT_MACROS_H

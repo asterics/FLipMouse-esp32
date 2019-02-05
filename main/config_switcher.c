@@ -64,7 +64,6 @@ TaskHandle_t configswitcher_handle;
  * */
 SemaphoreHandle_t configUpdatePending = NULL;
 
-TimerHandle_t configTimer = NULL;
 
 /** Currently loaded configuration.*/
 generalConfig_t currentConfigLoaded;
@@ -109,55 +108,6 @@ void configTriggerUpdate(void)
   }
 }
 
-/** @brief Wait until current configuration is stable
- * 
- * If the function configUpdateVB is called, a temporary task parameter
- * buffer is used. The full configuration is loaded if configUpdatePending
- * semaphore is free. If the configuration is to be saved, this semaphore
- * should be checked via this method.
- * 
- * @note This method blocks on the semaphore. 
- * @return ESP_OK if config is stable, ESP_FAIL if timeout happened
- * */
-esp_err_t configUpdateWaitStable(void)
-{
-  //test if semaphore is initialized
-  if(configUpdatePending == NULL) 
-  {
-    ESP_LOGE(LOG_TAG,"Update sem not initialized");
-    return ESP_FAIL;
-  }
-  //wait for a free semaphore. If not getting it, return fail.
-  if(xSemaphoreTake(configUpdatePending,portMAX_DELAY) == pdTRUE)
-  {
-    //give semaphore again, we know that config is stable now.
-    xSemaphoreGive(configUpdatePending);
-    return ESP_OK;
-  } else {
-    return ESP_FAIL;
-  }
-}
-
-void configTimerCallback(TimerHandle_t xTimer)
-{
-  //reload ADC
-  if(halAdcUpdateConfig(&currentConfigLoaded.adc) != ESP_OK)
-  {
-    ESP_LOGE(LOG_TAG,"error reloading adc config");
-  }
-  
-  //set other config infos
-  ESP_LOGI(LOG_TAG,"setting connection bits (USB: %d, BLE: %d)",currentConfigLoaded.usb_active,currentConfigLoaded.ble_active);
-  if(currentConfigLoaded.ble_active != 0)  xEventGroupSetBits(connectionRoutingStatus,DATATO_BLE);
-  else xEventGroupClearBits(connectionRoutingStatus,DATATO_BLE);
-  if(currentConfigLoaded.usb_active != 0)  xEventGroupSetBits(connectionRoutingStatus,DATATO_USB);
-  else xEventGroupClearBits(connectionRoutingStatus,DATATO_USB);
-  
-  //reset HID channels (USB&BLE)
-  halBLEReset(0);
-  halSerialReset(0);
-}
-
 /** @brief Request config update
  * 
  * This method is requesting a config update for the general config.
@@ -167,14 +117,41 @@ void configTimerCallback(TimerHandle_t xTimer)
  *  
  * @see config_switcher
  * @see currentConfig
+ * @param block Time to wait for finished business before updating. 
+ * If 0, returns immediately if not possible.
  * @return ESP_OK on success, ESP_FAIL otherwise
  * */
-esp_err_t configUpdate(void)
+esp_err_t configUpdate(TickType_t time)
 {
-  if(configTimer == NULL) return ESP_FAIL;
+  /*
+  ///@todo REMOVE!
+  currentConfigLoaded.adc.reportraw = 1;
+  //check if we are allowed to update
+  if((xEventGroupWaitBits(systemStatus,(SYSTEM_STABLECONFIG | \
+    SYSTEM_EMPTY_CMD_QUEUE), pdFALSE,pdTRUE,time) & (SYSTEM_STABLECONFIG | \
+      SYSTEM_EMPTY_CMD_QUEUE)) == 0)
+  {
+    //didn't set the flags in time, return fail
+    return ESP_FAIL;
+  }*/
   
-  if(xTimerIsTimerActive(configTimer) == pdFALSE) xTimerStart(configTimer,10);
-  else xTimerReset(configTimer,0);
+  //reload ADC
+  if(halAdcUpdateConfig(&currentConfigLoaded.adc) != ESP_OK)
+  {
+    ESP_LOGE(LOG_TAG,"error reloading adc config");
+    return ESP_FAIL;
+  }
+  
+  //set other config infos
+  ESP_LOGD(LOG_TAG,"setting connection bits (USB: %d, BLE: %d)",currentConfigLoaded.usb_active,currentConfigLoaded.ble_active);
+  if(currentConfigLoaded.ble_active != 0)  xEventGroupSetBits(connectionRoutingStatus,DATATO_BLE);
+  else xEventGroupClearBits(connectionRoutingStatus,DATATO_BLE);
+  if(currentConfigLoaded.usb_active != 0)  xEventGroupSetBits(connectionRoutingStatus,DATATO_USB);
+  else xEventGroupClearBits(connectionRoutingStatus,DATATO_USB);
+  
+  //reset HID channels (USB&BLE)
+  halBLEReset(0);
+  halSerialReset(0);
   return ESP_OK;
 }
 
@@ -210,6 +187,12 @@ void configSwitcherTask(void * params)
     //wait for a command.
     if(xQueueReceive(config_switcher,command,1000/portTICK_PERIOD_MS) == pdTRUE)
     {
+      //signal system that we are updating config now.
+      xEventGroupSetBits(systemStatus, SYSTEM_LOADCONFIG);
+      xEventGroupClearBits(systemStatus, SYSTEM_STABLECONFIG);
+      //clear flag, because we surely will have an unprocessed command here
+      xEventGroupClearBits(systemStatus,SYSTEM_EMPTY_CMD_QUEUE);
+      
       //request storage access
       while(halStorageStartTransaction(&tid,100,LOG_TAG) != ESP_OK)
       {
@@ -250,12 +233,8 @@ void configSwitcherTask(void * params)
       
       if(ret != ESP_OK)
       {
-        halStorageFinishTransaction(tid);
         ESP_LOGE(LOG_TAG,"Error loading general slot config!");
-        continue;
       }
-      //reload general config
-      configUpdate();
       
       //make one or more config tones (depending on slot number)
       uint8_t slotnr = halStorageGetCurrentSlotNumber() + 1;
@@ -270,17 +249,45 @@ void configSwitcherTask(void * params)
       //LED output on slot switch (steady color on Neopixel, short fading on RGB)
       LED((slotnr%2)*0xFF,((slotnr/2)%2)*0xFF,((slotnr/4)%2)*0xFF,0);
       
+      ESP_LOGD(LOG_TAG,"LED");
+      
       //clean up
       halStorageFinishTransaction(tid);
       tid = 0;
       
+      ESP_LOGD(LOG_TAG,"storage");
+      
+      //now we wait for finished processing of AT commands.
+      if((xEventGroupWaitBits(systemStatus,SYSTEM_EMPTY_CMD_QUEUE, \
+        pdFALSE,pdFALSE,10) & SYSTEM_EMPTY_CMD_QUEUE) == 0)
+      {
+        ESP_LOGW(LOG_TAG,"command queue not emptied in time!");
+      }
+      
+      ESP_LOGD(LOG_TAG,"wait for cmds");
+      
+      //calibrate
+      halAdcCalibrate();
+      
+      ESP_LOGD(LOG_TAG,"calibrate");
+      
+      //signal system that we are finished with updating
+      xEventGroupClearBits(systemStatus, SYSTEM_LOADCONFIG);
+      xEventGroupSetBits(systemStatus, SYSTEM_STABLECONFIG);
+      
+      ESP_LOGD(LOG_TAG,"bits set");
+      
+      //reload general config
+      configUpdate(0);
+      
+      ESP_LOGD(LOG_TAG,"cfg update");
+      
       if(justupdate)
       {
         xSemaphoreGive(configUpdatePending);
-        ESP_LOGD(LOG_TAG,"----Config Update Complete, loaded slot %s----",currentConfigLoaded.slotName);
+        ESP_LOGI(LOG_TAG,"----Config Update Complete, loaded slot %s----",currentConfigLoaded.slotName);
       } else {
-        halAdcCalibrate();
-        ESP_LOGD(LOG_TAG,"----Config Switch Complete, loaded slot %s----",currentConfigLoaded.slotName);
+        ESP_LOGI(LOG_TAG,"----Config Switch Complete, loaded slot %s----",currentConfigLoaded.slotName);
       }
     }
   }
@@ -306,25 +313,6 @@ esp_err_t configSwitcherInit(void)
   //init update semaphore
   configUpdatePending = xSemaphoreCreateBinary();
   xSemaphoreGive(configUpdatePending);
-  //init timer for slowing down updates
-  configTimer = xTimerCreate
-     ( /* Just a text name, not used by the RTOS
-       kernel. */
-       "cfgTimer",
-       /* The timer period in ticks, must be
-       greater than 0. */
-       50/portTICK_PERIOD_MS,
-       /* The timers will auto-reload themselves
-       when they expire. */
-       pdFALSE,
-       /* The ID is used to store a count of the
-       number of times the timer has expired, which
-       is initialised to 0. */
-       ( void * ) 0,
-       /* Each timer calls the same callback when
-       it expires. */
-       configTimerCallback
-     );
   
   //start configSwitcherTask
   if(xTaskCreate(configSwitcherTask,"configswitcher",CONFIGSWITCHERTASK_PERMANENT_STACKSIZE,(void *)NULL,

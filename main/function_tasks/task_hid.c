@@ -85,6 +85,10 @@ void task_hid(void *param)
     //wait 50ms
     vTaskDelay(50 / portTICK_PERIOD_MS);
     
+    //wait for stable config
+    if((xEventGroupWaitBits(systemStatus,SYSTEM_STABLECONFIG, \
+      pdFALSE,pdFALSE,100) & SYSTEM_STABLECONFIG) == 0) continue;
+    
     if(xSemaphoreTake(hidCmdSem,40) != pdTRUE)
     {
       ESP_LOGW(LOG_TAG,"HID mutex not free for task");
@@ -152,6 +156,61 @@ void task_hid(void *param)
   }
 }
 
+/** @brief Remove HID command for a virtual button
+ * 
+ * This method removes any HID command from the list of HID commands
+ * which are assigned to this VB.
+ * 
+ * @param vb VB which should be removed
+ * @return ESP_OK if deleted, ESP_FAIL if not in list */
+esp_err_t task_hid_delCmd(uint8_t vb)
+{
+  //existing chain, add to end
+  hid_cmd_t *current = cmd_chain;
+  hid_cmd_t *prev = NULL;
+  uint count = 0;
+  
+  #if LOG_LEVEL_HID >= ESP_LOG_DEBUG
+  ESP_LOGD(LOG_TAG,"Active vb before removal @%d: %d",(vb & 0x7F) / 4,activeVBs[(vb & 0x7F) / 4]);
+  #endif
+  //do as long as we don't have a null pointer
+  while(current != NULL)
+  {
+    //if the VB number matches (discarding press/release flag)
+    if((vb & 0x7F) == (vb & 0x7F))
+    {
+      //set pointer from previous element to next one
+      //but only if we are not at the head (no previous element)
+      if(prev != NULL) prev->next = current->next;
+      //if no previous element -> replace 
+      else cmd_chain = current->next;
+      
+      //remove the flags from activeVBs
+      if((vb & 0x80) != 0) activeVBs[(vb & 0x7F) / 4] &= ~(1<<((vb & 0x7F)%4));
+      else activeVBs[(vb & 0x7F) / 4] &= ~(1<<(((vb & 0x7F)%4)+4));
+      
+      //free an AT string
+      if(current->atoriginal != NULL) free(current->atoriginal);
+      //free this element
+      free(current);
+      //just begin at the front again (easiest way if we removed the head)
+      current = cmd_chain;
+      prev = NULL;
+      
+      count++;
+    } else { //does not match
+      //set pointers to next element
+      prev = current;
+      current = current->next;
+    }
+  }
+  #if LOG_LEVEL_HID >= ESP_LOG_DEBUG
+  ESP_LOGD(LOG_TAG,"Active vb after removal @%d: %d",(vb & 0x7F) / 4,activeVBs[(vb & 0x7F) / 4]);
+  #endif
+  if(count != 0) return ESP_OK;
+  else return ESP_FAIL;
+}
+
 /** @brief Add a new HID command for a virtual button
  * 
  * This method adds the given HID command to the list of HID commands
@@ -160,7 +219,7 @@ void task_hid(void *param)
  * @note Highest bit determines press/release action. If set, it is a press!
  * @note If VB number is set to VB_SINGLESHOT, the command will be sent immediately.
  * @note We will malloc for each command here. To free the memory, call task_hid_clearCmds .
- * @param newCmd New command to be added or triggered if vb is VB_SINGLESHOT
+ * @param newCmd New command to be added.
  * @param replace If set to != 0, any previously assigned command is removed from list.
  * @return ESP_OK if added, ESP_FAIL if not added (out of memory) */
 esp_err_t task_hid_addCmd(hid_cmd_t *newCmd, uint8_t replace)
@@ -196,48 +255,10 @@ esp_err_t task_hid_addCmd(hid_cmd_t *newCmd, uint8_t replace)
   
   //existing chain, add to end
   hid_cmd_t *current = cmd_chain;
-  hid_cmd_t *prev = NULL;
   int count = 0;
   
   //if set, remove any previously set commands.
-  if(replace)
-  {
-    #if LOG_LEVEL_HID >= ESP_LOG_DEBUG
-    ESP_LOGD(LOG_TAG,"Active vb before replace @%d: %d",(newCmd->vb & 0x7F) / 4,activeVBs[(newCmd->vb & 0x7F) / 4]);
-    #endif
-    //do as long as we don't have a null pointer
-    while(current != NULL)
-    {
-      //if the VB number matches (discarding press/release flag)
-      if((current->vb & 0x7F) == (newCmd->vb & 0x7F))
-      {
-        //set pointer from previous element to next one
-        //but only if we are not at the head (no previous element)
-        if(prev != NULL) prev->next = current->next;
-        //if no previous element -> replace 
-        else cmd_chain = current->next;
-        
-        //remove the flags from activeVBs
-        if((current->vb & 0x80) != 0) activeVBs[(current->vb & 0x7F) / 4] &= ~(1<<((current->vb & 0x7F)%4));
-        else activeVBs[(current->vb & 0x7F) / 4] &= ~(1<<(((current->vb & 0x7F)%4)+4));
-        
-        //free an AT string
-        if(current->atoriginal != NULL) free(current->atoriginal);
-        //free this element
-        free(current);
-        //just begin at the front again (easiest way if we removed the head)
-        current = cmd_chain;
-        prev = NULL;
-      } else { //does not match
-        //set pointers to next element
-        prev = current;
-        current = current->next;
-      }
-    }
-    #if LOG_LEVEL_HID >= ESP_LOG_DEBUG
-    ESP_LOGD(LOG_TAG,"Active vb after replace @%d: %d",(newCmd->vb & 0x7F) / 4,activeVBs[(newCmd->vb & 0x7F) / 4]);
-    #endif
-  }
+  if(replace) task_hid_delCmd(newCmd->vb);
   
   //allocate new command
   current = cmd_chain;

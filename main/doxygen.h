@@ -22,6 +22,8 @@
   * @brief Contains extra information/documentation for doxygen only*/
  
  /** @defgroup fcttasks FunctionTasks
+  * 
+  * @note This is outdated. Due to the huge amount of memory we need for this approach, we summarized all stuff sent to the LPC chip in one task, all actions handled within the ESP32 in another task.
  *
  * All these listed functions are so called "FunctionTasks".
  * These are tasks, which are loaded and bound to a virtual button.
@@ -60,8 +62,6 @@
  * Virtual Button number for single shot triggering:
  * @see VB_SINGLESHOT
  * 
- * @warning Do not create a task in single shot mode, just call the function
- * @warning Do not call the function if in FUNCTIONAL mode, the task function will block
  * @warning As long as the function or the task is active, the parameter pointer MUST be valid
  * 
  * @note Currently used esp-idf: origin/release/v3.0
@@ -74,6 +74,5 @@
  * @todo Test AT MA (macros).
  * //// TODO for later
  * @todo Implement long press for virtual buttons (new VBs).
- * @todo Test Neopixels on FABI & FLipMouse
  * @todo Implement learning mode
 */

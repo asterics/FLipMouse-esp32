@@ -19,18 +19,14 @@
  * beni@asterics-foundation.org>
  */
 /** @file 
- * @brief FUNCTIONAL TASK - Infrared remotes
+ * @brief FUNCTION - Infrared remotes
  * 
- * This module is used as functional task for sending pre-recorded
+ * This module is used for recording & sending of
  * infrared commands.
- * Recording of an infrared command is done here, but NOT within a 
- * functional task.
- * 
- * Pinning and low-level interfacing for infrared is done in hal_io.c.
+ * Pinning and low-level interfacing for infrared is done in hal_io.c,
+ * this part here manages loading & storing the commands.
  * 
  * @see hal_io.c
- * @see task_infrared
- * @see VB_SINGLESHOT
  */
 
 #ifndef _TASK_INFRARED_H
@@ -46,26 +42,7 @@
 #include "common.h"
 #include "../config_switcher.h"
 
-/**@brief Stack size for infrared functional task */
-#define TASK_INFRARED_STACKSIZE 1024
-
-/** @brief Infrared task configuration
- * @see task_infrared
- * @see task_infrared_getAT
- * */
-typedef struct taskInfraredConfig {
-  /** @brief Name of IR command to be sent
-   * @note Lenght is equal to slotname length
-   * @see SLOTNAME_LENGTH */
-  char cmdName[SLOTNAME_LENGTH];
-  /** @brief Number of virtual button which this instance will be attached to.
-   * 
-   * For one time triggering, use VB_SINGLESHOT
-   * @see VB_SINGLESHOT */
-  uint virtualButton;
-} taskInfraredConfig_t;
-
-/**@brief Set the time between two IR edges which will trigger the timeout
+/**@brief FUNCTION - Set the time between two IR edges which will trigger the timeout
  * (end of received command)
  * 
  * This method is used to set the timeout between two edges which is
@@ -78,10 +55,10 @@ typedef struct taskInfraredConfig {
  * @param timeout Timeout in [ms], 2-100
  * @return ESP_OK if parameter is set, ESP_FAIL otherwise (out of range)
  * */
-esp_err_t infrared_set_edge_timeout(uint8_t timeout);
+esp_err_t fct_infrared_set_edge_timeout(uint8_t timeout);
 
 
-/** @brief Trigger an IR command recording.
+/** @brief FUNCTION - Trigger an IR command recording.
  * 
  * This method is used to record one infrared command.
  * It will block until either the timeout is reached or
@@ -94,9 +71,9 @@ esp_err_t infrared_set_edge_timeout(uint8_t timeout);
  * @param outputtoserial If set to !=0, the hex stream will be sent to the serial interface.
  * @return ESP_OK if command was stored, ESP_FAIL otherwise (timeout)
  * */
-esp_err_t infrared_record(char* cmdName, uint8_t outputtoserial);
+esp_err_t fct_infrared_record(char* cmdName, uint8_t outputtoserial);
 
-/**@brief FUNCTIONAL TASK - Infrared command sending
+/**@brief FUNCTION - Infrared command sending
  * 
  * This task is used to trigger an IR command on a VB action.
  * The IR command which should be sent is identified by a name.
@@ -105,17 +82,7 @@ esp_err_t infrared_record(char* cmdName, uint8_t outputtoserial);
  * @param param Task config
  * @see VB_SINGLESHOT
  * */
-void task_infrared(taskInfraredConfig_t *param);
+void fct_infrared_send(char* cmdName);
 
-
-/** @brief Reverse Parsing - get AT command for IR VB
- * 
- * This function parses the current configuration of a virtual button
- * to an AT command used to print the configuration.
- * @param output Output string, where the full AT command will be stored
- * @param cfg Pointer to current infrared configuration, used to parse.
- * @return ESP_OK if everything went fine, ESP_FAIL otherwise
- * */
-esp_err_t task_infrared_getAT(char* output, void* cfg);
 
 #endif

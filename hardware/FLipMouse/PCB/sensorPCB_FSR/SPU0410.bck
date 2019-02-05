@@ -1,0 +1,9 @@
+EESchema-DOCLIB  Version 2.0
+#
+$CMP MP45DT02
+D MEMS Omnidirectional Digital Microphone
+K MEMS Microphone
+F https://www.knowles.com/docs/default-source/model-downloads/spu0410lr5h-qb-revh32421a731dff6ddbb37cff0000940c19.pdf?
+$ENDCMP
+#
+#End Doc Library

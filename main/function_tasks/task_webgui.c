@@ -381,15 +381,17 @@ static void http_server(void *pvParameters) {
   sock_addr.sin_port = htons(80);
   ret = bind(sockfd, (struct sockaddr*)&sock_addr, sizeof(sock_addr));
   if(ret) {
-    ESP_LOGE(LOG_TAG,"Failed to bind");
+    ESP_LOGE(LOG_TAG,"Failed to bind: %d",ret);
     close(sockfd);
     sockfd = -1;
+    vTaskDelete(NULL);
   }
   ret = listen(sockfd, 1);
     if(ret) {
-    ESP_LOGE(LOG_TAG,"Failed to listen");
+    ESP_LOGE(LOG_TAG,"Failed to listen: %d",ret);
     close(sockfd);
     sockfd = -1;
+    vTaskDelete(NULL);
   }
 	ESP_LOGI(LOG_TAG,"http_server task started");
   
@@ -397,7 +399,7 @@ static void http_server(void *pvParameters) {
     //accept connection & save netconn handle
 		new_sockfd = accept(sockfd, (struct sockaddr *)&sock_addr, &addr_len);
     if (new_sockfd < 0) {
-        ESP_LOGE(LOG_TAG, "Failed to accept" );
+        ESP_LOGE(LOG_TAG, "Failed to accept: %d",new_sockfd);
     } else {
       //serve
       http_server_netconn_serve(new_sockfd);
@@ -407,7 +409,7 @@ static void http_server(void *pvParameters) {
 		vTaskDelay(1); //allows task to be pre-empted
 	} while(wifiActive);
   ESP_LOGI(LOG_TAG,"Killing http task");
-  //if we run into an error
+  //if we run into an error or this task is going to be removed
 	close(new_sockfd);
 	close(sockfd);
   //delete task

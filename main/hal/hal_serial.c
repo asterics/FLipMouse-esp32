@@ -51,13 +51,7 @@
 
 #define LOG_LEVEL_SERIAL ESP_LOG_WARN
 
-#if LOG_LEVEL_SERIAL > ESP_LOG_WARN
-  //if you set log level to DEBUG, you need at least 2kB
-  #define HAL_SERIAL_TASK_STACKSIZE 2048
-#else
-  //if you set log level to WARN, 1k is sufficient
-  #define HAL_SERIAL_TASK_STACKSIZE 1536
-#endif
+#define HAL_SERIAL_TASK_STACKSIZE 2048
 
 /** @brief Ticks until the UART receive function has a timeout and gives back received data.*
  * 
@@ -300,6 +294,11 @@ void halSerialHIDTask(void *param)
         //reset RMT offset
         rmtCount = 0;
         
+        //output if debug
+        #if LOG_LEVEL_SERIAL >= ESP_LOG_DEBUG
+          ESP_LOGD(LOG_TAG,"HID: %02X:%02X:%02X",rx.cmd[0],rx.cmd[1],rx.cmd[2]);
+        #endif
+        
         //build RMT buffer
         for(uint8_t i = 0; i<3; i++)
         {          
@@ -333,7 +332,7 @@ void halSerialHIDTask(void *param)
         rmtBuf[rmtCount] = item;
         rmtCount++;
         
-        #if LOG_LEVEL_SERIAL>=ESP_LOG_VERBOSE
+        #if LOG_LEVEL_SERIALHID>=ESP_LOG_VERBOSE
           ESP_LOGV(LOG_TAG,"RMT dump:");
           ESP_LOG_BUFFER_HEXDUMP(LOG_TAG,rmtBuf, sizeof(rmt_item32_t)*(rmtCount),ESP_LOG_VERBOSE);
         #endif
@@ -350,8 +349,6 @@ void halSerialHIDTask(void *param)
           ESP_LOGE(LOG_TAG,"Cannot start RMT TX");
         }
         rmt_wait_tx_done(HAL_SERIAL_HID_CHANNEL,portMAX_DELAY);
-        ///@todo is this delay necessary?
-        //vTaskDelay(1); 
       }
     } else {
       ESP_LOGW(LOG_TAG,"usb hid queue not initialized, retry in 1s");
@@ -388,6 +385,9 @@ int halSerialReceiveUSBSerial(uint8_t **data)
     //save buffer pointer
     *data = recv.buf;
     
+    //clear flag, because we surely have an unprocessed command here
+    xEventGroupClearBits(systemStatus,SYSTEM_EMPTY_CMD_QUEUE);
+    
     return recv.len;
   } else {
     //print heap info
@@ -395,10 +395,10 @@ int halSerialReceiveUSBSerial(uint8_t **data)
     ESP_LOGI("mem","Free heap: %dB",xPortGetFreeHeapSize());
     //print the CPU usage
     //You need to activate trace facilities...
-    //char *taskbuf = (char*)malloc(1024);
-    //vTaskGetRunTimeStats(taskbuf);
-    //ESP_LOGI("mem","Tasks:\n%s",taskbuf);
-    //free(taskbuf);
+    /*char *taskbuf = (char*)malloc(1024);
+    vTaskGetRunTimeStats(taskbuf);
+    ESP_LOGD("mem","Tasks:\n%s",taskbuf);
+    free(taskbuf);*/
     return -1;
   }
 }

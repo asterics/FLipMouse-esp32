@@ -96,6 +96,14 @@ void task_hid(void *param);
  * @return ESP_OK if added, ESP_FAIL if not added (out of memory) */
 esp_err_t task_hid_addCmd(hid_cmd_t *newCmd, uint8_t replace);
 
+/** @brief Remove HID command for a virtual button
+ * 
+ * This method removes any HID command from the list of HID commands
+ * which are assigned to this VB.
+ * 
+ * @param vb VB which should be removed
+ * @return ESP_OK if deleted, ESP_FAIL if not in list */
+esp_err_t task_hid_delCmd(uint8_t vb);
 
 
 /** @brief Clear all stored HID commands.

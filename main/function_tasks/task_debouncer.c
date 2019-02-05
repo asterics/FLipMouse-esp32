@@ -26,13 +26,36 @@
  * Uses the event flags of virtualButtonsIn and if a flag is set there,
  * the debouncer waits for a defined debouncing time and maps the flags
  * to virtualButtonsOut.
+ * 
+ * The debouncing itself can be controlled via following variables
+ * (these settings are located in the global config):
+ * 
+ * * Press debounce time
+ * * Release debounce time
+ * * Deadtime between two consecutive actions
+ * 
+ * If one of these values is set for one dedicated VB, it will be used.
+ * If there is no setting, the device's default will be used. If the
+ * there is no default setting for this device, a hardcoded debounce time
+ * of DEBOUNCETIME_MS is used.
+ * 
+ * @see DEBOUNCETIME_MS
+ * @see generalConfig_t
+ * 
+ * @todo Remove the timer handling here. It is much easier to 
+ * simply use one 64bit variable each event group and store following there:
+ * 4x 12bit for the tick counter WHEN the requested time is over (debouncing or deadtime)
+ * 4x 4bit for the type of action (WHAT), e.g., debouncing or deadtime lock.
  */
 
 
 #include "task_debouncer.h"
 
-/** Tag for ESP_LOG logging */
+/** @brief Tag for ESP_LOG logging */
 #define LOG_TAG "task_debouncer"
+
+/** @brief Debouncer log level */
+#define LOG_LEVEL_DEBOUNCE ESP_LOG_DEBUG
 
 /** @brief Debounce timer status - IDLE
  * 
@@ -117,7 +140,9 @@ int8_t isDebouncerActive(uint32_t virtualButton)
  * This method does a look-up in the xTimers array to find a running
  * timer with the given VB number (used as timer id) and cancel it
  * @param virtualButton Number of VB to look for a running timer
- * @return Array offset where this running timer was found & canceled, -1 if no timer was found
+ * @return Array offset where this running timer was found & canceled,\
+ *  -1 if no timer was found (or all were cleared)
+ * @note If VB_MAX is given, all timers are canceled.
  * */
 int8_t cancelTimer(uint8_t virtualButton)
 {
@@ -125,11 +150,18 @@ int8_t cancelTimer(uint8_t virtualButton)
   //virtual button
   for(uint8_t i = 0; i<DEBOUNCERCHANNELS; i++)
   {
+    if(virtualButton == VB_MAX && xTimers[i] != NULL)
+    {
+      xTimerDelete(xTimers[i],10);
+      xTimers[i] = NULL;
+      continue;
+    }
+    
     //if timer is found
     if(xTimers[i] != NULL && (uint32_t)pvTimerGetTimerID(xTimers[i]) == virtualButton)
     {
       //delete & return
-      xTimerDelete(xTimers[i],0);
+      xTimerDelete(xTimers[i],10);
       xTimers[i] = NULL;
       return i;
     } 
@@ -305,6 +337,8 @@ int8_t startTimer(uint32_t virtualButton, uint16_t debounceTime)
 void task_debouncer(void *param)
 {
   generalConfig_t *cfg = configGetCurrent();
+  esp_log_level_set(LOG_TAG,LOG_LEVEL_DEBOUNCE);
+    
   
   for(uint8_t i =0; i<NUMBER_VIRTUALBUTTONS;i++)
   {
@@ -327,9 +361,31 @@ void task_debouncer(void *param)
   }
   
   ESP_LOGD(LOG_TAG,"Debouncer started, resolution: %d ms",DEBOUNCE_RESOLUTION_MS);
-  
+
   while(1)
   {
+    //if config updates are running, cancel all timers and wait for stable config
+    if((xEventGroupGetBits(systemStatus) & SYSTEM_STABLECONFIG) == 0)
+    {
+      //cancel all timers
+      cancelTimer(VB_MAX);
+      //clear all VB flags
+      for(uint8_t i = 0; i<NUMBER_VIRTUALBUTTONS; i++)
+      {
+        xEventGroupClearBits(virtualButtonsIn[i],0xFF);
+        xEventGroupClearBits(virtualButtonsOut[i],0xFF);
+      }
+      
+      //wait 5 ticks to check again
+      //If not set in time, wait again
+      if((xEventGroupWaitBits(systemStatus,SYSTEM_STABLECONFIG, \
+        pdFALSE,pdFALSE,5) & SYSTEM_STABLECONFIG) == 0)
+      {
+        ESP_LOGD(LOG_TAG,"Waiting for config");
+        continue;
+      }
+    }
+    
     //check each eventgroup and start timer accordingly
     for(uint8_t i = 0; i<NUMBER_VIRTUALBUTTONS; i++)
     {

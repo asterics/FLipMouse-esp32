@@ -40,6 +40,7 @@ Following commands are currently available:
 | AT FR | -- | Reports free, used and available config storage space (e.g., "FREE:10%,9000,1000")| v3 | yes | no |
 | AT FB | number (0,1,2,3) | Feedback mode, 0=no LED/no buzzer, 1=LED/no buzzer, 2=no LED/buzzer, 3= LED + buzzer | v3 | yes | no |
 | AT PW | string | Set a new wifi password. Use at least <b>8</b> characters | v3 | untested | no |
+| AT FW | number (0,1) | Update firmware. 0 = update ESP32; 1 = update LPC | v3 | untested | no |
 
 <a name="footnoteA"><b>A</b></a>: If you want to have a semicolon character WITHIN an AT command, please escape it with a backslash sequence: "\;". All other characters can be used normally.
 
@@ -99,9 +100,9 @@ individually to set a global value.
 **Mouthpiece settings** 
 | Command | Parameter | Description | Available since | Implemented in v3 | FUNCTIONAL task |
 |:--------|:----------|:------------|:--------------|:--------------------|:----------------|
-| AT MM | number (0,1,2)  | use the mouthpiece either as mouse cursor (AT MM 1), alternative function (AT MM 0) or joystick (AT MM 2)  | v2 | yes | no |
+| AT MM | number (0,1,2,3)  | use the mouthpiece either as mouse cursor (AT MM 1), alternative function (AT MM 0), joystick (AT MM 2) or disable it (AT MM 3)  | v2 | yes | no |
 | AT SW | --  | switch between cursor and alternative mode  | v2 | yes | no |
-| AT SR | --  | start reporting out the raw sensor values | v2 | yes | no |
+| AT SR | --  | start reporting out the raw sensor values ("VALUES:<pressure>,<up>,<down>,<left>,<right>,<x>,<y>" | v2 | yes | no |
 | AT ER | --  | stop reporting the sensor values  | v2 | yes | no |
 | AT CA | --  | trigger zeropoint calibration  | v2 | yes | yes (task_calibration) |
 | AT AX | number (0-100)  | sensitivity x-axis  | v2 | yes | no |

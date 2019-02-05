@@ -227,21 +227,18 @@ void app_main()
                     halBLEEnDisable(0);
                     taskWebGUIEnDisable(1);
                     radio = WIFI;
-                    LED(127,255,0,0);
+                    LED(255,0,255,0);
                     break;
+                case UNINITIALIZED:
+                default:    
+                    ESP_LOGE(LOG_TAG,"Error, radio is in unkown mode. Trying with BLE...");
                 case WIFI:
                     ESP_LOGI(LOG_TAG,"Switching from WIFI to BLE");
                     taskWebGUIEnDisable(0);
                     halBLEEnDisable(1);
                     radio = BLE;
-                    LED(0,127,255,0);
-                    break;
-                case UNINITIALIZED:
-                default:
-                    ESP_LOGE(LOG_TAG,"Error, radio is in unkown mode. Trying with BLE...");
-                    taskWebGUIEnDisable(0);
-                    halBLEEnDisable(1);
-                    radio = BLE;
+                    uint8_t slotnr = halStorageGetCurrentSlotNumber();
+                    LED((slotnr%2)*0xFF,((slotnr/2)%2)*0xFF,((slotnr/4)%2)*0xFF,0);
                     break;
             }
         }

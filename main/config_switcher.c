@@ -42,7 +42,7 @@
 /** Tag for ESP_LOG logging */
 #define LOG_TAG "cfgsw"
 /** @brief Set a global log limit for this file */
-#define LOG_LEVEL_CFGSW ESP_LOG_DEBUG
+#define LOG_LEVEL_CFGSW ESP_LOG_INFO
 
 /** Stacksize for continous task configSwitcherTask.
  * @see configSwitcherTask */
@@ -190,6 +190,8 @@ void configSwitcherTask(void * params)
       //signal system that we are updating config now.
       xEventGroupSetBits(systemStatus, SYSTEM_LOADCONFIG);
       xEventGroupClearBits(systemStatus, SYSTEM_STABLECONFIG);
+      //clear flag, because we surely will have an unprocessed command here
+      xEventGroupClearBits(systemStatus,SYSTEM_EMPTY_CMD_QUEUE);
       
       //request storage access
       while(halStorageStartTransaction(&tid,100,LOG_TAG) != ESP_OK)

@@ -233,6 +233,7 @@ function FlipMouse(initFinished) {
     thiz.stopLiveValueListener = function () {
         setLiveValueHandler(null);
         console.log('listening to live values stopped.');
+	
     };
 
     thiz.pauseLiveValueListener = function () {
@@ -253,15 +254,16 @@ function FlipMouse(initFinished) {
     thiz.isSipAndPuffLive = function () {
         return new Promise(
             function(resolve, reject) {
-		thiz.startLiveValueListener(function (livedata) {
-		    if (livedata) {
-			resolve(true);
-		    }
-		    else {
-			resolve(false);
-		    }
-		})
-	    })
+		thiz.startLiveValueListener(function () {
+		    thiz.stopLiveValueListener();
+		    resolve(true);
+                })
+		setTimeout(function() {
+		    thiz.stopLiveValueListener();
+		    resolve(false);
+		}, 2000);
+	    }
+	);
     };
 
     thiz.getConfig = function (constant, slot) {

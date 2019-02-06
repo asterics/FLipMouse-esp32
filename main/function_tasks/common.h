@@ -389,7 +389,7 @@ extern QueueHandle_t config_switcher;
 /** All BLE tasks in hal_ble.c. */
 #define HAL_BLE_TASK_PRIORITY_BASE  (tskIDLE_PRIORITY + 2)
 #define HAL_CONFIG_TASK_PRIORITY  (tskIDLE_PRIORITY + 5)
-#define TASK_COMMANDS_PRIORITY  (tskIDLE_PRIORITY + 5)
+#define TASK_COMMANDS_PRIORITY  (tskIDLE_PRIORITY + 6)
 
 /*++++ MAIN CONFIG STRUCT ++++*/
 
@@ -467,7 +467,7 @@ typedef struct adc_config {
 /** @brief Type of VB command
  * @see vb_cmd_t */
 typedef enum {
-  T_CONFIGCHANGE, /** @brief Config change request */
+  T_CONFIGCHANGE = 1, /** @brief Config change request */
   T_CALIBRATE, /** @brief Calibrationrequest */
   T_SENDIR, /** @brief Send an IR command */
   T_MACRO /** @brief Trigger macro execution */

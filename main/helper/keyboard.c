@@ -2008,7 +2008,7 @@ uint16_t deadkey_to_keycode(uint16_t keycode, uint8_t locale)
  **/
 uint8_t keycode_to_key(uint16_t keycode)
 {
-	uint8_t key = keycode & 0x3F;
+	uint8_t key = keycode & 0x7F;
 	if (key == KEY_NON_US_100) key = 100;
 	return key;
 }

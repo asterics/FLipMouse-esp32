@@ -1011,28 +1011,34 @@ void halAdcTaskThreshold(void * pvParameters)
             //if yes, check if not set already (avoid lot of load)
             if(firedx == 0)
             {
-                ESP_LOGD("hal_adc","X-axis fired in alternative mode");
+                ESP_LOGD(LOG_TAG,"X-axis fired in alternative mode");
                 //set either left or right bit in debouncer input event group
                 if(D.x < 0) 
                 {
-                    xEventGroupSetBits(virtualButtonsIn[VB_LEFT/4],(1<<(VB_LEFT%4)));
+                    SETVB_PRESS(VB_LEFT);
+                    SETVB_RELEASE(VB_RIGHT);
                     D.x = -1;
                 }
                 if(D.x > 0) 
                 {
-                    xEventGroupSetBits(virtualButtonsIn[VB_RIGHT/4],(1<<(VB_RIGHT%4)));
+                    SETVB_PRESS(VB_RIGHT);
+                    SETVB_RELEASE(VB_LEFT);
                     D.x = 1;
                 }
                 //remember that we alread set the flag
                 firedx = 1;
             }
         } else {
-            //below threshold, clear the one-time flag setting variable
-            firedx = 0;
-            //also clear the debouncer event bits
-            //todo: auch "isngleton"
-            xEventGroupClearBits(virtualButtonsIn[VB_LEFT/4],(1<<(VB_LEFT%4)));
-            xEventGroupClearBits(virtualButtonsIn[VB_RIGHT/4],(1<<(VB_RIGHT%4)));
+            if(firedx != 0)
+            {
+                //below threshold, clear the one-time flag setting variable
+                firedx = 0;
+                //also clear the debouncer event bits
+                SETVB_RELEASE(VB_LEFT);
+                CLEARVB_PRESS(VB_LEFT);
+                SETVB_RELEASE(VB_RIGHT);
+                CLEARVB_PRESS(VB_RIGHT);
+            }
         }
         
         //UP/DOWN value exceeds threshold (deadzone) value?
@@ -1041,16 +1047,18 @@ void halAdcTaskThreshold(void * pvParameters)
             //if yes, check if not set already (avoid lot of load)
             if(firedy == 0)
             {
-                ESP_LOGD("hal_adc","Y-axis fired in alternative mode");
+                ESP_LOGD(LOG_TAG,"Y-axis fired in alternative mode");
                 //set either left or right bit in debouncer input event group
                 if(D.y < 0) 
                 {
-                    xEventGroupSetBits(virtualButtonsIn[VB_UP/4],(1<<(VB_UP%4)));
+                    SETVB_PRESS(VB_UP);
+                    SETVB_RELEASE(VB_DOWN);
                     D.y = -1;
                 }
                 if(D.y > 0) 
                 {
-                    xEventGroupSetBits(virtualButtonsIn[VB_DOWN/4],(1<<(VB_DOWN%4)));
+                    SETVB_PRESS(VB_DOWN);
+                    SETVB_RELEASE(VB_UP);
                     D.y = 1;
                 }
                 //remember that we alread set the flag
@@ -1058,10 +1066,15 @@ void halAdcTaskThreshold(void * pvParameters)
             }
         } else {
             //below threshold, clear the one-time flag setting variable
-            firedy = 0;
-            //also clear the debouncer event bits
-            xEventGroupClearBits(virtualButtonsIn[VB_UP/4],(1<<(VB_UP%4)));
-            xEventGroupClearBits(virtualButtonsIn[VB_DOWN/4],(1<<(VB_DOWN%4)));
+            if(firedy != 0)
+            {
+                firedy = 0;
+                //also clear the debouncer event bits
+                SETVB_RELEASE(VB_UP);
+                CLEARVB_PRESS(VB_UP);
+                SETVB_RELEASE(VB_DOWN);
+                CLEARVB_PRESS(VB_DOWN);
+            }
         }
         
         halAdcReportRaw(D.up, D.down, D.left, D.right, D.pressure, D.x, D.y);

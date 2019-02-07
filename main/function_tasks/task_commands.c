@@ -433,7 +433,7 @@ esp_err_t keyboard_helper_parsekeycode(char t, uint8_t *buf)
   uint8_t cnt = 0;
   uint16_t keycode = 0;
   uint16_t releaseArr[16];
-  pch = strpbrk((char *)&buf[5]," ");
+  pch = (char*)buf-1;
   while (pch != NULL)
   {
     ESP_LOGD(LOG_TAG,"Token: %s",pch+1);
@@ -481,6 +481,7 @@ esp_err_t keyboard_helper_parsekeycode(char t, uint8_t *buf)
         if(deleted == 0) sendHIDCmd(&cmd,requestVBUpdate,buf,1);        
         else sendHIDCmd(&cmd,requestVBUpdate,NULL,0);
         deleted = 1;
+        ESP_LOGI(LOG_TAG,"Press action 0x%2X, keycode/modifier: 0x%2X",cmd.cmd[0],cmd.cmd[1]);
         //save for later release
         releaseArr[cnt] = keycode;
         cnt++;
@@ -488,7 +489,7 @@ esp_err_t keyboard_helper_parsekeycode(char t, uint8_t *buf)
         if(cnt == 14) //maximum 6 keycodes + 8 modifier bits
         {
           sendErrorBack("AT KP/KH/KR parameter too long");
-          return UNKNOWNCMD;
+          return ESP_FAIL;
         }
       } else {
         ESP_LOGW(LOG_TAG,"No keycode found for this token.");
@@ -534,7 +535,7 @@ esp_err_t keyboard_helper_parsekeycode(char t, uint8_t *buf)
       if(deleted == 0) sendHIDCmd(&cmd,requestVBUpdate,buf,1);        
       else sendHIDCmd(&cmd,requestVBUpdate,NULL,0);
       deleted = 1;
-      ESP_LOGI(LOG_TAG,"Sent release action 0x%2X, keycode/modifier: 0x%2X",cmd.cmd[0],cmd.cmd[1]);
+      ESP_LOGI(LOG_TAG,"Release action 0x%2X, keycode/modifier: 0x%2X",cmd.cmd[0],cmd.cmd[1]);
     }
   }
   return ESP_OK;
@@ -621,13 +622,13 @@ esp_err_t cmdKw(char* orig, void* p1, void* p2) {
   return ESP_OK;
 }
 esp_err_t cmdKp(char* orig, void* p1, void* p2) {
-  return keyboard_helper_parsekeycode('P',(uint8_t*)orig);}
+  return keyboard_helper_parsekeycode('P',(uint8_t*)p1);}
 esp_err_t cmdKh(char* orig, void* p1, void* p2) {
-  return keyboard_helper_parsekeycode('H',(uint8_t*)orig);}
+  return keyboard_helper_parsekeycode('H',(uint8_t*)p1);}
 esp_err_t cmdKr(char* orig, void* p1, void* p2) {
-  return keyboard_helper_parsekeycode('R',(uint8_t*)orig);}
+  return keyboard_helper_parsekeycode('R',(uint8_t*)p1);}
 esp_err_t cmdKt(char* orig, void* p1, void* p2) {
-  return keyboard_helper_parsekeycode('T',(uint8_t*)orig);}
+  return keyboard_helper_parsekeycode('T',(uint8_t*)p1);}
 esp_err_t cmdRa(char* orig, void* p1, void* p2) {
   halBLEReset(0xFE);
   halSerialReset(0xFE);

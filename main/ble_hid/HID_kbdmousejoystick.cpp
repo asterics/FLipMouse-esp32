@@ -850,7 +850,16 @@ extern "C" {
   {
     if(onoff)
     {
-      ESP_LOGE(LOG_TAG,"Re-enabling BLE is TBD");
+      //enable
+      #ifdef DEVICE_FLIPMOUSE
+        BLEDevice::init("FLipMouse");
+      #endif
+      #ifdef DEVICE_FABI
+        BLEDevice::init("FABI");
+      #endif
+      #if LOG_LEVEL_BLE >= ESP_LOG_INFO
+      ESP_LOGI(LOG_TAG,"Enabling BLE device");
+      #endif
     } else {
       //disable
       BLEDevice::deinit();

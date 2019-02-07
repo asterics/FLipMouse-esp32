@@ -511,8 +511,9 @@ esp_err_t taskWebGUIEnDisable(int onoff)
     //clear wifi flags
     xEventGroupClearBits(connectionRoutingStatus, WIFI_ACTIVE | WIFI_CLIENT_CONNECTED);
     
-    //stop tasks (free 16k RAM)
-    wifiActive = 0;
+    //pause tasks
+    if(wifiWSServerHandle_t != NULL) vTaskSuspend(wifiWSServerHandle_t);
+    if(wifiHTTPServerHandle_t != NULL) vTaskSuspend(wifiHTTPServerHandle_t);
     
     //disable, call wifi_stop
     if(esp_wifi_stop() == ESP_OK)
@@ -560,10 +561,20 @@ esp_err_t taskWebGUIEnDisable(int onoff)
         return ESP_FAIL;
     }
     
-    // start the HTTP Server tasks
+    // start/resume the HTTP Server tasks
     wifiActive = 1;
-    xTaskCreate(&http_server, "http_server", TASK_WEBGUI_SERVER_STACKSIZE, NULL, 5, &wifiHTTPServerHandle_t);
-    xTaskCreate(&ws_server, "ws_server", TASK_WEBGUI_WEBSOCKET_STACKSIZE, NULL, 5, &wifiWSServerHandle_t);
+    if(wifiHTTPServerHandle_t == NULL)
+    {
+      xTaskCreate(&http_server, "http_server", TASK_WEBGUI_SERVER_STACKSIZE, NULL, 5, &wifiHTTPServerHandle_t);
+    } else {
+      vTaskResume(wifiHTTPServerHandle_t);
+    }
+    if(wifiWSServerHandle_t == NULL)
+    {
+      xTaskCreate(&ws_server, "ws_server", TASK_WEBGUI_WEBSOCKET_STACKSIZE, NULL, 5, &wifiWSServerHandle_t);
+    } else {
+      vTaskResume(wifiWSServerHandle_t);
+    }
     
     //wait 250ms for WiFi stack to settle
     vTaskDelay(200/portTICK_PERIOD_MS);

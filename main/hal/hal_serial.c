@@ -461,6 +461,18 @@ int halSerialSendUSBSerial(char *data, uint32_t length, TickType_t ticks_to_wait
 void halSerialReset(uint8_t exceptDevice)
 {
   ESP_LOGD(LOG_TAG,"USB-HID reset reports, except mask: %d",exceptDevice);
+  
+  //if all HID types should be resetted,
+  //send global reset command (don't send 3 different commands)
+  if(exceptDevice == 0)
+  {
+    hid_cmd_t m;
+    m.cmd[0] = 0x00;
+    //send to queue
+    xQueueSend(hid_usb, &m, 0);
+    return;
+  }
+  
   //reset mouse
   if(!(exceptDevice & (1<<2))) 
   {

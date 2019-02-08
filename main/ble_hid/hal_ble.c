@@ -25,6 +25,9 @@
 
 #define LOG_TAG "hal_ble"
 
+/** @brief Set a global log limit for this file */
+#define LOG_LEVEL_BLE ESP_LOG_INFO
+
 /** @brief Connection ID for an opened HID connection */
 static uint16_t hid_conn_id = 0;
 /** @brief Do we have a secure connection? */
@@ -488,9 +491,38 @@ esp_err_t halBLEEnDisable(int onoff) {
  * */
 void halBLEReset(uint8_t exceptDevice)
 {
-  if(!(exceptDevice & (1<<2))) memset(mouse_report,0,sizeof(mouse_report));
-  if(!(exceptDevice & (1<<0))) memset(keyboard_report,0,sizeof(keyboard_report));
-  if(!(exceptDevice & (1<<1))) memset(joystick_report,0,sizeof(joystick_report));
+  uint8_t send = 0;
+  
+  //check if we need to reset the mouse report
+  if(!(exceptDevice & (1<<2))) {
+    //compare the global mouse report against an empty one
+    uint8_t m[sizeof(mouse_report)] = {0};
+    if(memcmp(mouse_report,m,sizeof(mouse_report)) != 0) {
+      //if the global one wasn't empty before, we empty and send it
+      memset(mouse_report,0,sizeof(mouse_report));
+      send = 1;
+    }
+  }
+  //same procedure as for the mouse....
+  if(!(exceptDevice & (1<<0))) {
+    uint8_t k[sizeof(keyboard_report)] = {0};
+    if(memcmp(keyboard_report,k,sizeof(keyboard_report)) != 0) {
+      memset(keyboard_report,0,sizeof(keyboard_report));
+      send = 1;
+    }
+  }
+  //and once again for the joystick.
+  if(!(exceptDevice & (1<<1))) {
+    uint8_t j[sizeof(keyboard_report)] = {0};
+    if(memcmp(joystick_report,j,sizeof(joystick_report)) != 0) {
+      memset(joystick_report,0,sizeof(joystick_report));
+      send = 1;
+    }
+  }
+  
+  //we don't need to send empty reports all the time, just if they
+  //weren't empty before.
+  if(send == 0) return;
   
   if(sec_conn && activateMouse) {
     hid_dev_send_report(hidd_le_env.gatt_if, hid_conn_id,
@@ -581,6 +613,10 @@ esp_err_t halBLEInit(uint8_t enableKeyboard, uint8_t enableMouse, uint8_t enable
   
   //create BLE task
   xTaskCreate(&halBLETask, "ble_task", TASK_BLE_STACKSIZE, NULL, HAL_BLE_TASK_PRIORITY_BASE, NULL);
+  
+  //set log level according to define
+  esp_log_level_set(HID_LE_PRF_TAG,LOG_LEVEL_BLE);
+  esp_log_level_set(LOG_TAG,LOG_LEVEL_BLE);
   
   return ESP_OK;
 }

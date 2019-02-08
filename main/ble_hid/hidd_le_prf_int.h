@@ -23,7 +23,7 @@
 
 
 typedef enum {
-    ESP_HIDD_EVENT_REG_FINISH = 0,                     
+    ESP_HIDD_EVENT_REG_FINISH = 0,
     ESP_BAT_EVENT_REG,
     ESP_HIDD_EVENT_DEINIT_FINISH,                       
     ESP_HIDD_EVENT_BLE_CONNECT,                         

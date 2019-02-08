@@ -544,13 +544,24 @@ esp_err_t halBLEInit(uint8_t enableKeyboard, uint8_t enableMouse, uint8_t enable
     ESP_LOGE(LOG_TAG, "%s init bluedroid failed\n", __func__);
     return ESP_FAIL;
   }
-
-  if((ret = esp_hidd_profile_init()) != ESP_OK) {
-    ESP_LOGE(LOG_TAG, "%s init bluedroid failed\n", __func__);
+  
+  if(!hidd_le_env.enabled) {
+    memset(&hidd_le_env, 0, sizeof(hidd_le_env_t));
+    hidd_le_env.enabled = true;
   }
   
   esp_ble_gap_register_callback(gap_event_handler);
-  esp_hidd_register_callbacks(hidd_event_callback);
+  
+  hidd_le_env.hidd_cb = hidd_event_callback;
+  if(hidd_register_cb() != ESP_OK) {
+    ESP_LOGE(LOG_TAG,"register CB failed");
+    return ESP_FAIL;
+  }
+  esp_ble_gatts_app_register(BATTRAY_APP_ID);
+  if(esp_ble_gatts_app_register(HIDD_APP_ID) != ESP_OK) {
+    ESP_LOGE(LOG_TAG,"Register App failed");
+    return ESP_FAIL;
+  }
 
   /* set the security iocap & auth_req & key size & init key response key parameters to the stack*/
   esp_ble_auth_req_t auth_req = ESP_LE_AUTH_BOND;     //bonding with peer device after authentication

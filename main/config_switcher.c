@@ -261,6 +261,7 @@ void configSwitcherTask(void * params)
       if((xEventGroupWaitBits(systemStatus,SYSTEM_EMPTY_CMD_QUEUE, \
         pdFALSE,pdFALSE,10) & SYSTEM_EMPTY_CMD_QUEUE) == 0)
       {
+        ///TODO: check the queue itself, if we don't send anything (e.g. if ther is no data), we will come here.
         ESP_LOGW(LOG_TAG,"command queue not emptied in time!");
       }
       

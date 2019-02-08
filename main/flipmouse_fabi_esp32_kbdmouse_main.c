@@ -58,8 +58,7 @@ SemaphoreHandle_t switchRadioSem;
 QueueHandle_t config_switcher;
 QueueHandle_t hid_usb;
 QueueHandle_t hid_ble;
-
-radio_status_t radio = UNINITIALIZED;
+uint8_t isWifiOn = 0;
 
 /** @brief Switch radio mode
  * 
@@ -78,7 +77,18 @@ radio_status_t radio = UNINITIALIZED;
  */
 void switch_radio(void)
 {
-    xSemaphoreGive(switchRadioSem);
+    if(isWifiOn == 0)
+    {
+        isWifiOn = 1;
+        LED(255,0,255,0);
+        taskWebGUIEnDisable(1);
+    } else {
+        uint8_t slotnr = halStorageGetCurrentSlotNumber();
+        if(slotnr == 0) slotnr++;
+        LED((slotnr%2)*0xFF,((slotnr/2)%2)*0xFF,((slotnr/4)%2)*0xFF,0);
+        isWifiOn = 0;
+        taskWebGUIEnDisable(0);
+    }
 }
 
 /** @brief Main task, created by esp-idf
@@ -215,34 +225,6 @@ void app_main()
     
     //delete this task after initializing.
     ESP_LOGI(LOG_TAG,"Finished initializing!");
-    
-    while(1)
-    {
-        if(xSemaphoreTake(switchRadioSem,portMAX_DELAY) == pdTRUE)
-        {
-            switch(radio)
-            {
-                case BLE:
-                    ESP_LOGI(LOG_TAG,"Switching from BLE to WIFI");
-                    halBLEEnDisable(0);
-                    taskWebGUIEnDisable(1);
-                    radio = WIFI;
-                    LED(255,0,255,0);
-                    break;
-                case UNINITIALIZED:
-                default:    
-                    ESP_LOGE(LOG_TAG,"Error, radio is in unkown mode. Trying with BLE...");
-                case WIFI:
-                    ESP_LOGI(LOG_TAG,"Switching from WIFI to BLE");
-                    taskWebGUIEnDisable(0);
-                    halBLEEnDisable(1);
-                    radio = BLE;
-                    uint8_t slotnr = halStorageGetCurrentSlotNumber();
-                    LED((slotnr%2)*0xFF,((slotnr/2)%2)*0xFF,((slotnr/4)%2)*0xFF,0);
-                    break;
-            }
-        }
-    }
     vTaskDelete(NULL);
 }
 

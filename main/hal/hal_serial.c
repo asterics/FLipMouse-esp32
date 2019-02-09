@@ -395,10 +395,10 @@ int halSerialReceiveUSBSerial(uint8_t **data)
     ESP_LOGI("mem","Free heap: %dB",xPortGetFreeHeapSize());
     //print the CPU usage
     //You need to activate trace facilities...
-    /*char *taskbuf = (char*)malloc(1024);
+    char *taskbuf = (char*)malloc(1024);
     vTaskGetRunTimeStats(taskbuf);
     ESP_LOGD("mem","Tasks:\n%s",taskbuf);
-    free(taskbuf);*/
+    free(taskbuf);
     return -1;
   }
 }

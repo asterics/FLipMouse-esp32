@@ -89,8 +89,6 @@
 
 //for creating the default slot & storing HID, we need these includes:
 #include "../config_switcher.h"
-#include "task_hid.h"
-#include "task_vb.h"
 #include "task_debouncer.h"
 #include "hal_adc.h"
 

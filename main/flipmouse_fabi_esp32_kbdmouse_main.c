@@ -45,12 +45,15 @@
 #include "ble_hid/hal_ble.h"
 #include "hal/hal_serial.h"
 #include "config_switcher.h"
+#include "function_tasks/handler_hid.h"
+#include "function_tasks/handler_vb.h"
 
 #include "config.h"
 
 #define LOG_TAG "app_main"
 
-EventGroupHandle_t virtualButtonsOut[NUMBER_VIRTUALBUTTONS];
+/** @brief Defining a new event base for VB actions */
+ESP_EVENT_DEFINE_BASE(VB_EVENT);
 EventGroupHandle_t virtualButtonsIn[NUMBER_VIRTUALBUTTONS];
 EventGroupHandle_t connectionRoutingStatus;
 EventGroupHandle_t systemStatus;
@@ -113,7 +116,6 @@ void app_main()
         for(uint8_t i = 0; i<NUMBER_VIRTUALBUTTONS; i++)
         {
             virtualButtonsIn[i] =  xEventGroupCreate();
-            virtualButtonsOut[i] = xEventGroupCreate();
         }
         //queues
         config_switcher = xQueueCreate(5,sizeof(char)*SLOTNAME_LENGTH);
@@ -143,26 +145,26 @@ void app_main()
         ESP_LOGE(LOG_TAG,"error initializing halAdcInit");
     }
     halAdcCalibrate();
+    
+    esp_event_loop_create_default();
 
-    //start hid task
-    if(xTaskCreate(task_hid,"hid",TASK_HID_STACKSIZE, 
-        (void*)NULL,HID_TASK_PRIORITY, NULL) == pdPASS)
+    //init HID handler
+    if(handler_hid_init() == ESP_OK)
     {
-        ESP_LOGD(LOG_TAG,"created new hid task");
+        ESP_LOGD(LOG_TAG,"HID handler initialized");
     } else {
-        ESP_LOGE(LOG_TAG,"error creating new hid task");
+        ESP_LOGE(LOG_TAG,"error adding HID handler");
     }
 
-    //start VB task
-    if(xTaskCreate(task_vb,"vb",TASK_VB_STACKSIZE, 
-        (void*)NULL,VB_TASK_PRIORITY, NULL) == pdPASS)
+    //init VB handler
+    if(handler_vb_init() == ESP_OK)
     {
-        ESP_LOGD(LOG_TAG,"created new vb task");
+        ESP_LOGD(LOG_TAG,"VB handler initialized");
     } else {
-        ESP_LOGE(LOG_TAG,"error creating new vb task");
+        ESP_LOGE(LOG_TAG,"error adding VB handler");
     }
 
-    //start BLE (all 3 interfaces active)
+    //start BLE (mouse/keyboard interfaces active)
     if(halBLEInit(1,1,0) == ESP_OK)
     {
         ESP_LOGD(LOG_TAG,"initialized halBle");

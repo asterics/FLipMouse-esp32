@@ -38,6 +38,7 @@
 #include "freertos/task.h"
 #include "freertos/queue.h"
 #include <esp_log.h>
+#include <esp_event.h>
 
 #include "keyboard.h"
 #include "driver/rmt.h"
@@ -135,30 +136,6 @@
 
 /** @brief AT command queue is empty */
 #define SYSTEM_EMPTY_CMD_QUEUE (1<<2)
-
-/** @brief Event group array for all virtual buttons, used by functional tasks to be triggered.
- * 
- * Each EventGroupHandle contains 4 virtual buttons (VB), press and release actions are included:
- * (1<<0) press action of VB 0 (or 4, 8, 12, 16, 20, 24, 28, depending on array index)
- * (1<<1) press action of VB 1 (or 5, 9, 13, 17, 21, 25, 29, depending on array index)
- * (1<<2) press action of VB 2 (or 6, 10, 14, 18, 22, 26, 30, depending on array index)
- * (1<<3) press action of VB 3 (or 7, 11, 15, 19, 23, 27, 31, depending on array index)
- * The same for release actions:
- * (1<<4) release for VB 0 (+ the others)
- * (1<<5) release for VB 1 (+ the others) 
- * (1<<6) release for VB 2 (+ the others) 
- * (1<<7) release for VB 3 (+ the others) 
- * 
- * Each functional task should pend on these flags, which will be set by
- * the hal task or the analog task.
- * Please reset the flag after pending.
- * Unused flags can be left set, on a task change for a virtual button,
- * these flags are reset.
- * 
- * @warning If you want to debounce an action, set the corresponding flag in virtualButtonsIn
- * @see virtualButtonsIn
- * */
-extern EventGroupHandle_t virtualButtonsOut[NUMBER_VIRTUALBUTTONS];
 
 /** @brief Event group array for all virtual buttons, used by functional tasks to send a signal to the debouncer task
  * 
@@ -374,12 +351,23 @@ extern QueueHandle_t config_switcher;
  * */
 #define GETVB_PRESS(x) (xEventGroupGetBits(virtualButtonsOut[x/4])&(1<<(x%4)))
 
+/** @brief Event ID for the event loop of press/release events for VBs
+ * 
+ * If there is a button pressed, the sip/puff is triggered,..., an event
+ * will be posted (by the debouncer) to the system event queue.
+ * Any task can subscribe to these events, currently these are task_vb
+ * and task_hid. */
+enum {
+  VB_PRESS_EVENT,
+  VB_RELEASE_EVENT
+};
+
+/** @brief Declaring a new event base for VB actions */
+ESP_EVENT_DECLARE_BASE(VB_EVENT);
 
 /*++++ TASK PRIORITY ASSIGNMENT ++++*/
 #define HAL_ADC_TASK_PRIORITY     (tskIDLE_PRIORITY + 2)
 #define DEBOUNCER_TASK_PRIORITY  (tskIDLE_PRIORITY + 2)
-#define HID_TASK_PRIORITY  (tskIDLE_PRIORITY + 4)
-#define VB_TASK_PRIORITY  (tskIDLE_PRIORITY + 4)
 /** All BLE tasks in hal_ble.c. */
 #define HAL_BLE_TASK_PRIORITY_BASE  (tskIDLE_PRIORITY + 2)
 #define HAL_CONFIG_TASK_PRIORITY  (tskIDLE_PRIORITY + 5)

@@ -15,73 +15,59 @@
  * MA 02110-1301, USA.
  * 
  * 
- * Copyright 2017 Benjamin Aigner <aignerb@technikum-wien.at,
+ * Copyright 2019 Benjamin Aigner <aignerb@technikum-wien.at,
  * beni@asterics-foundation.org>
  */
 /** @file 
- * @brief CONTINOUS TASK - HID handling
+ * @brief Event Handler - HID
  * 
- * This module is used as continous task for all HID handling based
- * on virtual buttons, containing:
+ * This module is used as an event handler for all HID based
+ * virtual buttons, containing:
  * * Mouse clicking, holding, pressing & release as well as movement (X/Y/Z)
  * * Keyboard press,hold,release & write
  * * Joystick press,hold,release & axis movement
+ * 
+ * handler_hid_init is initializing the mutex for adding a command to the
+ * chained list and adding handler_hid to the system event queue.
  *
+ * @note Currently, we use the system event queue (because there is already
+ * a task attached). Maybe we switch to an unique one.
  * @note Mouse/keyboard/joystick control by mouthpiece is done in hal_adc!
  * @see hal_adc
  */
 
-#ifndef _TASK_HID_H
-#define _TASK_HID_H
+#ifndef _HANDLER_HID_H
+#define _HANDLER_HID_H
 
 #include <freertos/FreeRTOS.h>
 #include <freertos/event_groups.h>
 #include <freertos/queue.h>
 #include <esp_log.h>
+#include <esp_event.h>
 //common definitions & data for all of these functional tasks
 #include "common.h"
+#include "fct_macros.h"
 #include "../config_switcher.h"
 
-#define TASK_HID_STACKSIZE 2048
-
-
-/** @brief Enter critical section for modifying/reading the command chain
+/** @brief Init for the HID handler
  * 
- * @warning task_hid_exit_critical MUST be called, otherwise HID commands are blocked.
- * @return ESP_OK if it is safe to proceed, ESP_FAIL otherwise (lock was not free in 10 ticks)
- */
-esp_err_t task_hid_enterCritical(void);
-
-
-/** @brief Exit critical section for modifying/reading the command chain
- * @see task_hid_enterCritical
- */
-void task_hid_exitCritical(void);
-
+ * We create the mutex and add handler_hid to the system event queue.
+ * @return ESP_OK on success, ESP_FAIL on an error.*/
+esp_err_t handler_hid_init(void);
 
 /** @brief Get current root of HID command chain
- * @note Please call task_hid_enterCritical before reading from cmd chain.
+ * @warning Modifying this chain without acquiring the hidCmdSem could result in
+ * undefined behaviour!
  * @return Pointer to root of HID chain
  */
-hid_cmd_t *task_hid_getCmdChain(void);
+hid_cmd_t *handler_hid_getCmdChain(void);
 
-
-/** @brief Set current root of HID command chain
- * @note Please do NOT call task_hid_enterCritical before setting the new chain!
+/** @brief Set current root of HID command chain!
  * @warning By using this function, previously used HID commands are cleared!
  * @param chain Pointer to root of HID chain
  * @return ESP_OK if chain is saved, ESP_FAIL otherwise (lock was not free, deleting old chain failed..)
  */
-esp_err_t task_hid_setCmdChain(hid_cmd_t *chain);
-
-
-/** @brief CONTINOUS TASK - Trigger HID actions
- * 
- * This task is used to trigger all active HID commands, which are
- * assigned to virtual buttons.
- * 
- * @param param Unused */
-void task_hid(void *param);
+esp_err_t handler_hid_setCmdChain(hid_cmd_t *chain);
 
 /** @brief Add a new HID command for a virtual button
  * 
@@ -90,11 +76,11 @@ void task_hid(void *param);
  * 
  * @note Highest bit determines press/release action. If set, it is a press!
  * @note If VB number is set to VB_SINGLESHOT, the command will be sent immediately.
- * @note We will malloc for each command here. To free the memory, call task_hid_clearCmds .
- * @param newCmd New command to be added or triggered if vb is VB_SINGLESHOT
+ * @note We will malloc for each command here. To free the memory, call handler_hid_clearCmds .
+ * @param newCmd New command to be added.
  * @param replace If set to != 0, any previously assigned command is removed from list.
  * @return ESP_OK if added, ESP_FAIL if not added (out of memory) */
-esp_err_t task_hid_addCmd(hid_cmd_t *newCmd, uint8_t replace);
+esp_err_t handler_hid_addCmd(hid_cmd_t *newCmd, uint8_t replace);
 
 /** @brief Remove HID command for a virtual button
  * 
@@ -103,8 +89,7 @@ esp_err_t task_hid_addCmd(hid_cmd_t *newCmd, uint8_t replace);
  * 
  * @param vb VB which should be removed
  * @return ESP_OK if deleted, ESP_FAIL if not in list */
-esp_err_t task_hid_delCmd(uint8_t vb);
-
+esp_err_t handler_hid_delCmd(uint8_t vb);
 
 /** @brief Clear all stored HID commands.
  * 
@@ -112,8 +97,7 @@ esp_err_t task_hid_delCmd(uint8_t vb);
  * 
  * @return ESP_OK if commands are cleared, ESP_FAIL otherwise
  * */
-esp_err_t task_hid_clearCmds(void);
-
+esp_err_t handler_hid_clearCmds(void);
 
 /** @brief Reverse Parsing - get AT command for HID VB
  * 
@@ -123,6 +107,6 @@ esp_err_t task_hid_clearCmds(void);
  * @param vb Number of virtual button for getting the AT command
  * @return ESP_OK if everything went fine, ESP_FAIL otherwise
  * */
-esp_err_t task_hid_getAT(char* output, uint8_t vb);
+esp_err_t handler_hid_getAT(char* output, uint8_t vb);
 
-#endif /* _TASK_HID_H */
+#endif /* _HANDLER_HID_H */

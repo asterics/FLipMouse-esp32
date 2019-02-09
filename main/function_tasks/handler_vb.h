@@ -15,23 +15,25 @@
  * MA 02110-1301, USA.
  * 
  * 
- * Copyright 2017 Benjamin Aigner <aignerb@technikum-wien.at,
+ * Copyright 2019 Benjamin Aigner <aignerb@technikum-wien.at,
  * beni@asterics-foundation.org>
  */
 /** @file 
- * @brief CONTINOUS TASK - VB handling
+ * @brief Event Handler - VB general actions
  * 
- * This module is used as continous task for all VB command handling,
- * EXCEPT HID (this is done in task_hid).
+ * This module is used as an event handler for all VB commands actions,
+ * EXCEPT HID (this is done in handler_hid).
  * Currently implemented actions:
  * * IR command sending
  * * Macro execution
  * * Calibration
  * * Slot switching
+ * @note Currently, we use the system event queue (because there is already
+ * a task attached). Maybe we switch to an unique one.
  */
 
-#ifndef _TASK_VB_H
-#define _TASK_VB_H
+#ifndef _HANDLER_VB_H
+#define _HANDLER_VB_H
 
 #include <freertos/FreeRTOS.h>
 #include <freertos/event_groups.h>
@@ -43,46 +45,27 @@
 #include "fct_macros.h"
 #include "fct_infrared.h"
 
-#define TASK_VB_STACKSIZE 4096
 
-
-/** @brief Enter critical section for modifying/reading the command chain
+/** @brief Init for the VB handler
  * 
- * @warning task_vb_exit_critical MUST be called, otherwise VB commands are blocked.
- * @return ESP_OK if it is safe to proceed, ESP_FAIL otherwise (lock was not free in 10 ticks)
- */
-esp_err_t task_vb_enterCritical(void);
-
-
-/** @brief Exit critical section for modifying/reading the command chain
- * @see task_vb_enterCritical
- */
-void task_vb_exitCritical(void);
-
+ * We create the mutex and add handler_vb to the system event queue.
+ * @return ESP_OK on success, ESP_FAIL on an error.*/
+esp_err_t handler_vb_init(void);
 
 /** @brief Get current root of VB command chain
- * @note Please call task_vb_enterCritical before reading from cmd chain.
+ * @warning Modifying this chain without acquiring the vbCmdSem could result in
+ * undefined behaviour!.
  * @return Pointer to root of VB chain
  */
-vb_cmd_t *task_vb_getCmdChain(void);
+vb_cmd_t *handler_vb_getCmdChain(void);
 
 
 /** @brief Set current root of VB command chain
- * @note Please do NOT call task_vb_enterCritical before setting the new chain!
  * @warning By using this function, previously used VB commands are cleared!
  * @param chain Pointer to root of VB chain
  * @return ESP_OK if chain is saved, ESP_FAIL otherwise (lock was not free, deleting old chain failed..)
  */
-esp_err_t task_vb_setCmdChain(vb_cmd_t *chain);
-
-
-/** @brief CONTINOUS TASK - Trigger VB actions
- * 
- * This task is used to trigger all active VB commands (except HID
- * commands!), which are assigned to virtual buttons.
- * 
- * @param param Unused */
-void task_vb(void *param);
+esp_err_t handler_vb_setCmdChain(vb_cmd_t *chain);
 
 /** @brief Remove command for a virtual button
  * 
@@ -91,7 +74,7 @@ void task_vb(void *param);
  * 
  * @param vb VB which should be removed
  * @return ESP_OK if deleted, ESP_FAIL if not in list */
-esp_err_t task_vb_delCmd(uint8_t vb);
+esp_err_t handler_vb_delCmd(uint8_t vb);
 
 /** @brief Add a new VB command for a virtual button
  * 
@@ -100,13 +83,11 @@ esp_err_t task_vb_delCmd(uint8_t vb);
  * 
  * @note Highest bit determines press/release action. If set, it is a press!
  * @note If VB number is set to VB_SINGLESHOT, the command will be sent immediately.
- * @note We will malloc for each command here. To free the memory, call task_vb_clearCmds .
+ * @note We will malloc for each command here. To free the memory, call handler_vb_clearCmds .
  * @param newCmd New command to be added or triggered if vb is VB_SINGLESHOT
  * @param replace If set to != 0, any previously assigned command is removed from list.
  * @return ESP_OK if added, ESP_FAIL if not added (out of memory) */
-esp_err_t task_vb_addCmd(vb_cmd_t *newCmd, uint8_t replace);
-
-
+esp_err_t handler_vb_addCmd(vb_cmd_t *newCmd, uint8_t replace);
 
 /** @brief Clear all stored VB commands.
  * 
@@ -114,8 +95,7 @@ esp_err_t task_vb_addCmd(vb_cmd_t *newCmd, uint8_t replace);
  * 
  * @return ESP_OK if commands are cleared, ESP_FAIL otherwise
  * */
-esp_err_t task_vb_clearCmds(void);
-
+esp_err_t handler_vb_clearCmds(void);
 
 /** @brief Reverse Parsing - get AT command of a given VB
  * 
@@ -125,6 +105,6 @@ esp_err_t task_vb_clearCmds(void);
  * @param vb Number of virtual button for getting the AT command
  * @return ESP_OK if everything went fine, ESP_FAIL otherwise
  * */
-esp_err_t task_vb_getAT(char* output, uint8_t vb);
+esp_err_t handler_vb_getAT(char* output, uint8_t vb);
 
-#endif /* _TASK_VB_H */
+#endif /* _HANDLER_VB_H */

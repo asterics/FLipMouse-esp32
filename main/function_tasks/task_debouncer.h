@@ -33,6 +33,7 @@
 
 #include <freertos/FreeRTOS.h>
 #include <freertos/event_groups.h>
+#include <esp_event.h>
 #include <esp_log.h>
 //common definitions & data for all of these functional tasks
 #include "common.h"

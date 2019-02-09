@@ -1270,11 +1270,6 @@ esp_err_t halAdcInit(adc_config_t* params)
             ESP_LOGE("hal_adc","virtualButtonsIn uninitialized, exiting");
             return ESP_FAIL;
         }
-        if(virtualButtonsOut[i] == 0)
-        {
-            ESP_LOGE("hal_adc","virtualButtonsOut uninitialized, exiting");
-            return ESP_FAIL;
-        }
     }
     if(hid_ble == NULL || hid_usb == NULL)
     {

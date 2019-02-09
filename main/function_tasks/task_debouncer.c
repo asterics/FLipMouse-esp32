@@ -212,6 +212,7 @@ void sendButtonLearn(uint8_t vb, uint8_t press, generalConfig_t *cfg)
 void debouncerCallback(TimerHandle_t xTimer) {
   //get own ID (virtual button)
   uint8_t virtualButton = (uint32_t) pvTimerGetTimerID(xTimer);
+  uint32_t event = (uint32_t) pvTimerGetTimerID(xTimer);
   int8_t timerindex = isDebouncerActive(virtualButton);
   generalConfig_t *cfg = configGetCurrent();
   uint16_t deadtime = 0;
@@ -233,25 +234,7 @@ void debouncerCallback(TimerHandle_t xTimer) {
     ESP_LOGE(LOG_TAG,"Major error: debounceCallback but no timer for this button %d",virtualButton);
     return;
   }
-  
-  uint8_t vb1 = xEventGroupGetBits(virtualButtonsIn[0]);
-  uint8_t vb2 = xEventGroupGetBits(virtualButtonsIn[1]);
-  uint8_t vb3 = xEventGroupGetBits(virtualButtonsIn[2]);
-  uint8_t vb4 = xEventGroupGetBits(virtualButtonsIn[3]);
-  
-  ESP_LOGD(LOG_TAG,"VBIn: "BYTE_TO_BINARY_PATTERN" "BYTE_TO_BINARY_PATTERN" "\
-    BYTE_TO_BINARY_PATTERN" "BYTE_TO_BINARY_PATTERN, BYTE_TO_BINARY(vb1), \
-    BYTE_TO_BINARY(vb2), BYTE_TO_BINARY(vb3), BYTE_TO_BINARY(vb4));
-    
-  vb1 = xEventGroupGetBits(virtualButtonsOut[0]);
-  vb2 = xEventGroupGetBits(virtualButtonsOut[1]);
-  vb3 = xEventGroupGetBits(virtualButtonsOut[2]);
-  vb4 = xEventGroupGetBits(virtualButtonsOut[3]);
-  
-  ESP_LOGD(LOG_TAG,"VBOut:  "BYTE_TO_BINARY_PATTERN" "BYTE_TO_BINARY_PATTERN" "\
-    BYTE_TO_BINARY_PATTERN" "BYTE_TO_BINARY_PATTERN, BYTE_TO_BINARY(vb1), \
-    BYTE_TO_BINARY(vb2), BYTE_TO_BINARY(vb3), BYTE_TO_BINARY(vb4));
-  
+
   switch(xTimerDirection[timerindex])
   {
     case TIMER_IDLE:
@@ -260,7 +243,10 @@ void debouncerCallback(TimerHandle_t xTimer) {
     case TIMER_PRESS:
       ESP_LOGD(LOG_TAG,"Debounce finished, map in to out for press VB%d",virtualButton);
       //map in to out and clear from in...
-      xEventGroupSetBits(virtualButtonsOut[virtualButton/4],(1<<(virtualButton%4)));
+      if(esp_event_post(VB_EVENT,VB_PRESS_EVENT,(void*)&event,sizeof(uint32_t),0) != ESP_OK)
+      {
+        ESP_LOGW(LOG_TAG,"Cannot post event!");
+      }
       CLEARVB_PRESS(virtualButton);
       //stop timer
       if(cancelTimer(virtualButton) == -1) ESP_LOGE(LOG_TAG,"Cannot cancel timer!");
@@ -270,7 +256,10 @@ void debouncerCallback(TimerHandle_t xTimer) {
     case TIMER_RELEASE:
       ESP_LOGD(LOG_TAG,"Debounce finished, map in to out for release VB%d",virtualButton);
       //map in to out and clear from in...
-      xEventGroupSetBits(virtualButtonsOut[virtualButton/4],(1<<((virtualButton%4)+4)));
+      if(esp_event_post(VB_EVENT,VB_RELEASE_EVENT,(void*)&event,sizeof(uint32_t),0) != ESP_OK)
+      {
+        ESP_LOGW(LOG_TAG,"Cannot post event!");
+      }
       CLEARVB_RELEASE(virtualButton);
       //stop timer
       if(cancelTimer(virtualButton) == -1) ESP_LOGE(LOG_TAG,"Cannot cancel timer!");
@@ -361,7 +350,7 @@ void task_debouncer(void *param)
   for(uint8_t i =0; i<NUMBER_VIRTUALBUTTONS;i++)
   {
     //test if eventgroup is created
-    while(virtualButtonsIn[i] == 0 || virtualButtonsOut[i] == 0)
+    while(virtualButtonsIn[i] == 0)
     {
       ESP_LOGE(LOG_TAG,"Eventgroup uninitialized, retry in 1s");
       vTaskDelay(1000/portTICK_PERIOD_MS);
@@ -391,7 +380,6 @@ void task_debouncer(void *param)
       for(uint8_t i = 0; i<NUMBER_VIRTUALBUTTONS; i++)
       {
         xEventGroupClearBits(virtualButtonsIn[i],0xFF);
-        xEventGroupClearBits(virtualButtonsOut[i],0xFF);
       }
       
       //wait 5 ticks to check again
@@ -416,7 +404,6 @@ void task_debouncer(void *param)
         
         //get in&out event bits and mask for this virtualbutton
         EventBits_t in = xEventGroupGetBits(virtualButtonsIn[i]) & VB_FLAG_BOTH(j);
-        EventBits_t out = xEventGroupGetBits(virtualButtonsOut[i]) & VB_FLAG_BOTH(j);
         int8_t timerId = isDebouncerActive(VB_ITER(i,j));
         
         //no in flag set, nothing to do.
@@ -436,7 +423,7 @@ void task_debouncer(void *param)
         if(timerId == -1) 
         {
           //check if this is a press & out flag is unset
-          if((in == VB_FLAG_PRESS(j)) && !(out == VB_FLAG_PRESS(j)))
+          if(in == VB_FLAG_PRESS(j))
           {
             //check which time to use (either VB, global value or default)
             uint16_t time = 0;
@@ -462,15 +449,18 @@ void task_debouncer(void *param)
             } else {
               //if no debounce time is used
               ESP_LOGD(LOG_TAG,"Min. debounce time, just mapping press");
-              //set flag in output eventgroup
-              xEventGroupSetBits(virtualButtonsOut[i],VB_FLAG_PRESS(j));
+              uint32_t evt = VB_ITER(i,j);
+              if(esp_event_post(VB_EVENT,VB_PRESS_EVENT,(void*)&evt,sizeof(uint32_t),0) != ESP_OK)
+              {
+                ESP_LOGW(LOG_TAG,"Cannot post event!");
+              }
               //delete flag in input eventgroup
               xEventGroupClearBits(virtualButtonsIn[i],VB_FLAG_PRESS(j));
               continue;
             }
           }
-          //check if this is a release & out flag is unset
-          if((in == VB_FLAG_RELEASE(j)) && !(out == VB_FLAG_RELEASE(j)))
+          //check if this is a release
+          if(in == VB_FLAG_RELEASE(j))
           {
             //check which time to use (either VB, global value or default)
             uint16_t time = 0;
@@ -496,8 +486,11 @@ void task_debouncer(void *param)
             } else {
               //if no debounce time is used
               ESP_LOGD(LOG_TAG,"Min. debounce time, just mapping release");
-              //set flag in output eventgroup
-              xEventGroupSetBits(virtualButtonsOut[i],VB_FLAG_RELEASE(j));
+              uint32_t evt = VB_ITER(i,j);
+              if(esp_event_post(VB_EVENT,VB_RELEASE_EVENT,(void*)&evt,sizeof(uint32_t),0) != ESP_OK)
+              {
+                ESP_LOGW(LOG_TAG,"Cannot post event!");
+              }
               //delete flag in input eventgroup
               xEventGroupClearBits(virtualButtonsIn[i],VB_FLAG_RELEASE(j));
               continue;

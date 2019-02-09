@@ -35,7 +35,7 @@
 /** @brief Logging tag for this module */
 #define LOG_TAG "task_vb"
 /** @brief Set a global log limit for this file */
-#define LOG_LEVEL_VB ESP_LOG_INFO
+#define LOG_LEVEL_VB ESP_LOG_DEBUG
 
 /** @brief Beginning of all VB commands
  * 
@@ -142,6 +142,9 @@ void task_vb(void *param)
                     {
                       ESP_LOGE(LOG_TAG,"Param is null, cannot execute macro");
                     } else {
+                      #if LOG_LEVEL_VB >= ESP_LOG_DEBUG
+                      ESP_LOGD(LOG_TAG,"Sent macro %s for VB %d", (char*)current->cmdparam, vb & 0x7F);
+                      #endif
                       fct_macro(current->cmdparam);
                     }
                     break;
@@ -150,6 +153,9 @@ void task_vb(void *param)
                     {
                       ESP_LOGE(LOG_TAG,"Param is null, cannot request config change");
                     } else {
+                      #if LOG_LEVEL_VB >= ESP_LOG_DEBUG
+                      ESP_LOGD(LOG_TAG,"Sent CFG change %s for VB %d", (char*)current->cmdparam, vb & 0x7F);
+                      #endif
                       xQueueSend(config_switcher,(void*)current->cmdparam,(TickType_t)10);
                     }
                     break;

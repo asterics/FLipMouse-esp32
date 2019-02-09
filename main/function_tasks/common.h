@@ -607,5 +607,28 @@ void strip(char *s);
 /** @brief Minutes between last client disconnected and WiFi is switched off */
 #define WIFI_OFF_TIME 5
 
+/** @brief printf pattern for 8bit binary output.
+ * @note Stackoverflow: https://stackoverflow.com/questions/111928/is-there-a-printf-converter-to-print-in-binary-format
+ * @note Usage: printf("Leading text "BYTE_TO_BINARY_PATTERN, BYTE_TO_BINARY(byte)); OR
+ * printf("m: "BYTE_TO_BINARY_PATTERN" "BYTE_TO_BINARY_PATTERN"\n",
+  BYTE_TO_BINARY(m>>8), BYTE_TO_BINARY(m));
+ */
+#define BYTE_TO_BINARY_PATTERN "%c%c%c%c%c%c%c%c" 
+ 
+/** @brief printf parameter for 8bit binary output.
+ * @note Stackoverflow: https://stackoverflow.com/questions/111928/is-there-a-printf-converter-to-print-in-binary-format
+ * printf("m: "BYTE_TO_BINARY_PATTERN" "BYTE_TO_BINARY_PATTERN"\n",
+  BYTE_TO_BINARY(m>>8), BYTE_TO_BINARY(m));
+ */
+#define BYTE_TO_BINARY(byte)  \
+  (byte & 0x80 ? '1' : '0'), \
+  (byte & 0x40 ? '1' : '0'), \
+  (byte & 0x20 ? '1' : '0'), \
+  (byte & 0x10 ? '1' : '0'), \
+  (byte & 0x08 ? '1' : '0'), \
+  (byte & 0x04 ? '1' : '0'), \
+  (byte & 0x02 ? '1' : '0'), \
+  (byte & 0x01 ? '1' : '0') 
+
 
 #endif /*FUNCTION_COMMON_H_*/

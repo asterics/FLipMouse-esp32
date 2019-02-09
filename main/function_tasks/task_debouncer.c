@@ -234,6 +234,24 @@ void debouncerCallback(TimerHandle_t xTimer) {
     return;
   }
   
+  uint8_t vb1 = xEventGroupGetBits(virtualButtonsIn[0]);
+  uint8_t vb2 = xEventGroupGetBits(virtualButtonsIn[1]);
+  uint8_t vb3 = xEventGroupGetBits(virtualButtonsIn[2]);
+  uint8_t vb4 = xEventGroupGetBits(virtualButtonsIn[3]);
+  
+  ESP_LOGD(LOG_TAG,"VBIn: "BYTE_TO_BINARY_PATTERN" "BYTE_TO_BINARY_PATTERN" "\
+    BYTE_TO_BINARY_PATTERN" "BYTE_TO_BINARY_PATTERN, BYTE_TO_BINARY(vb1), \
+    BYTE_TO_BINARY(vb2), BYTE_TO_BINARY(vb3), BYTE_TO_BINARY(vb4));
+    
+  vb1 = xEventGroupGetBits(virtualButtonsOut[0]);
+  vb2 = xEventGroupGetBits(virtualButtonsOut[1]);
+  vb3 = xEventGroupGetBits(virtualButtonsOut[2]);
+  vb4 = xEventGroupGetBits(virtualButtonsOut[3]);
+  
+  ESP_LOGD(LOG_TAG,"VBOut:  "BYTE_TO_BINARY_PATTERN" "BYTE_TO_BINARY_PATTERN" "\
+    BYTE_TO_BINARY_PATTERN" "BYTE_TO_BINARY_PATTERN, BYTE_TO_BINARY(vb1), \
+    BYTE_TO_BINARY(vb2), BYTE_TO_BINARY(vb3), BYTE_TO_BINARY(vb4));
+  
   switch(xTimerDirection[timerindex])
   {
     case TIMER_IDLE:
@@ -243,7 +261,7 @@ void debouncerCallback(TimerHandle_t xTimer) {
       ESP_LOGD(LOG_TAG,"Debounce finished, map in to out for press VB%d",virtualButton);
       //map in to out and clear from in...
       xEventGroupSetBits(virtualButtonsOut[virtualButton/4],(1<<(virtualButton%4)));
-      xEventGroupClearBits(virtualButtonsIn[virtualButton/4],(1<<(virtualButton%4)));
+      CLEARVB_PRESS(virtualButton);
       //stop timer
       if(cancelTimer(virtualButton) == -1) ESP_LOGE(LOG_TAG,"Cannot cancel timer!");
       //send feedback to host, if enabled
@@ -253,14 +271,14 @@ void debouncerCallback(TimerHandle_t xTimer) {
       ESP_LOGD(LOG_TAG,"Debounce finished, map in to out for release VB%d",virtualButton);
       //map in to out and clear from in...
       xEventGroupSetBits(virtualButtonsOut[virtualButton/4],(1<<((virtualButton%4)+4)));
-      xEventGroupClearBits(virtualButtonsIn[virtualButton/4],(1<<((virtualButton%4)+4)));
+      CLEARVB_RELEASE(virtualButton);
       //stop timer
       if(cancelTimer(virtualButton) == -1) ESP_LOGE(LOG_TAG,"Cannot cancel timer!");
       //send feedback to host, if enabled
       sendButtonLearn(virtualButton,1,cfg);
-      return;
+      break;
     case TIMER_DEADTIME:
-      ESP_LOGE(LOG_TAG,"Deadtime finished, ready");
+      ESP_LOGD(LOG_TAG,"Deadtime finished, ready");
       if(cancelTimer(virtualButton) == -1) ESP_LOGE(LOG_TAG,"Cannot cancel timer!");
       return;
   }

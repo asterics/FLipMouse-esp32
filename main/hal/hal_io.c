@@ -126,7 +126,8 @@ static void gpio_isr_handler(void* arg)
 {
   uint32_t pin = (uint32_t) arg;
   uint8_t vb = 0;
-  BaseType_t xResult, xHigherPriorityTaskWoken = pdFALSE;
+  raw_action_t evt;
+  BaseType_t xHigherPriorityTaskWoken = pdFALSE;
   
   //determine pin of ISR reason
   switch(pin)
@@ -146,15 +147,18 @@ static void gpio_isr_handler(void* arg)
     #endif
     default: return;
   }
+  
+  //set VB number to event.
+  evt.vb = vb;
+  if(debouncer_in == NULL) return;
 
   //press or release?
   if(gpio_get_level(pin) == 0)
   {
-    //set press flag
-    xResult = xEventGroupSetBitsFromISR(virtualButtonsIn[vb/4],(1<<(vb%4)),&xHigherPriorityTaskWoken);
-    //clear release flag
-    xResult = xEventGroupClearBitsFromISR(virtualButtonsIn[vb/4],(1<<(vb%4 + 4)));
-    
+    //set an press event
+    evt.type = VB_PRESS_EVENT;
+    //send event
+    xQueueSendToBackFromISR(debouncer_in,&evt,&xHigherPriorityTaskWoken);
     //extra handling for long press
     if(pin == HAL_IO_PIN_LONGACTION)
     {
@@ -166,10 +170,10 @@ static void gpio_isr_handler(void* arg)
       }
     }
   } else {
-    //set release flag
-    xResult = xEventGroupSetBitsFromISR(virtualButtonsIn[vb/4],(1<<(vb%4 + 4)),&xHigherPriorityTaskWoken);
-    //clear press flag
-    xResult = xEventGroupClearBitsFromISR(virtualButtonsIn[vb/4],(1<<(vb%4)));
+    //set an press event
+    evt.type = VB_RELEASE_EVENT;
+    //send event
+    xQueueSendToBackFromISR(debouncer_in,&evt,&xHigherPriorityTaskWoken);
     //extra handling for long press
     if(pin == HAL_IO_PIN_LONGACTION)
     {
@@ -177,7 +181,7 @@ static void gpio_isr_handler(void* arg)
       if(longactiontimer != NULL) xTimerStopFromISR(longactiontimer,&xHigherPriorityTaskWoken);
     }
   }
-  if(xResult == pdPASS) portYIELD_FROM_ISR();
+  if(xHigherPriorityTaskWoken) portYIELD_FROM_ISR();
 }
 
 /** @brief Callback to free the memory after finished transmission

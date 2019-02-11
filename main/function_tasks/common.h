@@ -137,23 +137,6 @@
 /** @brief AT command queue is empty */
 #define SYSTEM_EMPTY_CMD_QUEUE (1<<2)
 
-/** @brief Event group array for all virtual buttons, used by functional tasks to send a signal to the debouncer task
- * 
- * Equal to virtualButtonsOut, only these flags should be used to
- * invoke the debouncer. If one of these flags will be set, this flag
- * will be set in virtualButtonsOut as well (by the debouncer).
- * If this flag is cleared within the debouncing time, the flag will not
- * be mapped to virtualButtonsOut.
- * 
- * VB setting tasks should use this eventgroup if the debouncer
- * should be invoked.
- * If no debouncing is necessary, write directly to virtualButtonsOut
- * 
- * @warning VB pending tasks should always pend for virtualButtonsOut.
- * @see virtualButtonsOut
- * */
-extern EventGroupHandle_t virtualButtonsIn[NUMBER_VIRTUALBUTTONS];
-
 /** this flag group is used to determine the routing
  * of different data to either USB, BLE or both.
  * In addition this flag group contains status information
@@ -216,6 +199,20 @@ extern QueueHandle_t hid_ble;
  **/
 extern QueueHandle_t config_switcher;
 
+/** @brief Queue for sending triggered actions to the debouncer task.
+ * 
+ * If some input action happens (most likely either hal_io or hal_adc),
+ * an element of type raw_action_t can be sent to this queue.
+ * The debouncer will get these elements & start the debouncing timer
+ * accordingly. If the time has passed, the event will be dispatched
+ * via the system event loop.
+ * @see raw_action_t
+ * @see VB_EVENT
+ * @see VB_PRESS_EVENT
+ * @see VB_RELEASE_EVENT
+ * */
+extern QueueHandle_t debouncer_in;
+
 /*++++ VIRTUAL BUTTON ASSIGNMENT ++++*/
 /** this section assigns the virtual buttons to each part
  * of the FLipMouse/FABI (on a FABI device, of course each external button
@@ -270,97 +267,23 @@ extern QueueHandle_t config_switcher;
   #define VB_MAX          14
 #endif
 
-/** special virtual button, which is used to trigger a task immediately.
- * After this single action, each function body of functional tasks
- * is REQUIRED to do a return. */
+/** @brief Special virtual button, which is used to trigger an action
+ * immediately, instead of attaching it to a VB. */
 #define VB_SINGLESHOT   32
-
-/** @brief Easy macro to set a VB (with debouncing for press action)
- * 
- * This macro sets the corresponding VB flag in virtualButtonsIn.
- * The debouncer will map it to virtualButtonsOut after the set debouncing
- * time. Cancel a pending VB action by CLEARVB_PRESS.
- * 
- * @see virtualButtonsIn
- * @see virtualButtonsOut
- * @see task_debouncer
- * @see CLEARVB_PRESS
- * */
-#define SETVB_PRESS(x) xEventGroupSetBits(virtualButtonsIn[x/4],(1<<(x%4)))
-
-
-/** @brief Easy macro to clear a VB (with debouncing for press action)
- * 
- * This macro clears the corresponding VB flag in virtualButtonsIn.
- * @note If the flag is already mapped to the out group, this macro has no effect.
- * 
- * @see virtualButtonsIn
- * @see virtualButtonsOut
- * @see task_debouncer
- * @see SETVB_PRESS
- * */
-#define CLEARVB_PRESS(x) xEventGroupClearBits(virtualButtonsIn[x/4],(1<<(x%4)))
-
-/** @brief Easy macro to set a VB (with debouncing for release action)
- * 
- * This macro sets the corresponding VB flag in virtualButtonsIn.
- * The debouncer will map it to virtualButtonsOut after the set debouncing
- * time. Cancel a pending VB action by CLEARVB_PRESS.
- * 
- * @see virtualButtonsIn
- * @see virtualButtonsOut
- * @see task_debouncer
- * @see CLEARVB_RELEASE
- * */
-#define SETVB_RELEASE(x) xEventGroupSetBits(virtualButtonsIn[x/4],(1<<(x%4 + 4)))
-
-
-/** @brief Easy macro to clear a VB (with debouncing for release action)
- * 
- * This macro clears the corresponding VB flag in virtualButtonsIn.
- * @note If the flag is already mapped to the out group, this macro has no effect.
- * 
- * @see virtualButtonsIn
- * @see virtualButtonsOut
- * @see task_debouncer
- * @see SETVB_RELEASE
- * */
-#define CLEARVB_RELEASE(x) xEventGroupClearBits(virtualButtonsIn[x/4],(1<<(x%4 + 4)))
-
-/** @brief Easy macro to get a VB release flag (AFTER debouncer!)
- * 
- * This macro gets the value of the corresponding release VB flag in virtualButtonsOut.
- * @note This macro reads the OUT value after the debouncer.
- * 
- * @see virtualButtonsIn
- * @see virtualButtonsOut
- * @see task_debouncer
- * @see GETVB_PRESS
- * */
-#define GETVB_RELEASE(x) (xEventGroupGetBits(virtualButtonsOut[x/4])&(1<<(x%4 + 4)))
-
-/** @brief Easy macro to get a VB press flag (AFTER debouncer!)
- * 
- * This macro gets the value of the corresponding press VB flag in virtualButtonsOut.
- * @note This macro reads the OUT value after the debouncer.
- * 
- * @see virtualButtonsIn
- * @see virtualButtonsOut
- * @see task_debouncer
- * @see GETVB_RELEASE
- * */
-#define GETVB_PRESS(x) (xEventGroupGetBits(virtualButtonsOut[x/4])&(1<<(x%4)))
 
 /** @brief Event ID for the event loop of press/release events for VBs
  * 
  * If there is a button pressed, the sip/puff is triggered,..., an event
  * will be posted (by the debouncer) to the system event queue.
  * Any task can subscribe to these events, currently these are task_vb
- * and task_hid. */
-enum {
+ * and task_hid.
+ * @note This enum is used for sending an action to the debouncer as well.*/
+typedef enum {
   VB_PRESS_EVENT,
   VB_RELEASE_EVENT
-};
+} vb_event_t;
+
+
 
 /** @brief Declaring a new event base for VB actions */
 ESP_EVENT_DECLARE_BASE(VB_EVENT);
@@ -585,6 +508,20 @@ typedef struct halIOIR {
   /** Status of receiver */
   irstate_t status;
 } halIOIR_t;
+
+/** @brief RAW VB action type, sent to debouncer_in queue.
+ * @see debouncer_in
+ */
+typedef struct raw_action {
+  /** @brief VB number
+   * @note We don't use the MSB for signalling press/release here. */
+  uint32_t vb;
+  /** @brief Type of event */
+  vb_event_t type;
+  /** @brief Any additional payload.
+   * @note Currently unused. Might be used in future versions */
+  void *payload;
+} raw_action_t;
 
 /** @brief Strips away \\r\\t and \\n */
 void strip(char *s);

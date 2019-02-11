@@ -54,11 +54,11 @@
 
 /** @brief Defining a new event base for VB actions */
 ESP_EVENT_DEFINE_BASE(VB_EVENT);
-EventGroupHandle_t virtualButtonsIn[NUMBER_VIRTUALBUTTONS];
 EventGroupHandle_t connectionRoutingStatus;
 EventGroupHandle_t systemStatus;
 SemaphoreHandle_t switchRadioSem;
 QueueHandle_t config_switcher;
+QueueHandle_t debouncer_in;
 QueueHandle_t hid_usb;
 QueueHandle_t hid_ble;
 uint8_t isWifiOn = 0;
@@ -112,15 +112,11 @@ void app_main()
         connectionRoutingStatus = xEventGroupCreate();
         systemStatus = xEventGroupCreate();
         xEventGroupSetBits(systemStatus, SYSTEM_STABLECONFIG | SYSTEM_EMPTY_CMD_QUEUE);
-        //init flags if not created
-        for(uint8_t i = 0; i<NUMBER_VIRTUALBUTTONS; i++)
-        {
-            virtualButtonsIn[i] =  xEventGroupCreate();
-        }
         //queues
         config_switcher = xQueueCreate(5,sizeof(char)*SLOTNAME_LENGTH);
         hid_ble = xQueueCreate(32,sizeof(hid_cmd_t));
         hid_usb = xQueueCreate(32,sizeof(hid_cmd_t));
+        debouncer_in = xQueueCreate(32,sizeof(raw_action_t));
         //semphores
         switchRadioSem = xSemaphoreCreateBinary();
         
@@ -144,7 +140,7 @@ void app_main()
     } else {
         ESP_LOGE(LOG_TAG,"error initializing halAdcInit");
     }
-    halAdcCalibrate();
+    //halAdcCalibrate();
     
     esp_event_loop_create_default();
 

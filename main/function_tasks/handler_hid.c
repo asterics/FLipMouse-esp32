@@ -15,58 +15,125 @@
  * MA 02110-1301, USA.
  * 
  * 
- * Copyright 2017 Benjamin Aigner <aignerb@technikum-wien.at,
+ * Copyright 2019 Benjamin Aigner <aignerb@technikum-wien.at,
  * beni@asterics-foundation.org>
  */
 /** @file 
- * @brief CONTINOUS TASK - HID handling
+ * @brief Event Handler - HID
  * 
- * This module is used as continous task for all HID handling based
- * on virtual buttons, containing:
+ * This module is used as an event handler for all HID based
+ * virtual buttons, containing:
  * * Mouse clicking, holding, pressing & release as well as movement (X/Y/Z)
  * * Keyboard press,hold,release & write
  * * Joystick press,hold,release & axis movement
+ * 
+ * handler_hid_init is initializing the mutex for adding a command to the
+ * chained list and adding handler_hid to the system event queue.
  *
+ * @note Currently, we use the system event queue (because there is already
+ * a task attached). Maybe we switch to an unique one.
  * @note Mouse/keyboard/joystick control by mouthpiece is done in hal_adc!
  * @see hal_adc
  */
 
-#include "task_hid.h"
+#include "handler_hid.h"
 
 /** @brief Logging tag for this module */
-#define LOG_TAG "task_hid"
+#define LOG_TAG "handler_hid"
 /** @brief Set a global log limit for this file */
 #define LOG_LEVEL_HID ESP_LOG_INFO
 
 /** @brief Beginning of all HID commands
  * 
  * This pointer is the beginning of the HID command chain.
- * Each time an active VB is triggered, the task_hid walks through this
+ * Each time an active VB posted to the event loop, handler_hid walks through this
  * chained list for a corresponding command and sends it either to the
  * USB queue, the BLE queue or both.
  * 
- * Adding a new command is done via task_hid_addCmd, the full list
- * is freed and cleared via task_hid_clearCmds.
+ * Adding a new command is done via handler_hid_addCmd, the full list
+ * is freed and cleared via handler_hid_clearCmds.
  * 
- * @see task_hid
- * @see task_hid_addCmd
- * @see task_hid_clearCmds*/
+ * @see handler_hid
+ * @see handler_hid_addCmd
+ * @see handler_hid_clearCmds*/
 static hid_cmd_t *cmd_chain = NULL;
-
-/** @brief Mask of active VBs, which are located in the HID cmd_chain. */
-uint8_t activeVBs[NUMBER_VIRTUALBUTTONS];
 
 /** @brief Synchronization mutex for accessing the HID command chain */
 SemaphoreHandle_t hidCmdSem = NULL;
 
+/**
+ * @brief VB event handler, triggering HID actions.
+ *
+ * @param event_handler_arg handler specific arguments
+ * @param event_base event base, here is fixed to VB_EVENT
+ * @param event_id event id, subscribed to all events
+ * @param event_data Contains the VB number
+ */
+static void handler_hid(void *event_handler_arg, esp_event_base_t event_base, int32_t event_id, void *event_data)
+{
+  //if we don't have a stable config, simply return...
+  if((xEventGroupGetBits(systemStatus) & SYSTEM_STABLECONFIG) == 0) return;
 
-/** @brief CONTINOUS TASK - Trigger HID actions
+  //use the mutex to ensure a valid chained list. 
+  if(xSemaphoreTake(hidCmdSem,4) != pdTRUE)
+  {
+    ESP_LOGW(LOG_TAG,"HID mutex not free for handler");
+    return;
+  }
+  //if command chain is empty, we cannot do anything.
+  if(cmd_chain == NULL) 
+  {
+    xSemaphoreGive(hidCmdSem);
+    return;
+  }
+  
+  uint8_t vb = 0;
+  uint32_t count = 0;
+  switch(event_id)
+  {
+    case VB_PRESS_EVENT: vb |= 0x80; //set uppermost bit for press event.
+    case VB_RELEASE_EVENT:
+      break;
+    default: //might be another type of event, we don't care of.
+      return;
+  }
+  
+  //we need an VB number as event data.
+  if(event_data == 0)
+  {
+    ESP_LOGE(LOG_TAG,"Empty event data, cannot proceed!");
+    return;
+  }
+  
+  vb |= (*((uint32_t*) event_data)) & 0x7F;
+  //begin with head of chain
+  hid_cmd_t *current = cmd_chain;
+  //iterate through all available hid cmds
+  while(current != NULL)
+  {
+    //send HID command(s), if VB matches
+    //this way, we can do more button presses on one VB (e.g. AT KW, AT KP KEY_SHIFT KEY_A)
+    if(current->vb == vb)
+    {
+      count++;
+      if(xEventGroupGetBits(connectionRoutingStatus) & DATATO_USB) 
+      { xQueueSend(hid_usb,current,2); }
+      if(xEventGroupGetBits(connectionRoutingStatus) & DATATO_BLE) 
+      { xQueueSend(hid_ble,current,2); }
+    }
+    current = current->next;
+  }
+  #if LOG_LEVEL_HID >= ESP_LOG_DEBUG
+  ESP_LOGD(LOG_TAG,"Sent %d cmds for VB %d", count, vb & 0x7F);
+  #endif
+  xSemaphoreGive(hidCmdSem);
+}
+
+/** @brief Init for the HID handler
  * 
- * This task is used to trigger all active HID commands, which are
- * assigned to virtual buttons.
- * 
- * @param param Unused */
-void task_hid(void *param)
+ * We create the mutex and add handler_hid to the system event queue.
+ * @return ESP_OK on success, ESP_FAIL on an error.*/
+esp_err_t handler_hid_init(void)
 {
   //init HID mutex
   if(hidCmdSem != NULL) vSemaphoreDelete(hidCmdSem);
@@ -74,86 +141,13 @@ void task_hid(void *param)
   if(hidCmdSem == NULL)
   {
     ESP_LOGE(LOG_TAG,"Cannot create mutex, exiting!");
-    vTaskDelete(NULL);
+    return ESP_FAIL;
   }
   xSemaphoreGive(hidCmdSem);
   //set log level to given log level
   esp_log_level_set(LOG_TAG,LOG_LEVEL_HID);
   
-  while(1)
-  {
-    //wait 50ms
-    vTaskDelay(50 / portTICK_PERIOD_MS);
-    
-    //wait for stable config
-    if((xEventGroupWaitBits(systemStatus,SYSTEM_STABLECONFIG, \
-      pdFALSE,pdFALSE,100) & SYSTEM_STABLECONFIG) == 0) continue;
-    
-    if(xSemaphoreTake(hidCmdSem,40) != pdTRUE)
-    {
-      ESP_LOGW(LOG_TAG,"HID mutex not free for task");
-      continue;
-    }
-    
-    //if command chain is not initialized, we cannot do anything.
-    if(cmd_chain == NULL) 
-    {
-      xSemaphoreGive(hidCmdSem);
-      continue;
-    }
-    
-    //compare each event group against activated VBs
-    for(int i = 0; i<NUMBER_VIRTUALBUTTONS; i++)
-    {
-      EventBits_t evBits = xEventGroupGetBits(virtualButtonsOut[i]);
-      if(evBits & activeVBs[i])
-      {
-        //check each bit if it is set
-        for(int j = 0; j<8; j++)
-        {
-          //if active bit
-          if(evBits & (1<<j))
-          {
-            //create vb number of current iterators
-            //first bit is setting press or release (1 for press, 0 for release)
-            //remaining 7 bits are according to VB_* defines
-            
-            //4 VBs each event group (iterator i)
-            //lower nibble is press action, higher nibble is release
-            uint8_t vb = i*4 + (j%4);
-            if(j<4) vb |= (1<<7);
-            
-            //count sent commands
-            int count = 0;
-            
-            //begin with head of chain
-            hid_cmd_t *current = cmd_chain;
-            //iterate through all available hid cmds
-            while(current != NULL)
-            {
-              //send HID command(s), if VB matches
-              //this way, we can do more button presses on one VB (e.g. AT KW, AT KP KEY_SHIFT KEY_A)
-              if(current->vb == vb)
-              {
-                count++;
-                if(xEventGroupGetBits(connectionRoutingStatus) & DATATO_USB) 
-                { xQueueSend(hid_usb,current,2); }
-                if(xEventGroupGetBits(connectionRoutingStatus) & DATATO_BLE) 
-                { xQueueSend(hid_ble,current,2); }
-              }
-              current = current->next;
-            }
-            #if LOG_LEVEL_HID >= ESP_LOG_DEBUG
-            ESP_LOGD(LOG_TAG,"Sent %d cmds for VB %d", count, vb & 0x7F);
-            #endif
-          }
-        }
-        //clear "consumed" flags
-        xEventGroupClearBits(virtualButtonsOut[i],activeVBs[i]);
-      }
-    }
-    xSemaphoreGive(hidCmdSem);
-  }
+  return esp_event_handler_register(VB_EVENT,ESP_EVENT_ANY_ID,handler_hid,NULL);
 }
 
 /** @brief Remove HID command for a virtual button
@@ -163,18 +157,13 @@ void task_hid(void *param)
  * 
  * @param vb VB which should be removed
  * @return ESP_OK if deleted, ESP_FAIL if not in list */
-esp_err_t task_hid_delCmd(uint8_t vb)
+esp_err_t handler_hid_delCmd(uint8_t vb)
 {
   //existing chain, add to end
   hid_cmd_t *current = cmd_chain;
   hid_cmd_t *prev = NULL;
-  uint count = 0;
+  uint count = 0;;
   
-  heap_caps_check_integrity_all(true);
-  
-  #if LOG_LEVEL_HID >= ESP_LOG_DEBUG
-  ESP_LOGD(LOG_TAG,"Active vb before removal @%d: %d",(vb & 0x7F) / 4,activeVBs[(vb & 0x7F) / 4]);
-  #endif
   //do as long as we don't have a null pointer
   while(current != NULL)
   {
@@ -186,11 +175,6 @@ esp_err_t task_hid_delCmd(uint8_t vb)
       if(prev != NULL) prev->next = current->next;
       //if no previous element -> replace 
       else cmd_chain = current->next;
-      
-      //remove the flags from activeVBs
-      if((vb & 0x80) != 0) activeVBs[(vb & 0x7F) / 4] &= ~(1<<((vb & 0x7F)%4));
-      else activeVBs[(vb & 0x7F) / 4] &= ~(1<<(((vb & 0x7F)%4)+4));
-      
       //free an AT string
       if(current->atoriginal != NULL) free(current->atoriginal);
       //free this element
@@ -207,9 +191,6 @@ esp_err_t task_hid_delCmd(uint8_t vb)
       current = current->next;
     }
   }
-  #if LOG_LEVEL_HID >= ESP_LOG_DEBUG
-  ESP_LOGD(LOG_TAG,"Active vb after removal @%d: %d",(vb & 0x7F) / 4,activeVBs[(vb & 0x7F) / 4]);
-  #endif
   if(count != 0) return ESP_OK;
   else return ESP_FAIL;
 }
@@ -221,11 +202,11 @@ esp_err_t task_hid_delCmd(uint8_t vb)
  * 
  * @note Highest bit determines press/release action. If set, it is a press!
  * @note If VB number is set to VB_SINGLESHOT, the command will be sent immediately.
- * @note We will malloc for each command here. To free the memory, call task_hid_clearCmds .
+ * @note We will malloc for each command here. To free the memory, call handler_hid_clearCmds .
  * @param newCmd New command to be added.
  * @param replace If set to != 0, any previously assigned command is removed from list.
  * @return ESP_OK if added, ESP_FAIL if not added (out of memory) */
-esp_err_t task_hid_addCmd(hid_cmd_t *newCmd, uint8_t replace)
+esp_err_t handler_hid_addCmd(hid_cmd_t *newCmd, uint8_t replace)
 {
   //sanitizing...
   if(newCmd == NULL)
@@ -277,7 +258,7 @@ esp_err_t task_hid_addCmd(hid_cmd_t *newCmd, uint8_t replace)
   #endif
   
   //if set, remove any previously set commands.
-  if(replace) task_hid_delCmd(newCmd->vb);
+  if(replace) handler_hid_delCmd(newCmd->vb);
   
   //allocate new command
   current = cmd_chain;
@@ -287,23 +268,13 @@ esp_err_t task_hid_addCmd(hid_cmd_t *newCmd, uint8_t replace)
   if(new != NULL)
   {
     memcpy(new, newCmd, sizeof(*new));
-    //activate corresponding VB (task compares this variable against event flags)
-    #if LOG_LEVEL_HID >= ESP_LOG_DEBUG
-    ESP_LOGD(LOG_TAG,"Old value @%d: %d",(new->vb & 0x7F) / 4,activeVBs[(new->vb & 0x7F) / 4]);
-    #endif
-    
-    if((new->vb & 0x80) != 0) activeVBs[(new->vb & 0x7F) / 4] |= 1<<((new->vb & 0x7F)%4);
-    else activeVBs[(new->vb & 0x7F) / 4] |= 1<<(((new->vb & 0x7F)%4)+4);
-    
-    #if LOG_LEVEL_HID >= ESP_LOG_DEBUG
-    ESP_LOGD(LOG_TAG,"New value @%d: %d",(new->vb & 0x7F) / 4,activeVBs[(new->vb & 0x7F) / 4]);
-    #endif
     //save pointer of new config to end of chain
     new->next = NULL;
-    
+    //use as head if the head was not here before.
     if(cmd_chain == NULL) {
       cmd_chain = new;
     } else {
+      //otherwise append to the tail.
       while(current->next != NULL)
       {
         #if LOG_LEVEL_HID >= ESP_LOG_DEBUG
@@ -333,13 +304,38 @@ esp_err_t task_hid_addCmd(hid_cmd_t *newCmd, uint8_t replace)
   return ESP_OK;
 }
 
-/** @brief Enter critical section for modifying/reading the command chain
- * 
- * @warning task_hid_exit_critical MUST be called, otherwise HID commands are blocked.
- * @return ESP_OK if it is safe to proceed, ESP_FAIL otherwise (lock was not free in 10 ticks)
+/** @brief Get current root of HID command chain
+ * @warning Modifying this chain without acquiring the hidCmdSem could result in
+ * undefined behaviour!
+ * @return Pointer to root of HID chain
  */
-esp_err_t task_hid_enterCritical(void)
+hid_cmd_t *handler_hid_getCmdChain(void)
 {
+  return cmd_chain;
+}
+
+/** @brief Set current root of HID command chain!
+ * @warning By using this function, previously used HID commands are cleared!
+ * @param chain Pointer to root of HID chain
+ * @return ESP_OK if chain is saved, ESP_FAIL otherwise (lock was not free, deleting old chain failed..)
+ */
+esp_err_t handler_hid_setCmdChain(hid_cmd_t *chain)
+{
+  esp_err_t ret = ESP_OK;
+  
+  //check if chain is currently active,
+  //if yes clear it before setting a new one
+  if(cmd_chain != NULL)
+  {
+    ret = handler_hid_clearCmds();
+    if(ret != ESP_OK)
+    {
+      ESP_LOGE(LOG_TAG,"Cannot clear old chain");
+      return ret;
+    }
+  }
+  
+  //enter critical section for setting new cmd chain
   if(hidCmdSem == NULL)
   {
     ESP_LOGE(LOG_TAG,"hidCmdSem is NULL");
@@ -350,71 +346,12 @@ esp_err_t task_hid_enterCritical(void)
   {
     ESP_LOGE(LOG_TAG,"cannot enter critical section");
     return ESP_FAIL;
-  } else return ESP_OK;
-}
-
-/** @brief Exit critical section for modifying/reading the command chain
- * @see task_hid_enterCritical
- */
-void task_hid_exitCritical(void)
-{
-  //release mutex
-  xSemaphoreGive(hidCmdSem);
-}
-
-/** @brief Get current root of HID command chain
- * @note Please call task_hid_enterCritical before reading from cmd chain.
- * @return Pointer to root of HID chain
- */
-hid_cmd_t *task_hid_getCmdChain(void)
-{
-  return cmd_chain;
-}
-
-/** @brief Set current root of HID command chain
- * @note Please do NOT call task_hid_enterCritical before setting the new chain!
- * @warning By using this function, previously used HID commands are cleared!
- * @param chain Pointer to root of HID chain
- * @return ESP_OK if chain is saved, ESP_FAIL otherwise (lock was not free, deleting old chain failed..)
- */
-esp_err_t task_hid_setCmdChain(hid_cmd_t *chain)
-{
-  esp_err_t ret = ESP_OK;
-  
-  //check if chain is currently active,
-  //if yes clear it before setting a new one
-  if(cmd_chain != NULL)
-  {
-    ret = task_hid_clearCmds();
-    if(ret != ESP_OK)
-    {
-      ESP_LOGE(LOG_TAG,"Cannot clear old chain");
-      return ret;
-    }
   }
-  
-  //enter critical section for setting new cmd chain
-  ret = task_hid_enterCritical();
-  if(ret != ESP_OK) return ret;
   //save the pointer
   cmd_chain = chain;
-  
-  //clear active flags
-  for(int i = 0; i<NUMBER_VIRTUALBUTTONS; i++) activeVBs[i] = 0;
-  //set vb flags accordingly, to activate hid task.
-  while(chain != NULL)
-  {
-    if((chain->vb & 0x80) != 0) activeVBs[(chain->vb & 0x7F) / 4] |= 1<<((chain->vb & 0x7F)%4);
-    else activeVBs[(chain->vb & 0x7F) / 4] |= 1<<(((chain->vb & 0x7F)%4)+4);
-    chain = chain->next;
-  }
-  
-  #if LOG_LEVEL_HID >= ESP_LOG_INFO
-  ESP_LOGI(LOG_TAG,"Set new chain, VBs active:");
-  for(int i = 0; i<NUMBER_VIRTUALBUTTONS; i++) ESP_LOGI(LOG_TAG,"%d: 0x%2X", i, activeVBs[i]);
-  #endif
-  
-  task_hid_exitCritical();
+
+  //release mutex
+  xSemaphoreGive(hidCmdSem);
   return ESP_OK;
 }
 
@@ -424,7 +361,7 @@ esp_err_t task_hid_setCmdChain(hid_cmd_t *chain)
  * 
  * @return ESP_OK if commands are cleared, ESP_FAIL otherwise
  * */
-esp_err_t task_hid_clearCmds(void)
+esp_err_t handler_hid_clearCmds(void)
 {
   if(cmd_chain == NULL)
   {
@@ -464,9 +401,6 @@ esp_err_t task_hid_clearCmds(void)
     //break the loop if current is NULL (we reached end of chain)
   } while(current != NULL);
   
-  //clear active flags
-  for(int i = 0; i<NUMBER_VIRTUALBUTTONS; i++) activeVBs[i] = 0;
-  
   #if LOG_LEVEL_HID >= ESP_LOG_INFO
   ESP_LOGI(LOG_TAG,"Cleared %d HID cmds",count);
   #endif
@@ -477,7 +411,6 @@ esp_err_t task_hid_clearCmds(void)
   return ESP_OK;
 }
 
-
 /** @brief Reverse Parsing - get AT command for HID VB
  * 
  * This function parses the current configuration of a virtual button
@@ -486,7 +419,7 @@ esp_err_t task_hid_clearCmds(void)
  * @param vb Number of virtual button for getting the AT command
  * @return ESP_OK if everything went fine, ESP_FAIL otherwise
  * */
-esp_err_t task_hid_getAT(char* output, uint8_t vb)
+esp_err_t handler_hid_getAT(char* output, uint8_t vb)
 {
   if(hidCmdSem == NULL)
   {

@@ -15,7 +15,7 @@
  * MA 02110-1301, USA.
  * 
  * 
- * Copyright 2017 Benjamin Aigner <aignerb@technikum-wien.at,
+ * Copyright 2019 Benjamin Aigner <aignerb@technikum-wien.at,
  * beni@asterics-foundation.org>
  */
 /**
@@ -23,9 +23,11 @@
  * @brief CONTINOUS TASK - This file contains the task implementation for the virtual button
  * debouncer.
  * 
- * Uses the event flags of virtualButtonsIn and if a flag is set there,
- * the debouncer waits for a defined debouncing time and maps the flags
- * to virtualButtonsOut.
+ * This debouncer task (task_debouncer) waits for incoming events (of
+ * type raw_action_t)on the debouncer_in queue. If an incoming event
+ * is registered, a timer (esp_timer) will be started. On a finished
+ * debounce event, the corresponding event is sent to the system event
+ * loop.
  * 
  * The debouncing itself can be controlled via following variables
  * (these settings are located in the global config):
@@ -39,13 +41,15 @@
  * there is no default setting for this device, a hardcoded debounce time
  * of DEBOUNCETIME_MS is used.
  * 
+ * @note For each VB, a debouncer_cfg_t element will be used. The size
+ * of this array is determined by VB_MAX. Please set this define accordingly!
+ * 
+ * @see VB_MAX
  * @see DEBOUNCETIME_MS
+ * @see debouncer_in
+ * @see raw_action_t
  * @see generalConfig_t
  * 
- * @todo Remove the timer handling here. It is much easier to 
- * simply use one 64bit variable each event group and store following there:
- * 4x 12bit for the tick counter WHEN the requested time is over (debouncing or deadtime)
- * 4x 4bit for the type of action (WHAT), e.g., debouncing or deadtime lock.
  */
 
 
@@ -57,81 +61,67 @@
 /** @brief Debouncer log level */
 #define LOG_LEVEL_DEBOUNCE ESP_LOG_DEBUG
 
-/** @brief Debounce timer status - IDLE
- * 
- * Timer is not running & waiting for a new command */
-#define TIMER_IDLE      0
+/** @brief Debounce timer, current direction for this timer
+ * When a debounce timer is started, a parameter struct of
+ * type debouncer_param_t is used for starting this timer.
+ * It includes the given direction of the timer as it is defined here.
+ * @see debouncer_param_t
+ */
+typedef enum {
+  TIMER_IDLE,
+  /** @brief Timer is in idle and should not be triggering */
+  TIMER_PRESS,
+  /** @brief Debouncer timer is active for a press event */
+  TIMER_RELEASE,
+  /** @brief Debouncer timer is active for a release event */
+  TIMER_DEADTIME,
+  /** @brief Debouncer timer is active for a deadtime between next event
+   * (lock-out) */
+  TIMER_ERROR
+  /** @brief We have an error. Might be a virtualbutton out of range. */
+} debouncer_direction_t;
 
-/** @brief Debounce timer status - PRESS
- * 
- * Timer is running & waiting for debounce time to elapse,
- * triggering the press flag of a virtual button. */
-#define TIMER_PRESS     1
 
-/** @brief Debounce timer status - RELEASE
- * 
- * Timer is running & waiting for debounce time to elapse,
- * triggering the release flag of a virtual button. */
-#define TIMER_RELEASE   2
+/** @brief Timer config struct
+ * This struct is used to control one timer for debouncing */
+typedef struct debouncer_cfg {
+  debouncer_direction_t dir;
+  /** @brief Direction/function for this timer */
+  uint32_t vb;
+  /** @brief VB number for this timer */
+  esp_timer_handle_t handle;
+  /** @brief Timer handle for starting/stopping */
+} debouncer_cfg_t;
 
+/** @brief Start a timer with a given config and debounce time
+ * @param cfg Config for the timer to be started
+ * @param debounceTime Timeout for the new timer, unit: [ms]
+ * @return ESP_OK on success, ESP_FAIL if timer cannot be started */
+esp_err_t startTimer(debouncer_cfg_t *cfg, uint16_t debounceTime);
 
-/** @brief Debounce timer status - DEADTIME
- * 
- * Timer is running & waiting for time to elapse,
- * during this timer is running, VBs are locked and not mapped.
- * @todo Implement the deadtime & anti-tremor functions  */
-#define TIMER_DEADTIME  3
-
-/** Define for easy access to number with eventgroup iterator (i) and VB number in group (j, 0-3)*/
-#define VB_ITER(i,j)  ((i*4) + j)
-/** Check for both flags, PRESS and RELEASE */
-#define VB_FLAG_BOTH(x) ((1<<x) | (1<<(x+4)) )
-/** Check for press flag */
-#define VB_FLAG_PRESS(x) ((1<<x))
-/** Check for release flag */
-#define VB_FLAG_RELEASE(x) ((1<<(x+4)))
-
-int8_t startTimer(uint32_t virtualButton, uint16_t debounceTime);
-
-/** @brief Array of timer handles
+/** @brief Array of timer configs
  * 
  * This array contains all possible running timer handles.
  * A maximum of DEBOUNCERCHANNELS timers can be concurrently running.
  * 
  * @see DEBOUNCERCHANNELS
+ * @see debouncer_cfg_t
  */
-TimerHandle_t xTimers[DEBOUNCERCHANNELS];
+debouncer_cfg_t xTimers[VB_MAX];
 
-/** @brief Direction/function of the corresponding timer
- * 
- * This array signals the direction of the corresponding timer
- * of the xTimers array.
- * 
- * @see xTimers
- * @see TIMER_DEADTIME
- * @see TIMER_PRESS
- * @see TIMER_RELEASE
- * @see TIMER_IDLE
- * */
-uint8_t xTimerDirection[DEBOUNCERCHANNELS];
 
 /** @brief Look for a possibly running debouncing timer
  * 
- * This method does a look-up in the xTimers array to find a running
- * timer with the given VB number (used as timer id).
+ * This method does a look-up in the xTimers array to return the
+ * timer status for the given VB number (stored within the debouncer_cfg_t struct).
+ * @see debouncer_cfg_t
  * @param virtualButton Number of VB to look for a running timer
- * @return Array offset used for xTimers array if a running timer is found, -1 if no timer was found
+ * @return Timer direction of this VB.
  * */
-int8_t isDebouncerActive(uint32_t virtualButton)
+debouncer_direction_t isDebouncerActive(uint32_t virtualButton)
 {
-  for(uint8_t i = 0; i<DEBOUNCERCHANNELS; i++)
-  {
-    if(xTimers[i] != NULL && (uint32_t)pvTimerGetTimerID(xTimers[i]) == virtualButton)
-    {
-      return i;
-    }
-  }
-  return -1;
+  if(virtualButton >= VB_MAX) return TIMER_ERROR;
+  return xTimers[virtualButton].dir;
 }
 
 
@@ -139,35 +129,43 @@ int8_t isDebouncerActive(uint32_t virtualButton)
  * 
  * This method does a look-up in the xTimers array to find a running
  * timer with the given VB number (used as timer id) and cancel it
- * @param virtualButton Number of VB to look for a running timer
+ * @param virtualButton Number of VB to look for a running timer, use
+ * VB_MAX to cancel all timers.
  * @return Array offset where this running timer was found & canceled,\
  *  -1 if no timer was found (or all were cleared)
  * @note If VB_MAX is given, all timers are canceled.
  * */
-int8_t cancelTimer(uint8_t virtualButton)
+int cancelTimer(uint32_t virtualButton)
 {
-  //check all debouncerchannels for a running timer for this
-  //virtual button
-  for(uint8_t i = 0; i<DEBOUNCERCHANNELS; i++)
+  //if we have VB_MAX here, cancel all of them
+  if(virtualButton >= VB_MAX)
   {
-    if(virtualButton == VB_MAX && xTimers[i] != NULL)
+    for(int i = 0; i<VB_MAX; i++)
     {
-      xTimerDelete(xTimers[i],10);
-      xTimers[i] = NULL;
-      continue;
+      if(xTimers[i].handle != NULL)
+      {
+        esp_timer_delete(xTimers[i].handle);
+        xTimers[i].handle = NULL;
+      }
+      xTimers[i].dir = TIMER_IDLE;
     }
-    
-    //if timer is found
-    if(xTimers[i] != NULL && (uint32_t)pvTimerGetTimerID(xTimers[i]) == virtualButton)
-    {
-      //delete & return
-      xTimerDelete(xTimers[i],10);
-      xTimers[i] = NULL;
-      return i;
-    } 
+    ESP_LOGD(LOG_TAG,"Canceled ALL timers");
+    return -1;
   }
-  //no timer found...
-  return -1;
+  
+  //else: cancel only requested timer
+  if(xTimers[virtualButton].handle != NULL)
+  {
+    esp_timer_stop(xTimers[virtualButton].handle);
+    esp_timer_delete(xTimers[virtualButton].handle);
+    xTimers[virtualButton].handle = NULL;
+    xTimers[virtualButton].dir = TIMER_IDLE;
+    return virtualButton;
+  } else {
+    ESP_LOGD(LOG_TAG,"Cannot cancel, no timer");
+    //no timer found...
+    return -1;
+  }
 }
 
 /** @brief Send feedback on pressed buttons to host (for button learning)
@@ -176,20 +174,25 @@ int8_t cancelTimer(uint8_t virtualButton)
  * Can be enabled by "AT BL 1" and disabled by "AT BL 0".
  * 
  * @param vb Virtual button which was triggered
- * @param press 0 for release action, 1 for press action
+ * @param press See vb_event_t
  * @param cfg Pointer to current config
  * @see generalConfig_t.button_learn
+ * @see vb_event_t
  * */
-void sendButtonLearn(uint8_t vb, uint8_t press, generalConfig_t *cfg)
+void sendButtonLearn(uint32_t vb, vb_event_t press, generalConfig_t *cfg)
 {
   if(cfg == NULL) return;
-  char str[13];
+  char str[13] = {0};
   
   //send only if enabled 
   if(cfg->button_learn != 0)
   {
-    if(press) sprintf(str,"%d PRESS",vb);
-    else sprintf(str,"%d RELEASE",vb);
+    switch(press)
+    {
+      case VB_PRESS_EVENT: sprintf(str,"%d PRESS",vb); break;
+      case VB_RELEASE_EVENT: sprintf(str,"%d RELEASE",vb); break;
+      default: break;
+    }
     halSerialSendUSBSerial(str,strnlen(str,13),20);
   }
   return;
@@ -198,24 +201,26 @@ void sendButtonLearn(uint8_t vb, uint8_t press, generalConfig_t *cfg)
 /** @brief Timer callback for debouncing
  * 
  * This callback is executed on an expired debounce timer.
- * Depending on the timer functionality (determined by xTimerDirection),
- * either the PRESS or RELEASE virtualbutton flag are set in
- * virtualButtonsOut flag group. In addition, the input flags are cleared
- * as well (virtualButtonsIn).
+ * Depending on the timer functionality (determined by the argument struct),
+ * either the PRESS or RELEASE events are sent via the event loop.
  * 
- * @see virtualButtonsOut
- * @see virtualButtonsIn
- * @see xTimerDirection
- * @todo Add the deadtime functionality here
- * @param xTimer Timer handle of the expired timer
+ * @see debouncer_cfg_t
+ * @todo Add/test the deadtime functionality here
+ * @param arg Timer argument, of type debouncer_cfg_t
  * */
-void debouncerCallback(TimerHandle_t xTimer) {
+void debouncerCallback(void *arg) {
   //get own ID (virtual button)
-  uint8_t virtualButton = (uint32_t) pvTimerGetTimerID(xTimer);
-  int8_t timerindex = isDebouncerActive(virtualButton);
+  debouncer_cfg_t *debcfg = (debouncer_cfg_t *)arg;
+  
+  if(debcfg == NULL)
+  {
+    ESP_LOGE(LOG_TAG,"Illegal argument");
+    return;
+  }
+  
+  uint32_t virtualButton = debcfg->vb;
   generalConfig_t *cfg = configGetCurrent();
   uint16_t deadtime = 0;
-  int8_t timerId;
   
   if(cfg == NULL)
   {
@@ -227,32 +232,8 @@ void debouncerCallback(TimerHandle_t xTimer) {
     //check if we have to use global deadtime
     if(deadtime == 0 && cfg->debounce_idle != 0) deadtime = cfg->debounce_idle;
   }
-  
-  if(timerindex == -1)
-  {
-    ESP_LOGE(LOG_TAG,"Major error: debounceCallback but no timer for this button %d",virtualButton);
-    return;
-  }
-  
-  uint8_t vb1 = xEventGroupGetBits(virtualButtonsIn[0]);
-  uint8_t vb2 = xEventGroupGetBits(virtualButtonsIn[1]);
-  uint8_t vb3 = xEventGroupGetBits(virtualButtonsIn[2]);
-  uint8_t vb4 = xEventGroupGetBits(virtualButtonsIn[3]);
-  
-  ESP_LOGD(LOG_TAG,"VBIn: "BYTE_TO_BINARY_PATTERN" "BYTE_TO_BINARY_PATTERN" "\
-    BYTE_TO_BINARY_PATTERN" "BYTE_TO_BINARY_PATTERN, BYTE_TO_BINARY(vb1), \
-    BYTE_TO_BINARY(vb2), BYTE_TO_BINARY(vb3), BYTE_TO_BINARY(vb4));
-    
-  vb1 = xEventGroupGetBits(virtualButtonsOut[0]);
-  vb2 = xEventGroupGetBits(virtualButtonsOut[1]);
-  vb3 = xEventGroupGetBits(virtualButtonsOut[2]);
-  vb4 = xEventGroupGetBits(virtualButtonsOut[3]);
-  
-  ESP_LOGD(LOG_TAG,"VBOut:  "BYTE_TO_BINARY_PATTERN" "BYTE_TO_BINARY_PATTERN" "\
-    BYTE_TO_BINARY_PATTERN" "BYTE_TO_BINARY_PATTERN, BYTE_TO_BINARY(vb1), \
-    BYTE_TO_BINARY(vb2), BYTE_TO_BINARY(vb3), BYTE_TO_BINARY(vb4));
-  
-  switch(xTimerDirection[timerindex])
+
+  switch(debcfg->dir)
   {
     case TIMER_IDLE:
       ESP_LOGE(LOG_TAG,"Major error: debounceCallback but timer should be idle %d",virtualButton);
@@ -260,114 +241,121 @@ void debouncerCallback(TimerHandle_t xTimer) {
     case TIMER_PRESS:
       ESP_LOGD(LOG_TAG,"Debounce finished, map in to out for press VB%d",virtualButton);
       //map in to out and clear from in...
-      xEventGroupSetBits(virtualButtonsOut[virtualButton/4],(1<<(virtualButton%4)));
-      CLEARVB_PRESS(virtualButton);
+      if(esp_event_post(VB_EVENT,VB_PRESS_EVENT,(void*)&virtualButton,sizeof(uint32_t),0) != ESP_OK)
+      {
+        ESP_LOGW(LOG_TAG,"Cannot post event!");
+      }
       //stop timer
-      if(cancelTimer(virtualButton) == -1) ESP_LOGE(LOG_TAG,"Cannot cancel timer!");
+      if(cancelTimer(virtualButton) == -1) ESP_LOGE(LOG_TAG,"Cannot cancel timer (CB)!");
       //send feedback to host, if enabled
-      sendButtonLearn(virtualButton,0,cfg);
+      sendButtonLearn(virtualButton,VB_PRESS_EVENT,cfg);
       break;
     case TIMER_RELEASE:
       ESP_LOGD(LOG_TAG,"Debounce finished, map in to out for release VB%d",virtualButton);
       //map in to out and clear from in...
-      xEventGroupSetBits(virtualButtonsOut[virtualButton/4],(1<<((virtualButton%4)+4)));
-      CLEARVB_RELEASE(virtualButton);
+      if(esp_event_post(VB_EVENT,VB_RELEASE_EVENT,(void*)&virtualButton,sizeof(uint32_t),0) != ESP_OK)
+      {
+        ESP_LOGW(LOG_TAG,"Cannot post event!");
+      }
       //stop timer
-      if(cancelTimer(virtualButton) == -1) ESP_LOGE(LOG_TAG,"Cannot cancel timer!");
+      if(cancelTimer(virtualButton) == -1) ESP_LOGE(LOG_TAG,"Cannot cancel timer (CB)!");
       //send feedback to host, if enabled
-      sendButtonLearn(virtualButton,1,cfg);
+      sendButtonLearn(virtualButton,VB_RELEASE_EVENT,cfg);
       break;
     case TIMER_DEADTIME:
       ESP_LOGD(LOG_TAG,"Deadtime finished, ready");
-      if(cancelTimer(virtualButton) == -1) ESP_LOGE(LOG_TAG,"Cannot cancel timer!");
+      if(cancelTimer(virtualButton) == -1) ESP_LOGE(LOG_TAG,"Cannot cancel timer (CB)!");
       return;
+    default: return;
   }
   //if necessary, start timer again for deadtime.
   if(deadtime != 0)
   {
-    timerId = startTimer(virtualButton,deadtime);
-    if(timerId == -1) 
+    debcfg->dir = TIMER_DEADTIME;
+    if(startTimer(debcfg,deadtime) != ESP_OK) 
     {
-      ESP_LOGE(LOG_TAG,"Cannot start timer...");
+      ESP_LOGE(LOG_TAG,"Cannot start timer... (CB)");
     } else {
       ESP_LOGD(LOG_TAG,"Deadtime start for VB %d",virtualButton);
-      xTimerDirection[timerId] = TIMER_DEADTIME; 
     }
   }
 }
 
-/** @brief Start a debouncing timer with given debounce time and VB number
- * 
- * This method starts a new timer for the virtual button with the given
- * time. If there is no space to save the timer handle, -1 is returned and
- * no timer started.
- * 
- * @see DEBOUNCERCHANNELS
- * @see xTimers
- * @param virtualButton Number of VB to start a new timer for
- * @param debounceTime Time in [ms] for this timer to expire
- * @return -1 if no free timer slot was found (DEBOUNCERCHANNELS), the timer array index otherwise
- * */
-int8_t startTimer(uint32_t virtualButton, uint16_t debounceTime)
+/** @brief Start a timer with a given config and debounce time
+ * @param cfg Config for the timer to be started
+ * @param debounceTime Timeout for the new timer, unit: [ms]
+ * @return ESP_OK on success, ESP_FAIL if timer cannot be started */
+esp_err_t startTimer(debouncer_cfg_t *cfg, uint16_t debounceTime)
 {
-  //check all debouncerchannels for a free slot.
-  for(uint8_t i = 0; i<DEBOUNCERCHANNELS; i++)
+  //check if there is a valid VB number (used as index)
+  if(cfg->vb >= VB_MAX) return ESP_FAIL;
+  
+  //if there is a timer running, cancel it before.
+  if(isDebouncerActive(cfg->vb) != TIMER_IDLE) cancelTimer(cfg->vb);
+  
+  //create the timer
+  esp_timer_create_args_t args;
+  xTimers[cfg->vb].dir = cfg->dir;
+  args.callback = debouncerCallback; //always the same callback
+  args.arg = (void *)&xTimers[cfg->vb]; //we assign a pointer to this array member
+  args.dispatch_method = ESP_TIMER_TASK; //no other option possible
+  esp_err_t ret = esp_timer_create(&args,&xTimers[cfg->vb].handle);
+  
+  if(ret != ESP_OK)
   {
-    //if slot is found
-    if(xTimers[i] == NULL)
-    {
-      //create timer
-      xTimers[i] = xTimerCreate("debouncer",debounceTime / portTICK_PERIOD_MS, \
-        pdFALSE, (void *) virtualButton, debouncerCallback);
-      if(xTimerStart(xTimers[i], 0) != pdPASS)
-      {
-        ESP_LOGE(LOG_TAG,"Cannot start debouncing timer!");
-      }
-      //return array index for further use
-      return i;
-    } 
+    ESP_LOGE(LOG_TAG,"Cannot create timer, ret: %d",ret);
+    return ESP_FAIL;
   }
-  //no slot is found...
-  return -1;
+  
+  //now start this timer (only one-shot)
+  //we need to multiply the given time (in [ms]) to have the
+  //necessary [us] parameter.
+  ret = esp_timer_start_once(xTimers[cfg->vb].handle, debounceTime * 1000);
+  
+  if(ret != ESP_OK)
+  {
+    ESP_LOGE(LOG_TAG,"Cannot start timer, ret: %d",ret);
+    return ESP_FAIL;
+  }
+  
+  //yeah, everything fine...
+  return ESP_OK;
 }
 
 /** @brief Debouncing main task
  * 
- * This task is periodically testing the virtualButtonsIn flags
- * for changes (DEBOUNCE_RESOLUTION_MS is used as delay between task
- * wakeups). If a change is detected (either press or release flag for
- * a virtualbutton is set), a timer is started.<br>
- * Either the timer expires and the flag is mapped to virtualButtonsOut
- * by debouncerCallback.<br>
- * Or the input flag is cleared again by the responsible task and the
- * debouncer cancels the timer as well (input was too short).
- * 
+ * This task is pending on raw actions, sent to the debouncer_in queue.
+ * If there is a raw action posted, this task either:
+ * * Starts a new timer (no timer is running)
+ * * Cancels a running timer (timer is running in the opposite debouncer direction)
+ * * Does nothing (timer is already running in the same direction)
  * 
  * @see DEBOUNCERCHANNELS
  * @see DEBOUNCE_RESOLUTION_MS
  * @see xTimers
  * @see debouncerCallback
- * @see virtualButtonsIn
- * @see virtualButtonsOut
- * @note This task is persistently running
  * @todo Add anti-tremor & deadtime functionality
  * */
 void task_debouncer(void *param)
 {
   generalConfig_t *cfg = configGetCurrent();
+  raw_action_t evt;
+  debouncer_cfg_t debcfg;
+  debcfg.handle = NULL;
   esp_log_level_set(LOG_TAG,LOG_LEVEL_DEBOUNCE);
-    
   
-  for(uint8_t i =0; i<NUMBER_VIRTUALBUTTONS;i++)
+  //test if eventgroup is created
+  while(debouncer_in == NULL)
   {
-    //test if eventgroup is created
-    while(virtualButtonsIn[i] == 0 || virtualButtonsOut[i] == 0)
-    {
-      ESP_LOGE(LOG_TAG,"Eventgroup uninitialized, retry in 1s");
-      vTaskDelay(1000/portTICK_PERIOD_MS);
-    }
-    //set timer direction to idle on startup
-    xTimerDirection[i] = TIMER_IDLE;
+    ESP_LOGE(LOG_TAG,"Eventgroup uninitialized, retry in 1s");
+    vTaskDelay(1000/portTICK_PERIOD_MS);
+  }
+  //clear the xTimers array
+  for(int i = 0; i<VB_MAX; i++)
+  {
+    xTimers[i].dir = TIMER_IDLE;
+    xTimers[i].handle = NULL;
+    xTimers[i].vb = i;
   }
   
   //wait until config is valid
@@ -378,7 +366,7 @@ void task_debouncer(void *param)
     cfg = configGetCurrent();
   }
   
-  ESP_LOGD(LOG_TAG,"Debouncer started, resolution: %d ms",DEBOUNCE_RESOLUTION_MS);
+  ESP_LOGI(LOG_TAG,"Debouncer started");
 
   while(1)
   {
@@ -387,13 +375,8 @@ void task_debouncer(void *param)
     {
       //cancel all timers
       cancelTimer(VB_MAX);
-      //clear all VB flags
-      for(uint8_t i = 0; i<NUMBER_VIRTUALBUTTONS; i++)
-      {
-        xEventGroupClearBits(virtualButtonsIn[i],0xFF);
-        xEventGroupClearBits(virtualButtonsOut[i],0xFF);
-      }
-      
+      //clear all VB events
+      xQueueReset(debouncer_in);
       //wait 5 ticks to check again
       //If not set in time, wait again
       if((xEventGroupWaitBits(systemStatus,SYSTEM_STABLECONFIG, \
@@ -404,144 +387,101 @@ void task_debouncer(void *param)
       }
     }
     
-    //check each eventgroup and start timer accordingly
-    for(uint8_t i = 0; i<NUMBER_VIRTUALBUTTONS; i++)
+    if(xQueueReceive(debouncer_in,&evt,portMAX_DELAY) == pdTRUE)
     {
-      //check each virtual button, press (0-3) & release (4-7) flag
-      //iterate over all 4 VBs each group
-      for(uint8_t j = 0; j<4;j++)
+      if(evt.vb >= VB_MAX)
       {
-        //TODO TODO: avoid forwarding short edges (short release should not trigger press again).
+        ESP_LOGE(LOG_TAG,"VB out of range!");
+        continue;
+      }
+      //if timer is not running, start one with the corresponding
+      //edge and set xTimerDirection.
+      if(isDebouncerActive(evt.vb) == TIMER_IDLE) 
+      {
+        //check which time to use (either VB, global value or default)
+        uint16_t time = 0;
+        uint8_t t_type = TIMER_IDLE;
         
-        
-        //get in&out event bits and mask for this virtualbutton
-        EventBits_t in = xEventGroupGetBits(virtualButtonsIn[i]) & VB_FLAG_BOTH(j);
-        EventBits_t out = xEventGroupGetBits(virtualButtonsOut[i]) & VB_FLAG_BOTH(j);
-        int8_t timerId = isDebouncerActive(VB_ITER(i,j));
-        
-        //no in flag set, nothing to do.
-        if(in == 0) continue;
-        
-        //if both flags are set, we cannot know which one was first
-        //so clear both flags & don't start/stop any timer
-        if(in == VB_FLAG_BOTH(j))
+        switch(evt.type)
         {
-          ESP_LOGW(LOG_TAG,"press&release set for VB %d, discarding",(i*4)+j);
-          xEventGroupClearBits(virtualButtonsIn[i],VB_FLAG_BOTH(j));
-          continue;
-        }
-        
-        //if timer is not running, start one with the corresponding
-        //edge and set xTimerDirection.
-        if(timerId == -1) 
-        {
-          //check if this is a press & out flag is unset
-          if((in == VB_FLAG_PRESS(j)) && !(out == VB_FLAG_PRESS(j)))
-          {
-            //check which time to use (either VB, global value or default)
-            uint16_t time = 0;
+          case VB_PRESS_EVENT:
+            t_type = TIMER_PRESS;
             //is a VB value set in config?
-            if(cfg->debounce_press_vb[VB_ITER(i,j)] != 0) time = cfg->debounce_press_vb[VB_ITER(i,j)];
+            if(cfg->debounce_press_vb[evt.vb] != 0) time = cfg->debounce_press_vb[evt.vb];
             //is a global value set in config?
             if(time == 0 && cfg->debounce_press != 0) time = cfg->debounce_press;
             //no? just use the default value
             if(time == 0) time = DEBOUNCETIME_MS;
-            
-            if(time > DEBOUNCE_RESOLUTION_MS)
-            {
-              timerId = startTimer(VB_ITER(i,j),time);
-              if(timerId == -1) 
-              {
-                ESP_LOGE(LOG_TAG,"Cannot start timer...");
-              } else {
-                ESP_LOGD(LOG_TAG,"Press debounce started for VB%d",VB_ITER(i,j));
-                xTimerDirection[timerId] = TIMER_PRESS; 
-              }
-              continue;
-            //note: currently, following branch is unused, but maybe we need a directly mapped VB.
-            } else {
-              //if no debounce time is used
-              ESP_LOGD(LOG_TAG,"Min. debounce time, just mapping press");
-              //set flag in output eventgroup
-              xEventGroupSetBits(virtualButtonsOut[i],VB_FLAG_PRESS(j));
-              //delete flag in input eventgroup
-              xEventGroupClearBits(virtualButtonsIn[i],VB_FLAG_PRESS(j));
-              continue;
-            }
-          }
-          //check if this is a release & out flag is unset
-          if((in == VB_FLAG_RELEASE(j)) && !(out == VB_FLAG_RELEASE(j)))
-          {
-            //check which time to use (either VB, global value or default)
-            uint16_t time = 0;
+          break;
+          case VB_RELEASE_EVENT:
+            t_type = TIMER_RELEASE;
             //is a VB value set in config?
-            if(cfg->debounce_release_vb[VB_ITER(i,j)] != 0) time = cfg->debounce_release_vb[VB_ITER(i,j)];
+            if(cfg->debounce_release_vb[evt.vb] != 0) time = cfg->debounce_release_vb[evt.vb];
             //is a global value set in config?
             if(time == 0 && cfg->debounce_release != 0) time = cfg->debounce_release;
             //no? just use the default value
             if(time == 0) time = DEBOUNCETIME_MS;
-            
-            if(time > DEBOUNCE_RESOLUTION_MS)
-            {
-              timerId = startTimer(VB_ITER(i,j),time);
-              if(timerId == -1) 
-              {
-                ESP_LOGE(LOG_TAG,"Cannot start timer...");
-              } else {
-                ESP_LOGD(LOG_TAG,"Release debounce started for VB%d",VB_ITER(i,j));
-                xTimerDirection[timerId] = TIMER_RELEASE;
-              }
-              continue;
-            //note: currently, following branch is unused, but maybe we need a directly mapped VB.
-            } else {
-              //if no debounce time is used
-              ESP_LOGD(LOG_TAG,"Min. debounce time, just mapping release");
-              //set flag in output eventgroup
-              xEventGroupSetBits(virtualButtonsOut[i],VB_FLAG_RELEASE(j));
-              //delete flag in input eventgroup
-              xEventGroupClearBits(virtualButtonsIn[i],VB_FLAG_RELEASE(j));
-              continue;
-            }
-          }
-        } else {
-          //if timer is running, check if this flag requests the
-          //opposite direction OR the same direction is cleared
-          //if yes -> stop & delete this timer
-          switch(xTimerDirection[timerId])
-          {
-            case TIMER_PRESS:
-              //press is cleared OR release is set
-              if( ((in & VB_FLAG_PRESS(j)) == 0) || ((in & VB_FLAG_RELEASE(j)) != 0) )
-              {
-                ESP_LOGD(LOG_TAG,"Press canceled for VB%d",VB_ITER(i,j));
-                if(cancelTimer(VB_ITER(i,j)) == -1) //stop current press debouncer
-                { ESP_LOGE(LOG_TAG,"Cannot cancel press timer!"); }
-              }
-              break;
-            case TIMER_RELEASE:
-              //press is set OR release is cleared
-              if( ((in & VB_FLAG_PRESS(j)) != 0) || ((in & VB_FLAG_RELEASE(j)) == 0) )
-              {
-                ESP_LOGD(LOG_TAG,"Release canceled for VB%d",VB_ITER(i,j));
-                if(cancelTimer(VB_ITER(i,j)) == -1) //stop current release debouncer
-                { ESP_LOGE(LOG_TAG,"Cannot cancel release timer!"); }
-              }
-              break;
-            case TIMER_IDLE:
-              ESP_LOGE(LOG_TAG,"Timer is idle but a valid ID?");
-              break;
-            case TIMER_DEADTIME:
-              ESP_LOGD(LOG_TAG,"Deadtime active, waiting.");
-              break;
-            default:
-              ESP_LOGE(LOG_TAG,"Unknown status in xTimerDirection[%d]",timerId);
-              break;
-          }
+          break;
+          default: break;
         }
-      }
-    }
-    
-    //wait for defined resolution
-    vTaskDelay(DEBOUNCE_RESOLUTION_MS / portTICK_PERIOD_MS);
-  }
-}
+        if(time > DEBOUNCETIME_MIN_MS)
+        {
+          debcfg.vb = evt.vb;
+          debcfg.dir = t_type;
+          if(startTimer(&debcfg,time) != ESP_OK) ESP_LOGE(LOG_TAG,"Cannot start timer...");
+          else {
+            ESP_LOGD(LOG_TAG,"Debounce started for VB%d / T: %d",evt.vb,t_type);
+          }
+          continue;
+        //note: currently, following branch is unused, but maybe we need a directly mapped VB.
+        } else {
+          //if no debounce time is used
+          ESP_LOGD(LOG_TAG,"Map VB%d / T: %d",evt.vb,evt.type);
+          if(esp_event_post(VB_EVENT,evt.type,(void*)&evt.vb,sizeof(evt.vb),0) != ESP_OK)
+          {
+            ESP_LOGW(LOG_TAG,"Cannot post event!");
+          }
+          continue;
+        }
+      } else {
+        //if timer is running, check if this flag requests the
+        //opposite direction OR the same direction is cleared
+        //if yes -> stop & delete this timer
+        switch(xTimers[evt.vb].dir)
+        {
+          case TIMER_PRESS:
+            //if release is wanted, but press timer is running
+            //->cancel timer
+            if(evt.type == VB_RELEASE_EVENT)
+            {
+              ESP_LOGD(LOG_TAG,"Press canceled for VB%d",evt.vb);
+              if(cancelTimer(evt.vb) == -1) //stop current press debouncer
+              { ESP_LOGE(LOG_TAG,"Cannot cancel press timer!"); }
+            }
+            break;
+          case TIMER_RELEASE:
+            //if press is wanted, but release timer is running
+            //->cancel timer
+            if(evt.type == VB_PRESS_EVENT)
+            {
+              ESP_LOGD(LOG_TAG,"Release canceled for VB%d",evt.vb);
+              if(cancelTimer(evt.vb) == -1) //stop current press debouncer
+              { ESP_LOGE(LOG_TAG,"Cannot cancel release timer!"); }
+            }
+            break;
+          case TIMER_IDLE:
+            ESP_LOGE(LOG_TAG,"Timer is idle but a valid ID?");
+            break;
+          case TIMER_DEADTIME:
+            ESP_LOGD(LOG_TAG,"Deadtime active, waiting.");
+            break;
+          case TIMER_ERROR:
+            ESP_LOGE(LOG_TAG,"Timer is in error state [%d]",evt.vb);
+          default:
+            ESP_LOGE(LOG_TAG,"Unknown status in xTimers[%d].dir",evt.vb);
+            break;
+        }
+      } /* else -> timerId != TIMER_IDLE */
+    } /* if(xQueueReceive... */
+  } /* while(1) */
+} /* task_debouncer */

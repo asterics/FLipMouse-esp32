@@ -230,8 +230,8 @@ void sendHIDCmd(hid_cmd_t *sendCmd, uint8_t vb, uint8_t* atorig, uint8_t replace
       sendCmd->atoriginal = NULL;
     }
     //add to HID cmd, remove from VB cmd
-    task_vb_delCmd(sendCmd->vb);
-    task_hid_addCmd(sendCmd,replace);
+    handler_vb_delCmd(sendCmd->vb);
+    handler_hid_addCmd(sendCmd,replace);
   }
 }
 /** @brief Helper to route a VB cmd either directly to queue or add it to the list
@@ -259,8 +259,8 @@ void sendVBCmd(vb_cmd_t *sendCmd, uint8_t vb, uint8_t* atorig, uint8_t replace)
       sendCmd->atoriginal = NULL;
     }
     //add to HID cmd, remove from VB cmd
-    task_hid_delCmd(sendCmd->vb);
-    task_vb_addCmd(sendCmd,replace);
+    handler_hid_delCmd(sendCmd->vb);
+    handler_vb_addCmd(sendCmd,replace);
   }
 }
 
@@ -703,8 +703,8 @@ esp_err_t cmdDn(char* orig, void* p1, void* p2) {
 esp_err_t cmdNc(char* orig, void* p1, void* p2) {
   if(requestVBUpdate != VB_SINGLESHOT)
   {
-    task_hid_delCmd(requestVBUpdate);
-    task_vb_delCmd(requestVBUpdate);
+    handler_hid_delCmd(requestVBUpdate);
+    handler_vb_delCmd(requestVBUpdate);
     requestVBUpdate = VB_SINGLESHOT;
   }
   return ESP_OK;
@@ -1110,12 +1110,12 @@ parserstate_t doKeyboardParsing(uint8_t *cmdBuffer, int length)
             //remove the pointer to the original string
             //but we don't free it, this is done if the task_hid clears the list
             //in addition, if it was the first command, set the adding to replace any old HID config.
-            task_vb_delCmd(cmd.vb);
+            handler_vb_delCmd(cmd.vb);
             if(cmd.atoriginal != NULL) 
             {
-              task_hid_addCmd(&cmd,1);
+              handler_hid_addCmd(&cmd,1);
               cmd.atoriginal = NULL;
-            } else task_hid_addCmd(&cmd,0);
+            } else handler_hid_addCmd(&cmd,0);
           }
           
           offsetOut++;
@@ -1140,12 +1140,12 @@ parserstate_t doKeyboardParsing(uint8_t *cmdBuffer, int length)
             //remove the pointer to the original string
             //but we don't free it, this is done if the task_hid clears the list
             //in addition, if it was the first command, set the adding to replace any old HID config.
-            task_vb_delCmd(cmd.vb);
+            handler_vb_delCmd(cmd.vb);
             if(cmd.atoriginal != NULL) 
             {
-              task_hid_addCmd(&cmd,1);
+              handler_hid_addCmd(&cmd,1);
               cmd.atoriginal = NULL;
-            } else task_hid_addCmd(&cmd,0);
+            } else handler_hid_addCmd(&cmd,0);
           }
         }
         
@@ -1159,12 +1159,12 @@ parserstate_t doKeyboardParsing(uint8_t *cmdBuffer, int length)
           //remove the pointer to the original string
           //but we don't free it, this is done if the task_hid clears the list
           //in addition, if it was the first command, set the adding to replace any old HID config.
-          task_vb_delCmd(cmd.vb);
+          handler_vb_delCmd(cmd.vb);
           if(cmd.atoriginal != NULL) 
           {
-            task_hid_addCmd(&cmd,1);
+            handler_hid_addCmd(&cmd,1);
             cmd.atoriginal = NULL;
-          } else task_hid_addCmd(&cmd,0);
+          } else handler_hid_addCmd(&cmd,0);
         }
         
         if(modifier){
@@ -1178,12 +1178,12 @@ parserstate_t doKeyboardParsing(uint8_t *cmdBuffer, int length)
             //remove the pointer to the original string
             //but we don't free it, this is done if the task_hid clears the list
             //in addition, if it was the first command, set the adding to replace any old HID config.
-            task_vb_delCmd(cmd.vb);
+            handler_vb_delCmd(cmd.vb);
             if(cmd.atoriginal != NULL) 
             {
-              task_hid_addCmd(&cmd,1);
+              handler_hid_addCmd(&cmd,1);
               cmd.atoriginal = NULL;
-            } else task_hid_addCmd(&cmd,0);
+            } else handler_hid_addCmd(&cmd,0);
           }
         }
         
@@ -1290,12 +1290,12 @@ parserstate_t doKeyboardParsing(uint8_t *cmdBuffer, int length)
             //remove the pointer to the original string
             //but we don't free it, this is done if the task_hid clears the list
             //in addition, if it was the first command, set the adding to replace any old HID config.
-            task_vb_delCmd(cmd.vb);
+            handler_vb_delCmd(cmd.vb);
             if(cmd.atoriginal != NULL) 
             {
-              task_hid_addCmd(&cmd,1);
+              handler_hid_addCmd(&cmd,1);
               cmd.atoriginal = NULL;
-            } else task_hid_addCmd(&cmd,0);
+            } else handler_hid_addCmd(&cmd,0);
           }
           
           //save for later release
@@ -1355,8 +1355,8 @@ parserstate_t doKeyboardParsing(uint8_t *cmdBuffer, int length)
             ESP_LOGI(LOG_TAG,"Sent release action 0x%2X, keycode/modifier: 0x%2X",cmd.cmd[0],cmd.cmd[1]);
             sendHIDCmd(&cmd);
           } else {
-            task_vb_delCmd(cmd.vb);
-            task_hid_addCmd(&cmd,0);
+            handler_vb_delCmd(cmd.vb);
+            handler_hid_addCmd(&cmd,0);
           }
         }
       }
@@ -1669,9 +1669,9 @@ void storeSlot(char* slotname)
     ESP_LOGD(LOG_TAG,"AT BM %02d",j);
     halStorageStore(tid,outputstring,0);
     //try to parse command either via HID or VB task
-    if(task_hid_getAT(outputstring,j) != ESP_OK)
+    if(handler_hid_getAT(outputstring,j) != ESP_OK)
     {
-      if(task_vb_getAT(outputstring,j) != ESP_OK)
+      if(handler_vb_getAT(outputstring,j) != ESP_OK)
       {
         //if no command was found, this usually means this one is not used.
         ESP_LOGI(LOG_TAG,"Unused VB, neither HID nor VB task found AT string");

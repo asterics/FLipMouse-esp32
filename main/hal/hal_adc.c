@@ -153,6 +153,7 @@ uint32_t validate(uint32_t value, uint32_t min, uint32_t max, uint32_t defaultVa
  * */
 void halAdcProcessStrongMode(adcData_t *D)
 {
+    raw_action_t evt;
     //on a FABI device, we cannot do this combination with analog values.
     //maybe it will be done on another firmware part.
     #ifdef DEVICE_FABI
@@ -188,12 +189,16 @@ void halAdcProcessStrongMode(adcData_t *D)
                 if(abs(D->x) > abs(D->y))
                 {
                     //x has higher values -> use LEFT/RIGHT
-                    if(D->x > 0) xEventGroupSetBits(virtualButtonsIn[VB_STRONGPUFF_RIGHT/4],(1<<(VB_STRONGPUFF_RIGHT%4)));
-                    else xEventGroupSetBits(virtualButtonsIn[VB_STRONGPUFF_LEFT/4],(1<<(VB_STRONGPUFF_LEFT%4)));
+                    if(D->x > 0) evt.vb = VB_STRONGPUFF_RIGHT;
+                    else evt.vb = VB_STRONGPUFF_LEFT;
+                    evt.type = VB_PRESS_EVENT;
+                    xQueueSendToBack(debouncer_in,&evt,0);
                 } else {
                     //y has higher values -> use UP/DOWN
-                    if(D->y > 0) xEventGroupSetBits(virtualButtonsIn[VB_STRONGPUFF_DOWN/4],(1<<(VB_STRONGPUFF_DOWN%4)));
-                    else xEventGroupSetBits(virtualButtonsIn[VB_STRONGPUFF_UP/4],(1<<(VB_STRONGPUFF_UP%4)));
+                    if(D->y > 0) evt.vb = VB_STRONGPUFF_DOWN;
+                    else evt.vb = VB_STRONGPUFF_UP;
+                    evt.type = VB_PRESS_EVENT;
+                    xQueueSendToBack(debouncer_in,&evt,0);
                 }
             }
             if(D->strongmode == STRONG_SIP)
@@ -201,12 +206,16 @@ void halAdcProcessStrongMode(adcData_t *D)
                 if(abs(D->x) > abs(D->y))
                 {
                     //x has higher values -> use LEFT/RIGHT
-                    if(D->x > 0) xEventGroupSetBits(virtualButtonsIn[VB_STRONGSIP_RIGHT/4],(1<<(VB_STRONGSIP_RIGHT%4)));
-                    else xEventGroupSetBits(virtualButtonsIn[VB_STRONGSIP_LEFT/4],(1<<(VB_STRONGSIP_LEFT%4)));
+                    if(D->x > 0) evt.vb = VB_STRONGSIP_RIGHT;
+                    else evt.vb = VB_STRONGSIP_LEFT;
+                    evt.type = VB_PRESS_EVENT;
+                    xQueueSendToBack(debouncer_in,&evt,0);
                 } else {
                     //y has higher values -> use UP/DOWN
-                    if(D->y > 0) xEventGroupSetBits(virtualButtonsIn[VB_STRONGSIP_DOWN/4],(1<<(VB_STRONGSIP_DOWN%4)));
-                    else xEventGroupSetBits(virtualButtonsIn[VB_STRONGSIP_UP/4],(1<<(VB_STRONGSIP_UP%4)));
+                    if(D->y > 0) evt.vb = VB_STRONGSIP_DOWN;
+                    else evt.vb = VB_STRONGSIP_UP;
+                    evt.type = VB_PRESS_EVENT;
+                    xQueueSendToBack(debouncer_in,&evt,0);
                 }
             }
             //cancel timer
@@ -507,6 +516,8 @@ void halAdcProcessPressure(adcData_t *D)
     uint32_t pressurevalue = D->pressure;
     //currently active general config
     generalConfig_t *cfg = configGetCurrent();
+    //the raw event, sent to the debouncer
+    raw_action_t evt;
     //cannot proceed if no global config is available
     if(cfg == NULL) return;
     
@@ -524,8 +535,9 @@ void halAdcProcessPressure(adcData_t *D)
             //create a tone
             TONE(TONE_SIP_FREQ,TONE_SIP_DURATION);
             //set/clear VBs
-            CLEARVB_RELEASE(VB_SIP);
-            SETVB_PRESS(VB_SIP);
+            evt.type = VB_PRESS_EVENT;
+            evt.vb = VB_SIP;
+            xQueueSendToBack(debouncer_in,&evt,0);
             //save fired state
             fired[0] = 1;
         }
@@ -533,8 +545,9 @@ void halAdcProcessPressure(adcData_t *D)
         if(fired[0] != 2)
         {
             //set/clear VBs
-            CLEARVB_PRESS(VB_SIP);
-            SETVB_RELEASE(VB_SIP);
+            evt.type = VB_RELEASE_EVENT;
+            evt.vb = VB_SIP;
+            xQueueSendToBack(debouncer_in,&evt,0);
             //track fired state
             fired[0] = 2;
         }
@@ -562,8 +575,10 @@ void halAdcProcessPressure(adcData_t *D)
                 TONE(TONE_STRONGSIP_ENTER_FREQ,TONE_STRONGSIP_ENTER_DURATION);
                 //either no strong sip + <yy> action is defined or strong
                 // is used, trigger strong sip VB.
-                CLEARVB_RELEASE(VB_STRONGSIP);
-                SETVB_PRESS(VB_STRONGSIP);
+                
+                evt.type = VB_PRESS_EVENT;
+                evt.vb = VB_STRONGSIP;
+                xQueueSendToBack(debouncer_in,&evt,0);
                 //save fired stated
                 fired[1] = 1;
             }
@@ -574,8 +589,9 @@ void halAdcProcessPressure(adcData_t *D)
         if(fired[1] != 2)
         {
             //set/clear VBs
-            CLEARVB_PRESS(VB_STRONGSIP);
-            SETVB_RELEASE(VB_STRONGSIP);
+            evt.type = VB_RELEASE_EVENT;
+            evt.vb = VB_STRONGSIP;
+            xQueueSendToBack(debouncer_in,&evt,0);
             //track fired state
             fired[1] = 2;
         }
@@ -591,8 +607,9 @@ void halAdcProcessPressure(adcData_t *D)
             //create a tone
             TONE(TONE_PUFF_FREQ,TONE_PUFF_DURATION);
             //set/clear VBs
-            CLEARVB_RELEASE(VB_PUFF);
-            SETVB_PRESS(VB_PUFF);
+            evt.type = VB_PRESS_EVENT;
+            evt.vb = VB_PUFF;
+            xQueueSendToBack(debouncer_in,&evt,0);
             //save fired state
             fired[2] = 1;
         }
@@ -600,8 +617,9 @@ void halAdcProcessPressure(adcData_t *D)
         if(fired[2] != 2)
         {
             //set/clear VBs
-            CLEARVB_PRESS(VB_PUFF);
-            SETVB_RELEASE(VB_PUFF);
+            evt.type = VB_RELEASE_EVENT;
+            evt.vb = VB_PUFF;
+            xQueueSendToBack(debouncer_in,&evt,0);
             //track fired state
             fired[2] = 2;
         }
@@ -629,8 +647,9 @@ void halAdcProcessPressure(adcData_t *D)
                 TONE(TONE_STRONGPUFF_ENTER_FREQ,TONE_STRONGPUFF_ENTER_DURATION);
                 //either no strong puff + <yy> action is defined or strong
                 // is used, trigger strong puff VB.
-                CLEARVB_RELEASE(VB_STRONGPUFF);
-                SETVB_PRESS(VB_STRONGPUFF);
+                evt.type = VB_PRESS_EVENT;
+                evt.vb = VB_STRONGPUFF;
+                xQueueSendToBack(debouncer_in,&evt,0);
                 //save fired state
                 fired[3] = 1;
             }
@@ -642,8 +661,9 @@ void halAdcProcessPressure(adcData_t *D)
         if(fired[3] != 2)
         {
             //set/clear VBs
-            CLEARVB_PRESS(VB_STRONGPUFF);
-            SETVB_RELEASE(VB_STRONGPUFF);
+            evt.type = VB_RELEASE_EVENT;
+            evt.vb = VB_STRONGPUFF;
+            xQueueSendToBack(debouncer_in,&evt,0);
             //track fired state
             fired[3] = 2;
         }
@@ -977,6 +997,7 @@ void halAdcTaskThreshold(void * pvParameters)
 {
     //analog values
     adcData_t D;
+    raw_action_t evt;
     D.strongmode = STRONG_NORMAL;
     TickType_t xLastWakeTime;
     //set adc data reference for timer
@@ -1015,14 +1036,22 @@ void halAdcTaskThreshold(void * pvParameters)
                 //set either left or right bit in debouncer input event group
                 if(D.x < 0) 
                 {
-                    SETVB_PRESS(VB_LEFT);
-                    SETVB_RELEASE(VB_RIGHT);
+                    evt.type = VB_PRESS_EVENT;
+                    evt.vb = VB_LEFT;
+                    xQueueSendToBack(debouncer_in,&evt,0);
+                    evt.type = VB_RELEASE_EVENT;
+                    evt.vb = VB_RIGHT;
+                    xQueueSendToBack(debouncer_in,&evt,0);
                     D.x = -1;
                 }
                 if(D.x > 0) 
                 {
-                    SETVB_PRESS(VB_RIGHT);
-                    SETVB_RELEASE(VB_LEFT);
+                    evt.type = VB_PRESS_EVENT;
+                    evt.vb = VB_RIGHT;
+                    xQueueSendToBack(debouncer_in,&evt,0);
+                    evt.type = VB_RELEASE_EVENT;
+                    evt.vb = VB_LEFT;
+                    xQueueSendToBack(debouncer_in,&evt,0);
                     D.x = 1;
                 }
                 //remember that we alread set the flag
@@ -1034,10 +1063,12 @@ void halAdcTaskThreshold(void * pvParameters)
                 //below threshold, clear the one-time flag setting variable
                 firedx = 0;
                 //also clear the debouncer event bits
-                SETVB_RELEASE(VB_LEFT);
-                CLEARVB_PRESS(VB_LEFT);
-                SETVB_RELEASE(VB_RIGHT);
-                CLEARVB_PRESS(VB_RIGHT);
+                evt.type = VB_RELEASE_EVENT;
+                evt.vb = VB_LEFT;
+                xQueueSendToBack(debouncer_in,&evt,0);
+                evt.type = VB_RELEASE_EVENT;
+                evt.vb = VB_RIGHT;
+                xQueueSendToBack(debouncer_in,&evt,0);
             }
         }
         
@@ -1051,14 +1082,22 @@ void halAdcTaskThreshold(void * pvParameters)
                 //set either left or right bit in debouncer input event group
                 if(D.y < 0) 
                 {
-                    SETVB_PRESS(VB_UP);
-                    SETVB_RELEASE(VB_DOWN);
+                    evt.type = VB_PRESS_EVENT;
+                    evt.vb = VB_UP;
+                    xQueueSendToBack(debouncer_in,&evt,0);
+                    evt.type = VB_RELEASE_EVENT;
+                    evt.vb = VB_DOWN;
+                    xQueueSendToBack(debouncer_in,&evt,0);
                     D.y = -1;
                 }
                 if(D.y > 0) 
                 {
-                    SETVB_PRESS(VB_DOWN);
-                    SETVB_RELEASE(VB_UP);
+                    evt.type = VB_PRESS_EVENT;
+                    evt.vb = VB_DOWN;
+                    xQueueSendToBack(debouncer_in,&evt,0);
+                    evt.type = VB_RELEASE_EVENT;
+                    evt.vb = VB_UP;
+                    xQueueSendToBack(debouncer_in,&evt,0);
                     D.y = 1;
                 }
                 //remember that we alread set the flag
@@ -1070,10 +1109,12 @@ void halAdcTaskThreshold(void * pvParameters)
             {
                 firedy = 0;
                 //also clear the debouncer event bits
-                SETVB_RELEASE(VB_UP);
-                CLEARVB_PRESS(VB_UP);
-                SETVB_RELEASE(VB_DOWN);
-                CLEARVB_PRESS(VB_DOWN);
+                evt.type = VB_RELEASE_EVENT;
+                evt.vb = VB_UP;
+                xQueueSendToBack(debouncer_in,&evt,0);
+                evt.type = VB_RELEASE_EVENT;
+                evt.vb = VB_DOWN;
+                xQueueSendToBack(debouncer_in,&evt,0);
             }
         }
         
@@ -1262,20 +1303,6 @@ esp_err_t halAdcInit(adc_config_t* params)
     //esp_adc_cal_get_characteristics(ADC_CAL_IDEAL_V_REF, ADC_ATTEN_DB_11, ADC_WIDTH_BIT_12, &characteristics);
     //esp_adc_cal_characterize(ADC_UNIT_1,ADC_ATTEN_DB_11,ADC_WIDTH_BIT_12,0,&characteristics);
     
-    //check if every queue is already initialized
-    for(uint8_t i = 0; i<NUMBER_VIRTUALBUTTONS; i++)
-    {
-        if(virtualButtonsIn[i] == 0)
-        {
-            ESP_LOGE("hal_adc","virtualButtonsIn uninitialized, exiting");
-            return ESP_FAIL;
-        }
-        if(virtualButtonsOut[i] == 0)
-        {
-            ESP_LOGE("hal_adc","virtualButtonsOut uninitialized, exiting");
-            return ESP_FAIL;
-        }
-    }
     if(hid_ble == NULL || hid_usb == NULL)
     {
         ESP_LOGE("hal_adc","queue uninitialized, exiting");
@@ -1286,7 +1313,7 @@ esp_err_t halAdcInit(adc_config_t* params)
     adcSem = xSemaphoreCreateMutex();
     
     //start first calibration
-    halAdcCalibrate();
+    //halAdcCalibrate();
     
     //initialize SW timer for STRONG mode timeout
     #ifdef DEVICE_FLIPMOUSE

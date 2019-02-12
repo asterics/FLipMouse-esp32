@@ -54,11 +54,6 @@
 #include "hal_ble.h"
 #include "hal_serial.h"
 
-//include all functional tasks, making config structs available
-#include "task_hid.h"
-#include "task_vb.h"
-#include "task_debouncer.h"
-
 /** Stacksize for functional task task_configswitcher.
  * @see task_configswitcher */
 #define TASK_CONFIGSWITCHER_STACKSIZE 2048

@@ -56,6 +56,9 @@
 
 #include "hal_serial.h"
 #include "fct_infrared.h"
+#include "fct_macros.h"
+#include "handler_hid.h"
+#include "handler_vb.h"
 #include "keyboard.h"
 #include "../config_switcher.h"
 

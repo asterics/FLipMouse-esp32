@@ -1307,7 +1307,7 @@ esp_err_t halStorageStoreIR(uint32_t tid, halIOIR_t *cfg, char *cmdName)
   }
   
   //create filename from slotnumber
-  sprintf(file,"%s/IR_%02d.set",base_path,cmdnumber);
+  sprintf(file,"%s/IR_%03d.set",base_path,cmdnumber);
   
   //open file for writing
   #if LOG_LEVEL_STORAGE >= ESP_LOG_DEBUG
@@ -1387,7 +1387,7 @@ esp_err_t halStorageLoadIR(char *cmdName, halIOIR_t *cfg, uint32_t tid)
   
   do {
     //create filename string to search if this slot is available
-    sprintf(file,"%s/IR_%02d.set",base_path,currentSlot);
+    sprintf(file,"%s/IR_%03d.set",base_path,currentSlot);
     
     //open file for reading
     #if LOG_LEVEL_STORAGE >= ESP_LOG_DEBUG

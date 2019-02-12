@@ -15,7 +15,7 @@
  * MA 02110-1301, USA.
  * 
  * 
- * Copyright 2017 Benjamin Aigner <aignerb@technikum-wien.at,
+ * Copyright 2019 Benjamin Aigner <aignerb@technikum-wien.at,
  * beni@asterics-foundation.org>
  */
 /**
@@ -23,9 +23,33 @@
  * @brief CONTINOUS TASK - This file contains the task implementation for the virtual button
  * debouncer.
  * 
- * Uses the event flags of virtualButtonsIn and if a flag is set there,
- * the debouncer waits for a defined debouncing time and maps the flags
- * to virtualButtonsOut.
+ * This debouncer task (task_debouncer) waits for incoming events (of
+ * type raw_action_t)on the debouncer_in queue. If an incoming event
+ * is registered, a timer (esp_timer) will be started. On a finished
+ * debounce event, the corresponding event is sent to the system event
+ * loop.
+ * 
+ * The debouncing itself can be controlled via following variables
+ * (these settings are located in the global config):
+ * 
+ * * Press debounce time
+ * * Release debounce time
+ * * Deadtime between two consecutive actions
+ * 
+ * If one of these values is set for one dedicated VB, it will be used.
+ * If there is no setting, the device's default will be used. If the
+ * there is no default setting for this device, a hardcoded debounce time
+ * of DEBOUNCETIME_MS is used.
+ * 
+ * @note For each VB, a debouncer_cfg_t element will be used. The size
+ * of this array is determined by VB_MAX. Please set this define accordingly!
+ * 
+ * @see VB_MAX
+ * @see DEBOUNCETIME_MS
+ * @see debouncer_in
+ * @see raw_action_t
+ * @see generalConfig_t
+ * 
  */
 
 #ifndef _TASK_DEBOUNCER_H
@@ -35,32 +59,19 @@
 #include <freertos/event_groups.h>
 #include <esp_event.h>
 #include <esp_log.h>
+#include <esp_timer.h>
 //common definitions & data for all of these functional tasks
 #include "common.h"
 #include "../config_switcher.h"
 
-/** Default time before debounce kicks in and flag is mapped 
- * from virtualButtonsIn to virtualButtonsOut. 
- * @see virtualButtonsIn
- * @see virtualButtonsOut
- * @note Should be a factor of DEBOUNCE_RESOLUTION_MS, to avoid float divisions
+/** @brief Default time before debounce kicks in and a raw_action input
+ * event is sent to the system event loop.
+ * @note This debounce time is used, if no values are set in generalconfig.
  * */
 #define DEBOUNCETIME_MS 50
 
-/** Time between each flag is checked and timers are started 
- * if a debounce value less than this is selected, flags are mapped
- * immediately
- * @note Please use a value >10ms, otherwise it might be less than a systick
- * @note Adjust according to DEBOUNCETIME_MS
- * @see DEBOUNCETIME_MS */
- 
-#define DEBOUNCE_RESOLUTION_MS 10
-/** @brief Number of concurrent debouncing channels, each channel represents
- * one software timer handle
- * @note If set to a value less than the number of virtual buttons, there
- * might be the possibility to miss button presses because of too less timer
- * slots. */
-#define DEBOUNCERCHANNELS 32
+/** @brief Minimum debounce time, anything below will be mapped directly. */
+#define DEBOUNCETIME_MIN_MS 10
 
 /** Stack size for debouncer task */
 #define TASK_DEBOUNCER_STACKSIZE 2048

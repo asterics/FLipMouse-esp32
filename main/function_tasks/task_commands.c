@@ -105,13 +105,6 @@ vb_cmd_t vbaction;
  * @warning Must be set before calling the parser, will be modified there!
  */
 generalConfig_t *currentCfg = NULL;
-
-
-/** Simple macro to short the command comparison (full AT cmd with 5 chars) */
-#define CMD(x) (memcmp(cmdBuffer,x,5) == 0)
-
-/** Simple macro to short the command comparison (part of AT cmd with 4 chars) */
-#define CMD4(x) (memcmp(cmdBuffer,x,4) == 0)
  
 static TaskHandle_t currentCommandTask = NULL;
 
@@ -137,25 +130,6 @@ uint8_t requestVBUpdate = VB_SINGLESHOT;
  * @see requestVBUpdate
  * */
 uint8_t requestBM = 0;
-
-/** @brief Current state of parser
- * 
- * Following states are possible for the parser here:<br>
- * * <b>NOACTION</b> An AT command was found, but no further action is taken afterwards.
- *   E.g, AT AX sets the accleration directly to the config and requests a general update
- *   via setting requestUpdate to 1.
- * * <b>WAITFORNEWATCMD</b> In this case, AT BM was sent to set a new command for a virtual
- *   button. The next AT command will NOT be triggering anything. It will be used as new cmd.
- *   An error will be raised, if the following command cannot be used for VBs (e.g., AT AX).
- * * <b>UNKNOWNCMD</b> No command was found (is returned for each subparser if no command
- *   is found)
- * * <b>TRIGGERTASK</b> If this is returned by sub-parsers, the main task needs to
- *   trigger/process this command, either by assigning it to a VB or triggering it as
- *   singleshot task.
- * * <b>HID</b> This state is used to determine an HID command, which is either directly sent
- *   the BLE/USB queue (VB_SINGLESHOT) or added to the HID task.
- * */
-typedef enum pstate {NOACTION,UNKNOWNCMD,VB,HID} parserstate_t;
 
 /** simple helper function which sends back to the USB host "?"
  * and prints an error on the console with the given extra infos. */
@@ -852,7 +826,6 @@ esp_err_t cmdIc(char* orig, void* p1, void* p2) {
         ESP_LOGE(LOG_TAG,"Cannot delete IR cmd %s",(char*)p1);
       } else {
         ESP_LOGI(LOG_TAG,"Deleted IR slot %s @%d",(char*)p1,nr);
-        return NOACTION;
       }
     } else {
       ESP_LOGE(LOG_TAG,"No slot found for IR cmd %s",(char*)p1);
@@ -1542,7 +1515,6 @@ void printAllSlots(uint8_t printconfig)
     //either print slot name ("AT LI")
     if(printconfig == 0)
     {
-      //or the whole config
       halStorageLoadNumber(i,tid,2);
     } else {
       //or the whole config
@@ -1581,7 +1553,6 @@ void storeSlot(char* slotname)
     //name not used.
     //get number of currently active slots, and add one for a new slot
     halStorageGetNumberOfSlots(tid, &slotnumber);
-    ///@todo Should we increment here or not? Should work -> 1 active slot -> save new config @1
     ESP_LOGI(LOG_TAG,"Save new slot %d under name: %s",slotnumber,slotname);
   } else {
     //name is already used, overwrite

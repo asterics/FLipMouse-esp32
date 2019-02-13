@@ -59,7 +59,7 @@
 #define LOG_TAG "task_debouncer"
 
 /** @brief Debouncer log level */
-#define LOG_LEVEL_DEBOUNCE ESP_LOG_DEBUG
+#define LOG_LEVEL_DEBOUNCE ESP_LOG_INFO
 
 /** @brief Debounce timer, current direction for this timer
  * When a debounce timer is started, a parameter struct of
@@ -131,11 +131,12 @@ debouncer_direction_t isDebouncerActive(uint32_t virtualButton)
  * timer with the given VB number (used as timer id) and cancel it
  * @param virtualButton Number of VB to look for a running timer, use
  * VB_MAX to cancel all timers.
+ * @param stop Should we stop the timer before deleting (if set != 0)
  * @return Array offset where this running timer was found & canceled,\
  *  -1 if no timer was found (or all were cleared)
  * @note If VB_MAX is given, all timers are canceled.
  * */
-int cancelTimer(uint32_t virtualButton)
+int cancelTimer(uint32_t virtualButton, uint8_t stop)
 {
   //if we have VB_MAX here, cancel all of them
   if(virtualButton >= VB_MAX)
@@ -144,6 +145,7 @@ int cancelTimer(uint32_t virtualButton)
     {
       if(xTimers[i].handle != NULL)
       {
+        if(stop != 0) esp_timer_stop(xTimers[i].handle);
         esp_timer_delete(xTimers[i].handle);
         xTimers[i].handle = NULL;
       }
@@ -156,9 +158,14 @@ int cancelTimer(uint32_t virtualButton)
   //else: cancel only requested timer
   if(xTimers[virtualButton].handle != NULL)
   {
-    esp_timer_stop(xTimers[virtualButton].handle);
-    esp_timer_delete(xTimers[virtualButton].handle);
-    xTimers[virtualButton].handle = NULL;
+    if(stop != 0)
+    {
+      if(esp_timer_stop(xTimers[virtualButton].handle) != ESP_OK)
+      { ESP_LOGW(LOG_TAG,"Error stopping timer %d",virtualButton); }
+    }
+    if(esp_timer_delete(xTimers[virtualButton].handle) != ESP_OK)
+    { ESP_LOGW(LOG_TAG,"Error deleting timer %d",virtualButton); }
+    xTimers[virtualButton].handle = NULL; //set handle to NULL, so we remember a stopped timer
     xTimers[virtualButton].dir = TIMER_IDLE;
     return virtualButton;
   } else {
@@ -246,7 +253,7 @@ void debouncerCallback(void *arg) {
         ESP_LOGW(LOG_TAG,"Cannot post event!");
       }
       //stop timer
-      if(cancelTimer(virtualButton) == -1) ESP_LOGE(LOG_TAG,"Cannot cancel timer (CB)!");
+      if(cancelTimer(virtualButton,0) == -1) ESP_LOGE(LOG_TAG,"Cannot cancel timer (CB)!");
       //send feedback to host, if enabled
       sendButtonLearn(virtualButton,VB_PRESS_EVENT,cfg);
       break;
@@ -258,19 +265,20 @@ void debouncerCallback(void *arg) {
         ESP_LOGW(LOG_TAG,"Cannot post event!");
       }
       //stop timer
-      if(cancelTimer(virtualButton) == -1) ESP_LOGE(LOG_TAG,"Cannot cancel timer (CB)!");
+      if(cancelTimer(virtualButton,0) == -1) ESP_LOGE(LOG_TAG,"Cannot cancel timer (CB)!");
       //send feedback to host, if enabled
       sendButtonLearn(virtualButton,VB_RELEASE_EVENT,cfg);
       break;
     case TIMER_DEADTIME:
       ESP_LOGD(LOG_TAG,"Deadtime finished, ready");
-      if(cancelTimer(virtualButton) == -1) ESP_LOGE(LOG_TAG,"Cannot cancel timer (CB)!");
+      if(cancelTimer(virtualButton,0) == -1) ESP_LOGE(LOG_TAG,"Cannot cancel timer (CB)!");
       return;
     default: return;
   }
   //if necessary, start timer again for deadtime.
   if(deadtime != 0)
   {
+    if(cancelTimer(virtualButton,0) == -1) ESP_LOGE(LOG_TAG,"Cannot cancel timer (CB)!");
     debcfg->dir = TIMER_DEADTIME;
     if(startTimer(debcfg,deadtime) != ESP_OK) 
     {
@@ -291,7 +299,7 @@ esp_err_t startTimer(debouncer_cfg_t *cfg, uint16_t debounceTime)
   if(cfg->vb >= VB_MAX) return ESP_FAIL;
   
   //if there is a timer running, cancel it before.
-  if(isDebouncerActive(cfg->vb) != TIMER_IDLE) cancelTimer(cfg->vb);
+  if(isDebouncerActive(cfg->vb) != TIMER_IDLE) cancelTimer(cfg->vb,1);
   
   //create the timer
   esp_timer_create_args_t args;
@@ -374,7 +382,7 @@ void task_debouncer(void *param)
     if((xEventGroupGetBits(systemStatus) & SYSTEM_STABLECONFIG) == 0)
     {
       //cancel all timers
-      cancelTimer(VB_MAX);
+      cancelTimer(VB_MAX,1);
       //clear all VB events
       xQueueReset(debouncer_in);
       //wait 5 ticks to check again
@@ -455,7 +463,7 @@ void task_debouncer(void *param)
             if(evt.type == VB_RELEASE_EVENT)
             {
               ESP_LOGD(LOG_TAG,"Press canceled for VB%d",evt.vb);
-              if(cancelTimer(evt.vb) == -1) //stop current press debouncer
+              if(cancelTimer(evt.vb,1) == -1) //stop current press debouncer
               { ESP_LOGE(LOG_TAG,"Cannot cancel press timer!"); }
             }
             break;
@@ -465,7 +473,7 @@ void task_debouncer(void *param)
             if(evt.type == VB_PRESS_EVENT)
             {
               ESP_LOGD(LOG_TAG,"Release canceled for VB%d",evt.vb);
-              if(cancelTimer(evt.vb) == -1) //stop current press debouncer
+              if(cancelTimer(evt.vb,1) == -1) //stop current press debouncer
               { ESP_LOGE(LOG_TAG,"Cannot cancel release timer!"); }
             }
             break;

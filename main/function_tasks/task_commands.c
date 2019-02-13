@@ -407,7 +407,7 @@ esp_err_t keyboard_helper_parsekeycode(char t, uint8_t *buf)
   uint8_t cnt = 0;
   uint16_t keycode = 0;
   uint16_t releaseArr[16];
-  pch = (char*)buf-1;
+  pch = (char*)&buf[5];
   while (pch != NULL)
   {
     ESP_LOGD(LOG_TAG,"Token: %s",pch+1);
@@ -452,7 +452,8 @@ esp_err_t keyboard_helper_parsekeycode(char t, uint8_t *buf)
         }
 
         //send the cmd either directly or save it to the HID task
-        if(deleted == 0) sendHIDCmd(&cmd,requestVBUpdate,buf,1);        
+        //we do the press event here.
+        if(deleted == 0) sendHIDCmd(&cmd,requestVBUpdate|0x80,buf,1);        
         else sendHIDCmd(&cmd,requestVBUpdate,NULL,0);
         deleted = 1;
         ESP_LOGI(LOG_TAG,"Press action 0x%2X, keycode/modifier: 0x%2X",cmd.cmd[0],cmd.cmd[1]);
@@ -550,8 +551,8 @@ esp_err_t cmdKw(char* orig, void* p1, void* p2) {
         cmd.cmd[1] = deadkeyfirst;
         
         //send the cmd either directly or save it to the HID task
-        if(deleted == 0) sendHIDCmd(&cmd,requestVBUpdate,(uint8_t*)orig,1);        
-        else sendHIDCmd(&cmd,requestVBUpdate,NULL,0);
+        if(deleted == 0) sendHIDCmd(&cmd,requestVBUpdate|0x80,(uint8_t*)orig,1);        
+        else sendHIDCmd(&cmd,requestVBUpdate|0x80,NULL,0);
         deleted = 1;
         
         offsetOut++;
@@ -568,22 +569,22 @@ esp_err_t cmdKw(char* orig, void* p1, void* p2) {
       if(modifier){
         cmd.cmd[0] = 0x25; cmd.cmd[1] = modifier;
         //send the cmd either directly or save it to the HID task
-        if(deleted == 0) sendHIDCmd(&cmd,requestVBUpdate,(uint8_t*)orig,1);        
-        else sendHIDCmd(&cmd,requestVBUpdate,NULL,0);
+        if(deleted == 0) sendHIDCmd(&cmd,requestVBUpdate|0x80,(uint8_t*)orig,1);        
+        else sendHIDCmd(&cmd,requestVBUpdate|0x80,NULL,0);
         deleted = 1;
       }
       
       cmd.cmd[0] = 0x20; cmd.cmd[1] = keycode;
       //send the cmd either directly or save it to the HID task
-      if(deleted == 0) sendHIDCmd(&cmd,requestVBUpdate,(uint8_t*)orig,1);        
-      else sendHIDCmd(&cmd,requestVBUpdate,NULL,0);
+      if(deleted == 0) sendHIDCmd(&cmd,requestVBUpdate|0x80,(uint8_t*)orig,1);        
+      else sendHIDCmd(&cmd,requestVBUpdate|0x80,NULL,0);
       deleted = 1;
       
       if(modifier){
         cmd.cmd[0] = 0x26; cmd.cmd[1] = modifier;
         //send the cmd either directly or save it to the HID task
-        if(deleted == 0) sendHIDCmd(&cmd,requestVBUpdate,(uint8_t*)orig,1);        
-        else sendHIDCmd(&cmd,requestVBUpdate,NULL,0);
+        if(deleted == 0) sendHIDCmd(&cmd,requestVBUpdate|0x80,(uint8_t*)orig,1);        
+        else sendHIDCmd(&cmd,requestVBUpdate|0x80,NULL,0);
         deleted = 1;
       }
       
@@ -596,13 +597,13 @@ esp_err_t cmdKw(char* orig, void* p1, void* p2) {
   return ESP_OK;
 }
 esp_err_t cmdKp(char* orig, void* p1, void* p2) {
-  return keyboard_helper_parsekeycode('P',(uint8_t*)p1);}
+  return keyboard_helper_parsekeycode('P',(uint8_t*)orig);}
 esp_err_t cmdKh(char* orig, void* p1, void* p2) {
-  return keyboard_helper_parsekeycode('H',(uint8_t*)p1);}
+  return keyboard_helper_parsekeycode('H',(uint8_t*)orig);}
 esp_err_t cmdKr(char* orig, void* p1, void* p2) {
-  return keyboard_helper_parsekeycode('R',(uint8_t*)p1);}
+  return keyboard_helper_parsekeycode('R',(uint8_t*)orig);}
 esp_err_t cmdKt(char* orig, void* p1, void* p2) {
-  return keyboard_helper_parsekeycode('T',(uint8_t*)p1);}
+  return keyboard_helper_parsekeycode('T',(uint8_t*)orig);}
 esp_err_t cmdRa(char* orig, void* p1, void* p2) {
   halBLEReset(0xFE);
   halSerialReset(0xFE);
@@ -1397,13 +1398,16 @@ void task_commands(void *params)
           ESP_LOGE(LOG_TAG,"Handler error, parser config illegal or handler has thrown an error!");
           break;
         case PARAMERROR:
-          halSerialSendUSBSerial((char*)"? - params",12,100);
+          halSerialSendUSBSerial((char*)"? - params:",12,100);
+          halSerialSendUSBSerial((char*)commandBuffer,strlen((char*)commandBuffer),100);
           break;
         case FORMATERROR:
-          halSerialSendUSBSerial((char*)"? - format",12,100);
+          halSerialSendUSBSerial((char*)"? - format:",12,100);
+          halSerialSendUSBSerial((char*)commandBuffer,strlen((char*)commandBuffer),100);
           break;
         case NOCOMMAND:
-          halSerialSendUSBSerial((char*)"?",3,100);
+          halSerialSendUSBSerial((char*)"?:",3,100);
+          halSerialSendUSBSerial((char*)commandBuffer,strlen((char*)commandBuffer),100);
           break;
         case SUCCESS:
           strip((char*)commandBuffer);
@@ -1567,7 +1571,7 @@ void storeSlot(char* slotname)
     return;
   }
   //add NL character
-  halStorageStore(tid,"\n",0);
+  halStorageStore(tid,"\n",250);
 
   char *outputstring = malloc(ATCMD_LENGTH+1);
   if(outputstring == NULL)
@@ -1588,28 +1592,28 @@ void storeSlot(char* slotname)
   ///TODO: should be possible to do this following stuff with a nice loop over the command array?!?
   
   sprintf(outputstring,"AT AX %d\n",currentcfg->adc.sensitivity_x);
-  halStorageStore(tid,outputstring,0);
+  halStorageStore(tid,outputstring,250);
   sprintf(outputstring,"AT AY %d\n",currentcfg->adc.sensitivity_y);
-  halStorageStore(tid,outputstring,0);
+  halStorageStore(tid,outputstring,250);
   sprintf(outputstring,"AT DX %d\n",currentcfg->adc.deadzone_x);
-  halStorageStore(tid,outputstring,0);
+  halStorageStore(tid,outputstring,250);
   sprintf(outputstring,"AT DY %d\n",currentcfg->adc.deadzone_y);
-  halStorageStore(tid,outputstring,0);
+  halStorageStore(tid,outputstring,250);
   
   sprintf(outputstring,"AT MS %d\n",currentcfg->adc.max_speed);
-  halStorageStore(tid,outputstring,0);
+  halStorageStore(tid,outputstring,250);
   sprintf(outputstring,"AT AC %d\n",currentcfg->adc.acceleration);
-  halStorageStore(tid,outputstring,0);
+  halStorageStore(tid,outputstring,250);
   sprintf(outputstring,"AT TS %d\n",currentcfg->adc.threshold_sip);
-  halStorageStore(tid,outputstring,0);
+  halStorageStore(tid,outputstring,250);
   sprintf(outputstring,"AT TP %d\n",currentcfg->adc.threshold_puff);
-  halStorageStore(tid,outputstring,0);
+  halStorageStore(tid,outputstring,250);
   sprintf(outputstring,"AT WS %d\n",currentcfg->wheel_stepsize);
-  halStorageStore(tid,outputstring,0);
+  halStorageStore(tid,outputstring,250);
   sprintf(outputstring,"AT SP %d\n",currentcfg->adc.threshold_strongpuff);
-  halStorageStore(tid,outputstring,0);
+  halStorageStore(tid,outputstring,250);
   sprintf(outputstring,"AT SS %d\n",currentcfg->adc.threshold_strongsip);
-  halStorageStore(tid,outputstring,0);
+  halStorageStore(tid,outputstring,250);
   
   switch(currentcfg->adc.mode)
   {
@@ -1618,10 +1622,10 @@ void storeSlot(char* slotname)
     case THRESHOLD: sprintf(outputstring,"AT MM 0\n"); break;
     case NONE: sprintf(outputstring,"AT MM 3\n"); break;
   }
-  halStorageStore(tid,outputstring,0);
+  halStorageStore(tid,outputstring,250);
   
   sprintf(outputstring,"AT RO %d\n",currentcfg->adc.orientation);
-  halStorageStore(tid,outputstring,0);
+  halStorageStore(tid,outputstring,250);
   
   
   //return: 0 if nothing is active, 1 for USB only, 2 for BLE only, 3 for both
@@ -1629,7 +1633,7 @@ void storeSlot(char* slotname)
   if(currentcfg->ble_active != 0) btret+=2;
   if(currentcfg->usb_active != 0) btret+=1;
   sprintf(outputstring,"AT BT %d\n",btret);
-  halStorageStore(tid,outputstring,0);
+  halStorageStore(tid,outputstring,250);
       
   //iterate over all possible VBs.
   for(uint8_t j = 0; j<VB_MAX; j++)
@@ -1638,20 +1642,20 @@ void storeSlot(char* slotname)
     sprintf(outputstring,"AT BM %02d\n",j);
     ///@todo remove this logging tag
     ESP_LOGD(LOG_TAG,"AT BM %02d",j);
-    halStorageStore(tid,outputstring,0);
+    halStorageStore(tid,outputstring,250);
     //try to parse command either via HID or VB task
     if(handler_hid_getAT(outputstring,j) != ESP_OK)
     {
       if(handler_vb_getAT(outputstring,j) != ESP_OK)
       {
         //if no command was found, this usually means this one is not used.
-        ESP_LOGI(LOG_TAG,"Unused VB, neither HID nor VB task found AT string");
+        ESP_LOGD(LOG_TAG,"Unused VB, neither HID nor VB task found AT string");
         sprintf(outputstring,"AT NC");
       }
     }
     //store reverse parsed at string
-    halStorageStore(tid,outputstring,0);
-    halStorageStore(tid,"\n",0);
+    halStorageStore(tid,outputstring,250);
+    halStorageStore(tid,"\n",250);
     ///@todo remove this logging tag
     ESP_LOGD(LOG_TAG,"%s",outputstring);
   }

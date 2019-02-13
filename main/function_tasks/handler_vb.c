@@ -258,11 +258,6 @@ esp_err_t handler_vb_addCmd(vb_cmd_t *newCmd, uint8_t replace)
     ESP_LOGE(LOG_TAG,"newCmd->vb out of range");
     return ESP_FAIL;
   }
-  if(((newCmd->vb & 0x7F) / 4) >= NUMBER_VIRTUALBUTTONS)
-  {
-    ESP_LOGE(LOG_TAG,"array out of bounds -> unrecoverable!");
-    return ESP_FAIL;
-  }
   
   //take mutex for modifying
   if(xSemaphoreTake(vbCmdSem,50) != pdTRUE)

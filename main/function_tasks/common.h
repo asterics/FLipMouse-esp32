@@ -413,11 +413,11 @@ typedef struct generalConfig {
    * */
   uint8_t feedback;
   /** @brief Anti-tremor (debounce) time for press of each VB */
-  uint16_t debounce_press_vb[NUMBER_VIRTUALBUTTONS*4];
+  uint16_t debounce_press_vb[VB_MAX];
   /** @brief Anti-tremor (debounce) time for release of each VB */
-  uint16_t debounce_release_vb[NUMBER_VIRTUALBUTTONS*4];
+  uint16_t debounce_release_vb[VB_MAX];
   /** @brief Anti-tremor (debounce) time for idle of each VB */
-  uint16_t debounce_idle_vb[NUMBER_VIRTUALBUTTONS*4];
+  uint16_t debounce_idle_vb[VB_MAX];
   /** @brief Slotname of this config */
   char slotName[SLOTNAME_LENGTH];
 } generalConfig_t;

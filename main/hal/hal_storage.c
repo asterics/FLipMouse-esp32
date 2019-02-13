@@ -64,7 +64,7 @@
 #include "hal_storage.h"
 
 #define LOG_TAG "hal_storage"
-#define LOG_LEVEL_STORAGE ESP_LOG_INFO
+#define LOG_LEVEL_STORAGE ESP_LOG_DEBUG
 
 /** @brief Mutex which is used to avoid multiple access to different loaded slots 
  * @see storageCurrentTID*/
@@ -1217,7 +1217,7 @@ esp_err_t halStorageStore(uint32_t tid, char *cfgstring, uint8_t slotnumber)
   
   if(halStorageChecks(tid) != ESP_OK) return ESP_FAIL;
   
-  if(slotnumber >= 250) 
+  if(storeHandle == NULL && slotnumber >= 250) 
   {
     ESP_LOGE(LOG_TAG,"Slotnumber too high: %d, 0-249",slotnumber);
     return ESP_FAIL;

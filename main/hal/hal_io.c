@@ -406,9 +406,19 @@ void halIOLEDTask(void * param)
     //wait for updates
     if(xQueueReceive(halIOLEDQueue,&recv,portMAX_DELAY))
     {
-      //check if feedback mode is set to LED output. If not: do nothing
-      if((cfg->feedback & 0x01) == 0) continue;
-      
+      //check if feedback mode is set to LED output. 
+      //If not: clear LED
+      if((cfg->feedback & 0x01) == 0)
+      {
+        for(uint8_t i = 0; i<LED_NEOPIXEL_COUNT; i++)
+        {
+          //set the same color for each LED
+          led_strip_set_pixel_rgb(&led_strip, i,0,0,0);
+        }
+        //show new color
+        led_strip_show(&led_strip);
+        continue;
+      }
       //determine mode
       switch(((recv & 0xFF000000) >> 24))
       {

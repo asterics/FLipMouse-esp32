@@ -151,6 +151,7 @@ If set to 1, the axis/slider/hat will be released to its idle position on a VB r
 | AT IT | number (2-100) | timeout for recording IR commands (time[ms] between 2 edges) | v2 | yes | no |
 | AT IL |   | list all available stored IR commands  | v2 | yes | no |
 | AT IX | number (1-99) | Delete one IR slot. | v3 | yes | no |
+| AT II | string (2-32chars) | Set an idle IR command. Will be sent AFTER EACH normally sent command. | v2.7 | no | no |
 
 ## Button assignments - FLipMouse
 

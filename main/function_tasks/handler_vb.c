@@ -157,9 +157,9 @@ static void handler_vb(void *event_handler_arg, esp_event_base_t event_base, int
     current = current->next;
   }
   #if LOG_LEVEL_VB >= ESP_LOG_DEBUG
-  ESP_LOGD(LOG_TAG,"Sent %d cmds for VB %d", count, vb & 0x7F);
+  if(count == 0) ESP_LOGD(LOG_TAG,"Sent %d cmds for VB %d", count, vb & 0x7F);
   #endif
-
+  if(count != 0) ESP_LOGI(LOG_TAG,"Sent %d cmds for VB %d", count, vb & 0x7F);
   xSemaphoreGive(vbCmdSem);
 }
 
@@ -485,7 +485,7 @@ esp_err_t handler_vb_getAT(char* output, uint8_t vb)
       {
         strncpy(output,current->atoriginal,ATCMD_LENGTH);
         #if LOG_LEVEL_VB >= ESP_LOG_INFO
-        ESP_LOGI(LOG_TAG,"Found original AT cmd: %s",output);
+        ESP_LOGI(LOG_TAG,"BM%02d: %s",vb,output);
         #endif
         xSemaphoreGive(vbCmdSem);
         return ESP_OK;
@@ -493,7 +493,7 @@ esp_err_t handler_vb_getAT(char* output, uint8_t vb)
     }
     current = current->next;
   }
-  ESP_LOGW(LOG_TAG,"No AT command found");
+  ESP_LOGD(LOG_TAG,"No AT command found");
   xSemaphoreGive(vbCmdSem);
   return ESP_FAIL;
 }

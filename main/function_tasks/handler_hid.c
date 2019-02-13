@@ -123,9 +123,10 @@ static void handler_hid(void *event_handler_arg, esp_event_base_t event_base, in
     }
     current = current->next;
   }
-  #if LOG_LEVEL_HID >= ESP_LOG_DEBUG
-  ESP_LOGD(LOG_TAG,"Sent %d cmds for VB %d", count, vb & 0x7F);
+  #if LOG_LEVEL_VB >= ESP_LOG_DEBUG
+  if(count == 0) ESP_LOGD(LOG_TAG,"Sent %d cmds for VB %d", count, vb & 0x7F);
   #endif
+  if(count != 0) ESP_LOGI(LOG_TAG,"Sent %d cmds for VB %d", count, vb & 0x7F);
   xSemaphoreGive(hidCmdSem);
 }
 
@@ -453,7 +454,7 @@ esp_err_t handler_hid_getAT(char* output, uint8_t vb)
       {
         strncpy(output,current->atoriginal,ATCMD_LENGTH);
         #if LOG_LEVEL_HID >= ESP_LOG_INFO
-        ESP_LOGI(LOG_TAG,"Found original AT cmd: %s",output);
+        ESP_LOGI(LOG_TAG,"BM%02d: %s",vb,output);
         #endif
         xSemaphoreGive(hidCmdSem);
         return ESP_OK;
@@ -461,7 +462,7 @@ esp_err_t handler_hid_getAT(char* output, uint8_t vb)
     }
     current = current->next;
   }
-  ESP_LOGW(LOG_TAG,"No AT command found");
+  ESP_LOGD(LOG_TAG,"No AT command found");
   xSemaphoreGive(hidCmdSem);
   return ESP_FAIL;
 }

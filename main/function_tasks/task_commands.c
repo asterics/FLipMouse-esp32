@@ -407,6 +407,9 @@ esp_err_t keyboard_helper_parsekeycode(char t, uint8_t *buf)
   uint8_t cnt = 0;
   uint16_t keycode = 0;
   uint16_t releaseArr[16];
+  
+  //remove trailing \r/\n
+  strip((char*)buf);
   pch = (char*)&buf[5];
   while (pch != NULL)
   {
@@ -454,7 +457,7 @@ esp_err_t keyboard_helper_parsekeycode(char t, uint8_t *buf)
         //send the cmd either directly or save it to the HID task
         //we do the press event here.
         if(deleted == 0) sendHIDCmd(&cmd,requestVBUpdate|0x80,buf,1);        
-        else sendHIDCmd(&cmd,requestVBUpdate,NULL,0);
+        else sendHIDCmd(&cmd,requestVBUpdate|0x80,NULL,0);
         deleted = 1;
         ESP_LOGI(LOG_TAG,"Press action 0x%2X, keycode/modifier: 0x%2X",cmd.cmd[0],cmd.cmd[1]);
         //save for later release
@@ -525,6 +528,9 @@ esp_err_t cmdKw(char* orig, void* p1, void* p2) {
   //if the first HID cmd is sent, this flag is set.
   uint8_t deleted = 0;
   memset(&cmd,0,sizeof(hid_cmd_t));
+  
+  //remove trailing \r/\n
+  strip(p1);
 
   //save each byte from KW string to keyboard instance
   //offset must be less then buffer length - 6 bytes for "AT KW "
@@ -533,6 +539,7 @@ esp_err_t cmdKw(char* orig, void* p1, void* p2) {
   {
     //terminate...
     if(((char*)p1)[offset] == 0) break;
+    
     
     //parse ASCII/unicode to keycode sequence
     keycode = unicode_to_keycode(((char*)p1)[offset], currentCfg->locale);

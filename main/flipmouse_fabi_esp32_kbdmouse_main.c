@@ -36,6 +36,7 @@
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
 #include "freertos/event_groups.h"
+#include "esp_heap_trace.h"
 
 #include "function_tasks/task_debouncer.h"
 #include "function_tasks/task_commands.h"
@@ -94,6 +95,16 @@ void switch_radio(void)
     }
 }
 
+
+#if 0
+/** @brief Number of records for heap tracing
+ * @note This is not used by default. */
+#define NUM_RECORDS 300
+/** @brief Heap tracing buffer
+ * @note This is not used by default.*/
+static heap_trace_record_t trace_record[NUM_RECORDS];
+#endif
+
 /** @brief Main task, created by esp-idf
  * 
  * This task is used to initialize all queues & flags.
@@ -140,7 +151,8 @@ void app_main()
     } else {
         ESP_LOGE(LOG_TAG,"error initializing halAdcInit");
     }
-    //halAdcCalibrate();
+    //we need to calibrate here, otherwise sip/puff is not 512 in idle...
+    halAdcCalibrate();
     
     esp_event_loop_create_default();
 
@@ -219,6 +231,26 @@ void app_main()
     
     //delete this task after initializing.
     ESP_LOGI(LOG_TAG,"Finished initializing!");
+    
+    //TESTING
+    #if 0
+    ESP_ERROR_CHECK( heap_trace_init_standalone(trace_record, NUM_RECORDS) );
+    vTaskDelay(100); //1s
+    ESP_ERROR_CHECK( heap_trace_start(HEAP_TRACE_ALL) );
+    raw_action_t action;
+    action.vb = 1;
+    action.type = VB_RELEASE_EVENT;
+    for(uint8_t i = 0; i<10; i++)
+    {
+        xQueueSendToBack(debouncer_in,&action,0);
+        vTaskDelay(10);
+    }
+    vTaskDelay(600); //4s
+    ESP_ERROR_CHECK( heap_trace_stop() );
+    heap_trace_dump();
+    #endif
+    
+    
     vTaskDelete(NULL);
 }
 

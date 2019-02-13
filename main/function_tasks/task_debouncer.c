@@ -350,6 +350,7 @@ void task_debouncer(void *param)
   raw_action_t evt;
   debouncer_cfg_t debcfg;
   debcfg.handle = NULL;
+  uint16_t time = 0;
   esp_log_level_set(LOG_TAG,LOG_LEVEL_DEBOUNCE);
   
   //test if eventgroup is created
@@ -407,7 +408,6 @@ void task_debouncer(void *param)
       if(isDebouncerActive(evt.vb) == TIMER_IDLE) 
       {
         //check which time to use (either VB, global value or default)
-        uint16_t time = 0;
         uint8_t t_type = TIMER_IDLE;
         
         switch(evt.type)
@@ -462,15 +462,29 @@ void task_debouncer(void *param)
             //->cancel timer
             if(evt.type == VB_RELEASE_EVENT)
             {
-              ESP_LOGD(LOG_TAG,"Press canceled for VB%d",evt.vb);
+              ESP_LOGD(LOG_TAG,"Press canceled for VB%d, sending release",evt.vb);
               if(cancelTimer(evt.vb,1) == -1) //stop current press debouncer
               { ESP_LOGE(LOG_TAG,"Cannot cancel press timer!"); }
+              ///@note We send here an additional release, just to be sure
+              /// to release any actions (avoiding sticky actions for keys...)
+              if(esp_event_post(VB_EVENT,evt.type,(void*)&evt.vb,sizeof(evt.vb),0) != ESP_OK)
+              {
+                ESP_LOGW(LOG_TAG,"Cannot post event!");
+              }
             }
             break;
           case TIMER_RELEASE:
             //if press is wanted, but release timer is running
             //->cancel timer
-            if(evt.type == VB_PRESS_EVENT)
+            ///@note I think we should cancel only in the event of a
+            /// set anti-tremor time. Otherwise we might loose e.g., key
+            /// release events -> sticky keys...
+            time = 0;
+            //is a VB value set in config?
+            if(cfg->debounce_release_vb[evt.vb] != 0) time = cfg->debounce_release_vb[evt.vb];
+            //is a global value set in config?
+            if(time == 0 && cfg->debounce_release != 0) time = cfg->debounce_release;
+            if(evt.type == VB_PRESS_EVENT && time != 0)
             {
               ESP_LOGD(LOG_TAG,"Release canceled for VB%d",evt.vb);
               if(cancelTimer(evt.vb,1) == -1) //stop current press debouncer

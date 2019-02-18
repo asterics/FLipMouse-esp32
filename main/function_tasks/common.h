@@ -160,18 +160,10 @@ extern EventGroupHandle_t connectionRoutingStatus;
  * 
  * @note Detailed status description is given in the flag defines!
  * @see SYSTEM_LOADCONFIG
+ * @see SYSTEM_STABLECONFIG
+ * @see SYSTEM_EMPTY_CMD_QUEUE
 */
 extern EventGroupHandle_t systemStatus;
-
-/** NOTE:
- * keyboard queues receive uint16 data type, which is either
- * directly used as keycode by either HID or serial task 
- * (if high byte is != 0)
- * OR
- * parsed by keyboard helper functions. In this case
- * multibyte text (unicode) should use only low byte for each
- * byte of the input text
- **/
 
 /** @brief Queue for sending HID commands to USB */
 extern QueueHandle_t hid_usb;

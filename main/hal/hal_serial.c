@@ -349,6 +349,8 @@ void halSerialHIDTask(void *param)
           ESP_LOGE(LOG_TAG,"Cannot start RMT TX");
         }
         rmt_wait_tx_done(HAL_SERIAL_HID_CHANNEL,portMAX_DELAY);
+        ///@todo Do we need this short delay here?
+        vTaskDelay(1);
       }
     } else {
       ESP_LOGW(LOG_TAG,"usb hid queue not initialized, retry in 1s");

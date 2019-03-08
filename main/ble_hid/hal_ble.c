@@ -547,7 +547,7 @@ esp_err_t halBLEInit(uint8_t enableKeyboard, uint8_t enableMouse, uint8_t enable
   activateKeyboard = enableKeyboard;
   activateMouse = enableMouse;
   activateJoystick = enableJoystick;
-  
+    
   // Initialize NVS.
   esp_err_t ret = nvs_flash_init();
   

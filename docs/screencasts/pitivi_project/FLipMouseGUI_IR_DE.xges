@@ -1,0 +1,50 @@
+<ges version='0.4'>
+  <project properties='properties;' metadatas='metadatas, name=(string)FLipMouseGUI_IR_DE, author=(string)beni, render-scale=(double)100, format-version=(string)0.4, year=(string)2019;'>
+    <encoding-profiles>
+      <encoding-profile name='pitivi-profile' description='Pitivi encoding profile' type='container' preset-name='webmmux' format='video/webm' >
+        <stream-profile parent='pitivi-profile' id='0' type='video' presence='1' format='video/x-vp8, profile=(string){ 0, 1, 2, 3 }' preset='encoder_settings_9f3b2ae7c914447da3807eadb5e24044' preset-properties='properties, qos=(boolean)false, end-usage=(int)0, target-bitrate=(int)256000, min-quantizer=(int)4, max-quantizer=(int)63, dropframe-threshold=(int)0, resize-allowed=(boolean)false, resize-up-threshold=(int)60, resize-down-threshold=(int)30, undershoot=(int)100, overshoot=(int)100, buffer-size=(int)6000, buffer-initial-size=(int)4000, buffer-optimal-size=(int)5000, twopass-vbr-bias=(int)50, twopass-vbr-minsection=(int)0, twopass-vbr-maxsection=(int)400, keyframe-mode=(int)1, keyframe-max-dist=(int)128, temporal-scalability-number-layers=(int)1, temporal-scalability-target-bitrate=(GValueArray)&lt;  &gt;, temporal-scalability-rate-decimator=(GValueArray)&lt;  &gt;, temporal-scalability-periodicity=(int)0, temporal-scalability-layer-id=(GValueArray)&lt;  &gt;, multipass-mode=(int)0, multipass-cache-file=(string)multipass.cache, error-resilient=(int)0, lag-in-frames=(int)0, threads=(int)0, deadline=(gint64)0, horizontal-scaling-mode=(int)0, vertical-scaling-mode=(int)0, cpu-used=(int)0, auto-alt-ref=(boolean)false, noise-sensitivity=(int)0, sharpness=(int)0, static-threshold=(int)0, token-partitions=(int)0, arnr-maxframes=(int)0, arnr-strength=(int)3, arnr-type=(int)3, tuning=(int)0, cq-level=(int)10, max-intra-bitrate=(int)0, timebase=(fraction)0/1;' preset-name='vp8enc' restriction='video/x-raw, framerate=(fraction)30000/1001, width=(int)702, height=(int)624, pixel-aspect-ratio=(fraction)1/1' pass='0' variableframerate='0' />
+        <stream-profile parent='pitivi-profile' id='1' type='audio' presence='1' format='audio/x-vorbis, rate=(int)[ 1, 200000 ], channels=(int)[ 1, 255 ]' preset='encoder_settings_503d3b2979a4420196d2017089cbf812' preset-properties='properties, perfect-timestamp=(boolean)true, hard-resync=(boolean)false, tolerance=(gint64)40000000, max-bitrate=(int)-1, bitrate=(int)-1, min-bitrate=(int)-1, quality=(float)0.30000001192092896, managed=(boolean)false;' preset-name='vorbisenc' restriction='audio/x-raw, rate=(int)48000, channels=(int)2' />
+      </encoding-profile>
+    </encoding-profiles>
+    <ressources>
+      <asset id='file:///home/beni/sync/Projects/FH/FLipMouse-esp32/docs/screencasts/title/FLipMouseGUI_IR_DE/FLipMouseGUI_IR_DE.png' extractable-type-name='GESUriClip' properties='properties, supported-formats=(int)4, duration=(guint64)18446744073709551615;' metadatas='metadatas, video-codec=(string)PNG, file-size=(guint64)47535;' />
+      <asset id='file:///home/beni/sync/Projects/FH/FLipMouse-esp32/docs/screencasts/FLipMouseGUI_IR_DE.mp4' extractable-type-name='GESUriClip' properties='properties, supported-formats=(int)6, duration=(guint64)145880000000;' metadatas='metadatas, video-codec=(string)&quot;H.264\ /\ AVC&quot;, bitrate=(uint)53102, encoder=(string)Lavf58.20.100, container-format=(string)&quot;ISO\ MP4/M4A&quot;, audio-codec=(string)&quot;MPEG-1\ audio&quot;, maximum-bitrate=(uint)128000, has-crc=(boolean)false, channel-mode=(string)joint-stereo, nominal-bitrate=(uint)128000, file-size=(guint64)3439346;' />
+      <asset id='crossfade' extractable-type-name='GESTransitionClip' properties='properties;' metadatas='metadatas, description=(string)GES_VIDEO_STANDARD_TRANSITION_TYPE_CROSSFADE;' />
+    </ressources>
+    <timeline properties='properties, auto-transition=(boolean)true, snapping-distance=(guint64)458911875;' metadatas='metadatas, duration=(guint64)146976808385;'>
+      <track caps='video/x-raw(ANY)' track-type='4' track-id='0' properties='properties, async-handling=(boolean)false, message-forward=(boolean)true, caps=(string)&quot;video/x-raw\(ANY\)&quot;, restriction-caps=(string)&quot;video/x-raw\,\ width\=\(int\)702\,\ height\=\(int\)624\,\ framerate\=\(fraction\)30000/1001\,\ pixel-aspect-ratio\=\(fraction\)1/1&quot;, mixing=(boolean)true;' metadatas='metadatas;'/>
+      <track caps='audio/x-raw(ANY)' track-type='2' track-id='1' properties='properties, async-handling=(boolean)false, message-forward=(boolean)true, caps=(string)&quot;audio/x-raw\(ANY\)&quot;, restriction-caps=(string)&quot;audio/x-raw\,\ rate\=\(int\)48000\,\ channels\=\(int\)2&quot;, mixing=(boolean)true;' metadatas='metadatas;'/>
+      <layer priority='0' properties='properties, auto-transition=(boolean)true;' metadatas='metadatas, volume=(float)1;'>
+        <clip id='0' asset-id='file:///home/beni/sync/Projects/FH/FLipMouse-esp32/docs/screencasts/title/FLipMouseGUI_IR_DE/FLipMouseGUI_IR_DE.png' type-name='GESUriClip' layer-priority='0' track-types='4' start='0' duration='21050755014' inpoint='0' rate='0' properties='properties, name=(string)uriclip31, mute=(boolean)false, is-image=(boolean)true;' >
+          <source track-id='0' children-properties='properties, GstFramePositioner::alpha=(double)1, GstDeinterlace::fields=(int)0, GstFramePositioner::height=(int)624, GstDeinterlace::mode=(int)0, GstFramePositioner::posx=(int)0, GstFramePositioner::posy=(int)0, GstDeinterlace::tff=(int)0, GstFramePositioner::width=(int)702;'>
+            <binding type='direct' source_type='interpolation' property='alpha' mode='1' track_id='0' values =' 0:1  21050755014:1 '/>
+          </source>
+        </clip>
+        <clip id='1' asset-id='crossfade' type-name='GESTransitionClip' layer-priority='0' track-types='4' start='16247274721' duration='4803480293' inpoint='0' rate='0' properties='properties, name=(string)transitionclip0;'  children-properties='properties, GESVideoTransition::border=(uint)0, GESVideoTransition::invert=(boolean)false;'>
+        </clip>
+        <clip id='2' asset-id='file:///home/beni/sync/Projects/FH/FLipMouse-esp32/docs/screencasts/FLipMouseGUI_IR_DE.mp4' type-name='GESUriClip' layer-priority='0' track-types='2' start='16247274721' duration='130729533664' inpoint='15150466336' rate='0' properties='properties, name=(string)uriclip27, mute=(boolean)false, is-image=(boolean)false;' >
+          <source track-id='1' children-properties='properties, GstVolume::mute=(boolean)false, GstVolume::volume=(double)0.32614642381668091;'>
+            <binding type='direct' source_type='interpolation' property='volume' mode='1' track_id='1' values =' 15150466336:0.03261464461684227  145880000000:0.032614643365281887 '/>
+          </source>
+        </clip>
+        <clip id='3' asset-id='file:///home/beni/sync/Projects/FH/FLipMouse-esp32/docs/screencasts/FLipMouseGUI_IR_DE.mp4' type-name='GESUriClip' layer-priority='0' track-types='4' start='16247274721' duration='130729533664' inpoint='15150466336' rate='0' properties='properties, name=(string)uriclip25, mute=(boolean)false, is-image=(boolean)false;' >
+          <source track-id='0' children-properties='properties, GstFramePositioner::alpha=(double)1, GstDeinterlace::fields=(int)0, GstFramePositioner::height=(int)624, GstDeinterlace::mode=(int)0, GstFramePositioner::posx=(int)0, GstFramePositioner::posy=(int)0, GstDeinterlace::tff=(int)0, GstFramePositioner::width=(int)702;'>
+            <binding type='direct' source_type='interpolation' property='alpha' mode='1' track_id='0' values =' 15150466336:1  145880000000:1 '/>
+          </source>
+        </clip>
+      </layer>
+      <layer priority='1' properties='properties, auto-transition=(boolean)true;' metadatas='metadatas, volume=(float)1;'>
+        <clip id='4' asset-id='file:///home/beni/sync/Projects/FH/FLipMouse-esp32/docs/screencasts/FLipMouseGUI_IR_DE.mp4' type-name='GESUriClip' layer-priority='1' track-types='6' start='1096808385' duration='15150466336' inpoint='0' rate='0' properties='properties, name=(string)uriclip29, mute=(boolean)false, is-image=(boolean)false;' >
+          <source track-id='1' children-properties='properties, GstVolume::mute=(boolean)false, GstVolume::volume=(double)0.3261464536190033;'>
+            <binding type='direct' source_type='interpolation' property='volume' mode='1' track_id='1' values =' 0:0.03261464461684227  10996434489:0.032614643365281887  15150466336:0.03261464461684227 '/>
+          </source>
+          <source track-id='0' children-properties='properties, GstFramePositioner::alpha=(double)1, GstDeinterlace::fields=(int)0, GstFramePositioner::height=(int)624, GstDeinterlace::mode=(int)0, GstFramePositioner::posx=(int)0, GstFramePositioner::posy=(int)0, GstDeinterlace::tff=(int)0, GstFramePositioner::width=(int)702;'>
+            <binding type='direct' source_type='interpolation' property='alpha' mode='1' track_id='0' values =' 0:1  15150466336:1 '/>
+          </source>
+        </clip>
+      </layer>
+      <groups>
+      </groups>
+    </timeline>
+</project>
+</ges>

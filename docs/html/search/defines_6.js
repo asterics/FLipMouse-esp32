@@ -1,30 +1,4 @@
 var searchData=
 [
-  ['hal_5fadc_5ftask_5fpriority',['HAL_ADC_TASK_PRIORITY',['../common_8h.html#aada14457de325b91960d3b65b95d7897',1,'common.h']]],
-  ['hal_5fble_5ftask_5fpriority_5fbase',['HAL_BLE_TASK_PRIORITY_BASE',['../common_8h.html#ae32520c54c76cda98bb5f97b731549c0',1,'common.h']]],
-  ['hal_5fconfig_5ftask_5fpriority',['HAL_CONFIG_TASK_PRIORITY',['../common_8h.html#aa232edf6b71b1a686e308663f2c19d5a',1,'common.h']]],
-  ['hal_5fio_5fadc_5ftask_5fpriority',['HAL_IO_ADC_TASK_PRIORITY',['../hal__adc_8h.html#aec5255c5a049b277c1de3cfc79dfdd57',1,'hal_adc.h']]],
-  ['hal_5fio_5fir_5fmem_5fblocks',['HAL_IO_IR_MEM_BLOCKS',['../hal__io_8h.html#a8e09474b15adae0b00d1c683e91eea64',1,'hal_io.h']]],
-  ['hal_5fio_5flongaction_5ftimeout',['HAL_IO_LONGACTION_TIMEOUT',['../hal__io_8h.html#a7501b46689ced3389164f900567a5025',1,'hal_io.h']]],
-  ['hal_5fio_5fpin_5flongaction',['HAL_IO_PIN_LONGACTION',['../hal__io_8h.html#a8db74aa62b01eaaa7e9b0080050d488f',1,'hal_io.h']]],
-  ['hal_5fserial_5fhid_5fchannel',['HAL_SERIAL_HID_CHANNEL',['../hal__serial_8h.html#a7be3ddfa5e2edd996fdbd675dd013740',1,'hal_serial.h']]],
-  ['hal_5fserial_5fhid_5fduration_5f0',['HAL_SERIAL_HID_DURATION_0',['../hal__serial_8h.html#a0fedfa272b0401c669857ff6d85c3a2e',1,'hal_serial.h']]],
-  ['hal_5fserial_5fhid_5fduration_5f1',['HAL_SERIAL_HID_DURATION_1',['../hal__serial_8h.html#ad05d500479f282410b7370bc1d111148',1,'hal_serial.h']]],
-  ['hal_5fserial_5fhid_5fduration_5fs',['HAL_SERIAL_HID_DURATION_S',['../hal__serial_8h.html#a437c03b23c7ee172a2d84d0812fff6c4',1,'hal_serial.h']]],
-  ['hal_5fserial_5fhidpin',['HAL_SERIAL_HIDPIN',['../hal__serial_8h.html#ad7dfbc49dc0771980304ac82bbe85a47',1,'hal_serial.h']]],
-  ['hal_5fserial_5fline_5fending',['HAL_SERIAL_LINE_ENDING',['../hal__serial_8h.html#a473298fc9468937c90caa6fb9c53f8fc',1,'hal_serial.h']]],
-  ['hal_5fserial_5frxpin',['HAL_SERIAL_RXPIN',['../hal__serial_8h.html#a45f62b4622856ce7c40997e870b85895',1,'hal_serial.h']]],
-  ['hal_5fserial_5ftask_5fstacksize',['HAL_SERIAL_TASK_STACKSIZE',['../hal__serial_8c.html#a15a73632001c9a59bb02bcb816492923',1,'hal_serial.c']]],
-  ['hal_5fserial_5ftxpin',['HAL_SERIAL_TXPIN',['../hal__serial_8h.html#ad56fbf309857b44b419d625568b10c7b',1,'hal_serial.h']]],
-  ['hal_5fserial_5fuart',['HAL_SERIAL_UART',['../hal__serial_8h.html#ac5db2b7c58f5cf3c9417b43b25166963',1,'hal_serial.h']]],
-  ['hal_5fserial_5fuart_5ftimeout_5fms',['HAL_SERIAL_UART_TIMEOUT_MS',['../hal__serial_8c.html#a8ed6a618f134d6b923ba216de84253f6',1,'hal_serial.c']]],
-  ['hal_5fstorage_5fnvs_5fnamespace',['HAL_STORAGE_NVS_NAMESPACE',['../hal__storage_8h.html#a305aadd4f9039f9f93f76a47d8479fc5',1,'hal_storage.h']]],
-  ['hal_5fvb_5ftask_5fpriority',['HAL_VB_TASK_PRIORITY',['../common_8h.html#a429f226b0ce1f98d01eff6fddc075ad4',1,'common.h']]],
-  ['hid_5fclass',['HID_CLASS',['../HIDTypes_8h.html#a7f03e34108027d008ad22ecc7eb0b8ca',1,'HIDTypes.h']]],
-  ['hid_5fdescriptor',['HID_DESCRIPTOR',['../HIDTypes_8h.html#ad5cce51d0e9753c1de03119dc58b3de4',1,'HIDTypes.h']]],
-  ['hid_5fdescriptor_5flength',['HID_DESCRIPTOR_LENGTH',['../HIDTypes_8h.html#a4831e19363be27a4ad38090f394029fb',1,'HIDTypes.h']]],
-  ['hid_5fprotocol_5fnone',['HID_PROTOCOL_NONE',['../HIDTypes_8h.html#a050926404254a7fa1d6b5253a79abc59',1,'HIDTypes.h']]],
-  ['hid_5fsubclass_5fnone',['HID_SUBCLASS_NONE',['../HIDTypes_8h.html#a1f7d3e3accc103eee60cb9a9162a7c49',1,'HIDTypes.h']]],
-  ['hid_5ftask_5fpriority',['HID_TASK_PRIORITY',['../common_8h.html#a80889630e97188001f443345538edfb4',1,'common.h']]],
-  ['hid_5fversion_5f1_5f11',['HID_VERSION_1_11',['../HIDTypes_8h.html#aa28ccb382c55ee252b105cfc876480e1',1,'HIDTypes.h']]]
+  ['idstring',['IDSTRING',['../common_8h.html#a194a1686b5b17e701b526563e89e096e',1,'common.h']]]
 ];

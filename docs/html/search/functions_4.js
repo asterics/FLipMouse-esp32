@@ -1,17 +1,6 @@
 var searchData=
 [
-  ['deadkey_5fto_5fkeycode',['deadkey_to_keycode',['../keyboard_8c.html#a6b593fa493aea40be410640981b1c181',1,'deadkey_to_keycode(uint16_t keycode, uint8_t locale):&#160;keyboard.c'],['../keyboard_8h.html#a6b593fa493aea40be410640981b1c181',1,'deadkey_to_keycode(uint16_t keycode, uint8_t locale):&#160;keyboard.c']]],
-  ['debouncercallback',['debouncerCallback',['../task__debouncer_8c.html#a4a76abdbb849aa0bbc66aa001c6f4af9',1,'task_debouncer.c']]],
-  ['decodedlength',['DecodedLength',['../GeneralUtils_8cpp.html#aa569d0da22756aeb5519b209daa42c11',1,'GeneralUtils.cpp']]],
-  ['delay',['delay',['../classTask.html#aa4b603c866f4b8e0f0c6b524bb0e287e',1,'Task']]],
-  ['deletetask',['deleteTask',['../classFreeRTOS.html#a965b07cf1ca57fd0eb61df092b98edab',1,'FreeRTOS']]],
-  ['dogeneralcmdparsing',['doGeneralCmdParsing',['../task__commands_8c.html#a7f6500be563a3dce7f0854fceed02fab',1,'task_commands.c']]],
-  ['doinfraredparsing',['doInfraredParsing',['../task__commands_8c.html#a69b696a381aec817e617d2b33da045f5',1,'task_commands.c']]],
-  ['dojoystickparsing',['doJoystickParsing',['../task__commands_8c.html#a2f0908e9a181ce6f837e67d074a2b723',1,'task_commands.c']]],
-  ['dokeyboardparsing',['doKeyboardParsing',['../task__commands_8c.html#a30b4c99ded33188ea79b55159263bc7b',1,'task_commands.c']]],
-  ['domacroparsing',['doMacroParsing',['../task__commands_8c.html#ad7136c48871a149b6852202cec2f4504',1,'task_commands.c']]],
-  ['domouseparsing',['doMouseParsing',['../task__commands_8c.html#ac722e0888b76642db875d54ff8ef6476',1,'task_commands.c']]],
-  ['domouthpiecesettingsparsing',['doMouthpieceSettingsParsing',['../task__commands_8c.html#ab58b3673b001ca270dd4a17bb01db6b4',1,'task_commands.c']]],
-  ['dostorageparsing',['doStorageParsing',['../task__commands_8c.html#a770d94bfbf3d8c959ac003816d2b41fe',1,'task_commands.c']]],
-  ['dumpinfo',['dumpInfo',['../classGeneralUtils.html#a1698e9a6f3f4a3b49e00a4c7b200fa6b',1,'GeneralUtils']]]
+  ['esp_5fevent_5fdeclare_5fbase',['ESP_EVENT_DECLARE_BASE',['../common_8h.html#a07c42118db75cd115970e4ef0ea00c8b',1,'common.h']]],
+  ['esp_5fevent_5fdefine_5fbase',['ESP_EVENT_DEFINE_BASE',['../flipmouse__fabi__esp32__kbdmouse__main_8c.html#a0cae460a4c08ddcd0fd3248d5bedd21d',1,'flipmouse_fabi_esp32_kbdmouse_main.c']]],
+  ['esp_5fhidd_5fprf_5fcb_5fhdl',['esp_hidd_prf_cb_hdl',['../hid__device__le__prf_8c.html#add8f27ab149175c58a8bced1016df5a6',1,'hid_device_le_prf.c']]]
 ];

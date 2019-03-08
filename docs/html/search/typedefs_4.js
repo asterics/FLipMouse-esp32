@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['mouthpiece_5fmode_5ft',['mouthpiece_mode_t',['../common_8h.html#a98dad58d25b2c00f276abb043ea32630',1,'common.h']]]
+  ['generalconfig_5ft',['generalConfig_t',['../common_8h.html#a1d17932316265a53a6982a2526a4cada',1,'common.h']]]
 ];

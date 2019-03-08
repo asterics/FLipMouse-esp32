@@ -60,29 +60,21 @@ $(function() {
 <div class="contents">
 &#160;
 
-<h3><a id="index__"></a>- _ -</h3><ul>
-<li>__attribute__
-: <a class="el" href="BLEExceptions_8h.html#a720173e80c53ae6b5fa163fd6e81ad27">BLEExceptions.h</a>
-</li>
-</ul>
-
-
 <h3><a id="index_a"></a>- a -</h3><ul>
 <li>activateJoystick
-: <a class="el" href="HID__kbdmousejoystick_8cpp.html#a4d2c03a5216c65b26e16ed8f7bce33b7">HID_kbdmousejoystick.cpp</a>
+: <a class="el" href="hal__ble_8c.html#a4d2c03a5216c65b26e16ed8f7bce33b7">hal_ble.c</a>
 </li>
 <li>activateKeyboard
-: <a class="el" href="HID__kbdmousejoystick_8cpp.html#a44e9880302517bbf48fbe55d2c5766ef">HID_kbdmousejoystick.cpp</a>
+: <a class="el" href="hal__ble_8c.html#a44e9880302517bbf48fbe55d2c5766ef">hal_ble.c</a>
 </li>
 <li>activateMouse
-: <a class="el" href="HID__kbdmousejoystick_8cpp.html#ac3f66528ae5998f5103e68807fd3d45f">HID_kbdmousejoystick.cpp</a>
-</li>
-<li>activeVBs
-: <a class="el" href="task__hid_8c.html#ae3fe9687ee209ba0d3a26728d56665b8">task_hid.c</a>
-, <a class="el" href="task__vb_8c.html#ae3fe9687ee209ba0d3a26728d56665b8">task_vb.c</a>
+: <a class="el" href="hal__ble_8c.html#ac3f66528ae5998f5103e68807fd3d45f">hal_ble.c</a>
 </li>
 <li>adc_conf
 : <a class="el" href="hal__adc_8c.html#a069922e040bf440177f02d80b3f203cf">hal_adc.c</a>
+</li>
+<li>adcCalibLast
+: <a class="el" href="hal__adc_8c.html#a7a27bf80cd5768c4642ae1692e8a89bf">hal_adc.c</a>
 </li>
 <li>adcHandle
 : <a class="el" href="hal__adc_8c.html#a647477d7fa0346f3159104abc97c297e">hal_adc.c</a>
@@ -100,12 +92,24 @@ $(function() {
 
 
 <h3><a id="index_b"></a>- b -</h3><ul>
+<li>bas_att_db
+: <a class="el" href="hid__device__le__prf_8c.html#a835f6080e0bb9974f8add0e19a5d0d0f">hid_device_le_prf.c</a>
+</li>
 <li>base_path
 : <a class="el" href="task__webgui_8c.html#a47050fc742d4864291d317dc39914ad1">task_webgui.c</a>
 , <a class="el" href="hal__storage_8c.html#a47050fc742d4864291d317dc39914ad1">hal_storage.c</a>
 </li>
-<li>bletask
-: <a class="el" href="HID__kbdmousejoystick_8cpp.html#a2b357a7b80b44356c51473f80045fefd">HID_kbdmousejoystick.cpp</a>
+<li>bat_lev_ccc
+: <a class="el" href="hid__device__le__prf_8c.html#aed743857fa2e7262f4615eb7b6d80334">hid_device_le_prf.c</a>
+</li>
+<li>bat_lev_uuid
+: <a class="el" href="hid__device__le__prf_8c.html#ad35b5b1922bf984bdf3dcdd6cf6c03fa">hid_device_le_prf.c</a>
+</li>
+<li>battary_lev
+: <a class="el" href="hid__device__le__prf_8c.html#a1d66b8fc957598cde35fd4a681843791">hid_device_le_prf.c</a>
+</li>
+<li>battary_svc
+: <a class="el" href="hid__device__le__prf_8c.html#ac9c12bad32fa4f1020cc0778832c4689">hid_device_le_prf.c</a>
 </li>
 <li>BUF_SIZE_RX
 : <a class="el" href="hal__serial_8c.html#adc58a36fa37939826c6e9b29549b55a6">hal_serial.c</a>
@@ -120,15 +124,45 @@ $(function() {
 
 
 <h3><a id="index_c"></a>- c -</h3><ul>
+<li>char_format_uuid
+: <a class="el" href="hid__device__le__prf_8c.html#a64a43d7ce97d3b3136fc924ed52a1e89">hid_device_le_prf.c</a>
+</li>
+<li>char_prop_notify
+: <a class="el" href="hid__device__le__prf_8c.html#a07f91dcd65b074bba3109909472de22b">hid_device_le_prf.c</a>
+</li>
+<li>char_prop_read
+: <a class="el" href="hid__device__le__prf_8c.html#a93ed1e1e88387eca03ec9ab7107ad0af">hid_device_le_prf.c</a>
+</li>
+<li>char_prop_read_notify
+: <a class="el" href="hid__device__le__prf_8c.html#aafa2eb9bb370d02b100f269d37690173">hid_device_le_prf.c</a>
+</li>
+<li>char_prop_read_write
+: <a class="el" href="hid__device__le__prf_8c.html#a046152d2a65198a8b4b03bd9b8e8e14f">hid_device_le_prf.c</a>
+</li>
+<li>char_prop_read_write_notify
+: <a class="el" href="hid__device__le__prf_8c.html#ad1d27d47c7fd785c27d90f977ceb3c9e">hid_device_le_prf.c</a>
+</li>
+<li>char_prop_write_nr
+: <a class="el" href="hid__device__le__prf_8c.html#ad7628510670a08b1ff4523269ec43117">hid_device_le_prf.c</a>
+</li>
+<li>character_client_config_uuid
+: <a class="el" href="hid__device__le__prf_8c.html#add4f5ff5fc585021ed07e339b0ef936f">hid_device_le_prf.c</a>
+</li>
+<li>character_declaration_uuid
+: <a class="el" href="hid__device__le__prf_8c.html#a8dbb0e6a5920e94c0473e375558f7265">hid_device_le_prf.c</a>
+</li>
 <li>characteristics
 : <a class="el" href="hal__adc_8c.html#a29552c7e29f877a9bd6ed4e3827696e4">hal_adc.c</a>
 </li>
 <li>cmd_chain
-: <a class="el" href="task__hid_8c.html#a8cdce7a647d3e6f63206c020c4737d39">task_hid.c</a>
-, <a class="el" href="task__vb_8c.html#af2c811f9c6ca9279546cd21ee7e5449c">task_vb.c</a>
+: <a class="el" href="handler__hid_8c.html#a8cdce7a647d3e6f63206c020c4737d39">handler_hid.c</a>
+, <a class="el" href="handler__vb_8c.html#af2c811f9c6ca9279546cd21ee7e5449c">handler_vb.c</a>
 </li>
 <li>CMDQUEUE_SIZE
 : <a class="el" href="hal__serial_8c.html#ad0911c183882187e70480f1925cc0c55">hal_serial.c</a>
+</li>
+<li>commands
+: <a class="el" href="task__commands_8c.html#a3b990e742032cdbcbd53aa902230a9f4">task_commands.c</a>
 </li>
 <li>config_switcher
 : <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c.html#a4701c432a28c389e4b8557f2fa3323d1">flipmouse_fabi_esp32_kbdmouse_main.c</a>
@@ -137,15 +171,15 @@ $(function() {
 <li>configswitcher_handle
 : <a class="el" href="config__switcher_8c.html#abd2fb9b048f1de98ee98dd54077541c2">config_switcher.c</a>
 </li>
-<li>configTimer
-: <a class="el" href="config__switcher_8c.html#a07dd8255ed715264f903a6e22fae09da">config_switcher.c</a>
-</li>
 <li>configUpdatePending
 : <a class="el" href="config__switcher_8c.html#a7265e5121ad81b52fb8a0e4334b42118">config_switcher.c</a>
 </li>
 <li>connectionRoutingStatus
 : <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c.html#ae2b183880be8976139d636a3a714e315">flipmouse_fabi_esp32_kbdmouse_main.c</a>
 , <a class="el" href="common_8h.html#ae2b183880be8976139d636a3a714e315">common.h</a>
+</li>
+<li>currentCfg
+: <a class="el" href="task__commands_8c.html#a051e68290912366220f6723b0374914a">task_commands.c</a>
 </li>
 <li>currentCommandTask
 : <a class="el" href="task__commands_8c.html#a1441452b2b1c337c41096e3d0bf2fdd6">task_commands.c</a>
@@ -159,6 +193,10 @@ $(function() {
 <h3><a id="index_d"></a>- d -</h3><ul>
 <li>deadkey_USINT
 : <a class="el" href="keyboard_8c.html#a229e41acc78a3d889c7911f17e90e147">keyboard.c</a>
+</li>
+<li>debouncer_in
+: <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c.html#aff21ac3bb81c6f24c9eec496d07f899c">flipmouse_fabi_esp32_kbdmouse_main.c</a>
+, <a class="el" href="common_8h.html#aff21ac3bb81c6f24c9eec496d07f899c">common.h</a>
 </li>
 <li>DnsHeader
 : <a class="el" href="captdns_8c.html#a43123036321354db8c5a5ee5eb3e19a2">captdns.c</a>
@@ -185,6 +223,13 @@ $(function() {
 </ul>
 
 
+<h3><a id="index_g"></a>- g -</h3><ul>
+<li>general
+: <a class="el" href="task__commands_8c.html#ae11e05a2365622ab8aa0e85b36835777">task_commands.c</a>
+</li>
+</ul>
+
+
 <h3><a id="index_h"></a>- h -</h3><ul>
 <li>halIOBuzzerQueue
 : <a class="el" href="hal__io_8h.html#a013e2ff76763650e88cc05325b89d93c">hal_io.h</a>
@@ -205,20 +250,118 @@ $(function() {
 <li>halStorageMutex
 : <a class="el" href="hal__storage_8c.html#afe54e8f771b85765a57fb799302f2a09">hal_storage.c</a>
 </li>
-<li>hid
-: <a class="el" href="HID__kbdmousejoystick_8cpp.html#a0ce80beed1a0a46ed788e9fddab97f6e">HID_kbdmousejoystick.cpp</a>
+<li>heart_rate_profile_tab
+: <a class="el" href="hid__device__le__prf_8c.html#a5f29385a6c404c7c96b0dd367f729a32">hid_device_le_prf.c</a>
 </li>
 <li>hid_ble
-: <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c.html#a4d504fcad8a2fb54bd8af573af7d4834">flipmouse_fabi_esp32_kbdmouse_main.c</a>
+: <a class="el" href="hal__ble_8h.html#a4d504fcad8a2fb54bd8af573af7d4834">hal_ble.h</a>
+, <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c.html#a4d504fcad8a2fb54bd8af573af7d4834">flipmouse_fabi_esp32_kbdmouse_main.c</a>
 , <a class="el" href="common_8h.html#a4d504fcad8a2fb54bd8af573af7d4834">common.h</a>
-, <a class="el" href="hal__ble_8h.html#a4d504fcad8a2fb54bd8af573af7d4834">hal_ble.h</a>
+</li>
+<li>hid_conn_id
+: <a class="el" href="hal__ble_8c.html#acf63d81e5e92daa2fea46597280eac6d">hal_ble.c</a>
+</li>
+<li>hid_control_point_uuid
+: <a class="el" href="hid__device__le__prf_8c.html#af92112ac5cac8de2b131ec32dc279451">hid_device_le_prf.c</a>
+</li>
+<li>hid_count
+: <a class="el" href="hid__device__le__prf_8c.html#a2723374c79e85f2899bba93932ee37c3">hid_device_le_prf.c</a>
+</li>
+<li>hid_dev_rpt_tbl
+: <a class="el" href="hid__dev_8c.html#aac6831e6c5851fa7b2c77fbb67119422">hid_dev.c</a>
+</li>
+<li>hid_dev_rpt_tbl_Len
+: <a class="el" href="hid__dev_8c.html#aa282bf192d504334111315cb544ddc23">hid_dev.c</a>
+</li>
+<li>hid_info_char_uuid
+: <a class="el" href="hid__device__le__prf_8c.html#a36b8d9c835882883efd10a4bf056c972">hid_device_le_prf.c</a>
+</li>
+<li>hid_kb_input_uuid
+: <a class="el" href="hid__device__le__prf_8c.html#a595b302b8e7be7606da6dfc2b564831e">hid_device_le_prf.c</a>
+</li>
+<li>hid_kb_output_uuid
+: <a class="el" href="hid__device__le__prf_8c.html#a1a5c5f6a0e6ed2fb26e1d273a8c4bdfc">hid_device_le_prf.c</a>
+</li>
+<li>hid_le_svc
+: <a class="el" href="hid__device__le__prf_8c.html#abd977b9bfe0e657eedfc2fd13645dc47">hid_device_le_prf.c</a>
+</li>
+<li>hid_mouse_input_uuid
+: <a class="el" href="hid__device__le__prf_8c.html#aeb8172439813b057cddfac32032ea334">hid_device_le_prf.c</a>
+</li>
+<li>hid_proto_mode_uuid
+: <a class="el" href="hid__device__le__prf_8c.html#a692d364f68a58a906e3745df5f77b795">hid_device_le_prf.c</a>
+</li>
+<li>hid_report_map_uuid
+: <a class="el" href="hid__device__le__prf_8c.html#a0c0f721b519368bbdab8821fbe85c8b4">hid_device_le_prf.c</a>
+</li>
+<li>hid_report_ref_descr_uuid
+: <a class="el" href="hid__device__le__prf_8c.html#aad95e7ea589d07fcecdac08565e16b0c">hid_device_le_prf.c</a>
+</li>
+<li>hid_report_uuid
+: <a class="el" href="hid__device__le__prf_8c.html#a90bed26ebc7a44684af95696a240a5a1">hid_device_le_prf.c</a>
+</li>
+<li>hid_repot_map_ext_desc_uuid
+: <a class="el" href="hid__device__le__prf_8c.html#ad33e0092dc6a877a9bacddc1cf9f9342">hid_device_le_prf.c</a>
+</li>
+<li>hid_rpt_map
+: <a class="el" href="hid__device__le__prf_8c.html#a3862f5175659860b42934e81a0e9bb02">hid_device_le_prf.c</a>
 </li>
 <li>hid_usb
 : <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c.html#a841902610ed5a9d5ee171749a85a8b8c">flipmouse_fabi_esp32_kbdmouse_main.c</a>
 , <a class="el" href="common_8h.html#a841902610ed5a9d5ee171749a85a8b8c">common.h</a>
 </li>
 <li>hidCmdSem
-: <a class="el" href="task__hid_8c.html#a832987c3836fb3f2f73e388c174b2bf5">task_hid.c</a>
+: <a class="el" href="handler__hid_8c.html#a832987c3836fb3f2f73e388c174b2bf5">handler_hid.c</a>
+</li>
+<li>hidd_adv_data
+: <a class="el" href="hal__ble_8c.html#a7f3a50a06396858b513bf74126e13399">hal_ble.c</a>
+</li>
+<li>hidd_adv_params
+: <a class="el" href="hal__ble_8c.html#a58b0fa2996d55c2b75a0aeb678854b9b">hal_ble.c</a>
+</li>
+<li>hidd_le_env
+: <a class="el" href="hid__device__le__prf_8c.html#a91d82217264ad84483e4f8f0c644d6cf">hid_device_le_prf.c</a>
+, <a class="el" href="hidd__le__prf__int_8h.html#a91d82217264ad84483e4f8f0c644d6cf">hidd_le_prf_int.h</a>
+</li>
+<li>hidd_le_gatt_db
+: <a class="el" href="hid__device__le__prf_8c.html#a68663af02f816293555f6b0b03b65139">hid_device_le_prf.c</a>
+</li>
+<li>hidd_service_uuid128
+: <a class="el" href="hal__ble_8c.html#a93fcf7226d419031220fd965f5d81dac">hal_ble.c</a>
+</li>
+<li>hidExtReportRefDesc
+: <a class="el" href="hid__device__le__prf_8c.html#aa0f7f180a1dbc3739656c02e83727e36">hid_device_le_prf.c</a>
+</li>
+<li>hidInfo
+: <a class="el" href="hid__device__le__prf_8c.html#a2734a576e26f8415379ac2e1319f8cb2">hid_device_le_prf.c</a>
+</li>
+<li>hidProtocolMode
+: <a class="el" href="hid__device__le__prf_8c.html#a18824297d97ae42a7da587d9752002fe">hid_device_le_prf.c</a>
+, <a class="el" href="hidd__le__prf__int_8h.html#a18824297d97ae42a7da587d9752002fe">hidd_le_prf_int.h</a>
+</li>
+<li>hidReportMap
+: <a class="el" href="hid__device__le__prf_8c.html#a8fb6489bfedb7d288643295c3a78b421">hid_device_le_prf.c</a>
+</li>
+<li>hidReportMapLen
+: <a class="el" href="hid__device__le__prf_8c.html#a0b7cc6e74ea0a16819c1665e6118294c">hid_device_le_prf.c</a>
+</li>
+<li>hidReportRefCCIn
+: <a class="el" href="hid__device__le__prf_8c.html#a69384e648c92e4e7dcf9db1b72f3c149">hid_device_le_prf.c</a>
+</li>
+<li>hidReportRefFeature
+: <a class="el" href="hid__device__le__prf_8c.html#abb2474564e2648feca89b9aa8c86bf3f">hid_device_le_prf.c</a>
+</li>
+<li>hidReportRefKeyIn
+: <a class="el" href="hid__device__le__prf_8c.html#a407982c8cf184bd0c74e94d8c8503548">hid_device_le_prf.c</a>
+</li>
+<li>hidReportRefLedOut
+: <a class="el" href="hid__device__le__prf_8c.html#a5aeadf9795c7446979495b0c555733f7">hid_device_le_prf.c</a>
+</li>
+<li>hidReportRefMouseIn
+: <a class="el" href="hid__device__le__prf_8c.html#ada5f5d46c997233c58aed5c4f39c241a">hid_device_le_prf.c</a>
+</li>
+<li>hidReportRefVendorOut
+: <a class="el" href="hid__device__le__prf_8c.html#ab10f28e980e8f3e10c6da21e6e2859ae">hid_device_le_prf.c</a>
 </li>
 <li>hidsendingsem
 : <a class="el" href="hal__serial_8c.html#af2a7c6dc7be333dca54efb59230e5684">hal_serial.c</a>
@@ -233,34 +376,40 @@ $(function() {
 
 
 <h3><a id="index_i"></a>- i -</h3><ul>
-<li>inputJoystick
-: <a class="el" href="HID__kbdmousejoystick_8cpp.html#ac515fb4d9de404965d5537c2609406c8">HID_kbdmousejoystick.cpp</a>
+<li>incl_svc
+: <a class="el" href="hid__device__le__prf_8c.html#acc79618f323c3868b5c3ddde94482bb0">hid_device_le_prf.c</a>
 </li>
-<li>inputKbd
-: <a class="el" href="HID__kbdmousejoystick_8cpp.html#a074dfe6d222e6d161e6c67b58b657468">HID_kbdmousejoystick.cpp</a>
+<li>include_service_uuid
+: <a class="el" href="hid__device__le__prf_8c.html#adc6e894d122567caf42e17340513cb43">hid_device_le_prf.c</a>
 </li>
-<li>inputMouse
-: <a class="el" href="HID__kbdmousejoystick_8cpp.html#a14b27c3a3112adc6832eab8f0792aa56">HID_kbdmousejoystick.cpp</a>
-</li>
-<li>isConnected
-: <a class="el" href="HID__kbdmousejoystick_8cpp.html#ac96edbfd94ecf6c6e505cd7fce152d3a">HID_kbdmousejoystick.cpp</a>
+<li>isWifiOn
+: <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c.html#a6947f233576122b1180eaee0cc8b1c9e">flipmouse_fabi_esp32_kbdmouse_main.c</a>
 </li>
 </ul>
 
 
 <h3><a id="index_j"></a>- j -</h3><ul>
+<li>joystick
+: <a class="el" href="task__commands_8c.html#afe0f1fdd9d92f5cd7b5307796e8a67e3">task_commands.c</a>
+</li>
 <li>joystick_report
-: <a class="el" href="HID__kbdmousejoystick_8cpp.html#abdb3a56d4b603925e124be19fa225b13">HID_kbdmousejoystick.cpp</a>
+: <a class="el" href="hal__ble_8c.html#abdb3a56d4b603925e124be19fa225b13">hal_ble.c</a>
+</li>
+<li>joystickR
+: <a class="el" href="task__commands_8c.html#a8ec943e15bb8bd86b9f350fe64ed783e">task_commands.c</a>
 </li>
 </ul>
 
 
 <h3><a id="index_k"></a>- k -</h3><ul>
-<li>kBase64Alphabet
-: <a class="el" href="GeneralUtils_8cpp.html#aeaf3f12738fa64f3cccbe5b361d4c62d">GeneralUtils.cpp</a>
+<li>keyboard
+: <a class="el" href="task__commands_8c.html#a2c8ad30e5a0b76b98fb653eaeb152acb">task_commands.c</a>
 </li>
 <li>keyboard_report
-: <a class="el" href="HID__kbdmousejoystick_8cpp.html#afcd140786e5a4f34e23f60bc216c844d">HID_kbdmousejoystick.cpp</a>
+: <a class="el" href="hal__ble_8c.html#afcd140786e5a4f34e23f60bc216c844d">hal_ble.c</a>
+</li>
+<li>keyboardR
+: <a class="el" href="task__commands_8c.html#a499680ab602bb5a4bf44a82d73e731ba">task_commands.c</a>
 </li>
 <li>keycodes_ascii
 : <a class="el" href="keyboard_8c.html#a172fe222da40fcc3be018a1cc64a66cf">keyboard.c</a>
@@ -277,18 +426,12 @@ $(function() {
 <li>keycodes_masks
 : <a class="el" href="keyboard_8c.html#a0ae734f3d887d01aa5f80a94a790811e">keyboard.c</a>
 </li>
-<li>keymap
-: <a class="el" href="HIDKeyboardTypes_8h.html#a0f11bf75a5e09dfda04d2911563c1d15">HIDKeyboardTypes.h</a>
-, <a class="el" href="SampleKeyboardTypes_8h.html#a0f11bf75a5e09dfda04d2911563c1d15">SampleKeyboardTypes.h</a>
-</li>
 </ul>
 
 
 <h3><a id="index_l"></a>- l -</h3><ul>
-<li>LOG_TAG
-: <a class="el" href="FreeRTOS_8cpp.html#a328e9da88a07f3a0bf81b40d25469ff9">FreeRTOS.cpp</a>
-, <a class="el" href="GeneralUtils_8cpp.html#a328e9da88a07f3a0bf81b40d25469ff9">GeneralUtils.cpp</a>
-, <a class="el" href="HID__kbdmousejoystick_8cpp.html#a2beb4449ce918f78f8cb32dc6155db43">HID_kbdmousejoystick.cpp</a>
+<li>led_strip
+: <a class="el" href="hal__io_8c.html#a6d023648c159be1c0d64981932b2d3a2">hal_io.c</a>
 </li>
 <li>longactiontimer
 : <a class="el" href="hal__io_8c.html#abc911bad321a69c16c5e42f196ae6257">hal_io.c</a>
@@ -300,17 +443,27 @@ $(function() {
 
 
 <h3><a id="index_m"></a>- m -</h3><ul>
-<li>major
-: <a class="el" href="BLEBeacon_8h.html#a600930655b7237315b72223c48327ea8">BLEBeacon.h</a>
-</li>
-<li>manufacturerId
-: <a class="el" href="BLEBeacon_8h.html#af2ed80e93f09302200e10b9c42c877cf">BLEBeacon.h</a>
-</li>
-<li>minor
-: <a class="el" href="BLEBeacon_8h.html#a9f280ce3ae5b6cd9346fd7a09ff29168">BLEBeacon.h</a>
+<li>mouse
+: <a class="el" href="task__commands_8c.html#a87beccc3dfc775b2fee5b22f594b7d57">task_commands.c</a>
 </li>
 <li>mouse_report
-: <a class="el" href="HID__kbdmousejoystick_8cpp.html#a2808bdb6897db7e4f534a5caeebd6c2c">HID_kbdmousejoystick.cpp</a>
+: <a class="el" href="hal__ble_8c.html#a359f5b8a6d8ac389b52a139a014c3b40">hal_ble.c</a>
+</li>
+<li>mouseD
+: <a class="el" href="task__commands_8c.html#a5ee87bd3682f64133f841ef3a9f80054">task_commands.c</a>
+</li>
+<li>mouseR
+: <a class="el" href="task__commands_8c.html#ad97b0745c847abd384df54394439466f">task_commands.c</a>
+</li>
+</ul>
+
+
+<h3><a id="index_n"></a>- n -</h3><ul>
+<li>neop_buf1
+: <a class="el" href="hal__io_8c.html#a10c7050e4c95b12c8257fa6c289dbd86">hal_io.c</a>
+</li>
+<li>neop_buf2
+: <a class="el" href="hal__io_8c.html#a31455ba328af9ee0c666aa43e941b190">hal_io.c</a>
 </li>
 </ul>
 
@@ -325,41 +478,22 @@ $(function() {
 <li>outputcb
 : <a class="el" href="hal__serial_8c.html#a4ef85c128c2cb518b3771191c8a27e3d">hal_serial.c</a>
 </li>
-<li>outputKbd
-: <a class="el" href="HID__kbdmousejoystick_8cpp.html#a36605630a2c18aa90947815e86b74dc8">HID_kbdmousejoystick.cpp</a>
-</li>
 </ul>
 
 
 <h3><a id="index_p"></a>- p -</h3><ul>
-<li>passKey
-: <a class="el" href="HID__kbdmousejoystick_8cpp.html#a0fbc2777796e89bee432478ee5a554cf">HID_kbdmousejoystick.cpp</a>
-</li>
 <li>pressure_idle
-: <a class="el" href="hal__adc_8c.html#a6ec177d729e9f63e08546c4bc8649e78">hal_adc.c</a>
+: <a class="el" href="hal__adc_8c.html#a7cf42271a0204f4c66f2ae9c99d8d92c">hal_adc.c</a>
 </li>
-<li>proximityUUID
-: <a class="el" href="BLEBeacon_8h.html#ac17a0ced1a91d5cd6e7f796193f39b87">BLEBeacon.h</a>
-</li>
-<li>pServer
-: <a class="el" href="HID__kbdmousejoystick_8cpp.html#ac871c365764e0411a3c3806439b2b19d">HID_kbdmousejoystick.cpp</a>
+<li>primary_service_uuid
+: <a class="el" href="hid__device__le__prf_8c.html#a906dfab674e5b65aa8b2020087e66c50">hid_device_le_prf.c</a>
 </li>
 </ul>
 
 
 <h3><a id="index_r"></a>- r -</h3><ul>
-<li>radio
-: <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c.html#af5f9c13fa0128514696997d6dd9694f2">flipmouse_fabi_esp32_kbdmouse_main.c</a>
-, <a class="el" href="common_8h.html#af5f9c13fa0128514696997d6dd9694f2">common.h</a>
-</li>
-<li>reportMapJoystick
-: <a class="el" href="HID__kbdmousejoystick_8cpp.html#a97c95788a48d8eedfc0ed0a02d45d993">HID_kbdmousejoystick.cpp</a>
-</li>
-<li>reportMapKeyboard
-: <a class="el" href="HID__kbdmousejoystick_8cpp.html#a67f4ddb4624cbeb88003e097e819b0b3">HID_kbdmousejoystick.cpp</a>
-</li>
-<li>reportMapMouse
-: <a class="el" href="HID__kbdmousejoystick_8cpp.html#aadddf5c24a3f1db1de49037bb363bd45">HID_kbdmousejoystick.cpp</a>
+<li>requestBM
+: <a class="el" href="task__commands_8c.html#a7323ab7f54615807215a08a0db2369a8">task_commands.c</a>
 </li>
 <li>requestUpdate
 : <a class="el" href="task__commands_8c.html#a598fa24559f0c3a64692abf7764545d9">task_commands.c</a>
@@ -374,11 +508,11 @@ $(function() {
 <li>s_wl_handle
 : <a class="el" href="hal__storage_8c.html#a9d1f6636715d2cd2af21e20bc5e26afa">hal_storage.c</a>
 </li>
+<li>sec_conn
+: <a class="el" href="hal__ble_8c.html#a11274ca008e2a3199074e7037c665a38">hal_ble.c</a>
+</li>
 <li>serialsendingsem
 : <a class="el" href="hal__serial_8c.html#af8aa2305d1905c876a30e25bf34cc480">hal_serial.c</a>
-</li>
-<li>signalPower
-: <a class="el" href="BLEBeacon_8h.html#ab2395eb171039ad2d0c920133b5c7468">BLEBeacon.h</a>
 </li>
 <li>sockFd
 : <a class="el" href="captdns_8c.html#a5d4975d0f40bc307555843159c622cb1">captdns.c</a>
@@ -395,36 +529,22 @@ $(function() {
 <li>storeHandle
 : <a class="el" href="hal__storage_8c.html#abc16a2117a92da3dc8843a60780fd1a2">hal_storage.c</a>
 </li>
-<li>subType
-: <a class="el" href="BLEBeacon_8h.html#a58421f5f67894191ba9e81fe3c6e4a8b">BLEBeacon.h</a>
-</li>
-<li>subTypeLength
-: <a class="el" href="BLEBeacon_8h.html#a153ad9574e21679d465e3813968ba77c">BLEBeacon.h</a>
-</li>
 <li>switchRadioSem
 : <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c.html#aaf12ce68f07ec96638046d2dbe8ffbea">flipmouse_fabi_esp32_kbdmouse_main.c</a>
 </li>
-</ul>
-
-
-<h3><a id="index_t"></a>- t -</h3><ul>
-<li>tag
-: <a class="el" href="Task_8cpp.html#a025a1d43fa715d8704775f6ec17d9397">Task.cpp</a>
+<li>systemStatus
+: <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c.html#a6c818282ed7e6036d8fe7d3c944bfb41">flipmouse_fabi_esp32_kbdmouse_main.c</a>
+, <a class="el" href="common_8h.html#a6c818282ed7e6036d8fe7d3c944bfb41">common.h</a>
 </li>
 </ul>
 
 
 <h3><a id="index_v"></a>- v -</h3><ul>
+<li>vbaction
+: <a class="el" href="task__commands_8c.html#a636f2e855ca9775d7e6e5a62f629bbda">task_commands.c</a>
+</li>
 <li>vbCmdSem
-: <a class="el" href="task__vb_8c.html#a7666b964234f3637cc8479d87c2cc711">task_vb.c</a>
-</li>
-<li>virtualButtonsIn
-: <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c.html#a591ffaa399081915a0eab951f83f93e2">flipmouse_fabi_esp32_kbdmouse_main.c</a>
-, <a class="el" href="common_8h.html#a591ffaa399081915a0eab951f83f93e2">common.h</a>
-</li>
-<li>virtualButtonsOut
-: <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c.html#a3633668cff0a27ea52ca662673978667">flipmouse_fabi_esp32_kbdmouse_main.c</a>
-, <a class="el" href="common_8h.html#a3633668cff0a27ea52ca662673978667">common.h</a>
+: <a class="el" href="handler__vb_8c.html#a7666b964234f3637cc8479d87c2cc711">handler_vb.c</a>
 </li>
 </ul>
 
@@ -461,11 +581,8 @@ $(function() {
 
 
 <h3><a id="index_x"></a>- x -</h3><ul>
-<li>xTimerDirection
-: <a class="el" href="task__debouncer_8c.html#a9ccc9e17849266659f211b03861ae038">task_debouncer.c</a>
-</li>
 <li>xTimers
-: <a class="el" href="task__debouncer_8c.html#ac7c8d1bdf42262a7331008e325845e37">task_debouncer.c</a>
+: <a class="el" href="task__debouncer_8c.html#a2d2e1703805d96b2612eb4d76407360c">task_debouncer.c</a>
 </li>
 </ul>
 </div><!-- contents -->

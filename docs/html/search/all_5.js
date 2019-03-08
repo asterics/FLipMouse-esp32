@@ -1,6 +1,26 @@
 var searchData=
 [
-  ['end_5fcollection',['END_COLLECTION',['../HIDTypes_8h.html#abf03f9d5fb2b68a614738c6ce7ec32af',1,'HIDTypes.h']]],
-  ['endswith',['endsWith',['../classGeneralUtils.html#ade237631b5595e2426f9e86fc6e38932',1,'GeneralUtils']]],
-  ['errortostring',['errorToString',['../classGeneralUtils.html#a25e466e54ff002f54bfb7e1f43bd401b',1,'GeneralUtils']]]
+  ['enabled',['enabled',['../structhidd__le__env__t.html#a1d2f34382a87a726b6c343ffd53c8a5e',1,'hidd_le_env_t']]],
+  ['esp_5fbat_5fevent_5freg',['ESP_BAT_EVENT_REG',['../hidd__le__prf__int_8h.html#a47afe3bf419ceb85a287f6cae0c2d0e6a81275aab4084cbb040c24ddb642af543',1,'hidd_le_prf_int.h']]],
+  ['esp_5fevent_5fdeclare_5fbase',['ESP_EVENT_DECLARE_BASE',['../common_8h.html#a07c42118db75cd115970e4ef0ea00c8b',1,'common.h']]],
+  ['esp_5fevent_5fdefine_5fbase',['ESP_EVENT_DEFINE_BASE',['../flipmouse__fabi__esp32__kbdmouse__main_8c.html#a0cae460a4c08ddcd0fd3248d5bedd21d',1,'flipmouse_fabi_esp32_kbdmouse_main.c']]],
+  ['esp_5fhidd_5fcb_5fevent_5ft',['esp_hidd_cb_event_t',['../hidd__le__prf__int_8h.html#a47afe3bf419ceb85a287f6cae0c2d0e6',1,'hidd_le_prf_int.h']]],
+  ['esp_5fhidd_5fcb_5fparam_5ft',['esp_hidd_cb_param_t',['../unionesp__hidd__cb__param__t.html',1,'']]],
+  ['esp_5fhidd_5fdeinit_5ffailed',['ESP_HIDD_DEINIT_FAILED',['../hidd__le__prf__int_8h.html#af8af97c7fadb44316863b318b6319a77aae8bd6ecbe20d2e7eb79001fdc324fad',1,'hidd_le_prf_int.h']]],
+  ['esp_5fhidd_5fdeinit_5fok',['ESP_HIDD_DEINIT_OK',['../hidd__le__prf__int_8h.html#af8af97c7fadb44316863b318b6319a77a1532e6e2f8b366028d2de8cb97e1853f',1,'hidd_le_prf_int.h']]],
+  ['esp_5fhidd_5fdeinit_5fstate_5ft',['esp_hidd_deinit_state_t',['../hidd__le__prf__int_8h.html#af8af97c7fadb44316863b318b6319a77',1,'hidd_le_prf_int.h']]],
+  ['esp_5fhidd_5fevent_5fble_5fconnect',['ESP_HIDD_EVENT_BLE_CONNECT',['../hidd__le__prf__int_8h.html#a47afe3bf419ceb85a287f6cae0c2d0e6af428f60386d3fae4b22d96f235779ba5',1,'hidd_le_prf_int.h']]],
+  ['esp_5fhidd_5fevent_5fble_5fdisconnect',['ESP_HIDD_EVENT_BLE_DISCONNECT',['../hidd__le__prf__int_8h.html#a47afe3bf419ceb85a287f6cae0c2d0e6a6b4043e78a8aadb05ab614d761608c0d',1,'hidd_le_prf_int.h']]],
+  ['esp_5fhidd_5fevent_5fble_5fvendor_5freport_5fwrite_5fevt',['ESP_HIDD_EVENT_BLE_VENDOR_REPORT_WRITE_EVT',['../hidd__le__prf__int_8h.html#a47afe3bf419ceb85a287f6cae0c2d0e6aa49b05c4194a3c63f6e37287c06b6ce3',1,'hidd_le_prf_int.h']]],
+  ['esp_5fhidd_5fevent_5fcb_5ft',['esp_hidd_event_cb_t',['../hidd__le__prf__int_8h.html#af7a19b0130b512a84963eb5f98a39d46',1,'hidd_le_prf_int.h']]],
+  ['esp_5fhidd_5fevent_5fdeinit_5ffinish',['ESP_HIDD_EVENT_DEINIT_FINISH',['../hidd__le__prf__int_8h.html#a47afe3bf419ceb85a287f6cae0c2d0e6aab1887ebb0a2d39db730b28469b75c2e',1,'hidd_le_prf_int.h']]],
+  ['esp_5fhidd_5fevent_5freg_5ffinish',['ESP_HIDD_EVENT_REG_FINISH',['../hidd__le__prf__int_8h.html#a47afe3bf419ceb85a287f6cae0c2d0e6aa83cc4117fc104e49566763f25d30113',1,'hidd_le_prf_int.h']]],
+  ['esp_5fhidd_5finit_5ffailed',['ESP_HIDD_INIT_FAILED',['../hidd__le__prf__int_8h.html#a15adb62d9ad8757fae5e4b0f36a95a03ab7731152869358e0c85fee0346b36a50',1,'hidd_le_prf_int.h']]],
+  ['esp_5fhidd_5finit_5fok',['ESP_HIDD_INIT_OK',['../hidd__le__prf__int_8h.html#a15adb62d9ad8757fae5e4b0f36a95a03a4695d1b60ecadc8d647662a411ad9614',1,'hidd_le_prf_int.h']]],
+  ['esp_5fhidd_5finit_5fstate_5ft',['esp_hidd_init_state_t',['../hidd__le__prf__int_8h.html#a15adb62d9ad8757fae5e4b0f36a95a03',1,'hidd_le_prf_int.h']]],
+  ['esp_5fhidd_5fprf_5fcb_5fhdl',['esp_hidd_prf_cb_hdl',['../hid__device__le__prf_8c.html#add8f27ab149175c58a8bced1016df5a6',1,'hid_device_le_prf.c']]],
+  ['esp_5fhidd_5fsta_5fconn_5ffail',['ESP_HIDD_STA_CONN_FAIL',['../hidd__le__prf__int_8h.html#a586b8e50bea5f04b30a557a556264ed4a53bc94d7c4481a76d703fa15b5a0928d',1,'hidd_le_prf_int.h']]],
+  ['esp_5fhidd_5fsta_5fconn_5fstate_5ft',['esp_hidd_sta_conn_state_t',['../hidd__le__prf__int_8h.html#a586b8e50bea5f04b30a557a556264ed4',1,'hidd_le_prf_int.h']]],
+  ['esp_5fhidd_5fsta_5fconn_5fsuccess',['ESP_HIDD_STA_CONN_SUCCESS',['../hidd__le__prf__int_8h.html#a586b8e50bea5f04b30a557a556264ed4a7fcd7d664c626bb5096c466ad536c07e',1,'hidd_le_prf_int.h']]],
+  ['exponent',['exponent',['../structprf__char__pres__fmt.html#a99917c87ee0b06949bafa19db51df997',1,'prf_char_pres_fmt']]]
 ];

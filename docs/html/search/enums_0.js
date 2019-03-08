@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['function_5fkey',['FUNCTION_KEY',['../HIDKeyboardTypes_8h.html#abcd4e84ddc43717d65d285a4facf84a0',1,'FUNCTION_KEY():&#160;HIDKeyboardTypes.h'],['../SampleKeyboardTypes_8h.html#abcd4e84ddc43717d65d285a4facf84a0',1,'FUNCTION_KEY():&#160;SampleKeyboardTypes.h']]]
+  ['debouncer_5fdirection_5ft',['debouncer_direction_t',['../task__debouncer_8c.html#a162919de9fa544dd554a2b425a9940d4',1,'task_debouncer.c']]]
 ];

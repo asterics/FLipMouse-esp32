@@ -1,20 +1,21 @@
 var searchData=
 [
   ['s_5fwl_5fhandle',['s_wl_handle',['../hal__storage_8c.html#a9d1f6636715d2cd2af21e20bc5e26afa',1,'hal_storage.c']]],
+  ['sec_5fconn',['sec_conn',['../hal__ble_8c.html#a11274ca008e2a3199074e7037c665a38',1,'hal_ble.c']]],
   ['sensitivity_5fx',['sensitivity_x',['../structadc__config.html#a81465c39748fa52d1b773f34ad4ee435',1,'adc_config']]],
   ['sensitivity_5fy',['sensitivity_y',['../structadc__config.html#adbfe1bd3388e5274fd37ffb27c6a719a',1,'adc_config']]],
   ['serialsendingsem',['serialsendingsem',['../hal__serial_8c.html#af8aa2305d1905c876a30e25bf34cc480',1,'hal_serial.c']]],
-  ['signalpower',['signalPower',['../classBLEBeacon.html#af8a79dc4a1cf8433b12c570b2d7a71ec',1,'BLEBeacon::signalPower()'],['../BLEBeacon_8h.html#ab2395eb171039ad2d0c920133b5c7468',1,'signalPower():&#160;BLEBeacon.h']]],
   ['slotname',['slotName',['../structgeneralConfig.html#a1d383c1fdfd705732cac3a1d435078e0',1,'generalConfig']]],
   ['slotversion',['slotversion',['../structgeneralConfig.html#a346d50e48981b23684bd04c371212a08',1,'generalConfig']]],
   ['sockfd',['sockFd',['../captdns_8c.html#a5d4975d0f40bc307555843159c622cb1',1,'captdns.c']]],
+  ['state',['state',['../structesp__hidd__cb__param__t_1_1hidd__init__finish__evt__param.html#a33c7c87def3302bcaa923c620d31b1d9',1,'esp_hidd_cb_param_t::hidd_init_finish_evt_param::state()'],['../structesp__hidd__cb__param__t_1_1hidd__deinit__finish__evt__param.html#aead8cf8834062cfa90a418aeb7dd7a71',1,'esp_hidd_cb_param_t::hidd_deinit_finish_evt_param::state()']]],
   ['status',['status',['../structhalIOIR.html#acc1ca503a0bbc3afd243a97708623157',1,'halIOIR']]],
   ['storagecurrentslotnumber',['storageCurrentSlotNumber',['../hal__storage_8c.html#a5c097404b5dfa34bdac65865586dac5a',1,'hal_storage.c']]],
   ['storagecurrenttid',['storageCurrentTID',['../hal__storage_8c.html#ab7bc6f83a4f91dba2d5b3d1edeedf4b1',1,'hal_storage.c']]],
   ['storagecurrenttidholder',['storageCurrentTIDHolder',['../hal__storage_8c.html#a687cf5b473fc94d8fafca390fcc11a1f',1,'hal_storage.c']]],
   ['storehandle',['storeHandle',['../hal__storage_8c.html#abc16a2117a92da3dc8843a60780fd1a2',1,'hal_storage.c']]],
   ['strongmode',['strongmode',['../structadcData.html#a62810368e3b696872cc81f4914b60bd5',1,'adcData']]],
-  ['subtype',['subType',['../classBLEBeacon.html#a463788f221ce57967832322e649f3e4e',1,'BLEBeacon::subType()'],['../BLEBeacon_8h.html#a58421f5f67894191ba9e81fe3c6e4a8b',1,'subType():&#160;BLEBeacon.h']]],
-  ['subtypelength',['subTypeLength',['../classBLEBeacon.html#a8ace2509f8f532bdfc2f1b733c9b626e',1,'BLEBeacon::subTypeLength()'],['../BLEBeacon_8h.html#a153ad9574e21679d465e3813968ba77c',1,'subTypeLength():&#160;BLEBeacon.h']]],
-  ['switchradiosem',['switchRadioSem',['../flipmouse__fabi__esp32__kbdmouse__main_8c.html#aaf12ce68f07ec96638046d2dbe8ffbea',1,'flipmouse_fabi_esp32_kbdmouse_main.c']]]
+  ['svc_5ffeatures',['svc_features',['../structhidd__feature__t.html#a254c99f1e3115e399a088611e1e93123',1,'hidd_feature_t']]],
+  ['switchradiosem',['switchRadioSem',['../flipmouse__fabi__esp32__kbdmouse__main_8c.html#aaf12ce68f07ec96638046d2dbe8ffbea',1,'flipmouse_fabi_esp32_kbdmouse_main.c']]],
+  ['systemstatus',['systemStatus',['../flipmouse__fabi__esp32__kbdmouse__main_8c.html#a6c818282ed7e6036d8fe7d3c944bfb41',1,'systemStatus():&#160;flipmouse_fabi_esp32_kbdmouse_main.c'],['../common_8h.html#a6c818282ed7e6036d8fe7d3c944bfb41',1,'systemStatus():&#160;flipmouse_fabi_esp32_kbdmouse_main.c']]]
 ];

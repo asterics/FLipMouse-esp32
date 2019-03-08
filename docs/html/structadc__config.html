@@ -93,17 +93,19 @@ Data Fields</h2></td></tr>
 <tr class="separator:acdbc84647448c993d00662e69d838848"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6f3ea052a4b3edf28c0939286e6c4ef4"><td class="memItemLeft" align="right" valign="top">uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structadc__config.html#a6f3ea052a4b3edf28c0939286e6c4ef4">reportraw</a></td></tr>
 <tr class="separator:a6f3ea052a4b3edf28c0939286e6c4ef4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1ef95e4bb2ef589011d5aa34eb6686e2"><td class="memItemLeft" align="right" valign="top">uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structadc__config.html#a1ef95e4bb2ef589011d5aa34eb6686e2">gain</a> [4]</td></tr>
-<tr class="separator:a1ef95e4bb2ef589011d5aa34eb6686e2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a79ae56f983038a1020fbf9d5dc725f78"><td class="memItemLeft" align="right" valign="top">uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structadc__config.html#a79ae56f983038a1020fbf9d5dc725f78">axis</a></td></tr>
 <tr class="separator:a79ae56f983038a1020fbf9d5dc725f78"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a266432940302c334677933a4768a0f09"><td class="memItemLeft" align="right" valign="top">uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structadc__config.html#a266432940302c334677933a4768a0f09">orientation</a></td></tr>
 <tr class="separator:a266432940302c334677933a4768a0f09"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1e97c36624e695f12d8619b665b26ab8"><td class="memItemLeft" align="right" valign="top">uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structadc__config.html#a1e97c36624e695f12d8619b665b26ab8">otf_count</a></td></tr>
+<tr class="separator:a1e97c36624e695f12d8619b665b26ab8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa1239ac35c77cc2764b1876e46398057"><td class="memItemLeft" align="right" valign="top">uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structadc__config.html#aa1239ac35c77cc2764b1876e46398057">otf_idle</a></td></tr>
+<tr class="separator:aa1239ac35c77cc2764b1876e46398057"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>config for the ADC task &amp; the analog mode of operation</p>
 <p>TBD: describe all parameters...</p>
-<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000006">Todo:</a></b></dt><dd>Remove report raw from here &amp; create new "volatile" config struct -&gt; no need to save, but no need to overwrite on slot change </dd></dl>
+<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000005">Todo:</a></b></dt><dd>Remove report raw from here &amp; create new "volatile" config struct -&gt; no need to save, but no need to overwrite on slot change </dd></dl>
 <dl class="section see"><dt>See also</dt><dd><a class="el" href="common_8h.html#a98dad58d25b2c00f276abb043ea32630">mouthpiece_mode_t</a> </dd>
 <dd>
 <a class="el" href="common_8h.html#a3d4762ae367acc310d3d9fa8bd5d44fc">VB_SIP</a> </dd>
@@ -114,7 +116,7 @@ Data Fields</h2></td></tr>
 <dd>
 <a class="el" href="common_8h.html#aed369f77fa5db4fc8621cea240f04436">VB_STRONGPUFF</a> </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="common_8h_source.html#l00410">410</a> of file <a class="el" href="common_8h_source.html">common.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="common_8h_source.html#l00330">330</a> of file <a class="el" href="common_8h_source.html">common.h</a>.</p>
 </div><h2 class="groupheader">Field Documentation</h2>
 <a id="afb2cb90e7914378d9ddb0cb4454f865e"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#afb2cb90e7914378d9ddb0cb4454f865e">&#9670;&nbsp;</a></span>acceleration</h2>
@@ -129,9 +131,9 @@ Data Fields</h2></td></tr>
 </div><div class="memdoc">
 <p>acceleration for x &amp; y axis (mouse &amp; joystick mode) </p>
 
-<p class="definition">Definition at line <a class="el" href="common_8h_source.html#l00414">414</a> of file <a class="el" href="common_8h_source.html">common.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="common_8h_source.html#l00334">334</a> of file <a class="el" href="common_8h_source.html">common.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="task__commands_8c_source.html#l00149">doMouthpieceSettingsParsing()</a>, <a class="el" href="hal__adc_8c_source.html#l00408">halAdcProcessPressure()</a>, and <a class="el" href="task__commands_8c_source.html#l01814">storeSlot()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="hal__adc_8c_source.html#l00509">halAdcProcessPressure()</a>, and <a class="el" href="task__commands_8c_source.html#l01547">storeSlot()</a>.</p>
 
 </div>
 </div>
@@ -148,7 +150,7 @@ Data Fields</h2></td></tr>
 </div><div class="memdoc">
 <p>joystick axis assignment TBD: assign axis to numbers </p>
 
-<p class="definition">Definition at line <a class="el" href="common_8h_source.html#l00437">437</a> of file <a class="el" href="common_8h_source.html">common.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="common_8h_source.html#l00354">354</a> of file <a class="el" href="common_8h_source.html">common.h</a>.</p>
 
 </div>
 </div>
@@ -165,9 +167,9 @@ Data Fields</h2></td></tr>
 </div><div class="memdoc">
 <p>deadzone values for x &amp; y axis (mouse &amp; joystick &amp; threshold mode) </p>
 
-<p class="definition">Definition at line <a class="el" href="common_8h_source.html#l00418">418</a> of file <a class="el" href="common_8h_source.html">common.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="common_8h_source.html#l00338">338</a> of file <a class="el" href="common_8h_source.html">common.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="task__commands_8c_source.html#l00149">doMouthpieceSettingsParsing()</a>, <a class="el" href="hal__adc_8c_source.html#l00247">halAdcReadData()</a>, and <a class="el" href="task__commands_8c_source.html#l01814">storeSlot()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="hal__adc_8c_source.html#l00246">halAdcReportRaw()</a>, and <a class="el" href="task__commands_8c_source.html#l01547">storeSlot()</a>.</p>
 
 </div>
 </div>
@@ -183,28 +185,9 @@ Data Fields</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="common_8h_source.html#l00419">419</a> of file <a class="el" href="common_8h_source.html">common.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="common_8h_source.html#l00339">339</a> of file <a class="el" href="common_8h_source.html">common.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="task__commands_8c_source.html#l00149">doMouthpieceSettingsParsing()</a>, <a class="el" href="hal__adc_8c_source.html#l00247">halAdcReadData()</a>, and <a class="el" href="task__commands_8c_source.html#l01814">storeSlot()</a>.</p>
-
-</div>
-</div>
-<a id="a1ef95e4bb2ef589011d5aa34eb6686e2"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a1ef95e4bb2ef589011d5aa34eb6686e2">&#9670;&nbsp;</a></span>gain</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">uint8_t adc_config::gain[4]</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>gain of each sensor (0-100), 50 means factor 1. array assignment: [0] = up, [1] = down, [2] = left, [3] = right </p>
-
-<p class="definition">Definition at line <a class="el" href="common_8h_source.html#l00435">435</a> of file <a class="el" href="common_8h_source.html">common.h</a>.</p>
-
-<p class="reference">Referenced by <a class="el" href="task__commands_8c_source.html#l00149">doMouthpieceSettingsParsing()</a>, <a class="el" href="hal__adc_8c_source.html#l00247">halAdcReadData()</a>, and <a class="el" href="task__commands_8c_source.html#l01814">storeSlot()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="hal__adc_8c_source.html#l00246">halAdcReportRaw()</a>, and <a class="el" href="task__commands_8c_source.html#l01547">storeSlot()</a>.</p>
 
 </div>
 </div>
@@ -221,9 +204,9 @@ Data Fields</h2></td></tr>
 </div><div class="memdoc">
 <p>max speed for x &amp; y axis (mouse &amp; joystick mode) </p>
 
-<p class="definition">Definition at line <a class="el" href="common_8h_source.html#l00416">416</a> of file <a class="el" href="common_8h_source.html">common.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="common_8h_source.html#l00336">336</a> of file <a class="el" href="common_8h_source.html">common.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="task__commands_8c_source.html#l00149">doMouthpieceSettingsParsing()</a>, <a class="el" href="hal__adc_8c_source.html#l00408">halAdcProcessPressure()</a>, and <a class="el" href="task__commands_8c_source.html#l01814">storeSlot()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="hal__adc_8c_source.html#l00509">halAdcProcessPressure()</a>, and <a class="el" href="task__commands_8c_source.html#l01547">storeSlot()</a>.</p>
 
 </div>
 </div>
@@ -240,9 +223,9 @@ Data Fields</h2></td></tr>
 </div><div class="memdoc">
 <p>mode setting for mouthpiece, </p><dl class="section see"><dt>See also</dt><dd><a class="el" href="common_8h.html#a98dad58d25b2c00f276abb043ea32630">mouthpiece_mode_t</a> </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="common_8h_source.html#l00412">412</a> of file <a class="el" href="common_8h_source.html">common.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="common_8h_source.html#l00332">332</a> of file <a class="el" href="common_8h_source.html">common.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="task__commands_8c_source.html#l00149">doMouthpieceSettingsParsing()</a>, <a class="el" href="hal__adc_8c_source.html#l00960">halAdcUpdateConfig()</a>, and <a class="el" href="task__commands_8c_source.html#l01814">storeSlot()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="task__commands_8c_source.html#l00696">cmdMm()</a>, <a class="el" href="task__commands_8c_source.html#l00708">cmdSw()</a>, <a class="el" href="hal__adc_8c_source.html#l01148">halAdcUpdateConfig()</a>, and <a class="el" href="task__commands_8c_source.html#l01547">storeSlot()</a>.</p>
 
 </div>
 </div>
@@ -259,9 +242,47 @@ Data Fields</h2></td></tr>
 </div><div class="memdoc">
 <p>FLipMouse orientation, 0,90,180 or 270° </p>
 
-<p class="definition">Definition at line <a class="el" href="common_8h_source.html#l00439">439</a> of file <a class="el" href="common_8h_source.html">common.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="common_8h_source.html#l00356">356</a> of file <a class="el" href="common_8h_source.html">common.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="task__commands_8c_source.html#l00797">doGeneralCmdParsing()</a>, <a class="el" href="hal__adc_8c_source.html#l00247">halAdcReadData()</a>, and <a class="el" href="task__commands_8c_source.html#l01814">storeSlot()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="task__commands_8c_source.html#l00271">cmdRo()</a>, <a class="el" href="hal__adc_8c_source.html#l00246">halAdcReportRaw()</a>, and <a class="el" href="task__commands_8c_source.html#l01547">storeSlot()</a>.</p>
+
+</div>
+</div>
+<a id="a1e97c36624e695f12d8619b665b26ab8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1e97c36624e695f12d8619b665b26ab8">&#9670;&nbsp;</a></span>otf_count</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint8_t adc_config::otf_count</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>On-the-fly calibration, count of idle events before triggering calibration </p>
+
+<p class="definition">Definition at line <a class="el" href="common_8h_source.html#l00358">358</a> of file <a class="el" href="common_8h_source.html">common.h</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="hal__adc_8c_source.html#l00246">halAdcReportRaw()</a>, and <a class="el" href="hal__adc_8c_source.html#l01148">halAdcUpdateConfig()</a>.</p>
+
+</div>
+</div>
+<a id="aa1239ac35c77cc2764b1876e46398057"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa1239ac35c77cc2764b1876e46398057">&#9670;&nbsp;</a></span>otf_idle</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint8_t adc_config::otf_idle</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>On-the-fly calibration, level of detecting idle (all raw values need to change less than this value to be detected as idle) </p>
+
+<p class="definition">Definition at line <a class="el" href="common_8h_source.html#l00361">361</a> of file <a class="el" href="common_8h_source.html">common.h</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="hal__adc_8c_source.html#l00246">halAdcReportRaw()</a>, and <a class="el" href="hal__adc_8c_source.html#l01148">halAdcUpdateConfig()</a>.</p>
 
 </div>
 </div>
@@ -278,9 +299,9 @@ Data Fields</h2></td></tr>
 </div><div class="memdoc">
 <p>Enable report RAW values (!=0), values are sent via halSerialSendUSBSerial </p>
 
-<p class="definition">Definition at line <a class="el" href="common_8h_source.html#l00432">432</a> of file <a class="el" href="common_8h_source.html">common.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="common_8h_source.html#l00352">352</a> of file <a class="el" href="common_8h_source.html">common.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="task__commands_8c_source.html#l00149">doMouthpieceSettingsParsing()</a>, and <a class="el" href="hal__adc_8c_source.html#l00216">halAdcReportRaw()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="task__commands_8c_source.html#l00722">cmdEr()</a>, <a class="el" href="task__commands_8c_source.html#l00717">cmdSr()</a>, and <a class="el" href="hal__adc_8c_source.html#l00246">halAdcReportRaw()</a>.</p>
 
 </div>
 </div>
@@ -297,9 +318,9 @@ Data Fields</h2></td></tr>
 </div><div class="memdoc">
 <p>sensitivity values for x &amp; y axis (mouse &amp; joystick mode) </p>
 
-<p class="definition">Definition at line <a class="el" href="common_8h_source.html#l00421">421</a> of file <a class="el" href="common_8h_source.html">common.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="common_8h_source.html#l00341">341</a> of file <a class="el" href="common_8h_source.html">common.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="task__commands_8c_source.html#l00149">doMouthpieceSettingsParsing()</a>, <a class="el" href="hal__adc_8c_source.html#l00408">halAdcProcessPressure()</a>, and <a class="el" href="task__commands_8c_source.html#l01814">storeSlot()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="hal__adc_8c_source.html#l00509">halAdcProcessPressure()</a>, and <a class="el" href="task__commands_8c_source.html#l01547">storeSlot()</a>.</p>
 
 </div>
 </div>
@@ -315,9 +336,9 @@ Data Fields</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="common_8h_source.html#l00422">422</a> of file <a class="el" href="common_8h_source.html">common.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="common_8h_source.html#l00342">342</a> of file <a class="el" href="common_8h_source.html">common.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="task__commands_8c_source.html#l00149">doMouthpieceSettingsParsing()</a>, <a class="el" href="hal__adc_8c_source.html#l00408">halAdcProcessPressure()</a>, and <a class="el" href="task__commands_8c_source.html#l01814">storeSlot()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="hal__adc_8c_source.html#l00509">halAdcProcessPressure()</a>, and <a class="el" href="task__commands_8c_source.html#l01547">storeSlot()</a>.</p>
 
 </div>
 </div>
@@ -334,9 +355,9 @@ Data Fields</h2></td></tr>
 </div><div class="memdoc">
 <p>pressure sensor, puff threshold </p>
 
-<p class="definition">Definition at line <a class="el" href="common_8h_source.html#l00426">426</a> of file <a class="el" href="common_8h_source.html">common.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="common_8h_source.html#l00346">346</a> of file <a class="el" href="common_8h_source.html">common.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="task__commands_8c_source.html#l00149">doMouthpieceSettingsParsing()</a>, <a class="el" href="hal__adc_8c_source.html#l00408">halAdcProcessPressure()</a>, and <a class="el" href="task__commands_8c_source.html#l01814">storeSlot()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="hal__adc_8c_source.html#l00509">halAdcProcessPressure()</a>, and <a class="el" href="task__commands_8c_source.html#l01547">storeSlot()</a>.</p>
 
 </div>
 </div>
@@ -353,9 +374,9 @@ Data Fields</h2></td></tr>
 </div><div class="memdoc">
 <p>pressure sensor, sip threshold </p>
 
-<p class="definition">Definition at line <a class="el" href="common_8h_source.html#l00424">424</a> of file <a class="el" href="common_8h_source.html">common.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="common_8h_source.html#l00344">344</a> of file <a class="el" href="common_8h_source.html">common.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="task__commands_8c_source.html#l00149">doMouthpieceSettingsParsing()</a>, and <a class="el" href="task__commands_8c_source.html#l01814">storeSlot()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="task__commands_8c_source.html#l01547">storeSlot()</a>.</p>
 
 </div>
 </div>
@@ -372,9 +393,9 @@ Data Fields</h2></td></tr>
 </div><div class="memdoc">
 <p>pressure sensor, strongpuff threshold </p>
 
-<p class="definition">Definition at line <a class="el" href="common_8h_source.html#l00430">430</a> of file <a class="el" href="common_8h_source.html">common.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="common_8h_source.html#l00350">350</a> of file <a class="el" href="common_8h_source.html">common.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="task__commands_8c_source.html#l00149">doMouthpieceSettingsParsing()</a>, <a class="el" href="hal__adc_8c_source.html#l00408">halAdcProcessPressure()</a>, and <a class="el" href="task__commands_8c_source.html#l01814">storeSlot()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="hal__adc_8c_source.html#l00509">halAdcProcessPressure()</a>, and <a class="el" href="task__commands_8c_source.html#l01547">storeSlot()</a>.</p>
 
 </div>
 </div>
@@ -391,9 +412,9 @@ Data Fields</h2></td></tr>
 </div><div class="memdoc">
 <p>pressure sensor, strongsip threshold </p>
 
-<p class="definition">Definition at line <a class="el" href="common_8h_source.html#l00428">428</a> of file <a class="el" href="common_8h_source.html">common.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="common_8h_source.html#l00348">348</a> of file <a class="el" href="common_8h_source.html">common.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="task__commands_8c_source.html#l00149">doMouthpieceSettingsParsing()</a>, <a class="el" href="hal__adc_8c_source.html#l00408">halAdcProcessPressure()</a>, and <a class="el" href="task__commands_8c_source.html#l01814">storeSlot()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="hal__adc_8c_source.html#l00509">halAdcProcessPressure()</a>, and <a class="el" href="task__commands_8c_source.html#l01547">storeSlot()</a>.</p>
 
 </div>
 </div>

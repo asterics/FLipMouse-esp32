@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['keymap_5fsize',['KEYMAP_SIZE',['../HIDKeyboardTypes_8h.html#a5e211a72f1c517e77dba5773be0381db',1,'KEYMAP_SIZE():&#160;HIDKeyboardTypes.h'],['../SampleKeyboardTypes_8h.html#a5e211a72f1c517e77dba5773be0381db',1,'KEYMAP_SIZE():&#160;SampleKeyboardTypes.h']]]
+  ['max_5fbuff_5fsize',['MAX_BUFF_SIZE',['../task__webgui_8c.html#a212979f5fc9dcf0a420e90b9b21d780a',1,'task_webgui.c']]]
 ];

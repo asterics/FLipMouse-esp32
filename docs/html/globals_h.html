@@ -61,6 +61,9 @@ $(function() {
 <div class="textblock">Here is a list of all functions, variables, defines, enums, and typedefs with links to the files they belong to:</div>
 
 <h3><a id="index_h"></a>- h -</h3><ul>
+<li>HAL_ADC_RAW_DIVIDER
+: <a class="el" href="hal__adc_8c.html#a8922e5ac3a62047ecebbf2e501dbc7e4">hal_adc.c</a>
+</li>
 <li>HAL_ADC_TASK_PRIORITY
 : <a class="el" href="common_8h.html#aada14457de325b91960d3b65b95d7897">common.h</a>
 </li>
@@ -81,6 +84,12 @@ $(function() {
 </li>
 <li>HAL_IO_PIN_LONGACTION
 : <a class="el" href="hal__io_8h.html#a8db74aa62b01eaaa7e9b0080050d488f">hal_io.h</a>
+</li>
+<li>HAL_SERIAL_EXT_RXPIN
+: <a class="el" href="hal__serial_8h.html#a270335df918f969c5da607bde188d040">hal_serial.h</a>
+</li>
+<li>HAL_SERIAL_EXT_TXPIN
+: <a class="el" href="hal__serial_8h.html#a691502fe103528eb752725325cccbf30">hal_serial.h</a>
 </li>
 <li>HAL_SERIAL_HID_CHANNEL
 : <a class="el" href="hal__serial_8h.html#a7be3ddfa5e2edd996fdbd675dd013740">hal_serial.h</a>
@@ -121,9 +130,6 @@ $(function() {
 <li>HAL_STORAGE_NVS_NAMESPACE
 : <a class="el" href="hal__storage_8h.html#a305aadd4f9039f9f93f76a47d8479fc5">hal_storage.h</a>
 </li>
-<li>HAL_VB_TASK_PRIORITY
-: <a class="el" href="common_8h.html#a429f226b0ce1f98d01eff6fddc075ad4">common.h</a>
-</li>
 <li>halAdcCalibrate()
 : <a class="el" href="hal__adc_8c.html#ae549c157d94729e8b06cb391f0f2c97b">hal_adc.c</a>
 , <a class="el" href="hal__adc_8h.html#ae549c157d94729e8b06cb391f0f2c97b">hal_adc.h</a>
@@ -137,9 +143,6 @@ $(function() {
 </li>
 <li>halAdcProcessStrongMode()
 : <a class="el" href="hal__adc_8c.html#a3cddaa804609f2e34f3cbda1d43ff1b4">hal_adc.c</a>
-</li>
-<li>halAdcReadData()
-: <a class="el" href="hal__adc_8c.html#a5e0d74baf098e774b0e3aa0dab621987">hal_adc.c</a>
 </li>
 <li>halAdcReportRaw()
 : <a class="el" href="hal__adc_8c.html#a8743abcde6f190545c429f072c16106d">hal_adc.c</a>
@@ -155,24 +158,27 @@ $(function() {
 , <a class="el" href="hal__adc_8h.html#a4135bb73c2271b4a27db8d8d81884de7">hal_adc.h</a>
 </li>
 <li>halBLEEnDisable()
-: <a class="el" href="hal__ble_8h.html#a1ade7df97a34fa89e0f2db7f5d2614de">hal_ble.h</a>
-, <a class="el" href="HID__kbdmousejoystick_8cpp.html#a1ade7df97a34fa89e0f2db7f5d2614de">HID_kbdmousejoystick.cpp</a>
+: <a class="el" href="hal__ble_8c.html#a1ade7df97a34fa89e0f2db7f5d2614de">hal_ble.c</a>
+, <a class="el" href="hal__ble_8h.html#a1ade7df97a34fa89e0f2db7f5d2614de">hal_ble.h</a>
 </li>
 <li>halBLEInit()
-: <a class="el" href="hal__ble_8h.html#a559e9af2167a8f1b05a8304234418ed3">hal_ble.h</a>
-, <a class="el" href="HID__kbdmousejoystick_8cpp.html#a559e9af2167a8f1b05a8304234418ed3">HID_kbdmousejoystick.cpp</a>
+: <a class="el" href="hal__ble_8c.html#a559e9af2167a8f1b05a8304234418ed3">hal_ble.c</a>
+, <a class="el" href="hal__ble_8h.html#a559e9af2167a8f1b05a8304234418ed3">hal_ble.h</a>
 </li>
 <li>halBLEIsConnected()
-: <a class="el" href="hal__ble_8h.html#a5c6787d5b7e82e56119ed95ae9ddb98d">hal_ble.h</a>
-, <a class="el" href="HID__kbdmousejoystick_8cpp.html#a5c6787d5b7e82e56119ed95ae9ddb98d">HID_kbdmousejoystick.cpp</a>
+: <a class="el" href="hal__ble_8c.html#a5c6787d5b7e82e56119ed95ae9ddb98d">hal_ble.c</a>
+, <a class="el" href="hal__ble_8h.html#a5c6787d5b7e82e56119ed95ae9ddb98d">hal_ble.h</a>
 </li>
 <li>halBLEReset()
-: <a class="el" href="hal__ble_8h.html#accf307974a0046bce38582d0260bf841">hal_ble.h</a>
-, <a class="el" href="HID__kbdmousejoystick_8cpp.html#accf307974a0046bce38582d0260bf841">HID_kbdmousejoystick.cpp</a>
+: <a class="el" href="hal__ble_8c.html#accf307974a0046bce38582d0260bf841">hal_ble.c</a>
+, <a class="el" href="hal__ble_8h.html#accf307974a0046bce38582d0260bf841">hal_ble.h</a>
 </li>
 <li>halBLESetPairing()
-: <a class="el" href="hal__ble_8h.html#a6919311894de84aa70b02c46cf822dde">hal_ble.h</a>
-, <a class="el" href="HID__kbdmousejoystick_8cpp.html#a6919311894de84aa70b02c46cf822dde">HID_kbdmousejoystick.cpp</a>
+: <a class="el" href="hal__ble_8c.html#a6919311894de84aa70b02c46cf822dde">hal_ble.c</a>
+, <a class="el" href="hal__ble_8h.html#a6919311894de84aa70b02c46cf822dde">hal_ble.h</a>
+</li>
+<li>halBLETask()
+: <a class="el" href="hal__ble_8c.html#ac0a136577e62fc87b368eaec618cf31e">hal_ble.c</a>
 </li>
 <li>halIOAddLongPressHandler()
 : <a class="el" href="hal__io_8c.html#a645ccf6a4abeccd8639c66f11138af4a">hal_io.c</a>
@@ -218,8 +224,8 @@ $(function() {
 : <a class="el" href="hal__io_8c.html#a410f1d9b7e6031b9e626af17fba411d1">hal_io.c</a>
 </li>
 <li>halSerialAddOutputStream()
-: <a class="el" href="hal__serial_8c.html#a143968f329a010a1075a81b976579605">hal_serial.c</a>
-, <a class="el" href="hal__serial_8h.html#a143968f329a010a1075a81b976579605">hal_serial.h</a>
+: <a class="el" href="hal__serial_8h.html#a143968f329a010a1075a81b976579605">hal_serial.h</a>
+, <a class="el" href="hal__serial_8c.html#a143968f329a010a1075a81b976579605">hal_serial.c</a>
 </li>
 <li>halSerialATCmds
 : <a class="el" href="hal__serial_8h.html#a57deadb7de70a0230474a4680cc0e2d9">hal_serial.h</a>
@@ -300,8 +306,8 @@ $(function() {
 , <a class="el" href="hal__storage_8h.html#aae19bcf97360ccd7af4ddf906ff85141">hal_storage.h</a>
 </li>
 <li>halStorageGetNumberForNameIR()
-: <a class="el" href="hal__storage_8h.html#a531bc39bc2808762298d14b79ac453cd">hal_storage.h</a>
-, <a class="el" href="hal__storage_8c.html#a531bc39bc2808762298d14b79ac453cd">hal_storage.c</a>
+: <a class="el" href="hal__storage_8c.html#a531bc39bc2808762298d14b79ac453cd">hal_storage.c</a>
+, <a class="el" href="hal__storage_8h.html#a531bc39bc2808762298d14b79ac453cd">hal_storage.h</a>
 </li>
 <li>halStorageGetNumberOfIRCmds()
 : <a class="el" href="hal__storage_8c.html#a1495c793604980c76b334f6a6d553c3c">hal_storage.c</a>
@@ -315,8 +321,8 @@ $(function() {
 : <a class="el" href="hal__storage_8c.html#a606e5842dd354f1fb4a738ba95c6d5d1">hal_storage.c</a>
 </li>
 <li>halStorageLoad()
-: <a class="el" href="hal__storage_8h.html#afffed2d32aac2287e95d943dd588db6c">hal_storage.h</a>
-, <a class="el" href="hal__storage_8c.html#afffed2d32aac2287e95d943dd588db6c">hal_storage.c</a>
+: <a class="el" href="hal__storage_8c.html#afffed2d32aac2287e95d943dd588db6c">hal_storage.c</a>
+, <a class="el" href="hal__storage_8h.html#afffed2d32aac2287e95d943dd588db6c">hal_storage.h</a>
 </li>
 <li>halStorageLoadGetVBConfigs()
 : <a class="el" href="hal__storage_8h.html#abc699ff3996d12d3e6bcc9e372b277e0">hal_storage.h</a>
@@ -330,15 +336,15 @@ $(function() {
 , <a class="el" href="hal__storage_8h.html#a57cdf5734cdbad3dbb5f18f71dd27501">hal_storage.h</a>
 </li>
 <li>halStorageLoadNumber()
-: <a class="el" href="hal__storage_8h.html#a670ba7fad19e9a70672d73897785712f">hal_storage.h</a>
-, <a class="el" href="hal__storage_8c.html#a670ba7fad19e9a70672d73897785712f">hal_storage.c</a>
+: <a class="el" href="hal__storage_8c.html#a670ba7fad19e9a70672d73897785712f">hal_storage.c</a>
+, <a class="el" href="hal__storage_8h.html#a670ba7fad19e9a70672d73897785712f">hal_storage.h</a>
 </li>
 <li>halStorageMutex
 : <a class="el" href="hal__storage_8c.html#afe54e8f771b85765a57fb799302f2a09">hal_storage.c</a>
 </li>
 <li>halStorageNVSLoadString()
-: <a class="el" href="hal__storage_8h.html#a63ec8e05a2bb4c214600e94b8ab05eea">hal_storage.h</a>
-, <a class="el" href="hal__storage_8c.html#a63ec8e05a2bb4c214600e94b8ab05eea">hal_storage.c</a>
+: <a class="el" href="hal__storage_8c.html#a63ec8e05a2bb4c214600e94b8ab05eea">hal_storage.c</a>
+, <a class="el" href="hal__storage_8h.html#a63ec8e05a2bb4c214600e94b8ab05eea">hal_storage.h</a>
 </li>
 <li>halStorageNVSStoreString()
 : <a class="el" href="hal__storage_8c.html#aa545d76c7dcaafc129a03dfd9706ca7b">hal_storage.c</a>
@@ -353,53 +359,1110 @@ $(function() {
 , <a class="el" href="hal__storage_8h.html#a16be2ae040ef4db3b7fb11b46d07c7a1">hal_storage.h</a>
 </li>
 <li>halStorageStoreIR()
-: <a class="el" href="hal__storage_8h.html#ace0ac79b0e2b273d97e5b806de9eb493">hal_storage.h</a>
-, <a class="el" href="hal__storage_8c.html#ace0ac79b0e2b273d97e5b806de9eb493">hal_storage.c</a>
+: <a class="el" href="hal__storage_8c.html#ace0ac79b0e2b273d97e5b806de9eb493">hal_storage.c</a>
+, <a class="el" href="hal__storage_8h.html#ace0ac79b0e2b273d97e5b806de9eb493">hal_storage.h</a>
 </li>
 <li>halStorageStoreSetVBConfigs()
 : <a class="el" href="hal__storage_8h.html#a046daab088cb37e318c07c2728ade9d3">hal_storage.h</a>
 </li>
-<li>HID
-: <a class="el" href="task__commands_8c.html#a7860b6904b2ba2dd906d189ada5f1e17a2f91c4fc8582d94e70e2ae36d5ccbe4d">task_commands.c</a>
+<li>handler_hid()
+: <a class="el" href="handler__hid_8c.html#a0c3d624513602eb74b3734c970d73e6d">handler_hid.c</a>
 </li>
-<li>hid
-: <a class="el" href="HID__kbdmousejoystick_8cpp.html#a0ce80beed1a0a46ed788e9fddab97f6e">HID_kbdmousejoystick.cpp</a>
+<li>handler_hid_addCmd()
+: <a class="el" href="handler__hid_8c.html#ad7b90f2c2a4c57d871fc4c5fe4c63633">handler_hid.c</a>
+, <a class="el" href="handler__hid_8h.html#ad7b90f2c2a4c57d871fc4c5fe4c63633">handler_hid.h</a>
+</li>
+<li>handler_hid_clearCmds()
+: <a class="el" href="handler__hid_8c.html#a8aefebd0d6289841cf1efb9d8e2c3794">handler_hid.c</a>
+, <a class="el" href="handler__hid_8h.html#a8aefebd0d6289841cf1efb9d8e2c3794">handler_hid.h</a>
+</li>
+<li>handler_hid_delCmd()
+: <a class="el" href="handler__hid_8c.html#a1dfe8fbc4028b9ad4b6e892a349d1356">handler_hid.c</a>
+, <a class="el" href="handler__hid_8h.html#a1dfe8fbc4028b9ad4b6e892a349d1356">handler_hid.h</a>
+</li>
+<li>handler_hid_getAT()
+: <a class="el" href="handler__hid_8c.html#a792d4ba5b3475531c09ed7a12abed248">handler_hid.c</a>
+, <a class="el" href="handler__hid_8h.html#a792d4ba5b3475531c09ed7a12abed248">handler_hid.h</a>
+</li>
+<li>handler_hid_getCmdChain()
+: <a class="el" href="handler__hid_8c.html#a5b89ed00501e56aa0ca14dff80db04a0">handler_hid.c</a>
+, <a class="el" href="handler__hid_8h.html#a5b89ed00501e56aa0ca14dff80db04a0">handler_hid.h</a>
+</li>
+<li>handler_hid_init()
+: <a class="el" href="handler__hid_8c.html#af174e6f6da855a0d9928d6fe1a639c65">handler_hid.c</a>
+, <a class="el" href="handler__hid_8h.html#af174e6f6da855a0d9928d6fe1a639c65">handler_hid.h</a>
+</li>
+<li>handler_hid_setCmdChain()
+: <a class="el" href="handler__hid_8c.html#a33a27dd2d4904f35fc99c016307e9cd4">handler_hid.c</a>
+, <a class="el" href="handler__hid_8h.html#a33a27dd2d4904f35fc99c016307e9cd4">handler_hid.h</a>
+</li>
+<li>handler_vb()
+: <a class="el" href="handler__vb_8c.html#a60c71b4a6cc8a9a3e9e8a3c8e36cffa0">handler_vb.c</a>
+</li>
+<li>handler_vb_addCmd()
+: <a class="el" href="handler__vb_8c.html#a2958d0f22ea5d2c1d16a6dc7900ca38b">handler_vb.c</a>
+, <a class="el" href="handler__vb_8h.html#a2958d0f22ea5d2c1d16a6dc7900ca38b">handler_vb.h</a>
+</li>
+<li>handler_vb_clearCmds()
+: <a class="el" href="handler__vb_8c.html#a1601ec68487848cb95f275c44c010afb">handler_vb.c</a>
+, <a class="el" href="handler__vb_8h.html#a1601ec68487848cb95f275c44c010afb">handler_vb.h</a>
+</li>
+<li>handler_vb_delCmd()
+: <a class="el" href="handler__vb_8c.html#a12256e1d3f54e995d314eebf8b57e914">handler_vb.c</a>
+, <a class="el" href="handler__vb_8h.html#a12256e1d3f54e995d314eebf8b57e914">handler_vb.h</a>
+</li>
+<li>handler_vb_getAT()
+: <a class="el" href="handler__vb_8c.html#a4d5e48c2bd9f28885d7fb9309f5b4cdf">handler_vb.c</a>
+, <a class="el" href="handler__vb_8h.html#a4d5e48c2bd9f28885d7fb9309f5b4cdf">handler_vb.h</a>
+</li>
+<li>handler_vb_getCmdChain()
+: <a class="el" href="handler__vb_8c.html#a1bc809abceb3e77e479efd5826abea4c">handler_vb.c</a>
+, <a class="el" href="handler__vb_8h.html#a1bc809abceb3e77e479efd5826abea4c">handler_vb.h</a>
+</li>
+<li>handler_vb_init()
+: <a class="el" href="handler__vb_8c.html#ac54a8826a70d3aaf5c284bab02b93444">handler_vb.c</a>
+, <a class="el" href="handler__vb_8h.html#ac54a8826a70d3aaf5c284bab02b93444">handler_vb.h</a>
+</li>
+<li>handler_vb_setCmdChain()
+: <a class="el" href="handler__vb_8c.html#a456dc640634859d2e15662484b8bd068">handler_vb.c</a>
+, <a class="el" href="handler__vb_8h.html#a456dc640634859d2e15662484b8bd068">handler_vb.h</a>
+</li>
+<li>HANDLERERROR
+: <a class="el" href="task__commands_8h.html#aa1651f71a96e7a6bd3abe4bcaa795e46a1a6bac3ec456d60b3172de97419ccfcf">task_commands.h</a>
+</li>
+<li>heart_rate_profile_tab
+: <a class="el" href="hid__device__le__prf_8c.html#a5f29385a6c404c7c96b0dd367f729a32">hid_device_le_prf.c</a>
+</li>
+<li>HI_UINT16
+: <a class="el" href="hid__device__le__prf_8c.html#a869398c9f0eb7bcf1c8e101b052eed07">hid_device_le_prf.c</a>
+</li>
+<li>hid_add_id_tbl()
+: <a class="el" href="hid__device__le__prf_8c.html#ac68d934280b657bfef845f9186a34fe8">hid_device_le_prf.c</a>
 </li>
 <li>hid_ble
-: <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c.html#a4d504fcad8a2fb54bd8af573af7d4834">flipmouse_fabi_esp32_kbdmouse_main.c</a>
-, <a class="el" href="hal__ble_8h.html#a4d504fcad8a2fb54bd8af573af7d4834">hal_ble.h</a>
+: <a class="el" href="hal__ble_8h.html#a4d504fcad8a2fb54bd8af573af7d4834">hal_ble.h</a>
+, <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c.html#a4d504fcad8a2fb54bd8af573af7d4834">flipmouse_fabi_esp32_kbdmouse_main.c</a>
 , <a class="el" href="common_8h.html#a4d504fcad8a2fb54bd8af573af7d4834">common.h</a>
 </li>
-<li>HID_CLASS
-: <a class="el" href="HIDTypes_8h.html#a7f03e34108027d008ad22ecc7eb0b8ca">HIDTypes.h</a>
+<li>HID_CC_IN_RPT_LEN
+: <a class="el" href="hid__dev_8h.html#ab05d6202ce10687104c99ad6ac361aaf">hid_dev.h</a>
+</li>
+<li>HID_CC_RPT_ASSIGN_SEL
+: <a class="el" href="hid__dev_8h.html#a821e2bf43cd8bb855d2a45dbae30c219">hid_dev.h</a>
+</li>
+<li>HID_CC_RPT_BUTTON_BITS
+: <a class="el" href="hid__dev_8h.html#a22da184156db17cd7120f77cff63002d">hid_dev.h</a>
+</li>
+<li>HID_CC_RPT_CHANNEL_BITS
+: <a class="el" href="hid__dev_8h.html#afbf35e2bc90801c7c157dba5fb7318a4">hid_dev.h</a>
+</li>
+<li>HID_CC_RPT_CHANNEL_DOWN
+: <a class="el" href="hid__dev_8h.html#aa114f89c23a4ed3bddb1f4e6d84abcf8">hid_dev.h</a>
+</li>
+<li>HID_CC_RPT_CHANNEL_UP
+: <a class="el" href="hid__dev_8h.html#ae5cc5cb28efb472cee44ce404b8c8d93">hid_dev.h</a>
+</li>
+<li>HID_CC_RPT_FAST_FWD
+: <a class="el" href="hid__dev_8h.html#abf090f0db340ebf31b3e292105a2c355">hid_dev.h</a>
+</li>
+<li>HID_CC_RPT_LAST
+: <a class="el" href="hid__dev_8h.html#addfbb706da750e13c45b3f6f0c5720e4">hid_dev.h</a>
+</li>
+<li>HID_CC_RPT_MUTE
+: <a class="el" href="hid__dev_8h.html#ad2c4ae95a04feebec2555ea44613e592">hid_dev.h</a>
+</li>
+<li>HID_CC_RPT_NUMERIC_BITS
+: <a class="el" href="hid__dev_8h.html#a38ba6958176787b1b8df63cb47679cfa">hid_dev.h</a>
+</li>
+<li>HID_CC_RPT_PAUSE
+: <a class="el" href="hid__dev_8h.html#a04c6d7643110108ed62d7e0e01c8b7eb">hid_dev.h</a>
+</li>
+<li>HID_CC_RPT_PLAY
+: <a class="el" href="hid__dev_8h.html#aa4dd02081e603bef571a321209e91e9d">hid_dev.h</a>
+</li>
+<li>HID_CC_RPT_POWER
+: <a class="el" href="hid__dev_8h.html#a79ae87445a7367276d985a511b22418f">hid_dev.h</a>
+</li>
+<li>HID_CC_RPT_RECORD
+: <a class="el" href="hid__dev_8h.html#aad74e9fef7b59835a4ed282f8ae192ad">hid_dev.h</a>
+</li>
+<li>HID_CC_RPT_REWIND
+: <a class="el" href="hid__dev_8h.html#aa40bcf4546c85508cc8fbc8835045ae3">hid_dev.h</a>
+</li>
+<li>HID_CC_RPT_SCAN_NEXT_TRK
+: <a class="el" href="hid__dev_8h.html#a4f72e48c0fc6ce3d86930dba78d56ac0">hid_dev.h</a>
+</li>
+<li>HID_CC_RPT_SCAN_PREV_TRK
+: <a class="el" href="hid__dev_8h.html#ae64e8c86b9cd4920803e17f460f57bb8">hid_dev.h</a>
+</li>
+<li>HID_CC_RPT_SELECTION_BITS
+: <a class="el" href="hid__dev_8h.html#a5ea6677803d776a975382b472ff5d8fa">hid_dev.h</a>
+</li>
+<li>HID_CC_RPT_SET_BUTTON
+: <a class="el" href="hid__dev_8h.html#aa1aaf4c6433fc4899e810459cc0e78e1">hid_dev.h</a>
+</li>
+<li>HID_CC_RPT_SET_CHANNEL
+: <a class="el" href="hid__dev_8h.html#aaf2dfd7e397eecdf9dbbf53e382eeeee">hid_dev.h</a>
+</li>
+<li>HID_CC_RPT_SET_NUMERIC
+: <a class="el" href="hid__dev_8h.html#a8dbd38f82f79a7a2afd6d5b7b520977d">hid_dev.h</a>
+</li>
+<li>HID_CC_RPT_SET_SELECTION
+: <a class="el" href="hid__dev_8h.html#a3589c73ec326eb53ee0bdbc0b15d27d8">hid_dev.h</a>
+</li>
+<li>HID_CC_RPT_SET_VOLUME_DOWN
+: <a class="el" href="hid__dev_8h.html#a92631b42b7d563c929d32a292a64eb87">hid_dev.h</a>
+</li>
+<li>HID_CC_RPT_SET_VOLUME_UP
+: <a class="el" href="hid__dev_8h.html#a9f481adbe2aa281ce2fafbdec6020e13">hid_dev.h</a>
+</li>
+<li>HID_CC_RPT_STOP
+: <a class="el" href="hid__dev_8h.html#a88a8be90e52ebfe33e196d105f4ac514">hid_dev.h</a>
+</li>
+<li>HID_CC_RPT_VOLUME_BITS
+: <a class="el" href="hid__dev_8h.html#a003bef6933c05cfc3f93e155f4a149b8">hid_dev.h</a>
+</li>
+<li>HID_CC_RPT_VOLUME_DOWN
+: <a class="el" href="hid__dev_8h.html#a706ba0a897a2602261e75c35569042ba">hid_dev.h</a>
+</li>
+<li>HID_CC_RPT_VOLUME_UP
+: <a class="el" href="hid__dev_8h.html#ae2b56d5f4c7b3f68e17991f3fbe4a135">hid_dev.h</a>
+</li>
+<li>HID_CMD_EXIT_SUSPEND
+: <a class="el" href="hidd__le__prf__int_8h.html#a00d74ed1936198ebd938a69e205eb66e">hidd_le_prf_int.h</a>
+</li>
+<li>HID_CMD_SUSPEND
+: <a class="el" href="hidd__le__prf__int_8h.html#a594641b9b85c9eaa1fb2674f29f89347">hidd_le_prf_int.h</a>
 </li>
 <li>hid_cmd_t
 : <a class="el" href="common_8h.html#a717ff1d55fb710bbebe9addae27d7258">common.h</a>
 </li>
-<li>HID_DESCRIPTOR
-: <a class="el" href="HIDTypes_8h.html#ad5cce51d0e9753c1de03119dc58b3de4">HIDTypes.h</a>
+<li>hid_conn_id
+: <a class="el" href="hal__ble_8c.html#acf63d81e5e92daa2fea46597280eac6d">hal_ble.c</a>
 </li>
-<li>HID_DESCRIPTOR_LENGTH
-: <a class="el" href="HIDTypes_8h.html#a4831e19363be27a4ad38090f394029fb">HIDTypes.h</a>
+<li>HID_CONSUMER_ASSIGN_SEL
+: <a class="el" href="hid__dev_8h.html#afb5cdf5921f3239620c30668f1622f5c">hid_dev.h</a>
 </li>
-<li>HID_PROTOCOL_NONE
-: <a class="el" href="HIDTypes_8h.html#a050926404254a7fa1d6b5253a79abc59">HIDTypes.h</a>
+<li>HID_CONSUMER_BALANCE
+: <a class="el" href="hid__dev_8h.html#a38084af970675cce49a55bc63a18c160">hid_dev.h</a>
 </li>
-<li>HID_SUBCLASS_NONE
-: <a class="el" href="HIDTypes_8h.html#a1f7d3e3accc103eee60cb9a9162a7c49">HIDTypes.h</a>
+<li>HID_CONSUMER_BASS
+: <a class="el" href="hid__dev_8h.html#abbefc20848af75f58a6484369da3aa06">hid_dev.h</a>
 </li>
-<li>HID_TASK_PRIORITY
-: <a class="el" href="common_8h.html#a80889630e97188001f443345538edfb4">common.h</a>
+<li>hid_consumer_build_report()
+: <a class="el" href="hid__dev_8c.html#ae3c48383740d3aa04584b20f3447eb02">hid_dev.c</a>
+, <a class="el" href="hid__dev_8h.html#ae3c48383740d3aa04584b20f3447eb02">hid_dev.h</a>
+</li>
+<li>HID_CONSUMER_CHANNEL_DOWN
+: <a class="el" href="hid__dev_8h.html#a6259ba54eea08cd2debddd67a98f7661">hid_dev.h</a>
+</li>
+<li>HID_CONSUMER_CHANNEL_UP
+: <a class="el" href="hid__dev_8h.html#ae050780f9bad81ba54d510efffec8a42">hid_dev.h</a>
+</li>
+<li>HID_CONSUMER_EJECT
+: <a class="el" href="hid__dev_8h.html#afba1dd0d2d2c88c4c0215cdd3c9d1f7c">hid_dev.h</a>
+</li>
+<li>HID_CONSUMER_ENTER_DISC
+: <a class="el" href="hid__dev_8h.html#a39f9442d6c9d2f09113cbf2345beb0d2">hid_dev.h</a>
+</li>
+<li>HID_CONSUMER_FAST_FORWARD
+: <a class="el" href="hid__dev_8h.html#a079c65b506b53ecda3e50928a7ab96ba">hid_dev.h</a>
+</li>
+<li>HID_CONSUMER_HELP
+: <a class="el" href="hid__dev_8h.html#aa9e4e6ab2a6fea5a7eb635a7d6d3baa0">hid_dev.h</a>
+</li>
+<li>HID_CONSUMER_MENU
+: <a class="el" href="hid__dev_8h.html#ad41e6205e673ac5dc1e4dfc3a9571828">hid_dev.h</a>
+</li>
+<li>HID_CONSUMER_MODE_STEP
+: <a class="el" href="hid__dev_8h.html#af2718a1b36a4befddbd9db58e3474c56">hid_dev.h</a>
+</li>
+<li>HID_CONSUMER_MUTE
+: <a class="el" href="hid__dev_8h.html#a0a2bf42e6fc32acd6603ff739d4305b2">hid_dev.h</a>
+</li>
+<li>HID_CONSUMER_PAUSE
+: <a class="el" href="hid__dev_8h.html#a1115fa7c4e9feda2c58ef9ef8ac3ba7d">hid_dev.h</a>
+</li>
+<li>HID_CONSUMER_PLAY
+: <a class="el" href="hid__dev_8h.html#a499cfb266f49a455afd01b1679e3777e">hid_dev.h</a>
+</li>
+<li>HID_CONSUMER_PLAY_PAUSE
+: <a class="el" href="hid__dev_8h.html#a5422c942b3d85cd739ee255f386dda82">hid_dev.h</a>
+</li>
+<li>HID_CONSUMER_PLAY_SKIP
+: <a class="el" href="hid__dev_8h.html#a805f40fd7f7b4d8a799029604b9b587e">hid_dev.h</a>
+</li>
+<li>HID_CONSUMER_POWER
+: <a class="el" href="hid__dev_8h.html#ae02cb4844150170bde9f2bcde7138685">hid_dev.h</a>
+</li>
+<li>HID_CONSUMER_QUIT
+: <a class="el" href="hid__dev_8h.html#a0ffaa48777d110321e133dbf234649aa">hid_dev.h</a>
+</li>
+<li>HID_CONSUMER_RANDOM_PLAY
+: <a class="el" href="hid__dev_8h.html#a22d060153f715ac2ebd6f39406770dc7">hid_dev.h</a>
+</li>
+<li>HID_CONSUMER_RECALL_LAST
+: <a class="el" href="hid__dev_8h.html#a439a4c635e4d569a66d29242b35a19e7">hid_dev.h</a>
+</li>
+<li>HID_CONSUMER_RECORD
+: <a class="el" href="hid__dev_8h.html#a6c88a223dfe6f0e838aa164b1618bfe2">hid_dev.h</a>
+</li>
+<li>HID_CONSUMER_REPEAT
+: <a class="el" href="hid__dev_8h.html#a9a28e2adcb3efa01fc26e59656f70c2a">hid_dev.h</a>
+</li>
+<li>HID_CONSUMER_RESET
+: <a class="el" href="hid__dev_8h.html#a7ccf548ad0ff07d98b20333d3ec2f98b">hid_dev.h</a>
+</li>
+<li>HID_CONSUMER_REWIND
+: <a class="el" href="hid__dev_8h.html#a0aa16ed3119032700bce283509ee5eff">hid_dev.h</a>
+</li>
+<li>HID_CONSUMER_SCAN_NEXT_TRK
+: <a class="el" href="hid__dev_8h.html#a1e7a890ab847eafd32b52ab6d8daf8fc">hid_dev.h</a>
+</li>
+<li>HID_CONSUMER_SCAN_PREV_TRK
+: <a class="el" href="hid__dev_8h.html#ab3c0cda3845118ccc25e7a96c658cada">hid_dev.h</a>
+</li>
+<li>HID_CONSUMER_SELECT_DISC
+: <a class="el" href="hid__dev_8h.html#ac3e94e518032f809359e81ef8626dc93">hid_dev.h</a>
+</li>
+<li>HID_CONSUMER_SELECTION
+: <a class="el" href="hid__dev_8h.html#a5d963972965efdc7f7c168356bd88581">hid_dev.h</a>
+</li>
+<li>HID_CONSUMER_SLEEP
+: <a class="el" href="hid__dev_8h.html#ad53d9f6169e4c41b37865d922fee8607">hid_dev.h</a>
+</li>
+<li>HID_CONSUMER_STOP
+: <a class="el" href="hid__dev_8h.html#a44b740687627c49e50814816522a49b8">hid_dev.h</a>
+</li>
+<li>HID_CONSUMER_STOP_EJECT
+: <a class="el" href="hid__dev_8h.html#a9fa566b8c77bfb9cf407815196dae801">hid_dev.h</a>
+</li>
+<li>HID_CONSUMER_VOLUME
+: <a class="el" href="hid__dev_8h.html#a52a3d146db7c4ce0031610650678588d">hid_dev.h</a>
+</li>
+<li>HID_CONSUMER_VOLUME_DOWN
+: <a class="el" href="hid__dev_8h.html#a58b23fb51495ba89efdcadee933fff19">hid_dev.h</a>
+</li>
+<li>HID_CONSUMER_VOLUME_UP
+: <a class="el" href="hid__dev_8h.html#a8c60d617ff9384a22174c655774a8a46">hid_dev.h</a>
+</li>
+<li>hid_control_point_uuid
+: <a class="el" href="hid__device__le__prf_8c.html#af92112ac5cac8de2b131ec32dc279451">hid_device_le_prf.c</a>
+</li>
+<li>hid_count
+: <a class="el" href="hid__device__le__prf_8c.html#a2723374c79e85f2899bba93932ee37c3">hid_device_le_prf.c</a>
+</li>
+<li>hid_dev_register_reports()
+: <a class="el" href="hid__dev_8c.html#a6df72a6bb64d5c8cd7490eb11617b7ab">hid_dev.c</a>
+, <a class="el" href="hid__dev_8h.html#a6df72a6bb64d5c8cd7490eb11617b7ab">hid_dev.h</a>
+</li>
+<li>hid_dev_rpt_by_id()
+: <a class="el" href="hid__dev_8c.html#a1a247bc038a3368cea0bde2303aa8301">hid_dev.c</a>
+</li>
+<li>hid_dev_rpt_tbl
+: <a class="el" href="hid__dev_8c.html#aac6831e6c5851fa7b2c77fbb67119422">hid_dev.c</a>
+</li>
+<li>hid_dev_rpt_tbl_Len
+: <a class="el" href="hid__dev_8c.html#aa282bf192d504334111315cb544ddc23">hid_dev.c</a>
+</li>
+<li>hid_dev_send_report()
+: <a class="el" href="hid__dev_8c.html#a8ae7c69dfd4b740534df123a303a8832">hid_dev.c</a>
+, <a class="el" href="hid__dev_8h.html#a8ae7c69dfd4b740534df123a303a8832">hid_dev.h</a>
+</li>
+<li>HID_EXT_REPORT_REF_LEN
+: <a class="el" href="hidd__le__prf__int_8h.html#aaab0501d09d36e5d2ee709a73af2534a">hidd_le_prf_int.h</a>
+</li>
+<li>HID_FLAGS_NORMALLY_CONNECTABLE
+: <a class="el" href="hidd__le__prf__int_8h.html#aa96b6ad5eea5ea65fbf3695d0480d516">hidd_le_prf_int.h</a>
+</li>
+<li>HID_FLAGS_REMOTE_WAKE
+: <a class="el" href="hidd__le__prf__int_8h.html#ab94225917ef02635494c83e1dfebeba4">hidd_le_prf_int.h</a>
+</li>
+<li>hid_info_char_uuid
+: <a class="el" href="hid__device__le__prf_8c.html#a36b8d9c835882883efd10a4bf056c972">hid_device_le_prf.c</a>
+</li>
+<li>HID_INFORMATION_LEN
+: <a class="el" href="hidd__le__prf__int_8h.html#a7903484b0c009cdbe58d2e0fda8c5ca8">hidd_le_prf_int.h</a>
+</li>
+<li>HID_JOYSTICK_IN_RPT_LEN
+: <a class="el" href="hid__dev_8h.html#a94f57dbd7324b16caeccd7e70ea745a2">hid_dev.h</a>
+</li>
+<li>hid_kb_input_uuid
+: <a class="el" href="hid__device__le__prf_8c.html#a595b302b8e7be7606da6dfc2b564831e">hid_device_le_prf.c</a>
+</li>
+<li>hid_kb_output_uuid
+: <a class="el" href="hid__device__le__prf_8c.html#a1a5c5f6a0e6ed2fb26e1d273a8c4bdfc">hid_device_le_prf.c</a>
+</li>
+<li>HID_KBD_FLAGS
+: <a class="el" href="hidd__le__prf__int_8h.html#a88317e70320544b82dfb2dabf5b2dfde">hidd_le_prf_int.h</a>
+</li>
+<li>HID_KEY_0
+: <a class="el" href="hid__dev_8h.html#a17e4758265d354a4edeae48ce19adb12">hid_dev.h</a>
+</li>
+<li>HID_KEY_1
+: <a class="el" href="hid__dev_8h.html#a1830670619082f4ae02701d6fb975500">hid_dev.h</a>
+</li>
+<li>HID_KEY_2
+: <a class="el" href="hid__dev_8h.html#a3fa2e66cf2db84502894bc3b919f1161">hid_dev.h</a>
+</li>
+<li>HID_KEY_3
+: <a class="el" href="hid__dev_8h.html#a26165272700715b71b0b790897635727">hid_dev.h</a>
+</li>
+<li>HID_KEY_4
+: <a class="el" href="hid__dev_8h.html#a5be7f5c7edc86202a0f67b1b95e5dfdb">hid_dev.h</a>
+</li>
+<li>HID_KEY_5
+: <a class="el" href="hid__dev_8h.html#aed1725dc9e4624c7c52f05ad282be776">hid_dev.h</a>
+</li>
+<li>HID_KEY_6
+: <a class="el" href="hid__dev_8h.html#aeef2fd99ae8c4a4be0433aa9a0c4ca0d">hid_dev.h</a>
+</li>
+<li>HID_KEY_7
+: <a class="el" href="hid__dev_8h.html#a7878d917f89fbf16c489811ffb26239f">hid_dev.h</a>
+</li>
+<li>HID_KEY_8
+: <a class="el" href="hid__dev_8h.html#a3dd774a7a85aaf46d147711080e8bc4d">hid_dev.h</a>
+</li>
+<li>HID_KEY_9
+: <a class="el" href="hid__dev_8h.html#a963bfbadd0dd451dbf5d553c608bd882">hid_dev.h</a>
+</li>
+<li>HID_KEY_A
+: <a class="el" href="hid__dev_8h.html#ae1ec1cccde07259b3e39cdfcc52154a3">hid_dev.h</a>
+</li>
+<li>HID_KEY_ADD
+: <a class="el" href="hid__dev_8h.html#aef75d5ec0309bf8710e0caf8acdd0884">hid_dev.h</a>
+</li>
+<li>HID_KEY_B
+: <a class="el" href="hid__dev_8h.html#a0b4124709fd042943426f3ca70128a64">hid_dev.h</a>
+</li>
+<li>HID_KEY_BACK_SLASH
+: <a class="el" href="hid__dev_8h.html#abb4a2dbf28412375c5884437f4fe25ad">hid_dev.h</a>
+</li>
+<li>HID_KEY_C
+: <a class="el" href="hid__dev_8h.html#a1cbec70c08221095aaca1ba7fe2f7cf4">hid_dev.h</a>
+</li>
+<li>HID_KEY_CAPS_LOCK
+: <a class="el" href="hid__dev_8h.html#aaacbffe8103cc03d351051fc765c302d">hid_dev.h</a>
+</li>
+<li>HID_KEY_COMMA
+: <a class="el" href="hid__dev_8h.html#a4ae5299a361f457d85446a0a5837ea66">hid_dev.h</a>
+</li>
+<li>HID_KEY_D
+: <a class="el" href="hid__dev_8h.html#adf46957d4ac7b41d419c3cbf6ee62d5a">hid_dev.h</a>
+</li>
+<li>HID_KEY_DELETE
+: <a class="el" href="hid__dev_8h.html#a7611c372c87fc2cedab9bd1687874eb1">hid_dev.h</a>
+</li>
+<li>HID_KEY_DELETE_FWD
+: <a class="el" href="hid__dev_8h.html#a315a50febd9fcea3dcf12bf5f3557b61">hid_dev.h</a>
+</li>
+<li>HID_KEY_DIVIDE
+: <a class="el" href="hid__dev_8h.html#a230620810ceb730766a9b2c28aa95950">hid_dev.h</a>
+</li>
+<li>HID_KEY_DOT
+: <a class="el" href="hid__dev_8h.html#a83cd9a91b5f14338a39a180c423bcfaf">hid_dev.h</a>
+</li>
+<li>HID_KEY_DOWN_ARROW
+: <a class="el" href="hid__dev_8h.html#a71a96b31f174c1026b9d070c5fea92a7">hid_dev.h</a>
+</li>
+<li>HID_KEY_E
+: <a class="el" href="hid__dev_8h.html#aa9ce360052e7b8f54565abff32c093b5">hid_dev.h</a>
+</li>
+<li>HID_KEY_END
+: <a class="el" href="hid__dev_8h.html#a9b2c649c5a56a7224c5f86aff0cc0d2b">hid_dev.h</a>
+</li>
+<li>HID_KEY_ENTER
+: <a class="el" href="hid__dev_8h.html#a7ae473727ce12bb421091692d8c652fb">hid_dev.h</a>
+</li>
+<li>HID_KEY_EQUAL
+: <a class="el" href="hid__dev_8h.html#aae64b19e2a6a25dd3b234abdc23469ae">hid_dev.h</a>
+</li>
+<li>HID_KEY_ESCAPE
+: <a class="el" href="hid__dev_8h.html#aca983bf9c41a2041ad757d2cbfb9010e">hid_dev.h</a>
+</li>
+<li>HID_KEY_F
+: <a class="el" href="hid__dev_8h.html#a1caa9f90b19d053d505b2178f7d16542">hid_dev.h</a>
+</li>
+<li>HID_KEY_F1
+: <a class="el" href="hid__dev_8h.html#ac3d019d47903b6793f1185b000eb0e18">hid_dev.h</a>
+</li>
+<li>HID_KEY_F10
+: <a class="el" href="hid__dev_8h.html#a06e8292ae114b9118f2bdcfa377bd39f">hid_dev.h</a>
+</li>
+<li>HID_KEY_F11
+: <a class="el" href="hid__dev_8h.html#a1c77d1b88d0b6024eb947cad35fea98a">hid_dev.h</a>
+</li>
+<li>HID_KEY_F12
+: <a class="el" href="hid__dev_8h.html#aa37e70b7878372a4e1e76bb5d569d629">hid_dev.h</a>
+</li>
+<li>HID_KEY_F2
+: <a class="el" href="hid__dev_8h.html#a7546f6385e67041bf70651df3ba99177">hid_dev.h</a>
+</li>
+<li>HID_KEY_F3
+: <a class="el" href="hid__dev_8h.html#af3b2412d4c752501824b2287878e8ca9">hid_dev.h</a>
+</li>
+<li>HID_KEY_F4
+: <a class="el" href="hid__dev_8h.html#a7d89e1a7c4c098bed02a4ecd9b4873a4">hid_dev.h</a>
+</li>
+<li>HID_KEY_F5
+: <a class="el" href="hid__dev_8h.html#a8e4e75e5838475be99f44392474cc7ec">hid_dev.h</a>
+</li>
+<li>HID_KEY_F6
+: <a class="el" href="hid__dev_8h.html#abb59ca6258522d751d72dc930510cc55">hid_dev.h</a>
+</li>
+<li>HID_KEY_F7
+: <a class="el" href="hid__dev_8h.html#afb34de06cc178ad3cce4808108ebfcf8">hid_dev.h</a>
+</li>
+<li>HID_KEY_F8
+: <a class="el" href="hid__dev_8h.html#a7fd17a92d568cff43ed7027f6cd8fda2">hid_dev.h</a>
+</li>
+<li>HID_KEY_F9
+: <a class="el" href="hid__dev_8h.html#a240604ea84411b5c406d0b58da5d75a8">hid_dev.h</a>
+</li>
+<li>HID_KEY_FWD_SLASH
+: <a class="el" href="hid__dev_8h.html#a12571455ed7043fdb4a7520419c7b521">hid_dev.h</a>
+</li>
+<li>HID_KEY_G
+: <a class="el" href="hid__dev_8h.html#a3049489fc2868421908c0338a677de81">hid_dev.h</a>
+</li>
+<li>HID_KEY_GRV_ACCENT
+: <a class="el" href="hid__dev_8h.html#a091f253e37e4e72fe8ac2d2048eeec52">hid_dev.h</a>
+</li>
+<li>HID_KEY_H
+: <a class="el" href="hid__dev_8h.html#a3ba0650a3586134ec4615a60d51f6ddc">hid_dev.h</a>
+</li>
+<li>HID_KEY_HOME
+: <a class="el" href="hid__dev_8h.html#ac5795dea1f03a323d935e7dc33933011">hid_dev.h</a>
+</li>
+<li>HID_KEY_I
+: <a class="el" href="hid__dev_8h.html#a8850fff769841ebeda00b10d3600b436">hid_dev.h</a>
+</li>
+<li>HID_KEY_INSERT
+: <a class="el" href="hid__dev_8h.html#a92a41d745d93e90d44ec8d56088e4cc7">hid_dev.h</a>
+</li>
+<li>HID_KEY_J
+: <a class="el" href="hid__dev_8h.html#ae7fbea669fa29cded85390d76fd54219">hid_dev.h</a>
+</li>
+<li>HID_KEY_K
+: <a class="el" href="hid__dev_8h.html#aea3ddf07cec5e43bf44d9f3c8037c54d">hid_dev.h</a>
+</li>
+<li>HID_KEY_L
+: <a class="el" href="hid__dev_8h.html#a0b72fdfda525e7fad19f48a77be00462">hid_dev.h</a>
+</li>
+<li>HID_KEY_LEFT_ALT
+: <a class="el" href="hid__dev_8h.html#a2bff05c8b0104d92df11b65e52e24d2d">hid_dev.h</a>
+</li>
+<li>HID_KEY_LEFT_ARROW
+: <a class="el" href="hid__dev_8h.html#aab5006f7db8b7e66ae4fb1ef42797202">hid_dev.h</a>
+</li>
+<li>HID_KEY_LEFT_BRKT
+: <a class="el" href="hid__dev_8h.html#a25c6d436c99781be8731c0c97e359b59">hid_dev.h</a>
+</li>
+<li>HID_KEY_LEFT_CTRL
+: <a class="el" href="hid__dev_8h.html#a0f29e75dd03a12f5eea7865a8027c680">hid_dev.h</a>
+</li>
+<li>HID_KEY_LEFT_GUI
+: <a class="el" href="hid__dev_8h.html#ac2545bbc8cdf8f24496d096c81d8a648">hid_dev.h</a>
+</li>
+<li>HID_KEY_LEFT_SHIFT
+: <a class="el" href="hid__dev_8h.html#a41275cf7869eb6872161752d178e9b05">hid_dev.h</a>
+</li>
+<li>HID_KEY_M
+: <a class="el" href="hid__dev_8h.html#adbef66e0edd4498d3c73452dcfc9464e">hid_dev.h</a>
+</li>
+<li>HID_KEY_MINUS
+: <a class="el" href="hid__dev_8h.html#a3e241f85e824814181278465eb49405c">hid_dev.h</a>
+</li>
+<li>HID_KEY_MULTIPLY
+: <a class="el" href="hid__dev_8h.html#ac60008a9367da7da03ae19328bd730f0">hid_dev.h</a>
+</li>
+<li>HID_KEY_MUTE
+: <a class="el" href="hid__dev_8h.html#a1de6a1389240c41db58c52325d7b8b9e">hid_dev.h</a>
+</li>
+<li>HID_KEY_N
+: <a class="el" href="hid__dev_8h.html#a6d127b5c0da630b5ffd4f41fdccc0968">hid_dev.h</a>
+</li>
+<li>HID_KEY_NUM_LOCK
+: <a class="el" href="hid__dev_8h.html#a505e4bbb57658abb7bfb666a7953cfaa">hid_dev.h</a>
+</li>
+<li>HID_KEY_O
+: <a class="el" href="hid__dev_8h.html#a3d91d69e13fe2b09d6c321c3dcd04998">hid_dev.h</a>
+</li>
+<li>HID_KEY_P
+: <a class="el" href="hid__dev_8h.html#a7ffec8cd08ab5834fd42b7e416e0dfa9">hid_dev.h</a>
+</li>
+<li>HID_KEY_PAGE_DOWN
+: <a class="el" href="hid__dev_8h.html#a77c33b0c76a2c7e750075ebd596ca138">hid_dev.h</a>
+</li>
+<li>HID_KEY_PAGE_UP
+: <a class="el" href="hid__dev_8h.html#a68946a82a69c2242ee1aa73982e1ce9d">hid_dev.h</a>
+</li>
+<li>HID_KEY_PAUSE
+: <a class="el" href="hid__dev_8h.html#a4e293cbbe79cbf165fc7d1cb95f36148">hid_dev.h</a>
+</li>
+<li>HID_KEY_PRNT_SCREEN
+: <a class="el" href="hid__dev_8h.html#a1e5a5089e670f5672f1d1a84853bedd3">hid_dev.h</a>
+</li>
+<li>HID_KEY_Q
+: <a class="el" href="hid__dev_8h.html#aa052862861c9438f9ac3fc1ccc28d0aa">hid_dev.h</a>
+</li>
+<li>HID_KEY_R
+: <a class="el" href="hid__dev_8h.html#a4a7ff4fda82408a10e5535c8c62b2446">hid_dev.h</a>
+</li>
+<li>HID_KEY_RESERVED
+: <a class="el" href="hid__dev_8h.html#a5288b7a0ada4d7edd217425d2e9f38bc">hid_dev.h</a>
+</li>
+<li>HID_KEY_RETURN
+: <a class="el" href="hid__dev_8h.html#a4399984cfd143227261e312ccc0e5916">hid_dev.h</a>
+</li>
+<li>HID_KEY_RIGHT_ALT
+: <a class="el" href="hid__dev_8h.html#abe2743c04590a8b27781f6ff8623c1b8">hid_dev.h</a>
+</li>
+<li>HID_KEY_RIGHT_ARROW
+: <a class="el" href="hid__dev_8h.html#acb17cf00e23c5fc6c945d1e7a622a227">hid_dev.h</a>
+</li>
+<li>HID_KEY_RIGHT_BRKT
+: <a class="el" href="hid__dev_8h.html#a277abb60ddc490db712e8cfe8f360f4c">hid_dev.h</a>
+</li>
+<li>HID_KEY_RIGHT_CTRL
+: <a class="el" href="hid__dev_8h.html#a2653108398da0261812413c869cbd094">hid_dev.h</a>
+</li>
+<li>HID_KEY_RIGHT_GUI
+: <a class="el" href="hid__dev_8h.html#acdc3563c9ee98771512ff8985ebb0274">hid_dev.h</a>
+</li>
+<li>HID_KEY_RIGHT_SHIFT
+: <a class="el" href="hid__dev_8h.html#a747ff6f957570a728a54f4b4b400c319">hid_dev.h</a>
+</li>
+<li>HID_KEY_S
+: <a class="el" href="hid__dev_8h.html#a20681d5c12ce57e797629266897a2e39">hid_dev.h</a>
+</li>
+<li>HID_KEY_SCROLL_LOCK
+: <a class="el" href="hid__dev_8h.html#afbbde598a5794e3b707315f650424e56">hid_dev.h</a>
+</li>
+<li>HID_KEY_SEMI_COLON
+: <a class="el" href="hid__dev_8h.html#a3d79a894af75e2bf3316e4101b27597b">hid_dev.h</a>
+</li>
+<li>HID_KEY_SGL_QUOTE
+: <a class="el" href="hid__dev_8h.html#abd7ce1ca5bd11d9e2bd10a1d45eb7d61">hid_dev.h</a>
+</li>
+<li>HID_KEY_SPACEBAR
+: <a class="el" href="hid__dev_8h.html#a313bada88de6d46afba24296fc5d3581">hid_dev.h</a>
+</li>
+<li>HID_KEY_SUBTRACT
+: <a class="el" href="hid__dev_8h.html#a3fe39bb4e353f2350cf1deba53e7b29e">hid_dev.h</a>
+</li>
+<li>HID_KEY_T
+: <a class="el" href="hid__dev_8h.html#a260a2d741c701d74e4470d4dcc80a889">hid_dev.h</a>
+</li>
+<li>HID_KEY_TAB
+: <a class="el" href="hid__dev_8h.html#a844ffb43e6d7a96222811d965e183a18">hid_dev.h</a>
+</li>
+<li>HID_KEY_U
+: <a class="el" href="hid__dev_8h.html#a7382cb667749e5afe40e581498f3685f">hid_dev.h</a>
+</li>
+<li>HID_KEY_UP_ARROW
+: <a class="el" href="hid__dev_8h.html#a7015a9f7a8fae80b0b13787a54519c9b">hid_dev.h</a>
+</li>
+<li>HID_KEY_V
+: <a class="el" href="hid__dev_8h.html#adcd6e69aab6f81a2138e7b9840814b36">hid_dev.h</a>
+</li>
+<li>HID_KEY_VOLUME_DOWN
+: <a class="el" href="hid__dev_8h.html#a201d816fba2ef13b8d7aed02871c9a22">hid_dev.h</a>
+</li>
+<li>HID_KEY_VOLUME_UP
+: <a class="el" href="hid__dev_8h.html#a8c4f218d0bf32a6ff01711d54defb556">hid_dev.h</a>
+</li>
+<li>HID_KEY_W
+: <a class="el" href="hid__dev_8h.html#a42c1cfdf609efe1c8d9a50b96fad2449">hid_dev.h</a>
+</li>
+<li>HID_KEY_X
+: <a class="el" href="hid__dev_8h.html#a5896f084459a9969b7c0b57ce9e93ef7">hid_dev.h</a>
+</li>
+<li>HID_KEY_Y
+: <a class="el" href="hid__dev_8h.html#a7f9686111562951ea36b79351d4295bd">hid_dev.h</a>
+</li>
+<li>HID_KEY_Z
+: <a class="el" href="hid__dev_8h.html#a43d92de9e9c6635f7a44457e2760d47d">hid_dev.h</a>
+</li>
+<li>HID_KEYBOARD_IN_RPT_LEN
+: <a class="el" href="hid__dev_8h.html#a0221366c1aad83bfd0ee08ab476e419e">hid_dev.h</a>
+</li>
+<li>HID_KEYPAD_0
+: <a class="el" href="hid__dev_8h.html#a118cd94ca9dc9f4f067c20f51f3bdb24">hid_dev.h</a>
+</li>
+<li>HID_KEYPAD_1
+: <a class="el" href="hid__dev_8h.html#a8d739cc961df8bf83774d3d8dd74e642">hid_dev.h</a>
+</li>
+<li>HID_KEYPAD_2
+: <a class="el" href="hid__dev_8h.html#a45c44212b42493f0ade93d20cf24003f">hid_dev.h</a>
+</li>
+<li>HID_KEYPAD_3
+: <a class="el" href="hid__dev_8h.html#ab82a7ef73c929bdef7c54fb7d3f3c03f">hid_dev.h</a>
+</li>
+<li>HID_KEYPAD_4
+: <a class="el" href="hid__dev_8h.html#a6b1430b453ddc2adf827aad398be2e76">hid_dev.h</a>
+</li>
+<li>HID_KEYPAD_5
+: <a class="el" href="hid__dev_8h.html#a7de6a2f8e4979509c11a80245cb772bf">hid_dev.h</a>
+</li>
+<li>HID_KEYPAD_6
+: <a class="el" href="hid__dev_8h.html#a0d0dec1b05a836d7e719738e5c728129">hid_dev.h</a>
+</li>
+<li>HID_KEYPAD_7
+: <a class="el" href="hid__dev_8h.html#ad4897e559d7d883548ee3ded13247301">hid_dev.h</a>
+</li>
+<li>HID_KEYPAD_8
+: <a class="el" href="hid__dev_8h.html#ac1d15673855eb6ea58fde514515b7dd6">hid_dev.h</a>
+</li>
+<li>HID_KEYPAD_9
+: <a class="el" href="hid__dev_8h.html#ae9cfad0f3a0efd2cc7dcd392465d8f40">hid_dev.h</a>
+</li>
+<li>HID_KEYPAD_DOT
+: <a class="el" href="hid__dev_8h.html#a96c6b00f1d665081e110c5de16c164f7">hid_dev.h</a>
+</li>
+<li>HID_LE_EVT_MAX
+: <a class="el" href="hidd__le__prf__int_8h.html#abc6126af1d45847bc59afa0aa3216b04a1aa6a679228cd2f5979db7d7d42ba248">hidd_le_prf_int.h</a>
+</li>
+<li>HID_LE_PRF_TAG
+: <a class="el" href="hidd__le__prf__int_8h.html#a324b92da92f37efa79c59eada217fa7c">hidd_le_prf_int.h</a>
+</li>
+<li>hid_le_svc
+: <a class="el" href="hid__device__le__prf_8c.html#abd977b9bfe0e657eedfc2fd13645dc47">hid_device_le_prf.c</a>
+</li>
+<li>HID_LED_OUT_RPT_LEN
+: <a class="el" href="hid__dev_8h.html#ac30fec7214abaf07884013199141acb6">hid_dev.h</a>
+</li>
+<li>HID_MAX_APPS
+: <a class="el" href="hidd__le__prf__int_8h.html#ad5627ebe5d12033b6efbf5f1ea4a6edf">hidd_le_prf_int.h</a>
+</li>
+<li>HID_MOUSE_IN_RPT_LEN
+: <a class="el" href="hid__dev_8h.html#ac67c29729cabfabb297eb4f3fe7e00dc">hid_dev.h</a>
+</li>
+<li>hid_mouse_input_uuid
+: <a class="el" href="hid__device__le__prf_8c.html#aeb8172439813b057cddfac32032ea334">hid_device_le_prf.c</a>
+</li>
+<li>HID_MOUSE_LEFT
+: <a class="el" href="hid__dev_8h.html#a017a6815ff28185c35d2f724db372a7d">hid_dev.h</a>
+</li>
+<li>HID_MOUSE_MIDDLE
+: <a class="el" href="hid__dev_8h.html#aa531a4fedb82912829076bb89437bc9b">hid_dev.h</a>
+</li>
+<li>HID_MOUSE_RIGHT
+: <a class="el" href="hid__dev_8h.html#a3f41bccba7b29c7ed12053ba6151e0f3">hid_dev.h</a>
+</li>
+<li>HID_NUM_REPORTS
+: <a class="el" href="hidd__le__prf__int_8h.html#a46dda3faf94c8eafa2218e14c8d1e2be">hidd_le_prf_int.h</a>
+</li>
+<li>hid_proto_mode_uuid
+: <a class="el" href="hid__device__le__prf_8c.html#a692d364f68a58a906e3745df5f77b795">hid_device_le_prf.c</a>
+</li>
+<li>HID_PROTOCOL_MODE_BOOT
+: <a class="el" href="hidd__le__prf__int_8h.html#a8ba5ff3f2a7394ef46d59d32b971a4fa">hidd_le_prf_int.h</a>
+</li>
+<li>HID_PROTOCOL_MODE_LEN
+: <a class="el" href="hidd__le__prf__int_8h.html#ae0f926844a10e6e40a60d67e6b49a754">hidd_le_prf_int.h</a>
+</li>
+<li>HID_PROTOCOL_MODE_REPORT
+: <a class="el" href="hidd__le__prf__int_8h.html#a998ca749aef167d8f61d12d5c0a89963">hidd_le_prf_int.h</a>
+</li>
+<li>hid_report_map_uuid
+: <a class="el" href="hid__device__le__prf_8c.html#a0c0f721b519368bbdab8821fbe85c8b4">hid_device_le_prf.c</a>
+</li>
+<li>hid_report_ref_descr_uuid
+: <a class="el" href="hid__device__le__prf_8c.html#aad95e7ea589d07fcecdac08565e16b0c">hid_device_le_prf.c</a>
+</li>
+<li>HID_REPORT_REF_LEN
+: <a class="el" href="hidd__le__prf__int_8h.html#a9e214dcdc0faba83d46da253cf90250f">hidd_le_prf_int.h</a>
+</li>
+<li>HID_REPORT_TYPE_FEATURE
+: <a class="el" href="hidd__le__prf__int_8h.html#ab2122756f77c390357c5b86f1b69faa6">hidd_le_prf_int.h</a>
+</li>
+<li>HID_REPORT_TYPE_INPUT
+: <a class="el" href="hidd__le__prf__int_8h.html#a8c2f36273741e160a071ead66cc36da2">hidd_le_prf_int.h</a>
+</li>
+<li>HID_REPORT_TYPE_OUTPUT
+: <a class="el" href="hidd__le__prf__int_8h.html#afc5ff29118405a5851471ccdc991b1be">hidd_le_prf_int.h</a>
+</li>
+<li>hid_report_uuid
+: <a class="el" href="hid__device__le__prf_8c.html#a90bed26ebc7a44684af95696a240a5a1">hid_device_le_prf.c</a>
+</li>
+<li>hid_repot_map_ext_desc_uuid
+: <a class="el" href="hid__device__le__prf_8c.html#ad33e0092dc6a877a9bacddc1cf9f9342">hid_device_le_prf.c</a>
+</li>
+<li>HID_RPT_ID_CC_IN
+: <a class="el" href="hidd__le__prf__int_8h.html#a294d77f599410cdc8c71da07fa67020f">hidd_le_prf_int.h</a>
+</li>
+<li>HID_RPT_ID_FEATURE
+: <a class="el" href="hidd__le__prf__int_8h.html#a1c9299b131a3e8d3e0ac8f803321d51d">hidd_le_prf_int.h</a>
+</li>
+<li>HID_RPT_ID_JOY_IN
+: <a class="el" href="hidd__le__prf__int_8h.html#a43a44391511792e17cfe3eac3fb1a4d3">hidd_le_prf_int.h</a>
+</li>
+<li>HID_RPT_ID_KEY_IN
+: <a class="el" href="hidd__le__prf__int_8h.html#ae275c1d382448411ee0441d55a970569">hidd_le_prf_int.h</a>
+</li>
+<li>HID_RPT_ID_LED_OUT
+: <a class="el" href="hidd__le__prf__int_8h.html#aefc58b8c80aecc52a0712efa3c820063">hidd_le_prf_int.h</a>
+</li>
+<li>HID_RPT_ID_MOUSE_IN
+: <a class="el" href="hidd__le__prf__int_8h.html#adcc36a227f5386df1faaf120ae4fc0c8">hidd_le_prf_int.h</a>
+</li>
+<li>HID_RPT_ID_VENDOR_OUT
+: <a class="el" href="hidd__le__prf__int_8h.html#ab7558eb78d7388f89b0beb0794413a3d">hidd_le_prf_int.h</a>
+</li>
+<li>hid_rpt_map
+: <a class="el" href="hid__device__le__prf_8c.html#a3862f5175659860b42934e81a0e9bb02">hid_device_le_prf.c</a>
+</li>
+<li>HID_TYPE_FEATURE
+: <a class="el" href="hid__dev_8h.html#abd5a1bdf50ffe3ae21e24b33396c66d4">hid_dev.h</a>
+</li>
+<li>HID_TYPE_INPUT
+: <a class="el" href="hid__dev_8h.html#a80806ec4886bb678ed6803a9fb829e29">hid_dev.h</a>
+</li>
+<li>HID_TYPE_OUTPUT
+: <a class="el" href="hid__dev_8h.html#a4fba2446eb27f39dd9f938ed8012443f">hid_dev.h</a>
 </li>
 <li>hid_usb
 : <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c.html#a841902610ed5a9d5ee171749a85a8b8c">flipmouse_fabi_esp32_kbdmouse_main.c</a>
 , <a class="el" href="common_8h.html#a841902610ed5a9d5ee171749a85a8b8c">common.h</a>
 </li>
-<li>HID_VERSION_1_11
-: <a class="el" href="HIDTypes_8h.html#aa28ccb382c55ee252b105cfc876480e1">HIDTypes.h</a>
-</li>
 <li>hidCmdSem
-: <a class="el" href="task__hid_8c.html#a832987c3836fb3f2f73e388c174b2bf5">task_hid.c</a>
+: <a class="el" href="handler__hid_8c.html#a832987c3836fb3f2f73e388c174b2bf5">handler_hid.c</a>
+</li>
+<li>hidd_adv_data
+: <a class="el" href="hal__ble_8c.html#a7f3a50a06396858b513bf74126e13399">hal_ble.c</a>
+</li>
+<li>hidd_adv_params
+: <a class="el" href="hal__ble_8c.html#a58b0fa2996d55c2b75a0aeb678854b9b">hal_ble.c</a>
+</li>
+<li>HIDD_APP_ID
+: <a class="el" href="hidd__le__prf__int_8h.html#a26f0357180ecb5b51fcda5a4e2301e72">hidd_le_prf_int.h</a>
+</li>
+<li>hidd_clcb_alloc()
+: <a class="el" href="hid__device__le__prf_8c.html#a4e7096230eedcf2dbc89351ea636677d">hid_device_le_prf.c</a>
+, <a class="el" href="hidd__le__prf__int_8h.html#a4e7096230eedcf2dbc89351ea636677d">hidd_le_prf_int.h</a>
+</li>
+<li>hidd_clcb_dealloc()
+: <a class="el" href="hid__device__le__prf_8c.html#a74aa695557816b038ff9847860291fa2">hid_device_le_prf.c</a>
+, <a class="el" href="hidd__le__prf__int_8h.html#a74aa695557816b038ff9847860291fa2">hidd_le_prf_int.h</a>
+</li>
+<li>hidd_event_callback()
+: <a class="el" href="hal__ble_8c.html#af6354ad49deff7e2dfb1b8e9072660ee">hal_ble.c</a>
+</li>
+<li>hidd_get_attr_value()
+: <a class="el" href="hid__device__le__prf_8c.html#a192d7cf437968a2130fcde7888eaf5ce">hid_device_le_prf.c</a>
+, <a class="el" href="hidd__le__prf__int_8h.html#a192d7cf437968a2130fcde7888eaf5ce">hidd_le_prf_int.h</a>
+</li>
+<li>HIDD_GREAT_VER
+: <a class="el" href="hidd__le__prf__int_8h.html#ae9345fe7f433ab105bdef0c6c983b078">hidd_le_prf_int.h</a>
+</li>
+<li>HIDD_LE_BOOT_KB_IN_NTF_CFG_MASK
+: <a class="el" href="hidd__le__prf__int_8h.html#a45503d4e183ff471c7c0d5bf1984c1c7">hidd_le_prf_int.h</a>
+</li>
+<li>HIDD_LE_BOOT_KB_IN_REPORT_CFG
+: <a class="el" href="hidd__le__prf__int_8h.html#adc29c2ff13d900c2f185ee95427fb06ca47c9b5fa569a0b37c33e2910682c1f91">hidd_le_prf_int.h</a>
+</li>
+<li>HIDD_LE_BOOT_KB_IN_REPORT_CHAR
+: <a class="el" href="hidd__le__prf__int_8h.html#a99fb83031ce9923c84392b4e92f956b5a15e900fdfe10485376d170570f58878e">hidd_le_prf_int.h</a>
+</li>
+<li>HIDD_LE_BOOT_KB_IN_REPORT_EVT
+: <a class="el" href="hidd__le__prf__int_8h.html#abc6126af1d45847bc59afa0aa3216b04a4b729d077fe70a86218c686dfa458181">hidd_le_prf_int.h</a>
+</li>
+<li>HIDD_LE_BOOT_KB_OUT_REPORT_CHAR
+: <a class="el" href="hidd__le__prf__int_8h.html#a99fb83031ce9923c84392b4e92f956b5a6d00deff2815a095274ea4a03946af02">hidd_le_prf_int.h</a>
+</li>
+<li>HIDD_LE_BOOT_KB_OUT_REPORT_EVT
+: <a class="el" href="hidd__le__prf__int_8h.html#abc6126af1d45847bc59afa0aa3216b04a2cc25916cee1266869ea277dcacf6244">hidd_le_prf_int.h</a>
+</li>
+<li>HIDD_LE_BOOT_MOUSE_IN_NTF_CFG_MASK
+: <a class="el" href="hidd__le__prf__int_8h.html#a722cbdbca010efd6daa4afa2d8017c93">hidd_le_prf_int.h</a>
+</li>
+<li>HIDD_LE_BOOT_MOUSE_IN_REPORT_CFG
+: <a class="el" href="hidd__le__prf__int_8h.html#adc29c2ff13d900c2f185ee95427fb06cacfc49d915c338801c15038e3feee8fb2">hidd_le_prf_int.h</a>
+</li>
+<li>HIDD_LE_BOOT_MOUSE_IN_REPORT_CHAR
+: <a class="el" href="hidd__le__prf__int_8h.html#a99fb83031ce9923c84392b4e92f956b5a06d65b185b709adc575ad9a0aedf779d">hidd_le_prf_int.h</a>
+</li>
+<li>HIDD_LE_BOOT_MOUSE_IN_REPORT_EVT
+: <a class="el" href="hidd__le__prf__int_8h.html#abc6126af1d45847bc59afa0aa3216b04a3d12bb5614ece5a4b5145f1b31ce5765">hidd_le_prf_int.h</a>
+</li>
+<li>HIDD_LE_BOOT_REPORT_MAX_LEN
+: <a class="el" href="hidd__le__prf__int_8h.html#a07568b577d4808f637aab68473c9292e">hidd_le_prf_int.h</a>
+</li>
+<li>HIDD_LE_CFG_BOOT_KB_WR
+: <a class="el" href="hidd__le__prf__int_8h.html#a61dadd085c1777f559549e05962b2c9ea4c8a4937c0372de7b70b8b1d54737bf0">hidd_le_prf_int.h</a>
+</li>
+<li>HIDD_LE_CFG_BOOT_MOUSE_WR
+: <a class="el" href="hidd__le__prf__int_8h.html#a61dadd085c1777f559549e05962b2c9ea1b6c567a694605d82399b162c658a5bb">hidd_le_prf_int.h</a>
+</li>
+<li>HIDD_LE_CFG_KEYBOARD
+: <a class="el" href="hidd__le__prf__int_8h.html#a61dadd085c1777f559549e05962b2c9ea6a963b03b1c92fa0b208fbf84f6eb9a4">hidd_le_prf_int.h</a>
+</li>
+<li>HIDD_LE_CFG_MAP_EXT_REF
+: <a class="el" href="hidd__le__prf__int_8h.html#a61dadd085c1777f559549e05962b2c9eaf7ec65f2d70b66a9890ac027fef82ec9">hidd_le_prf_int.h</a>
+</li>
+<li>HIDD_LE_CFG_MOUSE
+: <a class="el" href="hidd__le__prf__int_8h.html#a61dadd085c1777f559549e05962b2c9eaeed2a0fe39d4ca2836c626ba318a7da5">hidd_le_prf_int.h</a>
+</li>
+<li>HIDD_LE_CFG_PROTO_MODE
+: <a class="el" href="hidd__le__prf__int_8h.html#a61dadd085c1777f559549e05962b2c9ea576663d3ab3193a284105b6e763f13a9">hidd_le_prf_int.h</a>
+</li>
+<li>HIDD_LE_CFG_REPORT_FEAT
+: <a class="el" href="hidd__le__prf__int_8h.html#a726ca809ffd3d67ab4b8476646f26635a233c3efdc669185d85bfd64b9d190d88">hidd_le_prf_int.h</a>
+</li>
+<li>HIDD_LE_CFG_REPORT_IN
+: <a class="el" href="hidd__le__prf__int_8h.html#a726ca809ffd3d67ab4b8476646f26635afa10eda99672ddf83014d1bc7e0c76f3">hidd_le_prf_int.h</a>
+</li>
+<li>HIDD_LE_CFG_REPORT_OUT
+: <a class="el" href="hidd__le__prf__int_8h.html#a726ca809ffd3d67ab4b8476646f26635a02d237f5b13ed5240dcd73fd41d9d0b9">hidd_le_prf_int.h</a>
+</li>
+<li>HIDD_LE_CFG_REPORT_WR
+: <a class="el" href="hidd__le__prf__int_8h.html#a726ca809ffd3d67ab4b8476646f26635acc64735638fc565f094809ba2eefd972">hidd_le_prf_int.h</a>
+</li>
+<li>HIDD_LE_CHAR_MAX
+: <a class="el" href="hidd__le__prf__int_8h.html#a99fb83031ce9923c84392b4e92f956b5a346a0c69cba0f63cdc4f913b6dae2e2e">hidd_le_prf_int.h</a>
+</li>
+<li>HIDD_LE_CLEANUP_FNCT
+: <a class="el" href="hidd__le__prf__int_8h.html#a7907956e9e9ae0f0d5e6a928c9e1f143">hidd_le_prf_int.h</a>
+</li>
+<li>hidd_le_create_service()
+: <a class="el" href="hidd__le__prf__int_8h.html#a479cfaafdbd41501ccd953c0abfc8ca6">hidd_le_prf_int.h</a>
+, <a class="el" href="hid__device__le__prf_8c.html#a479cfaafdbd41501ccd953c0abfc8ca6">hid_device_le_prf.c</a>
+</li>
+<li>HIDD_LE_CTNL_PT_CHAR
+: <a class="el" href="hidd__le__prf__int_8h.html#a99fb83031ce9923c84392b4e92f956b5a95cd26e74422592c250244b0b0fc1ec1">hidd_le_prf_int.h</a>
+</li>
+<li>HIDD_LE_DESC_MASK
+: <a class="el" href="hidd__le__prf__int_8h.html#adc29c2ff13d900c2f185ee95427fb06ca5178520cb60bd1e750d91b7173fb6bcb">hidd_le_prf_int.h</a>
+</li>
+<li>hidd_le_env
+: <a class="el" href="hidd__le__prf__int_8h.html#a91d82217264ad84483e4f8f0c644d6cf">hidd_le_prf_int.h</a>
+, <a class="el" href="hid__device__le__prf_8c.html#a91d82217264ad84483e4f8f0c644d6cf">hid_device_le_prf.c</a>
+</li>
+<li>hidd_le_gatt_db
+: <a class="el" href="hid__device__le__prf_8c.html#a68663af02f816293555f6b0b03b65139">hid_device_le_prf.c</a>
+</li>
+<li>HIDD_LE_IDX_BOOT_KB_IN_REPORT_CHAR
+: <a class="el" href="hidd__le__prf__int_8h.html#adf764cbdea00d65edcd07bb9953ad2b7a162f34f7fafa5aa044b614e5757fafbb">hidd_le_prf_int.h</a>
+</li>
+<li>HIDD_LE_IDX_BOOT_KB_IN_REPORT_NTF_CFG
+: <a class="el" href="hidd__le__prf__int_8h.html#adf764cbdea00d65edcd07bb9953ad2b7a31e26476802bf7ce3b9dc6e40f5a573b">hidd_le_prf_int.h</a>
+</li>
+<li>HIDD_LE_IDX_BOOT_KB_IN_REPORT_VAL
+: <a class="el" href="hidd__le__prf__int_8h.html#adf764cbdea00d65edcd07bb9953ad2b7a88bb4143f90075a31c43bd90bfb19f51">hidd_le_prf_int.h</a>
+</li>
+<li>HIDD_LE_IDX_BOOT_KB_OUT_REPORT_CHAR
+: <a class="el" href="hidd__le__prf__int_8h.html#adf764cbdea00d65edcd07bb9953ad2b7a746e33abc6c0a45124d8371da7225b27">hidd_le_prf_int.h</a>
+</li>
+<li>HIDD_LE_IDX_BOOT_KB_OUT_REPORT_VAL
+: <a class="el" href="hidd__le__prf__int_8h.html#adf764cbdea00d65edcd07bb9953ad2b7ade1394b7cb4a78ace17b84a3d220dc74">hidd_le_prf_int.h</a>
+</li>
+<li>HIDD_LE_IDX_BOOT_MOUSE_IN_REPORT_CHAR
+: <a class="el" href="hidd__le__prf__int_8h.html#adf764cbdea00d65edcd07bb9953ad2b7a717da60f7f02af7daa9b09745b1c98cc">hidd_le_prf_int.h</a>
+</li>
+<li>HIDD_LE_IDX_BOOT_MOUSE_IN_REPORT_NTF_CFG
+: <a class="el" href="hidd__le__prf__int_8h.html#adf764cbdea00d65edcd07bb9953ad2b7a78a551dcfadde601d8232c955ba2ac45">hidd_le_prf_int.h</a>
+</li>
+<li>HIDD_LE_IDX_BOOT_MOUSE_IN_REPORT_VAL
+: <a class="el" href="hidd__le__prf__int_8h.html#adf764cbdea00d65edcd07bb9953ad2b7a94c6d75a689ee4df637acf102b9094ab">hidd_le_prf_int.h</a>
+</li>
+<li>HIDD_LE_IDX_HID_CTNL_PT_CHAR
+: <a class="el" href="hidd__le__prf__int_8h.html#adf764cbdea00d65edcd07bb9953ad2b7a5bc5093ddebdb90f7b93c09fc0a7ddb7">hidd_le_prf_int.h</a>
+</li>
+<li>HIDD_LE_IDX_HID_CTNL_PT_VAL
+: <a class="el" href="hidd__le__prf__int_8h.html#adf764cbdea00d65edcd07bb9953ad2b7abec57916fe729ff82fe224bc8be9492b">hidd_le_prf_int.h</a>
+</li>
+<li>HIDD_LE_IDX_HID_INFO_CHAR
+: <a class="el" href="hidd__le__prf__int_8h.html#adf764cbdea00d65edcd07bb9953ad2b7ac7a20a4ca83b059226fab0ffb3c449d8">hidd_le_prf_int.h</a>
+</li>
+<li>HIDD_LE_IDX_HID_INFO_VAL
+: <a class="el" href="hidd__le__prf__int_8h.html#adf764cbdea00d65edcd07bb9953ad2b7ac1484215b461e22d8887673584ad4454">hidd_le_prf_int.h</a>
+</li>
+<li>HIDD_LE_IDX_INCL_SVC
+: <a class="el" href="hidd__le__prf__int_8h.html#adf764cbdea00d65edcd07bb9953ad2b7ac30b5711bc69c4f532772ff50033acca">hidd_le_prf_int.h</a>
+</li>
+<li>HIDD_LE_IDX_NB
+: <a class="el" href="hidd__le__prf__int_8h.html#adf764cbdea00d65edcd07bb9953ad2b7a36d89e035162ba80365c8bd1ed53043e">hidd_le_prf_int.h</a>
+</li>
+<li>HIDD_LE_IDX_PROTO_MODE_CHAR
+: <a class="el" href="hidd__le__prf__int_8h.html#adf764cbdea00d65edcd07bb9953ad2b7a6fc27e7a52389fae2a92971506a8403f">hidd_le_prf_int.h</a>
+</li>
+<li>HIDD_LE_IDX_PROTO_MODE_VAL
+: <a class="el" href="hidd__le__prf__int_8h.html#adf764cbdea00d65edcd07bb9953ad2b7a5380bfbe7198cc859af31e5c0c2222c7">hidd_le_prf_int.h</a>
+</li>
+<li>HIDD_LE_IDX_REPORT_CC_IN_CCC
+: <a class="el" href="hidd__le__prf__int_8h.html#adf764cbdea00d65edcd07bb9953ad2b7a22f7d93a1a7fc93080ecef6aee04efe2">hidd_le_prf_int.h</a>
+</li>
+<li>HIDD_LE_IDX_REPORT_CC_IN_CHAR
+: <a class="el" href="hidd__le__prf__int_8h.html#adf764cbdea00d65edcd07bb9953ad2b7aaba0621f5b2d8d71fc64882a05179c3c">hidd_le_prf_int.h</a>
+</li>
+<li>HIDD_LE_IDX_REPORT_CC_IN_REP_REF
+: <a class="el" href="hidd__le__prf__int_8h.html#adf764cbdea00d65edcd07bb9953ad2b7aed49ae7b4a6ff38789f60183a8122aac">hidd_le_prf_int.h</a>
+</li>
+<li>HIDD_LE_IDX_REPORT_CC_IN_VAL
+: <a class="el" href="hidd__le__prf__int_8h.html#adf764cbdea00d65edcd07bb9953ad2b7adb68dbb071ad802ee51932e6ae7f27c7">hidd_le_prf_int.h</a>
+</li>
+<li>HIDD_LE_IDX_REPORT_CHAR
+: <a class="el" href="hidd__le__prf__int_8h.html#adf764cbdea00d65edcd07bb9953ad2b7a0922575290be61908552fbe4cb5e2571">hidd_le_prf_int.h</a>
+</li>
+<li>HIDD_LE_IDX_REPORT_KEY_IN_CCC
+: <a class="el" href="hidd__le__prf__int_8h.html#adf764cbdea00d65edcd07bb9953ad2b7a36c36f731e480219d2012390e51757e9">hidd_le_prf_int.h</a>
+</li>
+<li>HIDD_LE_IDX_REPORT_KEY_IN_CHAR
+: <a class="el" href="hidd__le__prf__int_8h.html#adf764cbdea00d65edcd07bb9953ad2b7ac6f6e06c2fddd481412ca2b51e7f3fd3">hidd_le_prf_int.h</a>
+</li>
+<li>HIDD_LE_IDX_REPORT_KEY_IN_REP_REF
+: <a class="el" href="hidd__le__prf__int_8h.html#adf764cbdea00d65edcd07bb9953ad2b7a67daed8f464aa01843d26ec2e7d5f003">hidd_le_prf_int.h</a>
+</li>
+<li>HIDD_LE_IDX_REPORT_KEY_IN_VAL
+: <a class="el" href="hidd__le__prf__int_8h.html#adf764cbdea00d65edcd07bb9953ad2b7a7df8617538e4975c31aa4699f476ce7b">hidd_le_prf_int.h</a>
+</li>
+<li>HIDD_LE_IDX_REPORT_LED_OUT_CHAR
+: <a class="el" href="hidd__le__prf__int_8h.html#adf764cbdea00d65edcd07bb9953ad2b7a453a34e3528d4d3793c940e6b6a798a9">hidd_le_prf_int.h</a>
+</li>
+<li>HIDD_LE_IDX_REPORT_LED_OUT_REP_REF
+: <a class="el" href="hidd__le__prf__int_8h.html#adf764cbdea00d65edcd07bb9953ad2b7a8ba90b1216b459a3ec28f5e7606697f7">hidd_le_prf_int.h</a>
+</li>
+<li>HIDD_LE_IDX_REPORT_LED_OUT_VAL
+: <a class="el" href="hidd__le__prf__int_8h.html#adf764cbdea00d65edcd07bb9953ad2b7a25c437e1eced83939b9391f93c809220">hidd_le_prf_int.h</a>
+</li>
+<li>HIDD_LE_IDX_REPORT_MAP_CHAR
+: <a class="el" href="hidd__le__prf__int_8h.html#adf764cbdea00d65edcd07bb9953ad2b7a287a592201a6a17d7032457637ddbf99">hidd_le_prf_int.h</a>
+</li>
+<li>HIDD_LE_IDX_REPORT_MAP_EXT_REP_REF
+: <a class="el" href="hidd__le__prf__int_8h.html#adf764cbdea00d65edcd07bb9953ad2b7a862468b31c40c7b84e858943eb1cccdb">hidd_le_prf_int.h</a>
+</li>
+<li>HIDD_LE_IDX_REPORT_MAP_VAL
+: <a class="el" href="hidd__le__prf__int_8h.html#adf764cbdea00d65edcd07bb9953ad2b7a8ee90239ebd4a8abf27cff59b3f83d5f">hidd_le_prf_int.h</a>
+</li>
+<li>HIDD_LE_IDX_REPORT_MOUSE_IN_CCC
+: <a class="el" href="hidd__le__prf__int_8h.html#adf764cbdea00d65edcd07bb9953ad2b7a15f0b1a5489176184dc1bec866e891db">hidd_le_prf_int.h</a>
+</li>
+<li>HIDD_LE_IDX_REPORT_MOUSE_IN_CHAR
+: <a class="el" href="hidd__le__prf__int_8h.html#adf764cbdea00d65edcd07bb9953ad2b7a94a47d679cc033ebc73cb12385f16429">hidd_le_prf_int.h</a>
+</li>
+<li>HIDD_LE_IDX_REPORT_MOUSE_IN_VAL
+: <a class="el" href="hidd__le__prf__int_8h.html#adf764cbdea00d65edcd07bb9953ad2b7a4deaffe18cd223b1e1b86511171410a2">hidd_le_prf_int.h</a>
+</li>
+<li>HIDD_LE_IDX_REPORT_MOUSE_REP_REF
+: <a class="el" href="hidd__le__prf__int_8h.html#adf764cbdea00d65edcd07bb9953ad2b7a28fd2870067701b397e917cf1d9cbc22">hidd_le_prf_int.h</a>
+</li>
+<li>HIDD_LE_IDX_REPORT_REP_REF
+: <a class="el" href="hidd__le__prf__int_8h.html#adf764cbdea00d65edcd07bb9953ad2b7aa0b416eff4c751b751d4936812efa4a3">hidd_le_prf_int.h</a>
+</li>
+<li>HIDD_LE_IDX_REPORT_VAL
+: <a class="el" href="hidd__le__prf__int_8h.html#adf764cbdea00d65edcd07bb9953ad2b7aa4a2ff6e24222d636de8a52c1acfc029">hidd_le_prf_int.h</a>
+</li>
+<li>HIDD_LE_IDX_REPORT_VENDOR_OUT_CHAR
+: <a class="el" href="hidd__le__prf__int_8h.html#adf764cbdea00d65edcd07bb9953ad2b7abda692e5d7244e1dc8d1f61848989257">hidd_le_prf_int.h</a>
+</li>
+<li>HIDD_LE_IDX_REPORT_VENDOR_OUT_REP_REF
+: <a class="el" href="hidd__le__prf__int_8h.html#adf764cbdea00d65edcd07bb9953ad2b7ac6b01ddd08dd7831749067dbb8b845eb">hidd_le_prf_int.h</a>
+</li>
+<li>HIDD_LE_IDX_REPORT_VENDOR_OUT_VAL
+: <a class="el" href="hidd__le__prf__int_8h.html#adf764cbdea00d65edcd07bb9953ad2b7ac9bb5a72f15201ce783c5fc72d5c850a">hidd_le_prf_int.h</a>
+</li>
+<li>HIDD_LE_IDX_SVC
+: <a class="el" href="hidd__le__prf__int_8h.html#adf764cbdea00d65edcd07bb9953ad2b7af35ee918ac2143f340cd89ca02e0f5bf">hidd_le_prf_int.h</a>
+</li>
+<li>HIDD_LE_INFO_CHAR
+: <a class="el" href="hidd__le__prf__int_8h.html#a99fb83031ce9923c84392b4e92f956b5a5bf5eecd0a812adb296339e7a4be5cce">hidd_le_prf_int.h</a>
+</li>
+<li>hidd_le_init()
+: <a class="el" href="hid__device__le__prf_8c.html#a371a89ec41b61b5e5d6ae5ad70e8d58d">hid_device_le_prf.c</a>
+</li>
+<li>HIDD_LE_NB_HIDS_INST_MAX
+: <a class="el" href="hidd__le__prf__int_8h.html#aba6364e0b10b2a25a4d3b67801acc237">hidd_le_prf_int.h</a>
+</li>
+<li>HIDD_LE_NB_REPORT_INST_MAX
+: <a class="el" href="hidd__le__prf__int_8h.html#af74dd0dfaef005dba01aa677621b3990">hidd_le_prf_int.h</a>
+</li>
+<li>HIDD_LE_PROTO_MODE_CHAR
+: <a class="el" href="hidd__le__prf__int_8h.html#a99fb83031ce9923c84392b4e92f956b5a74756a7f80928710da208f59dd4eb36b">hidd_le_prf_int.h</a>
+</li>
+<li>HIDD_LE_READ_CTNL_PT_EVT
+: <a class="el" href="hidd__le__prf__int_8h.html#abc6126af1d45847bc59afa0aa3216b04a4226e6fb52b9775f334ac567b327d29a">hidd_le_prf_int.h</a>
+</li>
+<li>HIDD_LE_READ_INFO_EVT
+: <a class="el" href="hidd__le__prf__int_8h.html#abc6126af1d45847bc59afa0aa3216b04af8fb15814830a601e861d95b5c5eb4d7">hidd_le_prf_int.h</a>
+</li>
+<li>HIDD_LE_READ_PROTO_MODE_EVT
+: <a class="el" href="hidd__le__prf__int_8h.html#abc6126af1d45847bc59afa0aa3216b04a9958c22471cf751944d448f8a493fd45">hidd_le_prf_int.h</a>
+</li>
+<li>HIDD_LE_READ_REPORT_EVT
+: <a class="el" href="hidd__le__prf__int_8h.html#abc6126af1d45847bc59afa0aa3216b04a95ea234cf0a45097e15ba53a54c75375">hidd_le_prf_int.h</a>
+</li>
+<li>HIDD_LE_READ_REPORT_MAP_EVT
+: <a class="el" href="hidd__le__prf__int_8h.html#abc6126af1d45847bc59afa0aa3216b04a242ee7554db1bda272ca0003986a5d42">hidd_le_prf_int.h</a>
+</li>
+<li>HIDD_LE_REPORT_CFG
+: <a class="el" href="hidd__le__prf__int_8h.html#adc29c2ff13d900c2f185ee95427fb06ca77820d787f0a3a4b83e3efd6479bee70">hidd_le_prf_int.h</a>
+</li>
+<li>HIDD_LE_REPORT_CHAR
+: <a class="el" href="hidd__le__prf__int_8h.html#a99fb83031ce9923c84392b4e92f956b5ab50056319d793245d832e3c741c10ca5">hidd_le_prf_int.h</a>
+</li>
+<li>HIDD_LE_REPORT_MAP_CHAR
+: <a class="el" href="hidd__le__prf__int_8h.html#a99fb83031ce9923c84392b4e92f956b5afa03760618f0569f1e1d682582b6ea30">hidd_le_prf_int.h</a>
+</li>
+<li>HIDD_LE_REPORT_MAP_MAX_LEN
+: <a class="el" href="hidd__le__prf__int_8h.html#af7c14e60132e8dc391fafaa58dcb3ee7">hidd_le_prf_int.h</a>
+</li>
+<li>HIDD_LE_REPORT_MAX_LEN
+: <a class="el" href="hidd__le__prf__int_8h.html#affab08f986635746ac7ddb3a486802a2">hidd_le_prf_int.h</a>
+</li>
+<li>HIDD_LE_REPORT_NTF_CFG_MASK
+: <a class="el" href="hidd__le__prf__int_8h.html#aba6045c504a62a047161d5241029a024">hidd_le_prf_int.h</a>
+</li>
+<li>hidd_register_cb()
+: <a class="el" href="hidd__le__prf__int_8h.html#acb0d2b8e95e7bbabf1e3bdab379d18d5">hidd_le_prf_int.h</a>
+, <a class="el" href="hid__device__le__prf_8c.html#acb0d2b8e95e7bbabf1e3bdab379d18d5">hid_device_le_prf.c</a>
+</li>
+<li>hidd_service_uuid128
+: <a class="el" href="hal__ble_8c.html#a93fcf7226d419031220fd965f5d81dac">hal_ble.c</a>
+</li>
+<li>hidd_set_attr_value()
+: <a class="el" href="hidd__le__prf__int_8h.html#af1d398a5081d065d043c584c44d77b91">hidd_le_prf_int.h</a>
+, <a class="el" href="hid__device__le__prf_8c.html#af1d398a5081d065d043c584c44d77b91">hid_device_le_prf.c</a>
+</li>
+<li>HIDD_SUB_VER
+: <a class="el" href="hidd__le__prf__int_8h.html#a6cf775d40bbf29d5dbddd89532d2183e">hidd_le_prf_int.h</a>
+</li>
+<li>HIDD_VERSION
+: <a class="el" href="hidd__le__prf__int_8h.html#aae18cde0e0c2be801a80e675b5c419e1">hidd_le_prf_int.h</a>
+</li>
+<li>hidExtReportRefDesc
+: <a class="el" href="hid__device__le__prf_8c.html#aa0f7f180a1dbc3739656c02e83727e36">hid_device_le_prf.c</a>
+</li>
+<li>hidInfo
+: <a class="el" href="hid__device__le__prf_8c.html#a2734a576e26f8415379ac2e1319f8cb2">hid_device_le_prf.c</a>
+</li>
+<li>hidProtocolMode
+: <a class="el" href="hidd__le__prf__int_8h.html#a18824297d97ae42a7da587d9752002fe">hidd_le_prf_int.h</a>
+, <a class="el" href="hid__device__le__prf_8c.html#a18824297d97ae42a7da587d9752002fe">hid_device_le_prf.c</a>
+</li>
+<li>hidReportMap
+: <a class="el" href="hid__device__le__prf_8c.html#a8fb6489bfedb7d288643295c3a78b421">hid_device_le_prf.c</a>
+</li>
+<li>hidReportMapLen
+: <a class="el" href="hid__device__le__prf_8c.html#a0b7cc6e74ea0a16819c1665e6118294c">hid_device_le_prf.c</a>
+</li>
+<li>hidReportRefCCIn
+: <a class="el" href="hid__device__le__prf_8c.html#a69384e648c92e4e7dcf9db1b72f3c149">hid_device_le_prf.c</a>
+</li>
+<li>hidReportRefFeature
+: <a class="el" href="hid__device__le__prf_8c.html#abb2474564e2648feca89b9aa8c86bf3f">hid_device_le_prf.c</a>
+</li>
+<li>hidReportRefKeyIn
+: <a class="el" href="hid__device__le__prf_8c.html#a407982c8cf184bd0c74e94d8c8503548">hid_device_le_prf.c</a>
+</li>
+<li>hidReportRefLedOut
+: <a class="el" href="hid__device__le__prf_8c.html#a5aeadf9795c7446979495b0c555733f7">hid_device_le_prf.c</a>
+</li>
+<li>hidReportRefMouseIn
+: <a class="el" href="hid__device__le__prf_8c.html#ada5f5d46c997233c58aed5c4f39c241a">hid_device_le_prf.c</a>
+</li>
+<li>hidReportRefVendorOut
+: <a class="el" href="hid__device__le__prf_8c.html#ab10f28e980e8f3e10c6da21e6e2859ae">hid_device_le_prf.c</a>
 </li>
 <li>hidsendingsem
 : <a class="el" href="hal__serial_8c.html#af2a7c6dc7be333dca54efb59230e5684">hal_serial.c</a>

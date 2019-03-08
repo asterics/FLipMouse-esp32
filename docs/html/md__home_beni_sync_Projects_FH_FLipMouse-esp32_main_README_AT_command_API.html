@@ -109,6 +109,8 @@ $(function() {
 <td align="left">AT FB </td><td align="left">number (0,1,2,3) </td><td align="left">Feedback mode, 0=no LED/no buzzer, 1=LED/no buzzer, 2=no LED/buzzer, 3= LED + buzzer </td><td align="left">v3 </td><td align="left">yes </td><td align="left">no </td></tr>
 <tr>
 <td align="left">AT PW </td><td align="left">string </td><td align="left">Set a new wifi password. Use at least <b>8</b> characters </td><td align="left">v3 </td><td align="left">untested </td><td align="left">no </td></tr>
+<tr>
+<td align="left">AT FW </td><td align="left">number (0,1) </td><td align="left">Update firmware. 0 = update ESP32; 1 = update LPC </td><td align="left">v3 </td><td align="left">untested </td><td align="left">no </td></tr>
 </table>
 <p><a class="anchor" id="footnoteA"></a><b>A</b>: If you want to have a semicolon character WITHIN an AT command, please escape it with a backslash sequence: "\;". All other characters can be used normally.</p>
 <p><a class="anchor" id="footnoteB"></a><b>B</b>: AT WA is done in task_macro, but cannot be used in any other way except a macro ( <em>AT MA</em> ).</p>
@@ -209,11 +211,11 @@ $(function() {
 <tr>
 <th align="left">Command </th><th align="left">Parameter </th><th align="left">Description </th><th align="left">Available since </th><th align="left">Implemented in v3 </th><th align="left">FUNCTIONAL task  </th></tr>
 <tr>
-<td align="left">AT MM </td><td align="left">number (0,1,2) </td><td align="left">use the mouthpiece either as mouse cursor (AT MM 1), alternative function (AT MM 0) or joystick (AT MM 2) </td><td align="left">v2 </td><td align="left">yes </td><td align="left">no </td></tr>
+<td align="left">AT MM </td><td align="left">number (0,1,2,3) </td><td align="left">use the mouthpiece either as mouse cursor (AT MM 1), alternative function (AT MM 0), joystick (AT MM 2) or disable it (AT MM 3) </td><td align="left">v2 </td><td align="left">yes </td><td align="left">no </td></tr>
 <tr>
 <td align="left">AT SW </td><td align="left">&ndash; </td><td align="left">switch between cursor and alternative mode </td><td align="left">v2 </td><td align="left">yes </td><td align="left">no </td></tr>
 <tr>
-<td align="left">AT SR </td><td align="left">&ndash; </td><td align="left">start reporting out the raw sensor values </td><td align="left">v2 </td><td align="left">yes </td><td align="left">no </td></tr>
+<td align="left">AT SR </td><td align="left">&ndash; </td><td align="left">start reporting out the raw sensor values ("VALUES:&lt;pressure&gt;,&lt;up&gt;,&lt;down&gt;,&lt;left&gt;,&lt;right&gt;,&lt;x&gt;,&lt;y&gt;" </td><td align="left">v2 </td><td align="left">yes </td><td align="left">no </td></tr>
 <tr>
 <td align="left">AT ER </td><td align="left">&ndash; </td><td align="left">stop reporting the sensor values </td><td align="left">v2 </td><td align="left">yes </td><td align="left">no </td></tr>
 <tr>
@@ -239,13 +241,9 @@ $(function() {
 <tr>
 <td align="left">AT SP </td><td align="left">number (512-1023) </td><td align="left">strong-puff action threshold </td><td align="left">v2 </td><td align="left">yes </td><td align="left">no </td></tr>
 <tr>
-<td align="left">AT GU </td><td align="left">number (0-100) </td><td align="left">"up" sensor gain </td><td align="left">v2 </td><td align="left">yes </td><td align="left">no </td></tr>
+<td align="left">AT OT </td><td align="left">number (0-15) </td><td align="left">On-the-fly calibration, threshold for detecting idle </td><td align="left">v3 </td><td align="left">yes </td><td align="left">no </td></tr>
 <tr>
-<td align="left">AT GD </td><td align="left">number (0-100) </td><td align="left">"down" sensor gain </td><td align="left">v2 </td><td align="left">yes </td><td align="left">no </td></tr>
-<tr>
-<td align="left">AT GL </td><td align="left">number (0-100) </td><td align="left">"left" sensor gain </td><td align="left">v2 </td><td align="left">yes </td><td align="left">no </td></tr>
-<tr>
-<td align="left">AT GR </td><td align="left">number (0-100) </td><td align="left">"right" sensor gain </td><td align="left">v2 </td><td align="left">yes </td><td align="left">no </td></tr>
+<td align="left">AT OC </td><td align="left">number (5-15) </td><td align="left">On-the-fly calibration, idle counter before calibrating </td><td align="left">v3 </td><td align="left">yes </td><td align="left">no </td></tr>
 </table>
 <p><b>Joystick settings</b> </p><table class="doxtable">
 <tr>
@@ -269,7 +267,7 @@ $(function() {
 <tr>
 <td align="left">AT JR </td><td align="left">number (1-32) </td><td align="left">Button release </td><td align="left">v2 </td><td align="left">yes </td><td align="left">yes (task_hid) </td></tr>
 <tr>
-<td align="left">AT JH </td><td align="left">number (-1, 0-315) + number(0,1) </td><td align="left">Joystick hat (rest position: -1, 0-315 in 45° steps) <sup><a href="#footnoteD">D</a></sup> </td><td align="left">v2 </td><td align="left">yes </td><td align="left">yes (task_hid) </td></tr>
+<td align="left">AT JH </td><td align="left">number (-1, 0-7) + number(0,1) </td><td align="left">Joystick hat (rest position: -1, 0-7 (mapped to 45° steps)) <sup><a href="#footnoteD">D</a></sup> </td><td align="left">v2 </td><td align="left">yes </td><td align="left">yes (task_hid) </td></tr>
 </table>
 <p>Please note, that joystick is currently not available for Bluetooth connections.</p>
 <p><a class="anchor" id="footnoteD"></a><b>D</b>: The second parameter sets the release mode of this command.</p>
@@ -279,13 +277,13 @@ $(function() {
 <tr>
 <th align="left">Command </th><th align="left">Parameter </th><th align="left">Description </th><th align="left">Available since </th><th align="left">Implemented in v3 </th><th align="left">FUNCTIONAL task  </th></tr>
 <tr>
-<td align="left">AT IR </td><td align="left">string </td><td align="left">record a new infrared command, store it with the given name </td><td align="left">v2 </td><td align="left">yes </td><td align="left">no </td></tr>
+<td align="left">AT IR </td><td align="left">string (2-32chars) </td><td align="left">record a new infrared command, store it with the given name </td><td align="left">v2 </td><td align="left">yes </td><td align="left">no </td></tr>
 <tr>
-<td align="left">AT IP </td><td align="left">string </td><td align="left">replay a recorded IR command, stored with the given name </td><td align="left">v2 </td><td align="left">yes </td><td align="left">yes (task_infrared) </td></tr>
+<td align="left">AT IP </td><td align="left">string (2-32chars) </td><td align="left">replay a recorded IR command, stored with the given name </td><td align="left">v2 </td><td align="left">yes </td><td align="left">yes (task_infrared) </td></tr>
 <tr>
-<td align="left">AT IH </td><td align="left">string </td><td align="left">play a hex string (replay a given hex string sent by "AT IR") </td><td align="left">v3 </td><td align="left">no </td><td align="left">yes (task_infrared) </td></tr>
+<td align="left">AT IH </td><td align="left">string (max: ~250chars) </td><td align="left">play a hex string (replay a given hex string sent by "AT IR") </td><td align="left">v3 </td><td align="left">no </td><td align="left">yes (task_infrared) </td></tr>
 <tr>
-<td align="left">AT IC </td><td align="left">string </td><td align="left">clear an IR command, defined by the name </td><td align="left">v2 </td><td align="left">yes </td><td align="left">no </td></tr>
+<td align="left">AT IC </td><td align="left">string (2-32chars) </td><td align="left">clear an IR command, defined by the name </td><td align="left">v2 </td><td align="left">yes </td><td align="left">no </td></tr>
 <tr>
 <td align="left">AT IW </td><td align="left">&ndash; </td><td align="left">wipe all IR commands </td><td align="left">v2 </td><td align="left">yes </td><td align="left">no </td></tr>
 <tr>
@@ -294,6 +292,8 @@ $(function() {
 <td align="left">AT IL </td><td align="left"></td><td align="left">list all available stored IR commands </td><td align="left">v2 </td><td align="left">yes </td><td align="left">no </td></tr>
 <tr>
 <td align="left">AT IX </td><td align="left">number (1-99) </td><td align="left">Delete one IR slot. </td><td align="left">v3 </td><td align="left">yes </td><td align="left">no </td></tr>
+<tr>
+<td align="left">AT II </td><td align="left">string (2-32chars) </td><td align="left">Set an idle IR command. Will be sent AFTER EACH normally sent command. </td><td align="left">v2.7 </td><td align="left">no </td><td align="left">no </td></tr>
 </table>
 <h2>Button assignments - FLipMouse</h2>
 <p>The FLipMouse version 2 has 1 internal push-button and 2 jack plugs for external buttons. Version 3 uses the second internal button, which was previously the program button for the Teensy, as virtual button 0.</p>

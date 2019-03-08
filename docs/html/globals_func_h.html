@@ -75,9 +75,6 @@ $(function() {
 <li>halAdcProcessStrongMode()
 : <a class="el" href="hal__adc_8c.html#a3cddaa804609f2e34f3cbda1d43ff1b4">hal_adc.c</a>
 </li>
-<li>halAdcReadData()
-: <a class="el" href="hal__adc_8c.html#a5e0d74baf098e774b0e3aa0dab621987">hal_adc.c</a>
-</li>
 <li>halAdcReportRaw()
 : <a class="el" href="hal__adc_8c.html#a8743abcde6f190545c429f072c16106d">hal_adc.c</a>
 </li>
@@ -92,24 +89,27 @@ $(function() {
 , <a class="el" href="hal__adc_8h.html#a4135bb73c2271b4a27db8d8d81884de7">hal_adc.h</a>
 </li>
 <li>halBLEEnDisable()
-: <a class="el" href="hal__ble_8h.html#a1ade7df97a34fa89e0f2db7f5d2614de">hal_ble.h</a>
-, <a class="el" href="HID__kbdmousejoystick_8cpp.html#a1ade7df97a34fa89e0f2db7f5d2614de">HID_kbdmousejoystick.cpp</a>
+: <a class="el" href="hal__ble_8c.html#a1ade7df97a34fa89e0f2db7f5d2614de">hal_ble.c</a>
+, <a class="el" href="hal__ble_8h.html#a1ade7df97a34fa89e0f2db7f5d2614de">hal_ble.h</a>
 </li>
 <li>halBLEInit()
-: <a class="el" href="HID__kbdmousejoystick_8cpp.html#a559e9af2167a8f1b05a8304234418ed3">HID_kbdmousejoystick.cpp</a>
+: <a class="el" href="hal__ble_8c.html#a559e9af2167a8f1b05a8304234418ed3">hal_ble.c</a>
 , <a class="el" href="hal__ble_8h.html#a559e9af2167a8f1b05a8304234418ed3">hal_ble.h</a>
 </li>
 <li>halBLEIsConnected()
-: <a class="el" href="hal__ble_8h.html#a5c6787d5b7e82e56119ed95ae9ddb98d">hal_ble.h</a>
-, <a class="el" href="HID__kbdmousejoystick_8cpp.html#a5c6787d5b7e82e56119ed95ae9ddb98d">HID_kbdmousejoystick.cpp</a>
+: <a class="el" href="hal__ble_8c.html#a5c6787d5b7e82e56119ed95ae9ddb98d">hal_ble.c</a>
+, <a class="el" href="hal__ble_8h.html#a5c6787d5b7e82e56119ed95ae9ddb98d">hal_ble.h</a>
 </li>
 <li>halBLEReset()
-: <a class="el" href="hal__ble_8h.html#accf307974a0046bce38582d0260bf841">hal_ble.h</a>
-, <a class="el" href="HID__kbdmousejoystick_8cpp.html#accf307974a0046bce38582d0260bf841">HID_kbdmousejoystick.cpp</a>
+: <a class="el" href="hal__ble_8c.html#accf307974a0046bce38582d0260bf841">hal_ble.c</a>
+, <a class="el" href="hal__ble_8h.html#accf307974a0046bce38582d0260bf841">hal_ble.h</a>
 </li>
 <li>halBLESetPairing()
-: <a class="el" href="hal__ble_8h.html#a6919311894de84aa70b02c46cf822dde">hal_ble.h</a>
-, <a class="el" href="HID__kbdmousejoystick_8cpp.html#a6919311894de84aa70b02c46cf822dde">HID_kbdmousejoystick.cpp</a>
+: <a class="el" href="hal__ble_8c.html#a6919311894de84aa70b02c46cf822dde">hal_ble.c</a>
+, <a class="el" href="hal__ble_8h.html#a6919311894de84aa70b02c46cf822dde">hal_ble.h</a>
+</li>
+<li>halBLETask()
+: <a class="el" href="hal__ble_8c.html#ac0a136577e62fc87b368eaec618cf31e">hal_ble.c</a>
 </li>
 <li>halIOAddLongPressHandler()
 : <a class="el" href="hal__io_8c.html#a645ccf6a4abeccd8639c66f11138af4a">hal_io.c</a>
@@ -207,8 +207,8 @@ $(function() {
 , <a class="el" href="hal__storage_8h.html#a2046481d14910cc6a5b0086a796f293b">hal_storage.h</a>
 </li>
 <li>halStorageGetNameForNumberIR()
-: <a class="el" href="hal__storage_8h.html#a53912e9159b29e5fc974a127dbf0982f">hal_storage.h</a>
-, <a class="el" href="hal__storage_8c.html#a53912e9159b29e5fc974a127dbf0982f">hal_storage.c</a>
+: <a class="el" href="hal__storage_8c.html#a53912e9159b29e5fc974a127dbf0982f">hal_storage.c</a>
+, <a class="el" href="hal__storage_8h.html#a53912e9159b29e5fc974a127dbf0982f">hal_storage.h</a>
 </li>
 <li>halStorageGetNumberForName()
 : <a class="el" href="hal__storage_8c.html#aae19bcf97360ccd7af4ddf906ff85141">hal_storage.c</a>
@@ -230,19 +230,19 @@ $(function() {
 : <a class="el" href="hal__storage_8c.html#a606e5842dd354f1fb4a738ba95c6d5d1">hal_storage.c</a>
 </li>
 <li>halStorageLoad()
-: <a class="el" href="hal__storage_8h.html#afffed2d32aac2287e95d943dd588db6c">hal_storage.h</a>
-, <a class="el" href="hal__storage_8c.html#afffed2d32aac2287e95d943dd588db6c">hal_storage.c</a>
+: <a class="el" href="hal__storage_8c.html#afffed2d32aac2287e95d943dd588db6c">hal_storage.c</a>
+, <a class="el" href="hal__storage_8h.html#afffed2d32aac2287e95d943dd588db6c">hal_storage.h</a>
 </li>
 <li>halStorageLoadGetVBConfigs()
 : <a class="el" href="hal__storage_8h.html#abc699ff3996d12d3e6bcc9e372b277e0">hal_storage.h</a>
 </li>
 <li>halStorageLoadIR()
-: <a class="el" href="hal__storage_8h.html#aa728fac6a17066ecb910c19338ae5288">hal_storage.h</a>
-, <a class="el" href="hal__storage_8c.html#aa728fac6a17066ecb910c19338ae5288">hal_storage.c</a>
+: <a class="el" href="hal__storage_8c.html#aa728fac6a17066ecb910c19338ae5288">hal_storage.c</a>
+, <a class="el" href="hal__storage_8h.html#aa728fac6a17066ecb910c19338ae5288">hal_storage.h</a>
 </li>
 <li>halStorageLoadName()
-: <a class="el" href="hal__storage_8h.html#a57cdf5734cdbad3dbb5f18f71dd27501">hal_storage.h</a>
-, <a class="el" href="hal__storage_8c.html#a57cdf5734cdbad3dbb5f18f71dd27501">hal_storage.c</a>
+: <a class="el" href="hal__storage_8c.html#a57cdf5734cdbad3dbb5f18f71dd27501">hal_storage.c</a>
+, <a class="el" href="hal__storage_8h.html#a57cdf5734cdbad3dbb5f18f71dd27501">hal_storage.h</a>
 </li>
 <li>halStorageLoadNumber()
 : <a class="el" href="hal__storage_8c.html#a670ba7fad19e9a70672d73897785712f">hal_storage.c</a>
@@ -253,16 +253,16 @@ $(function() {
 , <a class="el" href="hal__storage_8c.html#a63ec8e05a2bb4c214600e94b8ab05eea">hal_storage.c</a>
 </li>
 <li>halStorageNVSStoreString()
-: <a class="el" href="hal__storage_8h.html#aa545d76c7dcaafc129a03dfd9706ca7b">hal_storage.h</a>
-, <a class="el" href="hal__storage_8c.html#aa545d76c7dcaafc129a03dfd9706ca7b">hal_storage.c</a>
+: <a class="el" href="hal__storage_8c.html#aa545d76c7dcaafc129a03dfd9706ca7b">hal_storage.c</a>
+, <a class="el" href="hal__storage_8h.html#aa545d76c7dcaafc129a03dfd9706ca7b">hal_storage.h</a>
 </li>
 <li>halStorageStartTransaction()
 : <a class="el" href="hal__storage_8c.html#aead99606f84645b2bb6ae000461bf819">hal_storage.c</a>
 , <a class="el" href="hal__storage_8h.html#aead99606f84645b2bb6ae000461bf819">hal_storage.h</a>
 </li>
 <li>halStorageStore()
-: <a class="el" href="hal__storage_8h.html#a16be2ae040ef4db3b7fb11b46d07c7a1">hal_storage.h</a>
-, <a class="el" href="hal__storage_8c.html#a16be2ae040ef4db3b7fb11b46d07c7a1">hal_storage.c</a>
+: <a class="el" href="hal__storage_8c.html#a16be2ae040ef4db3b7fb11b46d07c7a1">hal_storage.c</a>
+, <a class="el" href="hal__storage_8h.html#a16be2ae040ef4db3b7fb11b46d07c7a1">hal_storage.h</a>
 </li>
 <li>halStorageStoreIR()
 : <a class="el" href="hal__storage_8c.html#ace0ac79b0e2b273d97e5b806de9eb493">hal_storage.c</a>
@@ -270,6 +270,116 @@ $(function() {
 </li>
 <li>halStorageStoreSetVBConfigs()
 : <a class="el" href="hal__storage_8h.html#a046daab088cb37e318c07c2728ade9d3">hal_storage.h</a>
+</li>
+<li>handler_hid()
+: <a class="el" href="handler__hid_8c.html#a0c3d624513602eb74b3734c970d73e6d">handler_hid.c</a>
+</li>
+<li>handler_hid_addCmd()
+: <a class="el" href="handler__hid_8c.html#ad7b90f2c2a4c57d871fc4c5fe4c63633">handler_hid.c</a>
+, <a class="el" href="handler__hid_8h.html#ad7b90f2c2a4c57d871fc4c5fe4c63633">handler_hid.h</a>
+</li>
+<li>handler_hid_clearCmds()
+: <a class="el" href="handler__hid_8c.html#a8aefebd0d6289841cf1efb9d8e2c3794">handler_hid.c</a>
+, <a class="el" href="handler__hid_8h.html#a8aefebd0d6289841cf1efb9d8e2c3794">handler_hid.h</a>
+</li>
+<li>handler_hid_delCmd()
+: <a class="el" href="handler__hid_8h.html#a1dfe8fbc4028b9ad4b6e892a349d1356">handler_hid.h</a>
+, <a class="el" href="handler__hid_8c.html#a1dfe8fbc4028b9ad4b6e892a349d1356">handler_hid.c</a>
+</li>
+<li>handler_hid_getAT()
+: <a class="el" href="handler__hid_8h.html#a792d4ba5b3475531c09ed7a12abed248">handler_hid.h</a>
+, <a class="el" href="handler__hid_8c.html#a792d4ba5b3475531c09ed7a12abed248">handler_hid.c</a>
+</li>
+<li>handler_hid_getCmdChain()
+: <a class="el" href="handler__hid_8h.html#a5b89ed00501e56aa0ca14dff80db04a0">handler_hid.h</a>
+, <a class="el" href="handler__hid_8c.html#a5b89ed00501e56aa0ca14dff80db04a0">handler_hid.c</a>
+</li>
+<li>handler_hid_init()
+: <a class="el" href="handler__hid_8c.html#af174e6f6da855a0d9928d6fe1a639c65">handler_hid.c</a>
+, <a class="el" href="handler__hid_8h.html#af174e6f6da855a0d9928d6fe1a639c65">handler_hid.h</a>
+</li>
+<li>handler_hid_setCmdChain()
+: <a class="el" href="handler__hid_8h.html#a33a27dd2d4904f35fc99c016307e9cd4">handler_hid.h</a>
+, <a class="el" href="handler__hid_8c.html#a33a27dd2d4904f35fc99c016307e9cd4">handler_hid.c</a>
+</li>
+<li>handler_vb()
+: <a class="el" href="handler__vb_8c.html#a60c71b4a6cc8a9a3e9e8a3c8e36cffa0">handler_vb.c</a>
+</li>
+<li>handler_vb_addCmd()
+: <a class="el" href="handler__vb_8h.html#a2958d0f22ea5d2c1d16a6dc7900ca38b">handler_vb.h</a>
+, <a class="el" href="handler__vb_8c.html#a2958d0f22ea5d2c1d16a6dc7900ca38b">handler_vb.c</a>
+</li>
+<li>handler_vb_clearCmds()
+: <a class="el" href="handler__vb_8c.html#a1601ec68487848cb95f275c44c010afb">handler_vb.c</a>
+, <a class="el" href="handler__vb_8h.html#a1601ec68487848cb95f275c44c010afb">handler_vb.h</a>
+</li>
+<li>handler_vb_delCmd()
+: <a class="el" href="handler__vb_8h.html#a12256e1d3f54e995d314eebf8b57e914">handler_vb.h</a>
+, <a class="el" href="handler__vb_8c.html#a12256e1d3f54e995d314eebf8b57e914">handler_vb.c</a>
+</li>
+<li>handler_vb_getAT()
+: <a class="el" href="handler__vb_8c.html#a4d5e48c2bd9f28885d7fb9309f5b4cdf">handler_vb.c</a>
+, <a class="el" href="handler__vb_8h.html#a4d5e48c2bd9f28885d7fb9309f5b4cdf">handler_vb.h</a>
+</li>
+<li>handler_vb_getCmdChain()
+: <a class="el" href="handler__vb_8c.html#a1bc809abceb3e77e479efd5826abea4c">handler_vb.c</a>
+, <a class="el" href="handler__vb_8h.html#a1bc809abceb3e77e479efd5826abea4c">handler_vb.h</a>
+</li>
+<li>handler_vb_init()
+: <a class="el" href="handler__vb_8c.html#ac54a8826a70d3aaf5c284bab02b93444">handler_vb.c</a>
+, <a class="el" href="handler__vb_8h.html#ac54a8826a70d3aaf5c284bab02b93444">handler_vb.h</a>
+</li>
+<li>handler_vb_setCmdChain()
+: <a class="el" href="handler__vb_8c.html#a456dc640634859d2e15662484b8bd068">handler_vb.c</a>
+, <a class="el" href="handler__vb_8h.html#a456dc640634859d2e15662484b8bd068">handler_vb.h</a>
+</li>
+<li>hid_add_id_tbl()
+: <a class="el" href="hid__device__le__prf_8c.html#ac68d934280b657bfef845f9186a34fe8">hid_device_le_prf.c</a>
+</li>
+<li>hid_consumer_build_report()
+: <a class="el" href="hid__dev_8c.html#ae3c48383740d3aa04584b20f3447eb02">hid_dev.c</a>
+, <a class="el" href="hid__dev_8h.html#ae3c48383740d3aa04584b20f3447eb02">hid_dev.h</a>
+</li>
+<li>hid_dev_register_reports()
+: <a class="el" href="hid__dev_8h.html#a6df72a6bb64d5c8cd7490eb11617b7ab">hid_dev.h</a>
+, <a class="el" href="hid__dev_8c.html#a6df72a6bb64d5c8cd7490eb11617b7ab">hid_dev.c</a>
+</li>
+<li>hid_dev_rpt_by_id()
+: <a class="el" href="hid__dev_8c.html#a1a247bc038a3368cea0bde2303aa8301">hid_dev.c</a>
+</li>
+<li>hid_dev_send_report()
+: <a class="el" href="hid__dev_8h.html#a8ae7c69dfd4b740534df123a303a8832">hid_dev.h</a>
+, <a class="el" href="hid__dev_8c.html#a8ae7c69dfd4b740534df123a303a8832">hid_dev.c</a>
+</li>
+<li>hidd_clcb_alloc()
+: <a class="el" href="hid__device__le__prf_8c.html#a4e7096230eedcf2dbc89351ea636677d">hid_device_le_prf.c</a>
+, <a class="el" href="hidd__le__prf__int_8h.html#a4e7096230eedcf2dbc89351ea636677d">hidd_le_prf_int.h</a>
+</li>
+<li>hidd_clcb_dealloc()
+: <a class="el" href="hidd__le__prf__int_8h.html#a74aa695557816b038ff9847860291fa2">hidd_le_prf_int.h</a>
+, <a class="el" href="hid__device__le__prf_8c.html#a74aa695557816b038ff9847860291fa2">hid_device_le_prf.c</a>
+</li>
+<li>hidd_event_callback()
+: <a class="el" href="hal__ble_8c.html#af6354ad49deff7e2dfb1b8e9072660ee">hal_ble.c</a>
+</li>
+<li>hidd_get_attr_value()
+: <a class="el" href="hid__device__le__prf_8c.html#a192d7cf437968a2130fcde7888eaf5ce">hid_device_le_prf.c</a>
+, <a class="el" href="hidd__le__prf__int_8h.html#a192d7cf437968a2130fcde7888eaf5ce">hidd_le_prf_int.h</a>
+</li>
+<li>hidd_le_create_service()
+: <a class="el" href="hid__device__le__prf_8c.html#a479cfaafdbd41501ccd953c0abfc8ca6">hid_device_le_prf.c</a>
+, <a class="el" href="hidd__le__prf__int_8h.html#a479cfaafdbd41501ccd953c0abfc8ca6">hidd_le_prf_int.h</a>
+</li>
+<li>hidd_le_init()
+: <a class="el" href="hid__device__le__prf_8c.html#a371a89ec41b61b5e5d6ae5ad70e8d58d">hid_device_le_prf.c</a>
+</li>
+<li>hidd_register_cb()
+: <a class="el" href="hid__device__le__prf_8c.html#acb0d2b8e95e7bbabf1e3bdab379d18d5">hid_device_le_prf.c</a>
+, <a class="el" href="hidd__le__prf__int_8h.html#acb0d2b8e95e7bbabf1e3bdab379d18d5">hidd_le_prf_int.h</a>
+</li>
+<li>hidd_set_attr_value()
+: <a class="el" href="hid__device__le__prf_8c.html#af1d398a5081d065d043c584c44d77b91">hid_device_le_prf.c</a>
+, <a class="el" href="hidd__le__prf__int_8h.html#af1d398a5081d065d043c584c44d77b91">hidd_le_prf_int.h</a>
 </li>
 <li>http_server()
 : <a class="el" href="task__webgui_8c.html#adcc5b062c057f73762b1f19b2f6a8185">task_webgui.c</a>

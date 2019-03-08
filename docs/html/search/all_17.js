@@ -1,18 +1,15 @@
 var searchData=
 [
-  ['wait',['wait',['../classFreeRTOS_1_1Semaphore.html#a023cb404ff897bb39064b454732ccf21',1,'FreeRTOS::Semaphore']]],
   ['websocket_2ec',['websocket.c',['../websocket_8c.html',1,'']]],
   ['websocket_2eh',['websocket.h',['../websocket_8h.html',1,'']]],
   ['websocket_5fframe_5ft',['WebSocket_frame_t',['../structWebSocket__frame__t.html',1,'']]],
   ['wheel_5fstepsize',['wheel_stepsize',['../structgeneralConfig.html#a36225b09e3c7254252c495c6e36f4c33',1,'generalConfig']]],
-  ['wifi',['WIFI',['../common_8h.html#ab6afacea6a7310707d47839506c30a73a13e02909006158bf407b1093191dcf5b',1,'common.h']]],
   ['wifi_5factive',['WIFI_ACTIVE',['../common_8h.html#af11bf2c47cd0354ecfee72f9c88a4e2d',1,'common.h']]],
   ['wifi_5fclient_5fconnected',['WIFI_CLIENT_CONNECTED',['../common_8h.html#a9d086131b0622a8aaeb0db9b1ccbe725',1,'common.h']]],
   ['wifi_5fevent_5fhandler',['wifi_event_handler',['../task__webgui_8c.html#a11dd6a5edc46c297b26382ebce3c34cb',1,'task_webgui.c']]],
   ['wifi_5foff_5ftime',['WIFI_OFF_TIME',['../common_8h.html#a7c133f995819f3e61446b4881e582b13',1,'common.h']]],
   ['wifi_5ftimer_5fcb',['wifi_timer_cb',['../task__webgui_8c.html#ae5ad2f76f20781fd8c89e542bcc8a551',1,'task_webgui.c']]],
   ['wifiactive',['wifiActive',['../task__webgui_8c.html#a51afaf9187cd21748bc4143cf6ff0239',1,'task_webgui.c']]],
-  ['wifierrortostring',['wifiErrorToString',['../classGeneralUtils.html#ad485c229090167eaa4c8a70028ce5a52',1,'GeneralUtils']]],
   ['wifihttpserverhandle_5ft',['wifiHTTPServerHandle_t',['../task__webgui_8c.html#ac9102aa6e5ae70986ec840ec85676e31',1,'task_webgui.c']]],
   ['wifipw',['wifipw',['../task__webgui_8c.html#a6fbc89c5167735a2e2b04eebb93bcd34',1,'task_webgui.c']]],
   ['wifistartstopofftimer',['wifiStartStopOffTimer',['../task__webgui_8c.html#a7f89c77fa56e7ac560e2720baedf07eb',1,'task_webgui.c']]],

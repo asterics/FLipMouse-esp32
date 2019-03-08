@@ -63,6 +63,7 @@ $(function() {
 </div><!-- top -->
 <div class="header">
   <div class="summary">
+<a href="#define-members">Macros</a> &#124;
 <a href="#func-members">Functions</a> &#124;
 <a href="#var-members">Variables</a>  </div>
   <div class="headertitle">
@@ -70,7 +71,7 @@ $(function() {
 </div><!--header-->
 <div class="contents">
 
-<p>This file is a C compatible wrapper for Neil Kolbans CPP utils.  
+<p>This file is a wrapper for the BLE-HID example of Espressif.  
 <a href="#details">More...</a></p>
 <div class="textblock"><code>#include &lt;freertos/FreeRTOS.h&gt;</code><br />
 <code>#include &lt;freertos/event_groups.h&gt;</code><br />
@@ -78,9 +79,24 @@ $(function() {
 <code>#include &lt;esp_log.h&gt;</code><br />
 <code>#include &lt;<a class="el" href="keyboard_8h_source.html">keyboard.h</a>&gt;</code><br />
 <code>#include &quot;<a class="el" href="common_8h_source.html">common.h</a>&quot;</code><br />
+<code>#include &quot;esp_bt.h&quot;</code><br />
+<code>#include &quot;esp_bt_defs.h&quot;</code><br />
+<code>#include &quot;esp_gap_ble_api.h&quot;</code><br />
+<code>#include &quot;esp_gatts_api.h&quot;</code><br />
+<code>#include &quot;esp_gatt_defs.h&quot;</code><br />
+<code>#include &quot;esp_bt_main.h&quot;</code><br />
+<code>#include &quot;esp_bt_device.h&quot;</code><br />
+<code>#include &quot;<a class="el" href="hid__dev_8h_source.html">hid_dev.h</a>&quot;</code><br />
+<code>#include &quot;nvs_flash.h&quot;</code><br />
 </div>
 <p><a href="hal__ble_8h_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="define-members"></a>
+Macros</h2></td></tr>
+<tr class="memitem:af93960e80b690e0b2107a26c60dbe440"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="hal__ble_8h.html#af93960e80b690e0b2107a26c60dbe440">TASK_BLE_STACKSIZE</a>&#160;&#160;&#160;2048</td></tr>
+<tr class="memdesc:af93960e80b690e0b2107a26c60dbe440"><td class="mdescLeft">&#160;</td><td class="mdescRight">Stack size for BLE task.  <a href="#af93960e80b690e0b2107a26c60dbe440">More...</a><br /></td></tr>
+<tr class="separator:af93960e80b690e0b2107a26c60dbe440"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
 <tr class="memitem:a6919311894de84aa70b02c46cf822dde"><td class="memItemLeft" align="right" valign="top">esp_err_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="hal__ble_8h.html#a6919311894de84aa70b02c46cf822dde">halBLESetPairing</a> (uint8_t enable)</td></tr>
@@ -102,16 +118,35 @@ Functions</h2></td></tr>
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="var-members"></a>
 Variables</h2></td></tr>
 <tr class="memitem:a4d504fcad8a2fb54bd8af573af7d4834"><td class="memItemLeft" align="right" valign="top">QueueHandle_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="hal__ble_8h.html#a4d504fcad8a2fb54bd8af573af7d4834">hid_ble</a></td></tr>
-<tr class="memdesc:a4d504fcad8a2fb54bd8af573af7d4834"><td class="mdescLeft">&#160;</td><td class="mdescRight">Queue for sending mouse reports.  <a href="#a4d504fcad8a2fb54bd8af573af7d4834">More...</a><br /></td></tr>
+<tr class="memdesc:a4d504fcad8a2fb54bd8af573af7d4834"><td class="mdescLeft">&#160;</td><td class="mdescRight">Queue for sending mouse/keyboard/joystick reports.  <a href="#a4d504fcad8a2fb54bd8af573af7d4834">More...</a><br /></td></tr>
 <tr class="separator:a4d504fcad8a2fb54bd8af573af7d4834"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>This file is a C compatible wrapper for Neil Kolbans CPP utils. </p>
-<p>It receives data from hid_ble queue, which is equal to hid_usb. C++ classes are instantiated from here.</p>
-<dl class="section note"><dt>Note</dt><dd>Thank you very much Neil Kolban and chegewara for this impressive work! </dd></dl>
+<div class="textblock"><p>This file is a wrapper for the BLE-HID example of Espressif. </p>
 
 <p class="definition">Definition in file <a class="el" href="hal__ble_8h_source.html">hal_ble.h</a>.</p>
-</div><h2 class="groupheader">Function Documentation</h2>
+</div><h2 class="groupheader">Macro Definition Documentation</h2>
+<a id="af93960e80b690e0b2107a26c60dbe440"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af93960e80b690e0b2107a26c60dbe440">&#9670;&nbsp;</a></span>TASK_BLE_STACKSIZE</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define TASK_BLE_STACKSIZE&#160;&#160;&#160;2048</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Stack size for BLE task. </p>
+
+<p class="definition">Definition at line <a class="el" href="hal__ble_8h_source.html#l00044">44</a> of file <a class="el" href="hal__ble_8h_source.html">hal_ble.h</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="hal__ble_8c_source.html#l00545">halBLEInit()</a>.</p>
+
+</div>
+</div>
+<h2 class="groupheader">Function Documentation</h2>
 <a id="a1ade7df97a34fa89e0f2db7f5d2614de"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a1ade7df97a34fa89e0f2db7f5d2614de">&#9670;&nbsp;</a></span>halBLEEnDisable()</h2>
 
@@ -139,17 +174,17 @@ Variables</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="HID__kbdmousejoystick_8cpp_source.html#l00837">837</a> of file <a class="el" href="HID__kbdmousejoystick_8cpp_source.html">HID_kbdmousejoystick.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="hal__ble_8c_source.html#l00474">474</a> of file <a class="el" href="hal__ble_8c_source.html">hal_ble.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c_source.html#l00089">app_main()</a>, and <a class="el" href="task__webgui_8c_source.html#l00535">wifi_timer_cb()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="task__webgui_8c_source.html#l00592">wifi_timer_cb()</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="hal__ble_8h_a1ade7df97a34fa89e0f2db7f5d2614de_icgraph.png" border="0" usemap="#hal__ble_8h_a1ade7df97a34fa89e0f2db7f5d2614de_icgraph" alt=""/></div>
 <map name="hal__ble_8h_a1ade7df97a34fa89e0f2db7f5d2614de_icgraph" id="hal__ble_8h_a1ade7df97a34fa89e0f2db7f5d2614de_icgraph">
-<area shape="rect" id="node2" href="flipmouse__fabi__esp32__kbdmouse__main_8c.html#abce06be17fc37d675118a678a8100a36" title="Main task, created by esp&#45;idf. " alt="" coords="488,5,567,32"/>
-<area shape="rect" id="node3" href="task__webgui_8c.html#ae5ad2f76f20781fd8c89e542bcc8a551" title="Timer callback for disabling wifi. " alt="" coords="177,31,276,57"/>
-<area shape="rect" id="node4" href="task__webgui_8h.html#a669b9245d5040c0162481f7b24dbeea7" title="Init the web / DNS server and the web gui. " alt="" coords="324,31,440,57"/>
+<area shape="rect" id="node2" href="task__webgui_8c.html#ae5ad2f76f20781fd8c89e542bcc8a551" title="Timer callback for disabling wifi. " alt="" coords="177,5,276,32"/>
+<area shape="rect" id="node3" href="task__webgui_8h.html#a669b9245d5040c0162481f7b24dbeea7" title="Init the web / DNS server and the web gui. " alt="" coords="324,5,440,32"/>
+<area shape="rect" id="node4" href="flipmouse__fabi__esp32__kbdmouse__main_8c.html#abce06be17fc37d675118a678a8100a36" title="Main task, created by esp&#45;idf. " alt="" coords="488,5,567,32"/>
 </map>
 </div>
 
@@ -188,18 +223,28 @@ Here is the caller graph for this function:</div>
 </div><div class="memdoc">
 
 <p>Main init function to start HID interface (C interface) </p>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="hal__ble_8h.html#a4d504fcad8a2fb54bd8af573af7d4834" title="Queue for sending mouse reports. ">hid_ble</a> </dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="hal__ble_8h.html#a4d504fcad8a2fb54bd8af573af7d4834" title="Queue for sending mouse/keyboard/joystick reports. ">hid_ble</a> </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="HID__kbdmousejoystick_8cpp_source.html#l00812">812</a> of file <a class="el" href="HID__kbdmousejoystick_8cpp_source.html">HID_kbdmousejoystick.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="hal__ble_8c_source.html#l00545">545</a> of file <a class="el" href="hal__ble_8c_source.html">hal_ble.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c_source.html#l00089">app_main()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c_source.html#l00114">app_main()</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="hal__ble_8h_a559e9af2167a8f1b05a8304234418ed3_cgraph.png" border="0" usemap="#hal__ble_8h_a559e9af2167a8f1b05a8304234418ed3_cgraph" alt=""/></div>
 <map name="hal__ble_8h_a559e9af2167a8f1b05a8304234418ed3_cgraph" id="hal__ble_8h_a559e9af2167a8f1b05a8304234418ed3_cgraph">
-<area shape="rect" id="node2" href="classTask.html#afe0f5594c56b8cc7ac96c2198d5d81b4" title="Set the stack size of the task. " alt="" coords="136,5,273,32"/>
-<area shape="rect" id="node3" href="classTask.html#a6f13d13787e21dc929b61d112b863433" title="Start an instance of the task. " alt="" coords="162,56,247,83"/>
+<area shape="rect" id="node2" href="hal__ble_8c.html#a50ba83bf77cdec4ac247bf44f357f310" title="Callback for GAP events. " alt="" coords="141,5,271,32"/>
+<area shape="rect" id="node3" href="hal__ble_8c.html#af6354ad49deff7e2dfb1b8e9072660ee" title="Callback for HID events. " alt="" coords="136,56,276,83"/>
+<area shape="rect" id="node4" href="hid__device__le__prf_8c.html#acb0d2b8e95e7bbabf1e3bdab379d18d5" title="hidd_register_cb" alt="" coords="147,107,265,133"/>
+<area shape="rect" id="node6" href="hal__ble_8c.html#ac0a136577e62fc87b368eaec618cf31e" title="CONTINOUS TASK &#45; sending HID commands via BLE. " alt="" coords="159,208,253,235"/>
+<area shape="rect" id="node5" href="hid__device__le__prf_8c.html#aae8ed4e25351ba801179f79d655923ab" title="gatts_event_handler" alt="" coords="324,56,463,83"/>
+<area shape="rect" id="node7" href="hal__ble_8c.html#accf307974a0046bce38582d0260bf841" title="Reset the BLE data. " alt="" coords="344,107,443,133"/>
+<area shape="rect" id="node8" href="hid__dev_8c.html#a8ae7c69dfd4b740534df123a303a8832" title="hid_dev_send_report" alt="" coords="511,132,653,159"/>
+<area shape="rect" id="node10" href="keyboard_8c.html#a5aebbf68f68f1d3212fb187ff156e5c1" title="Add a keycode to the given HID keycode array. " alt="" coords="344,208,443,235"/>
+<area shape="rect" id="node11" href="keyboard_8c.html#a999cf21107da9c1a7e3797e72d95045b" title="Remove a keycode from the given HID keycode array. " alt="" coords="333,259,454,285"/>
+<area shape="rect" id="node12" href="keyboard_8c.html#ad90d52c58808035b4247e82df77d93ac" title="Test if key is in given keycode array. " alt="" coords="330,309,457,336"/>
+<area shape="rect" id="node13" href="hal__ble_8c.html#a6919311894de84aa70b02c46cf822dde" title="Activate/deactivate pairing mode. " alt="" coords="331,360,455,387"/>
+<area shape="rect" id="node9" href="hid__dev_8c.html#a1a247bc038a3368cea0bde2303aa8301" title="hid_dev_rpt_by_id" alt="" coords="701,132,828,159"/>
 </map>
 </div>
 <div class="dynheader">
@@ -230,12 +275,9 @@ Here is the caller graph for this function:</div>
 </div><div class="memdoc">
 
 <p>Get connection status. </p>
-<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000001">Todo:</a></b></dt><dd>Add interface to disable BLE &amp; free memory! (see long button handler in main) </dd></dl>
-<dl class="section return"><dt>Returns</dt><dd>0 if not connected, != 0 if connected</dd></dl>
-<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000002">Todo:</a></b></dt><dd>Add interface to disable BLE &amp; free memory! (see long button handler in main) </dd></dl>
 <dl class="section return"><dt>Returns</dt><dd>0 if not connected, != 0 if connected </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="HID__kbdmousejoystick_8cpp_source.html#l00805">805</a> of file <a class="el" href="HID__kbdmousejoystick_8cpp_source.html">HID_kbdmousejoystick.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="hal__ble_8c_source.html#l00457">457</a> of file <a class="el" href="hal__ble_8c_source.html">hal_ble.c</a>.</p>
 
 </div>
 </div>
@@ -264,21 +306,33 @@ Here is the caller graph for this function:</div>
 </dl>
 <p>(1&lt;&lt;0) excepts keyboard (1&lt;&lt;1) excepts joystick (1&lt;&lt;2) excepts mouse If nothing is set (exceptDevice = 0) all are reset </p>
 
-<p class="definition">Definition at line <a class="el" href="HID__kbdmousejoystick_8cpp_source.html#l00864">864</a> of file <a class="el" href="HID__kbdmousejoystick_8cpp_source.html">HID_kbdmousejoystick.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="hal__ble_8c_source.html#l00492">492</a> of file <a class="el" href="hal__ble_8c_source.html">hal_ble.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="config__switcher_8c_source.html#l00141">configTimerCallback()</a>, and <a class="el" href="task__commands_8c_source.html#l00797">doGeneralCmdParsing()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="task__commands_8c_source.html#l00614">cmdRa()</a>, <a class="el" href="config__switcher_8c_source.html#l00124">configUpdate()</a>, and <a class="el" href="hal__ble_8c_source.html#l00195">halBLETask()</a>.</p>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="hal__ble_8h_accf307974a0046bce38582d0260bf841_cgraph.png" border="0" usemap="#hal__ble_8h_accf307974a0046bce38582d0260bf841_cgraph" alt=""/></div>
+<map name="hal__ble_8h_accf307974a0046bce38582d0260bf841_cgraph" id="hal__ble_8h_accf307974a0046bce38582d0260bf841_cgraph">
+<area shape="rect" id="node2" href="hid__dev_8c.html#a8ae7c69dfd4b740534df123a303a8832" title="hid_dev_send_report" alt="" coords="152,5,295,32"/>
+<area shape="rect" id="node3" href="hid__dev_8c.html#a1a247bc038a3368cea0bde2303aa8301" title="hid_dev_rpt_by_id" alt="" coords="343,5,469,32"/>
+</map>
+</div>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="hal__ble_8h_accf307974a0046bce38582d0260bf841_icgraph.png" border="0" usemap="#hal__ble_8h_accf307974a0046bce38582d0260bf841_icgraph" alt=""/></div>
 <map name="hal__ble_8h_accf307974a0046bce38582d0260bf841_icgraph" id="hal__ble_8h_accf307974a0046bce38582d0260bf841_icgraph">
-<area shape="rect" id="node2" href="config__switcher_8c.html#a634f0179096daf06df87ba5cd1789d6b" title="configTimerCallback" alt="" coords="158,5,299,32"/>
-<area shape="rect" id="node5" href="task__commands_8c.html#a7f6500be563a3dce7f0854fceed02fab" title="doGeneralCmdParsing" alt="" coords="152,56,305,83"/>
-<area shape="rect" id="node3" href="config__switcher_8h.html#aafed047c8d04b814a85239e031cbad7b" title="Initializing the config switching functionality. " alt="" coords="353,5,480,32"/>
-<area shape="rect" id="node4" href="flipmouse__fabi__esp32__kbdmouse__main_8c.html#abce06be17fc37d675118a678a8100a36" title="Main task, created by esp&#45;idf. " alt="" coords="733,31,812,57"/>
-<area shape="rect" id="node6" href="task__commands_8c.html#a7b36c39275d773aaedcb327ef4e1516f" title="task_commands" alt="" coords="357,56,476,83"/>
-<area shape="rect" id="node7" href="task__commands_8h.html#aedb896e40753227f80768e09d3748419" title="Init the command parser. " alt="" coords="541,56,673,83"/>
-<area shape="rect" id="node8" href="task__commands_8h.html#a26091155b4d85093239033d689f363d0" title="Restart the command parser task. " alt="" coords="528,107,685,133"/>
+<area shape="rect" id="node2" href="task__commands_8c.html#a0e44fbe2c01b87dee45a6fd1094ab522" title="cmdRa" alt="" coords="169,12,233,39"/>
+<area shape="rect" id="node3" href="config__switcher_8h.html#af8fae43accd789bf2355c79ff44c2ae9" title="Request config update. " alt="" coords="152,63,251,89"/>
+<area shape="rect" id="node10" href="hal__ble_8c.html#ac0a136577e62fc87b368eaec618cf31e" title="CONTINOUS TASK &#45; sending HID commands via BLE. " alt="" coords="155,125,248,152"/>
+<area shape="rect" id="node4" href="config__switcher_8c.html#af5af5079d1982d42e165039e6de7e40a" title="CONTINOUS TASK &#45; Config switcher task, internal config reloading. " alt="" coords="299,9,436,36"/>
+<area shape="rect" id="node7" href="task__commands_8c.html#a7b36c39275d773aaedcb327ef4e1516f" title="task_commands" alt="" coords="308,63,427,89"/>
+<area shape="rect" id="node5" href="config__switcher_8h.html#aafed047c8d04b814a85239e031cbad7b" title="Initializing the config switching functionality. " alt="" coords="499,5,626,32"/>
+<area shape="rect" id="node6" href="flipmouse__fabi__esp32__kbdmouse__main_8c.html#abce06be17fc37d675118a678a8100a36" title="Main task, created by esp&#45;idf. " alt="" coords="689,56,768,83"/>
+<area shape="rect" id="node8" href="task__commands_8h.html#aedb896e40753227f80768e09d3748419" title="Init the command parser. " alt="" coords="497,56,629,83"/>
+<area shape="rect" id="node9" href="task__commands_8h.html#a26091155b4d85093239033d689f363d0" title="Restart the command parser task. " alt="" coords="484,107,641,133"/>
+<area shape="rect" id="node11" href="hal__ble_8h.html#a559e9af2167a8f1b05a8304234418ed3" title="Main init function to start HID interface (C interface) " alt="" coords="326,151,409,177"/>
 </map>
 </div>
 
@@ -309,8 +363,6 @@ Here is the caller graph for this function:</div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>ESP_OK on success, ESP_FAIL otherwise </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="HID__kbdmousejoystick_8cpp_source.html#l00790">790</a> of file <a class="el" href="HID__kbdmousejoystick_8cpp_source.html">HID_kbdmousejoystick.cpp</a>.</p>
-
 </div>
 </div>
 <h2 class="groupheader">Variable Documentation</h2>
@@ -326,12 +378,12 @@ Here is the caller graph for this function:</div>
       </table>
 </div><div class="memdoc">
 
-<p>Queue for sending mouse reports. </p>
+<p>Queue for sending mouse/keyboard/joystick reports. </p>
 <dl class="section see"><dt>See also</dt><dd><a class="el" href="common_8h.html#a717ff1d55fb710bbebe9addae27d7258" title="One HID command, maybe an element of a command chain. ">hid_cmd_t</a> </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c_source.html#l00059">59</a> of file <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c_source.html">flipmouse_fabi_esp32_kbdmouse_main.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c_source.html#l00064">64</a> of file <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c_source.html">flipmouse_fabi_esp32_kbdmouse_main.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="task__commands_8c_source.html#l00125">checkqueues()</a>, <a class="el" href="task__commands_8c_source.html#l00489">doJoystickParsing()</a>, <a class="el" href="hal__adc_8c_source.html#l01073">halAdcInit()</a>, <a class="el" href="hal__adc_8c_source.html#l00408">halAdcProcessPressure()</a>, <a class="el" href="task__commands_8c_source.html#l00139">sendHIDCmd()</a>, and <a class="el" href="task__hid_8c_source.html#l00069">task_hid()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="task__commands_8c_source.html#l00161">checkqueues()</a>, <a class="el" href="hal__adc_8c_source.html#l01268">halAdcInit()</a>, <a class="el" href="hal__adc_8c_source.html#l00509">halAdcProcessPressure()</a>, <a class="el" href="hal__ble_8c_source.html#l00195">halBLETask()</a>, <a class="el" href="handler__hid_8c_source.html#l00072">handler_hid()</a>, and <a class="el" href="task__commands_8c_source.html#l00175">sendHIDCmd()</a>.</p>
 
 </div>
 </div>

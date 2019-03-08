@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['kbdoutputcb',['kbdOutputCB',['../classkbdOutputCB.html',1,'']]],
-  ['keymap',['KEYMAP',['../structKEYMAP.html',1,'']]]
+  ['prf_5fchar_5fpres_5ffmt',['prf_char_pres_fmt',['../structprf__char__pres__fmt.html',1,'']]]
 ];

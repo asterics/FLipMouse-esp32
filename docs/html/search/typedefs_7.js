@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['taskinfraredconfig_5ft',['taskInfraredConfig_t',['../task__infrared_8h.html#ae79eca562c950fdefa5b55c65e44c1f4',1,'task_infrared.h']]]
+  ['keyboard_5fcmd_5ft',['keyboard_cmd_t',['../hid__dev_8h.html#a4200e0105a5674d46a0549bf4d22e293',1,'hid_dev.h']]]
 ];

@@ -1,5 +1,9 @@
 var searchData=
 [
-  ['y',['Y',['../task__mouse_8h.html#ad99a95527afeac61cb05911c7695d942a5596231eabd6cf29050967d5ac83ad84',1,'task_mouse.h']]],
-  ['yaxis',['YAXIS',['../task__joystick_8h.html#abf75ccdaa7e07cca73bb6a704a317a91a790998424135b1feb83d00ec5f75e5b2',1,'task_joystick.h']]]
+  ['ws_5fop_5fbin',['WS_OP_BIN',['../websocket_8c.html#a74506acd552e308a0ab5c85ba9ae391ca2fc624e8d4c66182b6b5eb3408aec245',1,'websocket.c']]],
+  ['ws_5fop_5fcls',['WS_OP_CLS',['../websocket_8c.html#a74506acd552e308a0ab5c85ba9ae391ca5e3e449b01f05b046f52cecdbc975574',1,'websocket.c']]],
+  ['ws_5fop_5fcon',['WS_OP_CON',['../websocket_8c.html#a74506acd552e308a0ab5c85ba9ae391ca97fb5faf7c3d68ec48776c36daa479f5',1,'websocket.c']]],
+  ['ws_5fop_5fpin',['WS_OP_PIN',['../websocket_8c.html#a74506acd552e308a0ab5c85ba9ae391cab751f46a6d3b76678dfe3c07650a0a38',1,'websocket.c']]],
+  ['ws_5fop_5fpon',['WS_OP_PON',['../websocket_8c.html#a74506acd552e308a0ab5c85ba9ae391caab9649827906fdfbf97fb0f3bcbce0a2',1,'websocket.c']]],
+  ['ws_5fop_5ftxt',['WS_OP_TXT',['../websocket_8c.html#a74506acd552e308a0ab5c85ba9ae391caaa5c44a07fa5ecf47b8bb85edf07b24c',1,'websocket.c']]]
 ];

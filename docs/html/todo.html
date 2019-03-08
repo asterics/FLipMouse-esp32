@@ -63,98 +63,80 @@ $(function() {
 </div><!--header-->
 <div class="contents">
 <div class="textblock"><dl class="reflist">
-<dt><a class="anchor" id="_todo000006"></a>Global <a class="el" href="common_8h.html#a08f9b338fac73a54ad3d0810c270614f">adc_config_t</a>  </dt>
+<dt><a class="anchor" id="_todo000005"></a>Global <a class="el" href="common_8h.html#a08f9b338fac73a54ad3d0810c270614f">adc_config_t</a>  </dt>
 <dd>Remove report raw from here &amp; create new "volatile" config struct -&gt; no need to save, but no need to overwrite on slot change  </dd>
-<dt><a class="anchor" id="_todo000006"></a>Global <a class="el" href="common_8h.html#a08f9b338fac73a54ad3d0810c270614f">adc_config_t</a>  </dt>
+<dt><a class="anchor" id="_todo000005"></a>Global <a class="el" href="common_8h.html#a08f9b338fac73a54ad3d0810c270614f">adc_config_t</a>  </dt>
 <dd>Remove report raw from here &amp; create new "volatile" config struct -&gt; no need to save, but no need to overwrite on slot change  </dd>
-<dt><a class="anchor" id="_todo000003"></a>Global <a class="el" href="config__switcher_8c.html#af5af5079d1982d42e165039e6de7e40a">configSwitcherTask</a>  (void *params)</dt>
+<dt><a class="anchor" id="_todo000002"></a>Global <a class="el" href="config__switcher_8c.html#af5af5079d1982d42e165039e6de7e40a">configSwitcherTask</a>  (void *params)</dt>
 <dd>Add __RESTOREFACTORY...  </dd>
-<dt><a class="anchor" id="_todo000019"></a>Global <a class="el" href="task__debouncer_8c.html#a4a76abdbb849aa0bbc66aa001c6f4af9">debouncerCallback</a>  (TimerHandle_t xTimer)</dt>
-<dd>Add the deadtime functionality here  </dd>
-<dt><a class="anchor" id="_todo000012"></a>Global <a class="el" href="task__commands_8c.html#a7f6500be563a3dce7f0854fceed02fab">doGeneralCmdParsing</a>  (uint8_t *cmdBuffer)</dt>
-<dd><p class="startdd">parse anti-tremor commands here. </p>
-<p class="enddd">remove this VB from HID&amp;VB list!  </p>
-</dd>
-<dt><a class="anchor" id="_todo000011"></a>Global <a class="el" href="task__commands_8c.html#a69b696a381aec817e617d2b33da045f5">doInfraredParsing</a>  (uint8_t *cmdBuffer)</dt>
-<dd>IP singleshot/cmd adding... + malloc strings!!!  </dd>
-<dt><a class="anchor" id="_todo000004"></a>File <a class="el" href="doxygen_8h.html">doxygen.h</a>  </dt>
+<dt><a class="anchor" id="_todo000011"></a>Global <a class="el" href="task__debouncer_8c.html#ac6452bd8cc5e6e526cba4212d4e5f755">debouncerCallback</a>  (void *arg)</dt>
+<dd>Add/test the deadtime functionality here  </dd>
+<dt><a class="anchor" id="_todo000003"></a>File <a class="el" href="doxygen_8h.html">doxygen.h</a>  </dt>
 <dd><p class="startdd">Implement buzzer in remaining task_* functions (strongsip/puff exit) </p>
 <p>Test AT MA (macros). //// TODO for later </p>
 <p>Implement long press for virtual buttons (new VBs). </p>
-<p>Test Neopixels on FABI &amp; FLipMouse </p>
 <p class="enddd">Implement learning mode  </p>
 </dd>
-<dt><a class="anchor" id="_todo000009"></a>Global <a class="el" href="fct__macros_8h.html#a6379aedd63a1b0be6343382aa863a456">fct_macro</a>  (char *param)</dt>
-<dd>Should we improve here? If we hit a wait, all VB commands will be blocked for the given time (up to 30s...)  </dd>
-<dt><a class="anchor" id="_todo000008"></a>Global <a class="el" href="structgeneralConfig.html#a5604b791b1617a88bc4b93558ffb3233">generalConfig::button_learn</a>  </dt>
+<dt><a class="anchor" id="_todo000007"></a>Global <a class="el" href="structgeneralConfig.html#a5604b791b1617a88bc4b93558ffb3233">generalConfig::button_learn</a>  </dt>
 <dd>Move to "volatile" storage, independent from slot change  </dd>
-<dt><a class="anchor" id="_todo000025"></a>File <a class="el" href="hal__adc_8c.html">hal_adc.c</a>  </dt>
+<dt><a class="anchor" id="_todo000016"></a>File <a class="el" href="hal__adc_8c.html">hal_adc.c</a>  </dt>
 <dd><p class="startdd">Add CIM reporting... </p>
 <p>Test the on-the-fly calibration </p>
 <p class="enddd">Do Strong&lt;Sip/puff&gt;+&lt;UP/DOWN/LEFT/RIGHT&gt;  </p>
 </dd>
-<dt><a class="anchor" id="_todo000030"></a>File <a class="el" href="hal__adc_8h.html">hal_adc.h</a>  </dt>
+<dt><a class="anchor" id="_todo000021"></a>File <a class="el" href="hal__adc_8h.html">hal_adc.h</a>  </dt>
 <dd>Add raw value reporting for: CIM mode and serial interface  </dd>
-<dt><a class="anchor" id="_todo000031"></a>File <a class="el" href="hal__io_8c.html">hal_io.c</a>  </dt>
+<dt><a class="anchor" id="_todo000022"></a>File <a class="el" href="hal__io_8c.html">hal_io.c</a>  </dt>
 <dd>Test LED driver (RGB &amp; Neopixel)  </dd>
-<dt><a class="anchor" id="_todo000033"></a>File <a class="el" href="hal__io_8h.html">hal_io.h</a>  </dt>
-<dd>Test LED driver (RGB &amp; Neopixel)  </dd>
-<dt><a class="anchor" id="_todo000034"></a>Global <a class="el" href="hal__serial_8c.html#a8ed6a618f134d6b923ba216de84253f6">HAL_SERIAL_UART_TIMEOUT_MS</a>  </dt>
+<dt><a class="anchor" id="_todo000024"></a>Global <a class="el" href="hal__serial_8c.html#a8ed6a618f134d6b923ba216de84253f6">HAL_SERIAL_UART_TIMEOUT_MS</a>  </dt>
 <dd>Documentation updates, this define is now used differently...  </dd>
-<dt><a class="anchor" id="_todo000039"></a>File <a class="el" href="hal__storage_8h.html">hal_storage.h</a>  </dt>
+<dt><a class="anchor" id="_todo000030"></a>File <a class="el" href="hal__storage_8h.html">hal_storage.h</a>  </dt>
 <dd>Put delete/save to a task, takes very long time... </dd>
-<dt><a class="anchor" id="_todo000029"></a>Global <a class="el" href="hal__adc_8h.html#a6f0d302f35e5b7f7a1144f0ddace35d2">halAdcInit</a>  (adc_config_t *params)</dt>
+<dt><a class="anchor" id="_todo000020"></a>Global <a class="el" href="hal__adc_8h.html#a6f0d302f35e5b7f7a1144f0ddace35d2">halAdcInit</a>  (adc_config_t *params)</dt>
 <dd>init differently for FABI!  </dd>
-<dt><a class="anchor" id="_todo000026"></a>Global <a class="el" href="hal__adc_8c.html#a78419739020988cffc83ffcbc7103b05">halAdcProcessPressure</a>  (adcData_t *D)</dt>
+<dt><a class="anchor" id="_todo000017"></a>Global <a class="el" href="hal__adc_8c.html#a78419739020988cffc83ffcbc7103b05">halAdcProcessPressure</a>  (adcData_t *D)</dt>
 <dd><p class="startdd">Do everything here, no sip&amp;puff currently available. </p>
 <p class="enddd">issue tones only if VB is NOT set (otherwise we will flood the buzzer)  </p>
 </dd>
-<dt><a class="anchor" id="_todo000027"></a>Global <a class="el" href="hal__adc_8h.html#a4135bb73c2271b4a27db8d8d81884de7">halAdcUpdateConfig</a>  (adc_config_t *params)</dt>
+<dt><a class="anchor" id="_todo000018"></a>Global <a class="el" href="hal__adc_8h.html#a4135bb73c2271b4a27db8d8d81884de7">halAdcUpdateConfig</a>  (adc_config_t *params)</dt>
 <dd><p class="startdd">Clear pending VB flags on a config switch </p>
 <p class="enddd">If we calibrate here, it will get slow because this method is called every time one parameter is changed.  </p>
 </dd>
-<dt><a class="anchor" id="_todo000001"></a>Global <a class="el" href="hal__ble_8h.html#a5c6787d5b7e82e56119ed95ae9ddb98d">halBLEIsConnected</a>  (void)</dt>
-<dd><p class="startdd">Add interface to disable BLE &amp; free memory! (see long button handler in main) </p>
-<p class="enddd">Add interface to disable BLE &amp; free memory! (see long button handler in main)  </p>
-</dd>
-<dt><a class="anchor" id="_todo000032"></a>Global <a class="el" href="hal__io_8c.html#ad83b58c9ee836526a874392c0757f42d">halIOLEDTask</a>  (void *param)</dt>
+<dt><a class="anchor" id="_todo000023"></a>Global <a class="el" href="hal__io_8c.html#ad83b58c9ee836526a874392c0757f42d">halIOLEDTask</a>  (void *param)</dt>
 <dd>It might be possible that we use Neopixel LEDs on the FLipMouse as well. Update if it is known.  </dd>
-<dt><a class="anchor" id="_todo000037"></a>Global <a class="el" href="hal__serial_8c.html#a6689f99c3a8e5f787a3d995260d8d298">halSerialHIDTask</a>  (void *param)</dt>
-<dd>is this delay necessary?  </dd>
-<dt><a class="anchor" id="_todo000035"></a>Global <a class="el" href="hal__serial_8c.html#ab3a538fb88a9732f0afc0188cc3c9c38">halSerialRXTask</a>  (void *pvParameters)</dt>
+<dt><a class="anchor" id="_todo000027"></a>Global <a class="el" href="hal__serial_8c.html#a6689f99c3a8e5f787a3d995260d8d298">halSerialHIDTask</a>  (void *param)</dt>
+<dd>Do we need this short delay here?  </dd>
+<dt><a class="anchor" id="_todo000025"></a>Global <a class="el" href="hal__serial_8c.html#ab3a538fb88a9732f0afc0188cc3c9c38">halSerialRXTask</a>  (void *pvParameters)</dt>
 <dd><p class="startdd">When CIM mode is active, switch back here to AT mode </p>
 <p class="enddd">Activate CIM mode here.  </p>
 </dd>
-<dt><a class="anchor" id="_todo000038"></a>Global <a class="el" href="hal__storage_8h.html#a16be2ae040ef4db3b7fb11b46d07c7a1">halStorageStore</a>  (uint32_t tid, char *cfgstring, uint8_t slotnumber)</dt>
+<dt><a class="anchor" id="_todo000028"></a>Global <a class="el" href="hal__storage_8h.html#a670ba7fad19e9a70672d73897785712f">halStorageLoadNumber</a>  (uint8_t slotnumber, uint32_t tid, uint8_t outputSerial)</dt>
+<dd>Ab hier wäre es wieder passend den debouncer zu aktivieren?!?  </dd>
+<dt><a class="anchor" id="_todo000029"></a>Global <a class="el" href="hal__storage_8h.html#a16be2ae040ef4db3b7fb11b46d07c7a1">halStorageStore</a>  (uint32_t tid, char *cfgstring, uint8_t slotnumber)</dt>
 <dd>not necessary anymore?  </dd>
-<dt><a class="anchor" id="_todo000005"></a>Global <a class="el" href="common_8h.html#a194a1686b5b17e701b526563e89e096e">IDSTRING</a>  </dt>
+<dt><a class="anchor" id="_todo000001"></a>Global <a class="el" href="hid__device__le__prf_8c.html#a8fb6489bfedb7d288643295c3a78b421">hidReportMap</a>  []</dt>
+<dd>Add the joystick report descriptor here.  </dd>
+<dt><a class="anchor" id="_todo000004"></a>Global <a class="el" href="common_8h.html#a194a1686b5b17e701b526563e89e096e">IDSTRING</a>  </dt>
 <dd>Change this back to new version, when GUI is compatible  </dd>
-<dt><a class="anchor" id="_todo000040"></a>Global <a class="el" href="keyboard_8h.html#acdbf297ed74d4534f035e0732c2f1081">keycode_to_modifier</a>  (uint16_t keycode, uint8_t locale)</dt>
+<dt><a class="anchor" id="_todo000031"></a>Global <a class="el" href="keyboard_8h.html#acdbf297ed74d4534f035e0732c2f1081">keycode_to_modifier</a>  (uint16_t keycode, uint8_t locale)</dt>
 <dd>Add remaining modifier keys (according to keylayouts.h, for example KEY_GUI)  </dd>
-<dt><a class="anchor" id="_todo000014"></a>Global <a class="el" href="task__commands_8c.html#ad59215648a26578c22baa7ceae099e0e">printAllSlots</a>  (uint8_t printconfig)</dt>
+<dt><a class="anchor" id="_todo000008"></a>Global <a class="el" href="task__commands_8c.html#ad59215648a26578c22baa7ceae099e0e">printAllSlots</a>  (uint8_t printconfig)</dt>
 <dd>Is this the same behaviour? Create a slot if AT LI is called...  </dd>
-<dt><a class="anchor" id="_todo000015"></a>Global <a class="el" href="task__commands_8c.html#a78b669ea961463eb05d2016e0b41ff86">storeSlot</a>  (char *slotname)</dt>
-<dd><p class="startdd">Should we increment here or not? Should work -&gt; 1 active slot -&gt; save new config @1 </p>
-<p>remove this logging tag </p>
+<dt><a class="anchor" id="_todo000009"></a>Global <a class="el" href="task__commands_8c.html#a78b669ea961463eb05d2016e0b41ff86">storeSlot</a>  (char *slotname)</dt>
+<dd><p class="startdd">remove this logging tag </p>
 <p class="enddd">remove this logging tag  </p>
 </dd>
-<dt><a class="anchor" id="_todo000010"></a>File <a class="el" href="task__commands_8c.html">task_commands.c</a>  </dt>
-<dd>CIM switching </dd>
-<dt><a class="anchor" id="_todo000020"></a>Global <a class="el" href="task__debouncer_8h.html#a79d88e490be7198b9cc37556c66b837b">task_debouncer</a>  (void *param)</dt>
+<dt><a class="anchor" id="_todo000012"></a>Global <a class="el" href="task__debouncer_8h.html#a79d88e490be7198b9cc37556c66b837b">task_debouncer</a>  (void *param)</dt>
 <dd>Add anti-tremor &amp; deadtime functionality  </dd>
-<dt><a class="anchor" id="_todo000021"></a>Global <a class="el" href="task__vb_8h.html#af15d9452e98013fcf530983af26a17d5">task_vb</a>  (void *param)</dt>
-<dd>Send IR command.  </dd>
-<dt><a class="anchor" id="_todo000022"></a>File <a class="el" href="task__webgui_8c.html">task_webgui.c</a>  </dt>
+<dt><a class="anchor" id="_todo000013"></a>File <a class="el" href="task__webgui_8c.html">task_webgui.c</a>  </dt>
 <dd><p class="startdd">Add wifi settings to cfg struct in hal_storage/common; default fallback should be defined </p>
 <p class="enddd">After implementing, test everything....  </p>
 </dd>
-<dt><a class="anchor" id="_todo000023"></a>Global <a class="el" href="task__webgui_8c.html#a669b9245d5040c0162481f7b24dbeea7">taskWebGUIInit</a>  (void)</dt>
+<dt><a class="anchor" id="_todo000014"></a>Global <a class="el" href="task__webgui_8c.html#a669b9245d5040c0162481f7b24dbeea7">taskWebGUIInit</a>  (void)</dt>
 <dd><p class="startdd">Activate/fix/test captive portal</p>
 <p class="enddd">Activate/fix/test captive portal </p>
 </dd>
-<dt><a class="anchor" id="_todo000018"></a>Global <a class="el" href="task__debouncer_8c.html#a2136a894816ebf7179ed937f43d22fe2">TIMER_DEADTIME</a>  </dt>
-<dd>Implement the deadtime &amp; anti-tremor functions  </dd>
-<dt><a class="anchor" id="_todo000007"></a>Class <a class="el" href="structvb__cmd.html">vb_cmd</a>  </dt>
+<dt><a class="anchor" id="_todo000006"></a>Class <a class="el" href="structvb__cmd.html">vb_cmd</a>  </dt>
 <dd>Document this struct more. </dd>
 </dl>
 </div></div><!-- contents -->

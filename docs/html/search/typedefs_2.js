@@ -1,6 +1,4 @@
 var searchData=
 [
-  ['haliobuzzer_5ft',['halIOBuzzer_t',['../hal__io_8h.html#a77048c20189014382fad29049e68a08a',1,'hal_io.h']]],
-  ['halioir_5ft',['halIOIR_t',['../common_8h.html#af531911959683790ca7ae870f8462a16',1,'common.h']]],
-  ['hid_5fcmd_5ft',['hid_cmd_t',['../common_8h.html#a717ff1d55fb710bbebe9addae27d7258',1,'common.h']]]
+  ['debouncer_5fcfg_5ft',['debouncer_cfg_t',['../task__debouncer_8c.html#a7f0ca2f9ffd6751707556a3a49618957',1,'task_debouncer.c']]]
 ];

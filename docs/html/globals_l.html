@@ -151,15 +151,17 @@ $(function() {
 <li>LED_NEOPIXEL_COUNT
 : <a class="el" href="common_8h.html#a0bd1824bfb24736925069b2b686f13f3">common.h</a>
 </li>
-<li>LEFT_ARROW
-: <a class="el" href="HIDKeyboardTypes_8h.html#abcd4e84ddc43717d65d285a4facf84a0a5dfa7318822abaa401347107d89ae9ed">HIDKeyboardTypes.h</a>
-, <a class="el" href="SampleKeyboardTypes_8h.html#abcd4e84ddc43717d65d285a4facf84a0a5dfa7318822abaa401347107d89ae9ed">SampleKeyboardTypes.h</a>
+<li>led_strip
+: <a class="el" href="hal__io_8c.html#a6d023648c159be1c0d64981932b2d3a2">hal_io.c</a>
+</li>
+<li>LO_UINT16
+: <a class="el" href="hid__device__le__prf_8c.html#ab2b94e11f455d94fd743666d4f1364d7">hid_device_le_prf.c</a>
 </li>
 <li>LOG_LEVEL_ADC
 : <a class="el" href="hal__adc_8c.html#a414c40444b2f8eb8384fece4ff19e800">hal_adc.c</a>
 </li>
 <li>LOG_LEVEL_BLE
-: <a class="el" href="HID__kbdmousejoystick_8cpp.html#a50dce6c85bf3af17283f8f9b313701f7">HID_kbdmousejoystick.cpp</a>
+: <a class="el" href="hal__ble_8c.html#a50dce6c85bf3af17283f8f9b313701f7">hal_ble.c</a>
 </li>
 <li>LOG_LEVEL_CFGSW
 : <a class="el" href="config__switcher_8c.html#a03b195571a9c2942266412cc23edc916">config_switcher.c</a>
@@ -167,11 +169,14 @@ $(function() {
 <li>LOG_LEVEL_CMDPARSER
 : <a class="el" href="task__commands_8c.html#acfa06889aad372b31a0708f24156e01b">task_commands.c</a>
 </li>
+<li>LOG_LEVEL_DEBOUNCE
+: <a class="el" href="task__debouncer_8c.html#a121e23632a06de078319c8810993409b">task_debouncer.c</a>
+</li>
 <li>LOG_LEVEL_DNS
 : <a class="el" href="captdns_8c.html#a8845e4d3890a5bfa6fae387daf4485bc">captdns.c</a>
 </li>
 <li>LOG_LEVEL_HID
-: <a class="el" href="task__hid_8c.html#a465b380d44009ca55b2f2e2dd22f4d1a">task_hid.c</a>
+: <a class="el" href="handler__hid_8c.html#a465b380d44009ca55b2f2e2dd22f4d1a">handler_hid.c</a>
 </li>
 <li>LOG_LEVEL_SERIAL
 : <a class="el" href="hal__serial_8c.html#aa2f9f3ab3ea3e3a75f53e6a54e88db65">hal_serial.c</a>
@@ -180,36 +185,28 @@ $(function() {
 : <a class="el" href="hal__storage_8c.html#adacd33c7df6443c8387bacf3875607f8">hal_storage.c</a>
 </li>
 <li>LOG_LEVEL_VB
-: <a class="el" href="task__vb_8c.html#a515e21c351e9f99729e4bf953c45d83f">task_vb.c</a>
+: <a class="el" href="handler__vb_8c.html#a515e21c351e9f99729e4bf953c45d83f">handler_vb.c</a>
 </li>
 <li>LOG_LEVEL_WEB
 : <a class="el" href="task__webgui_8c.html#a72bbc128e233a045692e0d9dcdcf21c6">task_webgui.c</a>
 </li>
 <li>LOG_TAG
-: <a class="el" href="hal__adc_8c.html#a7ce0df38eb467e59f209470c8f5ac4e6">hal_adc.c</a>
+: <a class="el" href="task__debouncer_8c.html#a7ce0df38eb467e59f209470c8f5ac4e6">task_debouncer.c</a>
 , <a class="el" href="hal__io_8c.html#a7ce0df38eb467e59f209470c8f5ac4e6">hal_io.c</a>
-, <a class="el" href="hal__storage_8c.html#a7ce0df38eb467e59f209470c8f5ac4e6">hal_storage.c</a>
-, <a class="el" href="hal__serial_8c.html#a7ce0df38eb467e59f209470c8f5ac4e6">hal_serial.c</a>
-, <a class="el" href="FreeRTOS_8cpp.html#a328e9da88a07f3a0bf81b40d25469ff9">FreeRTOS.cpp</a>
-, <a class="el" href="task__hid_8c.html#a7ce0df38eb467e59f209470c8f5ac4e6">task_hid.c</a>
-, <a class="el" href="GeneralUtils_8cpp.html#a328e9da88a07f3a0bf81b40d25469ff9">GeneralUtils.cpp</a>
-, <a class="el" href="captdns_8c.html#a7ce0df38eb467e59f209470c8f5ac4e6">captdns.c</a>
-, <a class="el" href="task__vb_8c.html#a7ce0df38eb467e59f209470c8f5ac4e6">task_vb.c</a>
-, <a class="el" href="HID__kbdmousejoystick_8cpp.html#a2beb4449ce918f78f8cb32dc6155db43">HID_kbdmousejoystick.cpp</a>
-, <a class="el" href="fct__macros_8c.html#a7ce0df38eb467e59f209470c8f5ac4e6">fct_macros.c</a>
-, <a class="el" href="task__infrared_8c.html#a7ce0df38eb467e59f209470c8f5ac4e6">task_infrared.c</a>
-, <a class="el" href="task__commands_8c.html#a7ce0df38eb467e59f209470c8f5ac4e6">task_commands.c</a>
-, <a class="el" href="task__debouncer_8c.html#a7ce0df38eb467e59f209470c8f5ac4e6">task_debouncer.c</a>
+, <a class="el" href="handler__hid_8c.html#a7ce0df38eb467e59f209470c8f5ac4e6">handler_hid.c</a>
+, <a class="el" href="hal__adc_8c.html#a7ce0df38eb467e59f209470c8f5ac4e6">hal_adc.c</a>
 , <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c.html#a7ce0df38eb467e59f209470c8f5ac4e6">flipmouse_fabi_esp32_kbdmouse_main.c</a>
+, <a class="el" href="hal__storage_8c.html#a7ce0df38eb467e59f209470c8f5ac4e6">hal_storage.c</a>
 , <a class="el" href="task__webgui_8c.html#a7ce0df38eb467e59f209470c8f5ac4e6">task_webgui.c</a>
-, <a class="el" href="keyboard_8c.html#a7ce0df38eb467e59f209470c8f5ac4e6">keyboard.c</a>
+, <a class="el" href="handler__vb_8c.html#a7ce0df38eb467e59f209470c8f5ac4e6">handler_vb.c</a>
+, <a class="el" href="fct__macros_8c.html#a7ce0df38eb467e59f209470c8f5ac4e6">fct_macros.c</a>
+, <a class="el" href="hal__ble_8c.html#a7ce0df38eb467e59f209470c8f5ac4e6">hal_ble.c</a>
 , <a class="el" href="config__switcher_8c.html#a7ce0df38eb467e59f209470c8f5ac4e6">config_switcher.c</a>
-</li>
-<li>LOGICAL_MAXIMUM
-: <a class="el" href="HIDTypes_8h.html#a96887cc94222cbcad600759728141e27">HIDTypes.h</a>
-</li>
-<li>LOGICAL_MINIMUM
-: <a class="el" href="HIDTypes_8h.html#a07b7c86a9c45bd6ea64f76e5e7cda3cc">HIDTypes.h</a>
+, <a class="el" href="keyboard_8c.html#a7ce0df38eb467e59f209470c8f5ac4e6">keyboard.c</a>
+, <a class="el" href="captdns_8c.html#a7ce0df38eb467e59f209470c8f5ac4e6">captdns.c</a>
+, <a class="el" href="fct__infrared_8c.html#a7ce0df38eb467e59f209470c8f5ac4e6">fct_infrared.c</a>
+, <a class="el" href="hal__serial_8c.html#a7ce0df38eb467e59f209470c8f5ac4e6">hal_serial.c</a>
+, <a class="el" href="task__commands_8c.html#a7ce0df38eb467e59f209470c8f5ac4e6">task_commands.c</a>
 </li>
 <li>longactiontimer
 : <a class="el" href="hal__io_8c.html#abc911bad321a69c16c5e42f196ae6257">hal_io.c</a>

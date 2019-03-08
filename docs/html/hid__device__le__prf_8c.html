@@ -74,6 +74,7 @@ $(function() {
 <div class="contents">
 <div class="textblock"><code>#include &quot;<a class="el" href="hidd__le__prf__int_8h_source.html">hidd_le_prf_int.h</a>&quot;</code><br />
 <code>#include &lt;string.h&gt;</code><br />
+<code>#include &quot;esp_log.h&quot;</code><br />
 </div>
 <p><a href="hid__device__le__prf_8c_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
@@ -82,6 +83,8 @@ Data Structures</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structprf__char__pres__fmt.html">prf_char_pres_fmt</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">characteristic presentation information  <a href="structprf__char__pres__fmt.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structgatts__profile__inst.html">gatts_profile_inst</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="define-members"></a>
 Macros</h2></td></tr>
@@ -89,6 +92,10 @@ Macros</h2></td></tr>
 <tr class="separator:a869398c9f0eb7bcf1c8e101b052eed07"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab2b94e11f455d94fd743666d4f1364d7"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="hid__device__le__prf_8c.html#ab2b94e11f455d94fd743666d4f1364d7">LO_UINT16</a>(a)&#160;&#160;&#160;((a) &amp; 0xFF)</td></tr>
 <tr class="separator:ab2b94e11f455d94fd743666d4f1364d7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aab6353cb3662bdc672ae8ab90df529ce"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="hid__device__le__prf_8c.html#aab6353cb3662bdc672ae8ab90df529ce">PROFILE_NUM</a>&#160;&#160;&#160;1</td></tr>
+<tr class="separator:aab6353cb3662bdc672ae8ab90df529ce"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7df7ac092d330d877b3f9b638eaa4d06"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="hid__device__le__prf_8c.html#a7df7ac092d330d877b3f9b638eaa4d06">PROFILE_APP_IDX</a>&#160;&#160;&#160;0</td></tr>
+<tr class="separator:a7df7ac092d330d877b3f9b638eaa4d06"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a36dab879c60ad380569b702ffb0caabf"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="hid__device__le__prf_8c.html#a36dab879c60ad380569b702ffb0caabf">CHAR_DECLARATION_SIZE</a>&#160;&#160;&#160;(sizeof(uint8_t))</td></tr>
 <tr class="separator:a36dab879c60ad380569b702ffb0caabf"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
@@ -115,14 +122,14 @@ Functions</h2></td></tr>
 <tr class="separator:add8f27ab149175c58a8bced1016df5a6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a479cfaafdbd41501ccd953c0abfc8ca6"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="hid__device__le__prf_8c.html#a479cfaafdbd41501ccd953c0abfc8ca6">hidd_le_create_service</a> (esp_gatt_if_t gatts_if)</td></tr>
 <tr class="separator:a479cfaafdbd41501ccd953c0abfc8ca6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:afa62ba26a48e429b592a9e5be49778d8"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="hid__device__le__prf_8c.html#afa62ba26a48e429b592a9e5be49778d8">hidd_set_countrycode</a> (uint8_t countrycode)</td></tr>
-<tr class="separator:afa62ba26a48e429b592a9e5be49778d8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a371a89ec41b61b5e5d6ae5ad70e8d58d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="hid__device__le__prf_8c.html#a371a89ec41b61b5e5d6ae5ad70e8d58d">hidd_le_init</a> (void)</td></tr>
 <tr class="separator:a371a89ec41b61b5e5d6ae5ad70e8d58d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4e7096230eedcf2dbc89351ea636677d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="hid__device__le__prf_8c.html#a4e7096230eedcf2dbc89351ea636677d">hidd_clcb_alloc</a> (uint16_t conn_id, esp_bd_addr_t bda)</td></tr>
 <tr class="separator:a4e7096230eedcf2dbc89351ea636677d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a74aa695557816b038ff9847860291fa2"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="hid__device__le__prf_8c.html#a74aa695557816b038ff9847860291fa2">hidd_clcb_dealloc</a> (uint16_t conn_id)</td></tr>
 <tr class="separator:a74aa695557816b038ff9847860291fa2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aae8ed4e25351ba801179f79d655923ab"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="hid__device__le__prf_8c.html#aae8ed4e25351ba801179f79d655923ab">gatts_event_handler</a> (esp_gatts_cb_event_t event, esp_gatt_if_t gatts_if, esp_ble_gatts_cb_param_t *param)</td></tr>
+<tr class="separator:aae8ed4e25351ba801179f79d655923ab"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:acb0d2b8e95e7bbabf1e3bdab379d18d5"><td class="memItemLeft" align="right" valign="top">esp_err_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="hid__device__le__prf_8c.html#acb0d2b8e95e7bbabf1e3bdab379d18d5">hidd_register_cb</a> (void)</td></tr>
 <tr class="separator:acb0d2b8e95e7bbabf1e3bdab379d18d5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af1d398a5081d065d043c584c44d77b91"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="hid__device__le__prf_8c.html#af1d398a5081d065d043c584c44d77b91">hidd_set_attr_value</a> (uint16_t handle, uint16_t val_len, const uint8_t *value)</td></tr>
@@ -135,6 +142,7 @@ Variables</h2></td></tr>
 <tr class="memitem:a3862f5175659860b42934e81a0e9bb02"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="structhid__report__map__t.html">hid_report_map_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="hid__device__le__prf_8c.html#a3862f5175659860b42934e81a0e9bb02">hid_rpt_map</a> [<a class="el" href="hidd__le__prf__int_8h.html#a46dda3faf94c8eafa2218e14c8d1e2be">HID_NUM_REPORTS</a>]</td></tr>
 <tr class="separator:a3862f5175659860b42934e81a0e9bb02"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8fb6489bfedb7d288643295c3a78b421"><td class="memItemLeft" align="right" valign="top">static const uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="hid__device__le__prf_8c.html#a8fb6489bfedb7d288643295c3a78b421">hidReportMap</a> []</td></tr>
+<tr class="memdesc:a8fb6489bfedb7d288643295c3a78b421"><td class="mdescLeft">&#160;</td><td class="mdescRight">HID Report Map characteristic value Keyboard report descriptor (using format for Boot interface descriptor) Mouse report descriptor.  <a href="#a8fb6489bfedb7d288643295c3a78b421">More...</a><br /></td></tr>
 <tr class="separator:a8fb6489bfedb7d288643295c3a78b421"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a91d82217264ad84483e4f8f0c644d6cf"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structhidd__le__env__t.html">hidd_le_env_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="hid__device__le__prf_8c.html#a91d82217264ad84483e4f8f0c644d6cf">hidd_le_env</a></td></tr>
 <tr class="separator:a91d82217264ad84483e4f8f0c644d6cf"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -142,8 +150,8 @@ Variables</h2></td></tr>
 <tr class="separator:a0b7cc6e74ea0a16819c1665e6118294c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a18824297d97ae42a7da587d9752002fe"><td class="memItemLeft" align="right" valign="top">uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="hid__device__le__prf_8c.html#a18824297d97ae42a7da587d9752002fe">hidProtocolMode</a> = <a class="el" href="hidd__le__prf__int_8h.html#a998ca749aef167d8f61d12d5c0a89963">HID_PROTOCOL_MODE_REPORT</a></td></tr>
 <tr class="separator:a18824297d97ae42a7da587d9752002fe"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a817338db41363318e803110ac5393d03"><td class="memItemLeft" align="right" valign="top">static uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="hid__device__le__prf_8c.html#a817338db41363318e803110ac5393d03">hidInfo</a> [<a class="el" href="hidd__le__prf__int_8h.html#a7903484b0c009cdbe58d2e0fda8c5ca8">HID_INFORMATION_LEN</a>]</td></tr>
-<tr class="separator:a817338db41363318e803110ac5393d03"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2734a576e26f8415379ac2e1319f8cb2"><td class="memItemLeft" align="right" valign="top">static const uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="hid__device__le__prf_8c.html#a2734a576e26f8415379ac2e1319f8cb2">hidInfo</a> [<a class="el" href="hidd__le__prf__int_8h.html#a7903484b0c009cdbe58d2e0fda8c5ca8">HID_INFORMATION_LEN</a>]</td></tr>
+<tr class="separator:a2734a576e26f8415379ac2e1319f8cb2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa0f7f180a1dbc3739656c02e83727e36"><td class="memItemLeft" align="right" valign="top">static uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="hid__device__le__prf_8c.html#aa0f7f180a1dbc3739656c02e83727e36">hidExtReportRefDesc</a> = ESP_GATT_UUID_BATTERY_LEVEL</td></tr>
 <tr class="separator:aa0f7f180a1dbc3739656c02e83727e36"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ada5f5d46c997233c58aed5c4f39c241a"><td class="memItemLeft" align="right" valign="top">static uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="hid__device__le__prf_8c.html#ada5f5d46c997233c58aed5c4f39c241a">hidReportRefMouseIn</a> [<a class="el" href="hidd__le__prf__int_8h.html#a9e214dcdc0faba83d46da253cf90250f">HID_REPORT_REF_LEN</a>]</td></tr>
@@ -152,6 +160,8 @@ Variables</h2></td></tr>
 <tr class="separator:a407982c8cf184bd0c74e94d8c8503548"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5aeadf9795c7446979495b0c555733f7"><td class="memItemLeft" align="right" valign="top">static uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="hid__device__le__prf_8c.html#a5aeadf9795c7446979495b0c555733f7">hidReportRefLedOut</a> [<a class="el" href="hidd__le__prf__int_8h.html#a9e214dcdc0faba83d46da253cf90250f">HID_REPORT_REF_LEN</a>]</td></tr>
 <tr class="separator:a5aeadf9795c7446979495b0c555733f7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab10f28e980e8f3e10c6da21e6e2859ae"><td class="memItemLeft" align="right" valign="top">static uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="hid__device__le__prf_8c.html#ab10f28e980e8f3e10c6da21e6e2859ae">hidReportRefVendorOut</a> [<a class="el" href="hidd__le__prf__int_8h.html#a9e214dcdc0faba83d46da253cf90250f">HID_REPORT_REF_LEN</a>]</td></tr>
+<tr class="separator:ab10f28e980e8f3e10c6da21e6e2859ae"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:abb2474564e2648feca89b9aa8c86bf3f"><td class="memItemLeft" align="right" valign="top">static uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="hid__device__le__prf_8c.html#abb2474564e2648feca89b9aa8c86bf3f">hidReportRefFeature</a> [<a class="el" href="hidd__le__prf__int_8h.html#a9e214dcdc0faba83d46da253cf90250f">HID_REPORT_REF_LEN</a>]</td></tr>
 <tr class="separator:abb2474564e2648feca89b9aa8c86bf3f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a69384e648c92e4e7dcf9db1b72f3c149"><td class="memItemLeft" align="right" valign="top">static uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="hid__device__le__prf_8c.html#a69384e648c92e4e7dcf9db1b72f3c149">hidReportRefCCIn</a> [<a class="el" href="hidd__le__prf__int_8h.html#a9e214dcdc0faba83d46da253cf90250f">HID_REPORT_REF_LEN</a>]</td></tr>
@@ -197,12 +207,14 @@ Variables</h2></td></tr>
 <tr class="separator:a07f91dcd65b074bba3109909472de22b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a93ed1e1e88387eca03ec9ab7107ad0af"><td class="memItemLeft" align="right" valign="top">static const uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="hid__device__le__prf_8c.html#a93ed1e1e88387eca03ec9ab7107ad0af">char_prop_read</a> = ESP_GATT_CHAR_PROP_BIT_READ</td></tr>
 <tr class="separator:a93ed1e1e88387eca03ec9ab7107ad0af"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae0084bfaea604b4314d50272a61970d7"><td class="memItemLeft" align="right" valign="top">static const uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="hid__device__le__prf_8c.html#ae0084bfaea604b4314d50272a61970d7">char_prop_write</a> = ESP_GATT_CHAR_PROP_BIT_WRITE</td></tr>
-<tr class="separator:ae0084bfaea604b4314d50272a61970d7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad7628510670a08b1ff4523269ec43117"><td class="memItemLeft" align="right" valign="top">static const uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="hid__device__le__prf_8c.html#ad7628510670a08b1ff4523269ec43117">char_prop_write_nr</a> = ESP_GATT_CHAR_PROP_BIT_WRITE_NR</td></tr>
+<tr class="separator:ad7628510670a08b1ff4523269ec43117"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a046152d2a65198a8b4b03bd9b8e8e14f"><td class="memItemLeft" align="right" valign="top">static const uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="hid__device__le__prf_8c.html#a046152d2a65198a8b4b03bd9b8e8e14f">char_prop_read_write</a> = ESP_GATT_CHAR_PROP_BIT_WRITE|ESP_GATT_CHAR_PROP_BIT_READ</td></tr>
 <tr class="separator:a046152d2a65198a8b4b03bd9b8e8e14f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aafa2eb9bb370d02b100f269d37690173"><td class="memItemLeft" align="right" valign="top">static const uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="hid__device__le__prf_8c.html#aafa2eb9bb370d02b100f269d37690173">char_prop_read_notify</a> = ESP_GATT_CHAR_PROP_BIT_READ|ESP_GATT_CHAR_PROP_BIT_NOTIFY</td></tr>
 <tr class="separator:aafa2eb9bb370d02b100f269d37690173"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad1d27d47c7fd785c27d90f977ceb3c9e"><td class="memItemLeft" align="right" valign="top">static const uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="hid__device__le__prf_8c.html#ad1d27d47c7fd785c27d90f977ceb3c9e">char_prop_read_write_notify</a> = ESP_GATT_CHAR_PROP_BIT_READ|ESP_GATT_CHAR_PROP_BIT_WRITE|ESP_GATT_CHAR_PROP_BIT_NOTIFY</td></tr>
+<tr class="separator:ad1d27d47c7fd785c27d90f977ceb3c9e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac9c12bad32fa4f1020cc0778832c4689"><td class="memItemLeft" align="right" valign="top">static const uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="hid__device__le__prf_8c.html#ac9c12bad32fa4f1020cc0778832c4689">battary_svc</a> = ESP_GATT_UUID_BATTERY_SERVICE_SVC</td></tr>
 <tr class="memdesc:ac9c12bad32fa4f1020cc0778832c4689"><td class="mdescLeft">&#160;</td><td class="mdescRight">battary Service  <a href="#ac9c12bad32fa4f1020cc0778832c4689">More...</a><br /></td></tr>
 <tr class="separator:ac9c12bad32fa4f1020cc0778832c4689"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -220,6 +232,8 @@ Variables</h2></td></tr>
 <tr class="memitem:a68663af02f816293555f6b0b03b65139"><td class="memItemLeft" align="right" valign="top">static esp_gatts_attr_db_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="hid__device__le__prf_8c.html#a68663af02f816293555f6b0b03b65139">hidd_le_gatt_db</a> [<a class="el" href="hidd__le__prf__int_8h.html#adf764cbdea00d65edcd07bb9953ad2b7a36d89e035162ba80365c8bd1ed53043e">HIDD_LE_IDX_NB</a>]</td></tr>
 <tr class="memdesc:a68663af02f816293555f6b0b03b65139"><td class="mdescLeft">&#160;</td><td class="mdescRight">Full Hid device Database Description - Used to add attributes into the database.  <a href="#a68663af02f816293555f6b0b03b65139">More...</a><br /></td></tr>
 <tr class="separator:a68663af02f816293555f6b0b03b65139"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5f29385a6c404c7c96b0dd367f729a32"><td class="memItemLeft" align="right" valign="top">static struct <a class="el" href="structgatts__profile__inst.html">gatts_profile_inst</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="hid__device__le__prf_8c.html#a5f29385a6c404c7c96b0dd367f729a32">heart_rate_profile_tab</a> [<a class="el" href="hid__device__le__prf_8c.html#aab6353cb3662bdc672ae8ab90df529ce">PROFILE_NUM</a>]</td></tr>
+<tr class="separator:a5f29385a6c404c7c96b0dd367f729a32"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Macro Definition Documentation</h2>
 <a id="a36dab879c60ad380569b702ffb0caabf"></a>
@@ -234,7 +248,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="hid__device__le__prf_8c_source.html#l00249">249</a> of file <a class="el" href="hid__device__le__prf_8c_source.html">hid_device_le_prf.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="hid__device__le__prf_8c_source.html#l00268">268</a> of file <a class="el" href="hid__device__le__prf_8c_source.html">hid_device_le_prf.c</a>.</p>
 
 </div>
 </div>
@@ -254,7 +268,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="hid__device__le__prf_8c_source.html#l00193">193</a> of file <a class="el" href="hid__device__le__prf_8c_source.html">hid_device_le_prf.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="hid__device__le__prf_8c_source.html#l00201">201</a> of file <a class="el" href="hid__device__le__prf_8c_source.html">hid_device_le_prf.c</a>.</p>
 
 </div>
 </div>
@@ -274,7 +288,43 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="hid__device__le__prf_8c_source.html#l00194">194</a> of file <a class="el" href="hid__device__le__prf_8c_source.html">hid_device_le_prf.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="hid__device__le__prf_8c_source.html#l00202">202</a> of file <a class="el" href="hid__device__le__prf_8c_source.html">hid_device_le_prf.c</a>.</p>
+
+</div>
+</div>
+<a id="a7df7ac092d330d877b3f9b638eaa4d06"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7df7ac092d330d877b3f9b638eaa4d06">&#9670;&nbsp;</a></span>PROFILE_APP_IDX</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define PROFILE_APP_IDX&#160;&#160;&#160;0</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="hid__device__le__prf_8c_source.html#l00204">204</a> of file <a class="el" href="hid__device__le__prf_8c_source.html">hid_device_le_prf.c</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="hid__device__le__prf_8c_source.html#l00683">gatts_event_handler()</a>.</p>
+
+</div>
+</div>
+<a id="aab6353cb3662bdc672ae8ab90df529ce"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aab6353cb3662bdc672ae8ab90df529ce">&#9670;&nbsp;</a></span>PROFILE_NUM</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define PROFILE_NUM&#160;&#160;&#160;1</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="hid__device__le__prf_8c_source.html#l00203">203</a> of file <a class="el" href="hid__device__le__prf_8c_source.html">hid_device_le_prf.c</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="hid__device__le__prf_8c_source.html#l00683">gatts_event_handler()</a>.</p>
 
 </div>
 </div>
@@ -301,7 +351,7 @@ Variables</h2></td></tr>
 <tr><td class="fieldname"><a id="a06fc87d81c62e9abb8790b6e5713c55ba19e275118a6ba770b54344df5d74cc65"></a>BAS_IDX_NB&#160;</td><td class="fielddoc"></td></tr>
 </table>
 
-<p class="definition">Definition at line <a class="el" href="hid__device__le__prf_8c_source.html#l00181">181</a> of file <a class="el" href="hid__device__le__prf_8c_source.html">hid_device_le_prf.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="hid__device__le__prf_8c_source.html#l00189">189</a> of file <a class="el" href="hid__device__le__prf_8c_source.html">hid_device_le_prf.c</a>.</p>
 
 </div>
 </div>
@@ -338,9 +388,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="hid__device__le__prf_8c_source.html#l00507">507</a> of file <a class="el" href="hid__device__le__prf_8c_source.html">hid_device_le_prf.c</a>.</p>
-
-<p class="reference">Referenced by <a class="el" href="hid__device__le__prf_8c_source.html#l00643">hidd_register_cb()</a>.</p>
+<p class="definition">Definition at line <a class="el" href="hid__device__le__prf_8c_source.html#l00540">540</a> of file <a class="el" href="hid__device__le__prf_8c_source.html">hid_device_le_prf.c</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -353,15 +401,60 @@ Here is the call graph for this function:</div>
 <area shape="rect" id="node6" href="hid__dev_8c.html#a6df72a6bb64d5c8cd7490eb11617b7ab" title="hid_dev_register_reports" alt="" coords="397,157,561,184"/>
 </map>
 </div>
+
+</div>
+</div>
+<a id="aae8ed4e25351ba801179f79d655923ab"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aae8ed4e25351ba801179f79d655923ab">&#9670;&nbsp;</a></span>gatts_event_handler()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static void gatts_event_handler </td>
+          <td>(</td>
+          <td class="paramtype">esp_gatts_cb_event_t&#160;</td>
+          <td class="paramname"><em>event</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">esp_gatt_if_t&#160;</td>
+          <td class="paramname"><em>gatts_if</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">esp_ble_gatts_cb_param_t *&#160;</td>
+          <td class="paramname"><em>param</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="hid__device__le__prf_8c_source.html#l00683">683</a> of file <a class="el" href="hid__device__le__prf_8c_source.html">hid_device_le_prf.c</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="hid__device__le__prf_8c_source.html#l00712">hidd_register_cb()</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><img src="hid__device__le__prf_8c_add8f27ab149175c58a8bced1016df5a6_icgraph.png" border="0" usemap="#hid__device__le__prf_8c_add8f27ab149175c58a8bced1016df5a6_icgraph" alt=""/></div>
-<map name="hid__device__le__prf_8c_add8f27ab149175c58a8bced1016df5a6_icgraph" id="hid__device__le__prf_8c_add8f27ab149175c58a8bced1016df5a6_icgraph">
-<area shape="rect" id="node2" href="hidd__le__prf__int_8h.html#acb0d2b8e95e7bbabf1e3bdab379d18d5" title="hidd_register_cb" alt="" coords="195,5,312,32"/>
-<area shape="rect" id="node3" href="esp__hidd__prf__api_8h.html#a5256c1f0eb079f624ce5e09a47d5b89c" title="This function is called to receive hid device callback event. " alt="" coords="360,5,547,32"/>
-<area shape="rect" id="node4" href="hal__ble_8h.html#a8ad6c50e81bae3e24e2f86a2797384c2" title="halBLEInit" alt="" coords="595,5,677,32"/>
-<area shape="rect" id="node5" href="flipmouse__fabi__esp32__kbdmouse__main_8c.html#abce06be17fc37d675118a678a8100a36" title="Main task, created by esp&#45;idf. " alt="" coords="725,5,804,32"/>
+<div class="center"><img src="hid__device__le__prf_8c_aae8ed4e25351ba801179f79d655923ab_icgraph.png" border="0" usemap="#hid__device__le__prf_8c_aae8ed4e25351ba801179f79d655923ab_icgraph" alt=""/></div>
+<map name="hid__device__le__prf_8c_aae8ed4e25351ba801179f79d655923ab_icgraph" id="hid__device__le__prf_8c_aae8ed4e25351ba801179f79d655923ab_icgraph">
+<area shape="rect" id="node2" href="hidd__le__prf__int_8h.html#acb0d2b8e95e7bbabf1e3bdab379d18d5" title="hidd_register_cb" alt="" coords="192,5,309,32"/>
+<area shape="rect" id="node3" href="hal__ble_8h.html#a559e9af2167a8f1b05a8304234418ed3" title="Main init function to start HID interface (C interface) " alt="" coords="357,5,440,32"/>
+<area shape="rect" id="node4" href="flipmouse__fabi__esp32__kbdmouse__main_8c.html#abce06be17fc37d675118a678a8100a36" title="Main task, created by esp&#45;idf. " alt="" coords="488,5,567,32"/>
 </map>
 </div>
 
@@ -391,9 +484,9 @@ Here is the caller graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="hid__device__le__prf_8c_source.html#l00675">675</a> of file <a class="el" href="hid__device__le__prf_8c_source.html">hid_device_le_prf.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="hid__device__le__prf_8c_source.html#l00744">744</a> of file <a class="el" href="hid__device__le__prf_8c_source.html">hid_device_le_prf.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="hid__device__le__prf_8c_source.html#l00507">esp_hidd_prf_cb_hdl()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="hid__device__le__prf_8c_source.html#l00540">esp_hidd_prf_cb_hdl()</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -408,10 +501,6 @@ Here is the caller graph for this function:</div>
 <div class="center"><img src="hid__device__le__prf_8c_ac68d934280b657bfef845f9186a34fe8_icgraph.png" border="0" usemap="#hid__device__le__prf_8c_ac68d934280b657bfef845f9186a34fe8_icgraph" alt=""/></div>
 <map name="hid__device__le__prf_8c_ac68d934280b657bfef845f9186a34fe8_icgraph" id="hid__device__le__prf_8c_ac68d934280b657bfef845f9186a34fe8_icgraph">
 <area shape="rect" id="node2" href="hid__device__le__prf_8c.html#add8f27ab149175c58a8bced1016df5a6" title="esp_hidd_prf_cb_hdl" alt="" coords="159,5,300,32"/>
-<area shape="rect" id="node3" href="hidd__le__prf__int_8h.html#acb0d2b8e95e7bbabf1e3bdab379d18d5" title="hidd_register_cb" alt="" coords="348,5,465,32"/>
-<area shape="rect" id="node4" href="esp__hidd__prf__api_8h.html#a5256c1f0eb079f624ce5e09a47d5b89c" title="This function is called to receive hid device callback event. " alt="" coords="513,5,700,32"/>
-<area shape="rect" id="node5" href="hal__ble_8h.html#a8ad6c50e81bae3e24e2f86a2797384c2" title="halBLEInit" alt="" coords="748,5,831,32"/>
-<area shape="rect" id="node6" href="flipmouse__fabi__esp32__kbdmouse__main_8c.html#abce06be17fc37d675118a678a8100a36" title="Main task, created by esp&#45;idf. " alt="" coords="879,5,957,32"/>
 </map>
 </div>
 
@@ -443,19 +532,15 @@ Here is the caller graph for this function:</div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="hid__device__le__prf_8c_source.html#l00613">613</a> of file <a class="el" href="hid__device__le__prf_8c_source.html">hid_device_le_prf.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="hid__device__le__prf_8c_source.html#l00645">645</a> of file <a class="el" href="hid__device__le__prf_8c_source.html">hid_device_le_prf.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="hid__device__le__prf_8c_source.html#l00507">esp_hidd_prf_cb_hdl()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="hid__device__le__prf_8c_source.html#l00540">esp_hidd_prf_cb_hdl()</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="hid__device__le__prf_8c_a4e7096230eedcf2dbc89351ea636677d_icgraph.png" border="0" usemap="#hid__device__le__prf_8c_a4e7096230eedcf2dbc89351ea636677d_icgraph" alt=""/></div>
 <map name="hid__device__le__prf_8c_a4e7096230eedcf2dbc89351ea636677d_icgraph" id="hid__device__le__prf_8c_a4e7096230eedcf2dbc89351ea636677d_icgraph">
 <area shape="rect" id="node2" href="hid__device__le__prf_8c.html#add8f27ab149175c58a8bced1016df5a6" title="esp_hidd_prf_cb_hdl" alt="" coords="164,5,305,32"/>
-<area shape="rect" id="node3" href="hidd__le__prf__int_8h.html#acb0d2b8e95e7bbabf1e3bdab379d18d5" title="hidd_register_cb" alt="" coords="353,5,471,32"/>
-<area shape="rect" id="node4" href="esp__hidd__prf__api_8h.html#a5256c1f0eb079f624ce5e09a47d5b89c" title="This function is called to receive hid device callback event. " alt="" coords="519,5,705,32"/>
-<area shape="rect" id="node5" href="hal__ble_8h.html#a8ad6c50e81bae3e24e2f86a2797384c2" title="halBLEInit" alt="" coords="753,5,836,32"/>
-<area shape="rect" id="node6" href="flipmouse__fabi__esp32__kbdmouse__main_8c.html#abce06be17fc37d675118a678a8100a36" title="Main task, created by esp&#45;idf. " alt="" coords="884,5,963,32"/>
 </map>
 </div>
 
@@ -477,19 +562,15 @@ Here is the caller graph for this function:</div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="hid__device__le__prf_8c_source.html#l00630">630</a> of file <a class="el" href="hid__device__le__prf_8c_source.html">hid_device_le_prf.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="hid__device__le__prf_8c_source.html#l00662">662</a> of file <a class="el" href="hid__device__le__prf_8c_source.html">hid_device_le_prf.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="hid__device__le__prf_8c_source.html#l00507">esp_hidd_prf_cb_hdl()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="hid__device__le__prf_8c_source.html#l00540">esp_hidd_prf_cb_hdl()</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="hid__device__le__prf_8c_a74aa695557816b038ff9847860291fa2_icgraph.png" border="0" usemap="#hid__device__le__prf_8c_a74aa695557816b038ff9847860291fa2_icgraph" alt=""/></div>
 <map name="hid__device__le__prf_8c_a74aa695557816b038ff9847860291fa2_icgraph" id="hid__device__le__prf_8c_a74aa695557816b038ff9847860291fa2_icgraph">
 <area shape="rect" id="node2" href="hid__device__le__prf_8c.html#add8f27ab149175c58a8bced1016df5a6" title="esp_hidd_prf_cb_hdl" alt="" coords="179,5,320,32"/>
-<area shape="rect" id="node3" href="hidd__le__prf__int_8h.html#acb0d2b8e95e7bbabf1e3bdab379d18d5" title="hidd_register_cb" alt="" coords="368,5,485,32"/>
-<area shape="rect" id="node4" href="esp__hidd__prf__api_8h.html#a5256c1f0eb079f624ce5e09a47d5b89c" title="This function is called to receive hid device callback event. " alt="" coords="533,5,720,32"/>
-<area shape="rect" id="node5" href="hal__ble_8h.html#a8ad6c50e81bae3e24e2f86a2797384c2" title="halBLEInit" alt="" coords="768,5,851,32"/>
-<area shape="rect" id="node6" href="flipmouse__fabi__esp32__kbdmouse__main_8c.html#abce06be17fc37d675118a678a8100a36" title="Main task, created by esp&#45;idf. " alt="" coords="899,5,977,32"/>
 </map>
 </div>
 
@@ -527,7 +608,7 @@ Here is the caller graph for this function:</div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="hid__device__le__prf_8c_source.html#l00662">662</a> of file <a class="el" href="hid__device__le__prf_8c_source.html">hid_device_le_prf.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="hid__device__le__prf_8c_source.html#l00731">731</a> of file <a class="el" href="hid__device__le__prf_8c_source.html">hid_device_le_prf.c</a>.</p>
 
 </div>
 </div>
@@ -547,19 +628,15 @@ Here is the caller graph for this function:</div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="hid__device__le__prf_8c_source.html#l00590">590</a> of file <a class="el" href="hid__device__le__prf_8c_source.html">hid_device_le_prf.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="hid__device__le__prf_8c_source.html#l00630">630</a> of file <a class="el" href="hid__device__le__prf_8c_source.html">hid_device_le_prf.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="hid__device__le__prf_8c_source.html#l00507">esp_hidd_prf_cb_hdl()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="hid__device__le__prf_8c_source.html#l00540">esp_hidd_prf_cb_hdl()</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="hid__device__le__prf_8c_a479cfaafdbd41501ccd953c0abfc8ca6_icgraph.png" border="0" usemap="#hid__device__le__prf_8c_a479cfaafdbd41501ccd953c0abfc8ca6_icgraph" alt=""/></div>
 <map name="hid__device__le__prf_8c_a479cfaafdbd41501ccd953c0abfc8ca6_icgraph" id="hid__device__le__prf_8c_a479cfaafdbd41501ccd953c0abfc8ca6_icgraph">
 <area shape="rect" id="node2" href="hid__device__le__prf_8c.html#add8f27ab149175c58a8bced1016df5a6" title="esp_hidd_prf_cb_hdl" alt="" coords="208,5,349,32"/>
-<area shape="rect" id="node3" href="hidd__le__prf__int_8h.html#acb0d2b8e95e7bbabf1e3bdab379d18d5" title="hidd_register_cb" alt="" coords="397,5,515,32"/>
-<area shape="rect" id="node4" href="esp__hidd__prf__api_8h.html#a5256c1f0eb079f624ce5e09a47d5b89c" title="This function is called to receive hid device callback event. " alt="" coords="563,5,749,32"/>
-<area shape="rect" id="node5" href="hal__ble_8h.html#a8ad6c50e81bae3e24e2f86a2797384c2" title="halBLEInit" alt="" coords="797,5,880,32"/>
-<area shape="rect" id="node6" href="flipmouse__fabi__esp32__kbdmouse__main_8c.html#abce06be17fc37d675118a678a8100a36" title="Main task, created by esp&#45;idf. " alt="" coords="928,5,1007,32"/>
 </map>
 </div>
 
@@ -581,7 +658,7 @@ Here is the caller graph for this function:</div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="hid__device__le__prf_8c_source.html#l00606">606</a> of file <a class="el" href="hid__device__le__prf_8c_source.html">hid_device_le_prf.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="hid__device__le__prf_8c_source.html#l00638">638</a> of file <a class="el" href="hid__device__le__prf_8c_source.html">hid_device_le_prf.c</a>.</p>
 
 </div>
 </div>
@@ -601,20 +678,15 @@ Here is the caller graph for this function:</div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="hid__device__le__prf_8c_source.html#l00643">643</a> of file <a class="el" href="hid__device__le__prf_8c_source.html">hid_device_le_prf.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="hid__device__le__prf_8c_source.html#l00712">712</a> of file <a class="el" href="hid__device__le__prf_8c_source.html">hid_device_le_prf.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="esp__hidd__prf__api_8c_source.html#l00035">esp_hidd_register_callbacks()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="hal__ble_8c_source.html#l00545">halBLEInit()</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="hid__device__le__prf_8c_acb0d2b8e95e7bbabf1e3bdab379d18d5_cgraph.png" border="0" usemap="#hid__device__le__prf_8c_acb0d2b8e95e7bbabf1e3bdab379d18d5_cgraph" alt=""/></div>
 <map name="hid__device__le__prf_8c_acb0d2b8e95e7bbabf1e3bdab379d18d5_cgraph" id="hid__device__le__prf_8c_acb0d2b8e95e7bbabf1e3bdab379d18d5_cgraph">
-<area shape="rect" id="node2" href="hid__device__le__prf_8c.html#add8f27ab149175c58a8bced1016df5a6" title="esp_hidd_prf_cb_hdl" alt="" coords="171,81,312,108"/>
-<area shape="rect" id="node3" href="hid__device__le__prf_8c.html#a479cfaafdbd41501ccd953c0abfc8ca6" title="hidd_le_create_service" alt="" coords="360,5,515,32"/>
-<area shape="rect" id="node4" href="hid__device__le__prf_8c.html#a4e7096230eedcf2dbc89351ea636677d" title="hidd_clcb_alloc" alt="" coords="382,56,493,83"/>
-<area shape="rect" id="node5" href="hid__device__le__prf_8c.html#a74aa695557816b038ff9847860291fa2" title="hidd_clcb_dealloc" alt="" coords="375,107,500,133"/>
-<area shape="rect" id="node6" href="hid__device__le__prf_8c.html#ac68d934280b657bfef845f9186a34fe8" title="hid_add_id_tbl" alt="" coords="385,157,490,184"/>
-<area shape="rect" id="node7" href="hid__dev_8c.html#a6df72a6bb64d5c8cd7490eb11617b7ab" title="hid_dev_register_reports" alt="" coords="563,157,727,184"/>
+<area shape="rect" id="node2" href="hid__device__le__prf_8c.html#aae8ed4e25351ba801179f79d655923ab" title="gatts_event_handler" alt="" coords="171,5,309,32"/>
 </map>
 </div>
 <div class="dynheader">
@@ -622,9 +694,8 @@ Here is the caller graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="hid__device__le__prf_8c_acb0d2b8e95e7bbabf1e3bdab379d18d5_icgraph.png" border="0" usemap="#hid__device__le__prf_8c_acb0d2b8e95e7bbabf1e3bdab379d18d5_icgraph" alt=""/></div>
 <map name="hid__device__le__prf_8c_acb0d2b8e95e7bbabf1e3bdab379d18d5_icgraph" id="hid__device__le__prf_8c_acb0d2b8e95e7bbabf1e3bdab379d18d5_icgraph">
-<area shape="rect" id="node2" href="esp__hidd__prf__api_8h.html#a5256c1f0eb079f624ce5e09a47d5b89c" title="This function is called to receive hid device callback event. " alt="" coords="171,5,357,32"/>
-<area shape="rect" id="node3" href="hal__ble_8h.html#a8ad6c50e81bae3e24e2f86a2797384c2" title="halBLEInit" alt="" coords="405,5,488,32"/>
-<area shape="rect" id="node4" href="flipmouse__fabi__esp32__kbdmouse__main_8c.html#abce06be17fc37d675118a678a8100a36" title="Main task, created by esp&#45;idf. " alt="" coords="536,5,615,32"/>
+<area shape="rect" id="node2" href="hal__ble_8h.html#a559e9af2167a8f1b05a8304234418ed3" title="Main init function to start HID interface (C interface) " alt="" coords="171,5,253,32"/>
+<area shape="rect" id="node3" href="flipmouse__fabi__esp32__kbdmouse__main_8c.html#abce06be17fc37d675118a678a8100a36" title="Main task, created by esp&#45;idf. " alt="" coords="301,5,380,32"/>
 </map>
 </div>
 
@@ -662,39 +733,7 @@ Here is the caller graph for this function:</div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="hid__device__le__prf_8c_source.html#l00650">650</a> of file <a class="el" href="hid__device__le__prf_8c_source.html">hid_device_le_prf.c</a>.</p>
-
-</div>
-</div>
-<a id="afa62ba26a48e429b592a9e5be49778d8"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#afa62ba26a48e429b592a9e5be49778d8">&#9670;&nbsp;</a></span>hidd_set_countrycode()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void hidd_set_countrycode </td>
-          <td>(</td>
-          <td class="paramtype">uint8_t&#160;</td>
-          <td class="paramname"><em>countrycode</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>set the bCountryCode field of the HID info. </p><dl class="section warning"><dt>Warning</dt><dd>Set this before initializing anything else! </dd></dl>
-
-<p class="definition">Definition at line <a class="el" href="hid__device__le__prf_8c_source.html#l00601">601</a> of file <a class="el" href="hid__device__le__prf_8c_source.html">hid_device_le_prf.c</a>.</p>
-
-<p class="reference">Referenced by <a class="el" href="hal__ble_8c_source.html#l00455">halBLEInit()</a>.</p>
-<div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="hid__device__le__prf_8c_afa62ba26a48e429b592a9e5be49778d8_icgraph.png" border="0" usemap="#hid__device__le__prf_8c_afa62ba26a48e429b592a9e5be49778d8_icgraph" alt=""/></div>
-<map name="hid__device__le__prf_8c_afa62ba26a48e429b592a9e5be49778d8_icgraph" id="hid__device__le__prf_8c_afa62ba26a48e429b592a9e5be49778d8_icgraph">
-<area shape="rect" id="node2" href="hal__ble_8h.html#a8ad6c50e81bae3e24e2f86a2797384c2" title="halBLEInit" alt="" coords="203,5,285,32"/>
-<area shape="rect" id="node3" href="flipmouse__fabi__esp32__kbdmouse__main_8c.html#abce06be17fc37d675118a678a8100a36" title="Main task, created by esp&#45;idf. " alt="" coords="333,5,412,32"/>
-</map>
-</div>
+<p class="definition">Definition at line <a class="el" href="hid__device__le__prf_8c_source.html#l00719">719</a> of file <a class="el" href="hid__device__le__prf_8c_source.html">hid_device_le_prf.c</a>.</p>
 
 </div>
 </div>
@@ -718,28 +757,28 @@ Here is the caller graph for this function:</div>
   </tr>
 </table>
 </div><div class="memdoc">
-<b>Initial value:</b><div class="fragment"><div class="line">=</div><div class="line">{</div><div class="line">    </div><div class="line">    [<a class="code" href="hid__device__le__prf_8c.html#a06fc87d81c62e9abb8790b6e5713c55ba5e37b489592eff7e74260064d69ba09e">BAS_IDX_SVC</a>]               =  {{ESP_GATT_AUTO_RSP}, {ESP_UUID_LEN_16, (uint8_t *)&amp;<a class="code" href="hid__device__le__prf_8c.html#a906dfab674e5b65aa8b2020087e66c50">primary_service_uuid</a>, ESP_GATT_PERM_READ,</div><div class="line">                                            <span class="keyword">sizeof</span>(uint16_t), <span class="keyword">sizeof</span>(<a class="code" href="hid__device__le__prf_8c.html#ac9c12bad32fa4f1020cc0778832c4689">battary_svc</a>), (uint8_t *)&amp;<a class="code" href="hid__device__le__prf_8c.html#ac9c12bad32fa4f1020cc0778832c4689">battary_svc</a>}},</div><div class="line"></div><div class="line">    </div><div class="line">    [<a class="code" href="hid__device__le__prf_8c.html#a06fc87d81c62e9abb8790b6e5713c55ba98baadc8c6d9636f171027aef2b27ff2">BAS_IDX_BATT_LVL_CHAR</a>]    = {{ESP_GATT_AUTO_RSP}, {ESP_UUID_LEN_16, (uint8_t *)&amp;<a class="code" href="hid__device__le__prf_8c.html#a8dbb0e6a5920e94c0473e375558f7265">character_declaration_uuid</a>, ESP_GATT_PERM_READ,</div><div class="line">                                                   <a class="code" href="hid__device__le__prf_8c.html#a36dab879c60ad380569b702ffb0caabf">CHAR_DECLARATION_SIZE</a>,<a class="code" href="hid__device__le__prf_8c.html#a36dab879c60ad380569b702ffb0caabf">CHAR_DECLARATION_SIZE</a>, (uint8_t *)&amp;<a class="code" href="hid__device__le__prf_8c.html#aafa2eb9bb370d02b100f269d37690173">char_prop_read_notify</a>}},</div><div class="line">      </div><div class="line">    </div><div class="line">    [<a class="code" href="hid__device__le__prf_8c.html#a06fc87d81c62e9abb8790b6e5713c55ba28831413b9397355fb1c0afaa32fe3b0">BAS_IDX_BATT_LVL_VAL</a>]              = {{ESP_GATT_AUTO_RSP}, {ESP_UUID_LEN_16, (uint8_t *)&amp;<a class="code" href="hid__device__le__prf_8c.html#ad35b5b1922bf984bdf3dcdd6cf6c03fa">bat_lev_uuid</a>, ESP_GATT_PERM_READ,</div><div class="line">                                                                <span class="keyword">sizeof</span>(uint8_t),<span class="keyword">sizeof</span>(uint8_t), &amp;<a class="code" href="hid__device__le__prf_8c.html#a1d66b8fc957598cde35fd4a681843791">battary_lev</a>}},</div><div class="line"></div><div class="line">    </div><div class="line">    [<a class="code" href="hid__device__le__prf_8c.html#a06fc87d81c62e9abb8790b6e5713c55baa406834fc2cd715ff14dbdbbf73d667e">BAS_IDX_BATT_LVL_NTF_CFG</a>]      =  {{ESP_GATT_AUTO_RSP}, {ESP_UUID_LEN_16, (uint8_t *)&amp;<a class="code" href="hid__device__le__prf_8c.html#add4f5ff5fc585021ed07e339b0ef936f">character_client_config_uuid</a>, ESP_GATT_PERM_READ|ESP_GATT_PERM_WRITE,</div><div class="line">                                                          <span class="keyword">sizeof</span>(uint16_t),<span class="keyword">sizeof</span>(<a class="code" href="hid__device__le__prf_8c.html#aed743857fa2e7262f4615eb7b6d80334">bat_lev_ccc</a>), (uint8_t *)<a class="code" href="hid__device__le__prf_8c.html#aed743857fa2e7262f4615eb7b6d80334">bat_lev_ccc</a>}},</div><div class="line"></div><div class="line">    </div><div class="line">    [<a class="code" href="hid__device__le__prf_8c.html#a06fc87d81c62e9abb8790b6e5713c55ba4a542f1468e8fab6b000ce3da30c41c2">BAS_IDX_BATT_LVL_PRES_FMT</a>]  = {{ESP_GATT_AUTO_RSP}, {ESP_UUID_LEN_16, (uint8_t *)&amp;<a class="code" href="hid__device__le__prf_8c.html#a64a43d7ce97d3b3136fc924ed52a1e89">char_format_uuid</a>, ESP_GATT_PERM_READ,</div><div class="line">                                                        <span class="keyword">sizeof</span>(<span class="keyword">struct</span> <a class="code" href="structprf__char__pres__fmt.html">prf_char_pres_fmt</a>), 0, NULL}},</div><div class="line">}</div><div class="ttc" id="hid__device__le__prf_8c_html_a906dfab674e5b65aa8b2020087e66c50"><div class="ttname"><a href="hid__device__le__prf_8c.html#a906dfab674e5b65aa8b2020087e66c50">primary_service_uuid</a></div><div class="ttdeci">static const uint16_t primary_service_uuid</div><div class="ttdoc">the uuid definition </div><div class="ttdef"><b>Definition:</b> <a href="hid__device__le__prf_8c_source.html#l00251">hid_device_le_prf.c:251</a></div></div>
-<div class="ttc" id="hid__device__le__prf_8c_html_a1d66b8fc957598cde35fd4a681843791"><div class="ttname"><a href="hid__device__le__prf_8c.html#a1d66b8fc957598cde35fd4a681843791">battary_lev</a></div><div class="ttdeci">static uint8_t battary_lev</div><div class="ttdef"><b>Definition:</b> <a href="hid__device__le__prf_8c_source.html#l00279">hid_device_le_prf.c:279</a></div></div>
-<div class="ttc" id="hid__device__le__prf_8c_html_aafa2eb9bb370d02b100f269d37690173"><div class="ttname"><a href="hid__device__le__prf_8c.html#aafa2eb9bb370d02b100f269d37690173">char_prop_read_notify</a></div><div class="ttdeci">static const uint8_t char_prop_read_notify</div><div class="ttdef"><b>Definition:</b> <a href="hid__device__le__prf_8c_source.html#l00270">hid_device_le_prf.c:270</a></div></div>
-<div class="ttc" id="hid__device__le__prf_8c_html_a06fc87d81c62e9abb8790b6e5713c55ba28831413b9397355fb1c0afaa32fe3b0"><div class="ttname"><a href="hid__device__le__prf_8c.html#a06fc87d81c62e9abb8790b6e5713c55ba28831413b9397355fb1c0afaa32fe3b0">BAS_IDX_BATT_LVL_VAL</a></div><div class="ttdef"><b>Definition:</b> <a href="hid__device__le__prf_8c_source.html#l00186">hid_device_le_prf.c:186</a></div></div>
-<div class="ttc" id="hid__device__le__prf_8c_html_add4f5ff5fc585021ed07e339b0ef936f"><div class="ttname"><a href="hid__device__le__prf_8c.html#add4f5ff5fc585021ed07e339b0ef936f">character_client_config_uuid</a></div><div class="ttdeci">static const uint16_t character_client_config_uuid</div><div class="ttdef"><b>Definition:</b> <a href="hid__device__le__prf_8c_source.html#l00254">hid_device_le_prf.c:254</a></div></div>
-<div class="ttc" id="hid__device__le__prf_8c_html_ad35b5b1922bf984bdf3dcdd6cf6c03fa"><div class="ttname"><a href="hid__device__le__prf_8c.html#ad35b5b1922bf984bdf3dcdd6cf6c03fa">bat_lev_uuid</a></div><div class="ttdeci">static const uint16_t bat_lev_uuid</div><div class="ttdef"><b>Definition:</b> <a href="hid__device__le__prf_8c_source.html#l00275">hid_device_le_prf.c:275</a></div></div>
-<div class="ttc" id="hid__device__le__prf_8c_html_a06fc87d81c62e9abb8790b6e5713c55ba5e37b489592eff7e74260064d69ba09e"><div class="ttname"><a href="hid__device__le__prf_8c.html#a06fc87d81c62e9abb8790b6e5713c55ba5e37b489592eff7e74260064d69ba09e">BAS_IDX_SVC</a></div><div class="ttdef"><b>Definition:</b> <a href="hid__device__le__prf_8c_source.html#l00183">hid_device_le_prf.c:183</a></div></div>
-<div class="ttc" id="hid__device__le__prf_8c_html_ac9c12bad32fa4f1020cc0778832c4689"><div class="ttname"><a href="hid__device__le__prf_8c.html#ac9c12bad32fa4f1020cc0778832c4689">battary_svc</a></div><div class="ttdeci">static const uint16_t battary_svc</div><div class="ttdoc">battary Service </div><div class="ttdef"><b>Definition:</b> <a href="hid__device__le__prf_8c_source.html#l00273">hid_device_le_prf.c:273</a></div></div>
-<div class="ttc" id="hid__device__le__prf_8c_html_a06fc87d81c62e9abb8790b6e5713c55baa406834fc2cd715ff14dbdbbf73d667e"><div class="ttname"><a href="hid__device__le__prf_8c.html#a06fc87d81c62e9abb8790b6e5713c55baa406834fc2cd715ff14dbdbbf73d667e">BAS_IDX_BATT_LVL_NTF_CFG</a></div><div class="ttdef"><b>Definition:</b> <a href="hid__device__le__prf_8c_source.html#l00187">hid_device_le_prf.c:187</a></div></div>
-<div class="ttc" id="hid__device__le__prf_8c_html_a36dab879c60ad380569b702ffb0caabf"><div class="ttname"><a href="hid__device__le__prf_8c.html#a36dab879c60ad380569b702ffb0caabf">CHAR_DECLARATION_SIZE</a></div><div class="ttdeci">#define CHAR_DECLARATION_SIZE</div><div class="ttdef"><b>Definition:</b> <a href="hid__device__le__prf_8c_source.html#l00249">hid_device_le_prf.c:249</a></div></div>
-<div class="ttc" id="hid__device__le__prf_8c_html_a06fc87d81c62e9abb8790b6e5713c55ba98baadc8c6d9636f171027aef2b27ff2"><div class="ttname"><a href="hid__device__le__prf_8c.html#a06fc87d81c62e9abb8790b6e5713c55ba98baadc8c6d9636f171027aef2b27ff2">BAS_IDX_BATT_LVL_CHAR</a></div><div class="ttdef"><b>Definition:</b> <a href="hid__device__le__prf_8c_source.html#l00185">hid_device_le_prf.c:185</a></div></div>
-<div class="ttc" id="hid__device__le__prf_8c_html_a8dbb0e6a5920e94c0473e375558f7265"><div class="ttname"><a href="hid__device__le__prf_8c.html#a8dbb0e6a5920e94c0473e375558f7265">character_declaration_uuid</a></div><div class="ttdeci">static const uint16_t character_declaration_uuid</div><div class="ttdef"><b>Definition:</b> <a href="hid__device__le__prf_8c_source.html#l00253">hid_device_le_prf.c:253</a></div></div>
-<div class="ttc" id="hid__device__le__prf_8c_html_a64a43d7ce97d3b3136fc924ed52a1e89"><div class="ttname"><a href="hid__device__le__prf_8c.html#a64a43d7ce97d3b3136fc924ed52a1e89">char_format_uuid</a></div><div class="ttdeci">static const uint16_t char_format_uuid</div><div class="ttdef"><b>Definition:</b> <a href="hid__device__le__prf_8c_source.html#l00277">hid_device_le_prf.c:277</a></div></div>
-<div class="ttc" id="hid__device__le__prf_8c_html_aed743857fa2e7262f4615eb7b6d80334"><div class="ttname"><a href="hid__device__le__prf_8c.html#aed743857fa2e7262f4615eb7b6d80334">bat_lev_ccc</a></div><div class="ttdeci">static const uint8_t bat_lev_ccc[2]</div><div class="ttdef"><b>Definition:</b> <a href="hid__device__le__prf_8c_source.html#l00276">hid_device_le_prf.c:276</a></div></div>
-<div class="ttc" id="structprf__char__pres__fmt_html"><div class="ttname"><a href="structprf__char__pres__fmt.html">prf_char_pres_fmt</a></div><div class="ttdoc">characteristic presentation information </div><div class="ttdef"><b>Definition:</b> <a href="hid__device__le__prf_8c_source.html#l00025">hid_device_le_prf.c:25</a></div></div>
-<div class="ttc" id="hid__device__le__prf_8c_html_a06fc87d81c62e9abb8790b6e5713c55ba4a542f1468e8fab6b000ce3da30c41c2"><div class="ttname"><a href="hid__device__le__prf_8c.html#a06fc87d81c62e9abb8790b6e5713c55ba4a542f1468e8fab6b000ce3da30c41c2">BAS_IDX_BATT_LVL_PRES_FMT</a></div><div class="ttdef"><b>Definition:</b> <a href="hid__device__le__prf_8c_source.html#l00188">hid_device_le_prf.c:188</a></div></div>
+<b>Initial value:</b><div class="fragment"><div class="line">=</div><div class="line">{</div><div class="line">    </div><div class="line">    [<a class="code" href="hid__device__le__prf_8c.html#a06fc87d81c62e9abb8790b6e5713c55ba5e37b489592eff7e74260064d69ba09e">BAS_IDX_SVC</a>]               =  {{ESP_GATT_AUTO_RSP}, {ESP_UUID_LEN_16, (uint8_t *)&amp;<a class="code" href="hid__device__le__prf_8c.html#a906dfab674e5b65aa8b2020087e66c50">primary_service_uuid</a>, ESP_GATT_PERM_READ,</div><div class="line">                                            <span class="keyword">sizeof</span>(uint16_t), <span class="keyword">sizeof</span>(<a class="code" href="hid__device__le__prf_8c.html#ac9c12bad32fa4f1020cc0778832c4689">battary_svc</a>), (uint8_t *)&amp;<a class="code" href="hid__device__le__prf_8c.html#ac9c12bad32fa4f1020cc0778832c4689">battary_svc</a>}},</div><div class="line"></div><div class="line">    </div><div class="line">    [<a class="code" href="hid__device__le__prf_8c.html#a06fc87d81c62e9abb8790b6e5713c55ba98baadc8c6d9636f171027aef2b27ff2">BAS_IDX_BATT_LVL_CHAR</a>]    = {{ESP_GATT_AUTO_RSP}, {ESP_UUID_LEN_16, (uint8_t *)&amp;<a class="code" href="hid__device__le__prf_8c.html#a8dbb0e6a5920e94c0473e375558f7265">character_declaration_uuid</a>, ESP_GATT_PERM_READ,</div><div class="line">                                                   <a class="code" href="hid__device__le__prf_8c.html#a36dab879c60ad380569b702ffb0caabf">CHAR_DECLARATION_SIZE</a>,<a class="code" href="hid__device__le__prf_8c.html#a36dab879c60ad380569b702ffb0caabf">CHAR_DECLARATION_SIZE</a>, (uint8_t *)&amp;<a class="code" href="hid__device__le__prf_8c.html#aafa2eb9bb370d02b100f269d37690173">char_prop_read_notify</a>}},</div><div class="line"></div><div class="line">    </div><div class="line">    [<a class="code" href="hid__device__le__prf_8c.html#a06fc87d81c62e9abb8790b6e5713c55ba28831413b9397355fb1c0afaa32fe3b0">BAS_IDX_BATT_LVL_VAL</a>]              = {{ESP_GATT_AUTO_RSP}, {ESP_UUID_LEN_16, (uint8_t *)&amp;<a class="code" href="hid__device__le__prf_8c.html#ad35b5b1922bf984bdf3dcdd6cf6c03fa">bat_lev_uuid</a>, ESP_GATT_PERM_READ,</div><div class="line">                                                                <span class="keyword">sizeof</span>(uint8_t),<span class="keyword">sizeof</span>(uint8_t), &amp;<a class="code" href="hid__device__le__prf_8c.html#a1d66b8fc957598cde35fd4a681843791">battary_lev</a>}},</div><div class="line"></div><div class="line">    </div><div class="line">    [<a class="code" href="hid__device__le__prf_8c.html#a06fc87d81c62e9abb8790b6e5713c55baa406834fc2cd715ff14dbdbbf73d667e">BAS_IDX_BATT_LVL_NTF_CFG</a>]      =  {{ESP_GATT_AUTO_RSP}, {ESP_UUID_LEN_16, (uint8_t *)&amp;<a class="code" href="hid__device__le__prf_8c.html#add4f5ff5fc585021ed07e339b0ef936f">character_client_config_uuid</a>, ESP_GATT_PERM_READ|ESP_GATT_PERM_WRITE,</div><div class="line">                                                          <span class="keyword">sizeof</span>(uint16_t),<span class="keyword">sizeof</span>(<a class="code" href="hid__device__le__prf_8c.html#aed743857fa2e7262f4615eb7b6d80334">bat_lev_ccc</a>), (uint8_t *)<a class="code" href="hid__device__le__prf_8c.html#aed743857fa2e7262f4615eb7b6d80334">bat_lev_ccc</a>}},</div><div class="line"></div><div class="line">    </div><div class="line">    [<a class="code" href="hid__device__le__prf_8c.html#a06fc87d81c62e9abb8790b6e5713c55ba4a542f1468e8fab6b000ce3da30c41c2">BAS_IDX_BATT_LVL_PRES_FMT</a>]  = {{ESP_GATT_AUTO_RSP}, {ESP_UUID_LEN_16, (uint8_t *)&amp;<a class="code" href="hid__device__le__prf_8c.html#a64a43d7ce97d3b3136fc924ed52a1e89">char_format_uuid</a>, ESP_GATT_PERM_READ,</div><div class="line">                                                        <span class="keyword">sizeof</span>(<span class="keyword">struct</span> <a class="code" href="structprf__char__pres__fmt.html">prf_char_pres_fmt</a>), 0, NULL}},</div><div class="line">}</div><div class="ttc" id="hid__device__le__prf_8c_html_a906dfab674e5b65aa8b2020087e66c50"><div class="ttname"><a href="hid__device__le__prf_8c.html#a906dfab674e5b65aa8b2020087e66c50">primary_service_uuid</a></div><div class="ttdeci">static const uint16_t primary_service_uuid</div><div class="ttdoc">the uuid definition </div><div class="ttdef"><b>Definition:</b> <a href="hid__device__le__prf_8c_source.html#l00270">hid_device_le_prf.c:270</a></div></div>
+<div class="ttc" id="hid__device__le__prf_8c_html_a1d66b8fc957598cde35fd4a681843791"><div class="ttname"><a href="hid__device__le__prf_8c.html#a1d66b8fc957598cde35fd4a681843791">battary_lev</a></div><div class="ttdeci">static uint8_t battary_lev</div><div class="ttdef"><b>Definition:</b> <a href="hid__device__le__prf_8c_source.html#l00299">hid_device_le_prf.c:299</a></div></div>
+<div class="ttc" id="hid__device__le__prf_8c_html_aafa2eb9bb370d02b100f269d37690173"><div class="ttname"><a href="hid__device__le__prf_8c.html#aafa2eb9bb370d02b100f269d37690173">char_prop_read_notify</a></div><div class="ttdeci">static const uint8_t char_prop_read_notify</div><div class="ttdef"><b>Definition:</b> <a href="hid__device__le__prf_8c_source.html#l00289">hid_device_le_prf.c:289</a></div></div>
+<div class="ttc" id="hid__device__le__prf_8c_html_a06fc87d81c62e9abb8790b6e5713c55ba28831413b9397355fb1c0afaa32fe3b0"><div class="ttname"><a href="hid__device__le__prf_8c.html#a06fc87d81c62e9abb8790b6e5713c55ba28831413b9397355fb1c0afaa32fe3b0">BAS_IDX_BATT_LVL_VAL</a></div><div class="ttdef"><b>Definition:</b> <a href="hid__device__le__prf_8c_source.html#l00194">hid_device_le_prf.c:194</a></div></div>
+<div class="ttc" id="hid__device__le__prf_8c_html_add4f5ff5fc585021ed07e339b0ef936f"><div class="ttname"><a href="hid__device__le__prf_8c.html#add4f5ff5fc585021ed07e339b0ef936f">character_client_config_uuid</a></div><div class="ttdeci">static const uint16_t character_client_config_uuid</div><div class="ttdef"><b>Definition:</b> <a href="hid__device__le__prf_8c_source.html#l00273">hid_device_le_prf.c:273</a></div></div>
+<div class="ttc" id="hid__device__le__prf_8c_html_ad35b5b1922bf984bdf3dcdd6cf6c03fa"><div class="ttname"><a href="hid__device__le__prf_8c.html#ad35b5b1922bf984bdf3dcdd6cf6c03fa">bat_lev_uuid</a></div><div class="ttdeci">static const uint16_t bat_lev_uuid</div><div class="ttdef"><b>Definition:</b> <a href="hid__device__le__prf_8c_source.html#l00295">hid_device_le_prf.c:295</a></div></div>
+<div class="ttc" id="hid__device__le__prf_8c_html_a06fc87d81c62e9abb8790b6e5713c55ba5e37b489592eff7e74260064d69ba09e"><div class="ttname"><a href="hid__device__le__prf_8c.html#a06fc87d81c62e9abb8790b6e5713c55ba5e37b489592eff7e74260064d69ba09e">BAS_IDX_SVC</a></div><div class="ttdef"><b>Definition:</b> <a href="hid__device__le__prf_8c_source.html#l00191">hid_device_le_prf.c:191</a></div></div>
+<div class="ttc" id="hid__device__le__prf_8c_html_ac9c12bad32fa4f1020cc0778832c4689"><div class="ttname"><a href="hid__device__le__prf_8c.html#ac9c12bad32fa4f1020cc0778832c4689">battary_svc</a></div><div class="ttdeci">static const uint16_t battary_svc</div><div class="ttdoc">battary Service </div><div class="ttdef"><b>Definition:</b> <a href="hid__device__le__prf_8c_source.html#l00293">hid_device_le_prf.c:293</a></div></div>
+<div class="ttc" id="hid__device__le__prf_8c_html_a06fc87d81c62e9abb8790b6e5713c55baa406834fc2cd715ff14dbdbbf73d667e"><div class="ttname"><a href="hid__device__le__prf_8c.html#a06fc87d81c62e9abb8790b6e5713c55baa406834fc2cd715ff14dbdbbf73d667e">BAS_IDX_BATT_LVL_NTF_CFG</a></div><div class="ttdef"><b>Definition:</b> <a href="hid__device__le__prf_8c_source.html#l00195">hid_device_le_prf.c:195</a></div></div>
+<div class="ttc" id="hid__device__le__prf_8c_html_a36dab879c60ad380569b702ffb0caabf"><div class="ttname"><a href="hid__device__le__prf_8c.html#a36dab879c60ad380569b702ffb0caabf">CHAR_DECLARATION_SIZE</a></div><div class="ttdeci">#define CHAR_DECLARATION_SIZE</div><div class="ttdef"><b>Definition:</b> <a href="hid__device__le__prf_8c_source.html#l00268">hid_device_le_prf.c:268</a></div></div>
+<div class="ttc" id="hid__device__le__prf_8c_html_a06fc87d81c62e9abb8790b6e5713c55ba98baadc8c6d9636f171027aef2b27ff2"><div class="ttname"><a href="hid__device__le__prf_8c.html#a06fc87d81c62e9abb8790b6e5713c55ba98baadc8c6d9636f171027aef2b27ff2">BAS_IDX_BATT_LVL_CHAR</a></div><div class="ttdef"><b>Definition:</b> <a href="hid__device__le__prf_8c_source.html#l00193">hid_device_le_prf.c:193</a></div></div>
+<div class="ttc" id="hid__device__le__prf_8c_html_a8dbb0e6a5920e94c0473e375558f7265"><div class="ttname"><a href="hid__device__le__prf_8c.html#a8dbb0e6a5920e94c0473e375558f7265">character_declaration_uuid</a></div><div class="ttdeci">static const uint16_t character_declaration_uuid</div><div class="ttdef"><b>Definition:</b> <a href="hid__device__le__prf_8c_source.html#l00272">hid_device_le_prf.c:272</a></div></div>
+<div class="ttc" id="hid__device__le__prf_8c_html_a64a43d7ce97d3b3136fc924ed52a1e89"><div class="ttname"><a href="hid__device__le__prf_8c.html#a64a43d7ce97d3b3136fc924ed52a1e89">char_format_uuid</a></div><div class="ttdeci">static const uint16_t char_format_uuid</div><div class="ttdef"><b>Definition:</b> <a href="hid__device__le__prf_8c_source.html#l00297">hid_device_le_prf.c:297</a></div></div>
+<div class="ttc" id="hid__device__le__prf_8c_html_aed743857fa2e7262f4615eb7b6d80334"><div class="ttname"><a href="hid__device__le__prf_8c.html#aed743857fa2e7262f4615eb7b6d80334">bat_lev_ccc</a></div><div class="ttdeci">static const uint8_t bat_lev_ccc[2]</div><div class="ttdef"><b>Definition:</b> <a href="hid__device__le__prf_8c_source.html#l00296">hid_device_le_prf.c:296</a></div></div>
+<div class="ttc" id="structprf__char__pres__fmt_html"><div class="ttname"><a href="structprf__char__pres__fmt.html">prf_char_pres_fmt</a></div><div class="ttdoc">characteristic presentation information </div><div class="ttdef"><b>Definition:</b> <a href="hid__device__le__prf_8c_source.html#l00020">hid_device_le_prf.c:20</a></div></div>
+<div class="ttc" id="hid__device__le__prf_8c_html_a06fc87d81c62e9abb8790b6e5713c55ba4a542f1468e8fab6b000ce3da30c41c2"><div class="ttname"><a href="hid__device__le__prf_8c.html#a06fc87d81c62e9abb8790b6e5713c55ba4a542f1468e8fab6b000ce3da30c41c2">BAS_IDX_BATT_LVL_PRES_FMT</a></div><div class="ttdef"><b>Definition:</b> <a href="hid__device__le__prf_8c_source.html#l00196">hid_device_le_prf.c:196</a></div></div>
 </div><!-- fragment -->
 <p>Full HRS Database Description - Used to add attributes into the database. </p>
 
-<p class="definition">Definition at line <a class="el" href="hid__device__le__prf_8c_source.html#l00281">281</a> of file <a class="el" href="hid__device__le__prf_8c_source.html">hid_device_le_prf.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="hid__device__le__prf_8c_source.html#l00301">301</a> of file <a class="el" href="hid__device__le__prf_8c_source.html">hid_device_le_prf.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="hid__device__le__prf_8c_source.html#l00590">hidd_le_create_service()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="hid__device__le__prf_8c_source.html#l00630">hidd_le_create_service()</a>.</p>
 
 </div>
 </div>
@@ -763,7 +802,7 @@ Here is the caller graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="hid__device__le__prf_8c_source.html#l00276">276</a> of file <a class="el" href="hid__device__le__prf_8c_source.html">hid_device_le_prf.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="hid__device__le__prf_8c_source.html#l00296">296</a> of file <a class="el" href="hid__device__le__prf_8c_source.html">hid_device_le_prf.c</a>.</p>
 
 </div>
 </div>
@@ -787,7 +826,7 @@ Here is the caller graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="hid__device__le__prf_8c_source.html#l00275">275</a> of file <a class="el" href="hid__device__le__prf_8c_source.html">hid_device_le_prf.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="hid__device__le__prf_8c_source.html#l00295">295</a> of file <a class="el" href="hid__device__le__prf_8c_source.html">hid_device_le_prf.c</a>.</p>
 
 </div>
 </div>
@@ -811,7 +850,7 @@ Here is the caller graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="hid__device__le__prf_8c_source.html#l00279">279</a> of file <a class="el" href="hid__device__le__prf_8c_source.html">hid_device_le_prf.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="hid__device__le__prf_8c_source.html#l00299">299</a> of file <a class="el" href="hid__device__le__prf_8c_source.html">hid_device_le_prf.c</a>.</p>
 
 </div>
 </div>
@@ -837,7 +876,7 @@ Here is the caller graph for this function:</div>
 
 <p>battary Service </p>
 
-<p class="definition">Definition at line <a class="el" href="hid__device__le__prf_8c_source.html#l00273">273</a> of file <a class="el" href="hid__device__le__prf_8c_source.html">hid_device_le_prf.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="hid__device__le__prf_8c_source.html#l00293">293</a> of file <a class="el" href="hid__device__le__prf_8c_source.html">hid_device_le_prf.c</a>.</p>
 
 </div>
 </div>
@@ -861,7 +900,7 @@ Here is the caller graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="hid__device__le__prf_8c_source.html#l00277">277</a> of file <a class="el" href="hid__device__le__prf_8c_source.html">hid_device_le_prf.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="hid__device__le__prf_8c_source.html#l00297">297</a> of file <a class="el" href="hid__device__le__prf_8c_source.html">hid_device_le_prf.c</a>.</p>
 
 </div>
 </div>
@@ -887,7 +926,7 @@ Here is the caller graph for this function:</div>
 
 <p>the propoty definition </p>
 
-<p class="definition">Definition at line <a class="el" href="hid__device__le__prf_8c_source.html#l00266">266</a> of file <a class="el" href="hid__device__le__prf_8c_source.html">hid_device_le_prf.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="hid__device__le__prf_8c_source.html#l00285">285</a> of file <a class="el" href="hid__device__le__prf_8c_source.html">hid_device_le_prf.c</a>.</p>
 
 </div>
 </div>
@@ -911,7 +950,7 @@ Here is the caller graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="hid__device__le__prf_8c_source.html#l00267">267</a> of file <a class="el" href="hid__device__le__prf_8c_source.html">hid_device_le_prf.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="hid__device__le__prf_8c_source.html#l00286">286</a> of file <a class="el" href="hid__device__le__prf_8c_source.html">hid_device_le_prf.c</a>.</p>
 
 </div>
 </div>
@@ -935,7 +974,7 @@ Here is the caller graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="hid__device__le__prf_8c_source.html#l00270">270</a> of file <a class="el" href="hid__device__le__prf_8c_source.html">hid_device_le_prf.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="hid__device__le__prf_8c_source.html#l00289">289</a> of file <a class="el" href="hid__device__le__prf_8c_source.html">hid_device_le_prf.c</a>.</p>
 
 </div>
 </div>
@@ -959,12 +998,12 @@ Here is the caller graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="hid__device__le__prf_8c_source.html#l00269">269</a> of file <a class="el" href="hid__device__le__prf_8c_source.html">hid_device_le_prf.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="hid__device__le__prf_8c_source.html#l00288">288</a> of file <a class="el" href="hid__device__le__prf_8c_source.html">hid_device_le_prf.c</a>.</p>
 
 </div>
 </div>
-<a id="ae0084bfaea604b4314d50272a61970d7"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae0084bfaea604b4314d50272a61970d7">&#9670;&nbsp;</a></span>char_prop_write</h2>
+<a id="ad1d27d47c7fd785c27d90f977ceb3c9e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad1d27d47c7fd785c27d90f977ceb3c9e">&#9670;&nbsp;</a></span>char_prop_read_write_notify</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -973,7 +1012,7 @@ Here is the caller graph for this function:</div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">const uint8_t char_prop_write = ESP_GATT_CHAR_PROP_BIT_WRITE</td>
+          <td class="memname">const uint8_t char_prop_read_write_notify = ESP_GATT_CHAR_PROP_BIT_READ|ESP_GATT_CHAR_PROP_BIT_WRITE|ESP_GATT_CHAR_PROP_BIT_NOTIFY</td>
         </tr>
       </table>
   </td>
@@ -983,7 +1022,31 @@ Here is the caller graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="hid__device__le__prf_8c_source.html#l00268">268</a> of file <a class="el" href="hid__device__le__prf_8c_source.html">hid_device_le_prf.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="hid__device__le__prf_8c_source.html#l00290">290</a> of file <a class="el" href="hid__device__le__prf_8c_source.html">hid_device_le_prf.c</a>.</p>
+
+</div>
+</div>
+<a id="ad7628510670a08b1ff4523269ec43117"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad7628510670a08b1ff4523269ec43117">&#9670;&nbsp;</a></span>char_prop_write_nr</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const uint8_t char_prop_write_nr = ESP_GATT_CHAR_PROP_BIT_WRITE_NR</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="hid__device__le__prf_8c_source.html#l00287">287</a> of file <a class="el" href="hid__device__le__prf_8c_source.html">hid_device_le_prf.c</a>.</p>
 
 </div>
 </div>
@@ -1007,7 +1070,7 @@ Here is the caller graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="hid__device__le__prf_8c_source.html#l00254">254</a> of file <a class="el" href="hid__device__le__prf_8c_source.html">hid_device_le_prf.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="hid__device__le__prf_8c_source.html#l00273">273</a> of file <a class="el" href="hid__device__le__prf_8c_source.html">hid_device_le_prf.c</a>.</p>
 
 </div>
 </div>
@@ -1031,7 +1094,33 @@ Here is the caller graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="hid__device__le__prf_8c_source.html#l00253">253</a> of file <a class="el" href="hid__device__le__prf_8c_source.html">hid_device_le_prf.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="hid__device__le__prf_8c_source.html#l00272">272</a> of file <a class="el" href="hid__device__le__prf_8c_source.html">hid_device_le_prf.c</a>.</p>
+
+</div>
+</div>
+<a id="a5f29385a6c404c7c96b0dd367f729a32"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5f29385a6c404c7c96b0dd367f729a32">&#9670;&nbsp;</a></span>heart_rate_profile_tab</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">struct <a class="el" href="structgatts__profile__inst.html">gatts_profile_inst</a> heart_rate_profile_tab[<a class="el" href="hid__device__le__prf_8c.html#aab6353cb3662bdc672ae8ab90df529ce">PROFILE_NUM</a>]</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<b>Initial value:</b><div class="fragment"><div class="line">= {</div><div class="line">    [<a class="code" href="hid__device__le__prf_8c.html#a7df7ac092d330d877b3f9b638eaa4d06">PROFILE_APP_IDX</a>] = {</div><div class="line">        .gatts_cb = <a class="code" href="hid__device__le__prf_8c.html#add8f27ab149175c58a8bced1016df5a6">esp_hidd_prf_cb_hdl</a>,</div><div class="line">        .gatts_if = ESP_GATT_IF_NONE,       </div><div class="line">    },</div><div class="line"></div><div class="line">}</div><div class="ttc" id="hid__device__le__prf_8c_html_a7df7ac092d330d877b3f9b638eaa4d06"><div class="ttname"><a href="hid__device__le__prf_8c.html#a7df7ac092d330d877b3f9b638eaa4d06">PROFILE_APP_IDX</a></div><div class="ttdeci">#define PROFILE_APP_IDX</div><div class="ttdef"><b>Definition:</b> <a href="hid__device__le__prf_8c_source.html#l00204">hid_device_le_prf.c:204</a></div></div>
+<div class="ttc" id="hid__device__le__prf_8c_html_add8f27ab149175c58a8bced1016df5a6"><div class="ttname"><a href="hid__device__le__prf_8c.html#add8f27ab149175c58a8bced1016df5a6">esp_hidd_prf_cb_hdl</a></div><div class="ttdeci">void esp_hidd_prf_cb_hdl(esp_gatts_cb_event_t event, esp_gatt_if_t gatts_if, esp_ble_gatts_cb_param_t *param)</div><div class="ttdef"><b>Definition:</b> <a href="hid__device__le__prf_8c_source.html#l00540">hid_device_le_prf.c:540</a></div></div>
+</div><!-- fragment -->
+<p class="definition">Definition at line <a class="el" href="hid__device__le__prf_8c_source.html#l00675">675</a> of file <a class="el" href="hid__device__le__prf_8c_source.html">hid_device_le_prf.c</a>.</p>
 
 </div>
 </div>
@@ -1055,7 +1144,7 @@ Here is the caller graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="hid__device__le__prf_8c_source.html#l00257">257</a> of file <a class="el" href="hid__device__le__prf_8c_source.html">hid_device_le_prf.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="hid__device__le__prf_8c_source.html#l00276">276</a> of file <a class="el" href="hid__device__le__prf_8c_source.html">hid_device_le_prf.c</a>.</p>
 
 </div>
 </div>
@@ -1071,7 +1160,7 @@ Here is the caller graph for this function:</div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="hid__device__le__prf_8c_source.html#l00246">246</a> of file <a class="el" href="hid__device__le__prf_8c_source.html">hid_device_le_prf.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="hid__device__le__prf_8c_source.html#l00265">265</a> of file <a class="el" href="hid__device__le__prf_8c_source.html">hid_device_le_prf.c</a>.</p>
 
 </div>
 </div>
@@ -1095,7 +1184,7 @@ Here is the caller graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="hid__device__le__prf_8c_source.html#l00255">255</a> of file <a class="el" href="hid__device__le__prf_8c_source.html">hid_device_le_prf.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="hid__device__le__prf_8c_source.html#l00274">274</a> of file <a class="el" href="hid__device__le__prf_8c_source.html">hid_device_le_prf.c</a>.</p>
 
 </div>
 </div>
@@ -1119,7 +1208,7 @@ Here is the caller graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="hid__device__le__prf_8c_source.html#l00260">260</a> of file <a class="el" href="hid__device__le__prf_8c_source.html">hid_device_le_prf.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="hid__device__le__prf_8c_source.html#l00279">279</a> of file <a class="el" href="hid__device__le__prf_8c_source.html">hid_device_le_prf.c</a>.</p>
 
 </div>
 </div>
@@ -1143,7 +1232,7 @@ Here is the caller graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="hid__device__le__prf_8c_source.html#l00261">261</a> of file <a class="el" href="hid__device__le__prf_8c_source.html">hid_device_le_prf.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="hid__device__le__prf_8c_source.html#l00280">280</a> of file <a class="el" href="hid__device__le__prf_8c_source.html">hid_device_le_prf.c</a>.</p>
 
 </div>
 </div>
@@ -1169,7 +1258,7 @@ Here is the caller graph for this function:</div>
 
 <p>hid Service uuid </p>
 
-<p class="definition">Definition at line <a class="el" href="hid__device__le__prf_8c_source.html#l00245">245</a> of file <a class="el" href="hid__device__le__prf_8c_source.html">hid_device_le_prf.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="hid__device__le__prf_8c_source.html#l00264">264</a> of file <a class="el" href="hid__device__le__prf_8c_source.html">hid_device_le_prf.c</a>.</p>
 
 </div>
 </div>
@@ -1193,7 +1282,7 @@ Here is the caller graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="hid__device__le__prf_8c_source.html#l00262">262</a> of file <a class="el" href="hid__device__le__prf_8c_source.html">hid_device_le_prf.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="hid__device__le__prf_8c_source.html#l00281">281</a> of file <a class="el" href="hid__device__le__prf_8c_source.html">hid_device_le_prf.c</a>.</p>
 
 </div>
 </div>
@@ -1217,7 +1306,7 @@ Here is the caller graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="hid__device__le__prf_8c_source.html#l00259">259</a> of file <a class="el" href="hid__device__le__prf_8c_source.html">hid_device_le_prf.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="hid__device__le__prf_8c_source.html#l00278">278</a> of file <a class="el" href="hid__device__le__prf_8c_source.html">hid_device_le_prf.c</a>.</p>
 
 </div>
 </div>
@@ -1241,7 +1330,7 @@ Here is the caller graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="hid__device__le__prf_8c_source.html#l00256">256</a> of file <a class="el" href="hid__device__le__prf_8c_source.html">hid_device_le_prf.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="hid__device__le__prf_8c_source.html#l00275">275</a> of file <a class="el" href="hid__device__le__prf_8c_source.html">hid_device_le_prf.c</a>.</p>
 
 </div>
 </div>
@@ -1265,7 +1354,7 @@ Here is the caller graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="hid__device__le__prf_8c_source.html#l00264">264</a> of file <a class="el" href="hid__device__le__prf_8c_source.html">hid_device_le_prf.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="hid__device__le__prf_8c_source.html#l00283">283</a> of file <a class="el" href="hid__device__le__prf_8c_source.html">hid_device_le_prf.c</a>.</p>
 
 </div>
 </div>
@@ -1289,7 +1378,7 @@ Here is the caller graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="hid__device__le__prf_8c_source.html#l00258">258</a> of file <a class="el" href="hid__device__le__prf_8c_source.html">hid_device_le_prf.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="hid__device__le__prf_8c_source.html#l00277">277</a> of file <a class="el" href="hid__device__le__prf_8c_source.html">hid_device_le_prf.c</a>.</p>
 
 </div>
 </div>
@@ -1313,7 +1402,7 @@ Here is the caller graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="hid__device__le__prf_8c_source.html#l00263">263</a> of file <a class="el" href="hid__device__le__prf_8c_source.html">hid_device_le_prf.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="hid__device__le__prf_8c_source.html#l00282">282</a> of file <a class="el" href="hid__device__le__prf_8c_source.html">hid_device_le_prf.c</a>.</p>
 
 </div>
 </div>
@@ -1337,7 +1426,7 @@ Here is the caller graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="hid__device__le__prf_8c_source.html#l00040">40</a> of file <a class="el" href="hid__device__le__prf_8c_source.html">hid_device_le_prf.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="hid__device__le__prf_8c_source.html#l00035">35</a> of file <a class="el" href="hid__device__le__prf_8c_source.html">hid_device_le_prf.c</a>.</p>
 
 </div>
 </div>
@@ -1353,9 +1442,9 @@ Here is the caller graph for this function:</div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="hid__device__le__prf_8c_source.html#l00196">196</a> of file <a class="el" href="hid__device__le__prf_8c_source.html">hid_device_le_prf.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="hid__device__le__prf_8c_source.html#l00213">213</a> of file <a class="el" href="hid__device__le__prf_8c_source.html">hid_device_le_prf.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="esp__hidd__prf__api_8c_source.html#l00070">esp_hidd_profile_deinit()</a>, <a class="el" href="esp__hidd__prf__api_8c_source.html#l00058">esp_hidd_profile_init()</a>, <a class="el" href="esp__hidd__prf__api_8c_source.html#l00035">esp_hidd_register_callbacks()</a>, <a class="el" href="esp__hidd__prf__api_8c_source.html#l00096">esp_hidd_send_consumer_value()</a>, <a class="el" href="esp__hidd__prf__api_8c_source.html#l00109">esp_hidd_send_keyboard_value()</a>, and <a class="el" href="esp__hidd__prf__api_8c_source.html#l00130">esp_hidd_send_mouse_value()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="hal__ble_8c_source.html#l00545">halBLEInit()</a>, <a class="el" href="hal__ble_8c_source.html#l00492">halBLEReset()</a>, and <a class="el" href="hal__ble_8c_source.html#l00195">halBLETask()</a>.</p>
 
 </div>
 </div>
@@ -1381,9 +1470,9 @@ Here is the caller graph for this function:</div>
 
 <p>Full Hid device Database Description - Used to add attributes into the database. </p>
 
-<p class="definition">Definition at line <a class="el" href="hid__device__le__prf_8c_source.html#l00306">306</a> of file <a class="el" href="hid__device__le__prf_8c_source.html">hid_device_le_prf.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="hid__device__le__prf_8c_source.html#l00326">326</a> of file <a class="el" href="hid__device__le__prf_8c_source.html">hid_device_le_prf.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="hid__device__le__prf_8c_source.html#l00507">esp_hidd_prf_cb_hdl()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="hid__device__le__prf_8c_source.html#l00540">esp_hidd_prf_cb_hdl()</a>.</p>
 
 </div>
 </div>
@@ -1407,12 +1496,12 @@ Here is the caller graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="hid__device__le__prf_8c_source.html#l00215">215</a> of file <a class="el" href="hid__device__le__prf_8c_source.html">hid_device_le_prf.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="hid__device__le__prf_8c_source.html#l00231">231</a> of file <a class="el" href="hid__device__le__prf_8c_source.html">hid_device_le_prf.c</a>.</p>
 
 </div>
 </div>
-<a id="a817338db41363318e803110ac5393d03"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a817338db41363318e803110ac5393d03">&#9670;&nbsp;</a></span>hidInfo</h2>
+<a id="a2734a576e26f8415379ac2e1319f8cb2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2734a576e26f8415379ac2e1319f8cb2">&#9670;&nbsp;</a></span>hidInfo</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1421,7 +1510,7 @@ Here is the caller graph for this function:</div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">uint8_t hidInfo[<a class="el" href="hidd__le__prf__int_8h.html#a7903484b0c009cdbe58d2e0fda8c5ca8">HID_INFORMATION_LEN</a>]</td>
+          <td class="memname">const uint8_t hidInfo[<a class="el" href="hidd__le__prf__int_8h.html#a7903484b0c009cdbe58d2e0fda8c5ca8">HID_INFORMATION_LEN</a>]</td>
         </tr>
       </table>
   </td>
@@ -1430,13 +1519,11 @@ Here is the caller graph for this function:</div>
   </tr>
 </table>
 </div><div class="memdoc">
-<b>Initial value:</b><div class="fragment"><div class="line">= {</div><div class="line">    <a class="code" href="hid__device__le__prf_8c.html#ab2b94e11f455d94fd743666d4f1364d7">LO_UINT16</a>(0x0111), <a class="code" href="hid__device__le__prf_8c.html#a869398c9f0eb7bcf1c8e101b052eed07">HI_UINT16</a>(0x0111),             </div><div class="line">    </div><div class="line">    0x00,                                             </div><div class="line">    <a class="code" href="hidd__le__prf__int_8h.html#a88317e70320544b82dfb2dabf5b2dfde">HID_KBD_FLAGS</a>                                     </div><div class="line">}</div><div class="ttc" id="hid__device__le__prf_8c_html_a869398c9f0eb7bcf1c8e101b052eed07"><div class="ttname"><a href="hid__device__le__prf_8c.html#a869398c9f0eb7bcf1c8e101b052eed07">HI_UINT16</a></div><div class="ttdeci">#define HI_UINT16(a)</div><div class="ttdef"><b>Definition:</b> <a href="hid__device__le__prf_8c_source.html#l00193">hid_device_le_prf.c:193</a></div></div>
-<div class="ttc" id="hid__device__le__prf_8c_html_ab2b94e11f455d94fd743666d4f1364d7"><div class="ttname"><a href="hid__device__le__prf_8c.html#ab2b94e11f455d94fd743666d4f1364d7">LO_UINT16</a></div><div class="ttdeci">#define LO_UINT16(a)</div><div class="ttdef"><b>Definition:</b> <a href="hid__device__le__prf_8c_source.html#l00194">hid_device_le_prf.c:194</a></div></div>
-<div class="ttc" id="hidd__le__prf__int_8h_html_a88317e70320544b82dfb2dabf5b2dfde"><div class="ttname"><a href="hidd__le__prf__int_8h.html#a88317e70320544b82dfb2dabf5b2dfde">HID_KBD_FLAGS</a></div><div class="ttdeci">#define HID_KBD_FLAGS</div><div class="ttdef"><b>Definition:</b> <a href="hidd__le__prf__int_8h_source.html#l00095">hidd_le_prf_int.h:95</a></div></div>
+<b>Initial value:</b><div class="fragment"><div class="line">= {</div><div class="line">    <a class="code" href="hid__device__le__prf_8c.html#ab2b94e11f455d94fd743666d4f1364d7">LO_UINT16</a>(0x0111), <a class="code" href="hid__device__le__prf_8c.html#a869398c9f0eb7bcf1c8e101b052eed07">HI_UINT16</a>(0x0111),             </div><div class="line">    0x00,                                             </div><div class="line">    <a class="code" href="hidd__le__prf__int_8h.html#a88317e70320544b82dfb2dabf5b2dfde">HID_KBD_FLAGS</a>                                     </div><div class="line">}</div><div class="ttc" id="hid__device__le__prf_8c_html_a869398c9f0eb7bcf1c8e101b052eed07"><div class="ttname"><a href="hid__device__le__prf_8c.html#a869398c9f0eb7bcf1c8e101b052eed07">HI_UINT16</a></div><div class="ttdeci">#define HI_UINT16(a)</div><div class="ttdef"><b>Definition:</b> <a href="hid__device__le__prf_8c_source.html#l00201">hid_device_le_prf.c:201</a></div></div>
+<div class="ttc" id="hid__device__le__prf_8c_html_ab2b94e11f455d94fd743666d4f1364d7"><div class="ttname"><a href="hid__device__le__prf_8c.html#ab2b94e11f455d94fd743666d4f1364d7">LO_UINT16</a></div><div class="ttdeci">#define LO_UINT16(a)</div><div class="ttdef"><b>Definition:</b> <a href="hid__device__le__prf_8c_source.html#l00202">hid_device_le_prf.c:202</a></div></div>
+<div class="ttc" id="hidd__le__prf__int_8h_html_a88317e70320544b82dfb2dabf5b2dfde"><div class="ttname"><a href="hidd__le__prf__int_8h.html#a88317e70320544b82dfb2dabf5b2dfde">HID_KBD_FLAGS</a></div><div class="ttdeci">#define HID_KBD_FLAGS</div><div class="ttdef"><b>Definition:</b> <a href="hidd__le__prf__int_8h_source.html#l00180">hidd_le_prf_int.h:180</a></div></div>
 </div><!-- fragment -->
-<p class="definition">Definition at line <a class="el" href="hid__device__le__prf_8c_source.html#l00206">206</a> of file <a class="el" href="hid__device__le__prf_8c_source.html">hid_device_le_prf.c</a>.</p>
-
-<p class="reference">Referenced by <a class="el" href="hid__device__le__prf_8c_source.html#l00601">hidd_set_countrycode()</a>.</p>
+<p class="definition">Definition at line <a class="el" href="hid__device__le__prf_8c_source.html#l00223">223</a> of file <a class="el" href="hid__device__le__prf_8c_source.html">hid_device_le_prf.c</a>.</p>
 
 </div>
 </div>
@@ -1452,9 +1539,9 @@ Here is the caller graph for this function:</div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="hid__device__le__prf_8c_source.html#l00200">200</a> of file <a class="el" href="hid__device__le__prf_8c_source.html">hid_device_le_prf.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="hid__device__le__prf_8c_source.html#l00217">217</a> of file <a class="el" href="hid__device__le__prf_8c_source.html">hid_device_le_prf.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="hid__dev_8c_source.html#l00038">hid_dev_rpt_by_id()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="hid__dev_8c_source.html#l00025">hid_dev_rpt_by_id()</a>.</p>
 
 </div>
 </div>
@@ -1478,7 +1565,10 @@ Here is the caller graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="hid__device__le__prf_8c_source.html#l00045">45</a> of file <a class="el" href="hid__device__le__prf_8c_source.html">hid_device_le_prf.c</a>.</p>
+<p>HID Report Map characteristic value Keyboard report descriptor (using format for Boot interface descriptor) Mouse report descriptor. </p>
+<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000001">Todo:</a></b></dt><dd>Add the joystick report descriptor here. </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="hid__device__le__prf_8c_source.html#l00043">43</a> of file <a class="el" href="hid__device__le__prf_8c_source.html">hid_device_le_prf.c</a>.</p>
 
 </div>
 </div>
@@ -1494,7 +1584,7 @@ Here is the caller graph for this function:</div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="hid__device__le__prf_8c_source.html#l00199">199</a> of file <a class="el" href="hid__device__le__prf_8c_source.html">hid_device_le_prf.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="hid__device__le__prf_8c_source.html#l00216">216</a> of file <a class="el" href="hid__device__le__prf_8c_source.html">hid_device_le_prf.c</a>.</p>
 
 </div>
 </div>
@@ -1517,12 +1607,12 @@ Here is the caller graph for this function:</div>
   </tr>
 </table>
 </div><div class="memdoc">
-<b>Initial value:</b><div class="fragment"><div class="line">=</div><div class="line">             { <a class="code" href="hidd__le__prf__int_8h.html#a294d77f599410cdc8c71da07fa67020f">HID_RPT_ID_CC_IN</a>, <a class="code" href="hidd__le__prf__int_8h.html#a8c2f36273741e160a071ead66cc36da2">HID_REPORT_TYPE_INPUT</a> }</div><div class="ttc" id="hidd__le__prf__int_8h_html_a294d77f599410cdc8c71da07fa67020f"><div class="ttname"><a href="hidd__le__prf__int_8h.html#a294d77f599410cdc8c71da07fa67020f">HID_RPT_ID_CC_IN</a></div><div class="ttdeci">#define HID_RPT_ID_CC_IN</div><div class="ttdef"><b>Definition:</b> <a href="hidd__le__prf__int_8h_source.html#l00045">hidd_le_prf_int.h:45</a></div></div>
-<div class="ttc" id="hidd__le__prf__int_8h_html_a8c2f36273741e160a071ead66cc36da2"><div class="ttname"><a href="hidd__le__prf__int_8h.html#a8c2f36273741e160a071ead66cc36da2">HID_REPORT_TYPE_INPUT</a></div><div class="ttdeci">#define HID_REPORT_TYPE_INPUT</div><div class="ttdef"><b>Definition:</b> <a href="hidd__le__prf__int_8h_source.html#l00098">hidd_le_prf_int.h:98</a></div></div>
+<b>Initial value:</b><div class="fragment"><div class="line">=</div><div class="line">             { <a class="code" href="hidd__le__prf__int_8h.html#a294d77f599410cdc8c71da07fa67020f">HID_RPT_ID_CC_IN</a>, <a class="code" href="hidd__le__prf__int_8h.html#a8c2f36273741e160a071ead66cc36da2">HID_REPORT_TYPE_INPUT</a> }</div><div class="ttc" id="hidd__le__prf__int_8h_html_a294d77f599410cdc8c71da07fa67020f"><div class="ttname"><a href="hidd__le__prf__int_8h.html#a294d77f599410cdc8c71da07fa67020f">HID_RPT_ID_CC_IN</a></div><div class="ttdeci">#define HID_RPT_ID_CC_IN</div><div class="ttdef"><b>Definition:</b> <a href="hidd__le__prf__int_8h_source.html#l00129">hidd_le_prf_int.h:129</a></div></div>
+<div class="ttc" id="hidd__le__prf__int_8h_html_a8c2f36273741e160a071ead66cc36da2"><div class="ttname"><a href="hidd__le__prf__int_8h.html#a8c2f36273741e160a071ead66cc36da2">HID_REPORT_TYPE_INPUT</a></div><div class="ttdeci">#define HID_REPORT_TYPE_INPUT</div><div class="ttdef"><b>Definition:</b> <a href="hidd__le__prf__int_8h_source.html#l00183">hidd_le_prf_int.h:183</a></div></div>
 </div><!-- fragment -->
-<p class="definition">Definition at line <a class="el" href="hid__device__le__prf_8c_source.html#l00235">235</a> of file <a class="el" href="hid__device__le__prf_8c_source.html">hid_device_le_prf.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="hid__device__le__prf_8c_source.html#l00254">254</a> of file <a class="el" href="hid__device__le__prf_8c_source.html">hid_device_le_prf.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="hid__device__le__prf_8c_source.html#l00675">hid_add_id_tbl()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="hid__device__le__prf_8c_source.html#l00744">hid_add_id_tbl()</a>.</p>
 
 </div>
 </div>
@@ -1545,12 +1635,12 @@ Here is the caller graph for this function:</div>
   </tr>
 </table>
 </div><div class="memdoc">
-<b>Initial value:</b><div class="fragment"><div class="line">=</div><div class="line">             { <a class="code" href="hidd__le__prf__int_8h.html#a1c9299b131a3e8d3e0ac8f803321d51d">HID_RPT_ID_FEATURE</a>, <a class="code" href="hidd__le__prf__int_8h.html#ab2122756f77c390357c5b86f1b69faa6">HID_REPORT_TYPE_FEATURE</a> }</div><div class="ttc" id="hidd__le__prf__int_8h_html_ab2122756f77c390357c5b86f1b69faa6"><div class="ttname"><a href="hidd__le__prf__int_8h.html#ab2122756f77c390357c5b86f1b69faa6">HID_REPORT_TYPE_FEATURE</a></div><div class="ttdeci">#define HID_REPORT_TYPE_FEATURE</div><div class="ttdef"><b>Definition:</b> <a href="hidd__le__prf__int_8h_source.html#l00100">hidd_le_prf_int.h:100</a></div></div>
-<div class="ttc" id="hidd__le__prf__int_8h_html_a1c9299b131a3e8d3e0ac8f803321d51d"><div class="ttname"><a href="hidd__le__prf__int_8h.html#a1c9299b131a3e8d3e0ac8f803321d51d">HID_RPT_ID_FEATURE</a></div><div class="ttdeci">#define HID_RPT_ID_FEATURE</div><div class="ttdef"><b>Definition:</b> <a href="hidd__le__prf__int_8h_source.html#l00048">hidd_le_prf_int.h:48</a></div></div>
+<b>Initial value:</b><div class="fragment"><div class="line">=</div><div class="line">             { <a class="code" href="hidd__le__prf__int_8h.html#a1c9299b131a3e8d3e0ac8f803321d51d">HID_RPT_ID_FEATURE</a>, <a class="code" href="hidd__le__prf__int_8h.html#ab2122756f77c390357c5b86f1b69faa6">HID_REPORT_TYPE_FEATURE</a> }</div><div class="ttc" id="hidd__le__prf__int_8h_html_ab2122756f77c390357c5b86f1b69faa6"><div class="ttname"><a href="hidd__le__prf__int_8h.html#ab2122756f77c390357c5b86f1b69faa6">HID_REPORT_TYPE_FEATURE</a></div><div class="ttdeci">#define HID_REPORT_TYPE_FEATURE</div><div class="ttdef"><b>Definition:</b> <a href="hidd__le__prf__int_8h_source.html#l00185">hidd_le_prf_int.h:185</a></div></div>
+<div class="ttc" id="hidd__le__prf__int_8h_html_a1c9299b131a3e8d3e0ac8f803321d51d"><div class="ttname"><a href="hidd__le__prf__int_8h.html#a1c9299b131a3e8d3e0ac8f803321d51d">HID_RPT_ID_FEATURE</a></div><div class="ttdeci">#define HID_RPT_ID_FEATURE</div><div class="ttdef"><b>Definition:</b> <a href="hidd__le__prf__int_8h_source.html#l00133">hidd_le_prf_int.h:133</a></div></div>
 </div><!-- fragment -->
-<p class="definition">Definition at line <a class="el" href="hid__device__le__prf_8c_source.html#l00231">231</a> of file <a class="el" href="hid__device__le__prf_8c_source.html">hid_device_le_prf.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="hid__device__le__prf_8c_source.html#l00250">250</a> of file <a class="el" href="hid__device__le__prf_8c_source.html">hid_device_le_prf.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="hid__device__le__prf_8c_source.html#l00675">hid_add_id_tbl()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="hid__device__le__prf_8c_source.html#l00744">hid_add_id_tbl()</a>.</p>
 
 </div>
 </div>
@@ -1573,12 +1663,12 @@ Here is the caller graph for this function:</div>
   </tr>
 </table>
 </div><div class="memdoc">
-<b>Initial value:</b><div class="fragment"><div class="line">=</div><div class="line">             { <a class="code" href="hidd__le__prf__int_8h.html#ae275c1d382448411ee0441d55a970569">HID_RPT_ID_KEY_IN</a>, <a class="code" href="hidd__le__prf__int_8h.html#a8c2f36273741e160a071ead66cc36da2">HID_REPORT_TYPE_INPUT</a> }</div><div class="ttc" id="hidd__le__prf__int_8h_html_ae275c1d382448411ee0441d55a970569"><div class="ttname"><a href="hidd__le__prf__int_8h.html#ae275c1d382448411ee0441d55a970569">HID_RPT_ID_KEY_IN</a></div><div class="ttdeci">#define HID_RPT_ID_KEY_IN</div><div class="ttdef"><b>Definition:</b> <a href="hidd__le__prf__int_8h_source.html#l00044">hidd_le_prf_int.h:44</a></div></div>
-<div class="ttc" id="hidd__le__prf__int_8h_html_a8c2f36273741e160a071ead66cc36da2"><div class="ttname"><a href="hidd__le__prf__int_8h.html#a8c2f36273741e160a071ead66cc36da2">HID_REPORT_TYPE_INPUT</a></div><div class="ttdeci">#define HID_REPORT_TYPE_INPUT</div><div class="ttdef"><b>Definition:</b> <a href="hidd__le__prf__int_8h_source.html#l00098">hidd_le_prf_int.h:98</a></div></div>
+<b>Initial value:</b><div class="fragment"><div class="line">=</div><div class="line">             { <a class="code" href="hidd__le__prf__int_8h.html#ae275c1d382448411ee0441d55a970569">HID_RPT_ID_KEY_IN</a>, <a class="code" href="hidd__le__prf__int_8h.html#a8c2f36273741e160a071ead66cc36da2">HID_REPORT_TYPE_INPUT</a> }</div><div class="ttc" id="hidd__le__prf__int_8h_html_ae275c1d382448411ee0441d55a970569"><div class="ttname"><a href="hidd__le__prf__int_8h.html#ae275c1d382448411ee0441d55a970569">HID_RPT_ID_KEY_IN</a></div><div class="ttdeci">#define HID_RPT_ID_KEY_IN</div><div class="ttdef"><b>Definition:</b> <a href="hidd__le__prf__int_8h_source.html#l00128">hidd_le_prf_int.h:128</a></div></div>
+<div class="ttc" id="hidd__le__prf__int_8h_html_a8c2f36273741e160a071ead66cc36da2"><div class="ttname"><a href="hidd__le__prf__int_8h.html#a8c2f36273741e160a071ead66cc36da2">HID_REPORT_TYPE_INPUT</a></div><div class="ttdeci">#define HID_REPORT_TYPE_INPUT</div><div class="ttdef"><b>Definition:</b> <a href="hidd__le__prf__int_8h_source.html#l00183">hidd_le_prf_int.h:183</a></div></div>
 </div><!-- fragment -->
-<p class="definition">Definition at line <a class="el" href="hid__device__le__prf_8c_source.html#l00223">223</a> of file <a class="el" href="hid__device__le__prf_8c_source.html">hid_device_le_prf.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="hid__device__le__prf_8c_source.html#l00239">239</a> of file <a class="el" href="hid__device__le__prf_8c_source.html">hid_device_le_prf.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="hid__device__le__prf_8c_source.html#l00675">hid_add_id_tbl()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="hid__device__le__prf_8c_source.html#l00744">hid_add_id_tbl()</a>.</p>
 
 </div>
 </div>
@@ -1601,12 +1691,12 @@ Here is the caller graph for this function:</div>
   </tr>
 </table>
 </div><div class="memdoc">
-<b>Initial value:</b><div class="fragment"><div class="line">=</div><div class="line">             { <a class="code" href="hidd__le__prf__int_8h.html#aefc58b8c80aecc52a0712efa3c820063">HID_RPT_ID_LED_OUT</a>, <a class="code" href="hidd__le__prf__int_8h.html#afc5ff29118405a5851471ccdc991b1be">HID_REPORT_TYPE_OUTPUT</a> }</div><div class="ttc" id="hidd__le__prf__int_8h_html_afc5ff29118405a5851471ccdc991b1be"><div class="ttname"><a href="hidd__le__prf__int_8h.html#afc5ff29118405a5851471ccdc991b1be">HID_REPORT_TYPE_OUTPUT</a></div><div class="ttdeci">#define HID_REPORT_TYPE_OUTPUT</div><div class="ttdef"><b>Definition:</b> <a href="hidd__le__prf__int_8h_source.html#l00099">hidd_le_prf_int.h:99</a></div></div>
-<div class="ttc" id="hidd__le__prf__int_8h_html_aefc58b8c80aecc52a0712efa3c820063"><div class="ttname"><a href="hidd__le__prf__int_8h.html#aefc58b8c80aecc52a0712efa3c820063">HID_RPT_ID_LED_OUT</a></div><div class="ttdeci">#define HID_RPT_ID_LED_OUT</div><div class="ttdef"><b>Definition:</b> <a href="hidd__le__prf__int_8h_source.html#l00047">hidd_le_prf_int.h:47</a></div></div>
+<b>Initial value:</b><div class="fragment"><div class="line">=</div><div class="line">             { <a class="code" href="hidd__le__prf__int_8h.html#aefc58b8c80aecc52a0712efa3c820063">HID_RPT_ID_LED_OUT</a>, <a class="code" href="hidd__le__prf__int_8h.html#afc5ff29118405a5851471ccdc991b1be">HID_REPORT_TYPE_OUTPUT</a> }</div><div class="ttc" id="hidd__le__prf__int_8h_html_afc5ff29118405a5851471ccdc991b1be"><div class="ttname"><a href="hidd__le__prf__int_8h.html#afc5ff29118405a5851471ccdc991b1be">HID_REPORT_TYPE_OUTPUT</a></div><div class="ttdeci">#define HID_REPORT_TYPE_OUTPUT</div><div class="ttdef"><b>Definition:</b> <a href="hidd__le__prf__int_8h_source.html#l00184">hidd_le_prf_int.h:184</a></div></div>
+<div class="ttc" id="hidd__le__prf__int_8h_html_aefc58b8c80aecc52a0712efa3c820063"><div class="ttname"><a href="hidd__le__prf__int_8h.html#aefc58b8c80aecc52a0712efa3c820063">HID_RPT_ID_LED_OUT</a></div><div class="ttdeci">#define HID_RPT_ID_LED_OUT</div><div class="ttdef"><b>Definition:</b> <a href="hidd__le__prf__int_8h_source.html#l00132">hidd_le_prf_int.h:132</a></div></div>
 </div><!-- fragment -->
-<p class="definition">Definition at line <a class="el" href="hid__device__le__prf_8c_source.html#l00227">227</a> of file <a class="el" href="hid__device__le__prf_8c_source.html">hid_device_le_prf.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="hid__device__le__prf_8c_source.html#l00243">243</a> of file <a class="el" href="hid__device__le__prf_8c_source.html">hid_device_le_prf.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="hid__device__le__prf_8c_source.html#l00675">hid_add_id_tbl()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="hid__device__le__prf_8c_source.html#l00744">hid_add_id_tbl()</a>.</p>
 
 </div>
 </div>
@@ -1629,12 +1719,38 @@ Here is the caller graph for this function:</div>
   </tr>
 </table>
 </div><div class="memdoc">
-<b>Initial value:</b><div class="fragment"><div class="line">=</div><div class="line">             { <a class="code" href="hidd__le__prf__int_8h.html#adcc36a227f5386df1faaf120ae4fc0c8">HID_RPT_ID_MOUSE_IN</a>, <a class="code" href="hidd__le__prf__int_8h.html#a8c2f36273741e160a071ead66cc36da2">HID_REPORT_TYPE_INPUT</a> }</div><div class="ttc" id="hidd__le__prf__int_8h_html_a8c2f36273741e160a071ead66cc36da2"><div class="ttname"><a href="hidd__le__prf__int_8h.html#a8c2f36273741e160a071ead66cc36da2">HID_REPORT_TYPE_INPUT</a></div><div class="ttdeci">#define HID_REPORT_TYPE_INPUT</div><div class="ttdef"><b>Definition:</b> <a href="hidd__le__prf__int_8h_source.html#l00098">hidd_le_prf_int.h:98</a></div></div>
-<div class="ttc" id="hidd__le__prf__int_8h_html_adcc36a227f5386df1faaf120ae4fc0c8"><div class="ttname"><a href="hidd__le__prf__int_8h.html#adcc36a227f5386df1faaf120ae4fc0c8">HID_RPT_ID_MOUSE_IN</a></div><div class="ttdeci">#define HID_RPT_ID_MOUSE_IN</div><div class="ttdef"><b>Definition:</b> <a href="hidd__le__prf__int_8h_source.html#l00043">hidd_le_prf_int.h:43</a></div></div>
+<b>Initial value:</b><div class="fragment"><div class="line">=</div><div class="line">             { <a class="code" href="hidd__le__prf__int_8h.html#adcc36a227f5386df1faaf120ae4fc0c8">HID_RPT_ID_MOUSE_IN</a>, <a class="code" href="hidd__le__prf__int_8h.html#a8c2f36273741e160a071ead66cc36da2">HID_REPORT_TYPE_INPUT</a> }</div><div class="ttc" id="hidd__le__prf__int_8h_html_a8c2f36273741e160a071ead66cc36da2"><div class="ttname"><a href="hidd__le__prf__int_8h.html#a8c2f36273741e160a071ead66cc36da2">HID_REPORT_TYPE_INPUT</a></div><div class="ttdeci">#define HID_REPORT_TYPE_INPUT</div><div class="ttdef"><b>Definition:</b> <a href="hidd__le__prf__int_8h_source.html#l00183">hidd_le_prf_int.h:183</a></div></div>
+<div class="ttc" id="hidd__le__prf__int_8h_html_adcc36a227f5386df1faaf120ae4fc0c8"><div class="ttname"><a href="hidd__le__prf__int_8h.html#adcc36a227f5386df1faaf120ae4fc0c8">HID_RPT_ID_MOUSE_IN</a></div><div class="ttdeci">#define HID_RPT_ID_MOUSE_IN</div><div class="ttdef"><b>Definition:</b> <a href="hidd__le__prf__int_8h_source.html#l00127">hidd_le_prf_int.h:127</a></div></div>
 </div><!-- fragment -->
-<p class="definition">Definition at line <a class="el" href="hid__device__le__prf_8c_source.html#l00218">218</a> of file <a class="el" href="hid__device__le__prf_8c_source.html">hid_device_le_prf.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="hid__device__le__prf_8c_source.html#l00234">234</a> of file <a class="el" href="hid__device__le__prf_8c_source.html">hid_device_le_prf.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="hid__device__le__prf_8c_source.html#l00675">hid_add_id_tbl()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="hid__device__le__prf_8c_source.html#l00744">hid_add_id_tbl()</a>.</p>
+
+</div>
+</div>
+<a id="ab10f28e980e8f3e10c6da21e6e2859ae"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab10f28e980e8f3e10c6da21e6e2859ae">&#9670;&nbsp;</a></span>hidReportRefVendorOut</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint8_t hidReportRefVendorOut[<a class="el" href="hidd__le__prf__int_8h.html#a9e214dcdc0faba83d46da253cf90250f">HID_REPORT_REF_LEN</a>]</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<b>Initial value:</b><div class="fragment"><div class="line">=</div><div class="line">             {<a class="code" href="hidd__le__prf__int_8h.html#ab7558eb78d7388f89b0beb0794413a3d">HID_RPT_ID_VENDOR_OUT</a>, <a class="code" href="hidd__le__prf__int_8h.html#afc5ff29118405a5851471ccdc991b1be">HID_REPORT_TYPE_OUTPUT</a>}</div><div class="ttc" id="hidd__le__prf__int_8h_html_afc5ff29118405a5851471ccdc991b1be"><div class="ttname"><a href="hidd__le__prf__int_8h.html#afc5ff29118405a5851471ccdc991b1be">HID_REPORT_TYPE_OUTPUT</a></div><div class="ttdeci">#define HID_REPORT_TYPE_OUTPUT</div><div class="ttdef"><b>Definition:</b> <a href="hidd__le__prf__int_8h_source.html#l00184">hidd_le_prf_int.h:184</a></div></div>
+<div class="ttc" id="hidd__le__prf__int_8h_html_ab7558eb78d7388f89b0beb0794413a3d"><div class="ttname"><a href="hidd__le__prf__int_8h.html#ab7558eb78d7388f89b0beb0794413a3d">HID_RPT_ID_VENDOR_OUT</a></div><div class="ttdeci">#define HID_RPT_ID_VENDOR_OUT</div><div class="ttdef"><b>Definition:</b> <a href="hidd__le__prf__int_8h_source.html#l00130">hidd_le_prf_int.h:130</a></div></div>
+</div><!-- fragment -->
+<p class="definition">Definition at line <a class="el" href="hid__device__le__prf_8c_source.html#l00246">246</a> of file <a class="el" href="hid__device__le__prf_8c_source.html">hid_device_le_prf.c</a>.</p>
 
 </div>
 </div>
@@ -1650,9 +1766,9 @@ Here is the caller graph for this function:</div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="hid__device__le__prf_8c_source.html#l00247">247</a> of file <a class="el" href="hid__device__le__prf_8c_source.html">hid_device_le_prf.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="hid__device__le__prf_8c_source.html#l00266">266</a> of file <a class="el" href="hid__device__le__prf_8c_source.html">hid_device_le_prf.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="hid__device__le__prf_8c_source.html#l00507">esp_hidd_prf_cb_hdl()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="hid__device__le__prf_8c_source.html#l00540">esp_hidd_prf_cb_hdl()</a>.</p>
 
 </div>
 </div>
@@ -1676,7 +1792,7 @@ Here is the caller graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="hid__device__le__prf_8c_source.html#l00252">252</a> of file <a class="el" href="hid__device__le__prf_8c_source.html">hid_device_le_prf.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="hid__device__le__prf_8c_source.html#l00271">271</a> of file <a class="el" href="hid__device__le__prf_8c_source.html">hid_device_le_prf.c</a>.</p>
 
 </div>
 </div>
@@ -1702,7 +1818,7 @@ Here is the caller graph for this function:</div>
 
 <p>the uuid definition </p>
 
-<p class="definition">Definition at line <a class="el" href="hid__device__le__prf_8c_source.html#l00251">251</a> of file <a class="el" href="hid__device__le__prf_8c_source.html">hid_device_le_prf.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="hid__device__le__prf_8c_source.html#l00270">270</a> of file <a class="el" href="hid__device__le__prf_8c_source.html">hid_device_le_prf.c</a>.</p>
 
 </div>
 </div>

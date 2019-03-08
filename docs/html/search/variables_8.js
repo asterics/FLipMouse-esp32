@@ -1,8 +1,14 @@
 var searchData=
 [
-  ['inputjoystick',['inputJoystick',['../HID__kbdmousejoystick_8cpp.html#ac515fb4d9de404965d5537c2609406c8',1,'HID_kbdmousejoystick.cpp']]],
-  ['inputkbd',['inputKbd',['../HID__kbdmousejoystick_8cpp.html#a074dfe6d222e6d161e6c67b58b657468',1,'HID_kbdmousejoystick.cpp']]],
-  ['inputmouse',['inputMouse',['../HID__kbdmousejoystick_8cpp.html#a14b27c3a3112adc6832eab8f0792aa56',1,'HID_kbdmousejoystick.cpp']]],
+  ['id',['id',['../structhid__report__map__t.html#aba0c6d07799c078484a01448e4d4b026',1,'hid_report_map_t::id()'],['../structhidRptMap__t.html#ad338f2087494951f12e7a810fae463f5',1,'hidRptMap_t::id()']]],
+  ['idletimeout',['idleTimeout',['../structhid__dev__cfg__t.html#a5079bf74447d0a8b33e9db4ea9788bb6',1,'hid_dev_cfg_t']]],
+  ['in_5fuse',['in_use',['../structhidd__clcb__t.html#aa7f4716107ea37701cfd5d97a96d6fbc',1,'hidd_clcb_t']]],
+  ['incl_5fsvc',['incl_svc',['../hid__device__le__prf_8c.html#acc79618f323c3868b5c3ddde94482bb0',1,'hid_device_le_prf.c']]],
+  ['include_5fservice_5fuuid',['include_service_uuid',['../hid__device__le__prf_8c.html#adc6e894d122567caf42e17340513cb43',1,'hid_device_le_prf.c']]],
+  ['init_5ffinish',['init_finish',['../unionesp__hidd__cb__param__t.html#ae8d840a7abce7fcdaf029d57764fcf81',1,'esp_hidd_cb_param_t']]],
+  ['inst_5fid',['inst_id',['../structhidd__le__env__t.html#a4103c29a8c2e95d569a065255d470a23',1,'hidd_le_env_t']]],
   ['irtimeout',['irtimeout',['../structgeneralConfig.html#a88673af628a8671eddf9052d151256b8',1,'generalConfig']]],
-  ['isconnected',['isConnected',['../HID__kbdmousejoystick_8cpp.html#ac96edbfd94ecf6c6e505cd7fce152d3a',1,'HID_kbdmousejoystick.cpp']]]
+  ['is_5fprimery',['is_primery',['../structhidd__le__env__t.html#a1f357f48384c6c6a3eabd0e613d95ea4',1,'hidd_le_env_t']]],
+  ['is_5ftake',['is_take',['../structhidd__le__env__t.html#a7d66b83d4c43a7473f092d4c7be7285b',1,'hidd_le_env_t']]],
+  ['iswifion',['isWifiOn',['../flipmouse__fabi__esp32__kbdmouse__main_8c.html#a6947f233576122b1180eaee0cc8b1c9e',1,'flipmouse_fabi_esp32_kbdmouse_main.c']]]
 ];

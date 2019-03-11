@@ -70,6 +70,10 @@
  */
 #define HAL_SERIAL_UART_TIMEOUT_MS 10000
 
+/** @brief Timout for receiving ADC data via I2C
+ * @see halSerialReceiveI2CADC */
+#define HAL_SERIAL_I2C_TIMEOUT_MS 100
+
 static const int BUF_SIZE_RX = 512;
 
 /** @brief Output callback
@@ -95,9 +99,14 @@ static const int BUF_SIZE_TX = 512;
 /** @brief Mutex for sending to serial port.
  * */
 static SemaphoreHandle_t serialsendingsem;
-/** @brief Mutex for sending to HID */
-static SemaphoreHandle_t hidsendingsem;
 
+
+#define WRITE_BIT I2C_MASTER_WRITE              /** @brief I2C master write */
+#define READ_BIT I2C_MASTER_READ                /** @brief I2C master read */
+#define ACK_CHECK_EN 0x1                        /** @brief I2C master will check ack from slave*/
+#define ACK_CHECK_DIS 0x0                       /** @brief I2C master will not check ack from slave */
+#define ACK_VAL 0x0                             /** @brief I2C ack value */
+#define NACK_VAL 0x1                            /** @brief I2C nack value */
 
 /** @brief Flush Serial RX input buffer */
 void halSerialFlushRX(void)
@@ -267,22 +276,6 @@ void halSerialRXTask(void *pvParameters)
 void halSerialHIDTask(void *param)
 {
   hid_cmd_t rx;
-  //RMT RAM has 64x32bit memory each block
-  rmt_item32_t *rmtBuf = malloc(sizeof(rmt_item32_t)*64);
-  
-  if(rmtBuf == NULL)
-  {
-    ESP_LOGE(LOG_TAG,"Cannot allocate memory for RMT");
-    vTaskDelete(NULL);
-  }
-  
-  uint8_t rmtCount = 0;
-  
-  //levels are always same, set here.
-  rmt_item32_t item;
-  item.level0 = 1;
-  item.level1 = 0;
-  
   while(1)
   {
     //check if queue is initialized
@@ -291,72 +284,62 @@ void halSerialHIDTask(void *param)
       //pend on MQ, if timeout triggers, just wait again.
       if(xQueueReceive(hid_usb,&rx,portMAX_DELAY))
       {
-        //reset RMT offset
-        rmtCount = 0;
-        
         //output if debug
         #if LOG_LEVEL_SERIAL >= ESP_LOG_DEBUG
           ESP_LOGD(LOG_TAG,"HID: %02X:%02X:%02X",rx.cmd[0],rx.cmd[1],rx.cmd[2]);
         #endif
+        i2c_cmd_handle_t cmd = i2c_cmd_link_create();
+        i2c_master_start(cmd);
+        ///@todo Change LPC I2C address to a define...
+        i2c_master_write_byte(cmd, (0x05 << 1) | WRITE_BIT, ACK_CHECK_EN);
+        i2c_master_write(cmd, rx.cmd, 3, ACK_CHECK_EN);
+        i2c_master_stop(cmd);
+        esp_err_t ret = i2c_master_cmd_begin(I2C_NUM_0, cmd, 1000 / portTICK_RATE_MS);
+        i2c_cmd_link_delete(cmd);
+        //we don't care about return code.
+        //I2C driver sometimes return TIMEOUT...
+        (void) ret;
         
-        //build RMT buffer
-        for(uint8_t i = 0; i<3; i++)
-        {          
-          //process 2 bits at once (one rmt item)
-          for(uint8_t j = 0; j<4; j++)
-          {
-            //process even bit
-            if((rx.cmd[i] & (1<<(j*2))) != 0)
-            {
-              item.duration0 = HAL_SERIAL_HID_DURATION_1; //long timing
-            } else {
-              item.duration0 = HAL_SERIAL_HID_DURATION_0; //short timing
-            }
-            //process odd bit
-            if((rx.cmd[i] & (1<<(j*2+1))) != 0)
-            {
-              item.duration1 = HAL_SERIAL_HID_DURATION_1;
-            } else {
-              item.duration1 = HAL_SERIAL_HID_DURATION_0;
-            }
-            //fill buffer 
-            //rmtCount = ((i*8+j*2)/2) + 1;
-            rmtBuf[rmtCount] = item;
-            rmtCount++;
-          }
+        if(ret != ESP_OK) ESP_LOGW(LOG_TAG,"I2C didn't succeed: 0x%X",ret);
+        else {
+          #if LOG_LEVEL_SERIAL >= ESP_LOG_DEBUG
+          ESP_LOGD(LOG_TAG,"I2C succeed");
+          #endif
         }
-        
-        //signal the RMT the end of this transmission
-        item.duration0 = HAL_SERIAL_HID_DURATION_S; //stop bit timing
-        item.duration1 = 0;
-        rmtBuf[rmtCount] = item;
-        rmtCount++;
-        
-        #if LOG_LEVEL_SERIALHID>=ESP_LOG_VERBOSE
-          ESP_LOGV(LOG_TAG,"RMT dump:");
-          ESP_LOG_BUFFER_HEXDUMP(LOG_TAG,rmtBuf, sizeof(rmt_item32_t)*(rmtCount),ESP_LOG_VERBOSE);
-        #endif
-        
-        //put data into RMT buffer
-        if(rmt_fill_tx_items(HAL_SERIAL_HID_CHANNEL, rmtBuf, \
-          rmtCount, 0) != ESP_OK)
-        {
-          ESP_LOGE(LOG_TAG,"Cannot send data to RMT");
-        }
-        //start TX, reset memory index (always send from beginning)
-        if(rmt_tx_start(HAL_SERIAL_HID_CHANNEL, 1) != ESP_OK)
-        {
-          ESP_LOGE(LOG_TAG,"Cannot start RMT TX");
-        }
-        rmt_wait_tx_done(HAL_SERIAL_HID_CHANNEL,portMAX_DELAY);
-        ///@todo Do we need this short delay here?
-        vTaskDelay(1);
       }
     } else {
       ESP_LOGW(LOG_TAG,"usb hid queue not initialized, retry in 1s");
       vTaskDelay(1000/portTICK_PERIOD_MS);
     }
   }
+}
+
+/** @brief Read ADC data via I2C from LPC chip
+ * 
+ * This method reads 10Bytes of ADC data from LPC chip via the
+ * I2C interface.
+ * 
+ * @return -1 on error, number of read bytes otherwise
+ * @param data Double pointer to save 10 Bytes of data
+ * @see HAL_SERIAL_I2C_TIMEOUT_MS
+ * */
+int halSerialReceiveI2CADC(uint8_t **data)
+{
+  //we define 10bytes to be read.
+  int size = 10;
+  i2c_cmd_handle_t cmd = i2c_cmd_link_create();
+  i2c_master_start(cmd);
+  ///@todo Change LPC I2C address to a define...
+  i2c_master_write_byte(cmd, (0x05 << 1) | READ_BIT, ACK_CHECK_EN);
+  if (size > 1) {
+      i2c_master_read(cmd, *data, size - 1, ACK_VAL);
+  }
+  i2c_master_read_byte(cmd, *data + size - 1, NACK_VAL);
+  i2c_master_stop(cmd);
+  esp_err_t ret = i2c_master_cmd_begin(I2C_NUM_0, cmd, 1000 / portTICK_RATE_MS);
+  i2c_cmd_link_delete(cmd);
+  if(ret == ESP_OK) return size;
+  else return -1;
 }
 
 /** @brief Read parsed AT commands from USB-Serial (USB-CDC)
@@ -525,12 +508,6 @@ void halSerialAddOutputStream(serialoutput_h cb)
   outputcb = cb;
 }
 
-/** @brief CB for finished HID output (RMT), releases mutex */
-void halSerialHIDFinished(rmt_channel_t channel, void *arg)
-{
-  if(hidsendingsem != NULL) xSemaphoreGive(hidsendingsem);
-}
-
 /** @brief Initialize the serial HAL
  * 
  * This method initializes the serial interface & creates
@@ -545,7 +522,7 @@ esp_err_t halSerialInit(void)
   
   esp_err_t ret = ESP_OK;
   const uart_config_t uart_config = {
-    .baud_rate = 230400,
+    .baud_rate = 115200,
     .data_bits = UART_DATA_8_BITS,
     .parity = UART_PARITY_DISABLE,
     .stop_bits = UART_STOP_BITS_1,
@@ -584,45 +561,28 @@ esp_err_t halSerialInit(void)
     ESP_LOGE(LOG_TAG,"Cannot create semaphore for TX"); 
     return ESP_FAIL;
   }
-  //mutex for sending HID commands
-  //acquired before sending, released in RMT finish callback
-  hidsendingsem = xSemaphoreCreateMutex();
-  if(hidsendingsem == NULL) 
-  {
-    ESP_LOGE(LOG_TAG,"Cannot create semaphore for HID"); 
-    return ESP_FAIL;
-  }
-
+  
   //create the AT command queue
   halSerialATCmds = xQueueCreate(CMDQUEUE_SIZE,sizeof(atcmd_t));
 
-  /*++++ RMT config (sending HID commands) ++++*/
-  rmt_config_t hidoutput_rmt;
-  
-  hidoutput_rmt.rmt_mode = RMT_MODE_TX;  //TX mode
-  hidoutput_rmt.channel = HAL_SERIAL_HID_CHANNEL; //use define RMT channel
-  hidoutput_rmt.clk_div = 10; //8MHz clock; we need to be fast...
-  hidoutput_rmt.gpio_num = HAL_SERIAL_HIDPIN; //output pin
-  hidoutput_rmt.mem_block_num = 1;
-  hidoutput_rmt.tx_config.loop_en = 0;     //do not loop
-  hidoutput_rmt.tx_config.carrier_en = 0;  //we don't need a carrier
-  hidoutput_rmt.tx_config.idle_output_en = 1;
-  hidoutput_rmt.tx_config.idle_level = 0;
-  
-  if(rmt_config(&hidoutput_rmt) != ESP_OK)
+  /*++++ I2C config (sending HID commands; receiving ADC data) ++++*/
+  int i2c_master_port = I2C_NUM_0;
+  i2c_config_t conf;
+  conf.mode = I2C_MODE_MASTER;
+  conf.sda_io_num = HAL_IO_PIN_SDA;
+  conf.sda_pullup_en = GPIO_PULLUP_DISABLE;
+  conf.scl_io_num = HAL_IO_PIN_SCL;
+  conf.scl_pullup_en = GPIO_PULLUP_DISABLE;
+  conf.master.clk_speed = 100000;
+  i2c_param_config(i2c_master_port, &conf);
+  if(i2c_driver_install(i2c_master_port, conf.mode,0,0,0) != ESP_OK) 
   {
-    ESP_LOGE(LOG_TAG,"Cannot init RMT for HID output");
-    return ESP_FAIL;
-  }
-  
-  if(rmt_driver_install(HAL_SERIAL_HID_CHANNEL,0,0) != ESP_OK)
-  {
-    ESP_LOGE(LOG_TAG,"Cannot install driver for HID output");
+    ESP_LOGE(LOG_TAG,"Error initializing I2C master");
     return ESP_FAIL;
   }
 
   /*++++ task setup ++++*/
-  //task for sending HID commands via RMT
+  //task for sending HID commands via I2C
   xTaskCreate(halSerialHIDTask, "serialHID", HAL_SERIAL_TASK_STACKSIZE+256, NULL, configMAX_PRIORITIES-3, NULL);
   
   //Create a task to handler UART event from ISR

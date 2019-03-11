@@ -144,6 +144,15 @@ void app_main()
         ESP_LOGE(LOG_TAG,"error initializing halIOInit");
     }
         
+    //initialize serial communication task
+    //(USB-HID & USB Serial for commands)
+    if(halSerialInit() == ESP_OK)
+    {
+        ESP_LOGD(LOG_TAG,"initialized halSerial");
+    } else {
+        ESP_LOGE(LOG_TAG,"error initializing halSerial");
+    }
+        
     //start adc continous task
     if(halAdcInit(NULL) == ESP_OK)
     {
@@ -179,16 +188,7 @@ void app_main()
     } else {
         ESP_LOGE(LOG_TAG,"error initializing halBle");
     }
-    
-    //initialize serial communication task
-    //(USB-HID & USB Serial for commands)
-    if(halSerialInit() == ESP_OK)
-    {
-        ESP_LOGD(LOG_TAG,"initialized halSerial");
-    } else {
-        ESP_LOGE(LOG_TAG,"error initializing halSerial");
-    }
-    
+
     //command parser
     if(taskCommandsInit() == ESP_OK)
     {

@@ -128,6 +128,10 @@
 #define HAL_IO_PIN_NEOPIXEL     22
 /** @brief PIN - GPIO pin for external modules */
 #define HAL_IO_PIN_EXT          2
+/** @brief PIN - I2C SDA pin (FLipMouse) */
+#define HAL_IO_PIN_SDA  13
+/** @brief PIN - I2C SCL pin (FLipMouse) */
+#define HAL_IO_PIN_SCL  15
 
 #endif /* DEVICE_FLIPMOUSE */
 

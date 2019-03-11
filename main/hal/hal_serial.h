@@ -50,6 +50,7 @@
 #include <freertos/semphr.h>
 #include <esp_log.h>
 #include "driver/uart.h"
+#include "driver/i2c.h"
 #include "soc/uart_struct.h"
 #include "string.h"
 //common definitions & data for all of these functional tasks
@@ -191,4 +192,15 @@ void halSerialFlushRX(void);
  * @see halSerialRXTask
  * */
 int halSerialReceiveUSBSerial(uint8_t **data);
+
+/** @brief Read ADC data via I2C from LPC chip
+ * 
+ * This method reads 10Bytes of ADC data from LPC chip via the
+ * I2C interface.
+ * 
+ * @return -1 on error, number of read bytes otherwise
+ * @param data Double pointer to save 10 Bytes of data
+ * @see HAL_SERIAL_I2C_TIMEOUT_MS
+ * */
+int halSerialReceiveI2CADC(uint8_t **data);
 #endif /* HAL_SERIAL_H */

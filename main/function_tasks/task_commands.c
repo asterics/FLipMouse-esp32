@@ -1633,6 +1633,8 @@ void storeSlot(char* slotname)
   
   sprintf(outputstring,"AT RO %d\n",currentcfg->adc.orientation);
   halStorageStore(tid,outputstring,250);
+  sprintf(outputstring,"AT FB %d\n",currentcfg->feedback);
+  halStorageStore(tid,outputstring,250);
   
   
   //return: 0 if nothing is active, 1 for USB only, 2 for BLE only, 3 for both

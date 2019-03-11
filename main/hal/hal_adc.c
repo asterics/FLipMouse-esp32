@@ -245,16 +245,16 @@ void halAdcProcessStrongMode(adcData_t *D)
  * */
 void halAdcReportRaw(uint32_t up, uint32_t down, uint32_t left, uint32_t right, uint32_t pressure, int32_t x, int32_t y)
 {
-    #define REPORT_RAW_COUNT 16
+    #define REPORT_RAW_COUNT 4
     static int prescaler = 0;
     
     if(adc_conf.reportraw != 0)
     {
         if(prescaler % REPORT_RAW_COUNT == 0)
         {
-            char data[40];
+            char data[48];
             sprintf(data,"VALUES:%d,%d,%d,%d,%d,%d,%d",pressure,up,down,left,right,x,y);
-            halSerialSendUSBSerial(data, strnlen(data,40), 10);
+            halSerialSendUSBSerial(data, strnlen(data,48), 10);
         }
         prescaler++;
     }
@@ -319,15 +319,6 @@ void halAdcReadData(adcData_t *values)
  */
 void halAdcReadData(adcData_t *values)
 {
-    #ifdef USE_OTF_ALPHA
-    //4 sensors, maximum of 15 values are allowed (set by "AT OC")
-    static int32_t otf_olds[4][15];
-    //current index in otf_olds array
-    static uint8_t otf_cb_index = 0;
-    //count of otf events -> if 10 subsequent events below threshold happened
-    //calibration is started.
-    static uint8_t otf_counter = 0;
-    #endif
     //read all sensors
     int32_t tmp = 0;
     int32_t x,y;
@@ -336,92 +327,21 @@ void halAdcReadData(adcData_t *values)
     ///@see HAL_ADC_RAW_DIVIDER
     static uint32_t debug_out_cnt = 0;
     
-    
-    //read sensor data & apply characteristics
-    #ifdef HAL_IO_ADC_CHANNEL_UP
-        up = adc1_get_raw(HAL_IO_ADC_CHANNEL_UP);
-        if(up == -1) { ESP_LOGE(LOG_TAG,"Cannot read channel up"); return; }
-    #endif
-    #ifdef HAL_IO_ADC_CHANNEL_DOWN
-        down = adc1_get_raw(HAL_IO_ADC_CHANNEL_DOWN);
-        if(down == -1) { ESP_LOGE(LOG_TAG,"Cannot read channel down"); return; }
-    #endif
-    #ifdef HAL_IO_ADC_CHANNEL_LEFT
-        left = adc1_get_raw(HAL_IO_ADC_CHANNEL_LEFT);
-        if(left == -1) { ESP_LOGE(LOG_TAG,"Cannot read channel left"); return; }
-    #endif
-    #ifdef HAL_IO_ADC_CHANNEL_RIGHT
-        right = adc1_get_raw(HAL_IO_ADC_CHANNEL_RIGHT);
-        if(right == -1) { ESP_LOGE(LOG_TAG,"Cannot read channel right"); return; }
-    #endif
-    #ifdef HAL_IO_ADC_CHANNEL_PRESSURE
-        pressure = adc1_get_raw(HAL_IO_ADC_CHANNEL_PRESSURE);
-    #endif
-    if(pressure == -1 || up == -1 || down == -1 || left == -1 || right == -1)
-    { 
-        ESP_LOGE(LOG_TAG,"Cannot read channel pressure"); return;
-    }
-    
-    /*++++ on-the-fly calibration ++++*/
-    #ifdef USE_OTF_ALPHA
-    //If the ADC input does not change over a defined threshold
-    //we assume that the mouthpiece is left idle.
-    //To avoid any problems with the Velostat material (which tends to
-    //be not as good in idle mode as FSR sensors), we test here
-    //if the values don't change too much (although the absolute value
-    //might be different than before).
-    //In case of an idle mouthpiece, there should be a delta of ~1-3
-    //raw value steps each ADC iteration. 
-    
-    //currently used: accumulate 3 last deltas and check if ALL 4 inputs
-    //are assumed idle. If yes, adjust the offset values.
-    
-    //validate config once before, if something went wrong we might have
-    //an array-out-of-bounds problem
-    adc_conf.otf_count = validate(adc_conf.otf_count,5,15,HAL_IO_ADC_OTF_COUNT);
-    adc_conf.otf_idle = validate(adc_conf.otf_idle,0,15,HAL_IO_ADC_OTF_THRESHOLD);
-    
-    //save these values
-    otf_olds[0][otf_cb_index] = left;
-    otf_olds[1][otf_cb_index] = right;
-    otf_olds[2][otf_cb_index] = up;
-    otf_olds[3][otf_cb_index] = down;
-    
-    //calculate deltas (from last to first element is done after loop)
-    int32_t delta_accum = 0;
-    for(uint8_t i = 0; i<(adc_conf.otf_count-1);i++)
+    //read sensor data via I2C.
+    uint8_t adc[10];
+    uint8_t *adc2 = adc;
+    int rcv = halSerialReceiveI2CADC(&adc2);
+    if(rcv != 10)
     {
-        delta_accum += abs(otf_olds[0][i+1] - otf_olds[0][i]);
-        delta_accum += abs(otf_olds[1][i+1] - otf_olds[1][i]);
-        delta_accum += abs(otf_olds[2][i+1] - otf_olds[2][i]);
-        delta_accum += abs(otf_olds[3][i+1] - otf_olds[3][i]);
+        ESP_LOGW(LOG_TAG,"I2C recv: 0x%X",rcv);
     }
-    //get deltas from last/first value
-    delta_accum += abs(otf_olds[0][0] - otf_olds[0][adc_conf.otf_count-1]);
-    delta_accum += abs(otf_olds[1][0] - otf_olds[1][adc_conf.otf_count-1]);
-    delta_accum += abs(otf_olds[2][0] - otf_olds[2][adc_conf.otf_count-1]);
-    delta_accum += abs(otf_olds[3][0] - otf_olds[3][adc_conf.otf_count-1]);
-    
-    //next element
-    otf_cb_index = (otf_cb_index+1)%adc_conf.otf_count;
-    
-    
-    //decide based on overall accumulated delta
-    if(delta_accum <= adc_conf.otf_idle)
-    {
-        if(otf_counter == 5)
-        {
-            ///@todo Test OTF calibration more with different values & different sensor setup, activate here afterwards!
-            //values->calibrate_request = 1;
-            ESP_LOGI(LOG_TAG,"OTF now!");
-        } else {
-            otf_counter++;
-        }
-    } else {
-        otf_counter = 0;
-    }
-    #endif
-    
+    left = (int32_t)((uint16_t)(adc[2] + (adc[3] << 8)));
+    right = (int32_t)((uint16_t)(adc[6] + (adc[7] << 8)));
+    up = (int32_t)((uint16_t)(adc[4] + (adc[5] << 8)));
+    down = (int32_t)((uint16_t)(adc[0] + (adc[1] << 8)));
+    pressure = (int32_t)((uint16_t)(adc[8] + (adc[9] << 8)));
+    //ESP_LOGE(LOG_TAG,"%d,%d,%d,%d,%d",up,down,left,right,pressure);
+
     //do the mouse rotation
     switch (adc_conf.orientation) {
       case 90: tmp=up; up=left; left=down; down=right; right=tmp; break;
@@ -542,14 +462,14 @@ void halAdcProcessPressure(adcData_t *D)
             fired[0] = 1;
         }
     } else {
-        if(fired[0] != 2)
+        if(fired[0] == 1)
         {
             //set/clear VBs
             evt.type = VB_RELEASE_EVENT;
             evt.vb = VB_SIP;
             xQueueSendToBack(debouncer_in,&evt,0);
             //track fired state
-            fired[0] = 2;
+            fired[0] = 0;
         }
     }
     
@@ -614,14 +534,14 @@ void halAdcProcessPressure(adcData_t *D)
             fired[2] = 1;
         }
     } else {
-        if(fired[2] != 2)
+        if(fired[2] == 1)
         {
             //set/clear VBs
             evt.type = VB_RELEASE_EVENT;
             evt.vb = VB_PUFF;
             xQueueSendToBack(debouncer_in,&evt,0);
             //track fired state
-            fired[2] = 2;
+            fired[2] = 0;
         }
     }
     

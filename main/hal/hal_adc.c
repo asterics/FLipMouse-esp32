@@ -69,7 +69,6 @@ typedef struct adcData {
     uint32_t left;
     uint32_t right;
     uint32_t pressure;
-    uint32_t pressure_raw;
     int32_t x;
     int32_t y;
     uint8_t calibrate_request;
@@ -107,8 +106,6 @@ esp_adc_cal_characteristics_t characteristics;
 
 /** offset values, calibrated via "Calibration middle position" */
 static int32_t offsetx,offsety;
-/** pressure offset, calibrated by halAdcCalibrate */
-static int32_t pressure_idle;
 
 /** @brief Timer for strong mode timeout
  * This timer is used for a timeout moving back to STRONG_NORMAL if
@@ -288,15 +285,8 @@ void halAdcReadData(adcData_t *values)
     { 
         ESP_LOGE(LOG_TAG,"Cannot read channel pressure"); return;
     } else { 
-        //save raw value (for calibration)
-        values->pressure_raw = pressure;
-        
-        //limit range of output
-        tmp = pressure-pressure_idle;
-        if(tmp >= 512) tmp = 511;
-        if(tmp < -512)  tmp = -512;
-        //save calibrated pressure value
-        values->pressure = (uint32_t)(512+tmp);        
+        //save value
+        values->pressure= pressure;       
     }
 }
 
@@ -354,10 +344,9 @@ void halAdcReadData(adcData_t *values)
     values->right = right;
     values->up = up;
     values->down = down;
-    values->pressure_raw = pressure;
     
     //process pressure
-    values->pressure = pressure - pressure_idle + 512;
+    values->pressure = pressure;
     
     //calculate X and Y values
     x = (left - right) - offsetx;
@@ -872,7 +861,6 @@ void halAdcCalibrate(void)
             left+= D.left;
             right+= D.right;
             down+= D.down;
-            pressure+=D.pressure_raw;
             
             //wait 2 ticks
             vTaskDelay(2);
@@ -883,11 +871,9 @@ void halAdcCalibrate(void)
         down = down / 8;
         left = left / 8;
         right = right / 8;
-        pressure = pressure / 8;
         //set as offset values
         offsetx = left - right;
         offsety = up - down;
-        pressure_idle = pressure;
         
         //make a tone
         TONE(TONE_CALIB_FREQ,TONE_CALIB_DURATION);

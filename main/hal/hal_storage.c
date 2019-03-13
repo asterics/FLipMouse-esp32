@@ -22,10 +22,7 @@
  * @brief HAL TASK - This file contains the abstraction layer for storing FLipMouse/FABI configs
  * 
  * This module stores general configs & virtual button configurations to
- * a storage area. In case of the ESP32 we use FAT with wear leveling,
- * which is provided by the esp-idf.
- * <b>Warning:</b> Please adjust the esp-idf to us 512Byte sectors and <b>mode "safety"</b>!
- * 
+ * a storage area. In case of the ESP32 we use SPIFFS, which is provided by the esp-idf.
  * 
  * Following commands are implemented here:
  * * list all slot names
@@ -81,11 +78,8 @@ static uint8_t storageCurrentSlotNumber = 0;
  * */
 static FILE *storeHandle = NULL;
 
-/** @brief Wear levelling handle */
-static wl_handle_t s_wl_handle = WL_INVALID_HANDLE;
-
 /** @brief Partition name (used to define different memory types) */
-const static char *base_path = "/spiflash";
+const static char *base_path = "/spiffs";
 
 /** @brief Current active storage task
  * 
@@ -132,7 +126,7 @@ esp_err_t halStorageNVSLoadString(const char *key, char *string)
  * This method is used to store a string in a non-volatile storage.
  * No TID is necessary, just call this function.
  * 
- * @warning NVS is not as big as FAT storage, use with care! (max ~10kB)
+ * @warning NVS is not as big as SPIFFS storage, use with care! (max ~10kB)
  * @param key Key to identify this value on read.
  * @param string String to be stored in flash/eeprom (flash in ESP32)
  * @return ESP_OK on success, error codes according to nvs_set_str 
@@ -174,24 +168,18 @@ esp_err_t halStorageNVSStoreString(const char *key, char *string)
  * */
 esp_err_t halStorageGetFree(uint32_t *total, uint32_t *free)
 {
-  FATFS *fs;
-  DWORD fre_clust, fre_sect, tot_sect;
+  size_t tot,used;
+  esp_err_t ret = esp_spiffs_info(NULL,&tot,&used);
   
-  //thanks to Ivan Grokhotkov, according to:
-  //https://github.com/espressif/esp-idf/issues/1660
-  /* Get volume information and free clusters of drive 0 */
-  int res = f_getfree("0:", &fre_clust, &fs);
-  if(res == 0)
-  {
-    /* Get total sectors and free sectors */
-    tot_sect = (fs->n_fatent - 2) * fs->csize;
-    fre_sect = fre_clust * fs->csize;
-    *free = fre_sect*512;
-    *total = tot_sect*512;
-    return ESP_OK;
-  } else {
-    return ESP_FAIL;
-  }
+  //cannot proceed...
+  if(ret != ESP_OK) return ESP_FAIL;
+  
+  //save total to caller
+  *total = tot;
+  //save total - used bytes to caller
+  *free = tot - used;
+  //everything went fine.
+  return ESP_OK;
 }
 
 
@@ -204,17 +192,20 @@ esp_err_t halStorageInit(void)
   
   esp_err_t ret;
   #if LOG_LEVEL_STORAGE >= ESP_LOG_DEBUG
-  ESP_LOGI(LOG_TAG, "Mounting FATFS for storage");
+  ESP_LOGI(LOG_TAG, "Mounting SPIFFS for storage");
   #endif
+  
   // To mount device we need name of device partition, define base_path
   // and allow format partition in case if it is new one and was not formated before
-  const esp_vfs_fat_mount_config_t mount_config = {
-          .max_files = 4,
-          .format_if_mount_failed = true
+  const esp_vfs_spiffs_conf_t mount_config = {
+    .base_path = base_path,
+    .max_files = 4,
+    .format_if_mount_failed = true,
+    .partition_label = NULL
   };
-  ret = esp_vfs_fat_spiflash_mount(base_path, "storage", &mount_config, &s_wl_handle);
+  ret = esp_vfs_spiffs_register(&mount_config);
   //return on an error
-  if(ret != ESP_OK) { ESP_LOGE(LOG_TAG,"Error mounting FATFS"); return ret; }
+  if(ret != ESP_OK) { ESP_LOGE(LOG_TAG,"Error mounting SPIFFS"); return ret; }
   
   //initialize nvs
   ret = nvs_flash_init();
@@ -242,10 +233,10 @@ esp_err_t halStorageChecks(uint32_t tid)
     return ESP_FAIL;
   }
   
-  //FAT is not mounted, trigger init
-  if(s_wl_handle == WL_INVALID_HANDLE)
+  //SPIFFS is not mounted, trigger init
+  if(esp_spiffs_mounted(NULL) == false)
   {
-    ESP_LOGE(LOG_TAG,"Error initializing FAT; cannot continue");
+    ESP_LOGE(LOG_TAG,"Error initializing SPIFFS; cannot continue");
     return ESP_FAIL;
   }
   
@@ -364,7 +355,7 @@ esp_err_t halStorageGetNumberOfSlots(uint32_t tid, uint8_t *slotsavailable)
 {
   uint8_t currentSlot = 0;
   char file[sizeof(base_path)+32];
-  FILE *f;
+  struct stat st;
 
   if(halStorageChecks(tid) != ESP_OK) return ESP_FAIL;
   
@@ -377,22 +368,19 @@ esp_err_t halStorageGetNumberOfSlots(uint32_t tid, uint8_t *slotsavailable)
     ESP_LOGD(LOG_TAG,"Opening file %s",file);
     #endif
     
-    f = fopen(file, "rb");
-    
-    //check if this file is available
-    //if one file is not available, we assume this is the end of configs
-    if(f == NULL)
-    {
+    if (stat(file, &st) == 0) {
+      //check next slot if file exists
+      currentSlot++;
+    } else {
+      //if file doesn't exist, exit:
       ESP_LOGI(LOG_TAG,"Available slots: %u",currentSlot);
       *slotsavailable = currentSlot;
       return ESP_OK;
-    } else {
-      fclose(f);
-      currentSlot++;
     }
+    if(currentSlot == 250) break;
   } while(1);
   
-  return ESP_OK;
+  return ESP_FAIL;
 }
 
 
@@ -464,12 +452,12 @@ esp_err_t halStorageGetNameForNumberIR(uint32_t tid, uint8_t slotnumber, char *c
  * This function is used to delete one IR command or all commands (depending on
  * parameter slotnr)
  * 
- * @param slotnr Number of slot to be deleted. Use 250 to delete all slots
- * @note Setting slotnr to 100 deletes all IR slots.
+ * @param slotnr Number of slot to be deleted. Use -1 to delete all slots
+ * @note Setting slotnr to -1 deletes all IR slots.
  * @param tid Transaction id
  * @return ESP_OK if everything is fine, ESP_FAIL otherwise
  * */
-esp_err_t halStorageDeleteIRCmd(uint8_t slotnr, uint32_t tid)
+esp_err_t halStorageDeleteIRCmd(int16_t slotnr, uint32_t tid)
 {
   char file[sizeof(base_path)+32];
   char filenew[sizeof(base_path)+32];
@@ -485,27 +473,37 @@ esp_err_t halStorageDeleteIRCmd(uint8_t slotnr, uint32_t tid)
   uint8_t from = slotnr;
   uint8_t to = slotnr;
   
-  //in case of deleting all slots, start at 0 and delete until 249
-  if(slotnr == 250)
+  //in case of deleting all slots, start at 0 and delete until the last slot
+  if(slotnr == -1)
   {
     from = 0;
-    to = 249;
+    if(halStorageGetNumberOfIRCmds(tid,&to) != ESP_OK)
+    {
+      ESP_LOGE(LOG_TAG,"Cannot get number of IR slots, cannot delete all");
+      return ESP_FAIL;
+    }
+    //if we have 2 slots, we need to delete IR_000.set & IR_001.set -> decrement here
+    to--;
   }
   
   //check for valid storage handle
   if(halStorageChecks(tid) != ESP_OK) return ESP_FAIL;
   
   //delete one or all slots
+  struct stat st;
   for(uint8_t i = from; i<=to; i++)
   {
-    sprintf(file,"%s/IR_%03d.set",base_path,i); 
-    remove(file);
+    sprintf(file,"%s/IR_%03d.set",base_path,i);
+    if (stat(file, &st) == 0) {
+        // Delete it if it exists
+        unlink(file);
+    }
     //not necessary, ESP32 uses preemption
     //taskYIELD();
   }
   
   //re-arrange all following slots (of course, only if not deleting all)
-  if(slotnr != 250)
+  if(slotnr != -1)
   {
     
     for(uint8_t i = to+1; i<=249; i++)
@@ -542,35 +540,33 @@ esp_err_t halStorageDeleteIRCmd(uint8_t slotnr, uint32_t tid)
  * */
 esp_err_t halStorageGetNumberOfIRCmds(uint32_t tid, uint8_t *slotsavailable)
 {
-  uint8_t current = 0;
   uint8_t count = 0;
   char file[sizeof(base_path)+32];
-  FILE *f;
+  struct stat st;
 
   if(halStorageChecks(tid) != ESP_OK) return ESP_FAIL;
   
   do {
     //create filename string to search if this slot is available
-    sprintf(file,"%s/IR_%03d.set",base_path,current);
+    sprintf(file,"%s/IR_%03d.set",base_path,count);
     
-    f = fopen(file, "rb");
+    //open file for reading
+    #if LOG_LEVEL_STORAGE >= ESP_LOG_DEBUG
+    ESP_LOGD(LOG_TAG,"Opening file %s",file);
+    #endif
     
-    //check if this file is available
-    if(f != NULL)
-    {
-      //open file for reading
-      #if LOG_LEVEL_STORAGE >= ESP_LOG_DEBUG
-      ESP_LOGD(LOG_TAG,"Opening file %s",file);
-      #endif
+    if (stat(file, &st) == 0) {
+      //check next slot if file exists
       count++;
-      fclose(f);
+    } else {
+      ESP_LOGI(LOG_TAG,"Available IR cmds: %u",count);
+      *slotsavailable = count;
+      return ESP_OK;
     }
-    current++;
-    if(current == 250) break;
+    count++;
+    if(count == 250) break;
   } while(1);
-  ESP_LOGI(LOG_TAG,"Available IR cmds: %u",count);
-  *slotsavailable = count;
-  return ESP_OK;
+  return ESP_FAIL;
 }
 
 /** @brief Get the number of first available slot for an IR command
@@ -682,6 +678,9 @@ esp_err_t halStorageGetNameForNumber(uint32_t tid, uint8_t slotnumber, char *slo
   } else {
     //if no, config is invalid
     ESP_LOGE(LOG_TAG,"Missing \"Slot XXX:\" tag (%s)!",slotnamebuf);
+    
+    
+    
     free(slotnamebuf);
     fclose(f);
     return ESP_FAIL;
@@ -1138,7 +1137,6 @@ esp_err_t halStorageDeleteSlot(int16_t slotnr, uint32_t tid)
   char file[sizeof(base_path)+32];
   char filenew[sizeof(base_path)+32];
   int ret;
-  FILE *f;
   //delete by starting & ending at given slotnumber 
   uint8_t from;
   uint8_t to;
@@ -1147,7 +1145,13 @@ esp_err_t halStorageDeleteSlot(int16_t slotnr, uint32_t tid)
   if(slotnr == -1)
   {
     from = 0;
-    to = 250;
+    if(halStorageGetNumberOfSlots(tid,&to) != ESP_OK)
+    {
+      ESP_LOGE(LOG_TAG,"Cannot get number of slots, cannot delete all");
+      return ESP_FAIL;
+    }
+    //if we have 2 slots, we need to delete 000.set & 001.set -> decrement here
+    to--;
   } else if(slotnr <= 250 && slotnr >= 0) {
     from = slotnr;
     to = slotnr;
@@ -1160,15 +1164,13 @@ esp_err_t halStorageDeleteSlot(int16_t slotnr, uint32_t tid)
   if(halStorageChecks(tid) != ESP_OK) return ESP_FAIL;
   
   //delete one or all slots
+  struct stat st;
   for(uint8_t i = from; i<=to; i++)
   {
-    sprintf(file,"%s/%03d.set",base_path,i); 
-    f = fopen(file, "rb");
-    if(f!=NULL)
-    {
-      fclose(f);
-      remove(file);
-      f = NULL;
+    sprintf(file,"%s/%03d.set",base_path,i);
+    if (stat(file, &st) == 0) {
+        // Delete it if it exists
+        unlink(file);
     }
     //not necessary, ESP32 uses preemption
     //taskYIELD();
@@ -1192,8 +1194,12 @@ esp_err_t halStorageDeleteSlot(int16_t slotnr, uint32_t tid)
       //taskYIELD();
     }
   }
-
-  ESP_LOGI(LOG_TAG,"Deleted slot %d (-1 means delete all), renamed remaining",slotnr);
+  if(slotnr == -1)
+  {
+    ESP_LOGI(LOG_TAG,"Deleted all slots");
+  } else {
+    ESP_LOGI(LOG_TAG,"Deleted slot %d, renamed remaining",slotnr);
+  }
   return ESP_OK;
 }
 
@@ -1510,7 +1516,7 @@ esp_err_t halStorageStartTransaction(uint32_t *tid, TickType_t tickstowait, cons
     *tid = storageCurrentTID;
     //save caller's name for tracking
     strncpy(storageCurrentTIDHolder,caller,sizeof(storageCurrentTIDHolder));
-    if(s_wl_handle == WL_INVALID_HANDLE)
+    if(esp_spiffs_mounted(NULL) == false)
     {
       if(halStorageInit() != ESP_OK)
       {
@@ -1557,7 +1563,11 @@ esp_err_t halStorageFinishTransaction(uint32_t tid)
   }
   
   //if we have used a store file handle, close it.
-  if(storeHandle != NULL) fclose(storeHandle);
+  if(storeHandle != NULL)
+  {
+    fclose(storeHandle);
+    storeHandle = NULL;
+  }
   
   //reset caller & id
   storageCurrentTID = 0;

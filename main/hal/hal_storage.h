@@ -79,8 +79,7 @@
 #include <freertos/semphr.h>
 #include <esp_log.h>
 #include <mbedtls/md5.h>
-#include "esp_vfs.h"
-#include "esp_vfs_fat.h"
+#include "esp_spiffs.h"
 #include "nvs_flash.h"
 #include "nvs.h"
 
@@ -318,11 +317,12 @@ esp_err_t halStorageLoadIR(char *cmdName, halIOIR_t *cfg, uint32_t tid);
  * This function is used to delete one IR command or all commands (depending on
  * parameter slotnr)
  * 
- * @param slotnr Number of slot to be deleted. Use 100 to delete all slots
+ * @param slotnr Number of slot to be deleted. Use -1 to delete all slots
+ * @note Setting slotnr to -1 deletes all IR slots.
  * @param tid Transaction id
  * @return ESP_OK if everything is fine, ESP_FAIL otherwise
  * */
-esp_err_t halStorageDeleteIRCmd(uint8_t slotnr, uint32_t tid);
+esp_err_t halStorageDeleteIRCmd(int16_t slotnr, uint32_t tid);
 
 
 /** @brief Get the name of an infrared command stored at the given slot number

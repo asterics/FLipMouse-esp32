@@ -61,7 +61,7 @@
 #define CONFIG_AP_BEACON_INTERVAL	100
 
 /** @brief Partition name (used to define different memory types) */
-const static char *base_path = "/spiflash";
+const static char *base_path = "/spiffs";
 /** @brief Currently used wifi password */
 static char wifipw[64];
 

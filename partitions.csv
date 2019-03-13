@@ -8,7 +8,7 @@ factory,  0,    0,      0x10000,  2M
 ### WARNING: if you change the partition table here, update the makefile for mkfats accordingly:
 ##./components/webguiimagebuilder/Makefile.projbuild
 #~2M FAT, used if no SPIFFS is utilized for web pages
-storage,  data, fat,   0x210000,  0x1F0000
+storage,  data, spiffs,   0x210000,  0x1F0000
 #1M FAT, used if dedicated SPIFFS is located afterwards
 #storage,  data, fat,   0x210000,  1M
 #960K SPIFFS -> we try to use FAT for both (web and config)

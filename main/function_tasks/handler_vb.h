@@ -107,4 +107,13 @@ esp_err_t handler_vb_clearCmds(void);
  * */
 esp_err_t handler_vb_getAT(char* output, uint8_t vb);
 
+/** @brief Check if a VB is active in this handler
+ * 
+ * This function returns true if a given vb is active in this handler
+ * (is located in the command chain with a given command).
+ * 
+ * @param vb Number of virtual button to check
+ * @return true if active, false if not */
+bool handler_vb_active(uint8_t vb);
+
 #endif /* _HANDLER_VB_H */

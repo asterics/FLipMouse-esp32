@@ -21,15 +21,21 @@
  */
  
  /** @file
-  * @brief Contains different tone height & duration definitions
-  * @see config_switcher.c
-  * @see hal_adc.c
-  * @see task_infrared.c
+  * @brief Contains different tone height & duration definitions.
+  * @see handler_vb
+  * @see task_debouncer
+  * @see config_switcher
   * @see halIOBuzzerQueue
   * @see TONE
+  * @note Some of the tones are used for a dedicated action (e.g. calibrate)
+  * and will be used within the handler, if this action is triggered on any VB.
+  * Other tones are related to a dedicated action (e.g. sip/puff) and will
+  * be used if this VB is issued, independent from the associated action.
+  * And another type of tones is used somewhere within the code (cannot
+  * do anything against it :-)).
   * */
 
-/*++++ in config_switcher, config related ++++*/
+/*++++ in config_switcher, config related (triggered by an action) ++++*/
 
 /** @brief Base frequency for slot, TONE_CHANGESLOT_FREQ_SLOTNR * slotnr will be added 
  * @see config_switcher.c */

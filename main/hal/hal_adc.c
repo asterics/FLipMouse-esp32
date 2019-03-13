@@ -242,7 +242,7 @@ void halAdcProcessStrongMode(adcData_t *D)
  * */
 void halAdcReportRaw(uint32_t up, uint32_t down, uint32_t left, uint32_t right, uint32_t pressure, int32_t x, int32_t y)
 {
-    #define REPORT_RAW_COUNT 4
+    #define REPORT_RAW_COUNT 8
     static int prescaler = 0;
     
     if(adc_conf.reportraw != 0)
@@ -411,8 +411,7 @@ void halAdcReadData(adcData_t *values)
 #endif /* DEVICE_FLIPMOUSE */
 
 /** @brief Process pressure sensor (sip & puff)
- * @todo Do everything here, no sip&puff currently available.
- * @todo issue tones only if VB is NOT set (otherwise we will flood the buzzer)
+ * @todo Process strong sip&puff
  * @param pressurevalue Currently measured pressure.
  * */
 void halAdcProcessPressure(adcData_t *D)
@@ -441,8 +440,6 @@ void halAdcProcessPressure(adcData_t *D)
     {
         if(fired[0] != 1)
         {
-            //create a tone
-            TONE(TONE_SIP_FREQ,TONE_SIP_DURATION);
             //set/clear VBs
             evt.type = VB_PRESS_EVENT;
             evt.vb = VB_SIP;
@@ -469,6 +466,8 @@ void halAdcProcessPressure(adcData_t *D)
         //strong sip alone is unused
         #ifdef DEVICE_FLIPMOUSE
         ///@todo How to test if VB is used?!?
+        //if(handler_hid_active(VB_SIP) || handler_vb_active(VB_SIP))
+        
         if(0)
         {
             //if at least one strong action is defined and strong sip
@@ -513,8 +512,6 @@ void halAdcProcessPressure(adcData_t *D)
         
         if(fired[2] != 1)
         {
-            //create a tone
-            TONE(TONE_PUFF_FREQ,TONE_PUFF_DURATION);
             //set/clear VBs
             evt.type = VB_PRESS_EVENT;
             evt.vb = VB_PUFF;
@@ -541,6 +538,7 @@ void halAdcProcessPressure(adcData_t *D)
         //strong puff alone is unused
         #ifdef DEVICE_FLIPMOUSE
         ///@todo How to test if VB is used?!?
+        //if(handler_hid_active(VB_SIP) || handler_vb_active(VB_SIP))
         if(0)
         {
             //if at least one strong action is defined and strong puff
@@ -844,7 +842,6 @@ void halAdcCalibrate(void)
         uint32_t down = 0;
         uint32_t left = 0;
         uint32_t right = 0;
-        uint32_t pressure = 0;
         
         //save for next iteration
         adcCalibLast = xTaskGetTickCount();
@@ -874,9 +871,6 @@ void halAdcCalibrate(void)
         //set as offset values
         offsetx = left - right;
         offsety = up - down;
-        
-        //make a tone
-        TONE(TONE_CALIB_FREQ,TONE_CALIB_DURATION);
         
         ESP_LOGI(LOG_TAG,"Finished calibration, offsets: %d/%d",offsetx,offsety);
         

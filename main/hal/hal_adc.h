@@ -52,6 +52,8 @@
 //common definitions & data for all of these functional tasks
 #include "common.h"
 #include "hal_serial.h"
+#include "handler_hid.h"
+#include "handler_vb.h"
 #include "math.h"
 
 

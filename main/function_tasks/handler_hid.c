@@ -61,6 +61,10 @@ static hid_cmd_t *cmd_chain = NULL;
 /** @brief Synchronization mutex for accessing the HID command chain */
 SemaphoreHandle_t hidCmdSem = NULL;
 
+/** @brief Bitmap for active VBs. Corresponding bit will be set, if active. 
+ * @see handler_hid_active */
+static uint64_t vb_active = 0;
+
 /**
  * @brief VB event handler, triggering HID actions.
  *
@@ -165,7 +169,7 @@ esp_err_t handler_hid_delCmd(uint8_t vb)
   //existing chain, add to end
   hid_cmd_t *current = cmd_chain;
   hid_cmd_t *prev = NULL;
-  uint count = 0;;
+  uint count = 0;
   
   //do as long as we don't have a null pointer
   while(current != NULL)
@@ -186,7 +190,7 @@ esp_err_t handler_hid_delCmd(uint8_t vb)
       //just begin at the front again (easiest way if we removed the head)
       current = cmd_chain;
       prev = NULL;
-      
+      if((vb & 0x7F) <= 63) vb_active &= ~(1<<(vb & 0x7F)); //delete active flag
       count++;
     } else { //does not match
       //set pointers to next element
@@ -283,6 +287,7 @@ esp_err_t handler_hid_addCmd(hid_cmd_t *newCmd, uint8_t replace)
       }
       current->next = new;
     }
+    if((new->vb & 0x7F) <= 63) vb_active |= (1<<(new->vb & 0x7F)); //set active flag
     count++;
     #if LOG_LEVEL_HID >= ESP_LOG_DEBUG
     ESP_LOGI(LOG_TAG,"Added new cmd nr %d, new: 0x%8X, prev: 0x%8X",count,(uint32_t)new,(uint32_t)current);
@@ -404,6 +409,7 @@ esp_err_t handler_hid_clearCmds(void)
   #endif
 
   cmd_chain = NULL;
+  vb_active = 0;
   //release mutex
   xSemaphoreGive(hidCmdSem);
   return ESP_OK;
@@ -464,3 +470,24 @@ esp_err_t handler_hid_getAT(char* output, uint8_t vb)
   return ESP_FAIL;
 }
 
+
+/** @brief Check if a VB is active in this handler
+ * 
+ * This function returns true if a given vb is active in this handler
+ * (is located in the command chain with a given command).
+ * 
+ * @param vb Number of virtual button to check
+ * @return true if active, false if not */
+bool handler_hid_active(uint8_t vb)
+{
+  //we check for VB_MAX (firmware specfic) and 63 (size of vb_active)
+  if(vb >= VB_MAX || vb >= 63)
+  {
+    ESP_LOGE(LOG_TAG,"Cannot detect state of VB %d, out of range!",vb);
+    return false;
+  } else {
+    if((vb_active & (1<<vb)) != 0) return true;
+    else return false;
+  }
+  return false;
+}

@@ -256,6 +256,16 @@ void debouncerCallback(void *arg) {
       if(cancelTimer(virtualButton,0) == -1) ESP_LOGE(LOG_TAG,"Cannot cancel timer (CB)!");
       //send feedback to host, if enabled
       sendButtonLearn(virtualButton,VB_PRESS_EVENT,cfg);
+      //create tones, according to issued VB
+      ///@todo Maybe we can replace this switch statement with a more flexible solution.
+      switch(virtualButton & 0x7F)
+      {
+        case VB_SIP: TONE(TONE_SIP_FREQ,TONE_SIP_DURATION); break;
+        case VB_PUFF: TONE(TONE_PUFF_FREQ,TONE_PUFF_DURATION); break;
+        case VB_STRONGPUFF: TONE(TONE_STRONGPUFF_EXIT_FREQ,TONE_STRONGPUFF_EXIT_DURATION); break;
+        case VB_STRONGSIP: TONE(TONE_STRONGSIP_EXIT_FREQ,TONE_STRONGSIP_EXIT_DURATION); break;
+        default: break;
+      }
       break;
     case TIMER_RELEASE:
       ESP_LOGD(LOG_TAG,"Debounce finished, map in to out for release VB%d",virtualButton);

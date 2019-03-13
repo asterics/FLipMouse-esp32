@@ -125,11 +125,10 @@ void halSerialFlushRX(void)
  * */
 void halSerialRXTask(void *pvParameters)
 {
-  uint16_t cmdoffset;
+  uint16_t cmdoffset = 0;
   uint8_t *buf;
   uint8_t *bufstatic = malloc(ATCMD_LENGTH);
   uint8_t data;
-  uint8_t parserstate = 0;
   atcmd_t currentcmd;
   
   if(bufstatic == NULL)
@@ -145,94 +144,61 @@ void halSerialRXTask(void *pvParameters)
     //only parse if a valid byte is received
     if(len == 1)
     {
-      switch(parserstate)
+      //check if we got a \r or \n at the beginning
+      //(which is a remaining from the previous command)
+      if((data == '\r' || data == '\n') && (cmdoffset == 0))
       {
-        case 0:
-          //check for leading "A"
-          if(data == 'A' || data == 'a') 
-          { 
-            ///@todo When CIM mode is active, switch back here to AT mode
-            parserstate++; 
-          }
-          //if starting with '@', go to CIM mode.
-          if(data == '@')
-          {
-            ///@todo Activate CIM mode here.
-            ESP_LOGW(LOG_TAG,"CIM mode currently unsupported!");
-          }
-        break;
+        //do nothing with it, just discard
+        continue;
+      }
+      
+      //now read data until we reach \r or \n
+      if(data == '\r' || data == '\n')
+      {
+        //terminate string
+        bufstatic[cmdoffset] = 0;
+        //allocate a new buffer for this command to be processed later
+        //free is done in halSerialReceiveUSBSerial.
+        buf = malloc(cmdoffset+1);
+        if(buf == NULL)
+        {
+          ESP_LOGE(LOG_TAG,"Cannot allocate %d B buffer for new AT cmd",cmdoffset+1);
+          cmdoffset = 0;
+          break;
+        }
+        memcpy(buf,bufstatic,cmdoffset+1);
         
-        
-        case 1:
-          //check for second 'T'/'t'
-          if(data == 'T' || data == 't')
+        //send buffer to queue
+        currentcmd.buf = buf;
+        currentcmd.len = cmdoffset+1;
+        if(halSerialATCmds != NULL)
+        {
+          if(xQueueSend(halSerialATCmds,(void*)&currentcmd,10) != pdTRUE)
           {
-            parserstate++;
-            //reset command offset to beginning (but after "AT")
-            cmdoffset = 2;
-            bufstatic[0] = 'A';
-            bufstatic[1] = 'T';
-
+            ESP_LOGE(LOG_TAG,"AT cmd queue is full, cannot send cmd");
+            free(buf);
           } else {
-            //reset parser of no leading "AT" is detected
-            parserstate = 0;
+            #if LOG_LEVEL_SERIAL >= ESP_LOG_INFO
+            ESP_LOGI(LOG_TAG,"Sent AT cmd with len %d to queue: %s",cmdoffset,bufstatic);
+            #endif
           }
-        break;
-        
-        
-        case 2:
-          //now read data until we reach \r or \n
-          if(data == '\r' || data == '\n')
-          {
-            //terminate string
-            bufstatic[cmdoffset] = 0;
-            //allocate a new buffer for this command to be processed later
-            //free is either done in halSerialReceiveUSBSerial.
-            buf = malloc(cmdoffset+1);
-            if(buf == NULL)
-            {
-              ESP_LOGE(LOG_TAG,"Cannot allocate %d B buffer for new AT cmd",cmdoffset+1);
-              parserstate = 0;
-              break;
-            }
-            memcpy(buf,bufstatic,cmdoffset+1);
-            
-            //send buffer to queue
-            currentcmd.buf = buf;
-            currentcmd.len = cmdoffset+1;
-            if(halSerialATCmds != NULL)
-            {
-              if(xQueueSend(halSerialATCmds,(void*)&currentcmd,10) != pdTRUE)
-              {
-                ESP_LOGE(LOG_TAG,"AT cmd queue is full, cannot send cmd");
-                free(buf);
-              } else {
-                ESP_LOGI(LOG_TAG,"Sent AT cmd with len %d to queue: %s",cmdoffset,bufstatic);
-              }
-            } else {
-              ESP_LOGE(LOG_TAG,"AT cmd queue is NULL, cannot send cmd");
-              free(buf);
-            }
-            parserstate = 0;
-            break;
-          }
-          
-          //if everything is fine, just save this byte.
-          bufstatic[cmdoffset] = data;
-          cmdoffset++;
-          
-          //check for memory length
-          if(cmdoffset == ATCMD_LENGTH)
-          {
-            ESP_LOGW(LOG_TAG,"AT cmd too long, discarding");
-            parserstate = 0;
-          }
-        break;
-        
-        default:
-          ESP_LOGE(LOG_TAG,"Unknown parser state");
-          parserstate = 0;
-        break;
+        } else {
+          ESP_LOGE(LOG_TAG,"AT cmd queue is NULL, cannot send cmd");
+          free(buf);
+        }
+        cmdoffset = 0;
+        continue;
+      }
+      
+      //if everything is fine, just save this byte.
+      bufstatic[cmdoffset] = data;
+      cmdoffset++;
+      
+      //check for memory length
+      if(cmdoffset == ATCMD_LENGTH)
+      {
+        ESP_LOGW(LOG_TAG,"AT cmd too long, discarding");
+        cmdoffset = 0;
       }
     }
   }
@@ -586,7 +552,7 @@ esp_err_t halSerialInit(void)
   xTaskCreate(halSerialHIDTask, "serialHID", HAL_SERIAL_TASK_STACKSIZE+256, NULL, configMAX_PRIORITIES-3, NULL);
   
   //Create a task to handler UART event from ISR
-  xTaskCreate(halSerialRXTask, "serialRX", HAL_SERIAL_TASK_STACKSIZE, NULL, 5, NULL);
+  xTaskCreate(halSerialRXTask, "serialRX", HAL_SERIAL_TASK_STACKSIZE, NULL, configMAX_PRIORITIES-3, NULL);
 
   //everything went fine
   ESP_LOGI(LOG_TAG,"Driver installation complete");

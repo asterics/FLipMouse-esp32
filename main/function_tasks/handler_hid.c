@@ -73,6 +73,8 @@ static void handler_hid(void *event_handler_arg, esp_event_base_t event_base, in
 {
   //if we don't have a stable config, simply return...
   if((xEventGroupGetBits(systemStatus) & SYSTEM_STABLECONFIG) == 0) return;
+  //still commands to be processed, shouldn't continue
+  if((xEventGroupGetBits(systemStatus) & SYSTEM_EMPTY_CMD_QUEUE) == 0) return;
 
   //use the mutex to ensure a valid chained list. 
   if(xSemaphoreTake(hidCmdSem,4) != pdTRUE)

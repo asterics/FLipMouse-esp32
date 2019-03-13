@@ -187,11 +187,16 @@ void configSwitcherTask(void * params)
     //wait for a command.
     if(xQueueReceive(config_switcher,command,1000/portTICK_PERIOD_MS) == pdTRUE)
     {
+      //still commands to be processed, wait for queue to get empty...
+      if((xEventGroupWaitBits(systemStatus,SYSTEM_EMPTY_CMD_QUEUE,pdFALSE, \
+        pdFALSE,1000/portTICK_PERIOD_MS) & SYSTEM_EMPTY_CMD_QUEUE) == 0)
+      {
+        ESP_LOGW(LOG_TAG,"Timeout waiting for empty CMD queue flag");
+        continue;
+      }
       //signal system that we are updating config now.
       xEventGroupSetBits(systemStatus, SYSTEM_LOADCONFIG);
       xEventGroupClearBits(systemStatus, SYSTEM_STABLECONFIG);
-      //clear flag, because we surely will have an unprocessed command here
-      xEventGroupClearBits(systemStatus,SYSTEM_EMPTY_CMD_QUEUE);
       
       //request storage access
       while(halStorageStartTransaction(&tid,100,LOG_TAG) != ESP_OK)

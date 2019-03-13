@@ -57,14 +57,14 @@
 #define TONE_SIP_FREQ                       200
 /** @brief Duration of sip tone
  * @see hal_adc.c */
-#define TONE_SIP_DURATION                   400
+#define TONE_SIP_DURATION                   40
 
 /** @brief Frequency of puff tone
  * @see hal_adc.c */
-#define TONE_PUFF_FREQ                      200
+#define TONE_PUFF_FREQ                      300
 /** @brief Duration of puff tone
  * @see hal_adc.c */
-#define TONE_PUFF_DURATION                  400
+#define TONE_PUFF_DURATION                  40
 
 
 /** @brief Frequency of enter strongsip mode tone

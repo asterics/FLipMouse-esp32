@@ -1402,7 +1402,8 @@ void task_commands(void *params)
           ESP_LOGE(LOG_TAG,"Pointer error, parser config illegal!");
           break;
         case HANDLERERROR:
-          ESP_LOGE(LOG_TAG,"Handler error, parser config illegal or handler has thrown an error!");
+          strip((char*)commandBuffer);
+          ESP_LOGE(LOG_TAG,"ERROR: %s",commandBuffer);
           break;
         case PARAMERROR:
           halSerialSendUSBSerial((char*)"? - params:",12,100);
@@ -1672,6 +1673,7 @@ void storeSlot(char* slotname)
   //release storage
   free(outputstring);
   halStorageFinishTransaction(tid);
+  tid = 0;
 }
 
 /** @brief Init the command parser

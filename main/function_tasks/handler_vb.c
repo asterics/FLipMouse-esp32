@@ -37,7 +37,7 @@
 /** @brief Logging tag for this module */
 #define LOG_TAG "handler_vb"
 /** @brief Set a global log limit for this file */
-#define LOG_LEVEL_VB ESP_LOG_DEBUG
+#define LOG_LEVEL_VB ESP_LOG_INFO
 
 /** @brief Beginning of all VB commands
  * 

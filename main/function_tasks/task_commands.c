@@ -1441,10 +1441,10 @@ void task_commands(void *params)
         
         //HID related
         sendHIDCmd(&mouse,requestVBUpdate | (0x80),commandBuffer,1);
-        sendHIDCmd(&mouseD,requestVBUpdate | (0x80),commandBuffer,1);
-        sendHIDCmd(&mouseR,requestVBUpdate,commandBuffer,1);
+        sendHIDCmd(&mouseD,requestVBUpdate | (0x80),commandBuffer,0);
+        sendHIDCmd(&mouseR,requestVBUpdate,commandBuffer,0);
         sendHIDCmd(&joystick,requestVBUpdate | (0x80),commandBuffer,1);
-        sendHIDCmd(&joystickR,requestVBUpdate,commandBuffer,1);
+        sendHIDCmd(&joystickR,requestVBUpdate,commandBuffer,0);
         //we need to reset requestVBUpdate to VB_SINGLESHOT
         //in the case the processed command here was NOT "AT BM"
         //currently no better solution as comparing the command.

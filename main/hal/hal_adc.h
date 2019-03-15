@@ -59,6 +59,16 @@
 
 #ifdef DEVICE_FLIPMOUSE
 
+/** @brief Use elliptic curve deadzone
+ * 
+ * If set to != 0, halAdcReadData will process the deadzone in
+ * an elliptic curve instead of an rectangle.
+ * 
+ * @see halAdcReadData
+ * @note Experimental feature!
+ */
+#define HAL_IO_ADC_ELLIPTIC_DEADZONE  0
+
 /** @brief on-the-fly calibration - sliding window size
  * 
  * We do an on-the-fly calibration if the mouthpiece is assumed idle.

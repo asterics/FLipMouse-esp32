@@ -352,6 +352,26 @@ void halAdcReadData(adcData_t *values)
     x = (left - right) - offsetx;
     y = (up - down) - offsety;
     
+    #if HAL_IO_ADC_ELLIPTIC_DEADZONE == 0
+    
+    //in this case, we use a rectangle deadzone
+    
+    if (x<-adc_conf.deadzone_x) x+=adc_conf.deadzone_x;  // apply deadzone values x direction
+    else if (x>adc_conf.deadzone_x) x-=adc_conf.deadzone_x;
+    else x=0;
+          
+    if (y<-adc_conf.deadzone_y) y+=adc_conf.deadzone_y;  // apply deadzone values y direction
+    else if (y>adc_conf.deadzone_y) y-=adc_conf.deadzone_y;
+    else y=0;
+    
+    //otherwise, x&y is 0
+    values->x = x;
+    values->y = y;
+    
+    #else
+    
+    //in this case, we use an elliptic deadzone
+    
     //apply elliptic deadzone
     //formula:
     //https://sebadorn.de/2012/01/02/herausfinden-ob-ein-punkt-in-einer-ellipse-liegt
@@ -403,6 +423,7 @@ void halAdcReadData(adcData_t *values)
         values->x = 0;
         values->y = 0;
     }
+    #endif 
     if(debug_out_cnt++%HAL_ADC_RAW_DIVIDER == 0)
     {
         ESP_LOGD(LOG_TAG,"raw x/y %d/%d; ",values->x,values->y);
@@ -874,6 +895,8 @@ void halAdcCalibrate(void)
         
         ESP_LOGI(LOG_TAG,"Finished calibration, offsets: %d/%d",offsetx,offsety);
         
+        TONE(TONE_CALIB_FREQ,TONE_CALIB_DURATION);
+        
         //give mutex to enable tasks again
         xSemaphoreGive(adcSem);
     } else {
@@ -904,7 +927,8 @@ void halAdcTaskThreshold(void * pvParameters)
     vTimerSetTimerID(adcStrongTimerHandle,&D);
     
     #ifdef DEVICE_FLIPMOUSE
-    uint8_t firedx = 0,firedy = 0;
+    //1<<0: up, 1<<1: down, 1<<2: left, 1<<3: right; set if press event was sent.
+    uint8_t activevbs = 0;
     #endif
     
     while(1)
@@ -929,92 +953,120 @@ void halAdcTaskThreshold(void * pvParameters)
         //LEFT/RIGHT value exceeds threshold (deadzone) value?
         if(D.x != 0)
         {
-            //if yes, check if not set already (avoid lot of load)
-            if(firedx == 0)
+            if(D.x < 0)
             {
-                ESP_LOGD(LOG_TAG,"X-axis fired in alternative mode");
-                //set either left or right bit in debouncer input event group
-                if(D.x < 0) 
+                //if not already sent, send press action
+                if(!(activevbs & (1<<2)))
                 {
                     evt.type = VB_PRESS_EVENT;
                     evt.vb = VB_LEFT;
                     xQueueSendToBack(debouncer_in,&evt,0);
-                    evt.type = VB_RELEASE_EVENT;
-                    evt.vb = VB_RIGHT;
-                    xQueueSendToBack(debouncer_in,&evt,0);
-                    D.x = -1;
+                    activevbs |= (1<<2);
                 }
-                if(D.x > 0) 
+                //if opposite was active, release it.
+                if(activevbs & (1<<3))
                 {
-                    evt.type = VB_PRESS_EVENT;
+                    evt.type = VB_RELEASE_EVENT;
                     evt.vb = VB_RIGHT;
                     xQueueSendToBack(debouncer_in,&evt,0);
-                    evt.type = VB_RELEASE_EVENT;
-                    evt.vb = VB_LEFT;
-                    xQueueSendToBack(debouncer_in,&evt,0);
-                    D.x = 1;
+                    activevbs &= ~(1<<3);
                 }
-                //remember that we alread set the flag
-                firedx = 1;
             }
-        } else {
-            if(firedx != 0)
+            if(D.x > 0)
             {
-                //below threshold, clear the one-time flag setting variable
-                firedx = 0;
-                //also clear the debouncer event bits
-                evt.type = VB_RELEASE_EVENT;
-                evt.vb = VB_LEFT;
-                xQueueSendToBack(debouncer_in,&evt,0);
+                //if not already sent, send press action
+                if(!(activevbs & (1<<3)))
+                {
+                    evt.type = VB_PRESS_EVENT;
+                    evt.vb = VB_RIGHT;
+                    xQueueSendToBack(debouncer_in,&evt,0);
+                    activevbs |= (1<<3);
+                }
+                //if opposite was active, release it.
+                if(activevbs & (1<<2))
+                {
+                    evt.type = VB_RELEASE_EVENT;
+                    evt.vb = VB_LEFT;
+                    xQueueSendToBack(debouncer_in,&evt,0);
+                    activevbs &= ~(1<<2);
+                }
+            }
+        } else {        
+            //value is 0 --> idle, release both directions
+            //if active
+            if(activevbs & (1<<3))
+            {
                 evt.type = VB_RELEASE_EVENT;
                 evt.vb = VB_RIGHT;
                 xQueueSendToBack(debouncer_in,&evt,0);
+                activevbs &= ~(1<<3);
+            }
+            if(activevbs & (1<<2))
+            {
+                evt.type = VB_RELEASE_EVENT;
+                evt.vb = VB_LEFT;
+                xQueueSendToBack(debouncer_in,&evt,0);
+                activevbs &= ~(1<<2);
             }
         }
         
         //UP/DOWN value exceeds threshold (deadzone) value?
         if(D.y != 0)
         {
-            //if yes, check if not set already (avoid lot of load)
-            if(firedy == 0)
+            if(D.y < 0)
             {
-                ESP_LOGD(LOG_TAG,"Y-axis fired in alternative mode");
-                //set either left or right bit in debouncer input event group
-                if(D.y < 0) 
+                //if not already sent, send press action
+                if(!(activevbs & (1<<0)))
                 {
                     evt.type = VB_PRESS_EVENT;
                     evt.vb = VB_UP;
                     xQueueSendToBack(debouncer_in,&evt,0);
-                    evt.type = VB_RELEASE_EVENT;
-                    evt.vb = VB_DOWN;
-                    xQueueSendToBack(debouncer_in,&evt,0);
-                    D.y = -1;
+                    activevbs |= (1<<0);
                 }
-                if(D.y > 0) 
+                //if opposite was active, release it.
+                if(activevbs & (1<<1))
                 {
-                    evt.type = VB_PRESS_EVENT;
+                    evt.type = VB_RELEASE_EVENT;
                     evt.vb = VB_DOWN;
                     xQueueSendToBack(debouncer_in,&evt,0);
-                    evt.type = VB_RELEASE_EVENT;
-                    evt.vb = VB_UP;
-                    xQueueSendToBack(debouncer_in,&evt,0);
-                    D.y = 1;
+                    activevbs &= ~(1<<1);
                 }
-                //remember that we alread set the flag
-                firedy = 1;
             }
-        } else {
-            //below threshold, clear the one-time flag setting variable
-            if(firedy != 0)
+            if(D.y > 0)
             {
-                firedy = 0;
-                //also clear the debouncer event bits
+                //if not already sent, send press action
+                if(!(activevbs & (1<<1)))
+                {
+                    evt.type = VB_PRESS_EVENT;
+                    evt.vb = VB_DOWN;
+                    xQueueSendToBack(debouncer_in,&evt,0);
+                    activevbs |= (1<<1);
+                }
+                //if opposite was active, release it.
+                if(activevbs & (1<<0))
+                {
+                    evt.type = VB_RELEASE_EVENT;
+                    evt.vb = VB_UP;
+                    xQueueSendToBack(debouncer_in,&evt,0);
+                    activevbs &= ~(1<<0);
+                }
+            }
+        } else {        
+            //value is 0 --> idle, release both directions
+            //if active
+            if(activevbs & (1<<0))
+            {
                 evt.type = VB_RELEASE_EVENT;
                 evt.vb = VB_UP;
                 xQueueSendToBack(debouncer_in,&evt,0);
+                activevbs &= ~(1<<0);
+            }
+            if(activevbs & (1<<1))
+            {
                 evt.type = VB_RELEASE_EVENT;
                 evt.vb = VB_DOWN;
                 xQueueSendToBack(debouncer_in,&evt,0);
+                activevbs &= ~(1<<1);
             }
         }
         

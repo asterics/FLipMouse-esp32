@@ -39,10 +39,10 @@
 
 /** @brief Base frequency for slot, TONE_CHANGESLOT_FREQ_SLOTNR * slotnr will be added 
  * @see config_switcher.c */
-#define TONE_CHANGESLOT_FREQ_BASE           2000
+#define TONE_CHANGESLOT_FREQ_BASE           1500
 /** @brief Add this amount of frequency for each slot number
  * @see config_switcher.c */
-#define TONE_CHANGESLOT_FREQ_SLOTNR         200
+#define TONE_CHANGESLOT_FREQ_SLOTNR         150
 /** @brief Duration of tone
  * @see config_switcher.c */
 #define TONE_CHANGESLOT_DURATION            150
@@ -60,17 +60,17 @@
 
 /** @brief Frequency of sip tone
  * @see hal_adc.c */
-#define TONE_SIP_FREQ                       200
+#define TONE_SIP_FREQ                       600
 /** @brief Duration of sip tone
  * @see hal_adc.c */
-#define TONE_SIP_DURATION                   40
+#define TONE_SIP_DURATION                   30
 
 /** @brief Frequency of puff tone
  * @see hal_adc.c */
 #define TONE_PUFF_FREQ                      300
 /** @brief Duration of puff tone
  * @see hal_adc.c */
-#define TONE_PUFF_DURATION                  40
+#define TONE_PUFF_DURATION                  30
 
 
 /** @brief Frequency of enter strongsip mode tone

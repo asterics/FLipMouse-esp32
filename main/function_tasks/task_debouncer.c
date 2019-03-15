@@ -260,10 +260,19 @@ void debouncerCallback(void *arg) {
       ///@todo Maybe we can replace this switch statement with a more flexible solution.
       switch(virtualButton & 0x7F)
       {
+        //tones for sip/puff
         case VB_SIP: TONE(TONE_SIP_FREQ,TONE_SIP_DURATION); break;
         case VB_PUFF: TONE(TONE_PUFF_FREQ,TONE_PUFF_DURATION); break;
-        case VB_STRONGPUFF: TONE(TONE_STRONGPUFF_EXIT_FREQ,TONE_STRONGPUFF_EXIT_DURATION); break;
-        case VB_STRONGSIP: TONE(TONE_STRONGSIP_EXIT_FREQ,TONE_STRONGSIP_EXIT_DURATION); break;
+        //tones for StrongPuff + XXX 
+        case VB_STRONGPUFF_UP:
+        case VB_STRONGPUFF_DOWN:
+        case VB_STRONGPUFF_LEFT:
+        case VB_STRONGPUFF_RIGHT: TONE(TONE_STRONGPUFF_EXIT_FREQ,TONE_STRONGPUFF_EXIT_DURATION); break;
+        //tones for StrongSip + XXX 
+        case VB_STRONGSIP_UP:
+        case VB_STRONGSIP_DOWN:
+        case VB_STRONGSIP_LEFT:
+        case VB_STRONGSIP_RIGHT: TONE(TONE_STRONGSIP_EXIT_FREQ,TONE_STRONGSIP_EXIT_DURATION); break;
         default: break;
       }
       break;

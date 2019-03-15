@@ -144,7 +144,6 @@ static void handler_vb(void *event_handler_arg, esp_event_base_t event_base, int
           }
           break;
         case T_CALIBRATE:
-          TONE(TONE_CALIB_FREQ,TONE_CALIB_DURATION);
           halAdcCalibrate();
           break;
         case T_SENDIR:
@@ -152,7 +151,6 @@ static void handler_vb(void *event_handler_arg, esp_event_base_t event_base, int
           {
             ESP_LOGE(LOG_TAG,"Param is null, cannot send IR");
           } else {
-            TONE(TONE_IR_SEND_FREQ,TONE_IR_SEND_DURATION);
             fct_infrared_send(current->cmdparam);
           }
           break;

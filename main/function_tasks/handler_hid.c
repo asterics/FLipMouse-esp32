@@ -114,6 +114,7 @@ static void handler_hid(void *event_handler_arg, esp_event_base_t event_base, in
   vb |= (*((uint32_t*) event_data)) & 0x7F;
   //begin with head of chain
   hid_cmd_t *current = cmd_chain;
+  hid_cmd_t *firsttriggered = NULL;
   //iterate through all available hid cmds
   while(current != NULL)
   {
@@ -122,6 +123,8 @@ static void handler_hid(void *event_handler_arg, esp_event_base_t event_base, in
     if(current->vb == vb)
     {
       count++;
+      //save the first triggered action for log output
+      if(firsttriggered ==NULL) firsttriggered = current;
       if(xEventGroupGetBits(connectionRoutingStatus) & DATATO_USB) 
       { xQueueSend(hid_usb,current,2); }
       if(xEventGroupGetBits(connectionRoutingStatus) & DATATO_BLE) 
@@ -132,7 +135,8 @@ static void handler_hid(void *event_handler_arg, esp_event_base_t event_base, in
   #if LOG_LEVEL_VB >= ESP_LOG_DEBUG
   if(count == 0) ESP_LOGD(LOG_TAG,"Sent %d cmds for VB %d", count, vb & 0x7F);
   #endif
-  if(count != 0) ESP_LOGI(LOG_TAG,"Sent %d cmds for VB %d", count, vb & 0x7F);
+  if(count != 0) ESP_LOGI(LOG_TAG,"Sent %d cmds for VB %d: 0x%02X:0x%02X:0x%02X", \
+    count, vb & 0x7F,firsttriggered->cmd[0],firsttriggered->cmd[1],firsttriggered->cmd[2]);
   xSemaphoreGive(hidCmdSem);
 }
 

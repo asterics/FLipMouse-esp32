@@ -213,10 +213,28 @@ void halBLETask(void * params)
         //parse command (similar to usb_bridge controller)
         switch(rx.cmd[0] & 0xF0)
         {
-          //reset all reports
+          //general cmds
           case 0x00:
-            halBLEReset(0);
+            switch(rx.cmd[0] & 0x0F)
+            {
+              //reset report
+              case 0:
+                halBLEReset(0);
+                break;
+              //mouse X/Y report
+              case 1:
+                mouse_report[1] = rx.cmd[1];
+                mouse_report[2] = rx.cmd[2];
+                hid_dev_send_report(hidd_le_env.gatt_if, hid_conn_id,
+                  HID_RPT_ID_MOUSE_IN, HID_REPORT_TYPE_INPUT, HID_MOUSE_IN_RPT_LEN, mouse_report);
+                //reset the mouse_report's relative values (X/Y/wheel/pan)
+                mouse_report[1] = 0;
+                mouse_report[2] = 0;
+                break;
+              default: break;
+            }
             break;
+          
           //mouse handling
           case 0x10:
             switch(rx.cmd[0] & 0x0F)
@@ -288,6 +306,11 @@ void halBLETask(void * params)
             }
             hid_dev_send_report(hidd_le_env.gatt_if, hid_conn_id,
               HID_RPT_ID_MOUSE_IN, HID_REPORT_TYPE_INPUT, HID_MOUSE_IN_RPT_LEN, mouse_report);
+            //reset the mouse_report's relative values (X/Y/wheel/pan)
+            mouse_report[1] = 0;
+            mouse_report[2] = 0;
+            mouse_report[3] = 0;
+            mouse_report[4] = 0;
             break;
           //Keyboard handling
           case 0x20:

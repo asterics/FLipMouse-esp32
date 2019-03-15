@@ -70,8 +70,8 @@ const static char http_html_hdr[] = "HTTP/1.1 200 OK\r\n";
 /** @brief Static HTTP redirect header */
 const static char http_redir_hdr[] = "HTTP/1.1 302 Found\r\nLocation: http://192.168.4.1/index.htm\r\n\Expires: Mon, 26 Jul 1997 05:00:00 GMT\r\nCache-Control: no-cache, no-store, must-revalidate\r\nPragma: no-cache\r\nCache-Control: post-check=0, pre-check=0\r\nContent-Length: 0\r\n";
 
-/** Mutex to lock fat access */
-SemaphoreHandle_t  fatSem;
+/** Mutex to lock FS access */
+SemaphoreHandle_t  fsSem;
 
 /** @brief AP mode config, filled in init */
 wifi_config_t ap_config= {
@@ -219,7 +219,7 @@ void fat_serve(char* resource, int fd) {
   //we had a DoubleExceptionVector for long names (not supported by FAT)
   if(strlen(resource) > 32) sprintf(resource,"/index.htm");
   
-  if(xSemaphoreTake(fatSem,200) == pdTRUE)
+  if(xSemaphoreTake(fsSem,200) == pdTRUE)
   {
     //basepath + 8.3 file + folder + margin
     char file[sizeof(base_path)+32];
@@ -248,7 +248,7 @@ void fat_serve(char* resource, int fd) {
       {
         ESP_LOGE(LOG_TAG,"Index not found? Sending redirect...");
         send(fd, http_redir_hdr, sizeof(http_redir_hdr) - 1, 0);
-        xSemaphoreGive(fatSem);
+        xSemaphoreGive(fsSem);
         return;
       }
 		}
@@ -301,7 +301,7 @@ void fat_serve(char* resource, int fd) {
     #endif
 		fclose(f);
     free(buffer);
-    xSemaphoreGive(fatSem);
+    xSemaphoreGive(fsSem);
   } else {
     ESP_LOGE(LOG_TAG,"Timeout waiting for fat mutex!");
   }
@@ -512,13 +512,14 @@ esp_err_t taskWebGUIEnDisable(int onoff)
     xEventGroupClearBits(connectionRoutingStatus, WIFI_ACTIVE | WIFI_CLIENT_CONNECTED);
     
     //pause tasks
-    if(wifiWSServerHandle_t != NULL) vTaskSuspend(wifiWSServerHandle_t);
-    if(wifiHTTPServerHandle_t != NULL) vTaskSuspend(wifiHTTPServerHandle_t);
+    //if(wifiWSServerHandle_t != NULL) vTaskSuspend(wifiWSServerHandle_t);
+    //if(wifiHTTPServerHandle_t != NULL) vTaskSuspend(wifiHTTPServerHandle_t);
     
     //disable, call wifi_stop
     if(esp_wifi_stop() == ESP_OK)
     {
-      ret = esp_wifi_deinit();
+      ret = ESP_OK;
+      //ret = esp_wifi_deinit();
     } else {
       ret = ESP_OK;
     }
@@ -529,15 +530,7 @@ esp_err_t taskWebGUIEnDisable(int onoff)
       return ESP_FAIL;
     } else return ESP_OK;
   } else {
-    //Wifi config
-    wifi_init_config_t wifi_init_config = WIFI_INIT_CONFIG_DEFAULT();
-    //init wifi & set AP mode
-    ESP_ERROR_CHECK(esp_wifi_init(&wifi_init_config));
-    //bring into AP mode
-    ESP_ERROR_CHECK(esp_wifi_set_mode(WIFI_MODE_AP));
-    //apply config
-    ESP_ERROR_CHECK(esp_wifi_set_config(WIFI_IF_AP, &ap_config));
-    
+
     //start wifi
     ret = esp_wifi_start();
     switch(ret)
@@ -563,7 +556,7 @@ esp_err_t taskWebGUIEnDisable(int onoff)
     
     // start/resume the HTTP Server tasks
     wifiActive = 1;
-    if(wifiHTTPServerHandle_t == NULL)
+    /*if(wifiHTTPServerHandle_t == NULL)
     {
       xTaskCreate(&http_server, "http_server", TASK_WEBGUI_SERVER_STACKSIZE, NULL, 5, &wifiHTTPServerHandle_t);
     } else {
@@ -574,7 +567,7 @@ esp_err_t taskWebGUIEnDisable(int onoff)
       xTaskCreate(&ws_server, "ws_server", TASK_WEBGUI_WEBSOCKET_STACKSIZE, NULL, 5, &wifiWSServerHandle_t);
     } else {
       vTaskResume(wifiWSServerHandle_t);
-    }
+    }*/
     
     //wait 250ms for WiFi stack to settle
     vTaskDelay(200/portTICK_PERIOD_MS);
@@ -594,13 +587,6 @@ void wifi_timer_cb(TimerHandle_t xTimer)
   if(taskWebGUIEnDisable(0) != ESP_OK)
   {
     ESP_LOGE(LOG_TAG,"Disabling wifi automatically: error!");
-  }
-
-  //if wifi is automatically disabled, we need to enable BLE again
-  //and set global status accordingly
-  if(halBLEEnDisable(1) != ESP_OK)
-  {
-    ESP_LOGE(LOG_TAG,"Error enabling BLE by wifi timer");
   }
 }
 
@@ -658,6 +644,16 @@ esp_err_t taskWebGUIInit(void)
 	// configure the wifi password
   memcpy(ap_config.ap.password,wifipw,strnlen(wifipw,32)+1);
   ESP_LOGI(LOG_TAG,"Wifipw: %s",ap_config.ap.password);
+  
+  //Wifi config
+  wifi_init_config_t wifi_init_config = WIFI_INIT_CONFIG_DEFAULT();
+  //init wifi & set AP mode
+  ESP_ERROR_CHECK(esp_wifi_init(&wifi_init_config));
+  //bring into AP mode
+  ESP_ERROR_CHECK(esp_wifi_set_mode(WIFI_MODE_AP));
+  //apply config
+  ESP_ERROR_CHECK(esp_wifi_set_config(WIFI_IF_AP, &ap_config));
+  
     
   /*++++ initialize capitive portal dns server ++++*/
 	captdnsInit();
@@ -678,8 +674,12 @@ esp_err_t taskWebGUIInit(void)
     ESP_LOGE(LOG_TAG,"Cannot start wifi disabling timer, no auto disable!");
   }
   
-  /*++++ init mutex for FAT access */
-  fatSem = xSemaphoreCreateMutex();
+  /*++++ init mutex for FS access */
+  fsSem = xSemaphoreCreateMutex();
+  
+  /*++++ start Websocket + HTTP task */
+  xTaskCreate(&http_server, "http_server", TASK_WEBGUI_SERVER_STACKSIZE, NULL, 5, &wifiHTTPServerHandle_t);
+  xTaskCreate(&ws_server, "ws_server", TASK_WEBGUI_WEBSOCKET_STACKSIZE, NULL, 5, &wifiWSServerHandle_t);
   
   return ESP_OK;
 }

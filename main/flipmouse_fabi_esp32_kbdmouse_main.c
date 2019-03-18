@@ -181,14 +181,6 @@ void app_main()
         ESP_LOGE(LOG_TAG,"error adding VB handler");
     }
 
-    //start BLE (mouse/keyboard interfaces active)
-    if(halBLEInit(1,1,0) == ESP_OK)
-    {
-        ESP_LOGD(LOG_TAG,"initialized halBle");
-    } else {
-        ESP_LOGE(LOG_TAG,"error initializing halBle");
-    }
-
     //command parser
     if(taskCommandsInit() == ESP_OK)
     {
@@ -206,15 +198,7 @@ void app_main()
         ESP_LOGE(LOG_TAG,"error creating new debouncer task");
     }
 
-    
-    //initialize web framework
-    if(taskWebGUIInit() == ESP_OK)
-    {
-        ESP_LOGD(LOG_TAG,"initialized webserver/DNS server/webgui");
-    } else {
-        ESP_LOGE(LOG_TAG,"error initializing webserver/DNS server/webgui");
-    }
-    //start wifi
+    //add the handler for long button presses (activates WiFi)
     halIOAddLongPressHandler(switch_radio);
     
     //calibrate directly after start-up
@@ -231,6 +215,23 @@ void app_main()
     
     //delete this task after initializing.
     ESP_LOGI(LOG_TAG,"Finished initializing!");
+    
+    //we wait 0.75s to activate WiFi+BT, seems to be hungry :-)
+    vTaskDelay(750/portTICK_PERIOD_MS);
+    //start BLE (mouse/keyboard interfaces active)
+    if(halBLEInit(1,1,0) == ESP_OK)
+    {
+        ESP_LOGD(LOG_TAG,"initialized halBle");
+    } else {
+        ESP_LOGE(LOG_TAG,"error initializing halBle");
+    }
+    
+    /*if(taskWebGUIInit() == ESP_OK)
+    {
+        ESP_LOGD(LOG_TAG,"initialized webserver/DNS server/webgui");
+    } else {
+        ESP_LOGE(LOG_TAG,"error initializing webserver/DNS server/webgui");
+    }*/
     
     //TESTING
     #if 0

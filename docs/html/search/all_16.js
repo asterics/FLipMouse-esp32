@@ -2,8 +2,9 @@ var searchData=
 [
   ['validate',['validate',['../hal__adc_8c.html#accb1d998767113559a5a93fd9d0abb2c',1,'hal_adc.c']]],
   ['vb',['vb',['../structvb__cmd.html#a639787c4ddc61e597cae44d414d1b920',1,'vb_cmd::vb()'],['../structhid__cmd.html#abb9eaa3e429961413b5d0be7d2c6914f',1,'hid_cmd::vb()'],['../structraw__action.html#ac8d479eff8f32b2f5f6e4c340fa9bc45',1,'raw_action::vb()'],['../structdebouncer__cfg.html#a36cb0ef5157843a60187a03ca4edd759',1,'debouncer_cfg::vb()'],['../structstorageHeader.html#ab3ae028aacc6395888ca0a9a2fdc5854',1,'storageHeader::vb()']]],
+  ['vb_5factive',['vb_active',['../handler__hid_8c.html#ad9d8d026e1d58dc48f86174f8756da16',1,'vb_active():&#160;handler_hid.c'],['../handler__vb_8c.html#ad9d8d026e1d58dc48f86174f8756da16',1,'vb_active():&#160;handler_vb.c']]],
   ['vb_5fcmd',['vb_cmd',['../structvb__cmd.html',1,'']]],
-  ['vb_5fcmd_5ft',['vb_cmd_t',['../common_8h.html#a66f473b9d6a9bf4f0856fec2b31bdd06',1,'common.h']]],
+  ['vb_5fcmd_5ft',['vb_cmd_t',['../common_8h.html#a56607a09b80340fff43c9987abf69fb0',1,'common.h']]],
   ['vb_5fcmd_5ftype_5ft',['vb_cmd_type_t',['../common_8h.html#a47e93826a9f0fae7469a39030c9cc0ef',1,'common.h']]],
   ['vb_5fdown',['VB_DOWN',['../common_8h.html#ae632adac4c2cbf494b5e27503aeb10e6',1,'common.h']]],
   ['vb_5fevent_5ft',['vb_event_t',['../common_8h.html#ad6059b78a688863c1e512ebbcefd4e65',1,'common.h']]],

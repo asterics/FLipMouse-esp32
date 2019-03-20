@@ -1,5 +1,6 @@
 var searchData=
 [
+  ['nack_5fval',['NACK_VAL',['../hal__serial_8c.html#ae20bf16f65c41237e2d620ef49890781',1,'hal_serial.c']]],
   ['name',['name',['../structOneCmd.html#a9372f5a8900e28b90aab45b9c217e4bb',1,'OneCmd']]],
   ['name_5fspace',['name_space',['../structprf__char__pres__fmt.html#a7e08fc76eb58b15502b557e15c4501f2',1,'prf_char_pres_fmt']]],
   ['neop_5fbuf1',['neop_buf1',['../hal__io_8c.html#a10c7050e4c95b12c8257fa6c289dbd86',1,'hal_io.c']]],

@@ -2,6 +2,7 @@ var searchData=
 [
   ['raw_5faction',['raw_action',['../structraw__action.html',1,'']]],
   ['raw_5faction_5ft',['raw_action_t',['../common_8h.html#a42e7ef86e94a9411c736c9e33c6e53f6',1,'common.h']]],
+  ['read_5fbit',['READ_BIT',['../hal__serial_8c.html#a2f493ed233e66342493f155ebda5c183',1,'hal_serial.c']]],
   ['readme_2emd',['README.md',['../README_8md.html',1,'']]],
   ['readme_5fadd_5fnew_5ffunction_2emd',['README_add_new_Function.md',['../README__add__new__Function_8md.html',1,'']]],
   ['readme_5fat_5fcommand_5fapi_2emd',['README_AT_command_API.md',['../README__AT__command__API_8md.html',1,'']]],

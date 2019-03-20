@@ -17,8 +17,6 @@ var searchData=
   ['pointererror',['POINTERERROR',['../task__commands_8h.html#aa1651f71a96e7a6bd3abe4bcaa795e46a386cb7db7d6a142eb9e438e317b2b534',1,'task_commands.h']]],
   ['prefixonly',['PREFIXONLY',['../task__commands_8h.html#aa1651f71a96e7a6bd3abe4bcaa795e46a3bc3b95d504cfd963b0b6afd9229b90b',1,'task_commands.h']]],
   ['pressure',['pressure',['../structadcData.html#ab8dd40e7779ed6f4894c678d2b315d09',1,'adcData']]],
-  ['pressure_5fidle',['pressure_idle',['../hal__adc_8c.html#a7cf42271a0204f4c66f2ae9c99d8d92c',1,'hal_adc.c']]],
-  ['pressure_5fraw',['pressure_raw',['../structadcData.html#af069f35c5fe5d1e1afd7abb7a1be7512',1,'adcData']]],
   ['prev',['PREV',['../hal__storage_8h.html#a8a4828abe0b7cd309fba5c2e5e228b95ab359289a088e693e1c62099baf550b39',1,'hal_storage.h']]],
   ['prf_5fchar_5fpres_5ffmt',['prf_char_pres_fmt',['../structprf__char__pres__fmt.html',1,'']]],
   ['primary_5fservice_5fuuid',['primary_service_uuid',['../hid__device__le__prf_8c.html#a906dfab674e5b65aa8b2020087e66c50',1,'hid_device_le_prf.c']]],

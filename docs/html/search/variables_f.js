@@ -5,8 +5,6 @@ var searchData=
   ['pending_5fevt',['pending_evt',['../structhidd__inst__t.html#a919407be158d871681708a6986837618',1,'hidd_inst_t']]],
   ['pending_5fhal',['pending_hal',['../structhidd__inst__t.html#a1309de066f9180311cb21532b6fe81ce',1,'hidd_inst_t']]],
   ['pressure',['pressure',['../structadcData.html#ab8dd40e7779ed6f4894c678d2b315d09',1,'adcData']]],
-  ['pressure_5fidle',['pressure_idle',['../hal__adc_8c.html#a7cf42271a0204f4c66f2ae9c99d8d92c',1,'hal_adc.c']]],
-  ['pressure_5fraw',['pressure_raw',['../structadcData.html#af069f35c5fe5d1e1afd7abb7a1be7512',1,'adcData']]],
   ['primary_5fservice_5fuuid',['primary_service_uuid',['../hid__device__le__prf_8c.html#a906dfab674e5b65aa8b2020087e66c50',1,'hid_device_le_prf.c']]],
   ['proto_5fmode',['proto_mode',['../structhidd__inst__t.html#ad6ca0019e7e6401dbf0fdd9a32af13d8',1,'hidd_inst_t']]],
   ['ptype',['ptype',['../structOneCmd.html#abf7bfd907414415c0a4d2b160fe852f5',1,'OneCmd']]]

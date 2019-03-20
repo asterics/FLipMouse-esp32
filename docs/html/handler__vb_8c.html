@@ -82,7 +82,7 @@ Macros</h2></td></tr>
 <tr class="memitem:a7ce0df38eb467e59f209470c8f5ac4e6"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="handler__vb_8c.html#a7ce0df38eb467e59f209470c8f5ac4e6">LOG_TAG</a>&#160;&#160;&#160;&quot;handler_vb&quot;</td></tr>
 <tr class="memdesc:a7ce0df38eb467e59f209470c8f5ac4e6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Logging tag for this module.  <a href="#a7ce0df38eb467e59f209470c8f5ac4e6">More...</a><br /></td></tr>
 <tr class="separator:a7ce0df38eb467e59f209470c8f5ac4e6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a515e21c351e9f99729e4bf953c45d83f"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="handler__vb_8c.html#a515e21c351e9f99729e4bf953c45d83f">LOG_LEVEL_VB</a>&#160;&#160;&#160;ESP_LOG_DEBUG</td></tr>
+<tr class="memitem:a515e21c351e9f99729e4bf953c45d83f"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="handler__vb_8c.html#a515e21c351e9f99729e4bf953c45d83f">LOG_LEVEL_VB</a>&#160;&#160;&#160;ESP_LOG_INFO</td></tr>
 <tr class="memdesc:a515e21c351e9f99729e4bf953c45d83f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set a global log limit for this file.  <a href="#a515e21c351e9f99729e4bf953c45d83f">More...</a><br /></td></tr>
 <tr class="separator:a515e21c351e9f99729e4bf953c45d83f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
@@ -97,13 +97,13 @@ Functions</h2></td></tr>
 <tr class="memitem:a12256e1d3f54e995d314eebf8b57e914"><td class="memItemLeft" align="right" valign="top">esp_err_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="handler__vb_8c.html#a12256e1d3f54e995d314eebf8b57e914">handler_vb_delCmd</a> (uint8_t vb)</td></tr>
 <tr class="memdesc:a12256e1d3f54e995d314eebf8b57e914"><td class="mdescLeft">&#160;</td><td class="mdescRight">Remove command for a virtual button.  <a href="#a12256e1d3f54e995d314eebf8b57e914">More...</a><br /></td></tr>
 <tr class="separator:a12256e1d3f54e995d314eebf8b57e914"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2958d0f22ea5d2c1d16a6dc7900ca38b"><td class="memItemLeft" align="right" valign="top">esp_err_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="handler__vb_8c.html#a2958d0f22ea5d2c1d16a6dc7900ca38b">handler_vb_addCmd</a> (<a class="el" href="common_8h.html#a66f473b9d6a9bf4f0856fec2b31bdd06">vb_cmd_t</a> *newCmd, uint8_t replace)</td></tr>
+<tr class="memitem:a2958d0f22ea5d2c1d16a6dc7900ca38b"><td class="memItemLeft" align="right" valign="top">esp_err_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="handler__vb_8c.html#a2958d0f22ea5d2c1d16a6dc7900ca38b">handler_vb_addCmd</a> (<a class="el" href="common_8h.html#a56607a09b80340fff43c9987abf69fb0">vb_cmd_t</a> *newCmd, uint8_t replace)</td></tr>
 <tr class="memdesc:a2958d0f22ea5d2c1d16a6dc7900ca38b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Add a new VB command for a virtual button.  <a href="#a2958d0f22ea5d2c1d16a6dc7900ca38b">More...</a><br /></td></tr>
 <tr class="separator:a2958d0f22ea5d2c1d16a6dc7900ca38b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1bc809abceb3e77e479efd5826abea4c"><td class="memItemLeft" align="right" valign="top"><a class="el" href="common_8h.html#a66f473b9d6a9bf4f0856fec2b31bdd06">vb_cmd_t</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="handler__vb_8c.html#a1bc809abceb3e77e479efd5826abea4c">handler_vb_getCmdChain</a> (void)</td></tr>
+<tr class="memitem:a1bc809abceb3e77e479efd5826abea4c"><td class="memItemLeft" align="right" valign="top"><a class="el" href="common_8h.html#a56607a09b80340fff43c9987abf69fb0">vb_cmd_t</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="handler__vb_8c.html#a1bc809abceb3e77e479efd5826abea4c">handler_vb_getCmdChain</a> (void)</td></tr>
 <tr class="memdesc:a1bc809abceb3e77e479efd5826abea4c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get current root of VB command chain.  <a href="#a1bc809abceb3e77e479efd5826abea4c">More...</a><br /></td></tr>
 <tr class="separator:a1bc809abceb3e77e479efd5826abea4c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a456dc640634859d2e15662484b8bd068"><td class="memItemLeft" align="right" valign="top">esp_err_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="handler__vb_8c.html#a456dc640634859d2e15662484b8bd068">handler_vb_setCmdChain</a> (<a class="el" href="common_8h.html#a66f473b9d6a9bf4f0856fec2b31bdd06">vb_cmd_t</a> *chain)</td></tr>
+<tr class="memitem:a456dc640634859d2e15662484b8bd068"><td class="memItemLeft" align="right" valign="top">esp_err_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="handler__vb_8c.html#a456dc640634859d2e15662484b8bd068">handler_vb_setCmdChain</a> (<a class="el" href="common_8h.html#a56607a09b80340fff43c9987abf69fb0">vb_cmd_t</a> *chain)</td></tr>
 <tr class="memdesc:a456dc640634859d2e15662484b8bd068"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set current root of VB command chain.  <a href="#a456dc640634859d2e15662484b8bd068">More...</a><br /></td></tr>
 <tr class="separator:a456dc640634859d2e15662484b8bd068"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1601ec68487848cb95f275c44c010afb"><td class="memItemLeft" align="right" valign="top">esp_err_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="handler__vb_8c.html#a1601ec68487848cb95f275c44c010afb">handler_vb_clearCmds</a> (void)</td></tr>
@@ -112,15 +112,21 @@ Functions</h2></td></tr>
 <tr class="memitem:a4d5e48c2bd9f28885d7fb9309f5b4cdf"><td class="memItemLeft" align="right" valign="top">esp_err_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="handler__vb_8c.html#a4d5e48c2bd9f28885d7fb9309f5b4cdf">handler_vb_getAT</a> (char *output, uint8_t vb)</td></tr>
 <tr class="memdesc:a4d5e48c2bd9f28885d7fb9309f5b4cdf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reverse Parsing - get AT command of a given VB.  <a href="#a4d5e48c2bd9f28885d7fb9309f5b4cdf">More...</a><br /></td></tr>
 <tr class="separator:a4d5e48c2bd9f28885d7fb9309f5b4cdf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad51537b78005f099e2422d4a715874da"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="handler__vb_8c.html#ad51537b78005f099e2422d4a715874da">handler_vb_active</a> (uint8_t vb)</td></tr>
+<tr class="memdesc:ad51537b78005f099e2422d4a715874da"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check if a VB is active in this handler.  <a href="#ad51537b78005f099e2422d4a715874da">More...</a><br /></td></tr>
+<tr class="separator:ad51537b78005f099e2422d4a715874da"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="var-members"></a>
 Variables</h2></td></tr>
-<tr class="memitem:af2c811f9c6ca9279546cd21ee7e5449c"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="common_8h.html#a66f473b9d6a9bf4f0856fec2b31bdd06">vb_cmd_t</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="handler__vb_8c.html#af2c811f9c6ca9279546cd21ee7e5449c">cmd_chain</a> = NULL</td></tr>
+<tr class="memitem:af2c811f9c6ca9279546cd21ee7e5449c"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="common_8h.html#a56607a09b80340fff43c9987abf69fb0">vb_cmd_t</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="handler__vb_8c.html#af2c811f9c6ca9279546cd21ee7e5449c">cmd_chain</a> = NULL</td></tr>
 <tr class="memdesc:af2c811f9c6ca9279546cd21ee7e5449c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Beginning of all VB commands.  <a href="#af2c811f9c6ca9279546cd21ee7e5449c">More...</a><br /></td></tr>
 <tr class="separator:af2c811f9c6ca9279546cd21ee7e5449c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7666b964234f3637cc8479d87c2cc711"><td class="memItemLeft" align="right" valign="top">SemaphoreHandle_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="handler__vb_8c.html#a7666b964234f3637cc8479d87c2cc711">vbCmdSem</a> = NULL</td></tr>
 <tr class="memdesc:a7666b964234f3637cc8479d87c2cc711"><td class="mdescLeft">&#160;</td><td class="mdescRight">Synchronization mutex for accessing the VB command chain.  <a href="#a7666b964234f3637cc8479d87c2cc711">More...</a><br /></td></tr>
 <tr class="separator:a7666b964234f3637cc8479d87c2cc711"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad9d8d026e1d58dc48f86174f8756da16"><td class="memItemLeft" align="right" valign="top">static uint64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="handler__vb_8c.html#ad9d8d026e1d58dc48f86174f8756da16">vb_active</a> = 0</td></tr>
+<tr class="memdesc:ad9d8d026e1d58dc48f86174f8756da16"><td class="mdescLeft">&#160;</td><td class="mdescRight">Bitmap for active VBs. Corresponding bit will be set, if active.  <a href="#ad9d8d026e1d58dc48f86174f8756da16">More...</a><br /></td></tr>
+<tr class="separator:ad9d8d026e1d58dc48f86174f8756da16"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Event Handler - VB general actions. </p>
@@ -141,7 +147,7 @@ Variables</h2></td></tr>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">#define LOG_LEVEL_VB&#160;&#160;&#160;ESP_LOG_DEBUG</td>
+          <td class="memname">#define LOG_LEVEL_VB&#160;&#160;&#160;ESP_LOG_INFO</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -150,7 +156,7 @@ Variables</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="handler__vb_8c_source.html#l00040">40</a> of file <a class="el" href="handler__vb_8c_source.html">handler_vb.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="handler__vb_8c_source.html#l00170">handler_vb_init()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="handler__vb_8c_source.html#l00175">handler_vb_init()</a>.</p>
 
 </div>
 </div>
@@ -170,7 +176,7 @@ Variables</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="handler__vb_8c_source.html#l00038">38</a> of file <a class="el" href="handler__vb_8c_source.html">handler_vb.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="handler__vb_8c_source.html#l00068">handler_vb()</a>, <a class="el" href="handler__vb_8c_source.html#l00243">handler_vb_addCmd()</a>, <a class="el" href="handler__vb_8c_source.html#l00388">handler_vb_clearCmds()</a>, <a class="el" href="handler__vb_8c_source.html#l00449">handler_vb_getAT()</a>, <a class="el" href="handler__vb_8c_source.html#l00170">handler_vb_init()</a>, and <a class="el" href="handler__vb_8c_source.html#l00347">handler_vb_setCmdChain()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="handler__vb_8c_source.html#l00071">handler_vb()</a>, <a class="el" href="handler__vb_8c_source.html#l00512">handler_vb_active()</a>, <a class="el" href="handler__vb_8c_source.html#l00249">handler_vb_addCmd()</a>, <a class="el" href="handler__vb_8c_source.html#l00395">handler_vb_clearCmds()</a>, <a class="el" href="handler__vb_8c_source.html#l00457">handler_vb_getAT()</a>, <a class="el" href="handler__vb_8c_source.html#l00175">handler_vb_init()</a>, and <a class="el" href="handler__vb_8c_source.html#l00354">handler_vb_setCmdChain()</a>.</p>
 
 </div>
 </div>
@@ -232,9 +238,9 @@ Variables</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="handler__vb_8c_source.html#l00068">68</a> of file <a class="el" href="handler__vb_8c_source.html">handler_vb.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="handler__vb_8c_source.html#l00071">71</a> of file <a class="el" href="handler__vb_8c_source.html">handler_vb.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="handler__vb_8c_source.html#l00170">handler_vb_init()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="handler__vb_8c_source.html#l00175">handler_vb_init()</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -262,6 +268,36 @@ Here is the caller graph for this function:</div>
 
 </div>
 </div>
+<a id="ad51537b78005f099e2422d4a715874da"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad51537b78005f099e2422d4a715874da">&#9670;&nbsp;</a></span>handler_vb_active()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool handler_vb_active </td>
+          <td>(</td>
+          <td class="paramtype">uint8_t&#160;</td>
+          <td class="paramname"><em>vb</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Check if a VB is active in this handler. </p>
+<p>This function returns true if a given vb is active in this handler (is located in the command chain with a given command).</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">vb</td><td>Number of virtual button to check </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>true if active, false if not </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="handler__vb_8c_source.html#l00512">512</a> of file <a class="el" href="handler__vb_8c_source.html">handler_vb.c</a>.</p>
+
+</div>
+</div>
 <a id="a2958d0f22ea5d2c1d16a6dc7900ca38b"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a2958d0f22ea5d2c1d16a6dc7900ca38b">&#9670;&nbsp;</a></span>handler_vb_addCmd()</h2>
 
@@ -271,7 +307,7 @@ Here is the caller graph for this function:</div>
         <tr>
           <td class="memname">esp_err_t handler_vb_addCmd </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="common_8h.html#a66f473b9d6a9bf4f0856fec2b31bdd06">vb_cmd_t</a> *&#160;</td>
+          <td class="paramtype"><a class="el" href="common_8h.html#a56607a09b80340fff43c9987abf69fb0">vb_cmd_t</a> *&#160;</td>
           <td class="paramname"><em>newCmd</em>, </td>
         </tr>
         <tr>
@@ -304,7 +340,7 @@ We will malloc for each command here. To free the memory, call handler_vb_clearC
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>ESP_OK if added, ESP_FAIL if not added (out of memory) </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="handler__vb_8c_source.html#l00243">243</a> of file <a class="el" href="handler__vb_8c_source.html">handler_vb.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="handler__vb_8c_source.html#l00249">249</a> of file <a class="el" href="handler__vb_8c_source.html">handler_vb.c</a>.</p>
 
 <p class="reference">Referenced by <a class="el" href="task__commands_8c_source.html#l00213">sendVBCmd()</a>.</p>
 <div class="dynheader">
@@ -350,9 +386,9 @@ Here is the caller graph for this function:</div>
 <p>This method clears all stored VB commands and frees the allocated memory.</p>
 <dl class="section return"><dt>Returns</dt><dd>ESP_OK if commands are cleared, ESP_FAIL otherwise </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="handler__vb_8c_source.html#l00388">388</a> of file <a class="el" href="handler__vb_8c_source.html">handler_vb.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="handler__vb_8c_source.html#l00395">395</a> of file <a class="el" href="handler__vb_8c_source.html">handler_vb.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="handler__vb_8c_source.html#l00347">handler_vb_setCmdChain()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="handler__vb_8c_source.html#l00354">handler_vb_setCmdChain()</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
@@ -390,9 +426,9 @@ Here is the caller graph for this function:</div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>ESP_OK if deleted, ESP_FAIL if not in list </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="handler__vb_8c_source.html#l00194">194</a> of file <a class="el" href="handler__vb_8c_source.html">handler_vb.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="handler__vb_8c_source.html#l00199">199</a> of file <a class="el" href="handler__vb_8c_source.html">handler_vb.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="task__commands_8c_source.html#l00685">cmdNc()</a>, <a class="el" href="handler__vb_8c_source.html#l00243">handler_vb_addCmd()</a>, and <a class="el" href="task__commands_8c_source.html#l00175">sendHIDCmd()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="task__commands_8c_source.html#l00685">cmdNc()</a>, <a class="el" href="handler__vb_8c_source.html#l00249">handler_vb_addCmd()</a>, and <a class="el" href="task__commands_8c_source.html#l00175">sendHIDCmd()</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
@@ -453,9 +489,9 @@ Here is the caller graph for this function:</div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>ESP_OK if everything went fine, ESP_FAIL otherwise </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="handler__vb_8c_source.html#l00449">449</a> of file <a class="el" href="handler__vb_8c_source.html">handler_vb.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="handler__vb_8c_source.html#l00457">457</a> of file <a class="el" href="handler__vb_8c_source.html">handler_vb.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="task__commands_8c_source.html#l01547">storeSlot()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="task__commands_8c_source.html#l01548">storeSlot()</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
@@ -481,7 +517,7 @@ Here is the caller graph for this function:</div>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="common_8h.html#a66f473b9d6a9bf4f0856fec2b31bdd06">vb_cmd_t</a>* handler_vb_getCmdChain </td>
+          <td class="memname"><a class="el" href="common_8h.html#a56607a09b80340fff43c9987abf69fb0">vb_cmd_t</a>* handler_vb_getCmdChain </td>
           <td>(</td>
           <td class="paramtype">void&#160;</td>
           <td class="paramname"></td><td>)</td>
@@ -494,7 +530,7 @@ Here is the caller graph for this function:</div>
 <dl class="section warning"><dt>Warning</dt><dd>Modifying this chain without acquiring the vbCmdSem could result in undefined behaviour!. </dd></dl>
 <dl class="section return"><dt>Returns</dt><dd>Pointer to root of VB chain </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="handler__vb_8c_source.html#l00337">337</a> of file <a class="el" href="handler__vb_8c_source.html">handler_vb.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="handler__vb_8c_source.html#l00344">344</a> of file <a class="el" href="handler__vb_8c_source.html">handler_vb.c</a>.</p>
 
 </div>
 </div>
@@ -517,7 +553,7 @@ Here is the caller graph for this function:</div>
 <p>Init for the VB handler. </p>
 <p>We create the mutex and add handler_vb to the system event queue. </p><dl class="section return"><dt>Returns</dt><dd>ESP_OK on success, ESP_FAIL on an error. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="handler__vb_8c_source.html#l00170">170</a> of file <a class="el" href="handler__vb_8c_source.html">handler_vb.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="handler__vb_8c_source.html#l00175">175</a> of file <a class="el" href="handler__vb_8c_source.html">handler_vb.c</a>.</p>
 
 <p class="reference">Referenced by <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c_source.html#l00114">app_main()</a>.</p>
 <div class="dynheader">
@@ -556,7 +592,7 @@ Here is the caller graph for this function:</div>
         <tr>
           <td class="memname">esp_err_t handler_vb_setCmdChain </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="common_8h.html#a66f473b9d6a9bf4f0856fec2b31bdd06">vb_cmd_t</a> *&#160;</td>
+          <td class="paramtype"><a class="el" href="common_8h.html#a56607a09b80340fff43c9987abf69fb0">vb_cmd_t</a> *&#160;</td>
           <td class="paramname"><em>chain</em></td><td>)</td>
           <td></td>
         </tr>
@@ -573,7 +609,7 @@ Here is the caller graph for this function:</div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>ESP_OK if chain is saved, ESP_FAIL otherwise (lock was not free, deleting old chain failed..) </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="handler__vb_8c_source.html#l00347">347</a> of file <a class="el" href="handler__vb_8c_source.html">handler_vb.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="handler__vb_8c_source.html#l00354">354</a> of file <a class="el" href="handler__vb_8c_source.html">handler_vb.c</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -596,7 +632,7 @@ Here is the call graph for this function:</div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="common_8h.html#a66f473b9d6a9bf4f0856fec2b31bdd06">vb_cmd_t</a>* cmd_chain = NULL</td>
+          <td class="memname"><a class="el" href="common_8h.html#a56607a09b80340fff43c9987abf69fb0">vb_cmd_t</a>* cmd_chain = NULL</td>
         </tr>
       </table>
   </td>
@@ -617,7 +653,36 @@ Here is the call graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="handler__vb_8c_source.html#l00054">54</a> of file <a class="el" href="handler__vb_8c_source.html">handler_vb.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="handler__vb_8c_source.html#l00068">handler_vb()</a>, <a class="el" href="handler__vb_8c_source.html#l00243">handler_vb_addCmd()</a>, <a class="el" href="handler__vb_8c_source.html#l00388">handler_vb_clearCmds()</a>, <a class="el" href="handler__vb_8c_source.html#l00194">handler_vb_delCmd()</a>, <a class="el" href="handler__vb_8c_source.html#l00449">handler_vb_getAT()</a>, and <a class="el" href="handler__vb_8c_source.html#l00337">handler_vb_getCmdChain()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="handler__vb_8c_source.html#l00071">handler_vb()</a>, <a class="el" href="handler__vb_8c_source.html#l00249">handler_vb_addCmd()</a>, <a class="el" href="handler__vb_8c_source.html#l00395">handler_vb_clearCmds()</a>, <a class="el" href="handler__vb_8c_source.html#l00199">handler_vb_delCmd()</a>, <a class="el" href="handler__vb_8c_source.html#l00457">handler_vb_getAT()</a>, and <a class="el" href="handler__vb_8c_source.html#l00344">handler_vb_getCmdChain()</a>.</p>
+
+</div>
+</div>
+<a id="ad9d8d026e1d58dc48f86174f8756da16"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad9d8d026e1d58dc48f86174f8756da16">&#9670;&nbsp;</a></span>vb_active</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint64_t vb_active = 0</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Bitmap for active VBs. Corresponding bit will be set, if active. </p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="handler__vb_8c.html#ad51537b78005f099e2422d4a715874da" title="Check if a VB is active in this handler. ">handler_vb_active</a> </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="handler__vb_8c_source.html#l00061">61</a> of file <a class="el" href="handler__vb_8c_source.html">handler_vb.c</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="handler__vb_8c_source.html#l00512">handler_vb_active()</a>, <a class="el" href="handler__vb_8c_source.html#l00249">handler_vb_addCmd()</a>, <a class="el" href="handler__vb_8c_source.html#l00395">handler_vb_clearCmds()</a>, and <a class="el" href="handler__vb_8c_source.html#l00199">handler_vb_delCmd()</a>.</p>
 
 </div>
 </div>
@@ -637,7 +702,7 @@ Here is the call graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="handler__vb_8c_source.html#l00057">57</a> of file <a class="el" href="handler__vb_8c_source.html">handler_vb.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="handler__vb_8c_source.html#l00068">handler_vb()</a>, <a class="el" href="handler__vb_8c_source.html#l00243">handler_vb_addCmd()</a>, <a class="el" href="handler__vb_8c_source.html#l00388">handler_vb_clearCmds()</a>, <a class="el" href="handler__vb_8c_source.html#l00449">handler_vb_getAT()</a>, <a class="el" href="handler__vb_8c_source.html#l00170">handler_vb_init()</a>, and <a class="el" href="handler__vb_8c_source.html#l00347">handler_vb_setCmdChain()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="handler__vb_8c_source.html#l00071">handler_vb()</a>, <a class="el" href="handler__vb_8c_source.html#l00249">handler_vb_addCmd()</a>, <a class="el" href="handler__vb_8c_source.html#l00395">handler_vb_clearCmds()</a>, <a class="el" href="handler__vb_8c_source.html#l00457">handler_vb_getAT()</a>, <a class="el" href="handler__vb_8c_source.html#l00175">handler_vb_init()</a>, and <a class="el" href="handler__vb_8c_source.html#l00354">handler_vb_setCmdChain()</a>.</p>
 
 </div>
 </div>

@@ -99,10 +99,10 @@ Functions</h2></td></tr>
 <tr class="separator:a78b669ea961463eb05d2016e0b41ff86"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:adf3aa67816eecac3e756189c9d61cbd2"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="task__commands_8c.html#adf3aa67816eecac3e756189c9d61cbd2">checkqueues</a> (void)</td></tr>
 <tr class="separator:adf3aa67816eecac3e756189c9d61cbd2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2184ca9f2b257a0ef111fd4184bc56db"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="task__commands_8c.html#a2184ca9f2b257a0ef111fd4184bc56db">sendHIDCmd</a> (<a class="el" href="common_8h.html#a717ff1d55fb710bbebe9addae27d7258">hid_cmd_t</a> *sendCmd, uint8_t vb, uint8_t *atorig, uint8_t replace)</td></tr>
+<tr class="memitem:a2184ca9f2b257a0ef111fd4184bc56db"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="task__commands_8c.html#a2184ca9f2b257a0ef111fd4184bc56db">sendHIDCmd</a> (<a class="el" href="common_8h.html#a29f0fa9b007be5e086562312cd1b1a1d">hid_cmd_t</a> *sendCmd, uint8_t vb, uint8_t *atorig, uint8_t replace)</td></tr>
 <tr class="memdesc:a2184ca9f2b257a0ef111fd4184bc56db"><td class="mdescLeft">&#160;</td><td class="mdescRight">Helper to route a HID cmd either directly to queue or add it to the list.  <a href="#a2184ca9f2b257a0ef111fd4184bc56db">More...</a><br /></td></tr>
 <tr class="separator:a2184ca9f2b257a0ef111fd4184bc56db"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4d1c5de04f1c6c137f3a70e2e4720c46"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="task__commands_8c.html#a4d1c5de04f1c6c137f3a70e2e4720c46">sendVBCmd</a> (<a class="el" href="common_8h.html#a66f473b9d6a9bf4f0856fec2b31bdd06">vb_cmd_t</a> *sendCmd, uint8_t vb, uint8_t *atorig, uint8_t replace)</td></tr>
+<tr class="memitem:a4d1c5de04f1c6c137f3a70e2e4720c46"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="task__commands_8c.html#a4d1c5de04f1c6c137f3a70e2e4720c46">sendVBCmd</a> (<a class="el" href="common_8h.html#a56607a09b80340fff43c9987abf69fb0">vb_cmd_t</a> *sendCmd, uint8_t vb, uint8_t *atorig, uint8_t replace)</td></tr>
 <tr class="memdesc:a4d1c5de04f1c6c137f3a70e2e4720c46"><td class="mdescLeft">&#160;</td><td class="mdescRight">Helper to route a VB cmd either directly to queue or add it to the list.  <a href="#a4d1c5de04f1c6c137f3a70e2e4720c46">More...</a><br /></td></tr>
 <tr class="separator:a4d1c5de04f1c6c137f3a70e2e4720c46"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7acbcd59b97dc3be6520c43c9b2793c9"><td class="memItemLeft" align="right" valign="top">esp_err_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="task__commands_8c.html#a7acbcd59b97dc3be6520c43c9b2793c9">cmdId</a> (char *orig, void *p1, void *p2)</td></tr>
@@ -259,31 +259,31 @@ Functions</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="var-members"></a>
 Variables</h2></td></tr>
-<tr class="memitem:afe0f1fdd9d92f5cd7b5307796e8a67e3"><td class="memItemLeft" align="right" valign="top"><a class="el" href="common_8h.html#a717ff1d55fb710bbebe9addae27d7258">hid_cmd_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="task__commands_8c.html#afe0f1fdd9d92f5cd7b5307796e8a67e3">joystick</a></td></tr>
+<tr class="memitem:afe0f1fdd9d92f5cd7b5307796e8a67e3"><td class="memItemLeft" align="right" valign="top"><a class="el" href="common_8h.html#a29f0fa9b007be5e086562312cd1b1a1d">hid_cmd_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="task__commands_8c.html#afe0f1fdd9d92f5cd7b5307796e8a67e3">joystick</a></td></tr>
 <tr class="memdesc:afe0f1fdd9d92f5cd7b5307796e8a67e3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Global HID command for joystick This command is set by the command handlers. If one field was modified by a handler, it will be sent to task_hid.  <a href="#afe0f1fdd9d92f5cd7b5307796e8a67e3">More...</a><br /></td></tr>
 <tr class="separator:afe0f1fdd9d92f5cd7b5307796e8a67e3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8ec943e15bb8bd86b9f350fe64ed783e"><td class="memItemLeft" align="right" valign="top"><a class="el" href="common_8h.html#a717ff1d55fb710bbebe9addae27d7258">hid_cmd_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="task__commands_8c.html#a8ec943e15bb8bd86b9f350fe64ed783e">joystickR</a></td></tr>
+<tr class="memitem:a8ec943e15bb8bd86b9f350fe64ed783e"><td class="memItemLeft" align="right" valign="top"><a class="el" href="common_8h.html#a29f0fa9b007be5e086562312cd1b1a1d">hid_cmd_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="task__commands_8c.html#a8ec943e15bb8bd86b9f350fe64ed783e">joystickR</a></td></tr>
 <tr class="memdesc:a8ec943e15bb8bd86b9f350fe64ed783e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Global release HID command for joystick This command is set by the command handlers. If one field was modified by a handler, it will be sent to task_hid.  <a href="#a8ec943e15bb8bd86b9f350fe64ed783e">More...</a><br /></td></tr>
 <tr class="separator:a8ec943e15bb8bd86b9f350fe64ed783e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a87beccc3dfc775b2fee5b22f594b7d57"><td class="memItemLeft" align="right" valign="top"><a class="el" href="common_8h.html#a717ff1d55fb710bbebe9addae27d7258">hid_cmd_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="task__commands_8c.html#a87beccc3dfc775b2fee5b22f594b7d57">mouse</a></td></tr>
+<tr class="memitem:a87beccc3dfc775b2fee5b22f594b7d57"><td class="memItemLeft" align="right" valign="top"><a class="el" href="common_8h.html#a29f0fa9b007be5e086562312cd1b1a1d">hid_cmd_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="task__commands_8c.html#a87beccc3dfc775b2fee5b22f594b7d57">mouse</a></td></tr>
 <tr class="memdesc:a87beccc3dfc775b2fee5b22f594b7d57"><td class="mdescLeft">&#160;</td><td class="mdescRight">Global HID command for mouse This command is set by the command handlers. If one field was modified by a handler, it will be sent to task_hid.  <a href="#a87beccc3dfc775b2fee5b22f594b7d57">More...</a><br /></td></tr>
 <tr class="separator:a87beccc3dfc775b2fee5b22f594b7d57"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae11e05a2365622ab8aa0e85b36835777"><td class="memItemLeft" align="right" valign="top"><a class="el" href="common_8h.html#a717ff1d55fb710bbebe9addae27d7258">hid_cmd_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="task__commands_8c.html#ae11e05a2365622ab8aa0e85b36835777">general</a></td></tr>
+<tr class="memitem:ae11e05a2365622ab8aa0e85b36835777"><td class="memItemLeft" align="right" valign="top"><a class="el" href="common_8h.html#a29f0fa9b007be5e086562312cd1b1a1d">hid_cmd_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="task__commands_8c.html#ae11e05a2365622ab8aa0e85b36835777">general</a></td></tr>
 <tr class="memdesc:ae11e05a2365622ab8aa0e85b36835777"><td class="mdescLeft">&#160;</td><td class="mdescRight">Global HID command for general data transmitted via the HID interface. This command is set by the command handlers. If one field was modified by a handler, it will be sent to task_hid.  <a href="#ae11e05a2365622ab8aa0e85b36835777">More...</a><br /></td></tr>
 <tr class="separator:ae11e05a2365622ab8aa0e85b36835777"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad97b0745c847abd384df54394439466f"><td class="memItemLeft" align="right" valign="top"><a class="el" href="common_8h.html#a717ff1d55fb710bbebe9addae27d7258">hid_cmd_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="task__commands_8c.html#ad97b0745c847abd384df54394439466f">mouseR</a></td></tr>
+<tr class="memitem:ad97b0745c847abd384df54394439466f"><td class="memItemLeft" align="right" valign="top"><a class="el" href="common_8h.html#a29f0fa9b007be5e086562312cd1b1a1d">hid_cmd_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="task__commands_8c.html#ad97b0745c847abd384df54394439466f">mouseR</a></td></tr>
 <tr class="memdesc:ad97b0745c847abd384df54394439466f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Global release HID command for mouse This command is set by the command handlers. If one field was modified by a handler, it will be sent to task_hid.  <a href="#ad97b0745c847abd384df54394439466f">More...</a><br /></td></tr>
 <tr class="separator:ad97b0745c847abd384df54394439466f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5ee87bd3682f64133f841ef3a9f80054"><td class="memItemLeft" align="right" valign="top"><a class="el" href="common_8h.html#a717ff1d55fb710bbebe9addae27d7258">hid_cmd_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="task__commands_8c.html#a5ee87bd3682f64133f841ef3a9f80054">mouseD</a></td></tr>
+<tr class="memitem:a5ee87bd3682f64133f841ef3a9f80054"><td class="memItemLeft" align="right" valign="top"><a class="el" href="common_8h.html#a29f0fa9b007be5e086562312cd1b1a1d">hid_cmd_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="task__commands_8c.html#a5ee87bd3682f64133f841ef3a9f80054">mouseD</a></td></tr>
 <tr class="memdesc:a5ee87bd3682f64133f841ef3a9f80054"><td class="mdescLeft">&#160;</td><td class="mdescRight">Global HID command for mouse - 2nd action This command is set by the command handlers. This one is just used for double click. If one field was modified by a handler, it will be sent to task_hid.  <a href="#a5ee87bd3682f64133f841ef3a9f80054">More...</a><br /></td></tr>
 <tr class="separator:a5ee87bd3682f64133f841ef3a9f80054"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2c8ad30e5a0b76b98fb653eaeb152acb"><td class="memItemLeft" align="right" valign="top"><a class="el" href="common_8h.html#a717ff1d55fb710bbebe9addae27d7258">hid_cmd_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="task__commands_8c.html#a2c8ad30e5a0b76b98fb653eaeb152acb">keyboard</a></td></tr>
+<tr class="memitem:a2c8ad30e5a0b76b98fb653eaeb152acb"><td class="memItemLeft" align="right" valign="top"><a class="el" href="common_8h.html#a29f0fa9b007be5e086562312cd1b1a1d">hid_cmd_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="task__commands_8c.html#a2c8ad30e5a0b76b98fb653eaeb152acb">keyboard</a></td></tr>
 <tr class="memdesc:a2c8ad30e5a0b76b98fb653eaeb152acb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Global HID command for keyboard This command is set by the command handlers. If one field was modified by a handler, it will be sent to task_hid.  <a href="#a2c8ad30e5a0b76b98fb653eaeb152acb">More...</a><br /></td></tr>
 <tr class="separator:a2c8ad30e5a0b76b98fb653eaeb152acb"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a499680ab602bb5a4bf44a82d73e731ba"><td class="memItemLeft" align="right" valign="top"><a class="el" href="common_8h.html#a717ff1d55fb710bbebe9addae27d7258">hid_cmd_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="task__commands_8c.html#a499680ab602bb5a4bf44a82d73e731ba">keyboardR</a></td></tr>
+<tr class="memitem:a499680ab602bb5a4bf44a82d73e731ba"><td class="memItemLeft" align="right" valign="top"><a class="el" href="common_8h.html#a29f0fa9b007be5e086562312cd1b1a1d">hid_cmd_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="task__commands_8c.html#a499680ab602bb5a4bf44a82d73e731ba">keyboardR</a></td></tr>
 <tr class="memdesc:a499680ab602bb5a4bf44a82d73e731ba"><td class="mdescLeft">&#160;</td><td class="mdescRight">Global release HID command for keyboard This command is set by the command handlers. If one field was modified by a handler, it will be sent to task_hid.  <a href="#a499680ab602bb5a4bf44a82d73e731ba">More...</a><br /></td></tr>
 <tr class="separator:a499680ab602bb5a4bf44a82d73e731ba"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a636f2e855ca9775d7e6e5a62f629bbda"><td class="memItemLeft" align="right" valign="top"><a class="el" href="common_8h.html#a66f473b9d6a9bf4f0856fec2b31bdd06">vb_cmd_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="task__commands_8c.html#a636f2e855ca9775d7e6e5a62f629bbda">vbaction</a></td></tr>
+<tr class="memitem:a636f2e855ca9775d7e6e5a62f629bbda"><td class="memItemLeft" align="right" valign="top"><a class="el" href="common_8h.html#a56607a09b80340fff43c9987abf69fb0">vb_cmd_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="task__commands_8c.html#a636f2e855ca9775d7e6e5a62f629bbda">vbaction</a></td></tr>
 <tr class="memdesc:a636f2e855ca9775d7e6e5a62f629bbda"><td class="mdescLeft">&#160;</td><td class="mdescRight">Global VB command.  <a href="#a636f2e855ca9775d7e6e5a62f629bbda">More...</a><br /></td></tr>
 <tr class="separator:a636f2e855ca9775d7e6e5a62f629bbda"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a051e68290912366220f6723b0374914a"><td class="memItemLeft" align="right" valign="top"><a class="el" href="common_8h.html#a1d17932316265a53a6982a2526a4cada">generalConfig_t</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="task__commands_8c.html#a051e68290912366220f6723b0374914a">currentCfg</a> = NULL</td></tr>
@@ -312,9 +312,9 @@ hal_serial </dd>
 <dd>
 atcmd_api </dd>
 <dd>
-<a class="el" href="common_8h.html#a717ff1d55fb710bbebe9addae27d7258" title="One HID command, maybe an element of a command chain. ">hid_cmd_t</a> </dd>
+<a class="el" href="common_8h.html#a29f0fa9b007be5e086562312cd1b1a1d" title="One HID command, maybe an element of a command chain. ">hid_cmd_t</a> </dd>
 <dd>
-<a class="el" href="common_8h.html#a66f473b9d6a9bf4f0856fec2b31bdd06" title="One VB command (not HID), maybe an element of a command chain. ">vb_cmd_t</a></dd></dl>
+<a class="el" href="common_8h.html#a56607a09b80340fff43c9987abf69fb0" title="One VB command (not HID), maybe an element of a command chain. ">vb_cmd_t</a></dd></dl>
 <dl class="section note"><dt>Note</dt><dd>Currently we are using unicode_to_keycode, because terminal programs use it this way. For supporting unicode keystreams (UTF-8), the method parse_for_keycode needs to be used</dd>
 <dd>
 The command parser itself is based on the cmd_parser project. See: &lt;addlinkhere&gt; </dd></dl>
@@ -335,7 +335,7 @@ The command parser itself is based on the cmd_parser project. See: &lt;addlinkhe
 
 <p class="definition">Definition at line <a class="el" href="task__commands_8c_source.html#l00914">914</a> of file <a class="el" href="task__commands_8c_source.html">task_commands.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="task__commands_8c_source.html#l01728">cmdParser()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="task__commands_8c_source.html#l01729">cmdParser()</a>.</p>
 
 </div>
 </div>
@@ -355,7 +355,7 @@ The command parser itself is based on the cmd_parser project. See: &lt;addlinkhe
 
 <p class="definition">Definition at line <a class="el" href="task__commands_8c_source.html#l00050">50</a> of file <a class="el" href="task__commands_8c_source.html">task_commands.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="task__commands_8c_source.html#l01684">taskCommandsInit()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="task__commands_8c_source.html#l01685">taskCommandsInit()</a>.</p>
 
 </div>
 </div>
@@ -374,7 +374,7 @@ The command parser itself is based on the cmd_parser project. See: &lt;addlinkhe
 
 <p class="definition">Definition at line <a class="el" href="task__commands_8c_source.html#l00048">48</a> of file <a class="el" href="task__commands_8c_source.html">task_commands.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="task__commands_8c_source.html#l00652">cmdDe()</a>, <a class="el" href="task__commands_8c_source.html#l00661">cmdDl()</a>, <a class="el" href="task__commands_8c_source.html#l00670">cmdDn()</a>, <a class="el" href="task__commands_8c_source.html#l00825">cmdIc()</a>, <a class="el" href="task__commands_8c_source.html#l00861">cmdIl()</a>, <a class="el" href="task__commands_8c_source.html#l00802">cmdIr()</a>, <a class="el" href="task__commands_8c_source.html#l00847">cmdIw()</a>, <a class="el" href="task__commands_8c_source.html#l00899">cmdIx()</a>, <a class="el" href="task__commands_8c_source.html#l00521">cmdKw()</a>, <a class="el" href="task__commands_8c_source.html#l00400">keyboard_helper_parsekeycode()</a>, <a class="el" href="task__commands_8c_source.html#l01491">printAllSlots()</a>, <a class="el" href="task__commands_8c_source.html#l00136">sendErrorBack()</a>, <a class="el" href="task__commands_8c_source.html#l00175">sendHIDCmd()</a>, <a class="el" href="task__commands_8c_source.html#l00213">sendVBCmd()</a>, <a class="el" href="task__commands_8c_source.html#l01547">storeSlot()</a>, <a class="el" href="task__commands_8c_source.html#l01355">task_commands()</a>, and <a class="el" href="task__commands_8c_source.html#l01684">taskCommandsInit()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="task__commands_8c_source.html#l00652">cmdDe()</a>, <a class="el" href="task__commands_8c_source.html#l00661">cmdDl()</a>, <a class="el" href="task__commands_8c_source.html#l00670">cmdDn()</a>, <a class="el" href="task__commands_8c_source.html#l00825">cmdIc()</a>, <a class="el" href="task__commands_8c_source.html#l00861">cmdIl()</a>, <a class="el" href="task__commands_8c_source.html#l00802">cmdIr()</a>, <a class="el" href="task__commands_8c_source.html#l00847">cmdIw()</a>, <a class="el" href="task__commands_8c_source.html#l00899">cmdIx()</a>, <a class="el" href="task__commands_8c_source.html#l00521">cmdKw()</a>, <a class="el" href="task__commands_8c_source.html#l00400">keyboard_helper_parsekeycode()</a>, <a class="el" href="task__commands_8c_source.html#l01492">printAllSlots()</a>, <a class="el" href="task__commands_8c_source.html#l00136">sendErrorBack()</a>, <a class="el" href="task__commands_8c_source.html#l00175">sendHIDCmd()</a>, <a class="el" href="task__commands_8c_source.html#l00213">sendVBCmd()</a>, <a class="el" href="task__commands_8c_source.html#l01548">storeSlot()</a>, <a class="el" href="task__commands_8c_source.html#l01355">task_commands()</a>, and <a class="el" href="task__commands_8c_source.html#l01685">taskCommandsInit()</a>.</p>
 
 </div>
 </div>
@@ -829,9 +829,10 @@ Here is the call graph for this function:</div>
 <map name="task__commands_8c_a0d9cf254674af930139a09407bec9b43_cgraph" id="task__commands_8c_a0d9cf254674af930139a09407bec9b43_cgraph">
 <area shape="rect" id="node2" href="hal__storage_8c.html#aead99606f84645b2bb6ae000461bf819" title="Start a storage transaction. " alt="" coords="121,5,301,32"/>
 <area shape="rect" id="node4" href="hal__storage_8c.html#a8abf9a5b8727dc8d7cbe76ba0e2dcb6b" title="Delete one or all slots. " alt="" coords="138,56,283,83"/>
-<area shape="rect" id="node6" href="hal__storage_8c.html#a00b5db14e24d7ada8a42aa6b3f1a1cb7" title="Finish a storage transaction. " alt="" coords="117,107,304,133"/>
-<area shape="rect" id="node3" href="hal__storage_8c.html#a606e5842dd354f1fb4a738ba95c6d5d1" title="internal function to init the filesystem if handle is invalid " alt="" coords="365,5,468,32"/>
-<area shape="rect" id="node5" href="hal__storage_8c.html#a4b6566ef5b69c85d422df52435c95d36" title="Internal helper to check for a valid WL handle and the correct tid. " alt="" coords="352,56,481,83"/>
+<area shape="rect" id="node7" href="hal__storage_8c.html#a00b5db14e24d7ada8a42aa6b3f1a1cb7" title="Finish a storage transaction. " alt="" coords="117,107,304,133"/>
+<area shape="rect" id="node3" href="hal__storage_8c.html#a606e5842dd354f1fb4a738ba95c6d5d1" title="internal function to init the filesystem if handle is invalid " alt="" coords="398,5,501,32"/>
+<area shape="rect" id="node5" href="hal__storage_8c.html#a7e0a934f829b47e2445189dd95e962d6" title="Get the number of stored slots. " alt="" coords="352,56,547,83"/>
+<area shape="rect" id="node6" href="hal__storage_8c.html#a4b6566ef5b69c85d422df52435c95d36" title="Internal helper to check for a valid WL handle and the correct tid. " alt="" coords="595,81,724,108"/>
 </map>
 </div>
 
@@ -877,9 +878,10 @@ Here is the call graph for this function:</div>
 <map name="task__commands_8c_afbad6064c581c3d233152a3c9db07fbb_cgraph" id="task__commands_8c_afbad6064c581c3d233152a3c9db07fbb_cgraph">
 <area shape="rect" id="node2" href="hal__storage_8c.html#aead99606f84645b2bb6ae000461bf819" title="Start a storage transaction. " alt="" coords="117,5,297,32"/>
 <area shape="rect" id="node4" href="hal__storage_8c.html#a8abf9a5b8727dc8d7cbe76ba0e2dcb6b" title="Delete one or all slots. " alt="" coords="134,56,279,83"/>
-<area shape="rect" id="node6" href="hal__storage_8c.html#a00b5db14e24d7ada8a42aa6b3f1a1cb7" title="Finish a storage transaction. " alt="" coords="113,107,300,133"/>
-<area shape="rect" id="node3" href="hal__storage_8c.html#a606e5842dd354f1fb4a738ba95c6d5d1" title="internal function to init the filesystem if handle is invalid " alt="" coords="361,5,464,32"/>
-<area shape="rect" id="node5" href="hal__storage_8c.html#a4b6566ef5b69c85d422df52435c95d36" title="Internal helper to check for a valid WL handle and the correct tid. " alt="" coords="348,56,477,83"/>
+<area shape="rect" id="node7" href="hal__storage_8c.html#a00b5db14e24d7ada8a42aa6b3f1a1cb7" title="Finish a storage transaction. " alt="" coords="113,107,300,133"/>
+<area shape="rect" id="node3" href="hal__storage_8c.html#a606e5842dd354f1fb4a738ba95c6d5d1" title="internal function to init the filesystem if handle is invalid " alt="" coords="394,5,497,32"/>
+<area shape="rect" id="node5" href="hal__storage_8c.html#a7e0a934f829b47e2445189dd95e962d6" title="Get the number of stored slots. " alt="" coords="348,56,543,83"/>
+<area shape="rect" id="node6" href="hal__storage_8c.html#a4b6566ef5b69c85d422df52435c95d36" title="Internal helper to check for a valid WL handle and the correct tid. " alt="" coords="591,81,720,108"/>
 </map>
 </div>
 
@@ -924,13 +926,14 @@ Here is the call graph for this function:</div>
 <div class="center"><img src="task__commands_8c_ac030838bfc9da5b3dc3b3357b0606485_cgraph.png" border="0" usemap="#task__commands_8c_ac030838bfc9da5b3dc3b3357b0606485_cgraph" alt=""/></div>
 <map name="task__commands_8c_ac030838bfc9da5b3dc3b3357b0606485_cgraph" id="task__commands_8c_ac030838bfc9da5b3dc3b3357b0606485_cgraph">
 <area shape="rect" id="node2" href="hal__storage_8c.html#aead99606f84645b2bb6ae000461bf819" title="Start a storage transaction. " alt="" coords="130,5,310,32"/>
-<area shape="rect" id="node4" href="hal__storage_8c.html#aae19bcf97360ccd7af4ddf906ff85141" title="Get the number of a slotname. " alt="" coords="117,107,323,133"/>
-<area shape="rect" id="node8" href="hal__storage_8c.html#a00b5db14e24d7ada8a42aa6b3f1a1cb7" title="Finish a storage transaction. " alt="" coords="127,157,313,184"/>
-<area shape="rect" id="node9" href="hal__storage_8c.html#a8abf9a5b8727dc8d7cbe76ba0e2dcb6b" title="Delete one or all slots. " alt="" coords="401,56,546,83"/>
+<area shape="rect" id="node4" href="hal__storage_8c.html#aae19bcf97360ccd7af4ddf906ff85141" title="Get the number of a slotname. " alt="" coords="117,56,323,83"/>
+<area shape="rect" id="node8" href="hal__storage_8c.html#a00b5db14e24d7ada8a42aa6b3f1a1cb7" title="Finish a storage transaction. " alt="" coords="127,107,313,133"/>
+<area shape="rect" id="node9" href="hal__storage_8c.html#a8abf9a5b8727dc8d7cbe76ba0e2dcb6b" title="Delete one or all slots. " alt="" coords="147,157,293,184"/>
 <area shape="rect" id="node3" href="hal__storage_8c.html#a606e5842dd354f1fb4a738ba95c6d5d1" title="internal function to init the filesystem if handle is invalid " alt="" coords="422,5,525,32"/>
-<area shape="rect" id="node5" href="hal__storage_8c.html#a4b6566ef5b69c85d422df52435c95d36" title="Internal helper to check for a valid WL handle and the correct tid. " alt="" coords="624,107,753,133"/>
-<area shape="rect" id="node6" href="hal__storage_8c.html#a2046481d14910cc6a5b0086a796f293b" title="Get the name of a slot number. " alt="" coords="371,157,576,184"/>
+<area shape="rect" id="node5" href="hal__storage_8c.html#a4b6566ef5b69c85d422df52435c95d36" title="Internal helper to check for a valid WL handle and the correct tid. " alt="" coords="624,132,753,159"/>
+<area shape="rect" id="node6" href="hal__storage_8c.html#a2046481d14910cc6a5b0086a796f293b" title="Get the name of a slot number. " alt="" coords="371,56,576,83"/>
 <area shape="rect" id="node7" href="hal__storage_8c.html#a76299b86e144434260dcab80323ec9da" title="Strips away t and 
+<area shape="rect" id="node10" href="hal__storage_8c.html#a7e0a934f829b47e2445189dd95e962d6" title="Get the number of stored slots. " alt="" coords="376,208,571,235"/>
 </map>
 </div>
 
@@ -1199,13 +1202,14 @@ Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="task__commands_8c_a1db6c92c2f6719e2f2a903264c1243fb_cgraph.png" border="0" usemap="#task__commands_8c_a1db6c92c2f6719e2f2a903264c1243fb_cgraph" alt=""/></div>
 <map name="task__commands_8c_a1db6c92c2f6719e2f2a903264c1243fb_cgraph" id="task__commands_8c_a1db6c92c2f6719e2f2a903264c1243fb_cgraph">
-<area shape="rect" id="node2" href="hal__storage_8c.html#aead99606f84645b2bb6ae000461bf819" title="Start a storage transaction. " alt="" coords="131,17,311,44"/>
-<area shape="rect" id="node4" href="hal__storage_8c.html#a531bc39bc2808762298d14b79ac453cd" title="Get the number for an IR cmd name. " alt="" coords="112,93,331,120"/>
-<area shape="rect" id="node7" href="hal__storage_8c.html#a8347d2c8df82d17bc9af1d007bfd11ae" title="Delete one or all IR commands. " alt="" coords="406,157,570,184"/>
-<area shape="rect" id="node8" href="hal__storage_8c.html#a00b5db14e24d7ada8a42aa6b3f1a1cb7" title="Finish a storage transaction. " alt="" coords="128,195,315,221"/>
+<area shape="rect" id="node2" href="hal__storage_8c.html#aead99606f84645b2bb6ae000461bf819" title="Start a storage transaction. " alt="" coords="131,31,311,57"/>
+<area shape="rect" id="node4" href="hal__storage_8c.html#a531bc39bc2808762298d14b79ac453cd" title="Get the number for an IR cmd name. " alt="" coords="112,107,331,133"/>
+<area shape="rect" id="node7" href="hal__storage_8c.html#af72e1013ef1cbe280ce5317e4f8e896c" title="Delete one or all IR commands. " alt="" coords="139,157,303,184"/>
+<area shape="rect" id="node9" href="hal__storage_8c.html#a00b5db14e24d7ada8a42aa6b3f1a1cb7" title="Finish a storage transaction. " alt="" coords="128,208,315,235"/>
 <area shape="rect" id="node3" href="hal__storage_8c.html#a606e5842dd354f1fb4a738ba95c6d5d1" title="internal function to init the filesystem if handle is invalid " alt="" coords="437,5,539,32"/>
-<area shape="rect" id="node5" href="hal__storage_8c.html#a4b6566ef5b69c85d422df52435c95d36" title="Internal helper to check for a valid WL handle and the correct tid. " alt="" coords="645,107,775,133"/>
+<area shape="rect" id="node5" href="hal__storage_8c.html#a4b6566ef5b69c85d422df52435c95d36" title="Internal helper to check for a valid WL handle and the correct tid. " alt="" coords="645,132,775,159"/>
 <area shape="rect" id="node6" href="hal__storage_8c.html#a53912e9159b29e5fc974a127dbf0982f" title="Get the name of an infrared command stored at the given slot number. " alt="" coords="379,107,597,133"/>
+<area shape="rect" id="node8" href="hal__storage_8c.html#a1495c793604980c76b334f6a6d553c3c" title="Get the number of stored IR commands. " alt="" coords="381,208,595,235"/>
 </map>
 </div>
 
@@ -1483,10 +1487,11 @@ Here is the call graph for this function:</div>
 <div class="center"><img src="task__commands_8c_a10b36ddce6fe6773cfcc5af7ac244789_cgraph.png" border="0" usemap="#task__commands_8c_a10b36ddce6fe6773cfcc5af7ac244789_cgraph" alt=""/></div>
 <map name="task__commands_8c_a10b36ddce6fe6773cfcc5af7ac244789_cgraph" id="task__commands_8c_a10b36ddce6fe6773cfcc5af7ac244789_cgraph">
 <area shape="rect" id="node2" href="hal__storage_8c.html#aead99606f84645b2bb6ae000461bf819" title="Start a storage transaction. " alt="" coords="118,5,298,32"/>
-<area shape="rect" id="node4" href="hal__storage_8c.html#a8347d2c8df82d17bc9af1d007bfd11ae" title="Delete one or all IR commands. " alt="" coords="126,56,290,83"/>
-<area shape="rect" id="node6" href="hal__storage_8c.html#a00b5db14e24d7ada8a42aa6b3f1a1cb7" title="Finish a storage transaction. " alt="" coords="115,107,301,133"/>
-<area shape="rect" id="node3" href="hal__storage_8c.html#a606e5842dd354f1fb4a738ba95c6d5d1" title="internal function to init the filesystem if handle is invalid " alt="" coords="363,5,465,32"/>
-<area shape="rect" id="node5" href="hal__storage_8c.html#a4b6566ef5b69c85d422df52435c95d36" title="Internal helper to check for a valid WL handle and the correct tid. " alt="" coords="349,56,479,83"/>
+<area shape="rect" id="node4" href="hal__storage_8c.html#af72e1013ef1cbe280ce5317e4f8e896c" title="Delete one or all IR commands. " alt="" coords="126,56,290,83"/>
+<area shape="rect" id="node7" href="hal__storage_8c.html#a00b5db14e24d7ada8a42aa6b3f1a1cb7" title="Finish a storage transaction. " alt="" coords="115,107,301,133"/>
+<area shape="rect" id="node3" href="hal__storage_8c.html#a606e5842dd354f1fb4a738ba95c6d5d1" title="internal function to init the filesystem if handle is invalid " alt="" coords="405,5,508,32"/>
+<area shape="rect" id="node5" href="hal__storage_8c.html#a1495c793604980c76b334f6a6d553c3c" title="Get the number of stored IR commands. " alt="" coords="349,56,564,83"/>
+<area shape="rect" id="node6" href="hal__storage_8c.html#a4b6566ef5b69c85d422df52435c95d36" title="Internal helper to check for a valid WL handle and the correct tid. " alt="" coords="612,81,741,108"/>
 </map>
 </div>
 
@@ -1531,10 +1536,11 @@ Here is the call graph for this function:</div>
 <div class="center"><img src="task__commands_8c_a036bffacb3ed98e93e97219423316d19_cgraph.png" border="0" usemap="#task__commands_8c_a036bffacb3ed98e93e97219423316d19_cgraph" alt=""/></div>
 <map name="task__commands_8c_a036bffacb3ed98e93e97219423316d19_cgraph" id="task__commands_8c_a036bffacb3ed98e93e97219423316d19_cgraph">
 <area shape="rect" id="node2" href="hal__storage_8c.html#aead99606f84645b2bb6ae000461bf819" title="Start a storage transaction. " alt="" coords="115,5,295,32"/>
-<area shape="rect" id="node4" href="hal__storage_8c.html#a8347d2c8df82d17bc9af1d007bfd11ae" title="Delete one or all IR commands. " alt="" coords="123,56,287,83"/>
-<area shape="rect" id="node6" href="hal__storage_8c.html#a00b5db14e24d7ada8a42aa6b3f1a1cb7" title="Finish a storage transaction. " alt="" coords="112,107,299,133"/>
-<area shape="rect" id="node3" href="hal__storage_8c.html#a606e5842dd354f1fb4a738ba95c6d5d1" title="internal function to init the filesystem if handle is invalid " alt="" coords="360,5,463,32"/>
-<area shape="rect" id="node5" href="hal__storage_8c.html#a4b6566ef5b69c85d422df52435c95d36" title="Internal helper to check for a valid WL handle and the correct tid. " alt="" coords="347,56,476,83"/>
+<area shape="rect" id="node4" href="hal__storage_8c.html#af72e1013ef1cbe280ce5317e4f8e896c" title="Delete one or all IR commands. " alt="" coords="123,56,287,83"/>
+<area shape="rect" id="node7" href="hal__storage_8c.html#a00b5db14e24d7ada8a42aa6b3f1a1cb7" title="Finish a storage transaction. " alt="" coords="112,107,299,133"/>
+<area shape="rect" id="node3" href="hal__storage_8c.html#a606e5842dd354f1fb4a738ba95c6d5d1" title="internal function to init the filesystem if handle is invalid " alt="" coords="403,5,505,32"/>
+<area shape="rect" id="node5" href="hal__storage_8c.html#a1495c793604980c76b334f6a6d553c3c" title="Get the number of stored IR commands. " alt="" coords="347,56,561,83"/>
+<area shape="rect" id="node6" href="hal__storage_8c.html#a4b6566ef5b69c85d422df52435c95d36" title="Internal helper to check for a valid WL handle and the correct tid. " alt="" coords="609,81,739,108"/>
 </map>
 </div>
 
@@ -2694,7 +2700,7 @@ Here is the call graph for this function:</div>
 <dl class="section note"><dt>Note</dt><dd>This is part of an external project, see <a href="https://gitlab.com/ba.1150/cmd_parser_esp32">https://gitlab.com/ba.1150/cmd_parser_esp32</a> </dd></dl>
 <dl class="section return"><dt>Returns</dt><dd>See cmd_retval. SUCCESS on success. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="task__commands_8c_source.html#l01728">1728</a> of file <a class="el" href="task__commands_8c_source.html">task_commands.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="task__commands_8c_source.html#l01729">1729</a> of file <a class="el" href="task__commands_8c_source.html">task_commands.c</a>.</p>
 
 <p class="reference">Referenced by <a class="el" href="task__commands_8c_source.html#l01355">task_commands()</a>.</p>
 <div class="dynheader">
@@ -3513,9 +3519,9 @@ Here is the caller graph for this function:</div>
   </table>
   </dd>
 </dl>
-<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000008">Todo:</a></b></dt><dd>Is this the same behaviour? Create a slot if AT LI is called... </dd></dl>
+<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000007">Todo:</a></b></dt><dd>Is this the same behaviour? Create a slot if AT LI is called... </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="task__commands_8c_source.html#l01491">1491</a> of file <a class="el" href="task__commands_8c_source.html">task_commands.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="task__commands_8c_source.html#l01492">1492</a> of file <a class="el" href="task__commands_8c_source.html">task_commands.c</a>.</p>
 
 <p class="reference">Referenced by <a class="el" href="task__commands_8c_source.html#l00634">cmdLa()</a>, <a class="el" href="task__commands_8c_source.html#l00637">cmdLi()</a>, and <a class="el" href="task__commands_8c_source.html#l00136">sendErrorBack()</a>.</p>
 <div class="dynheader">
@@ -3620,7 +3626,7 @@ Here is the caller graph for this function:</div>
         <tr>
           <td class="memname">void sendHIDCmd </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="common_8h.html#a717ff1d55fb710bbebe9addae27d7258">hid_cmd_t</a> *&#160;</td>
+          <td class="paramtype"><a class="el" href="common_8h.html#a29f0fa9b007be5e086562312cd1b1a1d">hid_cmd_t</a> *&#160;</td>
           <td class="paramname"><em>sendCmd</em>, </td>
         </tr>
         <tr>
@@ -3699,7 +3705,7 @@ Here is the caller graph for this function:</div>
         <tr>
           <td class="memname">void sendVBCmd </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="common_8h.html#a66f473b9d6a9bf4f0856fec2b31bdd06">vb_cmd_t</a> *&#160;</td>
+          <td class="paramtype"><a class="el" href="common_8h.html#a56607a09b80340fff43c9987abf69fb0">vb_cmd_t</a> *&#160;</td>
           <td class="paramname"><em>sendCmd</em>, </td>
         </tr>
         <tr>
@@ -3787,11 +3793,9 @@ Here is the caller graph for this function:</div>
   </table>
   </dd>
 </dl>
-<p>TODO: should be possible to do this following stuff with a nice loop over the command array?!?</p>
-<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000009">Todo:</a></b></dt><dd>remove this logging tag </dd></dl>
-<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000010">Todo:</a></b></dt><dd>remove this logging tag </dd></dl>
+<p>TODO: should be possible to do this following stuff with a nice loop over the command array?!? </p>
 
-<p class="definition">Definition at line <a class="el" href="task__commands_8c_source.html#l01547">1547</a> of file <a class="el" href="task__commands_8c_source.html">task_commands.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="task__commands_8c_source.html#l01548">1548</a> of file <a class="el" href="task__commands_8c_source.html">task_commands.c</a>.</p>
 
 <p class="reference">Referenced by <a class="el" href="task__commands_8c_source.html#l00621">cmdSa()</a>, and <a class="el" href="task__commands_8c_source.html#l00136">sendErrorBack()</a>.</p>
 <div class="dynheader">
@@ -3848,7 +3852,7 @@ Here is the caller graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="task__commands_8c_source.html#l01355">1355</a> of file <a class="el" href="task__commands_8c_source.html">task_commands.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="task__commands_8c_source.html#l01684">taskCommandsInit()</a>, and <a class="el" href="task__commands_8c_source.html#l01704">taskCommandsRestart()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="task__commands_8c_source.html#l01685">taskCommandsInit()</a>, and <a class="el" href="task__commands_8c_source.html#l01705">taskCommandsRestart()</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -3856,28 +3860,29 @@ Here is the call graph for this function:</div>
 <map name="task__commands_8c_a7b36c39275d773aaedcb327ef4e1516f_cgraph" id="task__commands_8c_a7b36c39275d773aaedcb327ef4e1516f_cgraph">
 <area shape="rect" id="node2" href="task__commands_8c.html#adf3aa67816eecac3e756189c9d61cbd2" title="checkqueues" alt="" coords="213,5,312,32"/>
 <area shape="rect" id="node3" href="hal__serial_8c.html#a0bb04b089362a7c58d189b0fc61bef96" title="Read parsed AT commands from USB&#45;Serial (USB&#45;CDC) " alt="" coords="172,56,353,83"/>
-<area shape="rect" id="node4" href="config__switcher_8c.html#a921538bec34d128a44a748fd5a2c391f" title="Get the current config struct. " alt="" coords="1029,157,1151,184"/>
-<area shape="rect" id="node5" href="task__commands_8c.html#a47ecaf44ece14424655c28d89b5921f9" title="Main parser. " alt="" coords="220,259,305,285"/>
-<area shape="rect" id="node6" href="hal__serial_8c.html#af78683f30da18cfc19c2c91006ec6155" title="Send serial bytes to USB&#45;Serial (USB&#45;CDC) " alt="" coords="1228,157,1391,184"/>
+<area shape="rect" id="node4" href="config__switcher_8c.html#a921538bec34d128a44a748fd5a2c391f" title="Get the current config struct. " alt="" coords="1029,208,1151,235"/>
+<area shape="rect" id="node5" href="task__commands_8c.html#a47ecaf44ece14424655c28d89b5921f9" title="Main parser. " alt="" coords="220,157,305,184"/>
+<area shape="rect" id="node6" href="hal__serial_8c.html#af78683f30da18cfc19c2c91006ec6155" title="Send serial bytes to USB&#45;Serial (USB&#45;CDC) " alt="" coords="1232,208,1395,235"/>
 <area shape="rect" id="node7" href="common_8h.html#a76299b86e144434260dcab80323ec9da" title="Strips away t and 
-<area shape="rect" id="node8" href="task__commands_8c.html#a4d1c5de04f1c6c137f3a70e2e4720c46" title="Helper to route a VB cmd either directly to queue or add it to the list. " alt="" coords="215,461,311,488"/>
-<area shape="rect" id="node12" href="task__commands_8c.html#a2184ca9f2b257a0ef111fd4184bc56db" title="Helper to route a HID cmd either directly to queue or add it to the list. " alt="" coords="211,360,314,387"/>
-<area shape="rect" id="node14" href="config__switcher_8c.html#af8fae43accd789bf2355c79ff44c2ae9" title="Request config update. " alt="" coords="213,208,312,235"/>
-<area shape="rect" id="node9" href="handler__hid_8c.html#a1dfe8fbc4028b9ad4b6e892a349d1356" title="Remove HID command for a virtual button. " alt="" coords="597,512,737,539"/>
-<area shape="rect" id="node10" href="handler__vb_8c.html#a2958d0f22ea5d2c1d16a6dc7900ca38b" title="Add a new VB command for a virtual button. " alt="" coords="403,461,544,488"/>
-<area shape="rect" id="node11" href="handler__vb_8c.html#a12256e1d3f54e995d314eebf8b57e914" title="Remove command for a virtual button. " alt="" coords="599,461,736,488"/>
-<area shape="rect" id="node13" href="handler__hid_8c.html#ad7b90f2c2a4c57d871fc4c5fe4c63633" title="Add a new HID command for a virtual button. " alt="" coords="401,411,545,437"/>
-<area shape="rect" id="node15" href="hal__adc_8c.html#a4135bb73c2271b4a27db8d8d81884de7" title="Reload ADC config. " alt="" coords="402,208,545,235"/>
-<area shape="rect" id="node22" href="hal__ble_8c.html#accf307974a0046bce38582d0260bf841" title="Reset the BLE data. " alt="" coords="424,259,523,285"/>
-<area shape="rect" id="node25" href="hal__serial_8c.html#ab2261f95747ee5806ebdec880d09ca89" title="Reset the serial HID report data. " alt="" coords="420,309,527,336"/>
-<area shape="rect" id="node16" href="hal__adc_8c.html#accb1d998767113559a5a93fd9d0abb2c" title="Validate the input value and replace with default if not matching. " alt="" coords="1276,259,1343,285"/>
-<area shape="rect" id="node17" href="hal__adc_8c.html#aee719704e643d27c1faab768cf4bc22e" title="HAL TASK &#45; Threshold task for ADC. " alt="" coords="593,208,741,235"/>
-<area shape="rect" id="node18" href="hal__adc_8c.html#a8743abcde6f190545c429f072c16106d" title="Report raw values via serial interface. " alt="" coords="1026,208,1154,235"/>
-<area shape="rect" id="node19" href="hal__adc_8c.html#a78419739020988cffc83ffcbc7103b05" title="Process pressure sensor (sip &amp; puff) " alt="" coords="789,259,952,285"/>
-<area shape="rect" id="node20" href="hal__adc_8c.html#a3cddaa804609f2e34f3cbda1d43ff1b4" title="Trigger strong sip/puff + action according to input data. " alt="" coords="1000,259,1180,285"/>
-<area shape="rect" id="node21" href="hal__adc_8c.html#ae549c157d94729e8b06cb391f0f2c97b" title="Calibration function. " alt="" coords="1033,309,1147,336"/>
-<area shape="rect" id="node23" href="hid__dev_8c.html#a8ae7c69dfd4b740534df123a303a8832" title="hid_dev_send_report" alt="" coords="596,411,739,437"/>
-<area shape="rect" id="node24" href="hid__dev_8c.html#a1a247bc038a3368cea0bde2303aa8301" title="hid_dev_rpt_by_id" alt="" coords="807,411,934,437"/>
+<area shape="rect" id="node8" href="task__commands_8c.html#a4d1c5de04f1c6c137f3a70e2e4720c46" title="Helper to route a VB cmd either directly to queue or add it to the list. " alt="" coords="215,360,311,387"/>
+<area shape="rect" id="node12" href="task__commands_8c.html#a2184ca9f2b257a0ef111fd4184bc56db" title="Helper to route a HID cmd either directly to queue or add it to the list. " alt="" coords="211,309,314,336"/>
+<area shape="rect" id="node14" href="config__switcher_8c.html#af8fae43accd789bf2355c79ff44c2ae9" title="Request config update. " alt="" coords="213,487,312,513"/>
+<area shape="rect" id="node9" href="handler__hid_8c.html#a1dfe8fbc4028b9ad4b6e892a349d1356" title="Remove HID command for a virtual button. " alt="" coords="597,309,737,336"/>
+<area shape="rect" id="node10" href="handler__vb_8c.html#a2958d0f22ea5d2c1d16a6dc7900ca38b" title="Add a new VB command for a virtual button. " alt="" coords="403,360,544,387"/>
+<area shape="rect" id="node11" href="handler__vb_8c.html#a12256e1d3f54e995d314eebf8b57e914" title="Remove command for a virtual button. " alt="" coords="599,259,736,285"/>
+<area shape="rect" id="node13" href="handler__hid_8c.html#ad7b90f2c2a4c57d871fc4c5fe4c63633" title="Add a new HID command for a virtual button. " alt="" coords="401,309,545,336"/>
+<area shape="rect" id="node15" href="hal__adc_8c.html#a4135bb73c2271b4a27db8d8d81884de7" title="Reload ADC config. " alt="" coords="402,461,545,488"/>
+<area shape="rect" id="node23" href="hal__ble_8c.html#accf307974a0046bce38582d0260bf841" title="Reset the BLE data. " alt="" coords="424,512,523,539"/>
+<area shape="rect" id="node26" href="hal__serial_8c.html#ab2261f95747ee5806ebdec880d09ca89" title="Reset the serial HID report data. " alt="" coords="420,563,527,589"/>
+<area shape="rect" id="node16" href="hal__adc_8c.html#accb1d998767113559a5a93fd9d0abb2c" title="Validate the input value and replace with default if not matching. " alt="" coords="634,461,701,488"/>
+<area shape="rect" id="node17" href="hal__adc_8c.html#aee719704e643d27c1faab768cf4bc22e" title="HAL TASK &#45; Threshold task for ADC. " alt="" coords="593,360,741,387"/>
+<area shape="rect" id="node18" href="hal__adc_8c.html#a8743abcde6f190545c429f072c16106d" title="Report raw values via serial interface. " alt="" coords="1026,360,1154,387"/>
+<area shape="rect" id="node20" href="hal__adc_8c.html#a78419739020988cffc83ffcbc7103b05" title="Process pressure sensor (sip &amp; puff) " alt="" coords="789,309,952,336"/>
+<area shape="rect" id="node19" href="hal__serial_8c.html#a5dd33d8e55ba33bdecfa78bc11c618b3" title="Read ADC data via I2C from LPC chip. " alt="" coords="1228,360,1399,387"/>
+<area shape="rect" id="node21" href="hal__adc_8c.html#a3cddaa804609f2e34f3cbda1d43ff1b4" title="Trigger strong sip/puff + action according to input data. " alt="" coords="1000,259,1180,285"/>
+<area shape="rect" id="node22" href="hal__adc_8c.html#ae549c157d94729e8b06cb391f0f2c97b" title="Calibration function. " alt="" coords="1033,309,1147,336"/>
+<area shape="rect" id="node24" href="hid__dev_8c.html#a8ae7c69dfd4b740534df123a303a8832" title="hid_dev_send_report" alt="" coords="596,512,739,539"/>
+<area shape="rect" id="node25" href="hid__dev_8c.html#a1a247bc038a3368cea0bde2303aa8301" title="hid_dev_rpt_by_id" alt="" coords="807,512,934,539"/>
 </map>
 </div>
 <div class="dynheader">
@@ -3913,7 +3918,7 @@ Here is the caller graph for this function:</div>
 <p>This method starts the command parser task, which handles incoming UART bytes &amp; responses if necessary. If necessary, this task deletes itself &amp; starts a CIM task (it MUST be the other way as well to restart the AT command parser) </p><dl class="section see"><dt>See also</dt><dd><a class="el" href="task__commands_8c.html#a26091155b4d85093239033d689f363d0" title="Restart the command parser task. ">taskCommandsRestart</a> </dd></dl>
 <dl class="section return"><dt>Returns</dt><dd>ESP_OK on success, ESP_FAIL otherwise </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="task__commands_8c_source.html#l01684">1684</a> of file <a class="el" href="task__commands_8c_source.html">task_commands.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="task__commands_8c_source.html#l01685">1685</a> of file <a class="el" href="task__commands_8c_source.html">task_commands.c</a>.</p>
 
 <p class="reference">Referenced by <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c_source.html#l00114">app_main()</a>.</p>
 <div class="dynheader">
@@ -3924,28 +3929,29 @@ Here is the call graph for this function:</div>
 <area shape="rect" id="node2" href="task__commands_8c.html#a7b36c39275d773aaedcb327ef4e1516f" title="task_commands" alt="" coords="185,208,304,235"/>
 <area shape="rect" id="node3" href="task__commands_8c.html#adf3aa67816eecac3e756189c9d61cbd2" title="checkqueues" alt="" coords="393,5,492,32"/>
 <area shape="rect" id="node4" href="hal__serial_8c.html#a0bb04b089362a7c58d189b0fc61bef96" title="Read parsed AT commands from USB&#45;Serial (USB&#45;CDC) " alt="" coords="352,56,533,83"/>
-<area shape="rect" id="node5" href="config__switcher_8c.html#a921538bec34d128a44a748fd5a2c391f" title="Get the current config struct. " alt="" coords="1209,157,1331,184"/>
-<area shape="rect" id="node6" href="task__commands_8c.html#a47ecaf44ece14424655c28d89b5921f9" title="Main parser. " alt="" coords="400,259,485,285"/>
-<area shape="rect" id="node7" href="hal__serial_8c.html#af78683f30da18cfc19c2c91006ec6155" title="Send serial bytes to USB&#45;Serial (USB&#45;CDC) " alt="" coords="1408,157,1571,184"/>
+<area shape="rect" id="node5" href="config__switcher_8c.html#a921538bec34d128a44a748fd5a2c391f" title="Get the current config struct. " alt="" coords="1209,208,1331,235"/>
+<area shape="rect" id="node6" href="task__commands_8c.html#a47ecaf44ece14424655c28d89b5921f9" title="Main parser. " alt="" coords="400,157,485,184"/>
+<area shape="rect" id="node7" href="hal__serial_8c.html#af78683f30da18cfc19c2c91006ec6155" title="Send serial bytes to USB&#45;Serial (USB&#45;CDC) " alt="" coords="1412,208,1575,235"/>
 <area shape="rect" id="node8" href="common_8h.html#a76299b86e144434260dcab80323ec9da" title="Strips away t and 
-<area shape="rect" id="node9" href="task__commands_8c.html#a4d1c5de04f1c6c137f3a70e2e4720c46" title="Helper to route a VB cmd either directly to queue or add it to the list. " alt="" coords="395,461,491,488"/>
-<area shape="rect" id="node13" href="task__commands_8c.html#a2184ca9f2b257a0ef111fd4184bc56db" title="Helper to route a HID cmd either directly to queue or add it to the list. " alt="" coords="391,360,494,387"/>
-<area shape="rect" id="node15" href="config__switcher_8c.html#af8fae43accd789bf2355c79ff44c2ae9" title="Request config update. " alt="" coords="393,208,492,235"/>
-<area shape="rect" id="node10" href="handler__hid_8c.html#a1dfe8fbc4028b9ad4b6e892a349d1356" title="Remove HID command for a virtual button. " alt="" coords="777,512,917,539"/>
-<area shape="rect" id="node11" href="handler__vb_8c.html#a2958d0f22ea5d2c1d16a6dc7900ca38b" title="Add a new VB command for a virtual button. " alt="" coords="583,461,724,488"/>
-<area shape="rect" id="node12" href="handler__vb_8c.html#a12256e1d3f54e995d314eebf8b57e914" title="Remove command for a virtual button. " alt="" coords="779,461,916,488"/>
-<area shape="rect" id="node14" href="handler__hid_8c.html#ad7b90f2c2a4c57d871fc4c5fe4c63633" title="Add a new HID command for a virtual button. " alt="" coords="581,411,725,437"/>
-<area shape="rect" id="node16" href="hal__adc_8c.html#a4135bb73c2271b4a27db8d8d81884de7" title="Reload ADC config. " alt="" coords="582,208,725,235"/>
-<area shape="rect" id="node23" href="hal__ble_8c.html#accf307974a0046bce38582d0260bf841" title="Reset the BLE data. " alt="" coords="604,259,703,285"/>
-<area shape="rect" id="node26" href="hal__serial_8c.html#ab2261f95747ee5806ebdec880d09ca89" title="Reset the serial HID report data. " alt="" coords="600,309,707,336"/>
-<area shape="rect" id="node17" href="hal__adc_8c.html#accb1d998767113559a5a93fd9d0abb2c" title="Validate the input value and replace with default if not matching. " alt="" coords="1456,259,1523,285"/>
-<area shape="rect" id="node18" href="hal__adc_8c.html#aee719704e643d27c1faab768cf4bc22e" title="HAL TASK &#45; Threshold task for ADC. " alt="" coords="773,208,921,235"/>
-<area shape="rect" id="node19" href="hal__adc_8c.html#a8743abcde6f190545c429f072c16106d" title="Report raw values via serial interface. " alt="" coords="1206,208,1334,235"/>
-<area shape="rect" id="node20" href="hal__adc_8c.html#a78419739020988cffc83ffcbc7103b05" title="Process pressure sensor (sip &amp; puff) " alt="" coords="969,259,1132,285"/>
-<area shape="rect" id="node21" href="hal__adc_8c.html#a3cddaa804609f2e34f3cbda1d43ff1b4" title="Trigger strong sip/puff + action according to input data. " alt="" coords="1180,259,1360,285"/>
-<area shape="rect" id="node22" href="hal__adc_8c.html#ae549c157d94729e8b06cb391f0f2c97b" title="Calibration function. " alt="" coords="1213,309,1327,336"/>
-<area shape="rect" id="node24" href="hid__dev_8c.html#a8ae7c69dfd4b740534df123a303a8832" title="hid_dev_send_report" alt="" coords="776,411,919,437"/>
-<area shape="rect" id="node25" href="hid__dev_8c.html#a1a247bc038a3368cea0bde2303aa8301" title="hid_dev_rpt_by_id" alt="" coords="987,411,1114,437"/>
+<area shape="rect" id="node9" href="task__commands_8c.html#a4d1c5de04f1c6c137f3a70e2e4720c46" title="Helper to route a VB cmd either directly to queue or add it to the list. " alt="" coords="395,360,491,387"/>
+<area shape="rect" id="node13" href="task__commands_8c.html#a2184ca9f2b257a0ef111fd4184bc56db" title="Helper to route a HID cmd either directly to queue or add it to the list. " alt="" coords="391,309,494,336"/>
+<area shape="rect" id="node15" href="config__switcher_8c.html#af8fae43accd789bf2355c79ff44c2ae9" title="Request config update. " alt="" coords="393,487,492,513"/>
+<area shape="rect" id="node10" href="handler__hid_8c.html#a1dfe8fbc4028b9ad4b6e892a349d1356" title="Remove HID command for a virtual button. " alt="" coords="777,309,917,336"/>
+<area shape="rect" id="node11" href="handler__vb_8c.html#a2958d0f22ea5d2c1d16a6dc7900ca38b" title="Add a new VB command for a virtual button. " alt="" coords="583,360,724,387"/>
+<area shape="rect" id="node12" href="handler__vb_8c.html#a12256e1d3f54e995d314eebf8b57e914" title="Remove command for a virtual button. " alt="" coords="779,259,916,285"/>
+<area shape="rect" id="node14" href="handler__hid_8c.html#ad7b90f2c2a4c57d871fc4c5fe4c63633" title="Add a new HID command for a virtual button. " alt="" coords="581,309,725,336"/>
+<area shape="rect" id="node16" href="hal__adc_8c.html#a4135bb73c2271b4a27db8d8d81884de7" title="Reload ADC config. " alt="" coords="582,461,725,488"/>
+<area shape="rect" id="node24" href="hal__ble_8c.html#accf307974a0046bce38582d0260bf841" title="Reset the BLE data. " alt="" coords="604,512,703,539"/>
+<area shape="rect" id="node27" href="hal__serial_8c.html#ab2261f95747ee5806ebdec880d09ca89" title="Reset the serial HID report data. " alt="" coords="600,563,707,589"/>
+<area shape="rect" id="node17" href="hal__adc_8c.html#accb1d998767113559a5a93fd9d0abb2c" title="Validate the input value and replace with default if not matching. " alt="" coords="814,461,881,488"/>
+<area shape="rect" id="node18" href="hal__adc_8c.html#aee719704e643d27c1faab768cf4bc22e" title="HAL TASK &#45; Threshold task for ADC. " alt="" coords="773,360,921,387"/>
+<area shape="rect" id="node19" href="hal__adc_8c.html#a8743abcde6f190545c429f072c16106d" title="Report raw values via serial interface. " alt="" coords="1206,360,1334,387"/>
+<area shape="rect" id="node21" href="hal__adc_8c.html#a78419739020988cffc83ffcbc7103b05" title="Process pressure sensor (sip &amp; puff) " alt="" coords="969,309,1132,336"/>
+<area shape="rect" id="node20" href="hal__serial_8c.html#a5dd33d8e55ba33bdecfa78bc11c618b3" title="Read ADC data via I2C from LPC chip. " alt="" coords="1408,360,1579,387"/>
+<area shape="rect" id="node22" href="hal__adc_8c.html#a3cddaa804609f2e34f3cbda1d43ff1b4" title="Trigger strong sip/puff + action according to input data. " alt="" coords="1180,259,1360,285"/>
+<area shape="rect" id="node23" href="hal__adc_8c.html#ae549c157d94729e8b06cb391f0f2c97b" title="Calibration function. " alt="" coords="1213,309,1327,336"/>
+<area shape="rect" id="node25" href="hid__dev_8c.html#a8ae7c69dfd4b740534df123a303a8832" title="hid_dev_send_report" alt="" coords="776,512,919,539"/>
+<area shape="rect" id="node26" href="hid__dev_8c.html#a1a247bc038a3368cea0bde2303aa8301" title="hid_dev_rpt_by_id" alt="" coords="987,512,1114,539"/>
 </map>
 </div>
 <div class="dynheader">
@@ -3979,7 +3985,7 @@ Here is the caller graph for this function:</div>
 <p>Restart the command parser task</p>
 <p>This method is used, if the CIM parser detects AT commands and stops itself, providing the AT command set again. </p><dl class="section return"><dt>Returns</dt><dd>ESP_OK on success, ESP_FAIL otherwise (cannot start task, task already running) </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="task__commands_8c_source.html#l01704">1704</a> of file <a class="el" href="task__commands_8c_source.html">task_commands.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="task__commands_8c_source.html#l01705">1705</a> of file <a class="el" href="task__commands_8c_source.html">task_commands.c</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -3988,28 +3994,29 @@ Here is the call graph for this function:</div>
 <area shape="rect" id="node2" href="task__commands_8c.html#a7b36c39275d773aaedcb327ef4e1516f" title="task_commands" alt="" coords="211,208,329,235"/>
 <area shape="rect" id="node3" href="task__commands_8c.html#adf3aa67816eecac3e756189c9d61cbd2" title="checkqueues" alt="" coords="419,5,517,32"/>
 <area shape="rect" id="node4" href="hal__serial_8c.html#a0bb04b089362a7c58d189b0fc61bef96" title="Read parsed AT commands from USB&#45;Serial (USB&#45;CDC) " alt="" coords="377,56,559,83"/>
-<area shape="rect" id="node5" href="config__switcher_8c.html#a921538bec34d128a44a748fd5a2c391f" title="Get the current config struct. " alt="" coords="1235,157,1356,184"/>
-<area shape="rect" id="node6" href="task__commands_8c.html#a47ecaf44ece14424655c28d89b5921f9" title="Main parser. " alt="" coords="425,259,511,285"/>
-<area shape="rect" id="node7" href="hal__serial_8c.html#af78683f30da18cfc19c2c91006ec6155" title="Send serial bytes to USB&#45;Serial (USB&#45;CDC) " alt="" coords="1433,157,1596,184"/>
+<area shape="rect" id="node5" href="config__switcher_8c.html#a921538bec34d128a44a748fd5a2c391f" title="Get the current config struct. " alt="" coords="1235,208,1356,235"/>
+<area shape="rect" id="node6" href="task__commands_8c.html#a47ecaf44ece14424655c28d89b5921f9" title="Main parser. " alt="" coords="425,157,511,184"/>
+<area shape="rect" id="node7" href="hal__serial_8c.html#af78683f30da18cfc19c2c91006ec6155" title="Send serial bytes to USB&#45;Serial (USB&#45;CDC) " alt="" coords="1437,208,1600,235"/>
 <area shape="rect" id="node8" href="common_8h.html#a76299b86e144434260dcab80323ec9da" title="Strips away t and 
-<area shape="rect" id="node9" href="task__commands_8c.html#a4d1c5de04f1c6c137f3a70e2e4720c46" title="Helper to route a VB cmd either directly to queue or add it to the list. " alt="" coords="420,461,516,488"/>
-<area shape="rect" id="node13" href="task__commands_8c.html#a2184ca9f2b257a0ef111fd4184bc56db" title="Helper to route a HID cmd either directly to queue or add it to the list. " alt="" coords="417,360,519,387"/>
-<area shape="rect" id="node15" href="config__switcher_8c.html#af8fae43accd789bf2355c79ff44c2ae9" title="Request config update. " alt="" coords="419,208,517,235"/>
-<area shape="rect" id="node10" href="handler__hid_8c.html#a1dfe8fbc4028b9ad4b6e892a349d1356" title="Remove HID command for a virtual button. " alt="" coords="803,512,943,539"/>
-<area shape="rect" id="node11" href="handler__vb_8c.html#a2958d0f22ea5d2c1d16a6dc7900ca38b" title="Add a new VB command for a virtual button. " alt="" coords="608,461,749,488"/>
-<area shape="rect" id="node12" href="handler__vb_8c.html#a12256e1d3f54e995d314eebf8b57e914" title="Remove command for a virtual button. " alt="" coords="804,461,941,488"/>
-<area shape="rect" id="node14" href="handler__hid_8c.html#ad7b90f2c2a4c57d871fc4c5fe4c63633" title="Add a new HID command for a virtual button. " alt="" coords="607,411,751,437"/>
-<area shape="rect" id="node16" href="hal__adc_8c.html#a4135bb73c2271b4a27db8d8d81884de7" title="Reload ADC config. " alt="" coords="607,208,750,235"/>
-<area shape="rect" id="node23" href="hal__ble_8c.html#accf307974a0046bce38582d0260bf841" title="Reset the BLE data. " alt="" coords="629,259,728,285"/>
-<area shape="rect" id="node26" href="hal__serial_8c.html#ab2261f95747ee5806ebdec880d09ca89" title="Reset the serial HID report data. " alt="" coords="625,309,732,336"/>
-<area shape="rect" id="node17" href="hal__adc_8c.html#accb1d998767113559a5a93fd9d0abb2c" title="Validate the input value and replace with default if not matching. " alt="" coords="1481,259,1548,285"/>
-<area shape="rect" id="node18" href="hal__adc_8c.html#aee719704e643d27c1faab768cf4bc22e" title="HAL TASK &#45; Threshold task for ADC. " alt="" coords="799,208,947,235"/>
-<area shape="rect" id="node19" href="hal__adc_8c.html#a8743abcde6f190545c429f072c16106d" title="Report raw values via serial interface. " alt="" coords="1231,208,1359,235"/>
-<area shape="rect" id="node20" href="hal__adc_8c.html#a78419739020988cffc83ffcbc7103b05" title="Process pressure sensor (sip &amp; puff) " alt="" coords="995,259,1157,285"/>
-<area shape="rect" id="node21" href="hal__adc_8c.html#a3cddaa804609f2e34f3cbda1d43ff1b4" title="Trigger strong sip/puff + action according to input data. " alt="" coords="1205,259,1385,285"/>
-<area shape="rect" id="node22" href="hal__adc_8c.html#ae549c157d94729e8b06cb391f0f2c97b" title="Calibration function. " alt="" coords="1238,309,1353,336"/>
-<area shape="rect" id="node24" href="hid__dev_8c.html#a8ae7c69dfd4b740534df123a303a8832" title="hid_dev_send_report" alt="" coords="801,411,944,437"/>
-<area shape="rect" id="node25" href="hid__dev_8c.html#a1a247bc038a3368cea0bde2303aa8301" title="hid_dev_rpt_by_id" alt="" coords="1013,411,1139,437"/>
+<area shape="rect" id="node9" href="task__commands_8c.html#a4d1c5de04f1c6c137f3a70e2e4720c46" title="Helper to route a VB cmd either directly to queue or add it to the list. " alt="" coords="420,360,516,387"/>
+<area shape="rect" id="node13" href="task__commands_8c.html#a2184ca9f2b257a0ef111fd4184bc56db" title="Helper to route a HID cmd either directly to queue or add it to the list. " alt="" coords="417,309,519,336"/>
+<area shape="rect" id="node15" href="config__switcher_8c.html#af8fae43accd789bf2355c79ff44c2ae9" title="Request config update. " alt="" coords="419,487,517,513"/>
+<area shape="rect" id="node10" href="handler__hid_8c.html#a1dfe8fbc4028b9ad4b6e892a349d1356" title="Remove HID command for a virtual button. " alt="" coords="803,309,943,336"/>
+<area shape="rect" id="node11" href="handler__vb_8c.html#a2958d0f22ea5d2c1d16a6dc7900ca38b" title="Add a new VB command for a virtual button. " alt="" coords="608,360,749,387"/>
+<area shape="rect" id="node12" href="handler__vb_8c.html#a12256e1d3f54e995d314eebf8b57e914" title="Remove command for a virtual button. " alt="" coords="804,259,941,285"/>
+<area shape="rect" id="node14" href="handler__hid_8c.html#ad7b90f2c2a4c57d871fc4c5fe4c63633" title="Add a new HID command for a virtual button. " alt="" coords="607,309,751,336"/>
+<area shape="rect" id="node16" href="hal__adc_8c.html#a4135bb73c2271b4a27db8d8d81884de7" title="Reload ADC config. " alt="" coords="607,461,750,488"/>
+<area shape="rect" id="node24" href="hal__ble_8c.html#accf307974a0046bce38582d0260bf841" title="Reset the BLE data. " alt="" coords="629,512,728,539"/>
+<area shape="rect" id="node27" href="hal__serial_8c.html#ab2261f95747ee5806ebdec880d09ca89" title="Reset the serial HID report data. " alt="" coords="625,563,732,589"/>
+<area shape="rect" id="node17" href="hal__adc_8c.html#accb1d998767113559a5a93fd9d0abb2c" title="Validate the input value and replace with default if not matching. " alt="" coords="839,461,906,488"/>
+<area shape="rect" id="node18" href="hal__adc_8c.html#aee719704e643d27c1faab768cf4bc22e" title="HAL TASK &#45; Threshold task for ADC. " alt="" coords="799,360,947,387"/>
+<area shape="rect" id="node19" href="hal__adc_8c.html#a8743abcde6f190545c429f072c16106d" title="Report raw values via serial interface. " alt="" coords="1231,360,1359,387"/>
+<area shape="rect" id="node21" href="hal__adc_8c.html#a78419739020988cffc83ffcbc7103b05" title="Process pressure sensor (sip &amp; puff) " alt="" coords="995,309,1157,336"/>
+<area shape="rect" id="node20" href="hal__serial_8c.html#a5dd33d8e55ba33bdecfa78bc11c618b3" title="Read ADC data via I2C from LPC chip. " alt="" coords="1433,360,1604,387"/>
+<area shape="rect" id="node22" href="hal__adc_8c.html#a3cddaa804609f2e34f3cbda1d43ff1b4" title="Trigger strong sip/puff + action according to input data. " alt="" coords="1205,259,1385,285"/>
+<area shape="rect" id="node23" href="hal__adc_8c.html#ae549c157d94729e8b06cb391f0f2c97b" title="Calibration function. " alt="" coords="1238,309,1353,336"/>
+<area shape="rect" id="node25" href="hid__dev_8c.html#a8ae7c69dfd4b740534df123a303a8832" title="hid_dev_send_report" alt="" coords="801,512,944,539"/>
+<area shape="rect" id="node26" href="hid__dev_8c.html#a1a247bc038a3368cea0bde2303aa8301" title="hid_dev_rpt_by_id" alt="" coords="1013,512,1139,539"/>
 </map>
 </div>
 
@@ -4030,7 +4037,7 @@ Here is the call graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="task__commands_8c_source.html#l00917">917</a> of file <a class="el" href="task__commands_8c_source.html">task_commands.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="task__commands_8c_source.html#l01728">cmdParser()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="task__commands_8c_source.html#l01729">cmdParser()</a>.</p>
 
 </div>
 </div>
@@ -4075,7 +4082,7 @@ Here is the call graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="task__commands_8c_source.html#l00109">109</a> of file <a class="el" href="task__commands_8c_source.html">task_commands.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="task__commands_8c_source.html#l01684">taskCommandsInit()</a>, and <a class="el" href="task__commands_8c_source.html#l01704">taskCommandsRestart()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="task__commands_8c_source.html#l01685">taskCommandsInit()</a>, and <a class="el" href="task__commands_8c_source.html#l01705">taskCommandsRestart()</a>.</p>
 
 </div>
 </div>
@@ -4086,7 +4093,7 @@ Here is the call graph for this function:</div>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="common_8h.html#a717ff1d55fb710bbebe9addae27d7258">hid_cmd_t</a> general</td>
+          <td class="memname"><a class="el" href="common_8h.html#a29f0fa9b007be5e086562312cd1b1a1d">hid_cmd_t</a> general</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -4104,7 +4111,7 @@ Here is the call graph for this function:</div>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="common_8h.html#a717ff1d55fb710bbebe9addae27d7258">hid_cmd_t</a> joystick</td>
+          <td class="memname"><a class="el" href="common_8h.html#a29f0fa9b007be5e086562312cd1b1a1d">hid_cmd_t</a> joystick</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -4122,7 +4129,7 @@ Here is the call graph for this function:</div>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="common_8h.html#a717ff1d55fb710bbebe9addae27d7258">hid_cmd_t</a> joystickR</td>
+          <td class="memname"><a class="el" href="common_8h.html#a29f0fa9b007be5e086562312cd1b1a1d">hid_cmd_t</a> joystickR</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -4140,7 +4147,7 @@ Here is the call graph for this function:</div>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="common_8h.html#a717ff1d55fb710bbebe9addae27d7258">hid_cmd_t</a> keyboard</td>
+          <td class="memname"><a class="el" href="common_8h.html#a29f0fa9b007be5e086562312cd1b1a1d">hid_cmd_t</a> keyboard</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -4158,7 +4165,7 @@ Here is the call graph for this function:</div>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="common_8h.html#a717ff1d55fb710bbebe9addae27d7258">hid_cmd_t</a> keyboardR</td>
+          <td class="memname"><a class="el" href="common_8h.html#a29f0fa9b007be5e086562312cd1b1a1d">hid_cmd_t</a> keyboardR</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -4176,7 +4183,7 @@ Here is the call graph for this function:</div>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="common_8h.html#a717ff1d55fb710bbebe9addae27d7258">hid_cmd_t</a> mouse</td>
+          <td class="memname"><a class="el" href="common_8h.html#a29f0fa9b007be5e086562312cd1b1a1d">hid_cmd_t</a> mouse</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -4194,7 +4201,7 @@ Here is the call graph for this function:</div>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="common_8h.html#a717ff1d55fb710bbebe9addae27d7258">hid_cmd_t</a> mouseD</td>
+          <td class="memname"><a class="el" href="common_8h.html#a29f0fa9b007be5e086562312cd1b1a1d">hid_cmd_t</a> mouseD</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -4212,7 +4219,7 @@ Here is the call graph for this function:</div>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="common_8h.html#a717ff1d55fb710bbebe9addae27d7258">hid_cmd_t</a> mouseR</td>
+          <td class="memname"><a class="el" href="common_8h.html#a29f0fa9b007be5e086562312cd1b1a1d">hid_cmd_t</a> mouseR</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -4291,7 +4298,7 @@ Here is the call graph for this function:</div>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="common_8h.html#a66f473b9d6a9bf4f0856fec2b31bdd06">vb_cmd_t</a> vbaction</td>
+          <td class="memname"><a class="el" href="common_8h.html#a56607a09b80340fff43c9987abf69fb0">vb_cmd_t</a> vbaction</td>
         </tr>
       </table>
 </div><div class="memdoc">

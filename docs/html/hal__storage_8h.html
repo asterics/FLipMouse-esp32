@@ -80,8 +80,7 @@ $(function() {
 <code>#include &lt;freertos/semphr.h&gt;</code><br />
 <code>#include &lt;esp_log.h&gt;</code><br />
 <code>#include &lt;mbedtls/md5.h&gt;</code><br />
-<code>#include &quot;esp_vfs.h&quot;</code><br />
-<code>#include &quot;esp_vfs_fat.h&quot;</code><br />
+<code>#include &quot;esp_spiffs.h&quot;</code><br />
 <code>#include &quot;nvs_flash.h&quot;</code><br />
 <code>#include &quot;nvs.h&quot;</code><br />
 <code>#include &quot;<a class="el" href="common_8h_source.html">common.h</a>&quot;</code><br />
@@ -154,9 +153,9 @@ Functions</h2></td></tr>
 <tr class="memitem:aa728fac6a17066ecb910c19338ae5288"><td class="memItemLeft" align="right" valign="top">esp_err_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="hal__storage_8h.html#aa728fac6a17066ecb910c19338ae5288">halStorageLoadIR</a> (char *cmdName, <a class="el" href="common_8h.html#af531911959683790ca7ae870f8462a16">halIOIR_t</a> *cfg, uint32_t tid)</td></tr>
 <tr class="memdesc:aa728fac6a17066ecb910c19338ae5288"><td class="mdescLeft">&#160;</td><td class="mdescRight">Load an IR command by name.  <a href="#aa728fac6a17066ecb910c19338ae5288">More...</a><br /></td></tr>
 <tr class="separator:aa728fac6a17066ecb910c19338ae5288"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8347d2c8df82d17bc9af1d007bfd11ae"><td class="memItemLeft" align="right" valign="top">esp_err_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="hal__storage_8h.html#a8347d2c8df82d17bc9af1d007bfd11ae">halStorageDeleteIRCmd</a> (uint8_t slotnr, uint32_t tid)</td></tr>
-<tr class="memdesc:a8347d2c8df82d17bc9af1d007bfd11ae"><td class="mdescLeft">&#160;</td><td class="mdescRight">Delete one or all IR commands.  <a href="#a8347d2c8df82d17bc9af1d007bfd11ae">More...</a><br /></td></tr>
-<tr class="separator:a8347d2c8df82d17bc9af1d007bfd11ae"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af72e1013ef1cbe280ce5317e4f8e896c"><td class="memItemLeft" align="right" valign="top">esp_err_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="hal__storage_8h.html#af72e1013ef1cbe280ce5317e4f8e896c">halStorageDeleteIRCmd</a> (int16_t slotnr, uint32_t tid)</td></tr>
+<tr class="memdesc:af72e1013ef1cbe280ce5317e4f8e896c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Delete one or all IR commands.  <a href="#af72e1013ef1cbe280ce5317e4f8e896c">More...</a><br /></td></tr>
+<tr class="separator:af72e1013ef1cbe280ce5317e4f8e896c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a53912e9159b29e5fc974a127dbf0982f"><td class="memItemLeft" align="right" valign="top">esp_err_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="hal__storage_8h.html#a53912e9159b29e5fc974a127dbf0982f">halStorageGetNameForNumberIR</a> (uint32_t tid, uint8_t slotnumber, char *cmdName)</td></tr>
 <tr class="memdesc:a53912e9159b29e5fc974a127dbf0982f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the name of an infrared command stored at the given slot number.  <a href="#a53912e9159b29e5fc974a127dbf0982f">More...</a><br /></td></tr>
 <tr class="separator:a53912e9159b29e5fc974a127dbf0982f"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -216,8 +215,7 @@ Functions</h2></td></tr>
 Maximum number of IR commands: 100 (0-100, e.g. IR_99.fms) </dd>
 <dd>
 Use halStorageStartTransaction and halStorageFinishTransaction on begin/end of loading&amp;storing (except for halStorageNVS* operations) </dd></dl>
-<dl class="section warning"><dt>Warning</dt><dd>Adjust the esp-idf (via "make menuconfig") to use 512B sectors and mode <b>safety</b>!</dd></dl>
-<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000030">Todo:</a></b></dt><dd>Put delete/save to a task, takes very long time...</dd></dl>
+<dl class="section warning"><dt>Warning</dt><dd>Use the same settings for compiling mkspiffs as they are set in make menuconfig, otherwise files cannot be read/written.</dd></dl>
 <dl class="section see"><dt>See also</dt><dd><a class="el" href="common_8h.html#a1d17932316265a53a6982a2526a4cada">generalConfig_t</a> </dd></dl>
 
 <p class="definition">Definition in file <a class="el" href="hal__storage_8h_source.html">hal_storage.h</a>.</p>
@@ -237,9 +235,9 @@ Use halStorageStartTransaction and halStorageFinishTransaction on begin/end of l
 <p>Namespace for storing NVS key/value pairs. </p>
 <dl class="section warning"><dt>Warning</dt><dd>If changed, all previously data cannot be used! </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="hal__storage_8h_source.html#l00102">102</a> of file <a class="el" href="hal__storage_8h_source.html">hal_storage.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="hal__storage_8h_source.html#l00098">98</a> of file <a class="el" href="hal__storage_8h_source.html">hal_storage.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="hal__storage_8c_source.html#l00108">halStorageNVSLoadString()</a>, and <a class="el" href="hal__storage_8c_source.html#l00140">halStorageNVSStoreString()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="hal__storage_8c_source.html#l00102">halStorageNVSLoadString()</a>, and <a class="el" href="hal__storage_8c_source.html#l00134">halStorageNVSStoreString()</a>.</p>
 
 </div>
 </div>
@@ -286,7 +284,7 @@ Use halStorageStartTransaction and halStorageFinishTransaction on begin/end of l
 </td></tr>
 </table>
 
-<p class="definition">Definition at line <a class="el" href="hal__storage_8h_source.html#l00104">104</a> of file <a class="el" href="hal__storage_8h_source.html">hal_storage.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="hal__storage_8h_source.html#l00100">100</a> of file <a class="el" href="hal__storage_8h_source.html">hal_storage.h</a>.</p>
 
 </div>
 </div>
@@ -323,9 +321,9 @@ Use halStorageStartTransaction and halStorageFinishTransaction on begin/end of l
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="hal__storage_8c_source.html#l00261">261</a> of file <a class="el" href="hal__storage_8c_source.html">hal_storage.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="hal__storage_8c_source.html#l00252">252</a> of file <a class="el" href="hal__storage_8c_source.html">hal_storage.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="hal__storage_8c_source.html#l00901">halStorageLoadNumber()</a>, and <a class="el" href="task__commands_8c_source.html#l01491">printAllSlots()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="hal__storage_8c_source.html#l00900">halStorageLoadNumber()</a>, and <a class="el" href="task__commands_8c_source.html#l01492">printAllSlots()</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -359,8 +357,8 @@ Here is the caller graph for this function:</div>
 
 </div>
 </div>
-<a id="a8347d2c8df82d17bc9af1d007bfd11ae"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a8347d2c8df82d17bc9af1d007bfd11ae">&#9670;&nbsp;</a></span>halStorageDeleteIRCmd()</h2>
+<a id="af72e1013ef1cbe280ce5317e4f8e896c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af72e1013ef1cbe280ce5317e4f8e896c">&#9670;&nbsp;</a></span>halStorageDeleteIRCmd()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -368,7 +366,7 @@ Here is the caller graph for this function:</div>
         <tr>
           <td class="memname">esp_err_t halStorageDeleteIRCmd </td>
           <td>(</td>
-          <td class="paramtype">uint8_t&#160;</td>
+          <td class="paramtype">int16_t&#160;</td>
           <td class="paramname"><em>slotnr</em>, </td>
         </tr>
         <tr>
@@ -389,20 +387,11 @@ Here is the caller graph for this function:</div>
 <p>This function is used to delete one IR command or all commands (depending on parameter slotnr)</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">slotnr</td><td>Number of slot to be deleted. Use 100 to delete all slots </td></tr>
-    <tr><td class="paramname">tid</td><td>Transaction id </td></tr>
+    <tr><td class="paramname">slotnr</td><td>Number of slot to be deleted. Use -1 to delete all slots </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>ESP_OK if everything is fine, ESP_FAIL otherwise</dd></dl>
-<p>This function is used to delete one IR command or all commands (depending on parameter slotnr)</p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">slotnr</td><td>Number of slot to be deleted. Use 250 to delete all slots </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section note"><dt>Note</dt><dd>Setting slotnr to 100 deletes all IR slots. </dd></dl>
+<dl class="section note"><dt>Note</dt><dd>Setting slotnr to -1 deletes all IR slots. </dd></dl>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">tid</td><td>Transaction id </td></tr>
@@ -411,22 +400,23 @@ Here is the caller graph for this function:</div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>ESP_OK if everything is fine, ESP_FAIL otherwise </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="hal__storage_8c_source.html#l00472">472</a> of file <a class="el" href="hal__storage_8c_source.html">hal_storage.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="hal__storage_8c_source.html#l00460">460</a> of file <a class="el" href="hal__storage_8c_source.html">hal_storage.c</a>.</p>
 
 <p class="reference">Referenced by <a class="el" href="task__commands_8c_source.html#l00825">cmdIc()</a>, <a class="el" href="task__commands_8c_source.html#l00847">cmdIw()</a>, and <a class="el" href="task__commands_8c_source.html#l00899">cmdIx()</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><img src="hal__storage_8h_a8347d2c8df82d17bc9af1d007bfd11ae_cgraph.png" border="0" usemap="#hal__storage_8h_a8347d2c8df82d17bc9af1d007bfd11ae_cgraph" alt=""/></div>
-<map name="hal__storage_8h_a8347d2c8df82d17bc9af1d007bfd11ae_cgraph" id="hal__storage_8h_a8347d2c8df82d17bc9af1d007bfd11ae_cgraph">
-<area shape="rect" id="node2" href="hal__storage_8c.html#a4b6566ef5b69c85d422df52435c95d36" title="Internal helper to check for a valid WL handle and the correct tid. " alt="" coords="217,5,347,32"/>
+<div class="center"><img src="hal__storage_8h_af72e1013ef1cbe280ce5317e4f8e896c_cgraph.png" border="0" usemap="#hal__storage_8h_af72e1013ef1cbe280ce5317e4f8e896c_cgraph" alt=""/></div>
+<map name="hal__storage_8h_af72e1013ef1cbe280ce5317e4f8e896c_cgraph" id="hal__storage_8h_af72e1013ef1cbe280ce5317e4f8e896c_cgraph">
+<area shape="rect" id="node2" href="hal__storage_8c.html#a1495c793604980c76b334f6a6d553c3c" title="Get the number of stored IR commands. " alt="" coords="217,5,432,32"/>
+<area shape="rect" id="node3" href="hal__storage_8c.html#a4b6566ef5b69c85d422df52435c95d36" title="Internal helper to check for a valid WL handle and the correct tid. " alt="" coords="480,31,609,57"/>
 </map>
 </div>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><img src="hal__storage_8h_a8347d2c8df82d17bc9af1d007bfd11ae_icgraph.png" border="0" usemap="#hal__storage_8h_a8347d2c8df82d17bc9af1d007bfd11ae_icgraph" alt=""/></div>
-<map name="hal__storage_8h_a8347d2c8df82d17bc9af1d007bfd11ae_icgraph" id="hal__storage_8h_a8347d2c8df82d17bc9af1d007bfd11ae_icgraph">
+<div class="center"><img src="hal__storage_8h_af72e1013ef1cbe280ce5317e4f8e896c_icgraph.png" border="0" usemap="#hal__storage_8h_af72e1013ef1cbe280ce5317e4f8e896c_icgraph" alt=""/></div>
+<map name="hal__storage_8h_af72e1013ef1cbe280ce5317e4f8e896c_icgraph" id="hal__storage_8h_af72e1013ef1cbe280ce5317e4f8e896c_icgraph">
 <area shape="rect" id="node2" href="task__commands_8c.html#a1db6c92c2f6719e2f2a903264c1243fb" title="cmdIc" alt="" coords="219,5,277,32"/>
 <area shape="rect" id="node3" href="task__commands_8c.html#a10b36ddce6fe6773cfcc5af7ac244789" title="cmdIw" alt="" coords="217,56,279,83"/>
 <area shape="rect" id="node4" href="task__commands_8c.html#a036bffacb3ed98e93e97219423316d19" title="cmdIx" alt="" coords="219,107,277,133"/>
@@ -482,7 +472,7 @@ Here is the caller graph for this function:</div>
 <dl class="section warning"><dt>Warning</dt><dd>Deleting all slots, means that a complete factory reset is done. Maybe we change this in release versions. </dd></dl>
 <dl class="section return"><dt>Returns</dt><dd>ESP_OK if everything is fine, ESP_FAIL otherwise </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="hal__storage_8c_source.html#l01136">1136</a> of file <a class="el" href="hal__storage_8c_source.html">hal_storage.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="hal__storage_8c_source.html#l01135">1135</a> of file <a class="el" href="hal__storage_8c_source.html">hal_storage.c</a>.</p>
 
 <p class="reference">Referenced by <a class="el" href="task__commands_8c_source.html#l00652">cmdDe()</a>, <a class="el" href="task__commands_8c_source.html#l00661">cmdDl()</a>, <a class="el" href="task__commands_8c_source.html#l00670">cmdDn()</a>, and <a class="el" href="config__switcher_8c_source.html#l00171">configSwitcherTask()</a>.</p>
 <div class="dynheader">
@@ -490,7 +480,8 @@ Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="hal__storage_8h_a8abf9a5b8727dc8d7cbe76ba0e2dcb6b_cgraph.png" border="0" usemap="#hal__storage_8h_a8abf9a5b8727dc8d7cbe76ba0e2dcb6b_cgraph" alt=""/></div>
 <map name="hal__storage_8h_a8abf9a5b8727dc8d7cbe76ba0e2dcb6b_cgraph" id="hal__storage_8h_a8abf9a5b8727dc8d7cbe76ba0e2dcb6b_cgraph">
-<area shape="rect" id="node2" href="hal__storage_8c.html#a4b6566ef5b69c85d422df52435c95d36" title="Internal helper to check for a valid WL handle and the correct tid. " alt="" coords="199,5,328,32"/>
+<area shape="rect" id="node2" href="hal__storage_8c.html#a7e0a934f829b47e2445189dd95e962d6" title="Get the number of stored slots. " alt="" coords="199,5,393,32"/>
+<area shape="rect" id="node3" href="hal__storage_8c.html#a4b6566ef5b69c85d422df52435c95d36" title="Internal helper to check for a valid WL handle and the correct tid. " alt="" coords="441,31,571,57"/>
 </map>
 </div>
 <div class="dynheader">
@@ -536,9 +527,9 @@ Here is the caller graph for this function:</div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>ESP_OK if the tid is freed, ESP_FAIL if the tid is not valid </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="hal__storage_8c_source.html#l01541">1541</a> of file <a class="el" href="hal__storage_8c_source.html">hal_storage.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="hal__storage_8c_source.html#l01547">1547</a> of file <a class="el" href="hal__storage_8c_source.html">hal_storage.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="task__commands_8c_source.html#l00652">cmdDe()</a>, <a class="el" href="task__commands_8c_source.html#l00661">cmdDl()</a>, <a class="el" href="task__commands_8c_source.html#l00670">cmdDn()</a>, <a class="el" href="task__commands_8c_source.html#l00825">cmdIc()</a>, <a class="el" href="task__commands_8c_source.html#l00861">cmdIl()</a>, <a class="el" href="task__commands_8c_source.html#l00847">cmdIw()</a>, <a class="el" href="task__commands_8c_source.html#l00899">cmdIx()</a>, <a class="el" href="config__switcher_8c_source.html#l00171">configSwitcherTask()</a>, <a class="el" href="fct__infrared_8c_source.html#l00090">fct_infrared_record()</a>, <a class="el" href="fct__infrared_8c_source.html#l00046">fct_infrared_send()</a>, <a class="el" href="task__commands_8c_source.html#l01491">printAllSlots()</a>, <a class="el" href="task__commands_8c_source.html#l01547">storeSlot()</a>, and <a class="el" href="task__webgui_8c_source.html#l00626">taskWebGUIInit()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="task__commands_8c_source.html#l00652">cmdDe()</a>, <a class="el" href="task__commands_8c_source.html#l00661">cmdDl()</a>, <a class="el" href="task__commands_8c_source.html#l00670">cmdDn()</a>, <a class="el" href="task__commands_8c_source.html#l00825">cmdIc()</a>, <a class="el" href="task__commands_8c_source.html#l00861">cmdIl()</a>, <a class="el" href="task__commands_8c_source.html#l00847">cmdIw()</a>, <a class="el" href="task__commands_8c_source.html#l00899">cmdIx()</a>, <a class="el" href="config__switcher_8c_source.html#l00171">configSwitcherTask()</a>, <a class="el" href="fct__infrared_8c_source.html#l00090">fct_infrared_record()</a>, <a class="el" href="fct__infrared_8c_source.html#l00046">fct_infrared_send()</a>, <a class="el" href="task__commands_8c_source.html#l01492">printAllSlots()</a>, <a class="el" href="task__commands_8c_source.html#l01548">storeSlot()</a>, and <a class="el" href="task__webgui_8c_source.html#l00612">taskWebGUIInit()</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
@@ -551,27 +542,27 @@ Here is the caller graph for this function:</div>
 <area shape="rect" id="node6" href="task__commands_8c.html#a1fb6206a7527fe4fd1ec9e4a2a86ee38" title="cmdIl" alt="" coords="281,208,336,235"/>
 <area shape="rect" id="node7" href="task__commands_8c.html#a10b36ddce6fe6773cfcc5af7ac244789" title="cmdIw" alt="" coords="278,259,339,285"/>
 <area shape="rect" id="node8" href="task__commands_8c.html#a036bffacb3ed98e93e97219423316d19" title="cmdIx" alt="" coords="279,309,338,336"/>
-<area shape="rect" id="node9" href="config__switcher_8c.html#af5af5079d1982d42e165039e6de7e40a" title="CONTINOUS TASK &#45; Config switcher task, internal config reloading. " alt="" coords="240,461,377,488"/>
+<area shape="rect" id="node9" href="config__switcher_8c.html#af5af5079d1982d42e165039e6de7e40a" title="CONTINOUS TASK &#45; Config switcher task, internal config reloading. " alt="" coords="240,360,377,387"/>
 <area shape="rect" id="node12" href="fct__infrared_8h.html#ae5a80358b704f40a25177af616be7c9b" title="FUNCTION &#45; Trigger an IR command recording. " alt="" coords="243,411,374,437"/>
-<area shape="rect" id="node14" href="fct__infrared_8h.html#a18c2e233aa3a793f43ccb3f67fe90122" title="FUNCTION &#45; Infrared command sending. " alt="" coords="247,512,370,539"/>
-<area shape="rect" id="node18" href="task__commands_8c.html#ad59215648a26578c22baa7ceae099e0e" title="Print the current slot configurations (general settings + VBs) " alt="" coords="263,639,355,665"/>
-<area shape="rect" id="node27" href="task__commands_8c.html#a78b669ea961463eb05d2016e0b41ff86" title="Save current config to flash. " alt="" coords="271,715,346,741"/>
-<area shape="rect" id="node29" href="task__webgui_8h.html#a669b9245d5040c0162481f7b24dbeea7" title="Init the web / DNS server and the web gui. " alt="" coords="626,385,742,412"/>
-<area shape="rect" id="node10" href="config__switcher_8h.html#aafed047c8d04b814a85239e031cbad7b" title="Initializing the config switching functionality. " alt="" coords="621,461,747,488"/>
-<area shape="rect" id="node11" href="flipmouse__fabi__esp32__kbdmouse__main_8c.html#abce06be17fc37d675118a678a8100a36" title="Main task, created by esp&#45;idf. " alt="" coords="835,461,913,488"/>
-<area shape="rect" id="node13" href="task__commands_8c.html#a3772e6f0e110a542c61c89956753d6d2" title="cmdIr" alt="" coords="452,411,507,437"/>
-<area shape="rect" id="node15" href="task__commands_8c.html#a99816ffcf00174a5f57870b07622dadb" title="cmdIp" alt="" coords="450,512,509,539"/>
-<area shape="rect" id="node16" href="handler__vb_8c.html#a60c71b4a6cc8a9a3e9e8a3c8e36cffa0" title="VB event handler, triggering VB general actions. " alt="" coords="437,563,522,589"/>
-<area shape="rect" id="node17" href="handler__vb_8h.html#ac54a8826a70d3aaf5c284bab02b93444" title="Init for the VB handler. " alt="" coords="629,537,739,564"/>
-<area shape="rect" id="node19" href="task__commands_8c.html#aeefecfe074b759e4cb2d947aa2c26f98" title="cmdLa" alt="" coords="449,664,510,691"/>
-<area shape="rect" id="node20" href="task__commands_8c.html#ab54ad30076339911d3ffc3a8834a1958" title="cmdLi" alt="" coords="451,613,508,640"/>
-<area shape="rect" id="node21" href="task__commands_8c.html#acea81ba8a182ae78feb2db6418fc1806" title="sendErrorBack" alt="" coords="425,715,533,741"/>
-<area shape="rect" id="node22" href="task__commands_8c.html#a48f6d7719b9f1d99a9ead7c2aa623e22" title="keyboard_helper_parsekeycode" alt="" coords="581,715,787,741"/>
-<area shape="rect" id="node23" href="task__commands_8c.html#aec535c106610969fcf7b9589f08c4d6e" title="cmdKh" alt="" coords="843,689,905,716"/>
-<area shape="rect" id="node24" href="task__commands_8c.html#a43e8a43643ac7048c95d0c6922dcdcd9" title="cmdKp" alt="" coords="843,740,905,767"/>
-<area shape="rect" id="node25" href="task__commands_8c.html#a8762283490f363d0f98506fa908a228c" title="cmdKr" alt="" coords="844,791,904,817"/>
-<area shape="rect" id="node26" href="task__commands_8c.html#ab90e3fb0ef55d084b15aae27f76ab0d9" title="cmdKt" alt="" coords="844,639,904,665"/>
-<area shape="rect" id="node28" href="task__commands_8c.html#ab06b29638d917a9356bda072e158449e" title="cmdSa" alt="" coords="448,765,511,792"/>
+<area shape="rect" id="node14" href="fct__infrared_8h.html#a18c2e233aa3a793f43ccb3f67fe90122" title="FUNCTION &#45; Infrared command sending. " alt="" coords="247,461,370,488"/>
+<area shape="rect" id="node18" href="task__commands_8c.html#ad59215648a26578c22baa7ceae099e0e" title="Print the current slot configurations (general settings + VBs) " alt="" coords="263,524,355,551"/>
+<area shape="rect" id="node27" href="task__commands_8c.html#a78b669ea961463eb05d2016e0b41ff86" title="Save current config to flash. " alt="" coords="271,600,346,627"/>
+<area shape="rect" id="node29" href="task__webgui_8h.html#a669b9245d5040c0162481f7b24dbeea7" title="Init the web / DNS server and the web gui. " alt="" coords="251,651,367,677"/>
+<area shape="rect" id="node10" href="config__switcher_8h.html#aafed047c8d04b814a85239e031cbad7b" title="Initializing the config switching functionality. " alt="" coords="621,360,747,387"/>
+<area shape="rect" id="node11" href="flipmouse__fabi__esp32__kbdmouse__main_8c.html#abce06be17fc37d675118a678a8100a36" title="Main task, created by esp&#45;idf. " alt="" coords="835,411,913,437"/>
+<area shape="rect" id="node13" href="task__commands_8c.html#a3772e6f0e110a542c61c89956753d6d2" title="cmdIr" alt="" coords="452,360,507,387"/>
+<area shape="rect" id="node15" href="task__commands_8c.html#a99816ffcf00174a5f57870b07622dadb" title="cmdIp" alt="" coords="450,411,509,437"/>
+<area shape="rect" id="node16" href="handler__vb_8c.html#a60c71b4a6cc8a9a3e9e8a3c8e36cffa0" title="VB event handler, triggering VB general actions. " alt="" coords="437,461,522,488"/>
+<area shape="rect" id="node17" href="handler__vb_8h.html#ac54a8826a70d3aaf5c284bab02b93444" title="Init for the VB handler. " alt="" coords="629,461,739,488"/>
+<area shape="rect" id="node19" href="task__commands_8c.html#aeefecfe074b759e4cb2d947aa2c26f98" title="cmdLa" alt="" coords="449,512,510,539"/>
+<area shape="rect" id="node20" href="task__commands_8c.html#ab54ad30076339911d3ffc3a8834a1958" title="cmdLi" alt="" coords="451,563,508,589"/>
+<area shape="rect" id="node21" href="task__commands_8c.html#acea81ba8a182ae78feb2db6418fc1806" title="sendErrorBack" alt="" coords="425,613,533,640"/>
+<area shape="rect" id="node22" href="task__commands_8c.html#a48f6d7719b9f1d99a9ead7c2aa623e22" title="keyboard_helper_parsekeycode" alt="" coords="581,613,787,640"/>
+<area shape="rect" id="node23" href="task__commands_8c.html#aec535c106610969fcf7b9589f08c4d6e" title="cmdKh" alt="" coords="843,512,905,539"/>
+<area shape="rect" id="node24" href="task__commands_8c.html#a43e8a43643ac7048c95d0c6922dcdcd9" title="cmdKp" alt="" coords="843,563,905,589"/>
+<area shape="rect" id="node25" href="task__commands_8c.html#a8762283490f363d0f98506fa908a228c" title="cmdKr" alt="" coords="844,613,904,640"/>
+<area shape="rect" id="node26" href="task__commands_8c.html#ab90e3fb0ef55d084b15aae27f76ab0d9" title="cmdKt" alt="" coords="844,664,904,691"/>
+<area shape="rect" id="node28" href="task__commands_8c.html#ab06b29638d917a9356bda072e158449e" title="cmdSa" alt="" coords="448,664,511,691"/>
 </map>
 </div>
 
@@ -598,7 +589,7 @@ Here is the caller graph for this function:</div>
 <dl class="section see"><dt>See also</dt><dd><a class="el" href="hal__storage_8c.html#a5c097404b5dfa34bdac65865586dac5a" title="Currently activated slot number. ">storageCurrentSlotNumber</a> </dd></dl>
 <dl class="section return"><dt>Returns</dt><dd>Currently loaded slot number </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="hal__storage_8c_source.html#l00346">346</a> of file <a class="el" href="hal__storage_8c_source.html">hal_storage.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="hal__storage_8c_source.html#l00337">337</a> of file <a class="el" href="hal__storage_8c_source.html">hal_storage.c</a>.</p>
 
 <p class="reference">Referenced by <a class="el" href="config__switcher_8c_source.html#l00171">configSwitcherTask()</a>, and <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c_source.html#l00082">switch_radio()</a>.</p>
 <div class="dynheader">
@@ -652,7 +643,7 @@ Here is the caller graph for this function:</div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>ESP_OK if reading is valid, ESP_FAIL otherwise </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="hal__storage_8c_source.html#l00175">175</a> of file <a class="el" href="hal__storage_8c_source.html">hal_storage.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="hal__storage_8c_source.html#l00169">169</a> of file <a class="el" href="hal__storage_8c_source.html">hal_storage.c</a>.</p>
 
 <p class="reference">Referenced by <a class="el" href="task__commands_8c_source.html#l00306">cmdFr()</a>.</p>
 <div class="dynheader">
@@ -731,9 +722,9 @@ Here is the caller graph for this function:</div>
 <a class="el" href="hal__storage_8c.html#a00b5db14e24d7ada8a42aa6b3f1a1cb7" title="Finish a storage transaction. ">halStorageFinishTransaction</a> </dd></dl>
 <dl class="section return"><dt>Returns</dt><dd>ESP_OK if tid is valid and slot number is valid, ESP_FAIL otherwise </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="hal__storage_8c_source.html#l00638">638</a> of file <a class="el" href="hal__storage_8c_source.html">hal_storage.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="hal__storage_8c_source.html#l00634">634</a> of file <a class="el" href="hal__storage_8c_source.html">hal_storage.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="hal__storage_8c_source.html#l00712">halStorageGetNumberForName()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="hal__storage_8c_source.html#l00711">halStorageGetNumberForName()</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -816,9 +807,9 @@ Here is the caller graph for this function:</div>
 <a class="el" href="hal__storage_8h.html#a00b5db14e24d7ada8a42aa6b3f1a1cb7" title="Finish a storage transaction. ">halStorageFinishTransaction</a> </dd></dl>
 <dl class="section return"><dt>Returns</dt><dd>ESP_OK if tid is valid and slot number is valid, ESP_FAIL otherwise </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="hal__storage_8c_source.html#l00412">412</a> of file <a class="el" href="hal__storage_8c_source.html">hal_storage.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="hal__storage_8c_source.html#l00400">400</a> of file <a class="el" href="hal__storage_8c_source.html">hal_storage.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="task__commands_8c_source.html#l00861">cmdIl()</a>, and <a class="el" href="hal__storage_8c_source.html#l00759">halStorageGetNumberForNameIR()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="task__commands_8c_source.html#l00861">cmdIl()</a>, and <a class="el" href="hal__storage_8c_source.html#l00758">halStorageGetNumberForNameIR()</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -890,9 +881,9 @@ Here is the caller graph for this function:</div>
 <a class="el" href="hal__storage_8h.html#a00b5db14e24d7ada8a42aa6b3f1a1cb7" title="Finish a storage transaction. ">halStorageFinishTransaction</a> </dd></dl>
 <dl class="section return"><dt>Returns</dt><dd>ESP_OK if tid is valid and slot number is valid, ESP_FAIL otherwise </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="hal__storage_8c_source.html#l00712">712</a> of file <a class="el" href="hal__storage_8c_source.html">hal_storage.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="hal__storage_8c_source.html#l00711">711</a> of file <a class="el" href="hal__storage_8c_source.html">hal_storage.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="task__commands_8c_source.html#l00670">cmdDn()</a>, <a class="el" href="hal__storage_8c_source.html#l01114">halStorageLoadName()</a>, and <a class="el" href="task__commands_8c_source.html#l01547">storeSlot()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="task__commands_8c_source.html#l00670">cmdDn()</a>, <a class="el" href="hal__storage_8c_source.html#l01113">halStorageLoadName()</a>, and <a class="el" href="task__commands_8c_source.html#l01548">storeSlot()</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -987,9 +978,9 @@ Here is the caller graph for this function:</div>
 <a class="el" href="hal__storage_8h.html#a00b5db14e24d7ada8a42aa6b3f1a1cb7" title="Finish a storage transaction. ">halStorageFinishTransaction</a> </dd></dl>
 <dl class="section return"><dt>Returns</dt><dd>ESP_OK if tid is valid and slot number is valid, ESP_FAIL otherwise </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="hal__storage_8c_source.html#l00759">759</a> of file <a class="el" href="hal__storage_8c_source.html">hal_storage.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="hal__storage_8c_source.html#l00758">758</a> of file <a class="el" href="hal__storage_8c_source.html">hal_storage.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="task__commands_8c_source.html#l00825">cmdIc()</a>, and <a class="el" href="hal__storage_8c_source.html#l01279">halStorageStoreIR()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="task__commands_8c_source.html#l00825">cmdIc()</a>, and <a class="el" href="hal__storage_8c_source.html#l01285">halStorageStoreIR()</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -1053,9 +1044,9 @@ Here is the caller graph for this function:</div>
 <a class="el" href="hal__storage_8h.html#a00b5db14e24d7ada8a42aa6b3f1a1cb7" title="Finish a storage transaction. ">halStorageFinishTransaction</a> </dd></dl>
 <dl class="section return"><dt>Returns</dt><dd>ESP_OK if tid is valid and slot count is valid, ESP_FAIL otherwise </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="hal__storage_8c_source.html#l00543">543</a> of file <a class="el" href="hal__storage_8c_source.html">hal_storage.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="hal__storage_8c_source.html#l00541">541</a> of file <a class="el" href="hal__storage_8c_source.html">hal_storage.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="task__commands_8c_source.html#l00861">cmdIl()</a>, and <a class="el" href="hal__storage_8c_source.html#l00587">halStorageGetFreeIRCmdSlot()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="task__commands_8c_source.html#l00861">cmdIl()</a>, <a class="el" href="hal__storage_8c_source.html#l00460">halStorageDeleteIRCmd()</a>, and <a class="el" href="hal__storage_8c_source.html#l00583">halStorageGetFreeIRCmdSlot()</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -1069,11 +1060,15 @@ Here is the caller graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="hal__storage_8h_a1495c793604980c76b334f6a6d553c3c_icgraph.png" border="0" usemap="#hal__storage_8h_a1495c793604980c76b334f6a6d553c3c_icgraph" alt=""/></div>
 <map name="hal__storage_8h_a1495c793604980c76b334f6a6d553c3c_icgraph" id="hal__storage_8h_a1495c793604980c76b334f6a6d553c3c_icgraph">
-<area shape="rect" id="node2" href="task__commands_8c.html#a1fb6206a7527fe4fd1ec9e4a2a86ee38" title="cmdIl" alt="" coords="339,5,393,32"/>
-<area shape="rect" id="node3" href="hal__storage_8c.html#ae5e6fcc8c1bdff7f78009830bc78f260" title="Get the number of first available slot for an IR command. " alt="" coords="268,56,464,83"/>
-<area shape="rect" id="node4" href="hal__storage_8h.html#ace0ac79b0e2b273d97e5b806de9eb493" title="Store an infrared command to storage. " alt="" coords="512,56,641,83"/>
-<area shape="rect" id="node5" href="fct__infrared_8h.html#ae5a80358b704f40a25177af616be7c9b" title="FUNCTION &#45; Trigger an IR command recording. " alt="" coords="689,56,820,83"/>
-<area shape="rect" id="node6" href="task__commands_8c.html#a3772e6f0e110a542c61c89956753d6d2" title="cmdIr" alt="" coords="868,56,923,83"/>
+<area shape="rect" id="node2" href="task__commands_8c.html#a1fb6206a7527fe4fd1ec9e4a2a86ee38" title="cmdIl" alt="" coords="339,19,393,45"/>
+<area shape="rect" id="node3" href="hal__storage_8h.html#af72e1013ef1cbe280ce5317e4f8e896c" title="Delete one or all IR commands. " alt="" coords="284,69,448,96"/>
+<area shape="rect" id="node7" href="hal__storage_8c.html#ae5e6fcc8c1bdff7f78009830bc78f260" title="Get the number of first available slot for an IR command. " alt="" coords="268,132,464,159"/>
+<area shape="rect" id="node4" href="task__commands_8c.html#a1db6c92c2f6719e2f2a903264c1243fb" title="cmdIc" alt="" coords="547,5,606,32"/>
+<area shape="rect" id="node5" href="task__commands_8c.html#a10b36ddce6fe6773cfcc5af7ac244789" title="cmdIw" alt="" coords="546,56,607,83"/>
+<area shape="rect" id="node6" href="task__commands_8c.html#a036bffacb3ed98e93e97219423316d19" title="cmdIx" alt="" coords="547,107,606,133"/>
+<area shape="rect" id="node8" href="hal__storage_8h.html#ace0ac79b0e2b273d97e5b806de9eb493" title="Store an infrared command to storage. " alt="" coords="512,157,641,184"/>
+<area shape="rect" id="node9" href="fct__infrared_8h.html#ae5a80358b704f40a25177af616be7c9b" title="FUNCTION &#45; Trigger an IR command recording. " alt="" coords="689,157,820,184"/>
+<area shape="rect" id="node10" href="task__commands_8c.html#a3772e6f0e110a542c61c89956753d6d2" title="cmdIr" alt="" coords="868,157,923,184"/>
 </map>
 </div>
 
@@ -1119,9 +1114,9 @@ Here is the caller graph for this function:</div>
 <a class="el" href="hal__storage_8h.html#a00b5db14e24d7ada8a42aa6b3f1a1cb7" title="Finish a storage transaction. ">halStorageFinishTransaction</a> </dd></dl>
 <dl class="section return"><dt>Returns</dt><dd>ESP_OK if tid is valid and slot count is valid, ESP_FAIL otherwise </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="hal__storage_8c_source.html#l00363">363</a> of file <a class="el" href="hal__storage_8c_source.html">hal_storage.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="hal__storage_8c_source.html#l00354">354</a> of file <a class="el" href="hal__storage_8c_source.html">hal_storage.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="hal__storage_8c_source.html#l00817">halStorageLoad()</a>, <a class="el" href="task__commands_8c_source.html#l01491">printAllSlots()</a>, and <a class="el" href="task__commands_8c_source.html#l01547">storeSlot()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="hal__storage_8c_source.html#l01135">halStorageDeleteSlot()</a>, <a class="el" href="hal__storage_8c_source.html#l00816">halStorageLoad()</a>, <a class="el" href="task__commands_8c_source.html#l01492">printAllSlots()</a>, and <a class="el" href="task__commands_8c_source.html#l01548">storeSlot()</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -1135,21 +1130,25 @@ Here is the caller graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="hal__storage_8h_a7e0a934f829b47e2445189dd95e962d6_icgraph.png" border="0" usemap="#hal__storage_8h_a7e0a934f829b47e2445189dd95e962d6_icgraph" alt=""/></div>
 <map name="hal__storage_8h_a7e0a934f829b47e2445189dd95e962d6_icgraph" id="hal__storage_8h_a7e0a934f829b47e2445189dd95e962d6_icgraph">
-<area shape="rect" id="node2" href="hal__storage_8h.html#afffed2d32aac2287e95d943dd588db6c" title="Load a slot by an action. " alt="" coords="248,31,360,57"/>
-<area shape="rect" id="node6" href="task__commands_8c.html#ad59215648a26578c22baa7ceae099e0e" title="Print the current slot configurations (general settings + VBs) " alt="" coords="258,107,350,133"/>
-<area shape="rect" id="node15" href="task__commands_8c.html#a78b669ea961463eb05d2016e0b41ff86" title="Save current config to flash. " alt="" coords="267,157,341,184"/>
-<area shape="rect" id="node3" href="config__switcher_8c.html#af5af5079d1982d42e165039e6de7e40a" title="CONTINOUS TASK &#45; Config switcher task, internal config reloading. " alt="" coords="408,5,545,32"/>
-<area shape="rect" id="node4" href="config__switcher_8h.html#aafed047c8d04b814a85239e031cbad7b" title="Initializing the config switching functionality. " alt="" coords="633,5,759,32"/>
-<area shape="rect" id="node5" href="flipmouse__fabi__esp32__kbdmouse__main_8c.html#abce06be17fc37d675118a678a8100a36" title="Main task, created by esp&#45;idf. " alt="" coords="847,5,925,32"/>
-<area shape="rect" id="node7" href="task__commands_8c.html#aeefecfe074b759e4cb2d947aa2c26f98" title="cmdLa" alt="" coords="446,56,507,83"/>
-<area shape="rect" id="node8" href="task__commands_8c.html#ab54ad30076339911d3ffc3a8834a1958" title="cmdLi" alt="" coords="448,107,505,133"/>
-<area shape="rect" id="node9" href="task__commands_8c.html#acea81ba8a182ae78feb2db6418fc1806" title="sendErrorBack" alt="" coords="423,157,531,184"/>
-<area shape="rect" id="node10" href="task__commands_8c.html#a48f6d7719b9f1d99a9ead7c2aa623e22" title="keyboard_helper_parsekeycode" alt="" coords="593,157,799,184"/>
-<area shape="rect" id="node11" href="task__commands_8c.html#aec535c106610969fcf7b9589f08c4d6e" title="cmdKh" alt="" coords="855,81,917,108"/>
-<area shape="rect" id="node12" href="task__commands_8c.html#a43e8a43643ac7048c95d0c6922dcdcd9" title="cmdKp" alt="" coords="855,132,917,159"/>
-<area shape="rect" id="node13" href="task__commands_8c.html#a8762283490f363d0f98506fa908a228c" title="cmdKr" alt="" coords="856,183,916,209"/>
-<area shape="rect" id="node14" href="task__commands_8c.html#ab90e3fb0ef55d084b15aae27f76ab0d9" title="cmdKt" alt="" coords="856,233,916,260"/>
-<area shape="rect" id="node16" href="task__commands_8c.html#ab06b29638d917a9356bda072e158449e" title="cmdSa" alt="" coords="445,208,508,235"/>
+<area shape="rect" id="node2" href="hal__storage_8h.html#a8abf9a5b8727dc8d7cbe76ba0e2dcb6b" title="Delete one or all slots. " alt="" coords="248,107,393,133"/>
+<area shape="rect" id="node9" href="hal__storage_8h.html#afffed2d32aac2287e95d943dd588db6c" title="Load a slot by an action. " alt="" coords="265,169,377,196"/>
+<area shape="rect" id="node10" href="task__commands_8c.html#ad59215648a26578c22baa7ceae099e0e" title="Print the current slot configurations (general settings + VBs) " alt="" coords="275,245,367,272"/>
+<area shape="rect" id="node19" href="task__commands_8c.html#a78b669ea961463eb05d2016e0b41ff86" title="Save current config to flash. " alt="" coords="283,309,358,336"/>
+<area shape="rect" id="node3" href="task__commands_8c.html#a0d9cf254674af930139a09407bec9b43" title="cmdDe" alt="" coords="478,5,542,32"/>
+<area shape="rect" id="node4" href="task__commands_8c.html#afbad6064c581c3d233152a3c9db07fbb" title="cmdDl" alt="" coords="480,56,540,83"/>
+<area shape="rect" id="node5" href="task__commands_8c.html#ac030838bfc9da5b3dc3b3357b0606485" title="cmdDn" alt="" coords="478,107,542,133"/>
+<area shape="rect" id="node6" href="config__switcher_8c.html#af5af5079d1982d42e165039e6de7e40a" title="CONTINOUS TASK &#45; Config switcher task, internal config reloading. " alt="" coords="441,157,579,184"/>
+<area shape="rect" id="node7" href="config__switcher_8h.html#aafed047c8d04b814a85239e031cbad7b" title="Initializing the config switching functionality. " alt="" coords="666,157,793,184"/>
+<area shape="rect" id="node8" href="flipmouse__fabi__esp32__kbdmouse__main_8c.html#abce06be17fc37d675118a678a8100a36" title="Main task, created by esp&#45;idf. " alt="" coords="880,157,959,184"/>
+<area shape="rect" id="node11" href="task__commands_8c.html#aeefecfe074b759e4cb2d947aa2c26f98" title="cmdLa" alt="" coords="479,208,541,235"/>
+<area shape="rect" id="node12" href="task__commands_8c.html#ab54ad30076339911d3ffc3a8834a1958" title="cmdLi" alt="" coords="481,259,539,285"/>
+<area shape="rect" id="node13" href="task__commands_8c.html#acea81ba8a182ae78feb2db6418fc1806" title="sendErrorBack" alt="" coords="456,309,564,336"/>
+<area shape="rect" id="node14" href="task__commands_8c.html#a48f6d7719b9f1d99a9ead7c2aa623e22" title="keyboard_helper_parsekeycode" alt="" coords="627,309,832,336"/>
+<area shape="rect" id="node15" href="task__commands_8c.html#aec535c106610969fcf7b9589f08c4d6e" title="cmdKh" alt="" coords="888,233,951,260"/>
+<area shape="rect" id="node16" href="task__commands_8c.html#a43e8a43643ac7048c95d0c6922dcdcd9" title="cmdKp" alt="" coords="888,284,951,311"/>
+<area shape="rect" id="node17" href="task__commands_8c.html#a8762283490f363d0f98506fa908a228c" title="cmdKr" alt="" coords="889,335,949,361"/>
+<area shape="rect" id="node18" href="task__commands_8c.html#ab90e3fb0ef55d084b15aae27f76ab0d9" title="cmdKt" alt="" coords="889,385,949,412"/>
+<area shape="rect" id="node20" href="task__commands_8c.html#ab06b29638d917a9356bda072e158449e" title="cmdSa" alt="" coords="479,360,541,387"/>
 </map>
 </div>
 
@@ -1202,7 +1201,7 @@ Here is the caller graph for this function:</div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>ESP_OK if everything is fine, ESP_FAIL if the command was not successful </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="hal__storage_8c_source.html#l00817">817</a> of file <a class="el" href="hal__storage_8c_source.html">hal_storage.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="hal__storage_8c_source.html#l00816">816</a> of file <a class="el" href="hal__storage_8c_source.html">hal_storage.c</a>.</p>
 
 <p class="reference">Referenced by <a class="el" href="config__switcher_8c_source.html#l00171">configSwitcherTask()</a>.</p>
 <div class="dynheader">
@@ -1338,7 +1337,7 @@ Here is the caller graph for this function:</div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>ESP_OK if everything is fine, ESP_FAIL if the command was not successful (slot name not found) </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="hal__storage_8c_source.html#l01371">1371</a> of file <a class="el" href="hal__storage_8c_source.html">hal_storage.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="hal__storage_8c_source.html#l01377">1377</a> of file <a class="el" href="hal__storage_8c_source.html">hal_storage.c</a>.</p>
 
 <p class="reference">Referenced by <a class="el" href="fct__infrared_8c_source.html#l00046">fct_infrared_send()</a>.</p>
 <div class="dynheader">
@@ -1409,7 +1408,7 @@ Here is the caller graph for this function:</div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>ESP_OK if everything is fine, ESP_FAIL if the command was not successful (slot name not found) </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="hal__storage_8c_source.html#l01114">1114</a> of file <a class="el" href="hal__storage_8c_source.html">hal_storage.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="hal__storage_8c_source.html#l01113">1113</a> of file <a class="el" href="hal__storage_8c_source.html">hal_storage.c</a>.</p>
 
 <p class="reference">Referenced by <a class="el" href="config__switcher_8c_source.html#l00171">configSwitcherTask()</a>.</p>
 <div class="dynheader">
@@ -1509,11 +1508,11 @@ Here is the caller graph for this function:</div>
 In addition, for compatibility reasons, AT LI outputs e.g. "Slot 1:mouse", AT LA outputs "Slot:mouse". </dd></dl>
 <dl class="section return"><dt>Returns</dt><dd>ESP_OK if everything is fine, ESP_FAIL if the command was not successful (slot number not found) </dd></dl>
 <dl class="section note"><dt>Note</dt><dd>we cannot print buffer here, might be already freed by <a class="el" href="task__commands_8c.html" title="CONTINOUS TASK - Main command parser for serial AT commands. ">task_commands.c</a></dd></dl>
-<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000028">Todo:</a></b></dt><dd>Ab hier wäre es wieder passend den debouncer zu aktivieren?!? </dd></dl>
+<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000021">Todo:</a></b></dt><dd>Ab hier wäre es wieder passend den debouncer zu aktivieren?!? </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="hal__storage_8c_source.html#l00901">901</a> of file <a class="el" href="hal__storage_8c_source.html">hal_storage.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="hal__storage_8c_source.html#l00900">900</a> of file <a class="el" href="hal__storage_8c_source.html">hal_storage.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="hal__storage_8c_source.html#l00817">halStorageLoad()</a>, <a class="el" href="hal__storage_8c_source.html#l01114">halStorageLoadName()</a>, and <a class="el" href="task__commands_8c_source.html#l01491">printAllSlots()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="hal__storage_8c_source.html#l00816">halStorageLoad()</a>, <a class="el" href="hal__storage_8c_source.html#l01113">halStorageLoadName()</a>, and <a class="el" href="task__commands_8c_source.html#l01492">printAllSlots()</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -1596,16 +1595,15 @@ Here is the caller graph for this function:</div>
 <dl class="section warning"><dt>Warning</dt><dd>Provide sufficient buffer length, otherwise a CPU exception will happen! </dd></dl>
 <dl class="section return"><dt>Returns</dt><dd>ESP_OK on success, error codes according to nvs_get_str </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="hal__storage_8c_source.html#l00108">108</a> of file <a class="el" href="hal__storage_8c_source.html">hal_storage.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="hal__storage_8c_source.html#l00102">102</a> of file <a class="el" href="hal__storage_8c_source.html">hal_storage.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="task__webgui_8c_source.html#l00626">taskWebGUIInit()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="task__webgui_8c_source.html#l00612">taskWebGUIInit()</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="hal__storage_8h_a63ec8e05a2bb4c214600e94b8ab05eea_icgraph.png" border="0" usemap="#hal__storage_8h_a63ec8e05a2bb4c214600e94b8ab05eea_icgraph" alt=""/></div>
 <map name="hal__storage_8h_a63ec8e05a2bb4c214600e94b8ab05eea_icgraph" id="hal__storage_8h_a63ec8e05a2bb4c214600e94b8ab05eea_icgraph">
 <area shape="rect" id="node2" href="task__webgui_8h.html#a669b9245d5040c0162481f7b24dbeea7" title="Init the web / DNS server and the web gui. " alt="" coords="228,5,344,32"/>
-<area shape="rect" id="node3" href="flipmouse__fabi__esp32__kbdmouse__main_8c.html#abce06be17fc37d675118a678a8100a36" title="Main task, created by esp&#45;idf. " alt="" coords="392,5,471,32"/>
 </map>
 </div>
 
@@ -1648,7 +1646,7 @@ Here is the caller graph for this function:</div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>ESP_OK on success, error codes according to nvs_set_str</dd></dl>
 <p>This method is used to store a string in a non-volatile storage. No TID is necessary, just call this function.</p>
-<dl class="section warning"><dt>Warning</dt><dd>NVS is not as big as FAT storage, use with care! (max ~10kB) </dd></dl>
+<dl class="section warning"><dt>Warning</dt><dd>NVS is not as big as SPIFFS storage, use with care! (max ~10kB) </dd></dl>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">key</td><td>Key to identify this value on read. </td></tr>
@@ -1658,7 +1656,7 @@ Here is the caller graph for this function:</div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>ESP_OK on success, error codes according to nvs_set_str </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="hal__storage_8c_source.html#l00140">140</a> of file <a class="el" href="hal__storage_8c_source.html">hal_storage.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="hal__storage_8c_source.html#l00134">134</a> of file <a class="el" href="hal__storage_8c_source.html">hal_storage.c</a>.</p>
 
 <p class="reference">Referenced by <a class="el" href="task__commands_8c_source.html#l00316">cmdPw()</a>.</p>
 <div class="dynheader">
@@ -1718,9 +1716,9 @@ Here is the caller graph for this function:</div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>ESP_OK if the tid is valid, ESP_FAIL if other tasks did not freed the access in time </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="hal__storage_8c_source.html#l01487">1487</a> of file <a class="el" href="hal__storage_8c_source.html">hal_storage.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="hal__storage_8c_source.html#l01493">1493</a> of file <a class="el" href="hal__storage_8c_source.html">hal_storage.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="task__commands_8c_source.html#l00652">cmdDe()</a>, <a class="el" href="task__commands_8c_source.html#l00661">cmdDl()</a>, <a class="el" href="task__commands_8c_source.html#l00670">cmdDn()</a>, <a class="el" href="task__commands_8c_source.html#l00825">cmdIc()</a>, <a class="el" href="task__commands_8c_source.html#l00861">cmdIl()</a>, <a class="el" href="task__commands_8c_source.html#l00847">cmdIw()</a>, <a class="el" href="task__commands_8c_source.html#l00899">cmdIx()</a>, <a class="el" href="config__switcher_8c_source.html#l00171">configSwitcherTask()</a>, <a class="el" href="fct__infrared_8c_source.html#l00090">fct_infrared_record()</a>, <a class="el" href="fct__infrared_8c_source.html#l00046">fct_infrared_send()</a>, <a class="el" href="task__commands_8c_source.html#l01491">printAllSlots()</a>, <a class="el" href="task__commands_8c_source.html#l01547">storeSlot()</a>, and <a class="el" href="task__webgui_8c_source.html#l00626">taskWebGUIInit()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="task__commands_8c_source.html#l00652">cmdDe()</a>, <a class="el" href="task__commands_8c_source.html#l00661">cmdDl()</a>, <a class="el" href="task__commands_8c_source.html#l00670">cmdDn()</a>, <a class="el" href="task__commands_8c_source.html#l00825">cmdIc()</a>, <a class="el" href="task__commands_8c_source.html#l00861">cmdIl()</a>, <a class="el" href="task__commands_8c_source.html#l00847">cmdIw()</a>, <a class="el" href="task__commands_8c_source.html#l00899">cmdIx()</a>, <a class="el" href="config__switcher_8c_source.html#l00171">configSwitcherTask()</a>, <a class="el" href="fct__infrared_8c_source.html#l00090">fct_infrared_record()</a>, <a class="el" href="fct__infrared_8c_source.html#l00046">fct_infrared_send()</a>, <a class="el" href="task__commands_8c_source.html#l01492">printAllSlots()</a>, <a class="el" href="task__commands_8c_source.html#l01548">storeSlot()</a>, and <a class="el" href="task__webgui_8c_source.html#l00612">taskWebGUIInit()</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -1741,27 +1739,27 @@ Here is the caller graph for this function:</div>
 <area shape="rect" id="node6" href="task__commands_8c.html#a1fb6206a7527fe4fd1ec9e4a2a86ee38" title="cmdIl" alt="" coords="275,208,329,235"/>
 <area shape="rect" id="node7" href="task__commands_8c.html#a10b36ddce6fe6773cfcc5af7ac244789" title="cmdIw" alt="" coords="271,259,333,285"/>
 <area shape="rect" id="node8" href="task__commands_8c.html#a036bffacb3ed98e93e97219423316d19" title="cmdIx" alt="" coords="273,309,331,336"/>
-<area shape="rect" id="node9" href="config__switcher_8c.html#af5af5079d1982d42e165039e6de7e40a" title="CONTINOUS TASK &#45; Config switcher task, internal config reloading. " alt="" coords="233,461,371,488"/>
+<area shape="rect" id="node9" href="config__switcher_8c.html#af5af5079d1982d42e165039e6de7e40a" title="CONTINOUS TASK &#45; Config switcher task, internal config reloading. " alt="" coords="233,360,371,387"/>
 <area shape="rect" id="node12" href="fct__infrared_8h.html#ae5a80358b704f40a25177af616be7c9b" title="FUNCTION &#45; Trigger an IR command recording. " alt="" coords="237,411,367,437"/>
-<area shape="rect" id="node14" href="fct__infrared_8h.html#a18c2e233aa3a793f43ccb3f67fe90122" title="FUNCTION &#45; Infrared command sending. " alt="" coords="241,512,363,539"/>
-<area shape="rect" id="node18" href="task__commands_8c.html#ad59215648a26578c22baa7ceae099e0e" title="Print the current slot configurations (general settings + VBs) " alt="" coords="256,639,348,665"/>
-<area shape="rect" id="node27" href="task__commands_8c.html#a78b669ea961463eb05d2016e0b41ff86" title="Save current config to flash. " alt="" coords="265,715,339,741"/>
-<area shape="rect" id="node29" href="task__webgui_8h.html#a669b9245d5040c0162481f7b24dbeea7" title="Init the web / DNS server and the web gui. " alt="" coords="619,385,735,412"/>
-<area shape="rect" id="node10" href="config__switcher_8h.html#aafed047c8d04b814a85239e031cbad7b" title="Initializing the config switching functionality. " alt="" coords="614,461,741,488"/>
-<area shape="rect" id="node11" href="flipmouse__fabi__esp32__kbdmouse__main_8c.html#abce06be17fc37d675118a678a8100a36" title="Main task, created by esp&#45;idf. " alt="" coords="828,461,907,488"/>
-<area shape="rect" id="node13" href="task__commands_8c.html#a3772e6f0e110a542c61c89956753d6d2" title="cmdIr" alt="" coords="445,411,500,437"/>
-<area shape="rect" id="node15" href="task__commands_8c.html#a99816ffcf00174a5f57870b07622dadb" title="cmdIp" alt="" coords="443,512,502,539"/>
-<area shape="rect" id="node16" href="handler__vb_8c.html#a60c71b4a6cc8a9a3e9e8a3c8e36cffa0" title="VB event handler, triggering VB general actions. " alt="" coords="430,563,515,589"/>
-<area shape="rect" id="node17" href="handler__vb_8h.html#ac54a8826a70d3aaf5c284bab02b93444" title="Init for the VB handler. " alt="" coords="623,537,732,564"/>
-<area shape="rect" id="node19" href="task__commands_8c.html#aeefecfe074b759e4cb2d947aa2c26f98" title="cmdLa" alt="" coords="442,664,503,691"/>
-<area shape="rect" id="node20" href="task__commands_8c.html#ab54ad30076339911d3ffc3a8834a1958" title="cmdLi" alt="" coords="444,613,501,640"/>
-<area shape="rect" id="node21" href="task__commands_8c.html#acea81ba8a182ae78feb2db6418fc1806" title="sendErrorBack" alt="" coords="419,715,527,741"/>
-<area shape="rect" id="node22" href="task__commands_8c.html#a48f6d7719b9f1d99a9ead7c2aa623e22" title="keyboard_helper_parsekeycode" alt="" coords="575,715,780,741"/>
-<area shape="rect" id="node23" href="task__commands_8c.html#aec535c106610969fcf7b9589f08c4d6e" title="cmdKh" alt="" coords="836,689,899,716"/>
-<area shape="rect" id="node24" href="task__commands_8c.html#a43e8a43643ac7048c95d0c6922dcdcd9" title="cmdKp" alt="" coords="836,740,899,767"/>
-<area shape="rect" id="node25" href="task__commands_8c.html#a8762283490f363d0f98506fa908a228c" title="cmdKr" alt="" coords="837,791,897,817"/>
-<area shape="rect" id="node26" href="task__commands_8c.html#ab90e3fb0ef55d084b15aae27f76ab0d9" title="cmdKt" alt="" coords="837,639,897,665"/>
-<area shape="rect" id="node28" href="task__commands_8c.html#ab06b29638d917a9356bda072e158449e" title="cmdSa" alt="" coords="441,765,504,792"/>
+<area shape="rect" id="node14" href="fct__infrared_8h.html#a18c2e233aa3a793f43ccb3f67fe90122" title="FUNCTION &#45; Infrared command sending. " alt="" coords="241,461,363,488"/>
+<area shape="rect" id="node18" href="task__commands_8c.html#ad59215648a26578c22baa7ceae099e0e" title="Print the current slot configurations (general settings + VBs) " alt="" coords="256,524,348,551"/>
+<area shape="rect" id="node27" href="task__commands_8c.html#a78b669ea961463eb05d2016e0b41ff86" title="Save current config to flash. " alt="" coords="265,600,339,627"/>
+<area shape="rect" id="node29" href="task__webgui_8h.html#a669b9245d5040c0162481f7b24dbeea7" title="Init the web / DNS server and the web gui. " alt="" coords="244,651,360,677"/>
+<area shape="rect" id="node10" href="config__switcher_8h.html#aafed047c8d04b814a85239e031cbad7b" title="Initializing the config switching functionality. " alt="" coords="614,360,741,387"/>
+<area shape="rect" id="node11" href="flipmouse__fabi__esp32__kbdmouse__main_8c.html#abce06be17fc37d675118a678a8100a36" title="Main task, created by esp&#45;idf. " alt="" coords="828,411,907,437"/>
+<area shape="rect" id="node13" href="task__commands_8c.html#a3772e6f0e110a542c61c89956753d6d2" title="cmdIr" alt="" coords="445,360,500,387"/>
+<area shape="rect" id="node15" href="task__commands_8c.html#a99816ffcf00174a5f57870b07622dadb" title="cmdIp" alt="" coords="443,411,502,437"/>
+<area shape="rect" id="node16" href="handler__vb_8c.html#a60c71b4a6cc8a9a3e9e8a3c8e36cffa0" title="VB event handler, triggering VB general actions. " alt="" coords="430,461,515,488"/>
+<area shape="rect" id="node17" href="handler__vb_8h.html#ac54a8826a70d3aaf5c284bab02b93444" title="Init for the VB handler. " alt="" coords="623,461,732,488"/>
+<area shape="rect" id="node19" href="task__commands_8c.html#aeefecfe074b759e4cb2d947aa2c26f98" title="cmdLa" alt="" coords="442,512,503,539"/>
+<area shape="rect" id="node20" href="task__commands_8c.html#ab54ad30076339911d3ffc3a8834a1958" title="cmdLi" alt="" coords="444,563,501,589"/>
+<area shape="rect" id="node21" href="task__commands_8c.html#acea81ba8a182ae78feb2db6418fc1806" title="sendErrorBack" alt="" coords="419,613,527,640"/>
+<area shape="rect" id="node22" href="task__commands_8c.html#a48f6d7719b9f1d99a9ead7c2aa623e22" title="keyboard_helper_parsekeycode" alt="" coords="575,613,780,640"/>
+<area shape="rect" id="node23" href="task__commands_8c.html#aec535c106610969fcf7b9589f08c4d6e" title="cmdKh" alt="" coords="836,512,899,539"/>
+<area shape="rect" id="node24" href="task__commands_8c.html#a43e8a43643ac7048c95d0c6922dcdcd9" title="cmdKp" alt="" coords="836,563,899,589"/>
+<area shape="rect" id="node25" href="task__commands_8c.html#a8762283490f363d0f98506fa908a228c" title="cmdKr" alt="" coords="837,613,897,640"/>
+<area shape="rect" id="node26" href="task__commands_8c.html#ab90e3fb0ef55d084b15aae27f76ab0d9" title="cmdKt" alt="" coords="837,664,897,691"/>
+<area shape="rect" id="node28" href="task__commands_8c.html#ab06b29638d917a9356bda072e158449e" title="cmdSa" alt="" coords="441,664,504,691"/>
 </map>
 </div>
 
@@ -1824,11 +1822,11 @@ Here is the caller graph for this function:</div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>ESP_OK on success, ESP_FAIL otherwise </dd></dl>
 <dl class="section see"><dt>See also</dt><dd><a class="el" href="hal__storage_8h.html#a046daab088cb37e318c07c2728ade9d3" title="Store a virtual button config struct. ">halStorageStoreSetVBConfigs</a> </dd></dl>
-<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000029">Todo:</a></b></dt><dd>not necessary anymore? </dd></dl>
+<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000022">Todo:</a></b></dt><dd>not necessary anymore? </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="hal__storage_8c_source.html#l01214">1214</a> of file <a class="el" href="hal__storage_8c_source.html">hal_storage.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="hal__storage_8c_source.html#l01220">1220</a> of file <a class="el" href="hal__storage_8c_source.html">hal_storage.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="task__commands_8c_source.html#l01547">storeSlot()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="task__commands_8c_source.html#l01548">storeSlot()</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -1902,7 +1900,7 @@ Here is the caller graph for this function:</div>
 <dd>
 <a class="el" href="hal__storage_8h.html#aa728fac6a17066ecb910c19338ae5288" title="Load an IR command by name. ">halStorageLoadIR</a> </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="hal__storage_8c_source.html#l01279">1279</a> of file <a class="el" href="hal__storage_8c_source.html">hal_storage.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="hal__storage_8c_source.html#l01285">1285</a> of file <a class="el" href="hal__storage_8c_source.html">hal_storage.c</a>.</p>
 
 <p class="reference">Referenced by <a class="el" href="fct__infrared_8c_source.html#l00090">fct_infrared_record()</a>.</p>
 <div class="dynheader">

@@ -91,20 +91,14 @@ $(function() {
 <li>HAL_SERIAL_EXT_TXPIN
 : <a class="el" href="hal__serial_8h.html#a691502fe103528eb752725325cccbf30">hal_serial.h</a>
 </li>
-<li>HAL_SERIAL_HID_CHANNEL
-: <a class="el" href="hal__serial_8h.html#a7be3ddfa5e2edd996fdbd675dd013740">hal_serial.h</a>
-</li>
-<li>HAL_SERIAL_HID_DURATION_0
-: <a class="el" href="hal__serial_8h.html#a0fedfa272b0401c669857ff6d85c3a2e">hal_serial.h</a>
-</li>
-<li>HAL_SERIAL_HID_DURATION_1
-: <a class="el" href="hal__serial_8h.html#ad05d500479f282410b7370bc1d111148">hal_serial.h</a>
-</li>
-<li>HAL_SERIAL_HID_DURATION_S
-: <a class="el" href="hal__serial_8h.html#a437c03b23c7ee172a2d84d0812fff6c4">hal_serial.h</a>
-</li>
 <li>HAL_SERIAL_HIDPIN
 : <a class="el" href="hal__serial_8h.html#ad7dfbc49dc0771980304ac82bbe85a47">hal_serial.h</a>
+</li>
+<li>HAL_SERIAL_I2C_ADDR_LPC
+: <a class="el" href="hal__serial_8h.html#a5d87b64e954491964f8f0d3ee6083c61">hal_serial.h</a>
+</li>
+<li>HAL_SERIAL_I2C_TIMEOUT_MS
+: <a class="el" href="hal__serial_8c.html#ae8200c53292ccbc6cc7f3ebfca17a2ae">hal_serial.c</a>
 </li>
 <li>HAL_SERIAL_LINE_ENDING
 : <a class="el" href="hal__serial_8h.html#a473298fc9468937c90caa6fb9c53f8fc">hal_serial.h</a>
@@ -154,8 +148,8 @@ $(function() {
 : <a class="el" href="hal__adc_8c.html#aee719704e643d27c1faab768cf4bc22e">hal_adc.c</a>
 </li>
 <li>halAdcUpdateConfig()
-: <a class="el" href="hal__adc_8c.html#a4135bb73c2271b4a27db8d8d81884de7">hal_adc.c</a>
-, <a class="el" href="hal__adc_8h.html#a4135bb73c2271b4a27db8d8d81884de7">hal_adc.h</a>
+: <a class="el" href="hal__adc_8h.html#a4135bb73c2271b4a27db8d8d81884de7">hal_adc.h</a>
+, <a class="el" href="hal__adc_8c.html#a4135bb73c2271b4a27db8d8d81884de7">hal_adc.c</a>
 </li>
 <li>halBLEEnDisable()
 : <a class="el" href="hal__ble_8c.html#a1ade7df97a34fa89e0f2db7f5d2614de">hal_ble.c</a>
@@ -224,8 +218,8 @@ $(function() {
 : <a class="el" href="hal__io_8c.html#a410f1d9b7e6031b9e626af17fba411d1">hal_io.c</a>
 </li>
 <li>halSerialAddOutputStream()
-: <a class="el" href="hal__serial_8h.html#a143968f329a010a1075a81b976579605">hal_serial.h</a>
-, <a class="el" href="hal__serial_8c.html#a143968f329a010a1075a81b976579605">hal_serial.c</a>
+: <a class="el" href="hal__serial_8c.html#a143968f329a010a1075a81b976579605">hal_serial.c</a>
+, <a class="el" href="hal__serial_8h.html#a143968f329a010a1075a81b976579605">hal_serial.h</a>
 </li>
 <li>halSerialATCmds
 : <a class="el" href="hal__serial_8h.html#a57deadb7de70a0230474a4680cc0e2d9">hal_serial.h</a>
@@ -234,15 +228,16 @@ $(function() {
 : <a class="el" href="hal__serial_8c.html#a995c536b9e0d279066d893c6a3dfce4e">hal_serial.c</a>
 , <a class="el" href="hal__serial_8h.html#a995c536b9e0d279066d893c6a3dfce4e">hal_serial.h</a>
 </li>
-<li>halSerialHIDFinished()
-: <a class="el" href="hal__serial_8c.html#ad8c9d4288f09a07ec8101e4e25df43d2">hal_serial.c</a>
-</li>
 <li>halSerialHIDTask()
 : <a class="el" href="hal__serial_8c.html#a6689f99c3a8e5f787a3d995260d8d298">hal_serial.c</a>
 </li>
 <li>halSerialInit()
 : <a class="el" href="hal__serial_8c.html#a2d03c06463b09e33d87d90eb273819b0">hal_serial.c</a>
 , <a class="el" href="hal__serial_8h.html#a2d03c06463b09e33d87d90eb273819b0">hal_serial.h</a>
+</li>
+<li>halSerialReceiveI2CADC()
+: <a class="el" href="hal__serial_8c.html#a5dd33d8e55ba33bdecfa78bc11c618b3">hal_serial.c</a>
+, <a class="el" href="hal__serial_8h.html#a5dd33d8e55ba33bdecfa78bc11c618b3">hal_serial.h</a>
 </li>
 <li>halSerialReceiveUSBSerial()
 : <a class="el" href="hal__serial_8c.html#a0bb04b089362a7c58d189b0fc61bef96">hal_serial.c</a>
@@ -271,8 +266,8 @@ $(function() {
 , <a class="el" href="hal__storage_8h.html#aed4beb2e1bd8cd78a201fbcb49958cba">hal_storage.h</a>
 </li>
 <li>halStorageDeleteIRCmd()
-: <a class="el" href="hal__storage_8c.html#a8347d2c8df82d17bc9af1d007bfd11ae">hal_storage.c</a>
-, <a class="el" href="hal__storage_8h.html#a8347d2c8df82d17bc9af1d007bfd11ae">hal_storage.h</a>
+: <a class="el" href="hal__storage_8c.html#af72e1013ef1cbe280ce5317e4f8e896c">hal_storage.c</a>
+, <a class="el" href="hal__storage_8h.html#af72e1013ef1cbe280ce5317e4f8e896c">hal_storage.h</a>
 </li>
 <li>halStorageDeleteSlot()
 : <a class="el" href="hal__storage_8c.html#a8abf9a5b8727dc8d7cbe76ba0e2dcb6b">hal_storage.c</a>
@@ -368,6 +363,10 @@ $(function() {
 <li>handler_hid()
 : <a class="el" href="handler__hid_8c.html#a0c3d624513602eb74b3734c970d73e6d">handler_hid.c</a>
 </li>
+<li>handler_hid_active()
+: <a class="el" href="handler__hid_8c.html#ad5f00875286c562930f8a80d6a513c51">handler_hid.c</a>
+, <a class="el" href="handler__hid_8h.html#ad5f00875286c562930f8a80d6a513c51">handler_hid.h</a>
+</li>
 <li>handler_hid_addCmd()
 : <a class="el" href="handler__hid_8c.html#ad7b90f2c2a4c57d871fc4c5fe4c63633">handler_hid.c</a>
 , <a class="el" href="handler__hid_8h.html#ad7b90f2c2a4c57d871fc4c5fe4c63633">handler_hid.h</a>
@@ -398,6 +397,10 @@ $(function() {
 </li>
 <li>handler_vb()
 : <a class="el" href="handler__vb_8c.html#a60c71b4a6cc8a9a3e9e8a3c8e36cffa0">handler_vb.c</a>
+</li>
+<li>handler_vb_active()
+: <a class="el" href="handler__vb_8c.html#ad51537b78005f099e2422d4a715874da">handler_vb.c</a>
+, <a class="el" href="handler__vb_8h.html#ad51537b78005f099e2422d4a715874da">handler_vb.h</a>
 </li>
 <li>handler_vb_addCmd()
 : <a class="el" href="handler__vb_8c.html#a2958d0f22ea5d2c1d16a6dc7900ca38b">handler_vb.c</a>
@@ -535,7 +538,7 @@ $(function() {
 : <a class="el" href="hidd__le__prf__int_8h.html#a594641b9b85c9eaa1fb2674f29f89347">hidd_le_prf_int.h</a>
 </li>
 <li>hid_cmd_t
-: <a class="el" href="common_8h.html#a717ff1d55fb710bbebe9addae27d7258">common.h</a>
+: <a class="el" href="common_8h.html#a29f0fa9b007be5e086562312cd1b1a1d">common.h</a>
 </li>
 <li>hid_conn_id
 : <a class="el" href="hal__ble_8c.html#acf63d81e5e92daa2fea46597280eac6d">hal_ble.c</a>
@@ -1139,8 +1142,8 @@ $(function() {
 : <a class="el" href="hidd__le__prf__int_8h.html#a26f0357180ecb5b51fcda5a4e2301e72">hidd_le_prf_int.h</a>
 </li>
 <li>hidd_clcb_alloc()
-: <a class="el" href="hid__device__le__prf_8c.html#a4e7096230eedcf2dbc89351ea636677d">hid_device_le_prf.c</a>
-, <a class="el" href="hidd__le__prf__int_8h.html#a4e7096230eedcf2dbc89351ea636677d">hidd_le_prf_int.h</a>
+: <a class="el" href="hidd__le__prf__int_8h.html#a4e7096230eedcf2dbc89351ea636677d">hidd_le_prf_int.h</a>
+, <a class="el" href="hid__device__le__prf_8c.html#a4e7096230eedcf2dbc89351ea636677d">hid_device_le_prf.c</a>
 </li>
 <li>hidd_clcb_dealloc()
 : <a class="el" href="hid__device__le__prf_8c.html#a74aa695557816b038ff9847860291fa2">hid_device_le_prf.c</a>
@@ -1236,8 +1239,8 @@ $(function() {
 : <a class="el" href="hidd__le__prf__int_8h.html#adc29c2ff13d900c2f185ee95427fb06ca5178520cb60bd1e750d91b7173fb6bcb">hidd_le_prf_int.h</a>
 </li>
 <li>hidd_le_env
-: <a class="el" href="hidd__le__prf__int_8h.html#a91d82217264ad84483e4f8f0c644d6cf">hidd_le_prf_int.h</a>
-, <a class="el" href="hid__device__le__prf_8c.html#a91d82217264ad84483e4f8f0c644d6cf">hid_device_le_prf.c</a>
+: <a class="el" href="hid__device__le__prf_8c.html#a91d82217264ad84483e4f8f0c644d6cf">hid_device_le_prf.c</a>
+, <a class="el" href="hidd__le__prf__int_8h.html#a91d82217264ad84483e4f8f0c644d6cf">hidd_le_prf_int.h</a>
 </li>
 <li>hidd_le_gatt_db
 : <a class="el" href="hid__device__le__prf_8c.html#a68663af02f816293555f6b0b03b65139">hid_device_le_prf.c</a>
@@ -1414,15 +1417,15 @@ $(function() {
 : <a class="el" href="hidd__le__prf__int_8h.html#aba6045c504a62a047161d5241029a024">hidd_le_prf_int.h</a>
 </li>
 <li>hidd_register_cb()
-: <a class="el" href="hidd__le__prf__int_8h.html#acb0d2b8e95e7bbabf1e3bdab379d18d5">hidd_le_prf_int.h</a>
-, <a class="el" href="hid__device__le__prf_8c.html#acb0d2b8e95e7bbabf1e3bdab379d18d5">hid_device_le_prf.c</a>
+: <a class="el" href="hid__device__le__prf_8c.html#acb0d2b8e95e7bbabf1e3bdab379d18d5">hid_device_le_prf.c</a>
+, <a class="el" href="hidd__le__prf__int_8h.html#acb0d2b8e95e7bbabf1e3bdab379d18d5">hidd_le_prf_int.h</a>
 </li>
 <li>hidd_service_uuid128
 : <a class="el" href="hal__ble_8c.html#a93fcf7226d419031220fd965f5d81dac">hal_ble.c</a>
 </li>
 <li>hidd_set_attr_value()
-: <a class="el" href="hidd__le__prf__int_8h.html#af1d398a5081d065d043c584c44d77b91">hidd_le_prf_int.h</a>
-, <a class="el" href="hid__device__le__prf_8c.html#af1d398a5081d065d043c584c44d77b91">hid_device_le_prf.c</a>
+: <a class="el" href="hid__device__le__prf_8c.html#af1d398a5081d065d043c584c44d77b91">hid_device_le_prf.c</a>
+, <a class="el" href="hidd__le__prf__int_8h.html#af1d398a5081d065d043c584c44d77b91">hidd_le_prf_int.h</a>
 </li>
 <li>HIDD_SUB_VER
 : <a class="el" href="hidd__le__prf__int_8h.html#a6cf775d40bbf29d5dbddd89532d2183e">hidd_le_prf_int.h</a>
@@ -1437,8 +1440,8 @@ $(function() {
 : <a class="el" href="hid__device__le__prf_8c.html#a2734a576e26f8415379ac2e1319f8cb2">hid_device_le_prf.c</a>
 </li>
 <li>hidProtocolMode
-: <a class="el" href="hidd__le__prf__int_8h.html#a18824297d97ae42a7da587d9752002fe">hidd_le_prf_int.h</a>
-, <a class="el" href="hid__device__le__prf_8c.html#a18824297d97ae42a7da587d9752002fe">hid_device_le_prf.c</a>
+: <a class="el" href="hid__device__le__prf_8c.html#a18824297d97ae42a7da587d9752002fe">hid_device_le_prf.c</a>
+, <a class="el" href="hidd__le__prf__int_8h.html#a18824297d97ae42a7da587d9752002fe">hidd_le_prf_int.h</a>
 </li>
 <li>hidReportMap
 : <a class="el" href="hid__device__le__prf_8c.html#a8fb6489bfedb7d288643295c3a78b421">hid_device_le_prf.c</a>
@@ -1463,9 +1466,6 @@ $(function() {
 </li>
 <li>hidReportRefVendorOut
 : <a class="el" href="hid__device__le__prf_8c.html#ab10f28e980e8f3e10c6da21e6e2859ae">hid_device_le_prf.c</a>
-</li>
-<li>hidsendingsem
-: <a class="el" href="hal__serial_8c.html#af2a7c6dc7be333dca54efb59230e5684">hal_serial.c</a>
 </li>
 <li>http_html_hdr
 : <a class="el" href="task__webgui_8c.html#a84019f692b38960767e6beb15d0c4a2b">task_webgui.c</a>

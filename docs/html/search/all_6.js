@@ -1,7 +1,6 @@
 var searchData=
 [
   ['fat_5fserve',['fat_serve',['../task__webgui_8c.html#adc293b203ede5bd0fec29f304ce67eda',1,'task_webgui.c']]],
-  ['fatsem',['fatSem',['../task__webgui_8c.html#a426e2a034953b5dc900a943b43616da7',1,'task_webgui.c']]],
   ['fct_5finfrared_2ec',['fct_infrared.c',['../fct__infrared_8c.html',1,'']]],
   ['fct_5finfrared_2eh',['fct_infrared.h',['../fct__infrared_8h.html',1,'']]],
   ['fct_5finfrared_5frecord',['fct_infrared_record',['../fct__infrared_8c.html#ae5a80358b704f40a25177af616be7c9b',1,'fct_infrared_record(char *cmdName, uint8_t outputtoserial):&#160;fct_infrared.c'],['../fct__infrared_8h.html#ae5a80358b704f40a25177af616be7c9b',1,'fct_infrared_record(char *cmdName, uint8_t outputtoserial):&#160;fct_infrared.c']]],
@@ -23,5 +22,6 @@ var searchData=
   ['formaterror',['FORMATERROR',['../task__commands_8h.html#aa1651f71a96e7a6bd3abe4bcaa795e46ab0b26db9f1596762481cb22b41460685',1,'task_commands.h']]],
   ['frame_5fheader',['frame_header',['../structWebSocket__frame__t.html#a84f939e93501d69c861b87d4de78e1e8',1,'WebSocket_frame_t']]],
   ['frequency',['frequency',['../structhalIOBuzzer.html#a85ad12ddaac1e475a3648b0938af436e',1,'halIOBuzzer']]],
+  ['fssem',['fsSem',['../task__webgui_8c.html#ac9cde9bd90c8143f07f9efcea032c9e1',1,'task_webgui.c']]],
   ['flipmouse_20_26_20fabi_20_2d_20version_203',['FLipMouse &amp; FABI - version 3',['../index.html',1,'']]]
 ];

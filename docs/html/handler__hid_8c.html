@@ -97,13 +97,13 @@ Functions</h2></td></tr>
 <tr class="memitem:a1dfe8fbc4028b9ad4b6e892a349d1356"><td class="memItemLeft" align="right" valign="top">esp_err_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="handler__hid_8c.html#a1dfe8fbc4028b9ad4b6e892a349d1356">handler_hid_delCmd</a> (uint8_t vb)</td></tr>
 <tr class="memdesc:a1dfe8fbc4028b9ad4b6e892a349d1356"><td class="mdescLeft">&#160;</td><td class="mdescRight">Remove HID command for a virtual button.  <a href="#a1dfe8fbc4028b9ad4b6e892a349d1356">More...</a><br /></td></tr>
 <tr class="separator:a1dfe8fbc4028b9ad4b6e892a349d1356"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad7b90f2c2a4c57d871fc4c5fe4c63633"><td class="memItemLeft" align="right" valign="top">esp_err_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="handler__hid_8c.html#ad7b90f2c2a4c57d871fc4c5fe4c63633">handler_hid_addCmd</a> (<a class="el" href="common_8h.html#a717ff1d55fb710bbebe9addae27d7258">hid_cmd_t</a> *newCmd, uint8_t replace)</td></tr>
+<tr class="memitem:ad7b90f2c2a4c57d871fc4c5fe4c63633"><td class="memItemLeft" align="right" valign="top">esp_err_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="handler__hid_8c.html#ad7b90f2c2a4c57d871fc4c5fe4c63633">handler_hid_addCmd</a> (<a class="el" href="common_8h.html#a29f0fa9b007be5e086562312cd1b1a1d">hid_cmd_t</a> *newCmd, uint8_t replace)</td></tr>
 <tr class="memdesc:ad7b90f2c2a4c57d871fc4c5fe4c63633"><td class="mdescLeft">&#160;</td><td class="mdescRight">Add a new HID command for a virtual button.  <a href="#ad7b90f2c2a4c57d871fc4c5fe4c63633">More...</a><br /></td></tr>
 <tr class="separator:ad7b90f2c2a4c57d871fc4c5fe4c63633"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5b89ed00501e56aa0ca14dff80db04a0"><td class="memItemLeft" align="right" valign="top"><a class="el" href="common_8h.html#a717ff1d55fb710bbebe9addae27d7258">hid_cmd_t</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="handler__hid_8c.html#a5b89ed00501e56aa0ca14dff80db04a0">handler_hid_getCmdChain</a> (void)</td></tr>
+<tr class="memitem:a5b89ed00501e56aa0ca14dff80db04a0"><td class="memItemLeft" align="right" valign="top"><a class="el" href="common_8h.html#a29f0fa9b007be5e086562312cd1b1a1d">hid_cmd_t</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="handler__hid_8c.html#a5b89ed00501e56aa0ca14dff80db04a0">handler_hid_getCmdChain</a> (void)</td></tr>
 <tr class="memdesc:a5b89ed00501e56aa0ca14dff80db04a0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get current root of HID command chain.  <a href="#a5b89ed00501e56aa0ca14dff80db04a0">More...</a><br /></td></tr>
 <tr class="separator:a5b89ed00501e56aa0ca14dff80db04a0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a33a27dd2d4904f35fc99c016307e9cd4"><td class="memItemLeft" align="right" valign="top">esp_err_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="handler__hid_8c.html#a33a27dd2d4904f35fc99c016307e9cd4">handler_hid_setCmdChain</a> (<a class="el" href="common_8h.html#a717ff1d55fb710bbebe9addae27d7258">hid_cmd_t</a> *chain)</td></tr>
+<tr class="memitem:a33a27dd2d4904f35fc99c016307e9cd4"><td class="memItemLeft" align="right" valign="top">esp_err_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="handler__hid_8c.html#a33a27dd2d4904f35fc99c016307e9cd4">handler_hid_setCmdChain</a> (<a class="el" href="common_8h.html#a29f0fa9b007be5e086562312cd1b1a1d">hid_cmd_t</a> *chain)</td></tr>
 <tr class="memdesc:a33a27dd2d4904f35fc99c016307e9cd4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set current root of HID command chain!  <a href="#a33a27dd2d4904f35fc99c016307e9cd4">More...</a><br /></td></tr>
 <tr class="separator:a33a27dd2d4904f35fc99c016307e9cd4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8aefebd0d6289841cf1efb9d8e2c3794"><td class="memItemLeft" align="right" valign="top">esp_err_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="handler__hid_8c.html#a8aefebd0d6289841cf1efb9d8e2c3794">handler_hid_clearCmds</a> (void)</td></tr>
@@ -112,15 +112,21 @@ Functions</h2></td></tr>
 <tr class="memitem:a792d4ba5b3475531c09ed7a12abed248"><td class="memItemLeft" align="right" valign="top">esp_err_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="handler__hid_8c.html#a792d4ba5b3475531c09ed7a12abed248">handler_hid_getAT</a> (char *output, uint8_t vb)</td></tr>
 <tr class="memdesc:a792d4ba5b3475531c09ed7a12abed248"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reverse Parsing - get AT command for HID VB.  <a href="#a792d4ba5b3475531c09ed7a12abed248">More...</a><br /></td></tr>
 <tr class="separator:a792d4ba5b3475531c09ed7a12abed248"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad5f00875286c562930f8a80d6a513c51"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="handler__hid_8c.html#ad5f00875286c562930f8a80d6a513c51">handler_hid_active</a> (uint8_t vb)</td></tr>
+<tr class="memdesc:ad5f00875286c562930f8a80d6a513c51"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check if a VB is active in this handler.  <a href="#ad5f00875286c562930f8a80d6a513c51">More...</a><br /></td></tr>
+<tr class="separator:ad5f00875286c562930f8a80d6a513c51"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="var-members"></a>
 Variables</h2></td></tr>
-<tr class="memitem:a8cdce7a647d3e6f63206c020c4737d39"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="common_8h.html#a717ff1d55fb710bbebe9addae27d7258">hid_cmd_t</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="handler__hid_8c.html#a8cdce7a647d3e6f63206c020c4737d39">cmd_chain</a> = NULL</td></tr>
+<tr class="memitem:a8cdce7a647d3e6f63206c020c4737d39"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="common_8h.html#a29f0fa9b007be5e086562312cd1b1a1d">hid_cmd_t</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="handler__hid_8c.html#a8cdce7a647d3e6f63206c020c4737d39">cmd_chain</a> = NULL</td></tr>
 <tr class="memdesc:a8cdce7a647d3e6f63206c020c4737d39"><td class="mdescLeft">&#160;</td><td class="mdescRight">Beginning of all HID commands.  <a href="#a8cdce7a647d3e6f63206c020c4737d39">More...</a><br /></td></tr>
 <tr class="separator:a8cdce7a647d3e6f63206c020c4737d39"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a832987c3836fb3f2f73e388c174b2bf5"><td class="memItemLeft" align="right" valign="top">SemaphoreHandle_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="handler__hid_8c.html#a832987c3836fb3f2f73e388c174b2bf5">hidCmdSem</a> = NULL</td></tr>
 <tr class="memdesc:a832987c3836fb3f2f73e388c174b2bf5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Synchronization mutex for accessing the HID command chain.  <a href="#a832987c3836fb3f2f73e388c174b2bf5">More...</a><br /></td></tr>
 <tr class="separator:a832987c3836fb3f2f73e388c174b2bf5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad9d8d026e1d58dc48f86174f8756da16"><td class="memItemLeft" align="right" valign="top">static uint64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="handler__hid_8c.html#ad9d8d026e1d58dc48f86174f8756da16">vb_active</a> = 0</td></tr>
+<tr class="memdesc:ad9d8d026e1d58dc48f86174f8756da16"><td class="mdescLeft">&#160;</td><td class="mdescRight">Bitmap for active VBs. Corresponding bit will be set, if active.  <a href="#ad9d8d026e1d58dc48f86174f8756da16">More...</a><br /></td></tr>
+<tr class="separator:ad9d8d026e1d58dc48f86174f8756da16"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Event Handler - HID. </p>
@@ -153,7 +159,7 @@ Mouse/keyboard/joystick control by mouthpiece is done in hal_adc! </dd></dl>
 
 <p class="definition">Definition at line <a class="el" href="handler__hid_8c_source.html#l00044">44</a> of file <a class="el" href="handler__hid_8c_source.html">handler_hid.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="handler__hid_8c_source.html#l00137">handler_hid_init()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="handler__hid_8c_source.html#l00147">handler_hid_init()</a>.</p>
 
 </div>
 </div>
@@ -173,7 +179,7 @@ Mouse/keyboard/joystick control by mouthpiece is done in hal_adc! </dd></dl>
 
 <p class="definition">Definition at line <a class="el" href="handler__hid_8c_source.html#l00042">42</a> of file <a class="el" href="handler__hid_8c_source.html">handler_hid.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="handler__hid_8c_source.html#l00072">handler_hid()</a>, <a class="el" href="handler__hid_8c_source.html#l00210">handler_hid_addCmd()</a>, <a class="el" href="handler__hid_8c_source.html#l00360">handler_hid_clearCmds()</a>, <a class="el" href="handler__hid_8c_source.html#l00418">handler_hid_getAT()</a>, <a class="el" href="handler__hid_8c_source.html#l00137">handler_hid_init()</a>, and <a class="el" href="handler__hid_8c_source.html#l00318">handler_hid_setCmdChain()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="handler__hid_8c_source.html#l00076">handler_hid()</a>, <a class="el" href="handler__hid_8c_source.html#l00485">handler_hid_active()</a>, <a class="el" href="handler__hid_8c_source.html#l00220">handler_hid_addCmd()</a>, <a class="el" href="handler__hid_8c_source.html#l00371">handler_hid_clearCmds()</a>, <a class="el" href="handler__hid_8c_source.html#l00430">handler_hid_getAT()</a>, <a class="el" href="handler__hid_8c_source.html#l00147">handler_hid_init()</a>, and <a class="el" href="handler__hid_8c_source.html#l00329">handler_hid_setCmdChain()</a>.</p>
 
 </div>
 </div>
@@ -235,9 +241,9 @@ Mouse/keyboard/joystick control by mouthpiece is done in hal_adc! </dd></dl>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="handler__hid_8c_source.html#l00072">72</a> of file <a class="el" href="handler__hid_8c_source.html">handler_hid.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="handler__hid_8c_source.html#l00076">76</a> of file <a class="el" href="handler__hid_8c_source.html">handler_hid.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="handler__hid_8c_source.html#l00137">handler_hid_init()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="handler__hid_8c_source.html#l00147">handler_hid_init()</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
@@ -250,6 +256,36 @@ Here is the caller graph for this function:</div>
 
 </div>
 </div>
+<a id="ad5f00875286c562930f8a80d6a513c51"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad5f00875286c562930f8a80d6a513c51">&#9670;&nbsp;</a></span>handler_hid_active()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool handler_hid_active </td>
+          <td>(</td>
+          <td class="paramtype">uint8_t&#160;</td>
+          <td class="paramname"><em>vb</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Check if a VB is active in this handler. </p>
+<p>This function returns true if a given vb is active in this handler (is located in the command chain with a given command).</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">vb</td><td>Number of virtual button to check </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>true if active, false if not </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="handler__hid_8c_source.html#l00485">485</a> of file <a class="el" href="handler__hid_8c_source.html">handler_hid.c</a>.</p>
+
+</div>
+</div>
 <a id="ad7b90f2c2a4c57d871fc4c5fe4c63633"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ad7b90f2c2a4c57d871fc4c5fe4c63633">&#9670;&nbsp;</a></span>handler_hid_addCmd()</h2>
 
@@ -259,7 +295,7 @@ Here is the caller graph for this function:</div>
         <tr>
           <td class="memname">esp_err_t handler_hid_addCmd </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="common_8h.html#a717ff1d55fb710bbebe9addae27d7258">hid_cmd_t</a> *&#160;</td>
+          <td class="paramtype"><a class="el" href="common_8h.html#a29f0fa9b007be5e086562312cd1b1a1d">hid_cmd_t</a> *&#160;</td>
           <td class="paramname"><em>newCmd</em>, </td>
         </tr>
         <tr>
@@ -292,7 +328,7 @@ We will malloc for each command here. To free the memory, call handler_hid_clear
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>ESP_OK if added, ESP_FAIL if not added (out of memory) </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="handler__hid_8c_source.html#l00210">210</a> of file <a class="el" href="handler__hid_8c_source.html">handler_hid.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="handler__hid_8c_source.html#l00220">220</a> of file <a class="el" href="handler__hid_8c_source.html">handler_hid.c</a>.</p>
 
 <p class="reference">Referenced by <a class="el" href="task__commands_8c_source.html#l00175">sendHIDCmd()</a>.</p>
 <div class="dynheader">
@@ -344,9 +380,9 @@ Here is the caller graph for this function:</div>
 <p>This method clears all stored HID commands and frees the allocated memory.</p>
 <dl class="section return"><dt>Returns</dt><dd>ESP_OK if commands are cleared, ESP_FAIL otherwise </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="handler__hid_8c_source.html#l00360">360</a> of file <a class="el" href="handler__hid_8c_source.html">handler_hid.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="handler__hid_8c_source.html#l00371">371</a> of file <a class="el" href="handler__hid_8c_source.html">handler_hid.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="handler__hid_8c_source.html#l00318">handler_hid_setCmdChain()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="handler__hid_8c_source.html#l00329">handler_hid_setCmdChain()</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
@@ -384,9 +420,9 @@ Here is the caller graph for this function:</div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>ESP_OK if deleted, ESP_FAIL if not in list </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="handler__hid_8c_source.html#l00161">161</a> of file <a class="el" href="handler__hid_8c_source.html">handler_hid.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="handler__hid_8c_source.html#l00171">171</a> of file <a class="el" href="handler__hid_8c_source.html">handler_hid.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="task__commands_8c_source.html#l00685">cmdNc()</a>, <a class="el" href="handler__hid_8c_source.html#l00210">handler_hid_addCmd()</a>, and <a class="el" href="task__commands_8c_source.html#l00213">sendVBCmd()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="task__commands_8c_source.html#l00685">cmdNc()</a>, <a class="el" href="handler__hid_8c_source.html#l00220">handler_hid_addCmd()</a>, and <a class="el" href="task__commands_8c_source.html#l00213">sendVBCmd()</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
@@ -447,9 +483,9 @@ Here is the caller graph for this function:</div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>ESP_OK if everything went fine, ESP_FAIL otherwise </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="handler__hid_8c_source.html#l00418">418</a> of file <a class="el" href="handler__hid_8c_source.html">handler_hid.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="handler__hid_8c_source.html#l00430">430</a> of file <a class="el" href="handler__hid_8c_source.html">handler_hid.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="task__commands_8c_source.html#l01547">storeSlot()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="task__commands_8c_source.html#l01548">storeSlot()</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
@@ -475,7 +511,7 @@ Here is the caller graph for this function:</div>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="common_8h.html#a717ff1d55fb710bbebe9addae27d7258">hid_cmd_t</a>* handler_hid_getCmdChain </td>
+          <td class="memname"><a class="el" href="common_8h.html#a29f0fa9b007be5e086562312cd1b1a1d">hid_cmd_t</a>* handler_hid_getCmdChain </td>
           <td>(</td>
           <td class="paramtype">void&#160;</td>
           <td class="paramname"></td><td>)</td>
@@ -488,7 +524,7 @@ Here is the caller graph for this function:</div>
 <dl class="section warning"><dt>Warning</dt><dd>Modifying this chain without acquiring the hidCmdSem could result in undefined behaviour! </dd></dl>
 <dl class="section return"><dt>Returns</dt><dd>Pointer to root of HID chain </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="handler__hid_8c_source.html#l00308">308</a> of file <a class="el" href="handler__hid_8c_source.html">handler_hid.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="handler__hid_8c_source.html#l00319">319</a> of file <a class="el" href="handler__hid_8c_source.html">handler_hid.c</a>.</p>
 
 </div>
 </div>
@@ -511,7 +547,7 @@ Here is the caller graph for this function:</div>
 <p>Init for the HID handler. </p>
 <p>We create the mutex and add handler_hid to the system event queue. </p><dl class="section return"><dt>Returns</dt><dd>ESP_OK on success, ESP_FAIL on an error. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="handler__hid_8c_source.html#l00137">137</a> of file <a class="el" href="handler__hid_8c_source.html">handler_hid.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="handler__hid_8c_source.html#l00147">147</a> of file <a class="el" href="handler__hid_8c_source.html">handler_hid.c</a>.</p>
 
 <p class="reference">Referenced by <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c_source.html#l00114">app_main()</a>.</p>
 <div class="dynheader">
@@ -542,7 +578,7 @@ Here is the caller graph for this function:</div>
         <tr>
           <td class="memname">esp_err_t handler_hid_setCmdChain </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="common_8h.html#a717ff1d55fb710bbebe9addae27d7258">hid_cmd_t</a> *&#160;</td>
+          <td class="paramtype"><a class="el" href="common_8h.html#a29f0fa9b007be5e086562312cd1b1a1d">hid_cmd_t</a> *&#160;</td>
           <td class="paramname"><em>chain</em></td><td>)</td>
           <td></td>
         </tr>
@@ -559,7 +595,7 @@ Here is the caller graph for this function:</div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>ESP_OK if chain is saved, ESP_FAIL otherwise (lock was not free, deleting old chain failed..) </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="handler__hid_8c_source.html#l00318">318</a> of file <a class="el" href="handler__hid_8c_source.html">handler_hid.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="handler__hid_8c_source.html#l00329">329</a> of file <a class="el" href="handler__hid_8c_source.html">handler_hid.c</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -582,7 +618,7 @@ Here is the call graph for this function:</div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="common_8h.html#a717ff1d55fb710bbebe9addae27d7258">hid_cmd_t</a>* cmd_chain = NULL</td>
+          <td class="memname"><a class="el" href="common_8h.html#a29f0fa9b007be5e086562312cd1b1a1d">hid_cmd_t</a>* cmd_chain = NULL</td>
         </tr>
       </table>
   </td>
@@ -603,7 +639,7 @@ Here is the call graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="handler__hid_8c_source.html#l00059">59</a> of file <a class="el" href="handler__hid_8c_source.html">handler_hid.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="handler__hid_8c_source.html#l00072">handler_hid()</a>, <a class="el" href="handler__hid_8c_source.html#l00210">handler_hid_addCmd()</a>, <a class="el" href="handler__hid_8c_source.html#l00360">handler_hid_clearCmds()</a>, <a class="el" href="handler__hid_8c_source.html#l00161">handler_hid_delCmd()</a>, <a class="el" href="handler__hid_8c_source.html#l00418">handler_hid_getAT()</a>, and <a class="el" href="handler__hid_8c_source.html#l00308">handler_hid_getCmdChain()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="handler__hid_8c_source.html#l00076">handler_hid()</a>, <a class="el" href="handler__hid_8c_source.html#l00220">handler_hid_addCmd()</a>, <a class="el" href="handler__hid_8c_source.html#l00371">handler_hid_clearCmds()</a>, <a class="el" href="handler__hid_8c_source.html#l00171">handler_hid_delCmd()</a>, <a class="el" href="handler__hid_8c_source.html#l00430">handler_hid_getAT()</a>, and <a class="el" href="handler__hid_8c_source.html#l00319">handler_hid_getCmdChain()</a>.</p>
 
 </div>
 </div>
@@ -623,7 +659,36 @@ Here is the call graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="handler__hid_8c_source.html#l00062">62</a> of file <a class="el" href="handler__hid_8c_source.html">handler_hid.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="handler__hid_8c_source.html#l00072">handler_hid()</a>, <a class="el" href="handler__hid_8c_source.html#l00210">handler_hid_addCmd()</a>, <a class="el" href="handler__hid_8c_source.html#l00360">handler_hid_clearCmds()</a>, <a class="el" href="handler__hid_8c_source.html#l00418">handler_hid_getAT()</a>, <a class="el" href="handler__hid_8c_source.html#l00137">handler_hid_init()</a>, and <a class="el" href="handler__hid_8c_source.html#l00318">handler_hid_setCmdChain()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="handler__hid_8c_source.html#l00076">handler_hid()</a>, <a class="el" href="handler__hid_8c_source.html#l00220">handler_hid_addCmd()</a>, <a class="el" href="handler__hid_8c_source.html#l00371">handler_hid_clearCmds()</a>, <a class="el" href="handler__hid_8c_source.html#l00430">handler_hid_getAT()</a>, <a class="el" href="handler__hid_8c_source.html#l00147">handler_hid_init()</a>, and <a class="el" href="handler__hid_8c_source.html#l00329">handler_hid_setCmdChain()</a>.</p>
+
+</div>
+</div>
+<a id="ad9d8d026e1d58dc48f86174f8756da16"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad9d8d026e1d58dc48f86174f8756da16">&#9670;&nbsp;</a></span>vb_active</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint64_t vb_active = 0</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Bitmap for active VBs. Corresponding bit will be set, if active. </p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="handler__hid_8c.html#ad5f00875286c562930f8a80d6a513c51" title="Check if a VB is active in this handler. ">handler_hid_active</a> </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="handler__hid_8c_source.html#l00066">66</a> of file <a class="el" href="handler__hid_8c_source.html">handler_hid.c</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="handler__hid_8c_source.html#l00485">handler_hid_active()</a>, <a class="el" href="handler__hid_8c_source.html#l00220">handler_hid_addCmd()</a>, <a class="el" href="handler__hid_8c_source.html#l00371">handler_hid_clearCmds()</a>, and <a class="el" href="handler__hid_8c_source.html#l00171">handler_hid_delCmd()</a>.</p>
 
 </div>
 </div>

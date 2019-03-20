@@ -15,6 +15,7 @@ var searchData=
   ['wifistartstopofftimer',['wifiStartStopOffTimer',['../task__webgui_8c.html#a7f89c77fa56e7ac560e2720baedf07eb',1,'task_webgui.c']]],
   ['wifitimer',['wifiTimer',['../task__webgui_8c.html#a4c0381f5a7dcb7609ee5cfe1fd540e47',1,'task_webgui.c']]],
   ['wifiwsserverhandle_5ft',['wifiWSServerHandle_t',['../task__webgui_8c.html#ab944d3c0e8a161cc7a3e75f2c9be3995',1,'task_webgui.c']]],
+  ['write_5fbit',['WRITE_BIT',['../hal__serial_8c.html#a7fc57d5be9f588839a00c75ef2946e17',1,'hal_serial.c']]],
   ['ws_5fclient_5fkey_5fl',['WS_CLIENT_KEY_L',['../websocket_8c.html#acc455c54a3617bfc60f6540f3c6876b6',1,'websocket.c']]],
   ['ws_5fconn',['WS_conn',['../websocket_8c.html#a8df807500b69b8dc1778ce905e474599',1,'websocket.c']]],
   ['ws_5fframe_5fheader_5ft',['WS_frame_header_t',['../structWS__frame__header__t.html',1,'']]],

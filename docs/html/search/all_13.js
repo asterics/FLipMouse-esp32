@@ -1,6 +1,5 @@
 var searchData=
 [
-  ['s_5fwl_5fhandle',['s_wl_handle',['../hal__storage_8c.html#a9d1f6636715d2cd2af21e20bc5e26afa',1,'hal_storage.c']]],
   ['save',['SAVE',['../keyboard_8c.html#a74737b7419bce75262b34ece12a7f7eb',1,'keyboard.c']]],
   ['sec_5fconn',['sec_conn',['../hal__ble_8c.html#a11274ca008e2a3199074e7037c665a38',1,'hal_ble.c']]],
   ['sendbuttonlearn',['sendButtonLearn',['../task__debouncer_8c.html#aad304645b451a8b7ad60c9c6aab4e3d1',1,'task_debouncer.c']]],

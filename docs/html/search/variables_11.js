@@ -1,6 +1,5 @@
 var searchData=
 [
-  ['s_5fwl_5fhandle',['s_wl_handle',['../hal__storage_8c.html#a9d1f6636715d2cd2af21e20bc5e26afa',1,'hal_storage.c']]],
   ['sec_5fconn',['sec_conn',['../hal__ble_8c.html#a11274ca008e2a3199074e7037c665a38',1,'hal_ble.c']]],
   ['sensitivity_5fx',['sensitivity_x',['../structadc__config.html#a81465c39748fa52d1b773f34ad4ee435',1,'adc_config']]],
   ['sensitivity_5fy',['sensitivity_y',['../structadc__config.html#adbfe1bd3388e5274fd37ffb27c6a719a',1,'adc_config']]],

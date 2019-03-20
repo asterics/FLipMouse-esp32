@@ -32,7 +32,7 @@ Following commands are currently available:
 | AT WA | number (0-30000) | wait/delay (ms); useful for macros. Does nothing if not used in macros. | v2 | untested | yes/no <sup>[B](#footnoteB)</sup> |
 | AT RO | number (0,90,180,270) | orientation (0 => LEDs on top) | v2 | yes | no |
 | AT KL | number | Set keyboard locale (locale defines are listed below) | v3 | yes | no |
-| AT BT | number (0,1,2,3) | Bluetooth mode, 0=no HID output, 1=USB only, 2=BT only, 3=both(default) | v2 | Working for USB, untested for BLE | no |
+| AT BT | number (0,1,2,3) | Bluetooth mode, 0=no HID output, 1=USB only, 2=BT only, 3=both(default) | v2 | yes | no |
 | AT TT | number (100-5000) | Threshold time ([ms]) between short and long press actions. Set to 5000 to disable. | v3 | no | no (handled in task_debouncer)  |
 | AT AP | number (1-500) | Antitremor delay for button press ([ms]) <sup>[C](#footnoteC)</sup> | v3 | untested | no |
 | AT AR | number (1-500) | Antitremor delay for button release ([ms]) <sup>[C](#footnoteC)</sup>| v3 | untested | no |

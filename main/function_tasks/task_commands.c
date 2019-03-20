@@ -1650,7 +1650,6 @@ void storeSlot(char* slotname)
   {
     //print AT BM (button mode) command first
     sprintf(outputstring,"AT BM %02d\n",j);
-    ///@todo remove this logging tag
     ESP_LOGD(LOG_TAG,"AT BM %02d",j);
     halStorageStore(tid,outputstring,250);
     //try to parse command either via HID or VB task
@@ -1659,14 +1658,12 @@ void storeSlot(char* slotname)
       if(handler_vb_getAT(outputstring,j) != ESP_OK)
       {
         //if no command was found, this usually means this one is not used.
-        ESP_LOGD(LOG_TAG,"Unused VB, neither HID nor VB task found AT string");
         sprintf(outputstring,"AT NC");
       }
     }
     //store reverse parsed at string
     halStorageStore(tid,outputstring,250);
     halStorageStore(tid,"\n",250);
-    ///@todo remove this logging tag
     ESP_LOGD(LOG_TAG,"%s",outputstring);
   }
 

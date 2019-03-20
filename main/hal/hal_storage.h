@@ -63,10 +63,7 @@
  * @note Maximum number of slots: 250! (e.g. 250.fms)
  * @note Maximum number of IR commands: 100 (0-100, e.g. IR_99.fms)
  * @note Use halStorageStartTransaction and halStorageFinishTransaction on begin/end of loading&storing (except for halStorageNVS* operations)
- * @warning Adjust the esp-idf (via "make menuconfig") to use 512B sectors
- * and mode <b>safety</b>!
- * 
- * @todo Put delete/save to a task, takes very long time...
+ * @warning Use the same settings for compiling mkspiffs as they are set in make menuconfig, otherwise files cannot be read/written.
  * 
  * @see generalConfig_t
  */

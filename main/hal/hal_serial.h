@@ -81,15 +81,8 @@
  * According to FLipMouse GUI PortIO.cs, \r is used */
 #define HAL_SERIAL_LINE_ENDING "\r\n"
 
-/** @brief Set RMT channel for HID output */
-#define HAL_SERIAL_HID_CHANNEL RMT_CHANNEL_3
-
-/** @brief Duration of a 0 bit for HID output */
-#define HAL_SERIAL_HID_DURATION_0   80
-/** @brief Duration of a 1 bit for HID output */
-#define HAL_SERIAL_HID_DURATION_1   160
-/** @brief Duration of a start/stop bit for HID output */
-#define HAL_SERIAL_HID_DURATION_S   320
+/** @brief I2C Address for LPC chip */
+#define HAL_SERIAL_I2C_ADDR_LPC 0x05
 
 /** @brief Queue for parsed AT commands
  * 

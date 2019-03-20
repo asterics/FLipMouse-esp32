@@ -414,19 +414,16 @@ typedef struct generalConfig {
   char slotName[SLOTNAME_LENGTH];
 } generalConfig_t;
 
-/** @brief One VB command (not HID), maybe an element of a command chain */
-typedef struct vb_cmd vb_cmd_t;
-
 /** @brief One VB command (not HID), maybe an element of a command chain 
  * 
- * This struct is used for VB commands, which are not HID commands.
- * 
- * @todo Document this struct more.
+ * This struct is used for VB commands, which are not HID commands (e.g.
+ * calibrate, IR recv/send)
+
  * @see task_vb_addCmd
  * @see task_vb_clearCmds
  * @see task_vb_getCmdChain
  * @see task_vb_setCmdChain */
-struct vb_cmd {
+typedef struct vb_cmd {
   /** @brief Number of virtual button. MSB signals if this is a press or
    * release action:
    * * If it is set (mask: 0x80), it is a press action
@@ -435,17 +432,16 @@ struct vb_cmd {
   uint8_t vb;
   /** @brief Type of command */
   vb_cmd_type_t cmd;
-  /** @brief Original AT command string, might be NULL if not used */
+  /** @brief Original AT command string, might be NULL if not used.
+   * @note This value is used to store a command. If it is NULL,
+   * this command cannot be stored. */
   char *atoriginal;
   /** @brief Parameter string, e.g. for slot names. Might be NULL if not necessary */
   char *cmdparam;
-  /** @brief Pointer to next VB command element, might be NULL. */
+  /** @brief Pointer to next VB command element, might be NULL. 
+   * @note This pointer is set to NULL as long as it is not added to the command chain. */
   struct vb_cmd *next;
-};
-
-
-/** @brief One HID command, maybe an element of a command chain */
-typedef struct hid_cmd hid_cmd_t;
+} vb_cmd_t;
 
 /** @brief  One HID command, maybe an element of a command chain
  *
@@ -460,7 +456,7 @@ typedef struct hid_cmd hid_cmd_t;
  * @see task_hid_clearCmds
  * @see task_hid_getCmdChain
  * @see task_hid_setCmdChain */
-struct hid_cmd {
+typedef struct hid_cmd {
   /** @brief Number of virtual button. MSB signals if this is a press or
    * release action:
    * * If it is set (mask: 0x80), it is a press action
@@ -470,11 +466,14 @@ struct hid_cmd {
   /** @brief Command to be sent, see HID_kbdmousejoystick.cpp or the
    * usb_bridge for explanations. */
   uint8_t cmd[3];
-  /** @brief Original AT command string, might be NULL if not used */
+  /** @brief Original AT command string, might be NULL if not used.
+   * @note This value is used to store a command. If it is NULL,
+   * this command cannot be stored. */
   char *atoriginal;
-  /** @brief Pointer to next HID command element, might be NULL. */
+  /** @brief Pointer to next HID command element, might be NULL. 
+   * @note This pointer is set to NULL as long as it is not added to the command chain. */
   struct hid_cmd *next;
-};
+} hid_cmd_t;
 
 /** @brief State of IR receiver
  * 

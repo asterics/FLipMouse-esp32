@@ -256,8 +256,7 @@ void halSerialHIDTask(void *param)
         #endif
         i2c_cmd_handle_t cmd = i2c_cmd_link_create();
         i2c_master_start(cmd);
-        ///@todo Change LPC I2C address to a define...
-        i2c_master_write_byte(cmd, (0x05 << 1) | WRITE_BIT, ACK_CHECK_EN);
+        i2c_master_write_byte(cmd, (HAL_SERIAL_I2C_ADDR_LPC << 1) | WRITE_BIT, ACK_CHECK_EN);
         i2c_master_write(cmd, rx.cmd, 3, ACK_CHECK_EN);
         i2c_master_stop(cmd);
         esp_err_t ret = i2c_master_cmd_begin(I2C_NUM_0, cmd, 1000 / portTICK_RATE_MS);
@@ -295,8 +294,7 @@ int halSerialReceiveI2CADC(uint8_t **data)
   int size = 10;
   i2c_cmd_handle_t cmd = i2c_cmd_link_create();
   i2c_master_start(cmd);
-  ///@todo Change LPC I2C address to a define...
-  i2c_master_write_byte(cmd, (0x05 << 1) | READ_BIT, ACK_CHECK_EN);
+  i2c_master_write_byte(cmd, (HAL_SERIAL_I2C_ADDR_LPC << 1) | READ_BIT, ACK_CHECK_EN);
   if (size > 1) {
       i2c_master_read(cmd, *data, size - 1, ACK_VAL);
   }

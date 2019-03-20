@@ -42,11 +42,6 @@
  * 
  * IR receiving / sending is done via the RMT engine and is supported by macros
  * as well.
- * 
- * @note Compared to the tasks in the folder "function_tasks" all HAL tasks are
- * singletons. Call init to initialize every necessary data structure.
- * 
- * @todo Test LED driver (RGB & Neopixel)
  * */
  
 #include "hal_io.h"
@@ -380,7 +375,6 @@ void halIOBuzzerTask(void * param)
  * 
  * @see halIOLEDQueue
  * @param param Unused
- * @todo It might be possible that we use Neopixel LEDs on the FLipMouse as well. Update if it is known.
  */
 void halIOLEDTask(void * param)
 {

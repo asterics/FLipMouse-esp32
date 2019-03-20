@@ -369,12 +369,16 @@ esp_err_t cmdTm(char* orig, void* p1, void* p2) {
 esp_err_t cmdWu(char* orig, void* p1, void* p2) {
   if(currentCfg == NULL) return ESP_FAIL;
   mouse.cmd[0] = 0x12; 
+  //reset to 3, if invalid.
+  if(currentCfg->wheel_stepsize == 0) currentCfg->wheel_stepsize = 3;
   mouse.cmd[1] = currentCfg->wheel_stepsize;
   return ESP_OK;
 }
 esp_err_t cmdWd(char* orig, void* p1, void* p2) {
   if(currentCfg == NULL) return ESP_FAIL;
-  mouse.cmd[0] = 0x12; 
+  mouse.cmd[0] = 0x12;
+  //reset to 3, if invalid.
+  if(currentCfg->wheel_stepsize == 0) currentCfg->wheel_stepsize = 3;
   mouse.cmd[1] = -currentCfg->wheel_stepsize;
   return ESP_OK;
 }

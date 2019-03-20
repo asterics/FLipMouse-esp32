@@ -70,9 +70,6 @@
 //#define DEVICE_FABI
 #define DEVICE_FLIPMOUSE
 
-/** number of virtual button event groups. One event group is used for 4 VBs */
-#define NUMBER_VIRTUALBUTTONS 8
-
 /** @brief Set count of used Neopixels
  * 
  * If LED_USE_NEOPIXEL is set, this define is used to determine the
@@ -81,7 +78,7 @@
 #define LED_NEOPIXEL_COUNT  1
 
 
-/** maximum length for a slot name */
+/** @brief Maximum length for a slot name */
 #define SLOTNAME_LENGTH   32
 
 /** @brief Maximum size of ANY virtual button config.
@@ -95,19 +92,15 @@
 /** @brief maximum length for an AT command (including parameters & 'AT ', e.g., macro text) */
 #define ATCMD_LENGTH   256
 
-/** ID of storage revision. Is used to determine any data storage upgrades */
-#define STORAGE_ID    0xC0FFEE01
-
-
-/** bitmask for testing if a function task should send data to USB queues */
+/** @brief Bitmask for testing if a function task should send data to USB queues */
 #define DATATO_USB (1<<7)
-/** bitmask for testing if a function task should send data to BLE queues */
+/** @brief Bitmask for testing if a function task should send data to BLE queues */
 #define DATATO_BLE (1<<6)
-/** bitmask used to signal a FLipMouse (no FABI!) in CIM mode (no USB/BLE functionality) */
+/** @brief Bitmask used to signal a FLipMouse (no FABI!) in CIM mode (no USB/BLE functionality) */
 #define DATATO_CIM (1<<5)
-/** bitmask used to signal a FLipMouse/FABI has an active Wifi server */
+/** @brief Bitmask used to signal a FLipMouse/FABI has an active Wifi server */
 #define WIFI_ACTIVE (1<<4)
-/** bitmask used to signal a FLipMouse/FABI has at least one connected Wifi client */
+/** @brief Bitmask used to signal a FLipMouse/FABI has at least one connected Wifi client */
 #define WIFI_CLIENT_CONNECTED (1<<3)
 
 /** @brief Flag for signalling config updates
@@ -137,14 +130,8 @@
 /** @brief AT command queue is empty */
 #define SYSTEM_EMPTY_CMD_QUEUE (1<<2)
 
-/** this flag group is used to determine the routing
- * of different data to either USB, BLE or both.
- * In addition this flag group contains status information
- * (1<<7) should send data to USB HID?
- * (1<<6) should send data to BLE HID?
- * (1<<5) is the FLipMouse in CIM mode?
- * (1<<4) is the wifi active?
- * (1<<3) is a client connected to wifi?
+/** @brief This flag group is used to determine the routing
+ * of different data to either USB, BLE or both, as well as the wifi status. 
  * 
  * @see DATATO_USB
  * @see DATATO_BLE
@@ -218,44 +205,92 @@ extern QueueHandle_t debouncer_in;
  * Gesture VBs, a recorded gesture is treated like a virtual button
  * */
 #ifdef DEVICE_FLIPMOUSE
+  /** @brief Internal button (short nose), activates Wifi on a long press */
   #define VB_INTERNAL2    0
+  /** @brief Internal button (long button) */
   #define VB_INTERNAL1    1
+  /** @brief External button (connected via a 3.5mm jack plug) */
   #define VB_EXTERNAL1    2
+  /** @brief External button (connected via a 3.5mm jack plug) */
   #define VB_EXTERNAL2    3
+  /** @brief Mouthpiece up (threshold mode only) */
   #define VB_UP           4
+  /** @brief Mouthpiece down (threshold mode only) */
   #define VB_DOWN         5
+  /** @brief Mouthpiece left (threshold mode only) */
   #define VB_LEFT         6
+  /** @brief Mouthpiece right (threshold mode only) */
   #define VB_RIGHT        7
+  /** @brief Sip on the mouthpiece (weak) */
   #define VB_SIP          8
+  /** @brief Sip on the mouthpiece (strong)
+   * @note If one of the VB_STRONGSIP_* actions is used, this one will not be triggered. */
   #define VB_STRONGSIP    9
+  /** @brief Puff into the mouthpiece (weak) */
   #define VB_PUFF         10
+  /** @brief Sip on the mouthpiece (strong)
+   * @note If one of the VB_STRONGPUFF_* actions is used, this one will not be triggered. */
   #define VB_STRONGPUFF   11
+  /** @brief Strongsip + move mouthpiece up afterwards.
+   * @note If used, deactivates VB_STRONGSIP */
   #define VB_STRONGSIP_UP     12
+  /** @brief Strongsip + move mouthpiece down afterwards.
+   * @note If used, deactivates VB_STRONGSIP */
   #define VB_STRONGSIP_DOWN   13
+  /** @brief Strongsip + move mouthpiece left afterwards.
+   * @note If used, deactivates VB_STRONGSIP */
   #define VB_STRONGSIP_LEFT   14
+  /** @brief Strongsip + move mouthpiece right afterwards.
+   * @note If used, deactivates VB_STRONGSIP */
   #define VB_STRONGSIP_RIGHT  15
+  /** @brief Strongpuff + move mouthpiece up afterwards.
+   * @note If used, deactivates VB_STRONGPUFF */
   #define VB_STRONGPUFF_UP    16
+  /** @brief Strongpuff + move mouthpiece down afterwards.
+   * @note If used, deactivates VB_STRONGPUFF */
   #define VB_STRONGPUFF_DOWN  17
+  /** @brief Strongpuff + move mouthpiece left afterwards.
+   * @note If used, deactivates VB_STRONGPUFF */
   #define VB_STRONGPUFF_LEFT  18
+  /** @brief Strongpuff + move mouthpiece right afterwards.
+   * @note If used, deactivates VB_STRONGPUFF */
   #define VB_STRONGPUFF_RIGHT 19
+  /** @brief Limiter value, used for checking&accessing any arrays
+   * @note Set this value accordingly! */
   #define VB_MAX          20
 #endif
 
 #ifdef DEVICE_FABI
+  /** @brief External button (connected via a 3.5mm jack plug) */
   #define VB_EXTERNAL1    0
+  /** @brief External button (connected via a 3.5mm jack plug) */
   #define VB_EXTERNAL2    1
+  /** @brief External button (connected via a 3.5mm jack plug) */
   #define VB_EXTERNAL3    2
+  /** @brief External button (connected via a 3.5mm jack plug) */
   #define VB_EXTERNAL4    3
+  /** @brief External button (connected via a 3.5mm jack plug) */
   #define VB_EXTERNAL5    4
+  /** @brief External button (connected via a 3.5mm jack plug) */
   #define VB_EXTERNAL6    5
+  /** @brief External button (connected via a 3.5mm jack plug) */
   #define VB_EXTERNAL7    6
+  /** @brief External button (connected via a 3.5mm jack plug) */
   #define VB_EXTERNAL8    7
+  /** @brief External button (connected via a 3.5mm jack plug) */
   #define VB_EXTERNAL9    8
+  /** @brief Internal button (long nose), activates Wifi on a long press */
   #define VB_INTERNAL1    9
+  /** @brief Sip on the mouthpiece (weak) */
   #define VB_SIP          10
+  /** @brief Puff into the mouthpiece (weak) */
   #define VB_PUFF         11
+  /** @brief Sip on the mouthpiece (strong) */
   #define VB_STRONGSIP    12
+  /** @brief Puff into the mouthpiece (strong) */
   #define VB_STRONGPUFF   13
+  /** @brief Limiter value, used for checking&accessing any arrays
+   * @note Set this value accordingly! */
   #define VB_MAX          14
 #endif
 
@@ -271,7 +306,9 @@ extern QueueHandle_t debouncer_in;
  * and task_hid.
  * @note This enum is used for sending an action to the debouncer as well.*/
 typedef enum {
+  /** Press event issued */
   VB_PRESS_EVENT,
+  /** Release event issued */
   VB_RELEASE_EVENT
 } vb_event_t;
 
@@ -281,44 +318,55 @@ typedef enum {
 ESP_EVENT_DECLARE_BASE(VB_EVENT);
 
 /*++++ TASK PRIORITY ASSIGNMENT ++++*/
+/** @brief ADC task priority. Not high. */
 #define HAL_ADC_TASK_PRIORITY     (tskIDLE_PRIORITY + 2)
+/** @brief Debouncer task priority. Highest priority (for short response time) */
 #define DEBOUNCER_TASK_PRIORITY  (configMAX_PRIORITIES)
-/** All BLE tasks in hal_ble.c. */
+/** @brief BLE task priority. Not high. */
 #define HAL_BLE_TASK_PRIORITY_BASE  (tskIDLE_PRIORITY + 2)
+/** @brief Config switcher task priority. Higher than basic tasks. */
 #define HAL_CONFIG_TASK_PRIORITY  (tskIDLE_PRIORITY + 5)
+/** @brief Command parser task priority. Higher than basic tasks. */
 #define TASK_COMMANDS_PRIORITY  (tskIDLE_PRIORITY + 6)
 
 /*++++ MAIN CONFIG STRUCT ++++*/
 
 /**
- * Mode of operation for the mouthpiece:<br>
- * NONE       Do not do anything with the mouthpiece
- * MOUSE      Mouthpiece controls mouse cursor <br>
- *            Used parameters: <br>
- *              * max_speed
- *              * acceleration
- *              * deadzone_x/y
- *              * sensitivity_x/y
- * JOYSTICK   Mouthpiece controls two joystick axis <br>
- *            Used parameters <br>
- *              * deadzone_x/y
- *              * sensitivity_x/y
- *              * axis
- * THRESHOLD  Mouthpiece triggers virtual buttons <br>
- *            Used parameters <br>
- *              * deadzone_x/y
- *              * threshold_x/y
+ * @brief Mode of operation for the mouthpiece
  * @see VB_UP
  * @see VB_DOWN
  * @see VB_LEFT
  * @see VB_RIGHT
  * */
-typedef enum mouthpiece_mode {NONE, MOUSE, JOYSTICK, THRESHOLD} mouthpiece_mode_t;
+typedef enum mouthpiece_mode {
+  /** Do not do anything with the mouthpiece */
+  NONE,
+  /** Mouthpiece controls mouse cursor, <br>
+    *            Used parameters: <br>
+    *              * max_speed
+    *              * acceleration
+    *              * deadzone_x/y
+    *              * sensitivity_x/y
+    */
+  MOUSE, 
+  /** Mouthpiece controls two joystick axis <br>
+    *            Used parameters <br>
+    *              * deadzone_x/y
+    *              * sensitivity_x/y
+    *              * axis
+    */
+  JOYSTICK, 
+  /** Mouthpiece triggers virtual buttons <br>
+    *            Used parameters <br>
+    *              * deadzone_x/y
+    *              * threshold_x/y
+    */
+  THRESHOLD} mouthpiece_mode_t;
 
 /**
- * config for the ADC task & the analog mode of operation
+ * @brief Config for the ADC task & the analog mode of operation
  * 
- * TBD: describe all parameters...
+ * @todo describe all parameters of this struct.
  * 
  * @todo Remove report raw from here & create new "volatile" config struct -> no need to save, but no need to overwrite on slot change
  * @see mouthpiece_mode_t
@@ -370,21 +418,27 @@ typedef enum {
   T_MACRO /** @brief Trigger macro execution */
 } vb_cmd_type_t;
 
+/** @brief Complete configuration for the current settings.
+ * 
+ * This struct contains all necessary settings for a complete device
+ * setup. It will be loaded on a slot change (or startup).
+ * 
+ * @note This struct contains only settings which will be stored/loaded from flash.
+ */ 
 typedef struct generalConfig {
+  /** @brief Versionnumber for this slot.
+   * @note Currently unused */
   uint32_t slotversion;
+  /** @brief ADC related config */
   adc_config_t adc;
+  /** @brief Flag for active BLE-HID */
   uint8_t ble_active;
+  /** @brief Flag for active USB-HID */
   uint8_t usb_active;
-  /** mouse wheel: stepsize */
+  /** @brief Mouse wheel: stepsize */
   uint8_t wheel_stepsize;
-  /** country code to be used by BLE&USB HID */
-  uint8_t countryCode;
-  /** keyboard locale to be used by BLE&USB(serial) HID */
+  /** @brief keyboard locale to be used by BLE&USB(serial) HID */
   uint8_t locale;
-  /** device identifier to be used by BLE&USB HID.
-   * 0 => FLipMouse
-   * 1 => FABI */
-  uint8_t deviceIdentifier;
   /** @brief Timeout between IR edges before command is declared as finished */
   uint8_t irtimeout;
   /** @brief Global anti-tremor time for press */
@@ -476,27 +530,30 @@ typedef struct hid_cmd {
 } hid_cmd_t;
 
 /** @brief State of IR receiver
- * 
- * Following states are possible for the IR receiver (task):
- * * IR_IDLE Nothing is done, this halIOIR_t struct is not used for receiving
- * * IR_RECEIVING Receiver is active and storing
- * * IR_TOOSHORT If timeout was triggered and not enough edges are detected
- * * IR_FINISHED If timeout was triggered and enough edges were stored
- * * IR_OVERFLOW Too many edges were detected, could not store
- * 
  * @see TASK_HAL_IR_RECEV_MINIMUM_EDGES
  * @see TASK_HAL_IR_RECV_MAXIMUM_EDGES*/
-typedef enum irstate {IR_IDLE,IR_RECEIVING,IR_TOOSHORT,IR_FINISHED,IR_OVERFLOW} irstate_t;
+typedef enum irstate {
+  /** @brief Nothing is done, this halIOIR_t struct is not used for receiving */
+  IR_IDLE,
+  /** @brief Receiver is active and storing */
+  IR_RECEIVING,
+  /** @brief If timeout was triggered and not enough edges are detected */
+  IR_TOOSHORT,
+  /** @brief If timeout was triggered and enough edges were stored */
+  IR_FINISHED,
+  /** @brief Too many edges were detected, could not store */
+  IR_OVERFLOW
+} irstate_t;
 
-/** @brief Output IR command */
+/** @brief Struct for sending/receiving an IR command */
 typedef struct halIOIR {
-  /** Buffer for IR signal
+  /** @brief Buffer for IR signal
    * @warning Do not free this buffer! It will be freed by transmitting function
    * @note In case of receiving, this buffer can be freed. */
   rmt_item32_t *buffer;
-  /** Count of rmt_item32_t items */
+  /** @brief Count of rmt_item32_t items */
   uint16_t count;
-  /** Status of receiver */
+  /** @brief Status of receiver */
   irstate_t status;
 } halIOIR_t;
 

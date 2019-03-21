@@ -207,6 +207,43 @@ void halSerialRXTask(void *pvParameters)
   vTaskDelete(NULL);
 }
 
+/** @brief Initialize I2C for reading ADC values from LPC
+ * 
+ * This function initializes the I2C, according to the pin settings.
+ * 
+ * @see HAL_IO_PIN_SDA
+ * @see HAL_IO_PIN_SCL
+ * @param deinit If set to true, the driver will be deleted first (used 
+ * for re-initializing on transmission errors)
+ */
+esp_err_t halSerialInitI2C(bool deinit)
+{
+  int i2c_master_port = I2C_NUM_0;
+  
+  //de-initialize first, if requested
+  if(deinit)
+  {
+    ESP_LOGW(LOG_TAG,"I2C error, re-init");
+    i2c_driver_delete(i2c_master_port);
+  }
+
+  //initialize I2C according to esp-idf example.
+  i2c_config_t conf;
+  conf.mode = I2C_MODE_MASTER;
+  conf.sda_io_num = HAL_IO_PIN_SDA;
+  conf.sda_pullup_en = GPIO_PULLUP_DISABLE;
+  conf.scl_io_num = HAL_IO_PIN_SCL;
+  conf.scl_pullup_en = GPIO_PULLUP_DISABLE;
+  conf.master.clk_speed = 100000;
+  i2c_param_config(i2c_master_port, &conf);
+  if(i2c_driver_install(i2c_master_port, conf.mode,0,0,0) != ESP_OK) 
+  {
+    ESP_LOGE(LOG_TAG,"Error initializing I2C master");
+    return ESP_FAIL;
+  }
+  return ESP_OK;
+}
+
 /** @brief CONTINOUS TASK - Process HID commands & send via HID wire to LPC
  * 
  * This task is used to receive a byte buffer, which contains a HID command
@@ -265,8 +302,11 @@ void halSerialHIDTask(void *param)
         //I2C driver sometimes return TIMEOUT...
         (void) ret;
         
-        if(ret != ESP_OK) ESP_LOGW(LOG_TAG,"I2C didn't succeed: 0x%X",ret);
-        else {
+        if(ret != ESP_OK)
+        {
+          ESP_LOGW(LOG_TAG,"I2C didn't succeed: 0x%X",ret);
+          halSerialInitI2C(true);
+        } else {
           #if LOG_LEVEL_SERIAL >= ESP_LOG_DEBUG
           ESP_LOGD(LOG_TAG,"I2C succeed");
           #endif
@@ -303,7 +343,12 @@ int halSerialReceiveI2CADC(uint8_t **data)
   esp_err_t ret = i2c_master_cmd_begin(I2C_NUM_0, cmd, 1000 / portTICK_RATE_MS);
   i2c_cmd_link_delete(cmd);
   if(ret == ESP_OK) return size;
-  else return -1;
+  else 
+  {
+    //try to re-initialize for next call.
+    halSerialInitI2C(true);
+    return -1;
+  }
 }
 
 /** @brief Read parsed AT commands from USB-Serial (USB-CDC)
@@ -530,20 +575,8 @@ esp_err_t halSerialInit(void)
   halSerialATCmds = xQueueCreate(CMDQUEUE_SIZE,sizeof(atcmd_t));
 
   /*++++ I2C config (sending HID commands; receiving ADC data) ++++*/
-  int i2c_master_port = I2C_NUM_0;
-  i2c_config_t conf;
-  conf.mode = I2C_MODE_MASTER;
-  conf.sda_io_num = HAL_IO_PIN_SDA;
-  conf.sda_pullup_en = GPIO_PULLUP_DISABLE;
-  conf.scl_io_num = HAL_IO_PIN_SCL;
-  conf.scl_pullup_en = GPIO_PULLUP_DISABLE;
-  conf.master.clk_speed = 100000;
-  i2c_param_config(i2c_master_port, &conf);
-  if(i2c_driver_install(i2c_master_port, conf.mode,0,0,0) != ESP_OK) 
-  {
-    ESP_LOGE(LOG_TAG,"Error initializing I2C master");
-    return ESP_FAIL;
-  }
+  halSerialInitI2C(false);
+  
 
   /*++++ task setup ++++*/
   //task for sending HID commands via I2C

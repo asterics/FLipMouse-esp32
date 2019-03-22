@@ -78,28 +78,42 @@
 #define TONE_STRONGSIP_ENTER_FREQ           300
 /** @brief Duration of enter strongsip mode tone
  * @see hal_adc.c */
-#define TONE_STRONGSIP_ENTER_DURATION       200
+#define TONE_STRONGSIP_ENTER_DURATION       300
 
 /** @brief Frequency of enter strongpuff mode tone
  * @see hal_adc.c */
 #define TONE_STRONGPUFF_ENTER_FREQ          400
 /** @brief Duration of enter strongpuff mode tone
  * @see hal_adc.c */
-#define TONE_STRONGPUFF_ENTER_DURATION      200
+#define TONE_STRONGPUFF_ENTER_DURATION      300
 
-/** @brief Frequency of exit strongsip mode tone
+/** @brief Frequency of exit strongsip mode tone (on a timeout)
  * @see hal_adc.c */
-#define TONE_STRONGSIP_EXIT_FREQ           300
-/** @brief Duration of exit strongsip mode tone
+#define TONE_STRONGSIP_EXIT_FREQ           150
+/** @brief Duration of exit strongsip mode tone (on a timeout)
  * @see hal_adc.c */
 #define TONE_STRONGSIP_EXIT_DURATION       100
 
-/** @brief Frequency of exit strongpuff mode tone
+/** @brief Frequency of exit strongpuff mode tone (on a timeout)
  * @see hal_adc.c */
-#define TONE_STRONGPUFF_EXIT_FREQ          400
-/** @brief Duration of exit strongpuff mode tone
+#define TONE_STRONGPUFF_EXIT_FREQ          150
+/** @brief Duration of exit strongpuff mode tone (on a timeout)
  * @see hal_adc.c */
 #define TONE_STRONGPUFF_EXIT_DURATION      100
+
+/** @brief Frequency of exit strongsip mode tone (on triggered action)
+ * @see hal_adc.c */
+#define TONE_STRONGSIP_ACTION_FREQ           300
+/** @brief Duration of exit strongsip mode tone (on triggered action)
+ * @see hal_adc.c */
+#define TONE_STRONGSIP_ACTION_DURATION       60
+
+/** @brief Frequency of exit strongpuff mode tone (on triggered action)
+ * @see hal_adc.c */
+#define TONE_STRONGPUFF_ACTION_FREQ          500
+/** @brief Duration of exit strongpuff mode tone (on triggered action)
+ * @see hal_adc.c */
+#define TONE_STRONGPUFF_ACTION_DURATION      60
 
 
 /*++++ in task_infrared, IR cmds related ++++*/

@@ -225,9 +225,9 @@ Here is the caller graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="task__webgui_8h_af4fe29c8fc1fde365cdb8344cb402156_icgraph.png" border="0" usemap="#task__webgui_8h_af4fe29c8fc1fde365cdb8344cb402156_icgraph" alt=""/></div>
 <map name="task__webgui_8h_af4fe29c8fc1fde365cdb8344cb402156_icgraph" id="task__webgui_8h_af4fe29c8fc1fde365cdb8344cb402156_icgraph">
-<area shape="rect" id="node2" href="flipmouse__fabi__esp32__kbdmouse__main_8c.html#a93e2ea21db142b4c7172565051a18cb1" title="Switch radio mode. " alt="" coords="214,5,309,32"/>
+<area shape="rect" id="node2" href="flipmouse__fabi__esp32__kbdmouse__main_8c.html#a93e2ea21db142b4c7172565051a18cb1" title="Switch radio mode. " alt="" coords="369,5,464,32"/>
 <area shape="rect" id="node4" href="task__webgui_8c.html#ae5ad2f76f20781fd8c89e542bcc8a551" title="Timer callback for disabling wifi. " alt="" coords="212,56,311,83"/>
-<area shape="rect" id="node3" href="flipmouse__fabi__esp32__kbdmouse__main_8c.html#abce06be17fc37d675118a678a8100a36" title="Main task, created by esp&#45;idf. " alt="" coords="377,5,456,32"/>
+<area shape="rect" id="node3" href="flipmouse__fabi__esp32__kbdmouse__main_8c.html#abce06be17fc37d675118a678a8100a36" title="Main task, created by esp&#45;idf. " alt="" coords="523,31,601,57"/>
 <area shape="rect" id="node5" href="task__webgui_8h.html#a669b9245d5040c0162481f7b24dbeea7" title="Init the web / DNS server and the web gui. " alt="" coords="359,56,475,83"/>
 </map>
 </div>
@@ -253,7 +253,7 @@ Here is the caller graph for this function:</div>
 <p>Init the web / DNS server and the web gui. </p>
 <p>This init function initializes the wifi, web server, dns server (captive portal) and the websocket.</p>
 <p>The web page is served from FAT file system (same partition as config files) via the http_server task. Communication between web page and FLipMouse/FABI is done by a websocket, which is provided via the ws_server task.</p>
-<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000013">Todo:</a></b></dt><dd>Activate/fix/test captive portal</dd></dl>
+<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000014">Todo:</a></b></dt><dd>Activate/fix/test captive portal</dd></dl>
 <dl class="section note"><dt>Note</dt><dd>Wifi is not enabled by default (BLE has priority), see taskWebGUIEnDisable </dd>
 <dd>
 IP Adress of the device is <b>192.168.10.1</b> </dd></dl>
@@ -265,7 +265,7 @@ IP Adress of the device is <b>192.168.10.1</b> </dd></dl>
 <dl class="section return"><dt>Returns</dt><dd>ESP_OK on success, ESP_FAIL otherwise</dd></dl>
 <p>This init function initializes the wifi, web server, dns server (captive portal) and the websocket.</p>
 <p>The web page is served from FAT file system (same partition as config files) via the http_server task. Communication between web page and FLipMouse/FABI is done by a websocket, which is provided via the ws_server task.</p>
-<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000012">Todo:</a></b></dt><dd>Activate/fix/test captive portal</dd></dl>
+<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000013">Todo:</a></b></dt><dd>Activate/fix/test captive portal</dd></dl>
 <dl class="section note"><dt>Note</dt><dd>Wifi is not enabled by default (BLE has priority), see taskWebGUIEnDisable </dd>
 <dd>
 IP Adress of the device is <b>192.168.10.1</b> </dd></dl>
@@ -277,6 +277,8 @@ IP Adress of the device is <b>192.168.10.1</b> </dd></dl>
 <dl class="section return"><dt>Returns</dt><dd>ESP_OK on success, ESP_FAIL otherwise </dd></dl>
 
 <p class="definition">Definition at line <a class="el" href="task__webgui_8c_source.html#l00612">612</a> of file <a class="el" href="task__webgui_8c_source.html">task_webgui.c</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c_source.html#l00114">app_main()</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -308,6 +310,14 @@ Here is the call graph for this function:</div>
 <area shape="rect" id="node25" href="hal__serial_8c.html#a143968f329a010a1075a81b976579605" title="Set an additional function for outputting the serial data. " alt="" coords="417,419,593,445"/>
 <area shape="rect" id="node26" href="websocket_8c.html#a215997a5d454937f96cf800e1a44e599" title="WS_write_data" alt="" coords="450,469,561,496"/>
 <area shape="rect" id="node27" href="websocket_8c.html#afc7ea5da54622021156f0df84063abb4" title="ws_server_netconn_serve" alt="" coords="418,520,593,547"/>
+</map>
+</div>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="task__webgui_8h_a669b9245d5040c0162481f7b24dbeea7_icgraph.png" border="0" usemap="#task__webgui_8h_a669b9245d5040c0162481f7b24dbeea7_icgraph" alt=""/></div>
+<map name="task__webgui_8h_a669b9245d5040c0162481f7b24dbeea7_icgraph" id="task__webgui_8h_a669b9245d5040c0162481f7b24dbeea7_icgraph">
+<area shape="rect" id="node2" href="flipmouse__fabi__esp32__kbdmouse__main_8c.html#abce06be17fc37d675118a678a8100a36" title="Main task, created by esp&#45;idf. " alt="" coords="169,5,248,32"/>
 </map>
 </div>
 

@@ -13,7 +13,6 @@ var searchData=
   ['debouncer_5fin',['debouncer_in',['../flipmouse__fabi__esp32__kbdmouse__main_8c.html#aff21ac3bb81c6f24c9eec496d07f899c',1,'debouncer_in():&#160;flipmouse_fabi_esp32_kbdmouse_main.c'],['../common_8h.html#aff21ac3bb81c6f24c9eec496d07f899c',1,'debouncer_in():&#160;flipmouse_fabi_esp32_kbdmouse_main.c']]],
   ['deinit_5ffinish',['deinit_finish',['../unionesp__hidd__cb__param__t.html#a3826b75a6d80c42d6dfe92a2f57053e0',1,'esp_hidd_cb_param_t']]],
   ['description',['description',['../structprf__char__pres__fmt.html#acc0aa4c749ac1fb4f7d0416f17b9afbe',1,'prf_char_pres_fmt']]],
-  ['deviceidentifier',['deviceIdentifier',['../structgeneralConfig.html#a40cad6af386ec12784926fcc16e0ba24',1,'generalConfig']]],
   ['dir',['dir',['../structdebouncer__cfg.html#aada9a0eb56d239fee6a950a957723811',1,'debouncer_cfg']]],
   ['disconnect',['disconnect',['../unionesp__hidd__cb__param__t.html#a814b1955e8b23567a0fcf6b6e164b30b',1,'esp_hidd_cb_param_t']]],
   ['dnsheader',['DnsHeader',['../captdns_8c.html#a43123036321354db8c5a5ee5eb3e19a2',1,'captdns.c']]],

@@ -65,7 +65,7 @@ $(function() {
 </div><!--header-->
 <div class="contents">
 
-<p>Output IR command.  
+<p>Struct for sending/receiving an IR command.  
  <a href="structhalIOIR.html#details">More...</a></p>
 
 <p><code>#include &lt;<a class="el" href="common_8h_source.html">common.h</a>&gt;</code></p>
@@ -73,16 +73,19 @@ $(function() {
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
 Data Fields</h2></td></tr>
 <tr class="memitem:a10f36898f86566eb85d3ea20ef447cec"><td class="memItemLeft" align="right" valign="top">rmt_item32_t *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structhalIOIR.html#a10f36898f86566eb85d3ea20ef447cec">buffer</a></td></tr>
+<tr class="memdesc:a10f36898f86566eb85d3ea20ef447cec"><td class="mdescLeft">&#160;</td><td class="mdescRight">Buffer for IR signal.  <a href="#a10f36898f86566eb85d3ea20ef447cec">More...</a><br /></td></tr>
 <tr class="separator:a10f36898f86566eb85d3ea20ef447cec"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:afd3cecb29246569077b5348487fb5d62"><td class="memItemLeft" align="right" valign="top">uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structhalIOIR.html#afd3cecb29246569077b5348487fb5d62">count</a></td></tr>
+<tr class="memdesc:afd3cecb29246569077b5348487fb5d62"><td class="mdescLeft">&#160;</td><td class="mdescRight">Count of rmt_item32_t items.  <a href="#afd3cecb29246569077b5348487fb5d62">More...</a><br /></td></tr>
 <tr class="separator:afd3cecb29246569077b5348487fb5d62"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:acc1ca503a0bbc3afd243a97708623157"><td class="memItemLeft" align="right" valign="top"><a class="el" href="common_8h.html#a24a8084ac55ddbcf555f8b931294609b">irstate_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structhalIOIR.html#acc1ca503a0bbc3afd243a97708623157">status</a></td></tr>
+<tr class="memdesc:acc1ca503a0bbc3afd243a97708623157"><td class="mdescLeft">&#160;</td><td class="mdescRight">Status of receiver.  <a href="#acc1ca503a0bbc3afd243a97708623157">More...</a><br /></td></tr>
 <tr class="separator:acc1ca503a0bbc3afd243a97708623157"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Output IR command. </p>
+<div class="textblock"><p>Struct for sending/receiving an IR command. </p>
 
-<p class="definition">Definition at line <a class="el" href="common_8h_source.html#l00492">492</a> of file <a class="el" href="common_8h_source.html">common.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="common_8h_source.html#l00549">549</a> of file <a class="el" href="common_8h_source.html">common.h</a>.</p>
 </div><h2 class="groupheader">Field Documentation</h2>
 <a id="a10f36898f86566eb85d3ea20ef447cec"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a10f36898f86566eb85d3ea20ef447cec">&#9670;&nbsp;</a></span>buffer</h2>
@@ -95,10 +98,12 @@ Data Fields</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Buffer for IR signal </p><dl class="section warning"><dt>Warning</dt><dd>Do not free this buffer! It will be freed by transmitting function </dd></dl>
+
+<p>Buffer for IR signal. </p>
+<dl class="section warning"><dt>Warning</dt><dd>Do not free this buffer! It will be freed by transmitting function </dd></dl>
 <dl class="section note"><dt>Note</dt><dd>In case of receiving, this buffer can be freed. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="common_8h_source.html#l00496">496</a> of file <a class="el" href="common_8h_source.html">common.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="common_8h_source.html#l00553">553</a> of file <a class="el" href="common_8h_source.html">common.h</a>.</p>
 
 <p class="reference">Referenced by <a class="el" href="fct__infrared_8c_source.html#l00090">fct_infrared_record()</a>, <a class="el" href="hal__io_8c_source.html#l00207">halIOIRRecvTask()</a>, <a class="el" href="hal__storage_8c_source.html#l01377">halStorageLoadIR()</a>, and <a class="el" href="hal__storage_8c_source.html#l01285">halStorageStoreIR()</a>.</p>
 
@@ -115,9 +120,10 @@ Data Fields</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Count of rmt_item32_t items </p>
 
-<p class="definition">Definition at line <a class="el" href="common_8h_source.html#l00498">498</a> of file <a class="el" href="common_8h_source.html">common.h</a>.</p>
+<p>Count of rmt_item32_t items. </p>
+
+<p class="definition">Definition at line <a class="el" href="common_8h_source.html#l00555">555</a> of file <a class="el" href="common_8h_source.html">common.h</a>.</p>
 
 <p class="reference">Referenced by <a class="el" href="fct__infrared_8c_source.html#l00046">fct_infrared_send()</a>, <a class="el" href="hal__io_8c_source.html#l00207">halIOIRRecvTask()</a>, <a class="el" href="hal__storage_8c_source.html#l01377">halStorageLoadIR()</a>, and <a class="el" href="hal__storage_8c_source.html#l01285">halStorageStoreIR()</a>.</p>
 
@@ -134,9 +140,10 @@ Data Fields</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Status of receiver </p>
 
-<p class="definition">Definition at line <a class="el" href="common_8h_source.html#l00500">500</a> of file <a class="el" href="common_8h_source.html">common.h</a>.</p>
+<p>Status of receiver. </p>
+
+<p class="definition">Definition at line <a class="el" href="common_8h_source.html#l00557">557</a> of file <a class="el" href="common_8h_source.html">common.h</a>.</p>
 
 <p class="reference">Referenced by <a class="el" href="fct__infrared_8c_source.html#l00090">fct_infrared_record()</a>, and <a class="el" href="hal__io_8c_source.html#l00207">halIOIRRecvTask()</a>.</p>
 

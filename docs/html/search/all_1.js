@@ -18,6 +18,8 @@ var searchData=
   ['adcdata_5ft',['adcData_t',['../hal__adc_8c.html#a1b8e8a5847a3065a88525a1f0448ef19',1,'hal_adc.c']]],
   ['adchandle',['adcHandle',['../hal__adc_8c.html#a647477d7fa0346f3159104abc97c297e',1,'hal_adc.c']]],
   ['adcsem',['adcSem',['../hal__adc_8c.html#a70c255d6fc596127309462e944fd47b1',1,'hal_adc.c']]],
+  ['adcstrongsem',['adcStrongSem',['../hal__adc_8c.html#a49508b7b235df10d22402485b5999394',1,'hal_adc.c']]],
+  ['adcstrongtimeouttimerhandle',['adcStrongTimeoutTimerHandle',['../hal__adc_8c.html#a9a201e70010bc10e310396cead8aff61',1,'hal_adc.c']]],
   ['adcstrongtimerhandle',['adcStrongTimerHandle',['../hal__adc_8c.html#aa76118ff0c7899ec509b6331b8326d43',1,'hal_adc.c']]],
   ['add_5fkeycode',['add_keycode',['../keyboard_8c.html#a5aebbf68f68f1d3212fb187ff156e5c1',1,'add_keycode(uint8_t keycode, uint8_t *keycode_arr):&#160;keyboard.c'],['../keyboard_8h.html#a5aebbf68f68f1d3212fb187ff156e5c1',1,'add_keycode(uint8_t keycode, uint8_t *keycode_arr):&#160;keyboard.c']]],
   ['ap_5fconfig',['ap_config',['../task__webgui_8c.html#aa27d3d77bf2e584af8b5d716c12b34fa',1,'task_webgui.c']]],

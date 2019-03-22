@@ -465,7 +465,7 @@ Here is the caller graph for this function:</div>
 
 <p>HAL TASK - IR receiving (recording) task. </p>
 <p>This task is used to store data from the RMT unit if the receiving of an IR code is started. By sending an element to the queue halIOIRRecvQueue, this task starts to receive any incoming IR signals. The status of the struct is updated (either finished, timeout or error) on any status change. Poll this value to see if the receiver is finished.</p>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="common_8h.html#af531911959683790ca7ae870f8462a16" title="Output IR command. ">halIOIR_t</a> </dd>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="common_8h.html#af531911959683790ca7ae870f8462a16" title="Struct for sending/receiving an IR command. ">halIOIR_t</a> </dd>
 <dd>
 <a class="el" href="hal__io_8h.html#a528414effa3559daeccac2474c3835ed" title="Queue to pend for any incoming infrared remote commands. ">halIOIRRecvQueue</a> </dd></dl>
 <dl class="params"><dt>Parameters</dt><dd>
@@ -653,7 +653,7 @@ LED_USE_NEOPIXEL </dd>
         </tr>
       </table>
 </div><div class="memdoc">
-<b>Initial value:</b><div class="fragment"><div class="line">= {</div><div class="line">      .rgb_led_type = RGB_LED_TYPE_WS2812,</div><div class="line">      .rmt_channel = RMT_CHANNEL_7,</div><div class="line">      .gpio = HAL_IO_PIN_NEOPIXEL,</div><div class="line">      .led_strip_length = <a class="code" href="common_8h.html#a0bd1824bfb24736925069b2b686f13f3">LED_NEOPIXEL_COUNT</a></div><div class="line">  }</div><div class="ttc" id="common_8h_html_a0bd1824bfb24736925069b2b686f13f3"><div class="ttname"><a href="common_8h.html#a0bd1824bfb24736925069b2b686f13f3">LED_NEOPIXEL_COUNT</a></div><div class="ttdeci">#define LED_NEOPIXEL_COUNT</div><div class="ttdoc">Set count of used Neopixels. </div><div class="ttdef"><b>Definition:</b> <a href="common_8h_source.html#l00081">common.h:81</a></div></div>
+<b>Initial value:</b><div class="fragment"><div class="line">= {</div><div class="line">      .rgb_led_type = RGB_LED_TYPE_WS2812,</div><div class="line">      .rmt_channel = RMT_CHANNEL_7,</div><div class="line">      .gpio = HAL_IO_PIN_NEOPIXEL,</div><div class="line">      .led_strip_length = <a class="code" href="common_8h.html#a0bd1824bfb24736925069b2b686f13f3">LED_NEOPIXEL_COUNT</a></div><div class="line">  }</div><div class="ttc" id="common_8h_html_a0bd1824bfb24736925069b2b686f13f3"><div class="ttname"><a href="common_8h.html#a0bd1824bfb24736925069b2b686f13f3">LED_NEOPIXEL_COUNT</a></div><div class="ttdeci">#define LED_NEOPIXEL_COUNT</div><div class="ttdoc">Set count of used Neopixels. </div><div class="ttdef"><b>Definition:</b> <a href="common_8h_source.html#l00078">common.h:78</a></div></div>
 </div><!-- fragment -->
 <p>Config struct for Neopixel strip. </p>
 

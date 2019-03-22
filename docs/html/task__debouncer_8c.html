@@ -153,7 +153,7 @@ Variables</h2></td></tr>
 </ul>
 <p>If one of these values is set for one dedicated VB, it will be used. If there is no setting, the device's default will be used. If the there is no default setting for this device, a hardcoded debounce time of DEBOUNCETIME_MS is used.</p>
 <dl class="section note"><dt>Note</dt><dd>For each VB, a debouncer_cfg_t element will be used. The size of this array is determined by VB_MAX. Please set this define accordingly!</dd></dl>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="common_8h.html#ab5317f063728fccb634ed05f689185bf">VB_MAX</a> </dd>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="common_8h.html#ab5317f063728fccb634ed05f689185bf" title="Limiter value, used for checking&amp;accessing any arrays. ">VB_MAX</a> </dd>
 <dd>
 <a class="el" href="task__debouncer_8h.html#adb027d7ba5fa2f4d411182ff9bbe735a" title="Default time before debounce kicks in and a raw_action input event is sent to the system event loop...">DEBOUNCETIME_MS</a> </dd>
 <dd>
@@ -161,7 +161,7 @@ Variables</h2></td></tr>
 <dd>
 <a class="el" href="common_8h.html#a42e7ef86e94a9411c736c9e33c6e53f6" title="RAW VB action type, sent to debouncer_in queue. ">raw_action_t</a> </dd>
 <dd>
-<a class="el" href="common_8h.html#a1d17932316265a53a6982a2526a4cada">generalConfig_t</a> </dd></dl>
+<a class="el" href="common_8h.html#a1d17932316265a53a6982a2526a4cada" title="Complete configuration for the current settings. ">generalConfig_t</a> </dd></dl>
 
 <p class="definition">Definition in file <a class="el" href="task__debouncer_8c_source.html">task_debouncer.c</a>.</p>
 </div><h2 class="groupheader">Macro Definition Documentation</h2>
@@ -328,14 +328,14 @@ Here is the caller graph for this function:</div>
 <p>Timer callback for debouncing. </p>
 <p>This callback is executed on an expired debounce timer. Depending on the timer functionality (determined by the argument struct), either the PRESS or RELEASE events are sent via the event loop.</p>
 <dl class="section see"><dt>See also</dt><dd><a class="el" href="task__debouncer_8c.html#a7f0ca2f9ffd6751707556a3a49618957" title="Timer config struct This struct is used to control one timer for debouncing. ">debouncer_cfg_t</a> </dd></dl>
-<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000008">Todo:</a></b></dt><dd>Add/test the deadtime functionality here </dd></dl>
+<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000009">Todo:</a></b></dt><dd>Add/test the deadtime functionality here </dd></dl>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">arg</td><td>Timer argument, of type debouncer_cfg_t </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000009">Todo:</a></b></dt><dd>Maybe we can replace this switch statement with a more flexible solution. </dd></dl>
+<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000010">Todo:</a></b></dt><dd>Maybe we can replace this switch statement with a more flexible solution. </dd></dl>
 
 <p class="definition">Definition at line <a class="el" href="task__debouncer_8c_source.html#l00218">218</a> of file <a class="el" href="task__debouncer_8c_source.html">task_debouncer.c</a>.</p>
 
@@ -574,7 +574,7 @@ DEBOUNCE_RESOLUTION_MS </dd>
 <a class="el" href="task__debouncer_8c.html#a2d2e1703805d96b2612eb4d76407360c" title="Array of timer configs. ">xTimers</a> </dd>
 <dd>
 <a class="el" href="task__debouncer_8c.html#ac6452bd8cc5e6e526cba4212d4e5f755" title="Timer callback for debouncing. ">debouncerCallback</a> </dd></dl>
-<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000010">Todo:</a></b></dt><dd>Add anti-tremor &amp; deadtime functionality </dd></dl>
+<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000011">Todo:</a></b></dt><dd>Add anti-tremor &amp; deadtime functionality </dd></dl>
 <dl class="section note"><dt>Note</dt><dd>We send here an additional release, just to be sure to release any actions (avoiding sticky actions for keys...)</dd>
 <dd>
 I think we should cancel only in the event of a set anti-tremor time. Otherwise we might loose e.g., key release events -&gt; sticky keys... </dd></dl>

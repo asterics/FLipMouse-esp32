@@ -212,7 +212,7 @@ The command parser itself is based on the cmd_parser project. See: &lt;addlinkhe
 
 <p class="definition">Definition at line <a class="el" href="task__commands_8h_source.html#l00092">92</a> of file <a class="el" href="task__commands_8h_source.html">task_commands.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="task__commands_8c_source.html#l01729">cmdParser()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="task__commands_8c_source.html#l01733">cmdParser()</a>.</p>
 
 </div>
 </div>
@@ -232,7 +232,7 @@ The command parser itself is based on the cmd_parser project. See: &lt;addlinkhe
 
 <p class="definition">Definition at line <a class="el" href="task__commands_8h_source.html#l00094">94</a> of file <a class="el" href="task__commands_8h_source.html">task_commands.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="task__commands_8c_source.html#l01729">cmdParser()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="task__commands_8c_source.html#l01733">cmdParser()</a>.</p>
 
 </div>
 </div>
@@ -252,7 +252,7 @@ The command parser itself is based on the cmd_parser project. See: &lt;addlinkhe
 
 <p class="definition">Definition at line <a class="el" href="task__commands_8h_source.html#l00090">90</a> of file <a class="el" href="task__commands_8h_source.html">task_commands.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="task__commands_8c_source.html#l01729">cmdParser()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="task__commands_8c_source.html#l01733">cmdParser()</a>.</p>
 
 </div>
 </div>
@@ -270,7 +270,7 @@ The command parser itself is based on the cmd_parser project. See: &lt;addlinkhe
 
 <p class="definition">Definition at line <a class="el" href="task__commands_8h_source.html#l00065">65</a> of file <a class="el" href="task__commands_8h_source.html">task_commands.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="task__commands_8c_source.html#l01685">taskCommandsInit()</a>, and <a class="el" href="task__commands_8c_source.html#l01705">taskCommandsRestart()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="task__commands_8c_source.html#l01689">taskCommandsInit()</a>, and <a class="el" href="task__commands_8c_source.html#l01709">taskCommandsRestart()</a>.</p>
 
 </div>
 </div>
@@ -517,9 +517,9 @@ We malloc in the parser for each string parameter. </dd></dl>
 <dl class="section note"><dt>Note</dt><dd>This is part of an external project, see <a href="https://gitlab.com/ba.1150/cmd_parser_esp32">https://gitlab.com/ba.1150/cmd_parser_esp32</a> </dd></dl>
 <dl class="section return"><dt>Returns</dt><dd>See cmd_retval. SUCCESS on success. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="task__commands_8c_source.html#l01729">1729</a> of file <a class="el" href="task__commands_8c_source.html">task_commands.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="task__commands_8c_source.html#l01733">1733</a> of file <a class="el" href="task__commands_8c_source.html">task_commands.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="task__commands_8c_source.html#l01355">task_commands()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="task__commands_8c_source.html#l01359">task_commands()</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
@@ -554,7 +554,7 @@ Here is the caller graph for this function:</div>
 <p>This method starts the command parser task, which handles incoming UART bytes &amp; responses if necessary. If necessary, this task deletes itself &amp; starts a CIM task (it MUST be the other way as well to restart the AT command parser) </p><dl class="section see"><dt>See also</dt><dd><a class="el" href="task__commands_8h.html#a26091155b4d85093239033d689f363d0" title="Restart the command parser task. ">taskCommandsRestart</a> </dd></dl>
 <dl class="section return"><dt>Returns</dt><dd>ESP_OK on success, ESP_FAIL otherwise </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="task__commands_8c_source.html#l01685">1685</a> of file <a class="el" href="task__commands_8c_source.html">task_commands.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="task__commands_8c_source.html#l01689">1689</a> of file <a class="el" href="task__commands_8c_source.html">task_commands.c</a>.</p>
 
 <p class="reference">Referenced by <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c_source.html#l00114">app_main()</a>.</p>
 <div class="dynheader">
@@ -565,29 +565,32 @@ Here is the call graph for this function:</div>
 <area shape="rect" id="node2" href="task__commands_8c.html#a7b36c39275d773aaedcb327ef4e1516f" title="task_commands" alt="" coords="185,208,304,235"/>
 <area shape="rect" id="node3" href="task__commands_8c.html#adf3aa67816eecac3e756189c9d61cbd2" title="checkqueues" alt="" coords="393,5,492,32"/>
 <area shape="rect" id="node4" href="hal__serial_8c.html#a0bb04b089362a7c58d189b0fc61bef96" title="Read parsed AT commands from USB&#45;Serial (USB&#45;CDC) " alt="" coords="352,56,533,83"/>
-<area shape="rect" id="node5" href="config__switcher_8c.html#a921538bec34d128a44a748fd5a2c391f" title="Get the current config struct. " alt="" coords="1209,208,1331,235"/>
-<area shape="rect" id="node6" href="task__commands_8c.html#a47ecaf44ece14424655c28d89b5921f9" title="Main parser. " alt="" coords="400,157,485,184"/>
+<area shape="rect" id="node5" href="config__switcher_8c.html#a921538bec34d128a44a748fd5a2c391f" title="Get the current config struct. " alt="" coords="1209,157,1331,184"/>
+<area shape="rect" id="node6" href="task__commands_8c.html#a47ecaf44ece14424655c28d89b5921f9" title="Main parser. " alt="" coords="400,259,485,285"/>
 <area shape="rect" id="node7" href="hal__serial_8c.html#af78683f30da18cfc19c2c91006ec6155" title="Send serial bytes to USB&#45;Serial (USB&#45;CDC) " alt="" coords="1412,208,1575,235"/>
 <area shape="rect" id="node8" href="common_8h.html#a76299b86e144434260dcab80323ec9da" title="Strips away t and 
-<area shape="rect" id="node9" href="task__commands_8c.html#a4d1c5de04f1c6c137f3a70e2e4720c46" title="Helper to route a VB cmd either directly to queue or add it to the list. " alt="" coords="395,360,491,387"/>
-<area shape="rect" id="node13" href="task__commands_8c.html#a2184ca9f2b257a0ef111fd4184bc56db" title="Helper to route a HID cmd either directly to queue or add it to the list. " alt="" coords="391,309,494,336"/>
-<area shape="rect" id="node15" href="config__switcher_8c.html#af8fae43accd789bf2355c79ff44c2ae9" title="Request config update. " alt="" coords="393,487,492,513"/>
-<area shape="rect" id="node10" href="handler__hid_8c.html#a1dfe8fbc4028b9ad4b6e892a349d1356" title="Remove HID command for a virtual button. " alt="" coords="777,309,917,336"/>
-<area shape="rect" id="node11" href="handler__vb_8c.html#a2958d0f22ea5d2c1d16a6dc7900ca38b" title="Add a new VB command for a virtual button. " alt="" coords="583,360,724,387"/>
-<area shape="rect" id="node12" href="handler__vb_8c.html#a12256e1d3f54e995d314eebf8b57e914" title="Remove command for a virtual button. " alt="" coords="779,259,916,285"/>
-<area shape="rect" id="node14" href="handler__hid_8c.html#ad7b90f2c2a4c57d871fc4c5fe4c63633" title="Add a new HID command for a virtual button. " alt="" coords="581,309,725,336"/>
-<area shape="rect" id="node16" href="hal__adc_8c.html#a4135bb73c2271b4a27db8d8d81884de7" title="Reload ADC config. " alt="" coords="582,461,725,488"/>
-<area shape="rect" id="node24" href="hal__ble_8c.html#accf307974a0046bce38582d0260bf841" title="Reset the BLE data. " alt="" coords="604,512,703,539"/>
-<area shape="rect" id="node27" href="hal__serial_8c.html#ab2261f95747ee5806ebdec880d09ca89" title="Reset the serial HID report data. " alt="" coords="600,563,707,589"/>
-<area shape="rect" id="node17" href="hal__adc_8c.html#accb1d998767113559a5a93fd9d0abb2c" title="Validate the input value and replace with default if not matching. " alt="" coords="814,461,881,488"/>
-<area shape="rect" id="node18" href="hal__adc_8c.html#aee719704e643d27c1faab768cf4bc22e" title="HAL TASK &#45; Threshold task for ADC. " alt="" coords="773,360,921,387"/>
-<area shape="rect" id="node19" href="hal__adc_8c.html#a8743abcde6f190545c429f072c16106d" title="Report raw values via serial interface. " alt="" coords="1206,360,1334,387"/>
-<area shape="rect" id="node21" href="hal__adc_8c.html#a78419739020988cffc83ffcbc7103b05" title="Process pressure sensor (sip &amp; puff) " alt="" coords="969,309,1132,336"/>
-<area shape="rect" id="node20" href="hal__serial_8c.html#a5dd33d8e55ba33bdecfa78bc11c618b3" title="Read ADC data via I2C from LPC chip. " alt="" coords="1408,360,1579,387"/>
-<area shape="rect" id="node22" href="hal__adc_8c.html#a3cddaa804609f2e34f3cbda1d43ff1b4" title="Trigger strong sip/puff + action according to input data. " alt="" coords="1180,259,1360,285"/>
-<area shape="rect" id="node23" href="hal__adc_8c.html#ae549c157d94729e8b06cb391f0f2c97b" title="Calibration function. " alt="" coords="1213,309,1327,336"/>
-<area shape="rect" id="node25" href="hid__dev_8c.html#a8ae7c69dfd4b740534df123a303a8832" title="hid_dev_send_report" alt="" coords="776,512,919,539"/>
-<area shape="rect" id="node26" href="hid__dev_8c.html#a1a247bc038a3368cea0bde2303aa8301" title="hid_dev_rpt_by_id" alt="" coords="987,512,1114,539"/>
+<area shape="rect" id="node9" href="task__commands_8c.html#a4d1c5de04f1c6c137f3a70e2e4720c46" title="Helper to route a VB cmd either directly to queue or add it to the list. " alt="" coords="395,461,491,488"/>
+<area shape="rect" id="node13" href="task__commands_8c.html#a2184ca9f2b257a0ef111fd4184bc56db" title="Helper to route a HID cmd either directly to queue or add it to the list. " alt="" coords="391,360,494,387"/>
+<area shape="rect" id="node15" href="config__switcher_8c.html#af8fae43accd789bf2355c79ff44c2ae9" title="Request config update. " alt="" coords="393,208,492,235"/>
+<area shape="rect" id="node10" href="handler__hid_8c.html#a1dfe8fbc4028b9ad4b6e892a349d1356" title="Remove HID command for a virtual button. " alt="" coords="777,505,917,532"/>
+<area shape="rect" id="node11" href="handler__vb_8c.html#a2958d0f22ea5d2c1d16a6dc7900ca38b" title="Add a new VB command for a virtual button. " alt="" coords="583,461,724,488"/>
+<area shape="rect" id="node12" href="handler__vb_8c.html#a12256e1d3f54e995d314eebf8b57e914" title="Remove command for a virtual button. " alt="" coords="779,429,916,456"/>
+<area shape="rect" id="node14" href="handler__hid_8c.html#ad7b90f2c2a4c57d871fc4c5fe4c63633" title="Add a new HID command for a virtual button. " alt="" coords="581,411,725,437"/>
+<area shape="rect" id="node16" href="hal__adc_8c.html#a4135bb73c2271b4a27db8d8d81884de7" title="Reload ADC config. " alt="" coords="582,208,725,235"/>
+<area shape="rect" id="node27" href="hal__ble_8c.html#accf307974a0046bce38582d0260bf841" title="Reset the BLE data. " alt="" coords="604,259,703,285"/>
+<area shape="rect" id="node30" href="hal__serial_8c.html#ab2261f95747ee5806ebdec880d09ca89" title="Reset the serial HID report data. " alt="" coords="600,309,707,336"/>
+<area shape="rect" id="node17" href="hal__adc_8c.html#accb1d998767113559a5a93fd9d0abb2c" title="Validate the input value and replace with default if not matching. " alt="" coords="814,309,881,336"/>
+<area shape="rect" id="node18" href="hal__adc_8c.html#aee719704e643d27c1faab768cf4bc22e" title="HAL TASK &#45; Threshold task for ADC. " alt="" coords="773,259,921,285"/>
+<area shape="rect" id="node19" href="hal__adc_8c.html#a3cddaa804609f2e34f3cbda1d43ff1b4" title="Trigger strong sip/puff + action according to input data. " alt="" coords="1180,411,1360,437"/>
+<area shape="rect" id="node20" href="hal__adc_8c.html#a8743abcde6f190545c429f072c16106d" title="Report raw values via serial interface. " alt="" coords="1206,360,1334,387"/>
+<area shape="rect" id="node23" href="hal__adc_8c.html#a78419739020988cffc83ffcbc7103b05" title="Process pressure sensor (sip &amp; puff) " alt="" coords="969,259,1132,285"/>
+<area shape="rect" id="node21" href="hal__serial_8c.html#a5dd33d8e55ba33bdecfa78bc11c618b3" title="Read ADC data via I2C from LPC chip. " alt="" coords="1408,360,1579,387"/>
+<area shape="rect" id="node22" href="hal__serial_8c.html#a4d756bd77bd3ad6e8b7f7411a1624baa" title="Initialize I2C for reading ADC values from LPC. " alt="" coords="1627,360,1737,387"/>
+<area shape="rect" id="node24" href="handler__hid_8c.html#ad5f00875286c562930f8a80d6a513c51" title="Check if a VB is active in this handler. " alt="" coords="1205,309,1335,336"/>
+<area shape="rect" id="node25" href="handler__vb_8c.html#ad51537b78005f099e2422d4a715874da" title="Check if a VB is active in this handler. " alt="" coords="1207,208,1333,235"/>
+<area shape="rect" id="node26" href="hal__adc_8c.html#ae549c157d94729e8b06cb391f0f2c97b" title="Calibration function. " alt="" coords="1213,259,1327,285"/>
+<area shape="rect" id="node28" href="hid__dev_8c.html#a8ae7c69dfd4b740534df123a303a8832" title="hid_dev_send_report" alt="" coords="776,367,919,393"/>
+<area shape="rect" id="node29" href="hid__dev_8c.html#a1a247bc038a3368cea0bde2303aa8301" title="hid_dev_rpt_by_id" alt="" coords="987,411,1114,437"/>
 </map>
 </div>
 <div class="dynheader">
@@ -622,7 +625,7 @@ Here is the caller graph for this function:</div>
 <p>Restart the command parser task</p>
 <p>This method is used, if the CIM parser detects AT commands and stops itself, providing the AT command set again. </p><dl class="section return"><dt>Returns</dt><dd>ESP_OK on success, ESP_FAIL otherwise (cannot start task, task already running) </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="task__commands_8c_source.html#l01705">1705</a> of file <a class="el" href="task__commands_8c_source.html">task_commands.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="task__commands_8c_source.html#l01709">1709</a> of file <a class="el" href="task__commands_8c_source.html">task_commands.c</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -631,29 +634,32 @@ Here is the call graph for this function:</div>
 <area shape="rect" id="node2" href="task__commands_8c.html#a7b36c39275d773aaedcb327ef4e1516f" title="task_commands" alt="" coords="211,208,329,235"/>
 <area shape="rect" id="node3" href="task__commands_8c.html#adf3aa67816eecac3e756189c9d61cbd2" title="checkqueues" alt="" coords="419,5,517,32"/>
 <area shape="rect" id="node4" href="hal__serial_8c.html#a0bb04b089362a7c58d189b0fc61bef96" title="Read parsed AT commands from USB&#45;Serial (USB&#45;CDC) " alt="" coords="377,56,559,83"/>
-<area shape="rect" id="node5" href="config__switcher_8c.html#a921538bec34d128a44a748fd5a2c391f" title="Get the current config struct. " alt="" coords="1235,208,1356,235"/>
-<area shape="rect" id="node6" href="task__commands_8c.html#a47ecaf44ece14424655c28d89b5921f9" title="Main parser. " alt="" coords="425,157,511,184"/>
+<area shape="rect" id="node5" href="config__switcher_8c.html#a921538bec34d128a44a748fd5a2c391f" title="Get the current config struct. " alt="" coords="1235,157,1356,184"/>
+<area shape="rect" id="node6" href="task__commands_8c.html#a47ecaf44ece14424655c28d89b5921f9" title="Main parser. " alt="" coords="425,259,511,285"/>
 <area shape="rect" id="node7" href="hal__serial_8c.html#af78683f30da18cfc19c2c91006ec6155" title="Send serial bytes to USB&#45;Serial (USB&#45;CDC) " alt="" coords="1437,208,1600,235"/>
 <area shape="rect" id="node8" href="common_8h.html#a76299b86e144434260dcab80323ec9da" title="Strips away t and 
-<area shape="rect" id="node9" href="task__commands_8c.html#a4d1c5de04f1c6c137f3a70e2e4720c46" title="Helper to route a VB cmd either directly to queue or add it to the list. " alt="" coords="420,360,516,387"/>
-<area shape="rect" id="node13" href="task__commands_8c.html#a2184ca9f2b257a0ef111fd4184bc56db" title="Helper to route a HID cmd either directly to queue or add it to the list. " alt="" coords="417,309,519,336"/>
-<area shape="rect" id="node15" href="config__switcher_8c.html#af8fae43accd789bf2355c79ff44c2ae9" title="Request config update. " alt="" coords="419,487,517,513"/>
-<area shape="rect" id="node10" href="handler__hid_8c.html#a1dfe8fbc4028b9ad4b6e892a349d1356" title="Remove HID command for a virtual button. " alt="" coords="803,309,943,336"/>
-<area shape="rect" id="node11" href="handler__vb_8c.html#a2958d0f22ea5d2c1d16a6dc7900ca38b" title="Add a new VB command for a virtual button. " alt="" coords="608,360,749,387"/>
-<area shape="rect" id="node12" href="handler__vb_8c.html#a12256e1d3f54e995d314eebf8b57e914" title="Remove command for a virtual button. " alt="" coords="804,259,941,285"/>
-<area shape="rect" id="node14" href="handler__hid_8c.html#ad7b90f2c2a4c57d871fc4c5fe4c63633" title="Add a new HID command for a virtual button. " alt="" coords="607,309,751,336"/>
-<area shape="rect" id="node16" href="hal__adc_8c.html#a4135bb73c2271b4a27db8d8d81884de7" title="Reload ADC config. " alt="" coords="607,461,750,488"/>
-<area shape="rect" id="node24" href="hal__ble_8c.html#accf307974a0046bce38582d0260bf841" title="Reset the BLE data. " alt="" coords="629,512,728,539"/>
-<area shape="rect" id="node27" href="hal__serial_8c.html#ab2261f95747ee5806ebdec880d09ca89" title="Reset the serial HID report data. " alt="" coords="625,563,732,589"/>
-<area shape="rect" id="node17" href="hal__adc_8c.html#accb1d998767113559a5a93fd9d0abb2c" title="Validate the input value and replace with default if not matching. " alt="" coords="839,461,906,488"/>
-<area shape="rect" id="node18" href="hal__adc_8c.html#aee719704e643d27c1faab768cf4bc22e" title="HAL TASK &#45; Threshold task for ADC. " alt="" coords="799,360,947,387"/>
-<area shape="rect" id="node19" href="hal__adc_8c.html#a8743abcde6f190545c429f072c16106d" title="Report raw values via serial interface. " alt="" coords="1231,360,1359,387"/>
-<area shape="rect" id="node21" href="hal__adc_8c.html#a78419739020988cffc83ffcbc7103b05" title="Process pressure sensor (sip &amp; puff) " alt="" coords="995,309,1157,336"/>
-<area shape="rect" id="node20" href="hal__serial_8c.html#a5dd33d8e55ba33bdecfa78bc11c618b3" title="Read ADC data via I2C from LPC chip. " alt="" coords="1433,360,1604,387"/>
-<area shape="rect" id="node22" href="hal__adc_8c.html#a3cddaa804609f2e34f3cbda1d43ff1b4" title="Trigger strong sip/puff + action according to input data. " alt="" coords="1205,259,1385,285"/>
-<area shape="rect" id="node23" href="hal__adc_8c.html#ae549c157d94729e8b06cb391f0f2c97b" title="Calibration function. " alt="" coords="1238,309,1353,336"/>
-<area shape="rect" id="node25" href="hid__dev_8c.html#a8ae7c69dfd4b740534df123a303a8832" title="hid_dev_send_report" alt="" coords="801,512,944,539"/>
-<area shape="rect" id="node26" href="hid__dev_8c.html#a1a247bc038a3368cea0bde2303aa8301" title="hid_dev_rpt_by_id" alt="" coords="1013,512,1139,539"/>
+<area shape="rect" id="node9" href="task__commands_8c.html#a4d1c5de04f1c6c137f3a70e2e4720c46" title="Helper to route a VB cmd either directly to queue or add it to the list. " alt="" coords="420,461,516,488"/>
+<area shape="rect" id="node13" href="task__commands_8c.html#a2184ca9f2b257a0ef111fd4184bc56db" title="Helper to route a HID cmd either directly to queue or add it to the list. " alt="" coords="417,360,519,387"/>
+<area shape="rect" id="node15" href="config__switcher_8c.html#af8fae43accd789bf2355c79ff44c2ae9" title="Request config update. " alt="" coords="419,208,517,235"/>
+<area shape="rect" id="node10" href="handler__hid_8c.html#a1dfe8fbc4028b9ad4b6e892a349d1356" title="Remove HID command for a virtual button. " alt="" coords="803,505,943,532"/>
+<area shape="rect" id="node11" href="handler__vb_8c.html#a2958d0f22ea5d2c1d16a6dc7900ca38b" title="Add a new VB command for a virtual button. " alt="" coords="608,461,749,488"/>
+<area shape="rect" id="node12" href="handler__vb_8c.html#a12256e1d3f54e995d314eebf8b57e914" title="Remove command for a virtual button. " alt="" coords="804,429,941,456"/>
+<area shape="rect" id="node14" href="handler__hid_8c.html#ad7b90f2c2a4c57d871fc4c5fe4c63633" title="Add a new HID command for a virtual button. " alt="" coords="607,411,751,437"/>
+<area shape="rect" id="node16" href="hal__adc_8c.html#a4135bb73c2271b4a27db8d8d81884de7" title="Reload ADC config. " alt="" coords="607,208,750,235"/>
+<area shape="rect" id="node27" href="hal__ble_8c.html#accf307974a0046bce38582d0260bf841" title="Reset the BLE data. " alt="" coords="629,259,728,285"/>
+<area shape="rect" id="node30" href="hal__serial_8c.html#ab2261f95747ee5806ebdec880d09ca89" title="Reset the serial HID report data. " alt="" coords="625,309,732,336"/>
+<area shape="rect" id="node17" href="hal__adc_8c.html#accb1d998767113559a5a93fd9d0abb2c" title="Validate the input value and replace with default if not matching. " alt="" coords="839,309,906,336"/>
+<area shape="rect" id="node18" href="hal__adc_8c.html#aee719704e643d27c1faab768cf4bc22e" title="HAL TASK &#45; Threshold task for ADC. " alt="" coords="799,259,947,285"/>
+<area shape="rect" id="node19" href="hal__adc_8c.html#a3cddaa804609f2e34f3cbda1d43ff1b4" title="Trigger strong sip/puff + action according to input data. " alt="" coords="1205,411,1385,437"/>
+<area shape="rect" id="node20" href="hal__adc_8c.html#a8743abcde6f190545c429f072c16106d" title="Report raw values via serial interface. " alt="" coords="1231,360,1359,387"/>
+<area shape="rect" id="node23" href="hal__adc_8c.html#a78419739020988cffc83ffcbc7103b05" title="Process pressure sensor (sip &amp; puff) " alt="" coords="995,259,1157,285"/>
+<area shape="rect" id="node21" href="hal__serial_8c.html#a5dd33d8e55ba33bdecfa78bc11c618b3" title="Read ADC data via I2C from LPC chip. " alt="" coords="1433,360,1604,387"/>
+<area shape="rect" id="node22" href="hal__serial_8c.html#a4d756bd77bd3ad6e8b7f7411a1624baa" title="Initialize I2C for reading ADC values from LPC. " alt="" coords="1652,360,1763,387"/>
+<area shape="rect" id="node24" href="handler__hid_8c.html#ad5f00875286c562930f8a80d6a513c51" title="Check if a VB is active in this handler. " alt="" coords="1230,309,1361,336"/>
+<area shape="rect" id="node25" href="handler__vb_8c.html#ad51537b78005f099e2422d4a715874da" title="Check if a VB is active in this handler. " alt="" coords="1232,208,1359,235"/>
+<area shape="rect" id="node26" href="hal__adc_8c.html#ae549c157d94729e8b06cb391f0f2c97b" title="Calibration function. " alt="" coords="1238,259,1353,285"/>
+<area shape="rect" id="node28" href="hid__dev_8c.html#a8ae7c69dfd4b740534df123a303a8832" title="hid_dev_send_report" alt="" coords="801,367,944,393"/>
+<area shape="rect" id="node29" href="hid__dev_8c.html#a1a247bc038a3368cea0bde2303aa8301" title="hid_dev_rpt_by_id" alt="" coords="1013,411,1139,437"/>
 </map>
 </div>
 

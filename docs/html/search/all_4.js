@@ -26,7 +26,6 @@ var searchData=
   ['deinit_5ffinish',['deinit_finish',['../unionesp__hidd__cb__param__t.html#a3826b75a6d80c42d6dfe92a2f57053e0',1,'esp_hidd_cb_param_t']]],
   ['description',['description',['../structprf__char__pres__fmt.html#acc0aa4c749ac1fb4f7d0416f17b9afbe',1,'prf_char_pres_fmt']]],
   ['device_5fflipmouse',['DEVICE_FLIPMOUSE',['../common_8h.html#ac9a214fe0920b60586b7cd204ad0ce0a',1,'common.h']]],
-  ['deviceidentifier',['deviceIdentifier',['../structgeneralConfig.html#a40cad6af386ec12784926fcc16e0ba24',1,'generalConfig']]],
   ['dir',['dir',['../structdebouncer__cfg.html#aada9a0eb56d239fee6a950a957723811',1,'debouncer_cfg']]],
   ['disconnect',['disconnect',['../unionesp__hidd__cb__param__t.html#a814b1955e8b23567a0fcf6b6e164b30b',1,'esp_hidd_cb_param_t']]],
   ['dns_5flen',['DNS_LEN',['../captdns_8c.html#a15a2237f736c340b151e2c5c957bccf9',1,'captdns.c']]],

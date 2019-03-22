@@ -37,9 +37,7 @@
  * trigger a zero-point calibration of the mouthpiece.
  * 
  * @see adc_config_t
- * @todo Add CIM reporting...
- * @todo Test the on-the-fly calibration
- * @todo Do Strong<Sip/puff>+<UP/DOWN/LEFT/RIGHT>
+ * @todo Add CIM reporting (if we implement it at all)
  * */
  
 #include "hal_adc.h"
@@ -142,6 +140,11 @@ uint32_t validate(uint32_t value, uint32_t min, uint32_t max, uint32_t defaultVa
  * STRONG_PUFF combined with an additional mouthpiece movement.
  * It should only be triggered if there is no VB_STRONGPUFF / VB_STRONGSIP
  * action is defined (this is handled in halAdcProcessPressure ).
+ * 
+ * We use 2 RTOS timers here: One for a delay between entering strong mode
+ * and triggering an action. The second timer is used for a timeout,
+ * if no additional action is triggered and we should leave the strong
+ * mode.
  * 
  * @see halAdcProcessPressure
  * @see VB_STRONGPUFF
@@ -456,8 +459,21 @@ void halAdcReadData(adcData_t *values)
 #endif /* DEVICE_FLIPMOUSE */
 
 /** @brief Process pressure sensor (sip & puff)
- * @todo Process strong sip&puff
- * @param pressurevalue Currently measured pressure.
+ * 
+ * This function takes care of pressure handling.
+ * If the pressure value is within the sip/puff range (but not 
+ * in strong range), a VB_SIP/VB_PUFF action is triggered.
+ * 
+ * For STRONG_SIP/STRONG_PUFF, the handling depends on the settings
+ * for these buttons (example for puff, the same applies for sip): <br>
+ * If VB_STRONGPUFF_UP/DOWN/LEFT/RIGHT is active, the device enters
+ * the strong mode. In this case, strong_mode will be set to sip/puff.
+ * Further handling is done in halAdcProcessStrongMode.
+ * If VB_STRONGPUFF_UP/DOWN/LEFT/RIGHT is unset (none of these are active),
+ * the VB_STRONGPUFF action is triggered immediately. 
+ * 
+ * @see halAdcProcessStrongMode
+ * @param D Currently measured ADC data.
  * */
 void halAdcProcessPressure(adcData_t *D)
 {
@@ -646,7 +662,6 @@ void halAdcTaskMouse(void * pvParameters)
     static uint16_t accelTimeX=0,accelTimeY=0;
     int32_t tempX,tempY;
     float moveVal, accumXpos = 0, accumYpos = 0;
-    //todo: use a define for the delay here... (currently used: value from vTaskDelay())
     float accelFactor= 20 / 100000000.0f;
     hid_cmd_t command,command2;
     TickType_t xLastWakeTime;
@@ -1128,7 +1143,6 @@ void halAdcTaskThreshold(void * pvParameters)
  * to switch the mouthpiece mode from e.g., Joystick to Mouse to 
  * Alternative Mode (Threshold operated).
  * @param params New ADC config
- * @todo Clear pending VB flags on a config switch
  * @return ESP_OK on success, ESP_FAIL otherwise (wrong config, out of memory)
  * */
 esp_err_t halAdcUpdateConfig(adc_config_t* params)
@@ -1222,9 +1236,6 @@ esp_err_t halAdcUpdateConfig(adc_config_t* params)
     ESP_LOG_BUFFER_HEXDUMP(LOG_TAG,&adc_conf,sizeof(adc_config_t),ESP_LOG_DEBUG);
     //give mutex
     xSemaphoreGive(adcSem);
-    //calibrate
-    ///@todo If we calibrate here, it will get slow because this method is called every time one parameter is changed.
-    //halAdcCalibrate();
     return ESP_OK;
 }
 

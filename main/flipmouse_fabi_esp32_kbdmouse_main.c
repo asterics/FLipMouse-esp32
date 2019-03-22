@@ -226,12 +226,12 @@ void app_main()
         ESP_LOGE(LOG_TAG,"error initializing halBle");
     }
     
-    /*if(taskWebGUIInit() == ESP_OK)
+    if(taskWebGUIInit() == ESP_OK)
     {
         ESP_LOGD(LOG_TAG,"initialized webserver/DNS server/webgui");
     } else {
         ESP_LOGE(LOG_TAG,"error initializing webserver/DNS server/webgui");
-    }*/
+    }
     
     //TESTING
     #if 0

@@ -110,7 +110,15 @@ static int32_t offsetx,offsety;
 /** @brief Timer for strong mode timeout
  * This timer is used for a timeout moving back to STRONG_NORMAL if
  * we entered a STRONG_PUFF or STRONG_SIP mode and no action was triggered*/
+TimerHandle_t adcStrongTimeoutTimerHandle;
+
+/** @brief Timer for strong mode delay
+ * This timer is used for waiting before checking for the additional action
+ * (up,down,left,right)*/
 TimerHandle_t adcStrongTimerHandle;
+
+/** @brief Semaphore, to signal a short delay for checking strong mode */
+SemaphoreHandle_t adcStrongSem;
 
 /** @brief Validate the input value and replace with default if not matching
  * @param value Value to be validated
@@ -158,71 +166,87 @@ void halAdcProcessStrongMode(adcData_t *D)
         return;
     #endif
     
+    //cannot do anything here if we are not in a special mode.
+    if(D->strongmode == STRONG_NORMAL) return;
+    
     #ifdef DEVICE_FLIPMOUSE
-    if(adcStrongTimerHandle == NULL)
+    if(adcStrongTimerHandle == NULL || adcStrongTimeoutTimerHandle == NULL)
     {
         ESP_LOGE(LOG_TAG,"Strong mode timer uninitialized!!!");
         return;
     }
     
-    //timer is not started, and we have a mode != NORMAL
-    if((xTimerIsTimerActive(adcStrongTimerHandle) == pdFALSE) && (D->strongmode != STRONG_NORMAL))
+    //timer is not started
+    if(xTimerIsTimerActive(adcStrongTimeoutTimerHandle) == pdFALSE)
     {
         //than we need to start a timer for the timeout moving back to NORMAL
-        xTimerStart(adcStrongTimerHandle,0);
+        xTimerReset(adcStrongTimeoutTimerHandle,0);
+        //in addition, we start a timer to wait for a defined delay
+        xTimerReset(adcStrongTimerHandle,0);
         //return in this case & wait for next iteration
         return;
     }
     
-    //if we have a mode != NORMAL
-    if(D->strongmode != STRONG_NORMAL)
+    //check if we have a movement in any direction
+    if(D->x != 0 || D->y != 0)
     {
-        //check if we have a movement in any direction
-        if(D->x != 0 || D->y != 0)
+        //check if it is possible to trigger the next action
+        //(delay has passed -> adcStrongSem is free)
+        if(uxSemaphoreGetCount(adcStrongSem) == 0) return;
+        xSemaphoreTake(adcStrongSem,0);
+        
+        //cancel timer for idle time
+        xTimerStop(adcStrongTimerHandle,0);
+    
+        //if yes, trigger action (depending on SIP/PUFF mode)
+        if(D->strongmode == STRONG_PUFF)
         {
-            //if yes, trigger action (depending on SIP/PUFF mode)
-            if(D->strongmode == STRONG_PUFF)
+            if(abs(D->x) > abs(D->y))
             {
-                if(abs(D->x) > abs(D->y))
-                {
-                    //x has higher values -> use LEFT/RIGHT
-                    if(D->x > 0) evt.vb = VB_STRONGPUFF_RIGHT;
-                    else evt.vb = VB_STRONGPUFF_LEFT;
-                    evt.type = VB_PRESS_EVENT;
-                    xQueueSendToBack(debouncer_in,&evt,0);
-                } else {
-                    //y has higher values -> use UP/DOWN
-                    if(D->y > 0) evt.vb = VB_STRONGPUFF_DOWN;
-                    else evt.vb = VB_STRONGPUFF_UP;
-                    evt.type = VB_PRESS_EVENT;
-                    xQueueSendToBack(debouncer_in,&evt,0);
-                }
+                //x has higher values -> use LEFT/RIGHT
+                if(D->x > 0) evt.vb = VB_STRONGPUFF_RIGHT;
+                else evt.vb = VB_STRONGPUFF_LEFT;
+                evt.type = VB_PRESS_EVENT;
+                xQueueSendToBack(debouncer_in,&evt,0);
+                ESP_LOGI(LOG_TAG,"Exit STRONG: PUFF + LEFT/RIGHT");
+            } else {
+                //y has higher values -> use UP/DOWN
+                if(D->y > 0) evt.vb = VB_STRONGPUFF_DOWN;
+                else evt.vb = VB_STRONGPUFF_UP;
+                evt.type = VB_PRESS_EVENT;
+                xQueueSendToBack(debouncer_in,&evt,0);
+                ESP_LOGI(LOG_TAG,"Exit STRONG: PUFF + UP/DOWN");
+                
             }
-            if(D->strongmode == STRONG_SIP)
-            {
-                if(abs(D->x) > abs(D->y))
-                {
-                    //x has higher values -> use LEFT/RIGHT
-                    if(D->x > 0) evt.vb = VB_STRONGSIP_RIGHT;
-                    else evt.vb = VB_STRONGSIP_LEFT;
-                    evt.type = VB_PRESS_EVENT;
-                    xQueueSendToBack(debouncer_in,&evt,0);
-                } else {
-                    //y has higher values -> use UP/DOWN
-                    if(D->y > 0) evt.vb = VB_STRONGSIP_DOWN;
-                    else evt.vb = VB_STRONGSIP_UP;
-                    evt.type = VB_PRESS_EVENT;
-                    xQueueSendToBack(debouncer_in,&evt,0);
-                }
-            }
-            //cancel timer
-            xTimerStop(adcStrongTimerHandle,0);
-            xTimerReset(adcStrongTimerHandle,0);
-
-            //and set back to normal
+            //stop the timeout timer
+            xTimerStop(adcStrongTimeoutTimerHandle,0);
+            //reset strong mode after sending the action
             D->strongmode = STRONG_NORMAL;
         }
-    }    
+        if(D->strongmode == STRONG_SIP)
+        {
+            if(abs(D->x) > abs(D->y))
+            {
+                //x has higher values -> use LEFT/RIGHT
+                if(D->x > 0) evt.vb = VB_STRONGSIP_RIGHT;
+                else evt.vb = VB_STRONGSIP_LEFT;
+                evt.type = VB_PRESS_EVENT;
+                xQueueSendToBack(debouncer_in,&evt,0);
+                ESP_LOGI(LOG_TAG,"Exit STRONG: SIP + LEFT/RIGHT");
+            } else {
+                //y has higher values -> use UP/DOWN
+                if(D->y > 0) evt.vb = VB_STRONGSIP_DOWN;
+                else evt.vb = VB_STRONGSIP_UP;
+                evt.type = VB_PRESS_EVENT;
+                xQueueSendToBack(debouncer_in,&evt,0);
+                ESP_LOGI(LOG_TAG,"Exit STRONG: SIP + UP/DOWN");
+            }
+            //stop the timeout timer
+            xTimerStop(adcStrongTimeoutTimerHandle,0);
+            //reset strong mode after sending the action
+            D->strongmode = STRONG_NORMAL;
+        }
+    }  
     #endif
 }
 
@@ -483,16 +507,16 @@ void halAdcProcessPressure(adcData_t *D)
     //STRONGSIP triggered
     if(pressurevalue < cfg->adc.threshold_strongsip)
     {
-        //check if strong sip + up/down/left/right is set and
-        //strong sip alone is unused
+        //check if strong sip + up/down/left/right is set.
+        //if this is the case, we will proceed with strong mode.
+        //Otherwise the VB_STRONGSIP will be triggered.
         #ifdef DEVICE_FLIPMOUSE
-        ///@todo How to test if VB is used?!?
-        //if(handler_hid_active(VB_SIP) || handler_vb_active(VB_SIP))
-        
-        if(0)
+        if(handler_hid_active(VB_STRONGSIP_UP) || handler_vb_active(VB_STRONGSIP_UP) || \
+            handler_hid_active(VB_STRONGSIP_DOWN) || handler_vb_active(VB_STRONGSIP_DOWN) || \
+            handler_hid_active(VB_STRONGSIP_LEFT) || handler_vb_active(VB_STRONGSIP_LEFT) || \
+            handler_hid_active(VB_STRONGSIP_RIGHT) || handler_vb_active(VB_STRONGSIP_RIGHT))
         {
-            //if at least one strong action is defined and strong sip
-            //is unused, enter strong sip mode
+            //if at least one strong action is defined, enter strong sip mode
             D->strongmode = STRONG_SIP;
             ESP_LOGI(LOG_TAG,"Enter STRONG SIP");
             TONE(TONE_STRONGSIP_ENTER_FREQ,TONE_STRONGSIP_ENTER_DURATION);
@@ -502,8 +526,7 @@ void halAdcProcessPressure(adcData_t *D)
             {
                 //make a tone
                 TONE(TONE_STRONGSIP_ENTER_FREQ,TONE_STRONGSIP_ENTER_DURATION);
-                //either no strong sip + <yy> action is defined or strong
-                // is used, trigger strong sip VB.
+                //no strong sip + <yy> action is defined, trigger strong sip VB.
                 
                 evt.type = VB_PRESS_EVENT;
                 evt.vb = VB_STRONGSIP;
@@ -555,15 +578,16 @@ void halAdcProcessPressure(adcData_t *D)
     //STRONGPUFF triggered
     if(pressurevalue > cfg->adc.threshold_strongpuff)
     {
-        //check if strong puff + up/down/left/right is set and
-        //strong puff alone is unused
+        //check if strong puff + up/down/left/right is set.
+        //if this is the case, we will proceed with strong mode.
+        //Otherwise the VB_STRONGPUFF will be triggered.
         #ifdef DEVICE_FLIPMOUSE
-        ///@todo How to test if VB is used?!?
-        //if(handler_hid_active(VB_SIP) || handler_vb_active(VB_SIP))
-        if(0)
+        if(handler_hid_active(VB_STRONGPUFF_UP) || handler_vb_active(VB_STRONGPUFF_UP) || \
+            handler_hid_active(VB_STRONGPUFF_DOWN) || handler_vb_active(VB_STRONGPUFF_DOWN) || \
+            handler_hid_active(VB_STRONGPUFF_LEFT) || handler_vb_active(VB_STRONGPUFF_LEFT) || \
+            handler_hid_active(VB_STRONGPUFF_RIGHT) || handler_vb_active(VB_STRONGPUFF_RIGHT))
         {
-            //if at least one strong action is defined and strong puff
-            //is unused, enter strong puff mode
+            //if at least one strong action is defined, enter strong puff mode
             D->strongmode = STRONG_PUFF;
             ESP_LOGI(LOG_TAG,"Enter STRONG PUFF");
             TONE(TONE_STRONGPUFF_ENTER_FREQ,TONE_STRONGPUFF_ENTER_DURATION);
@@ -627,7 +651,7 @@ void halAdcTaskMouse(void * pvParameters)
     hid_cmd_t command,command2;
     TickType_t xLastWakeTime;
     //set adc data reference for timer
-    vTimerSetTimerID(adcStrongTimerHandle,&D);
+    vTimerSetTimerID(adcStrongTimeoutTimerHandle,&D);
     uint32_t debug_out_cnt = 0;
     
     while(1)
@@ -651,47 +675,47 @@ void halAdcTaskMouse(void * pvParameters)
         
         //report raw values.
         halAdcReportRaw(D.up, D.down, D.left, D.right, D.pressure, D.x, D.y);
-  
-        //apply acceleration
-        if (D.x==0) accelTimeX=0;
-        else if (accelTimeX < ACCELTIME_MAX) accelTimeX+=adc_conf.acceleration;
-        if (D.y==0) accelTimeY=0;
-        else if (accelTimeY < ACCELTIME_MAX) accelTimeY+=adc_conf.acceleration;
-                        
-        //calculate the current X movement by using acceleration, accel factor and sensitivity
-        moveVal = D.x * adc_conf.sensitivity_x * accelFactor * accelTimeX;
-        //limit value
-        if (moveVal>adc_conf.max_speed) moveVal=adc_conf.max_speed;
-        if (moveVal< -adc_conf.max_speed) moveVal=-adc_conf.max_speed;
-        //add to accumulated movement value
-        accumXpos+=moveVal;
         
-        //do the same calculations for Y axis
-        moveVal = D.y * adc_conf.sensitivity_y * accelFactor * accelTimeY;
-        if (moveVal>adc_conf.max_speed) moveVal=adc_conf.max_speed;
-        if (moveVal< -adc_conf.max_speed) moveVal=-adc_conf.max_speed;
-        accumYpos+=moveVal;
-        
-        //cast to int again
-        tempX = accumXpos;
-        tempY = accumYpos;
-        
-        //limit to int8 values (to fit into mouse report)
-        if(tempX > 127) tempX = 127;
-        if(tempX < -127) tempX = -127;
-        if(tempY > 127) tempY = 127;
-        if(tempY < -127) tempY = -127;
-        
-        if(debug_out_cnt++%HAL_ADC_RAW_DIVIDER == 0)
-        {
-            ESP_LOGD(LOG_TAG,"mouse x/y %d/%d; ",tempX,tempY);
-        }
-        
-        //TODO: wenn D.strongmode != noraml > eigene fkt. mit berechneten werten.
         //if we are in a special strong mode, do NOT send accumulated data
         //to USB/BLE. Instead, call halAdcProcessStrongMode
+        //if in normal mode, proceed with mouse
         if(D.strongmode == STRONG_NORMAL)
         {
+            //apply acceleration
+            if (D.x==0) accelTimeX=0;
+            else if (accelTimeX < ACCELTIME_MAX) accelTimeX+=adc_conf.acceleration;
+            if (D.y==0) accelTimeY=0;
+            else if (accelTimeY < ACCELTIME_MAX) accelTimeY+=adc_conf.acceleration;
+                            
+            //calculate the current X movement by using acceleration, accel factor and sensitivity
+            moveVal = D.x * adc_conf.sensitivity_x * accelFactor * accelTimeX;
+            //limit value
+            if (moveVal>adc_conf.max_speed) moveVal=adc_conf.max_speed;
+            if (moveVal< -adc_conf.max_speed) moveVal=-adc_conf.max_speed;
+            //add to accumulated movement value
+            accumXpos+=moveVal;
+            
+            //do the same calculations for Y axis
+            moveVal = D.y * adc_conf.sensitivity_y * accelFactor * accelTimeY;
+            if (moveVal>adc_conf.max_speed) moveVal=adc_conf.max_speed;
+            if (moveVal< -adc_conf.max_speed) moveVal=-adc_conf.max_speed;
+            accumYpos+=moveVal;
+            
+            //cast to int again
+            tempX = accumXpos;
+            tempY = accumYpos;
+            
+            //limit to int8 values (to fit into mouse report)
+            if(tempX > 127) tempX = 127;
+            if(tempX < -127) tempX = -127;
+            if(tempY > 127) tempY = 127;
+            if(tempY < -127) tempY = -127;
+            
+            if(debug_out_cnt++%HAL_ADC_RAW_DIVIDER == 0)
+            {
+                ESP_LOGD(LOG_TAG,"mouse x/y %d/%d; ",tempX,tempY);
+            }
+        
             if(tempX != 0 && tempY != 0)
             {
                 command.cmd[0] = 0x01;
@@ -776,11 +800,11 @@ void halAdcTaskJoystick(void * pvParameters)
     //analog values
     adcData_t D;
     D.strongmode = STRONG_NORMAL;
-    int32_t x,y;
+    //int32_t x,y;
     //joystick_command_t command;
     TickType_t xLastWakeTime;
     //set adc data reference for timer
-    vTimerSetTimerID(adcStrongTimerHandle,&D);
+    vTimerSetTimerID(adcStrongTimeoutTimerHandle,&D);
     
     while(1)
     {
@@ -793,33 +817,36 @@ void halAdcTaskJoystick(void * pvParameters)
         
         //read out the analog voltages from all 5 channels
         halAdcReadData(&D);
-        
-        //if a value is outside threshold, activate debounce timer
-        x = (int32_t)(D.left - D.right) - offsetx;
-        y = (int32_t)(D.up - D.down) - offsety;
-        halAdcReportRaw(D.up, D.down, D.left, D.right, D.pressure, x, y);
+        halAdcReportRaw(D.up, D.down, D.left, D.right, D.pressure, D.x, D.y);
         
         
-        //TODO: wenn D.strongmode != noraml > eigene fkt. mit berechneten werten.
-        //ELSE: folgendes...
-        
-        //TODO: acceleration & max speed calc
-        
-        //TODO: do everything...
-        
-        //post values to mouse queue (USB and/or BLE)
-        /*if(xEventGroupGetBits(connectionRoutingStatus) & DATATO_USB)
+        //if we are in a special strong mode, do NOT send accumulated data
+        //to USB/BLE. Instead, call halAdcProcessStrongMode
+        //if in normal mode, proceed with mouse
+        if(D.strongmode == STRONG_NORMAL)
         {
-            xQueueSend(joystick_movement_usb,&command,0);
+            
+            //TODO: acceleration & max speed calc
+            
+            //TODO: do everything...
+            
+            //post values to mouse queue (USB and/or BLE)
+            /*if(xEventGroupGetBits(connectionRoutingStatus) & DATATO_USB)
+            {
+                xQueueSend(joystick_movement_usb,&command,0);
+            }
+            
+            if(xEventGroupGetBits(connectionRoutingStatus) & DATATO_BLE)
+            {
+                xQueueSend(joystick_movement_ble,&command,0);
+            }*/
+                    
+            //pressure sensor is handled in another function
+            halAdcProcessPressure(&D);
+        } else {
+            //in special mode, process strong mdoe
+            halAdcProcessStrongMode(&D);
         }
-        
-        if(xEventGroupGetBits(connectionRoutingStatus) & DATATO_BLE)
-        {
-            xQueueSend(joystick_movement_ble,&command,0);
-        }*/
-                
-        //pressure sensor is handled in another function
-        halAdcProcessPressure(&D);
         
         //give mutex
         xSemaphoreGive(adcSem);
@@ -924,7 +951,7 @@ void halAdcTaskThreshold(void * pvParameters)
     D.strongmode = STRONG_NORMAL;
     TickType_t xLastWakeTime;
     //set adc data reference for timer
-    vTimerSetTimerID(adcStrongTimerHandle,&D);
+    vTimerSetTimerID(adcStrongTimeoutTimerHandle,&D);
     
     #ifdef DEVICE_FLIPMOUSE
     //1<<0: up, 1<<1: down, 1<<2: left, 1<<3: right; set if press event was sent.
@@ -947,23 +974,56 @@ void halAdcTaskThreshold(void * pvParameters)
         #ifdef DEVICE_FLIPMOUSE
         
         
-        //TODO: wenn D.strongmode != noraml > eigene fkt. mit berechneten werten.
-        //ELSE: folgendes...
         
-        //LEFT/RIGHT value exceeds threshold (deadzone) value?
-        if(D.x != 0)
+        //if we are in a special strong mode, do NOT send accumulated data
+        //to USB/BLE. Instead, call halAdcProcessStrongMode
+        //if in normal mode, proceed with mouse
+        if(D.strongmode == STRONG_NORMAL)
         {
-            if(D.x < 0)
+            //LEFT/RIGHT value exceeds threshold (deadzone) value?
+            if(D.x != 0)
             {
-                //if not already sent, send press action
-                if(!(activevbs & (1<<2)))
+                if(D.x < 0)
                 {
-                    evt.type = VB_PRESS_EVENT;
-                    evt.vb = VB_LEFT;
-                    xQueueSendToBack(debouncer_in,&evt,0);
-                    activevbs |= (1<<2);
+                    //if not already sent, send press action
+                    if(!(activevbs & (1<<2)))
+                    {
+                        evt.type = VB_PRESS_EVENT;
+                        evt.vb = VB_LEFT;
+                        xQueueSendToBack(debouncer_in,&evt,0);
+                        activevbs |= (1<<2);
+                    }
+                    //if opposite was active, release it.
+                    if(activevbs & (1<<3))
+                    {
+                        evt.type = VB_RELEASE_EVENT;
+                        evt.vb = VB_RIGHT;
+                        xQueueSendToBack(debouncer_in,&evt,0);
+                        activevbs &= ~(1<<3);
+                    }
                 }
-                //if opposite was active, release it.
+                if(D.x > 0)
+                {
+                    //if not already sent, send press action
+                    if(!(activevbs & (1<<3)))
+                    {
+                        evt.type = VB_PRESS_EVENT;
+                        evt.vb = VB_RIGHT;
+                        xQueueSendToBack(debouncer_in,&evt,0);
+                        activevbs |= (1<<3);
+                    }
+                    //if opposite was active, release it.
+                    if(activevbs & (1<<2))
+                    {
+                        evt.type = VB_RELEASE_EVENT;
+                        evt.vb = VB_LEFT;
+                        xQueueSendToBack(debouncer_in,&evt,0);
+                        activevbs &= ~(1<<2);
+                    }
+                }
+            } else {        
+                //value is 0 --> idle, release both directions
+                //if active
                 if(activevbs & (1<<3))
                 {
                     evt.type = VB_RELEASE_EVENT;
@@ -971,18 +1031,6 @@ void halAdcTaskThreshold(void * pvParameters)
                     xQueueSendToBack(debouncer_in,&evt,0);
                     activevbs &= ~(1<<3);
                 }
-            }
-            if(D.x > 0)
-            {
-                //if not already sent, send press action
-                if(!(activevbs & (1<<3)))
-                {
-                    evt.type = VB_PRESS_EVENT;
-                    evt.vb = VB_RIGHT;
-                    xQueueSendToBack(debouncer_in,&evt,0);
-                    activevbs |= (1<<3);
-                }
-                //if opposite was active, release it.
                 if(activevbs & (1<<2))
                 {
                     evt.type = VB_RELEASE_EVENT;
@@ -991,39 +1039,58 @@ void halAdcTaskThreshold(void * pvParameters)
                     activevbs &= ~(1<<2);
                 }
             }
-        } else {        
-            //value is 0 --> idle, release both directions
-            //if active
-            if(activevbs & (1<<3))
+            
+            //UP/DOWN value exceeds threshold (deadzone) value?
+            if(D.y != 0)
             {
-                evt.type = VB_RELEASE_EVENT;
-                evt.vb = VB_RIGHT;
-                xQueueSendToBack(debouncer_in,&evt,0);
-                activevbs &= ~(1<<3);
-            }
-            if(activevbs & (1<<2))
-            {
-                evt.type = VB_RELEASE_EVENT;
-                evt.vb = VB_LEFT;
-                xQueueSendToBack(debouncer_in,&evt,0);
-                activevbs &= ~(1<<2);
-            }
-        }
-        
-        //UP/DOWN value exceeds threshold (deadzone) value?
-        if(D.y != 0)
-        {
-            if(D.y < 0)
-            {
-                //if not already sent, send press action
-                if(!(activevbs & (1<<0)))
+                if(D.y < 0)
                 {
-                    evt.type = VB_PRESS_EVENT;
+                    //if not already sent, send press action
+                    if(!(activevbs & (1<<0)))
+                    {
+                        evt.type = VB_PRESS_EVENT;
+                        evt.vb = VB_UP;
+                        xQueueSendToBack(debouncer_in,&evt,0);
+                        activevbs |= (1<<0);
+                    }
+                    //if opposite was active, release it.
+                    if(activevbs & (1<<1))
+                    {
+                        evt.type = VB_RELEASE_EVENT;
+                        evt.vb = VB_DOWN;
+                        xQueueSendToBack(debouncer_in,&evt,0);
+                        activevbs &= ~(1<<1);
+                    }
+                }
+                if(D.y > 0)
+                {
+                    //if not already sent, send press action
+                    if(!(activevbs & (1<<1)))
+                    {
+                        evt.type = VB_PRESS_EVENT;
+                        evt.vb = VB_DOWN;
+                        xQueueSendToBack(debouncer_in,&evt,0);
+                        activevbs |= (1<<1);
+                    }
+                    //if opposite was active, release it.
+                    if(activevbs & (1<<0))
+                    {
+                        evt.type = VB_RELEASE_EVENT;
+                        evt.vb = VB_UP;
+                        xQueueSendToBack(debouncer_in,&evt,0);
+                        activevbs &= ~(1<<0);
+                    }
+                }
+            } else {        
+                //value is 0 --> idle, release both directions
+                //if active
+                if(activevbs & (1<<0))
+                {
+                    evt.type = VB_RELEASE_EVENT;
                     evt.vb = VB_UP;
                     xQueueSendToBack(debouncer_in,&evt,0);
-                    activevbs |= (1<<0);
+                    activevbs &= ~(1<<0);
                 }
-                //if opposite was active, release it.
                 if(activevbs & (1<<1))
                 {
                     evt.type = VB_RELEASE_EVENT;
@@ -1032,42 +1099,9 @@ void halAdcTaskThreshold(void * pvParameters)
                     activevbs &= ~(1<<1);
                 }
             }
-            if(D.y > 0)
-            {
-                //if not already sent, send press action
-                if(!(activevbs & (1<<1)))
-                {
-                    evt.type = VB_PRESS_EVENT;
-                    evt.vb = VB_DOWN;
-                    xQueueSendToBack(debouncer_in,&evt,0);
-                    activevbs |= (1<<1);
-                }
-                //if opposite was active, release it.
-                if(activevbs & (1<<0))
-                {
-                    evt.type = VB_RELEASE_EVENT;
-                    evt.vb = VB_UP;
-                    xQueueSendToBack(debouncer_in,&evt,0);
-                    activevbs &= ~(1<<0);
-                }
-            }
-        } else {        
-            //value is 0 --> idle, release both directions
-            //if active
-            if(activevbs & (1<<0))
-            {
-                evt.type = VB_RELEASE_EVENT;
-                evt.vb = VB_UP;
-                xQueueSendToBack(debouncer_in,&evt,0);
-                activevbs &= ~(1<<0);
-            }
-            if(activevbs & (1<<1))
-            {
-                evt.type = VB_RELEASE_EVENT;
-                evt.vb = VB_DOWN;
-                xQueueSendToBack(debouncer_in,&evt,0);
-                activevbs &= ~(1<<1);
-            }
+        } else {
+            //in special mode, process strong mdoe
+            halAdcProcessStrongMode(&D);
         }
         
         halAdcReportRaw(D.up, D.down, D.left, D.right, D.pressure, D.x, D.y);
@@ -1194,6 +1228,11 @@ esp_err_t halAdcUpdateConfig(adc_config_t* params)
     return ESP_OK;
 }
 
+void halAdcStrongDelay( TimerHandle_t xTimer )
+{
+    xSemaphoreGive(adcStrongSem);
+}
+
 void halAdcStrongTimeout( TimerHandle_t xTimer )
 {
     //get adc data reference
@@ -1204,7 +1243,19 @@ void halAdcStrongTimeout( TimerHandle_t xTimer )
         return;
     }
     //set strong mode back to normal after timeout
+    if(D->strongmode == STRONG_PUFF)
+    {
+        ESP_LOGI(LOG_TAG,"Exit STRONG PUFF, timeout");
+        TONE(TONE_STRONGPUFF_EXIT_FREQ,TONE_STRONGPUFF_EXIT_DURATION);
+    }
+    if(D->strongmode == STRONG_SIP)
+    {
+        ESP_LOGI(LOG_TAG,"Exit STRONG SIP, timeout");
+        TONE(TONE_STRONGSIP_EXIT_FREQ,TONE_STRONGSIP_EXIT_DURATION);
+    }
+    
     D->strongmode = STRONG_NORMAL;
+    
 }
 
 
@@ -1221,39 +1272,8 @@ esp_err_t halAdcInit(adc_config_t* params)
 {
     esp_log_level_set(LOG_TAG,LOG_LEVEL_ADC);
     
-    esp_err_t ret;
-    
-    //init ADC bit width
-    ret = adc1_config_width(ADC_WIDTH_BIT_10);
-    if(ret != ESP_OK) { ESP_LOGE("hal_adc","Error setting channel width"); return ret; }
-    
-    //Init ADC channels for FLipMouse/FABI
-    #ifdef HAL_IO_ADC_CHANNEL_UP
-        ret = adc1_config_channel_atten(HAL_IO_ADC_CHANNEL_UP, ADC_ATTEN_DB_11);
-        if(ret != ESP_OK) { ESP_LOGE("hal_adc","Error setting atten on channel %d",HAL_IO_ADC_CHANNEL_UP); return ret; }
-    #endif
-    #ifdef HAL_IO_ADC_CHANNEL_DOWN
-        ret = adc1_config_channel_atten(HAL_IO_ADC_CHANNEL_DOWN, ADC_ATTEN_DB_11);
-        if(ret != ESP_OK) { ESP_LOGE("hal_adc","Error setting atten on channel %d",HAL_IO_ADC_CHANNEL_DOWN); return ret; }
-    #endif
-    #ifdef HAL_IO_ADC_CHANNEL_LEFT
-        ret = adc1_config_channel_atten(HAL_IO_ADC_CHANNEL_LEFT, ADC_ATTEN_DB_11);
-        if(ret != ESP_OK) { ESP_LOGE("hal_adc","Error setting atten on channel %d",HAL_IO_ADC_CHANNEL_LEFT); return ret; }
-    #endif
-    #ifdef HAL_IO_ADC_CHANNEL_RIGHT
-        ret = adc1_config_channel_atten(HAL_IO_ADC_CHANNEL_RIGHT, ADC_ATTEN_DB_11);
-        if(ret != ESP_OK) { ESP_LOGE("hal_adc","Error setting atten on channel %d",HAL_IO_ADC_CHANNEL_RIGHT); return ret; }
-    #endif
-    #ifdef HAL_IO_ADC_CHANNEL_PRESSURE
-        ret = adc1_config_channel_atten(HAL_IO_ADC_CHANNEL_PRESSURE, ADC_ATTEN_DB_11);
-        if(ret != ESP_OK) { ESP_LOGE("hal_adc","Error setting atten on channel %d",HAL_IO_ADC_CHANNEL_PRESSURE); return ret; }
-    #endif
-    ///@todo init differently for FABI!
-    
-    //ADC characteristics on ESP32 does not work at all...
+    //ADC on ESP32 does not work at all...
     //The only sh**ty part on this MCU :-)
-    //esp_adc_cal_get_characteristics(ADC_CAL_IDEAL_V_REF, ADC_ATTEN_DB_11, ADC_WIDTH_BIT_12, &characteristics);
-    //esp_adc_cal_characterize(ADC_UNIT_1,ADC_ATTEN_DB_11,ADC_WIDTH_BIT_12,0,&characteristics);
     
     if(hid_ble == NULL || hid_usb == NULL)
     {
@@ -1269,8 +1289,11 @@ esp_err_t halAdcInit(adc_config_t* params)
     
     //initialize SW timer for STRONG mode timeout
     #ifdef DEVICE_FLIPMOUSE
-    adcStrongTimerHandle = xTimerCreate("strongmode", HAL_ADC_TIMEOUT_STRONGMODE / portTICK_PERIOD_MS, \
+    adcStrongTimeoutTimerHandle = xTimerCreate("strongmode", HAL_ADC_TIMEOUT_STRONGMODE / portTICK_PERIOD_MS, \
         pdFALSE,( void * ) 0,halAdcStrongTimeout);
+    adcStrongTimerHandle = xTimerCreate("strongmodedelay", HAL_ADC_DELAY_STRONGMODE / portTICK_PERIOD_MS, \
+        pdFALSE,( void * ) 0,halAdcStrongDelay);
+    adcStrongSem = xSemaphoreCreateBinary();
     #endif
     
     //not initializing full config, only ADC

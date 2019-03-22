@@ -508,7 +508,8 @@ esp_err_t handler_vb_getAT(char* output, uint8_t vb)
  * (is located in the command chain with a given command).
  * 
  * @param vb Number of virtual button to check
- * @return true if active, false if not */
+ * @return true if active, false if not
+ * @note We don't care if press/release is active here. Any associated action will return true. */
 bool handler_vb_active(uint8_t vb)
 {
   //we check for VB_MAX (firmware specfic) and 63 (size of vb_active)
@@ -517,7 +518,7 @@ bool handler_vb_active(uint8_t vb)
     ESP_LOGE(LOG_TAG,"Cannot detect state of VB %d, out of range!",vb);
     return false;
   } else {
-    if((vb_active & (1<<vb)) != 0) return true;
+    if((vb_active & (1<<(vb&0x7F))) != 0) return true;
     else return false;
   }
   return false;

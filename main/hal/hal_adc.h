@@ -153,7 +153,7 @@
 #define HAL_IO_ADC_CHANNEL_MIC      ADC1_CHANNEL_5
 
 /** @brief Timeout for strong sip/puff mode [ms] */
-#define HAL_ADC_TIMEOUT_STRONGMODE  3000
+#define HAL_ADC_TIMEOUT_STRONGMODE  2000
 
 /** @brief Time to wait until strong sip/puff + additional action is possible [ms] */
 #define HAL_ADC_DELAY_STRONGMODE  600

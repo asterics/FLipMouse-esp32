@@ -34,5 +34,6 @@ var searchData=
   ['vb_5fup',['VB_UP',['../common_8h.html#ac9e5139cb56568693244c234d156f76b',1,'common.h']]],
   ['vbaction',['vbaction',['../task__commands_8c.html#a636f2e855ca9775d7e6e5a62f629bbda',1,'task_commands.c']]],
   ['vbcmdsem',['vbCmdSem',['../handler__vb_8c.html#a7666b964234f3637cc8479d87c2cc711',1,'handler_vb.c']]],
+  ['virtual_20button_20_28vb_29_20handlers',['Virtual Button (VB) Handlers',['../group__vbhandlers.html',1,'']]],
   ['vendor_5fwrite',['vendor_write',['../unionesp__hidd__cb__param__t.html#af652c4b70ee08acc1b0d7f8699712045',1,'esp_hidd_cb_param_t']]]
 ];

@@ -10,6 +10,11 @@ done by the mouthpiece (FLipMouse) or the first four buttons (FABI). Clicking ca
 * General configs for each slot (sensitivity, mouthpiece function, orientation, ...)
 * Functions for each possible action (called virtual button). There is a set of possible functions available, as it is described in AT command API.
 
+Note: a normal VB settting is done via a combination of "AT BM xx" and an additional action e.g., "AT CA". The AT BM command tells the firmware, that
+the next command will be assigned to this VB.
+
+Note: in memory, the config is saved in a text file, with AT commands. This way, we can do upgrades without worrying about the config file format.
+
 ![Configuration organization](slots.png)
 
 

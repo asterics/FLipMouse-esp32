@@ -21,58 +21,47 @@
  /** @file
   * @brief Contains extra information/documentation for doxygen only*/
  
- /** @defgroup fcttasks FunctionTasks
-  * 
-  * @note This is outdated. Due to the huge amount of memory we need for this approach, we summarized all stuff sent to the LPC chip in one task, all actions handled within the ESP32 in another task.
+ /** @defgroup vbhandlers Virtual Button (VB) Handlers
  *
- * All these listed functions are so called "FunctionTasks".
- * These are tasks, which are loaded and bound to a virtual button.
- * Each time either "press" or "release" flag of this bound virtual button
- * is set, a bound task is waking up and triggering different actions.
+ * Due to the feature, that every VB can trigger different actions,
+ * this firmware has implemented the action triggering itself in
+ * the following way:<br>
+ * * A triggered action will be sent to the debouncer (via the debouncer_in queue)
+ * * The debouncer will start an esp_timer (has a much higher resolution than the FreeRTOS SW timers)
+ * * After the timer has expired, an esp_event will be sent (event base: VB_EVENT; event id: vb_event_t)
+ * * Each handler is registered to this event loop and will receive these events.
+ * * If a handler has an active action for this triggered VB, it will be sent.
  * 
- * Each of these functional tasks has a parameter, which contains at least
- * the virtual button number.
+ * Currently, there are 2 different handlers implemented:
+ * * handler_hid: handles all HID related actions (they are sent to the LPC chip via I2C)
+ * * handler_vb: handles all other actions (infrared, house-keeping, slot switching,...)
  * 
- * If you want to trigger a single action without binding the task to a
- * virtual button, please pass the parameter as usual (depending on
- * the task and the configuration) and <b>set the virtualbutton to
- * VB_SINGLESHOT</b> to force the function to return after the action is
- * triggered.
+ * @note Currently, we are using the system event loop. This might be changed to an extra event loop
  * 
- * It is not necessary to create these functions as tasks in single shot mode!
- * 
- * The debouncer task is taking care of debouncing flags from
- * virtualButtonsIn (set by input sensor) to virtualButtonsOut
- * (function tasks are pending on bits there).
- * 
- * Currently implemented function tasks which can be bound by the config
- * switcher:
- * 
- * @see task_keyboard
- * @see task_mouse
- * @see task_configswitcher
- * @see task_calibration
- * @see task_macros
- * @see task_infrared
- * @see task_joystick
- * 
- * The loading/unloading is done by the config switcher task
- * @see configSwitcherTask
- *
- * Virtual Button number for single shot triggering:
- * @see VB_SINGLESHOT
- * 
- * @warning As long as the function or the task is active, the parameter pointer MUST be valid
- * 
- * @note Currently used esp-idf: origin/release/v3.0
+ * @see handler_hid
+ * @see handler_vb
+ * @see vb_event_t
+ * @see debouncer_in
+ * @see VB_EVENT
  */
+ 
+/** @defgroup cmdchain Activating a VB in handler_hid/handler_vb
+ * 
+ * All active VBs are handled via a chained list in each handler.
+ * Via handler_<hid/vb>_addCmd, a new command will be added to this list.
+ * 
+ * On a slot switch, these lists are cleared (and the corresponding
+ * memory will be freed).
+ * 
+ * @note Take care of setting the "clear" flag right. If you want to have
+ * more than one action a single VB, the first call to _addCmd should have
+ * the clear flag set, the other calls should not set this flag.
+ * 
+ * */
 
 /*++++ All global todos, roadmap, ... ++++*/
 /**
  * @file 
- * @todo Implement buzzer in remaining task_* functions (strongsip/puff exit)
  * @todo Test AT MA (macros).
- * //// TODO for later
- * @todo Implement long press for virtual buttons (new VBs).
  * @todo Implement learning mode
 */

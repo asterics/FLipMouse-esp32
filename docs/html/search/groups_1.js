@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['tasks',['Tasks',['../group__Function.html',1,'']]]
+  ['virtual_20button_20_28vb_29_20handlers',['Virtual Button (VB) Handlers',['../group__vbhandlers.html',1,'']]]
 ];

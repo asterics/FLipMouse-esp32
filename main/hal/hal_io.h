@@ -112,9 +112,9 @@
 /** @brief PIN - GPIO pin for external button 2 (FLipMouse) */
 #define HAL_IO_PIN_BUTTON_EXT2  27
 /** @brief PIN - GPIO pin for internal button 1 (FLipMouse) */
-#define HAL_IO_PIN_BUTTON_INT1  14
+#define HAL_IO_PIN_BUTTON_INT1  5
 /** @brief PIN - GPIO pin for internal button 2 (FLipMouse) */
-#define HAL_IO_PIN_BUTTON_INT2  5
+#define HAL_IO_PIN_BUTTON_INT2  14
 /** @brief PIN - GPIO pin for buzzer (FLipMouse)
  * @note We will use ledc drivers for the buzzer*/
 #define HAL_IO_PIN_BUZZER       25

@@ -278,7 +278,7 @@ void halAdcReportRaw(uint32_t up, uint32_t down, uint32_t left, uint32_t right, 
         {
             char data[48];
             sprintf(data,"VALUES:%d,%d,%d,%d,%d,%d,%d",pressure,up,down,left,right,x,y);
-            halSerialSendUSBSerial(data, strnlen(data,48), 10);
+            halSerialSendUSBSerial(data, strnlen(data,48), 0);
         }
         prescaler++;
     }
@@ -331,15 +331,17 @@ void halAdcReadData(adcData_t *values)
  * @note You need to take adcSem before calling this function!
  * 
  * @param values Pointer to struct of all analog values
+ * @return 0 if measurement was done, -1 if discarded
  * @see adcData_t
  * @see adcSem
  */
-void halAdcReadData(adcData_t *values)
+int halAdcReadData(adcData_t *values)
 {
     //read all sensors
     int32_t tmp = 0;
     int32_t x,y;
     int32_t up,down,left,right,pressure;
+    static int32_t up_p,down_p,left_p,right_p,pressure_p;
     up = down = left = right = pressure = 0;
     ///@see HAL_ADC_RAW_DIVIDER
     static uint32_t debug_out_cnt = 0;
@@ -358,6 +360,26 @@ void halAdcReadData(adcData_t *values)
     down = (int32_t)((uint16_t)(adc[0] + (adc[1] << 8)));
     pressure = (int32_t)((uint16_t)(adc[8] + (adc[9] << 8)));
     //ESP_LOGE(LOG_TAG,"%d,%d,%d,%d,%d",up,down,left,right,pressure);
+    
+    //before any further processing, check if we have an unusual
+    //sensor reading (deviation to last measuring > 200)
+    //in this case, discard this measurement and wait for next iteration
+    //if it is a wanted high mouthpiece movement, next iteration will be
+    //triggering the action (we save the last value, even if discarded)
+    int toohigh = 0;
+    if((abs(left-left_p) > 200) || (abs(right-right_p) > 200) || (abs(up-up_p) > 200) || \
+		(abs(down-down_p) > 200) || (abs(pressure-pressure_p) > 200)) { toohigh = 1; }
+		
+	left_p = left;
+	right_p = right;
+	up_p = up;
+	down_p = down;
+	pressure_p = pressure;
+	if(toohigh != 0)
+	{
+		ESP_LOGW(LOG_TAG,"sensor deviation over rate,discarding");
+		return -1;
+	}
 
     //do the mouse rotation
     switch (adc_conf.orientation) {
@@ -455,6 +477,7 @@ void halAdcReadData(adcData_t *values)
     {
         ESP_LOGD(LOG_TAG,"raw x/y %d/%d; ",values->x,values->y);
     }
+    return 0;
 }
 #endif /* DEVICE_FLIPMOUSE */
 
@@ -541,7 +564,7 @@ void halAdcProcessPressure(adcData_t *D)
             if(fired[1] != 1)
             {
                 //make a tone
-                TONE(TONE_STRONGSIP_ENTER_FREQ,TONE_STRONGSIP_ENTER_DURATION);
+                //TONE(TONE_STRONGSIP_ENTER_FREQ,TONE_STRONGSIP_ENTER_DURATION);
                 //no strong sip + <yy> action is defined, trigger strong sip VB.
                 
                 evt.type = VB_PRESS_EVENT;
@@ -612,7 +635,7 @@ void halAdcProcessPressure(adcData_t *D)
             if(fired[3] != 1)
             {
                 //make a tone
-                TONE(TONE_STRONGPUFF_ENTER_FREQ,TONE_STRONGPUFF_ENTER_DURATION);
+                //TONE(TONE_STRONGPUFF_ENTER_FREQ,TONE_STRONGPUFF_ENTER_DURATION);
                 //either no strong puff + <yy> action is defined or strong
                 // is used, trigger strong puff VB.
                 evt.type = VB_PRESS_EVENT;
@@ -664,7 +687,7 @@ void halAdcTaskMouse(void * pvParameters)
     float moveVal, accumXpos = 0, accumYpos = 0;
     float accelFactor= 20 / 100000000.0f;
     hid_cmd_t command,command2;
-    TickType_t xLastWakeTime;
+    TickType_t xLastWakeTime = xTaskGetTickCount();
     //set adc data reference for timer
     vTimerSetTimerID(adcStrongTimeoutTimerHandle,&D);
     uint32_t debug_out_cnt = 0;
@@ -681,7 +704,14 @@ void halAdcTaskMouse(void * pvParameters)
         //read out the analog voltages from all 5 channels (including deadzone)
         //& set calibrate request to 0 before
         D.calibrate_request = 0;
-        halAdcReadData(&D);
+        uint8_t retry = 0;
+        while((halAdcReadData(&D) != 0) && (retry++ < 10));
+        if(retry == 10)
+        {
+			ESP_LOGE(LOG_TAG,"Cannot read ADC");
+			vTaskDelay(1000/portTICK_PERIOD_MS);
+			xSemaphoreGive(adcSem);
+		}
         
         
         //if you want to slow down, uncomment following two lines
@@ -726,10 +756,12 @@ void halAdcTaskMouse(void * pvParameters)
             if(tempY > 127) tempY = 127;
             if(tempY < -127) tempY = -127;
             
+            #if LOG_LEVEL_ADC >= ESP_LOG_DEBUG
             if(debug_out_cnt++%HAL_ADC_RAW_DIVIDER == 0)
             {
                 ESP_LOGD(LOG_TAG,"mouse x/y %d/%d; ",tempX,tempY);
             }
+            #endif
         
             if(tempX != 0 && tempY != 0)
             {
@@ -789,7 +821,7 @@ void halAdcTaskMouse(void * pvParameters)
         if(D.calibrate_request != 0) halAdcCalibrate();
         
         //delay the task.
-        vTaskDelayUntil( &xLastWakeTime, 20/portTICK_PERIOD_MS);
+        vTaskDelayUntil( &xLastWakeTime, 10/portTICK_PERIOD_MS);
     }
 }
 
@@ -831,7 +863,14 @@ void halAdcTaskJoystick(void * pvParameters)
         }
         
         //read out the analog voltages from all 5 channels
-        halAdcReadData(&D);
+        uint8_t retry = 0;
+        while((halAdcReadData(&D) != 0) && (retry++ < 10));
+        if(retry == 10)
+        {
+			ESP_LOGE(LOG_TAG,"Cannot read ADC");
+			vTaskDelay(1000/portTICK_PERIOD_MS);
+			xSemaphoreGive(adcSem);
+		}
         halAdcReportRaw(D.up, D.down, D.left, D.right, D.pressure, D.x, D.y);
         
         
@@ -891,54 +930,69 @@ void halAdcCalibrate(void)
     //get mutex
     if(xSemaphoreTake(adcSem, (TickType_t) 20))
     {
-        if((xTaskGetTickCount() - adcCalibLast) < (HAL_ADC_CALIB_LOCKTIME / portTICK_PERIOD_MS))
+		uint8_t retry = 0;
+		do {
+			TONE(TONE_CALIB_FREQ,TONE_CALIB_DURATION);
+			vTaskDelay(100/portTICK_PERIOD_MS);
+			
+	        if((xTaskGetTickCount() - adcCalibLast) < (HAL_ADC_CALIB_LOCKTIME / portTICK_PERIOD_MS))
+	        {
+	            ESP_LOGI(LOG_TAG,"Calibration lock time not passed yet");
+	            //give mutex to enable tasks again
+	            xSemaphoreGive(adcSem);
+	            return;
+	        }
+	        ESP_LOGI(LOG_TAG,"Starting calibration, offsets: %d/%d",offsetx,offsety);
+	        adcData_t D;
+	        
+	        uint32_t up = 0;
+	        uint32_t down = 0;
+	        uint32_t left = 0;
+	        uint32_t right = 0;
+	        
+	        //save for next iteration
+	        adcCalibLast = xTaskGetTickCount();
+	        
+	        //read values itself & accumulate (8sensor readings)
+	        uint8_t i = 0;
+	        do{ 
+	            //use read data for acquiring offset correction data
+	            if(halAdcReadData(&D) != 0) continue;
+	            i++;
+	            
+	            //accumulate data
+	            up+= D.up;
+	            left+= D.left;
+	            right+= D.right;
+	            down+= D.down;
+	            
+	            //wait 2 ticks
+	            vTaskDelay(2);
+	        } while(i<8);
+	        
+	        //divide by 8 readings
+	        up = up / 8;
+	        down = down / 8;
+	        left = left / 8;
+	        right = right / 8;
+	        //set as offset values
+	        offsetx = left - right;
+	        offsety = up - down;
+	        //increase retry count
+	        retry++;
+	    } while(((abs(offsetx) > 1000) || (abs(offsety) > 1000)) && (retry < 10));
+        
+        if(retry < 10)
         {
-            ESP_LOGI(LOG_TAG,"Calibration lock time not passed yet");
-            //give mutex to enable tasks again
-            xSemaphoreGive(adcSem);
-            return;
+			ESP_LOGI(LOG_TAG,"Finished calibration, offsets: %d/%d",offsetx,offsety);
+		} else {
+			ESP_LOGE(LOG_TAG,"Cannot calibrate, sensor defect!");
+			while(1)
+			{
+				TONE(TONE_CALIB_FREQ,TONE_CALIB_DURATION);
+				vTaskDelay(1000/portTICK_PERIOD_MS);
+			}
         }
-        ESP_LOGI(LOG_TAG,"Starting calibration, offsets: %d/%d",offsetx,offsety);
-        adcData_t D;
-        
-        uint32_t up = 0;
-        uint32_t down = 0;
-        uint32_t left = 0;
-        uint32_t right = 0;
-        
-        //save for next iteration
-        adcCalibLast = xTaskGetTickCount();
-        
-        //read values itself & accumulate (8sensor readings)
-        for(uint8_t i = 0; i<8; i++)
-        {
-              
-            //use read data for acquiring offset correction data
-            halAdcReadData(&D);
-            
-            //accumulate data
-            up+= D.up;
-            left+= D.left;
-            right+= D.right;
-            down+= D.down;
-            
-            //wait 2 ticks
-            vTaskDelay(2);
-        }
-        
-        //divide by 8 readings
-        up = up / 8;
-        down = down / 8;
-        left = left / 8;
-        right = right / 8;
-        //set as offset values
-        offsetx = left - right;
-        offsety = up - down;
-        
-        ESP_LOGI(LOG_TAG,"Finished calibration, offsets: %d/%d",offsetx,offsety);
-        
-        TONE(TONE_CALIB_FREQ,TONE_CALIB_DURATION);
-        
         //give mutex to enable tasks again
         xSemaphoreGive(adcSem);
     } else {
@@ -964,7 +1018,7 @@ void halAdcTaskThreshold(void * pvParameters)
     adcData_t D;
     raw_action_t evt;
     D.strongmode = STRONG_NORMAL;
-    TickType_t xLastWakeTime;
+    TickType_t xLastWakeTime = xTaskGetTickCount();
     //set adc data reference for timer
     vTimerSetTimerID(adcStrongTimeoutTimerHandle,&D);
     
@@ -983,7 +1037,14 @@ void halAdcTaskThreshold(void * pvParameters)
         }
         
         //read out the analog voltages from all 5 channels
-        halAdcReadData(&D);
+        uint8_t retry = 0;
+        while((halAdcReadData(&D) != 0) && (retry++ < 10));
+        if(retry == 10)
+        {
+			ESP_LOGE(LOG_TAG,"Cannot read ADC");
+			vTaskDelay(1000/portTICK_PERIOD_MS);
+			xSemaphoreGive(adcSem);
+		}
         
         //for a FABI device, we do not have 4 channels, so not UP/DOWN/LEFT/RIGHT
         #ifdef DEVICE_FLIPMOUSE
@@ -1130,7 +1191,8 @@ void halAdcTaskThreshold(void * pvParameters)
         xSemaphoreGive(adcSem);
         
         //delay the task.
-        vTaskDelayUntil(&xLastWakeTime, 20/portTICK_PERIOD_MS); 
+        vTaskDelayUntil( &xLastWakeTime, 10/portTICK_PERIOD_MS);
+        //vTaskDelay(20/portTICK_PERIOD_MS);
     }
     
 }

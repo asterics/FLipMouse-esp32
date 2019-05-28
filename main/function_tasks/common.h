@@ -102,6 +102,10 @@
 #define WIFI_ACTIVE (1<<4)
 /** @brief Bitmask used to signal a FLipMouse/FABI has at least one connected Wifi client */
 #define WIFI_CLIENT_CONNECTED (1<<3)
+/** @brief Bitmask used to signal a FLipMouse/FABI needs to activate the Wifi */
+#define WIFI_TO_ACTIVATE (1<<2)
+/** @brief Bitmask used to signal a FLipMouse/FABI that Wifi is not possible, because it was already enabled&disabled once */
+#define WIFI_LOCKED (1<<1)
 
 /** @brief Flag for signalling config updates
  * 
@@ -319,7 +323,7 @@ ESP_EVENT_DECLARE_BASE(VB_EVENT);
 
 /*++++ TASK PRIORITY ASSIGNMENT ++++*/
 /** @brief ADC task priority. Not high. */
-#define HAL_ADC_TASK_PRIORITY     (tskIDLE_PRIORITY + 2)
+#define HAL_ADC_TASK_PRIORITY     (tskIDLE_PRIORITY + 5)
 /** @brief Debouncer task priority. Highest priority (for short response time) */
 #define DEBOUNCER_TASK_PRIORITY  (configMAX_PRIORITIES)
 /** @brief BLE task priority. Not high. */

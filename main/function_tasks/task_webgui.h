@@ -106,8 +106,9 @@ esp_err_t taskWebGUIInit(void);
  * result in an error!
  * @return ESP_OK on success, ESP_FAIL otherwise
  * @param onoff If != 0, switch on WiFi, switch off if 0.
+ * @param fromISR Set to != 0 if this function is called from ISR context. Otherwise a reset will happen.
  * @see WIFI_OFF_TIME
  * */
-esp_err_t taskWebGUIEnDisable(int onoff);
+esp_err_t taskWebGUIEnDisable(int onoff, bool fromISR);
 
 #endif /* _TASK_WEBGUI_H */

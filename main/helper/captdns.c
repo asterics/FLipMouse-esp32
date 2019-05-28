@@ -29,6 +29,7 @@ the internal webserver.
 #include "string.h"
 
 static int sockFd;
+TaskHandle_t dnsTaskHandle;
 
 #define DNS_LEN 512
 
@@ -316,10 +317,16 @@ static void captdnsTask(void *pvParameters) {
 
 void captdnsInit(void) 
 {
-  xTaskCreate(captdnsTask, (const char *)"captdns", DNS_TASK_STACKSIZE, NULL, 3, NULL);
+  xTaskCreate(captdnsTask, (const char *)"captdns", DNS_TASK_STACKSIZE, NULL, 3, &dnsTaskHandle);
   #if (LOG_LEVEL_DNS>=ESP_LOG_INFO)
   ESP_LOGI(LOG_TAG,"DNS task started");
   #endif
+}
+
+void captdnsDeinit(void)
+{
+  if(dnsTaskHandle != NULL) vTaskDelete(dnsTaskHandle);
+  close(sockFd);
 }
 
 

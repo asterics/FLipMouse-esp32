@@ -81,17 +81,22 @@ uint8_t isWifiOn = 0;
  */
 void switch_radio(void)
 {
+    if((xEventGroupGetBitsFromISR(connectionRoutingStatus) & WIFI_LOCKED) != 0)
+    {
+      ESP_LOGW(LOG_TAG,"Wifi was already used.");
+      return;
+    }
     if(isWifiOn == 0)
     {
         isWifiOn = 1;
         LED(255,0,255,0);
-        taskWebGUIEnDisable(1);
+        taskWebGUIEnDisable(1,true);
     } else {
         uint8_t slotnr = halStorageGetCurrentSlotNumber();
         if(slotnr == 0) slotnr++;
         LED((slotnr%2)*0xFF,((slotnr/2)%2)*0xFF,((slotnr/4)%2)*0xFF,0);
         isWifiOn = 0;
-        taskWebGUIEnDisable(0);
+        taskWebGUIEnDisable(0,true);
     }
 }
 

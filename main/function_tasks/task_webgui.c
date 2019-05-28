@@ -43,7 +43,7 @@
 /** @brief Logging tag for this module */
 #define LOG_TAG "web"
 /** @brief Log level for the web/websocket server */
-#define LOG_LEVEL_WEB ESP_LOG_INFO
+#define LOG_LEVEL_WEB ESP_LOG_DEBUG
 
 /** @brief Authentication mode for wifi hotspot */
 #define CONFIG_AP_AUTHMODE WIFI_AUTH_WPA2_PSK
@@ -70,11 +70,23 @@ const static char http_html_hdr[] = "HTTP/1.1 200 OK\r\n";
 /** @brief Static HTTP redirect header */
 const static char http_redir_hdr[] = "HTTP/1.1 302 Found\r\nLocation: http://192.168.4.1/index.htm\r\n\Expires: Mon, 26 Jul 1997 05:00:00 GMT\r\nCache-Control: no-cache, no-store, must-revalidate\r\nPragma: no-cache\r\nCache-Control: post-check=0, pre-check=0\r\nContent-Length: 0\r\n";
 
-/** Mutex to lock FS access */
+/** @brief Mutex to lock FS access (only one file after another will be sent) */
 SemaphoreHandle_t  fsSem;
 
+/** @brief Webserver socket - general bind
+ * @note This is global to close the socket after the http task is deleted */
+int http_sockfd;
+
+/** @brief Webserver socket - new connection
+ * @note This is global to close the socket after the http task is deleted */
+int http_new_sockfd;
+
+/** @brief Websocket conn reference
+ * @note Global reference to close after task is deleted */
+struct netconn *ws_conn;
+
 /** @brief AP mode config, filled in init */
-wifi_config_t ap_config= {
+/*wifi_config_t ap_config= {
   .ap = {
     //.channel = CONFIG_AP_CHANNEL,
     .authmode = CONFIG_AP_AUTHMODE,
@@ -82,7 +94,27 @@ wifi_config_t ap_config= {
     .max_connection = CONFIG_AP_MAX_CONNECTIONS,
     .beacon_interval = CONFIG_AP_BEACON_INTERVAL,			
   },
-};
+};*/
+
+/** @brief En- or Disable WiFi interface. (non-public method)
+ * 
+ * This method is used to call wifi related functions for
+ * en- / disabling. These cannot be called from ISR context and
+ * should be used synchronized some way.
+ * Here, we will use taskWebGUIEnDisable to set corresponding flags.
+ * 
+ * The http_server task will check these flags and control the
+ * wifi corresponding to these flags.
+ * 
+ * @return ESP_OK on success, ESP_FAIL otherwise
+ * @param onoff If != 0, switch on WiFi, switch off if 0.
+ * @see WIFI_OFF_TIME
+ * @see taskWebGUIEnDisable
+ * @see http_server
+ * @see WIFI_TO_DEACTIVATE
+ * @see WIFI_TO_ACTIVATE
+ * */
+esp_err_t wifiEnDisable(int onoff);
 
 /** @brief Timer handle for auto-disabling wifi */
 TimerHandle_t wifiTimer;
@@ -91,8 +123,6 @@ TimerHandle_t wifiTimer;
 TaskHandle_t wifiWSServerHandle_t = NULL;
 /** @brief Task handle for http server task */
 TaskHandle_t wifiHTTPServerHandle_t = NULL;
-/** @brief Signals any Wifi related task to quit, if set to zero */
-uint8_t wifiActive = 0;
 
 /** @brief Get the number of currently connected Wifi stations
  * @return Number of connected clients */
@@ -161,25 +191,40 @@ void wifiStartStopOffTimer(int onoff)
  * @see halSerialSendUSBSerial
  * */
 void ws_server(void *pvParameters) {
-	//connection references
-	struct netconn *conn, *newconn;
-
+	//wait until wifi is active
+	//we will wait until the flag for WIFI enable request is set.
+	while(((xEventGroupWaitBits(connectionRoutingStatus,WIFI_ACTIVE,pdTRUE, \
+		pdTRUE, portMAX_DELAY)) & WIFI_ACTIVE) == 0);
+	
 	//set up new TCP listener
-	conn = netconn_new(NETCONN_TCP);
-	netconn_bind(conn, NULL, TASK_WEBGUI_WSPORT);
-	netconn_listen(conn);
-  ESP_LOGI(LOG_TAG,"Websocket server started");
+	struct netconn *ws_newconn;
+	ws_conn = netconn_new(NETCONN_TCP);
+	if(netconn_bind(ws_conn, NULL, TASK_WEBGUI_WSPORT) != ERR_OK)
+	{
+		ESP_LOGE(LOG_TAG,"WS bind failed");
+	} else ESP_LOGI(LOG_TAG,"WS bind");
+	if(netconn_listen(ws_conn) != ERR_OK)
+	{
+		ESP_LOGE(LOG_TAG,"WS listen failed");
+	} else ESP_LOGI(LOG_TAG,"WS listen");
+    ESP_LOGI(LOG_TAG,"Websocket server started");
+    
 	//wait for connections
-	while((netconn_accept(conn, &newconn) == ERR_OK) && wifiActive)
-  {
-    ESP_LOGI(LOG_TAG,"Incoming WS connection");
-    //add the websocket sending functions to hal_serial for getting output data
-    halSerialAddOutputStream(WS_write_data);
-		ws_server_netconn_serve(newconn);
-  }
-	//close connection
-	netconn_close(conn);
-  vTaskDelete(NULL);
+	//and check if wifi is active or is to be activated
+	while(1)
+	{
+		err_t ret = netconn_accept(ws_conn, &ws_newconn);
+		if(ret != ERR_OK)
+		{
+			ESP_LOGE(LOG_TAG,"Error accept: %d",ret);
+			vTaskDelay(10);
+			continue;
+		}
+		ESP_LOGI(LOG_TAG,"Incoming WS connection");
+		//add the websocket sending functions to hal_serial for getting output data
+		halSerialAddOutputStream(WS_write_data);
+		ws_server_netconn_serve(ws_newconn);
+	}
 }
 
 /** @brief Helper, sending redirect header */
@@ -187,6 +232,25 @@ void redirect(char* resource, int fd)
 {
   send(fd, http_redir_hdr, sizeof(http_redir_hdr) - 1, 0);
   ESP_LOGI(LOG_TAG,"Sending redirect for %s",resource);
+}
+
+/** @brief Timer callback for disabling wifi.
+ * 
+ * This callback is executed, if the time expires after the last client
+ * disconnects. It will disable wifi.
+ * @param xTimer Timer handle which was used for calling this CB
+ * */
+void wifi_timer_cb(TimerHandle_t xTimer)
+{
+  if(taskWebGUIEnDisable(0,false) != ESP_OK)
+  {
+    ESP_LOGE(LOG_TAG,"Disabling wifi automatically: error!");
+  } else {
+    uint8_t slotnr = halStorageGetCurrentSlotNumber();
+	if(slotnr == 0) slotnr++;
+	LED((slotnr%2)*0xFF,((slotnr/2)%2)*0xFF,((slotnr/4)%2)*0xFF,0);
+	ESP_LOGI(LOG_TAG,"Disabling wifi - no clients connected");
+  }
 }
 
 /** @brief Serve static content from FAT
@@ -355,7 +419,7 @@ static void http_server_netconn_serve(int fd) {
 
 
 
-/** @brief CONTINOUS TASK - Main webserver task
+/** @brief Main webserver task
  * 
  * This task is used to handle incoming connections via netconn_accept.
  * Each time a connection is opened, it will be served by
@@ -365,13 +429,18 @@ static void http_server_netconn_serve(int fd) {
  * @param pvParameters Unused.
  * */
 static void http_server(void *pvParameters) {
-  int sockfd, new_sockfd;
   socklen_t addr_len;
   struct sockaddr_in sock_addr;
 	int ret;
+  //we will wait until the flag for WIFI enable request is set.
+  while(((xEventGroupWaitBits(connectionRoutingStatus,WIFI_TO_ACTIVATE,pdTRUE, \
+	pdTRUE, portMAX_DELAY)) & WIFI_TO_ACTIVATE) == 0);
+  //lets start the Wifi stack
+  wifiEnDisable(1);
+	
   //create a new TCP connection
-	sockfd = socket(AF_INET, SOCK_STREAM, 0);
-  if (sockfd < 0) {
+  http_sockfd = socket(AF_INET, SOCK_STREAM, 0);
+  if (http_sockfd < 0) {
     ESP_LOGE(LOG_TAG,"Cannot create socket");
   }
   //bind it to incoming port 80 (HTTP)
@@ -379,39 +448,38 @@ static void http_server(void *pvParameters) {
   sock_addr.sin_family = AF_INET;
   sock_addr.sin_addr.s_addr = 0;
   sock_addr.sin_port = htons(80);
-  ret = bind(sockfd, (struct sockaddr*)&sock_addr, sizeof(sock_addr));
+  ret = bind(http_sockfd, (struct sockaddr*)&sock_addr, sizeof(sock_addr));
   if(ret) {
     ESP_LOGE(LOG_TAG,"Failed to bind: %d",ret);
-    close(sockfd);
-    sockfd = -1;
+    close(http_sockfd);
+    http_sockfd = -1;
     vTaskDelete(NULL);
   }
-  ret = listen(sockfd, 1);
+  ret = listen(http_sockfd, 1);
     if(ret) {
     ESP_LOGE(LOG_TAG,"Failed to listen: %d",ret);
-    close(sockfd);
-    sockfd = -1;
+    close(http_sockfd);
+    http_sockfd = -1;
     vTaskDelete(NULL);
   }
 	ESP_LOGI(LOG_TAG,"http_server task started");
   
 	do {
     //accept connection & save netconn handle
-		new_sockfd = accept(sockfd, (struct sockaddr *)&sock_addr, &addr_len);
-    if (new_sockfd < 0) {
-        ESP_LOGE(LOG_TAG, "Failed to accept: %d",new_sockfd);
-    } else {
-      //serve
-      http_server_netconn_serve(new_sockfd);
-      //close
-      close(new_sockfd);
-    }
+		http_new_sockfd = accept(http_sockfd, (struct sockaddr *)&sock_addr, &addr_len);
+	    if (http_new_sockfd < 0) {
+	        ESP_LOGE(LOG_TAG, "Failed to accept: %d",http_new_sockfd);
+	    } else {
+	      //serve
+	      http_server_netconn_serve(http_new_sockfd);
+	      //close
+	      close(http_new_sockfd);
+	    }
 		vTaskDelay(1); //allows task to be pre-empted
-	} while(wifiActive);
-  ESP_LOGI(LOG_TAG,"Killing http task");
+	} while(1);
   //if we run into an error or this task is going to be removed
-	close(new_sockfd);
-	close(sockfd);
+	close(http_new_sockfd);
+	close(http_sockfd);
   //delete task
   vTaskDelete(NULL);
 }
@@ -443,6 +511,7 @@ static esp_err_t wifi_event_handler(void *ctx, system_event_t *event) {
   switch(event->event_id) {
 		
     case SYSTEM_EVENT_STA_START:
+      ESP_LOGE(LOG_TAG,"Shit!");
       esp_wifi_connect();
       break;
 
@@ -500,9 +569,62 @@ static esp_err_t wifi_event_handler(void *ctx, system_event_t *event) {
  * result in an error!
  * @return ESP_OK on success, ESP_FAIL otherwise
  * @param onoff If != 0, switch on WiFi, switch off if 0.
+ * @param fromISR Set to != 0 if this function is called from ISR context. Otherwise a reset will happen.
  * @see WIFI_OFF_TIME
  * */
-esp_err_t taskWebGUIEnDisable(int onoff)
+esp_err_t taskWebGUIEnDisable(int onoff, bool fromISR)
+{
+	//check first if wifi was already used...
+	EventBits_t status;
+	if(fromISR) status = xEventGroupGetBits(connectionRoutingStatus);
+	else status = xEventGroupGetBitsFromISR(connectionRoutingStatus);
+	if((status & WIFI_LOCKED) != 0)
+	{
+		ESP_LOGW(LOG_TAG,"Wifi can be enabled/disabled only once each powercycle!");
+		return ESP_FAIL;
+	}
+	
+	BaseType_t xHigherPriorityTaskWoken, xResult;
+	if(onoff != 0)
+	{
+		if(fromISR)
+		{
+			xHigherPriorityTaskWoken = pdFALSE;
+			xResult = xEventGroupSetBitsFromISR(connectionRoutingStatus, \
+				WIFI_TO_ACTIVATE, &xHigherPriorityTaskWoken);
+			/* Was the message posted successfully? */
+			if(xResult != pdFAIL && xHigherPriorityTaskWoken) portYIELD_FROM_ISR();
+		} else {
+			//en- /disable wifi in non-ISR mode
+			xEventGroupSetBits(connectionRoutingStatus,WIFI_TO_ACTIVATE);
+		}
+	} else {
+		//disable wifi by killing all that stuff...
+		wifiEnDisable(0);
+	}
+	return ESP_OK;
+}
+
+/** @brief En- or Disable WiFi interface. (non-public method)
+ * 
+ * This method is used to call wifi related functions for
+ * en- / disabling. These cannot be called from ISR context and
+ * should be used synchronized some way.
+ * Here, we will use taskWebGUIEnDisable to set corresponding flags.
+ * 
+ * The http_server task will check these flags and control the
+ * wifi corresponding to these flags.
+ * 
+ * @return ESP_OK on success, ESP_FAIL otherwise
+ * @warning Not ISR safe, this should be called only with care (HTTP/WS/DNS tasks are killed)
+ * @param onoff If != 0, switch on WiFi, switch off if 0.
+ * @see WIFI_OFF_TIME
+ * @see taskWebGUIEnDisable
+ * @see http_server
+ * @see WIFI_TO_DEACTIVATE
+ * @see WIFI_TO_ACTIVATE
+ * */
+esp_err_t wifiEnDisable(int onoff)
 {
   esp_err_t ret;
   //should we enable or disable wifi?
@@ -511,28 +633,56 @@ esp_err_t taskWebGUIEnDisable(int onoff)
     //clear wifi flags
     xEventGroupClearBits(connectionRoutingStatus, WIFI_ACTIVE | WIFI_CLIENT_CONNECTED);
     
-    //pause tasks
-    //if(wifiWSServerHandle_t != NULL) vTaskSuspend(wifiWSServerHandle_t);
-    //if(wifiHTTPServerHandle_t != NULL) vTaskSuspend(wifiHTTPServerHandle_t);
+    //killall tasks
+    captdnsDeinit();
+    if(wifiHTTPServerHandle_t != NULL) vTaskDelete(wifiHTTPServerHandle_t);
+    if(wifiWSServerHandle_t != NULL) vTaskDelete(wifiWSServerHandle_t);
+    //close remaining sockets
+    close(http_new_sockfd);
+    close(http_sockfd);
+    netconn_close(ws_conn);
     
+    //signal an already used wifi
+    xEventGroupSetBits(connectionRoutingStatus,WIFI_LOCKED);
+
     //disable, call wifi_stop
     if(esp_wifi_stop() == ESP_OK)
     {
-      ret = ESP_OK;
-      //ret = esp_wifi_deinit();
+      ret = esp_wifi_deinit();
     } else {
       ret = ESP_OK;
     }
     //check return value
     if(ret != ESP_OK)
     {
-      ESP_LOGE(LOG_TAG,"Please initialize WiFi prior to enable/disable it!");
+      ESP_LOGE(LOG_TAG,"Please initialize WiFi prior to disable it!");
       return ESP_FAIL;
-    } else return ESP_OK;
+    } else {
+		return ESP_OK;
+	}
   } else {
-
-    //start wifi
+	//based on softAP example of Espressif.
+	tcpip_adapter_init();
+    ESP_ERROR_CHECK(esp_event_loop_init(wifi_event_handler, NULL))
+    wifi_init_config_t cfg = WIFI_INIT_CONFIG_DEFAULT();
+    ESP_ERROR_CHECK(esp_wifi_init(&cfg));
+    wifi_config_t wifi_config = {
+        .ap = {
+            .ssid = CONFIG_AP_SSID,
+            .ssid_len = strlen(CONFIG_AP_SSID),
+            .password = CONFIG_AP_PASSWORD,
+            .max_connection = CONFIG_AP_MAX_CONNECTIONS,
+            .authmode = WIFI_AUTH_WPA_WPA2_PSK
+        },
+    };
+    esp_wifi_set_mode(WIFI_MODE_AP);
+    esp_wifi_set_config(ESP_IF_WIFI_AP, &wifi_config);
     ret = esp_wifi_start();
+	  
+	ESP_LOGI(LOG_TAG,"AP - PW: %s (%d)",wifi_config.ap.password,strnlen(wifipw,32));
+	ESP_LOGI(LOG_TAG,"AP - SSID: %s (%d)",wifi_config.ap.ssid, wifi_config.ap.ssid_len);
+
+	//check esp_wifi_start's return value
     switch(ret)
     {
       //everything ok
@@ -554,39 +704,16 @@ esp_err_t taskWebGUIEnDisable(int onoff)
         return ESP_FAIL;
     }
     
-    // start/resume the HTTP Server tasks
-    wifiActive = 1;
-    /*if(wifiHTTPServerHandle_t == NULL)
-    {
-      xTaskCreate(&http_server, "http_server", TASK_WEBGUI_SERVER_STACKSIZE, NULL, 5, &wifiHTTPServerHandle_t);
-    } else {
-      vTaskResume(wifiHTTPServerHandle_t);
-    }
-    if(wifiWSServerHandle_t == NULL)
-    {
-      xTaskCreate(&ws_server, "ws_server", TASK_WEBGUI_WEBSOCKET_STACKSIZE, NULL, 5, &wifiWSServerHandle_t);
-    } else {
-      vTaskResume(wifiWSServerHandle_t);
-    }*/
-    
-    //wait 250ms for WiFi stack to settle
+    //wait 200ms for WiFi stack to settle
     vTaskDelay(200/portTICK_PERIOD_MS);
     
+    /*++++ initialize capitive portal dns server ++++*/
+	captdnsInit();
+    
+    /*++++ start Websocket task ++++*/
+	xTaskCreate(&ws_server, "ws_server", TASK_WEBGUI_WEBSOCKET_STACKSIZE, NULL, 5, &wifiWSServerHandle_t);
+    
     return ESP_OK;
-  }
-}
-
-/** @brief Timer callback for disabling wifi.
- * 
- * This callback is executed, if the time expires after the last client
- * disconnects. It will disable wifi.
- * @param xTimer Timer handle which was used for calling this CB
- * */
-void wifi_timer_cb(TimerHandle_t xTimer)
-{
-  if(taskWebGUIEnDisable(0) != ESP_OK)
-  {
-    ESP_LOGE(LOG_TAG,"Disabling wifi automatically: error!");
   }
 }
 
@@ -626,60 +753,30 @@ esp_err_t taskWebGUIInit(void)
     strncpy(wifipw,CONFIG_AP_PASSWORD,32);
   }
   
-  //ESP_LOGE(LOG_TAG,"Currently disabled");
-  //return ESP_OK;
-  
-  /*++++ initialize WiFi (AP-mode) ++++*/
   esp_log_level_set("wifi", ESP_LOG_VERBOSE); // disable wifi driver logging
-	tcpip_adapter_init();
   
-	// initialize the wifi event handler
-	ESP_ERROR_CHECK(esp_event_loop_init(wifi_event_handler, NULL));
-	
-	// initialize the wifi stack in AccessPoint mode with config in RAM
-	//wifi_init_config = WIFI_INIT_CONFIG_DEFAULT();
-  memcpy(ap_config.ap.ssid,CONFIG_AP_SSID,strnlen(CONFIG_AP_SSID,32));
-  ap_config.ap.ssid_len = strnlen(CONFIG_AP_SSID,32),
   
-	// configure the wifi password
-  memcpy(ap_config.ap.password,wifipw,strnlen(wifipw,32)+1);
-  ESP_LOGI(LOG_TAG,"Wifipw: %s",ap_config.ap.password);
-  
-  //Wifi config
-  wifi_init_config_t wifi_init_config = WIFI_INIT_CONFIG_DEFAULT();
-  //init wifi & set AP mode
-  ESP_ERROR_CHECK(esp_wifi_init(&wifi_init_config));
-  //bring into AP mode
-  ESP_ERROR_CHECK(esp_wifi_set_mode(WIFI_MODE_AP));
-  //apply config
-  ESP_ERROR_CHECK(esp_wifi_set_config(WIFI_IF_AP, &ap_config));
-  
-    
-  /*++++ initialize capitive portal dns server ++++*/
-	captdnsInit();
-  
-  /*++++ initialize storage, having a definetly opened partition ++++*/
+  /*++++ initialize storage, having an opened partition ++++*/
   uint32_t tid;
   if(halStorageStartTransaction(&tid,20,"webgui") != ESP_OK) {
     ESP_LOGE(LOG_TAG,"Cannot initialize storage");
   }
   halStorageFinishTransaction(tid);
-  
+
+  /*++++ init mutex for FS access */
+  fsSem = xSemaphoreCreateMutex();
+  	  
   /*++++ initialize auto-off timer */
   //init timer with given number of minutes. No reload, no timer id.
   wifiTimer = xTimerCreate("wifi-autooff",(WIFI_OFF_TIME * 60000) / portTICK_PERIOD_MS, \
-    pdFALSE,(void *) 0,wifi_timer_cb);
+      pdFALSE,(void *) 0,wifi_timer_cb);
   if(wifiTimer == NULL)
   {
     ESP_LOGE(LOG_TAG,"Cannot start wifi disabling timer, no auto disable!");
   }
   
-  /*++++ init mutex for FS access */
-  fsSem = xSemaphoreCreateMutex();
-  
-  /*++++ start Websocket + HTTP task */
+  /*++++ start HTTP task ++++*/
   xTaskCreate(&http_server, "http_server", TASK_WEBGUI_SERVER_STACKSIZE, NULL, 5, &wifiHTTPServerHandle_t);
-  xTaskCreate(&ws_server, "ws_server", TASK_WEBGUI_WEBSOCKET_STACKSIZE, NULL, 5, &wifiWSServerHandle_t);
   
   return ESP_OK;
 }

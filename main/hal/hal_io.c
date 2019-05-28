@@ -48,6 +48,8 @@
 
 /** @brief Log tag */
 #define LOG_TAG "halIO"
+/** @brief Set a global log limit for this file */
+#define LOG_LEVEL_IO ESP_LOG_INFO
 
 /** @brief LED update queue
  * 
@@ -481,6 +483,7 @@ void halIOTimerCallback(TimerHandle_t xTimer)
  * */
 esp_err_t halIOInit(void)
 {
+  esp_log_level_set(LOG_TAG,LOG_LEVEL_IO);
   generalConfig_t *cfg = configGetCurrent();
   
   if(cfg == NULL)

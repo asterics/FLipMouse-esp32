@@ -55,7 +55,7 @@ esp_err_t fct_macro(char *param)
   int offset = 0;
   int start = 0;
   
-  while(offset < SLOTNAME_LENGTH)
+  while(offset < ATCMD_LENGTH)
   {
     //end loop if terminators are detected.
     if(param[offset] == '\r' || param[offset] == '\n') break;
@@ -82,6 +82,7 @@ esp_err_t fct_macro(char *param)
         if(time < 30000)
         {
           vTaskDelay(time / portTICK_PERIOD_MS);
+          ESP_LOGD(LOG_TAG,"Waiting: %d ms",time);
         } else {
           ESP_LOGE(LOG_TAG,"Hit AT WA with a delay time too high: %d",time);
         }

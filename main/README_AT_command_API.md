@@ -16,19 +16,19 @@ The ESP32 chip itself does NOT have a USB connection. Therefore, we integrated a
 (LPC11U14) is located here: [usb_bridge repository](https://github.com/benjaminaigner/usb_bridge)
 
 **Note:**
-Please note that all following commands, which do NOT have a FUNCTIONAL task, cannot be assigned to a virtual button (via AT BM).
+Please note that all following commands, which do NOT have a fct_* file or are done via a handler, cannot be assigned to a virtual button (via AT BM).
 These commands can be used to configure the FLipMouse/FABI, in a macro or for slot management.
 
 Following commands are currently available:
 
 **General Commands**
-| Command | Parameter | Description | Available since | Implemented in v3 | FUNCTIONAL task |
-|:--------|:----------|:------------|:--------------|:--------------------|:----------------|
+| Command | Parameter | Description | Available since | Implemented in v3 | fct_* file / handler |
+|:--------|:----------|:------------|:--------------|:--------------------|:---------------------|
 | AT    | --  | returns OK   | v2 | yes | no |
 | AT ID | --  | returns the current version string  | v2 | yes | no |
 | AT BM | number (0-VB_MAX-1)  | set the button, which corresponds to the next command. The button assignments are described on the bottom | v2 | yes | no |
 | AT BL | number (0,1) | enable/disable output of triggered virtual buttons. Is used with AT BM for command learning | v3 | untested | no (handled in task_debouncer) |
-| AT MA | string | execute macro (';' separated list of commands, see [Macros](https://github.com/asterics/FLipMouse/wiki/macros)) <sup>[A](#footnoteA)</sup>  | v2 | yes | yes (task_macro) |
+| AT MA | string | execute macro (';' separated list of commands, see [Macros](https://github.com/asterics/FLipMouse/wiki/macros)) <sup>[A](#footnoteA)</sup>  | v2 | yes | fct_macros |
 | AT WA | number (0-30000) | wait/delay (ms); useful for macros. Does nothing if not used in macros. | v2 | yes | yes/no <sup>[B](#footnoteB)</sup> |
 | AT RO | number (0,90,180,270) | orientation (0 => LEDs on top) | v2 | yes | no |
 | AT KL | number | Set keyboard locale (locale defines are listed below) | v3 | yes | no |
@@ -44,52 +44,52 @@ Following commands are currently available:
 
 <a name="footnoteA"><b>A</b></a>: If you want to have a semicolon character WITHIN an AT command, please escape it with a backslash sequence: "\;". All other characters can be used normally.
 
-<a name="footnoteB"><b>B</b></a>: AT WA is done in task_macro, but cannot be used in any other way except a macro ( _AT MA_ ).
+<a name="footnoteB"><b>B</b></a>: AT WA is done in fct_macros, but cannot be used in any other way except a macro ( _AT MA_ ).
 
 <a name="footnoteC"><b>C</b></a>: Either combine the anti-tremor time settings with a previously sent _AT BM_ command to set a debouncing time for an individual virtual button **OR** use this command
 individually to set a global value.
 
 **USB HID Commands**
-| Command | Parameter | Description | Available since | Implemented in v3 | FUNCTIONAL task |
-|:--------|:----------|:------------|:--------------|:--------------------|:----------------|
-| AT CL | --  | Click left mouse button | v2 | yes | yes (task_hid) |
-| AT CR | --  | Click right mouse button  | v2 | yes | yes (task_hid) |
-| AT CM | --  | Click middle mouse button  | v2 | yes | yes (task_hid) |
-| AT CD | --  | Doubleclick left mouse button  | v2 | yes | yes (task_hid) |
+| Command | Parameter | Description | Available since | Implemented in v3 | fct_* file / handler |
+|:--------|:----------|:------------|:--------------|:--------------------|:---------------------|
+| AT CL | --  | Click left mouse button | v2 | yes | handler_hid |
+| AT CR | --  | Click right mouse button  | v2 | yes | handler_hid |
+| AT CM | --  | Click middle mouse button  | v2 | yes | handler_hid |
+| AT CD | --  | Doubleclick left mouse button  | v2 | yes | handler_hid |
 |       |   |   ||| |
-| AT HL/AT PL | --  | Press+hold left mouse button (if assigned to a VB, release depends on button release) | v2 | yes | yes (task_hid) |
-| AT HR/AT PR | --  | Press+hold right mouse button  (if assigned to a VB, release depends on button release) | v2 | yes | yes (task_hid) |
-| AT HM/AT PM | --  | Press+hold middle mouse button  (if assigned to a VB, release depends on button release) | v2 | yes | yes (task_hid) |
+| AT HL/AT PL | --  | Press+hold left mouse button (if assigned to a VB, release depends on button release) | v2 | yes | handler_hid |
+| AT HR/AT PR | --  | Press+hold right mouse button  (if assigned to a VB, release depends on button release) | v2 | yes | handler_hid |
+| AT HM/AT PM | --  | Press+hold middle mouse button  (if assigned to a VB, release depends on button release) | v2 | yes | handler_hid |
 |       |   |   ||| |
-| AT RL | --  | Release left mouse button  | v2 | yes | yes (task_hid) |
-| AT RR | --  | Release right mouse button  | v2 | yes | yes (task_hid) |
-| AT RM | --  | Release middle mouse button  | v2 | yes | yes (task_hid) |
+| AT RL | --  | Release left mouse button  | v2 | yes | handler_hid |
+| AT RR | --  | Release right mouse button  | v2 | yes | handler_hid |
+| AT RM | --  | Release middle mouse button  | v2 | yes | handler_hid |
 |       |   |   ||| |
-| AT TL | --  | Toggle left mouse button  | v2 | yes | yes (task_hid) |
-| AT TR | --  | Toggle right mouse button  | v2 | yes | yes (task_hid) |
-| AT TM | --  | Toggle middle mouse button  | v2 | yes | yes (task_hid) |
+| AT TL | --  | Toggle left mouse button  | v2 | yes | handler_hid |
+| AT TR | --  | Toggle right mouse button  | v2 | yes | handler_hid |
+| AT TM | --  | Toggle middle mouse button  | v2 | yes | handler_hid |
 |       |   |   ||| |
-| AT WU | --  | Move mouse wheel up  | v2 | yes | yes (task_hid) |
-| AT WD | --  | Move mouse wheel down  | v2 | yes | yes (task_hid) |
+| AT WU | --  | Move mouse wheel up  | v2 | yes | handler_hid |
+| AT WD | --  | Move mouse wheel down  | v2 | yes | handler_hid |
 | AT WS | number (1-127)  | Set mousewheel stepsize (e.g.: "AT WS 3" sets the stepsize to 3 rows)| v2 | yes | no |
 |       |   |   ||| |
-| AT MX | number  | Move mouse (X direction), e.g. AT MX -25  | v2 | yes | yes (task_hid) |
-| AT MY | number  | Move mouse (Y direction), e.g. AT MY 10  | v2 | yes | yes (task_hid) |
+| AT MX | number  | Move mouse (X direction), e.g. AT MX -25  | v2 | yes | handler_hid |
+| AT MY | number  | Move mouse (Y direction), e.g. AT MY 10  | v2 | yes | handler_hid |
 |       |   |   ||| |
-| AT KW | string  | Keyboard write (e.g. "AT KW Hi" types "Hi") | v2 | yes | yes (task_hid) |
-| AT KP | string  | Key press ("click") (e.g. "AT KP KEY_UP" presses & releases the up arrow key), a full list of supported key identifiers is provided on the bottom. | v2 | yes | yes (task_hid) |
-| AT KH | string  | Key hold (e.g. "AT KH KEY_UP" presses & holds the up arrow key.), a full list of supported key identifiers is provided on the bottom  | v2 | untested | yes (task_hid) |
-| AT KR | string  | Key release (e.g. "AT KR KEY_UP" releases the up arrow key)  | v2 | untested | yes (task_hid) |
-| AT KT | string  | Key toggle (e.g. "AT KT KEY_UP" toggles the up arrow key)  | v2 | untested | yes (task_hid) |
+| AT KW | string  | Keyboard write (e.g. "AT KW Hi" types "Hi") | v2 | yes | handler_hid |
+| AT KP | string  | Key press ("click") (e.g. "AT KP KEY_UP" presses & releases the up arrow key), a full list of supported key identifiers is provided on the bottom. | v2 | yes | handler_hid |
+| AT KH | string  | Key hold (e.g. "AT KH KEY_UP" presses & holds the up arrow key.), a full list of supported key identifiers is provided on the bottom  | v2 | untested | handler_hid |
+| AT KR | string  | Key release (e.g. "AT KR KEY_UP" releases the up arrow key)  | v2 | untested | handler_hid |
+| AT KT | string  | Key toggle (e.g. "AT KT KEY_UP" toggles the up arrow key)  | v2 | untested | handler_hid |
 | AT RA | --  | Release all keys  | v2 | untested | no |
 **Storage commands** 
-| Command | Parameter | Description | Available since | Implemented in v3 | FUNCTIONAL task |
-|:--------|:----------|:------------|:--------------|:--------------------|:----------------|
+| Command | Parameter | Description | Available since | Implemented in v3 | fct_* file / handler |
+|:--------|:----------|:------------|:--------------|:--------------------|:---------------------|
 | AT SA | string  | save current configuration at the next free EEPROM slot under the give name (e.g. "AT SA mouse" stores a slot with the name "mouse"  | v2 | yes | no |
-| AT LO | string  | load a configuration from the EEPROM (e.g. "AT LO mouse")  | v2 | yes | yes (task_configswitcher) |
+| AT LO | string  | load a configuration from the EEPROM (e.g. "AT LO mouse")  | v2 | yes | handler_vb |
 | AT LA | --  | load all slots and print the configuration. Note: if no slot is available, this command initializes the mouse slot (this is only active if ACTIVATE_V25_COMPAT is defined)   | v2 | yes | no |
 | AT LI | --  | list all available slots   | v2 | yes | no |
-| AT NE | --  | load next slot (wrap around after the last slot)  | v2 | yes | yes (task_configswitcher) |
+| AT NE | --  | load next slot (wrap around after the last slot)  | v2 | yes | handler_vb |
 | AT DE | --  | delete all slots  | v2 | yes | no |
 | AT DL | number (0-250) | delete one slot.  | v3 | yes | no |
 | AT DN | string | delete one slot by name  | v3 | yes | no |
@@ -98,13 +98,13 @@ individually to set a global value.
 | AT E1 | --  | enable debug output  | v2 | never, use make monitor | - |
 | AT E2 | --  | enable debug output (extended) | v2 | never, use make monitor | - |
 **Mouthpiece settings** 
-| Command | Parameter | Description | Available since | Implemented in v3 | FUNCTIONAL task |
-|:--------|:----------|:------------|:--------------|:--------------------|:----------------|
+| Command | Parameter | Description | Available since | Implemented in v3 | fct_* file / handler |
+|:--------|:----------|:------------|:--------------|:--------------------|:---------------------|
 | AT MM | number (0,1,2,3)  | use the mouthpiece either as mouse cursor (AT MM 1), alternative function (AT MM 0), joystick (AT MM 2) or disable it (AT MM 3)  | v2 | yes | no |
 | AT SW | --  | switch between cursor and alternative mode  | v2 | yes | no |
 | AT SR | --  | start reporting out the raw sensor values ("VALUES:<pressure>,<up>,<down>,<left>,<right>,<x>,<y>" | v2 | yes | no |
 | AT ER | --  | stop reporting the sensor values  | v2 | yes | no |
-| AT CA | --  | trigger zeropoint calibration  | v2 | yes | yes (task_calibration) |
+| AT CA | --  | trigger zeropoint calibration  | v2 | yes | handler_vb |
 | AT AX | number (0-100)  | sensitivity x-axis  | v2 | yes | no |
 | AT AY | number (0-100)  | sensitivity y-axis  | v2 | yes | no |
 | AT AC | number (0-100)  | acceleration  | v2 | yes | no |
@@ -119,18 +119,18 @@ individually to set a global value.
 | AT OC | number (5-15)   | On-the-fly calibration, idle counter before calibrating | v3 | yes | no |
 
 **Joystick settings**
-| Command | Parameter | Description | Available since | Implemented in v3 | FUNCTIONAL task |
-|:--------|:----------|:------------|:--------------|:--------------------|:----------------|
-| AT JX | number (0-1023) + number(0,1)  | Joystick X-axis <sup>[D](#footnoteD)</sup> | v2 | yes | yes (task_hid) |
-| AT JY | number (0-1023) + number(0,1)  | Joystick Y-axis <sup>[D](#footnoteD)</sup> | v2 | yes | yes (task_hid) |
-| AT JZ | number (0-1023) + number(0,1)  | Joystick Z-axis <sup>[D](#footnoteD)</sup> | v2 | yes | yes (task_hid) |
-| AT JT | number (0-1023) + number(0,1)  | Joystick Z-rotate <sup>[D](#footnoteD)</sup> | v2 | yes | yes (task_hid) |
-| AT JS | number (0-1023) + number(0,1)  | Joystick Slider left <sup>[D](#footnoteD)</sup> | v2 | yes | yes (task_hid) |
-| AT JU | number (0-1023) + number(0,1)  | Joystick Slider right <sup>[D](#footnoteD)</sup> | v3 | untested | yes (task_hid) |
-| AT JP | number (1-32)  | Button press (if assigned to a VB, release depends on button release) | v2 | yes | yes (task_hid) |
-| AT JC | number (1-32)  | Button click | v3 | yes | yes (task_hid) |
-| AT JR | number (1-32)  | Button release | v2 | yes | yes (task_hid) |
-| AT JH | number (-1, 0-7) + number(0,1) | Joystick hat (rest position: -1, 0-7 (mapped to 45° steps)) <sup>[D](#footnoteD)</sup> | v2 | yes | yes (task_hid) |
+| Command | Parameter | Description | Available since | Implemented in v3 | fct_* file / handler |
+|:--------|:----------|:------------|:--------------|:--------------------|:---------------------|
+| AT JX | number (0-1023) + number(0,1)  | Joystick X-axis <sup>[D](#footnoteD)</sup> | v2 | yes | handler_hid |
+| AT JY | number (0-1023) + number(0,1)  | Joystick Y-axis <sup>[D](#footnoteD)</sup> | v2 | yes | handler_hid |
+| AT JZ | number (0-1023) + number(0,1)  | Joystick Z-axis <sup>[D](#footnoteD)</sup> | v2 | yes | handler_hid |
+| AT JT | number (0-1023) + number(0,1)  | Joystick Z-rotate <sup>[D](#footnoteD)</sup> | v2 | yes | handler_hid |
+| AT JS | number (0-1023) + number(0,1)  | Joystick Slider left <sup>[D](#footnoteD)</sup> | v2 | yes | handler_hid |
+| AT JU | number (0-1023) + number(0,1)  | Joystick Slider right <sup>[D](#footnoteD)</sup> | v3 | untested | handler_hid |
+| AT JP | number (1-32)  | Button press (if assigned to a VB, release depends on button release) | v2 | yes | handler_hid |
+| AT JC | number (1-32)  | Button click | v3 | yes | handler_hid |
+| AT JR | number (1-32)  | Button release | v2 | yes | handler_hid |
+| AT JH | number (-1, 0-7) + number(0,1) | Joystick hat (rest position: -1, 0-7 (mapped to 45° steps)) <sup>[D](#footnoteD)</sup> | v2 | yes | handler_hid |
 
 Please note, that joystick is currently not available for Bluetooth connections.
 
@@ -141,11 +141,11 @@ If set to 0 (or no parameter given, compatible to v2), the axis/slider/hat won't
 If set to 1, the axis/slider/hat will be released to its idle position on a VB release action (idle values: axis - 512; slider - 0; hat - -1). In singleshot mode, the release actions is sent immediately afterwards!
 
 **Infrared commands** 
-| Command | Parameter | Description | Available since | Implemented in v3 | FUNCTIONAL task |
-|:--------|:----------|:------------|:--------------|:--------------------|:----------------|
+| Command | Parameter | Description | Available since | Implemented in v3 | fct_* file / handler |
+|:--------|:----------|:------------|:--------------|:--------------------|:---------------------|
 | AT IR | string (2-32chars)  | record a new infrared command, store it with the given name  | v2 | yes | no |
-| AT IP | string (2-32chars)  | replay a recorded IR command, stored with the given name  | v2 | yes | yes (task_infrared) |
-| AT IH | string (max: ~250chars)  | play a hex string (replay a given hex string sent by "AT IR") | v3 | no | yes (task_infrared) |
+| AT IP | string (2-32chars)  | replay a recorded IR command, stored with the given name  | v2 | yes | fct_infrared |
+| AT IH | string (max: ~250chars)  | play a hex string (replay a given hex string sent by "AT IR") | v3 | no | fct_infrared |
 | AT IC | string (2-32chars) | clear an IR command, defined by the name  | v2 | yes | no |
 | AT IW | --  | wipe all IR commands  | v2 | yes | no |
 | AT IT | number (2-100) | timeout for recording IR commands (time[ms] between 2 edges) | v2 | yes | no |

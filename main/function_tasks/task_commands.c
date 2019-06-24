@@ -67,10 +67,10 @@ hid_cmd_t joystickR;
  * will be sent to task_hid */
 hid_cmd_t mouse;
 
-/** @brief Global HID command for general data transmitted via the HID interface.
+/** @brief Global command for general data transmitted via the HID (I2C) interface.
  * This command is set by the command handlers.
  * If one field was modified by a handler, it
- * will be sent to task_hid */
+ * will be sent to the USB chip */
 hid_cmd_t general;
 
 /** @brief Global release HID command for mouse
@@ -318,7 +318,30 @@ esp_err_t cmdPw(char* orig, void* p1, void* p2)
   return halStorageNVSStoreString(NVS_WIFIPW,(char*)p1);
 }
 esp_err_t cmdFw(char* orig, void* p1, void* p2) {
-  general.cmd[0] = ((int32_t) p1)+2; //valid: 0x02 / 0x03
+  esp_partition_t* factory;
+  //determine update mode
+  switch((int32_t) p1)
+  {
+	  //update ESP32 by setting the factory partition to boot next time
+	  case 2:
+		factory = esp_partition_find_first(ESP_PARTITION_TYPE_APP,\
+		  ESP_PARTITION_SUBTYPE_APP_FACTORY, NULL);
+		if(factory == NULL)
+		{
+			ESP_LOGE(LOG_TAG,"Cannot find factory partition");
+			return ESP_FAIL;
+		}
+		if(esp_ota_set_boot_partition(factory) != ESP_OK)
+		{
+			ESP_LOGE(LOG_TAG,"Cannot activate factory partition");
+			return ESP_FAIL;
+		}
+		general.cmd[0] = 0x02;
+	  //update LPC by sending a command via I2C
+	  case 3:
+		general.cmd[0] = 0x03;
+	  default: return ESP_FAIL;
+  }
   return ESP_OK;
 }
 
@@ -1441,7 +1464,13 @@ void task_commands(void *params)
       {
         //now send all VBs. They are checked for data in the helper.
         sendVBCmd(&vbaction,requestVBUpdate | (0x80),commandBuffer,1);
-        //sendVBCmd(&generalR,requestVBUpdate,(char*)commandBuffer); //currently unused
+        //check if a general action is required
+        if(general.cmd[0] != 0)
+        {
+			//we will wait for 10 ticks maximum, this command should 
+			//not be discarded
+			xQueueSend(hid_usb,&general,10);
+		}
         
         //HID related
         sendHIDCmd(&mouse,requestVBUpdate | (0x80),commandBuffer,1);

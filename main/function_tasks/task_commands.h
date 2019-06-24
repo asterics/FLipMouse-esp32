@@ -50,6 +50,9 @@
 #include <freertos/queue.h>
 #include <freertos/task.h>
 #include <esp_log.h>
+#include "esp_ota_ops.h"
+#include "esp_flash_partitions.h"
+#include "esp_partition.h"
 //common definitions & data for all of these functional tasks
 #include "common.h"
 #include <inttypes.h>

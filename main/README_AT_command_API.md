@@ -40,7 +40,7 @@ Following commands are currently available:
 | AT FR | -- | Reports free, used and available config storage space (e.g., "FREE:10%,9000,1000")| v3 | yes | no |
 | AT FB | number (0,1,2,3) | Feedback mode, 0=no LED/no buzzer, 1=LED/no buzzer, 2=no LED/buzzer, 3= LED + buzzer | v3 | yes | no |
 | AT PW | string | Set a new wifi password. Use at least <b>8</b> characters | v3 | untested | no |
-| AT FW | number (0,1) | Update firmware. 0 = update ESP32; 1 = update LPC | v3 | untested | no |
+| AT FW | number (2,3) | Update firmware. 2 = update ESP32; 3 = update LPC | v3 | untested | no |
 
 <a name="footnoteA"><b>A</b></a>: If you want to have a semicolon character WITHIN an AT command, please escape it with a backslash sequence: "\;". All other characters can be used normally.
 

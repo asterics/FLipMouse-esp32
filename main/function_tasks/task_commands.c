@@ -318,14 +318,13 @@ esp_err_t cmdPw(char* orig, void* p1, void* p2)
   return halStorageNVSStoreString(NVS_WIFIPW,(char*)p1);
 }
 esp_err_t cmdFw(char* orig, void* p1, void* p2) {
-  esp_partition_t* factory;
+  const esp_partition_t* factory = esp_partition_find_first(ESP_PARTITION_TYPE_APP,\
+		  ESP_PARTITION_SUBTYPE_APP_FACTORY, NULL);
   //determine update mode
   switch((int32_t) p1)
   {
 	  //update ESP32 by setting the factory partition to boot next time
 	  case 2:
-		factory = esp_partition_find_first(ESP_PARTITION_TYPE_APP,\
-		  ESP_PARTITION_SUBTYPE_APP_FACTORY, NULL);
 		if(factory == NULL)
 		{
 			ESP_LOGE(LOG_TAG,"Cannot find factory partition");
@@ -337,9 +336,12 @@ esp_err_t cmdFw(char* orig, void* p1, void* p2) {
 			return ESP_FAIL;
 		}
 		general.cmd[0] = 0x02;
+    esp_restart();
 	  //update LPC by sending a command via I2C
+    break;
 	  case 3:
 		general.cmd[0] = 0x03;
+    break;
 	  default: return ESP_FAIL;
   }
   return ESP_OK;
@@ -958,7 +960,7 @@ const onecmd_t commands[] = {
   {"FR", {PARAM_NONE,PARAM_NONE},{0,0},{0,0},cmdFr,0,NOCAST},
   {"FB", {PARAM_NUMBER,PARAM_NONE},{0,0},{3,0},NULL,offsetof(CMD_TARGET_TYPE,feedback),UINT8},
   {"PW", {PARAM_STRING,PARAM_NONE},{8,0},{32,0},cmdPw,0,NOCAST},
-  {"FW", {PARAM_NUMBER,PARAM_NONE},{0,0},{1,0},cmdFw,0,NOCAST},
+  {"FW", {PARAM_NUMBER,PARAM_NONE},{2,0},{3,0},cmdFw,0,NOCAST},
   // HID - mouse commands
   {"CL", {PARAM_NONE,PARAM_NONE},{0,0},{0,0},cmdCl,0,NOCAST},
   {"CR", {PARAM_NONE,PARAM_NONE},{0,0},{0,0},cmdCr,0,NOCAST},

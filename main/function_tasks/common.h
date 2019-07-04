@@ -60,7 +60,7 @@
 /** ID String to be printed on "AT ID" command.
  * @todo Change this back to new version, when GUI is compatible */
 //#define IDSTRING "FLipMouse V3.0\r\n"
-#define IDSTRING "Flipmouse v2.7"
+#define IDSTRING "Flipmouse v2.81"
 //#define IDSTRING "FABI v3.0\n"
 
 /** @brief Determine used device. Either FABI or FLipMouse.

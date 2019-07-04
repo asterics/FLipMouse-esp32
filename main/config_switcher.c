@@ -19,27 +19,19 @@
  * beni@asterics-foundation.org>
  */
 /** @file
- * @brief CONTINOUS TASK + FUNCTIONAL TASK - This module takes care of
- * configuration loading.
+ * @brief TASK - This module takes care of configuration loading.
  * 
- * The config_switcher module is used to control all tasks assigned to 
- * virtual buttons (called FUNCTIONAL TASKS).
- * If a new configuration should be loaded from the storage, all
- * previously loaded tasks are deleted and new tasks are loaded.
+ * The config_switcher module is used to update the configuration.
+ * If a new configuration should be loaded from the storage, corresponding
+ * storage calls are done, as well as user feedback (LED/buzzer)
  * 
- * A slot configuration is provided by the config_storage, which is
- * controlled by this module. 
+ * A slot configuration is provided by the config_storage reference
+ * to other modules, which is controlled by this module. 
  * 
- * task_configswitcher is the FUNCTIONAL TASK for triggering a slot switch.
- * configSwitcherTask is the CONTINOUS TASK which monitors the queue for
- * any config switching action.
- * 
- * @note If you want to add a new FUNCTIONAL TASK, please include headers here
- * & add loading functionality to configSwitcherTask. 
  * */
 #include "config_switcher.h"
 
-/** Tag for ESP_LOG logging */
+/** @brief Tag for ESP_LOG logging */
 #define LOG_TAG "cfgsw"
 /** @brief Set a global log limit for this file */
 #define LOG_LEVEL_CFGSW ESP_LOG_INFO
@@ -48,7 +40,7 @@
  * @see configSwitcherTask */
 #define CONFIGSWITCHERTASK_PERMANENT_STACKSIZE 4096
 
-/** Task handle for the CONTINOUS task responsible for config switching */
+/** @brief Task handle for the config switcher */
 TaskHandle_t configswitcher_handle;
 
 /** @brief Semaphore for detecting pending config updates
@@ -65,7 +57,7 @@ TaskHandle_t configswitcher_handle;
 SemaphoreHandle_t configUpdatePending = NULL;
 
 
-/** Currently loaded configuration.*/
+/** @brief Currently loaded configuration.*/
 generalConfig_t currentConfigLoaded;
 
 /** @brief Get the current config struct
@@ -123,18 +115,6 @@ void configTriggerUpdate(void)
  * */
 esp_err_t configUpdate(TickType_t time)
 {
-  /*
-  ///@todo REMOVE!
-  currentConfigLoaded.adc.reportraw = 1;
-  //check if we are allowed to update
-  if((xEventGroupWaitBits(systemStatus,(SYSTEM_STABLECONFIG | \
-    SYSTEM_EMPTY_CMD_QUEUE), pdFALSE,pdTRUE,time) & (SYSTEM_STABLECONFIG | \
-      SYSTEM_EMPTY_CMD_QUEUE)) == 0)
-  {
-    //didn't set the flags in time, return fail
-    return ESP_FAIL;
-  }*/
-  
   //reload ADC
   if(halAdcUpdateConfig(&currentConfigLoaded.adc) != ESP_OK)
   {
@@ -155,18 +135,17 @@ esp_err_t configUpdate(TickType_t time)
   return ESP_OK;
 }
 
-/** @brief CONTINOUS TASK - Config switcher task, internal config reloading
+/** @brief TASK - Config switcher task, internal config reloading
  * 
  * This task is used to change the full configuration of this device
  * After sending a request to the config_switcher queue, this
- * task is used to unload all virtual buttons tasks and initializing
- * the virtualbutton tasks with the new functionality.
+ * task is used to unload all virtual button handlers and initializing
+ * the virtualbutton handlers with the new functionality.
+ * 
  * @see config_switcher
  * @param params Not used, pass NULL.
  * 
  * @warning On a factory reset, it is necessary to load the default slot again!
- * 
- * @todo Add __RESTOREFACTORY...
  **/
 void configSwitcherTask(void * params)
 {
@@ -266,7 +245,6 @@ void configSwitcherTask(void * params)
       if((xEventGroupWaitBits(systemStatus,SYSTEM_EMPTY_CMD_QUEUE, \
         pdFALSE,pdFALSE,10) & SYSTEM_EMPTY_CMD_QUEUE) == 0)
       {
-        ///TODO: check the queue itself, if we don't send anything (e.g. if ther is no data), we will come here.
         ESP_LOGW(LOG_TAG,"command queue not emptied in time!");
       }
       
@@ -301,8 +279,8 @@ void configSwitcherTask(void * params)
 
 /** @brief Initializing the config switching functionality.
  * 
- * The CONTINOUS task will be loaded to enable slot switches via the
- * task_configswitcher FUNCTIONAL task. 
+ * The task will be loaded to enable slot switches
+ * via the config_switcher queue.
  * @return ESP_OK if everything is fined, ESP_FAIL otherwise */
 esp_err_t configSwitcherInit(void)
 {

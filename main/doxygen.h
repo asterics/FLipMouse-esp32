@@ -62,6 +62,5 @@
 /*++++ All global todos, roadmap, ... ++++*/
 /**
  * @file 
- * @todo Test AT MA (macros).
  * @todo Implement learning mode
 */

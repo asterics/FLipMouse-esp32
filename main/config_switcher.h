@@ -20,23 +20,14 @@
  * 
  */
 /** @file
- * @brief CONTINOUS TASK + FUNCTIONAL TASK - This module takes care of
- * configuration loading.
+ * @brief TASK - This module takes care of configuration loading.
  * 
- * The config_switcher module is used to control all tasks assigned to 
- * virtual buttons (called FUNCTIONAL TASKS).
- * If a new configuration should be loaded from the storage, all
- * previously loaded tasks are deleted and new tasks are loaded.
+ * The config_switcher module is used to update the configuration.
+ * If a new configuration should be loaded from the storage, corresponding
+ * storage calls are done, as well as user feedback (LED/buzzer)
  * 
- * A slot configuration is provided by the config_storage, which is
- * controlled by this module. 
- * 
- * task_configswitcher is the FUNCTIONAL TASK for triggering a slot switch.
- * configSwitcherTask is the CONTINOUS TASK which monitors the queue for
- * any config switching action.
- * 
- * @note If you want to add a new FUNCTIONAL TASK, please include headers here
- * & add loading functionality to configSwitcherTask. 
+ * A slot configuration is provided by the config_storage reference
+ * to other modules, which is controlled by this module. 
  * 
  * */
 
@@ -54,15 +45,14 @@
 #include "hal_ble.h"
 #include "hal_serial.h"
 
-/** Stacksize for functional task task_configswitcher.
+/** @brief Stacksize for functional task task_configswitcher.
  * @see task_configswitcher */
 #define TASK_CONFIGSWITCHER_STACKSIZE 2048
 
-
 /** @brief Initializing the config switching functionality.
  * 
- * The CONTINOUS task will be loaded to enable slot switches via the
- * task_configswitcher FUNCTIONAL task. 
+ * The task will be loaded to enable slot switches
+ * via the config_switcher queue.
  * @return ESP_OK if everything is fined, ESP_FAIL otherwise */
 esp_err_t configSwitcherInit(void);
 
@@ -73,7 +63,7 @@ esp_err_t configSwitcherInit(void);
  * update the config afterwards (via the config_switcher queue).
  * 
  * @see config_switcher
- * @see currentConfig
+ * @see currentConfigLoaded
  * @return Pointer to the current config struct
  * */
 generalConfig_t* configGetCurrent(void);
@@ -92,6 +82,5 @@ generalConfig_t* configGetCurrent(void);
  * @return ESP_OK on success, ESP_FAIL otherwise
  * */
 esp_err_t configUpdate(TickType_t time);
-
 
 #endif

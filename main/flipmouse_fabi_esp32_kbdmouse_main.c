@@ -51,41 +51,45 @@
 
 #include "config.h"
 
+/** @brief Logging tag for this module */
 #define LOG_TAG "app_main"
 
 /** @brief Defining a new event base for VB actions */
 ESP_EVENT_DEFINE_BASE(VB_EVENT);
+
+
 EventGroupHandle_t connectionRoutingStatus;
 EventGroupHandle_t systemStatus;
-SemaphoreHandle_t switchRadioSem;
 QueueHandle_t config_switcher;
 QueueHandle_t debouncer_in;
 QueueHandle_t hid_usb;
 QueueHandle_t hid_ble;
+
+/** @brief Flag for active wifi */
 uint8_t isWifiOn = 0;
 
 /** @brief Switch radio mode
  * 
- * This method is used to switch between the radio modes (radio_status_t).
- * It will be called via the IO long press handler.
- * Modes are currently switched in following order (wrap around):
- * * BLE
- * * BLE_PAIRING
- * * WIFI
+ * This method is used to switch wifi on or off.
+ * It will be called by the long press timer, after the
+ * give amount of time for a long press has passed (to avoid unintenionally
+ * activation/deactivation of the wifi).
  * 
- * Actual switching is done in app_main, mostly because this
- * method is executed in timer task context, with limited stack.
+ * @warning WiFi can only be enabled ONCE each start!
  * 
  * @see halIOAddLongPressHandler
  * @see HAL_IO_LONGACTION_TIMEOUT
  */
 void switch_radio(void)
 {
+    //check if wifi was already used once.
     if((xEventGroupGetBitsFromISR(connectionRoutingStatus) & WIFI_LOCKED) != 0)
     {
       ESP_LOGW(LOG_TAG,"Wifi was already used.");
       return;
     }
+    
+    //check if we enable/disable wifi.
     if(isWifiOn == 0)
     {
         isWifiOn = 1;
@@ -100,8 +104,10 @@ void switch_radio(void)
     }
 }
 
-
+/* HEAP trace debugging, normally not activated! */
 #if 0
+//give feedback that this is normally not used
+#warning "HEAP tracing is enabled, this is not the normal use case!!!"
 /** @brief Number of records for heap tracing
  * @note This is not used by default. */
 #define NUM_RECORDS 300
@@ -240,6 +246,7 @@ void app_main()
     
     //TESTING
     #if 0
+    #warning "Heap tracing is enabled, this is normally NOT the case!!!"
     ESP_ERROR_CHECK( heap_trace_init_standalone(trace_record, NUM_RECORDS) );
     vTaskDelay(100); //1s
     ESP_ERROR_CHECK( heap_trace_start(HEAP_TRACE_ALL) );

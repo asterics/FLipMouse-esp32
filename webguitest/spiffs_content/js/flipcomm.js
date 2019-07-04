@@ -341,17 +341,7 @@ function FlipMouse(initFinished) {
         var progress = 0;
         var progressPerItem = 100/C.DEFAULT_CONFIGURATION.length;
         promises.push(thiz.sendATCmd('AT DE')); //delete all slots
-        C.DEFAULT_CONFIGURATION.forEach(function (cmd) {
-            var promise = thiz.sendATCmd(cmd);
-            promises.push(promise);
-            promise.then(function () {
-                if(L.isFunction(progressCallback)) {
-                    progress += progressPerItem;
-                    progressCallback(progress);
-                }
-            });
-        });
-        promises.push(thiz.sendATCmd('AT SA ' + C.DEFAULT_SLOTNAME)); //save slot
+        promises.push(thiz.sendATCmd('AT LA')); //save slot
         promises.push(thiz.calibrate());
 
         return new Promise(function (resolve) {

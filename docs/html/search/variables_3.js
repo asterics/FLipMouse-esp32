@@ -19,6 +19,7 @@ var searchData=
   ['dnslabel',['DnsLabel',['../captdns_8c.html#a3c5913789c2f46752baa880646bba11d',1,'captdns.c']]],
   ['dnsquestionfooter',['DnsQuestionFooter',['../captdns_8c.html#a35a1b1d68789477988c78a6a94c7d52d',1,'captdns.c']]],
   ['dnsresourcefooter',['DnsResourceFooter',['../captdns_8c.html#a69e8eb62bae268243c6a1b277d19394c',1,'captdns.c']]],
+  ['dnstaskhandle',['dnsTaskHandle',['../captdns_8c.html#ad457689bb00c5341683044424325e9d3',1,'captdns.c']]],
   ['dnsurihdr',['DnsUriHdr',['../captdns_8c.html#ada743c33a17ed7ef8a1fa6eb02a7a64e',1,'captdns.c']]],
   ['down',['down',['../structadcData.html#a4a052112c750f6d483eabc08cb43b6c3',1,'adcData']]],
   ['duration',['duration',['../structhalIOBuzzer.html#a6fee679bc63857c97b18a867a8905b61',1,'halIOBuzzer']]]

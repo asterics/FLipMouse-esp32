@@ -40,7 +40,6 @@ var searchData=
   ['success',['SUCCESS',['../task__commands_8h.html#aa1651f71a96e7a6bd3abe4bcaa795e46ac7f69f7c9e5aea9b8f54cf02870e2bf8',1,'task_commands.h']]],
   ['svc_5ffeatures',['svc_features',['../structhidd__feature__t.html#a254c99f1e3115e399a088611e1e93123',1,'hidd_feature_t']]],
   ['switch_5fradio',['switch_radio',['../flipmouse__fabi__esp32__kbdmouse__main_8c.html#a93e2ea21db142b4c7172565051a18cb1',1,'flipmouse_fabi_esp32_kbdmouse_main.c']]],
-  ['switchradiosem',['switchRadioSem',['../flipmouse__fabi__esp32__kbdmouse__main_8c.html#aaf12ce68f07ec96638046d2dbe8ffbea',1,'flipmouse_fabi_esp32_kbdmouse_main.c']]],
   ['system_5fempty_5fcmd_5fqueue',['SYSTEM_EMPTY_CMD_QUEUE',['../common_8h.html#a59e62fd512b662afffc660c5177eea1e',1,'common.h']]],
   ['system_5floadconfig',['SYSTEM_LOADCONFIG',['../common_8h.html#a106b7d537888ba4327f63f6d5657273e',1,'common.h']]],
   ['system_5fstableconfig',['SYSTEM_STABLECONFIG',['../common_8h.html#a8f6c2a04f277a394c0ce311b154905ce',1,'common.h']]],

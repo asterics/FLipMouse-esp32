@@ -1,7 +1,6 @@
 var searchData=
 [
   ['task_5fble_5fstacksize',['TASK_BLE_STACKSIZE',['../hal__ble_8h.html#af93960e80b690e0b2107a26c60dbe440',1,'hal_ble.h']]],
-  ['task_5fcalib_5fstacksize',['TASK_CALIB_STACKSIZE',['../hal__adc_8h.html#a7b570974f67cc3cded3ddf23af457655',1,'hal_adc.h']]],
   ['task_5fcommands_5fpriority',['TASK_COMMANDS_PRIORITY',['../common_8h.html#acc1dbc507a6b39d92093406631c4c54e',1,'common.h']]],
   ['task_5fcommands_5fstacksize',['TASK_COMMANDS_STACKSIZE',['../task__commands_8h.html#a9c3489b45f7d45da88376537cd376dd1',1,'task_commands.h']]],
   ['task_5fconfigswitcher_5fstacksize',['TASK_CONFIGSWITCHER_STACKSIZE',['../config__switcher_8h.html#a2eb976695a3c5db9b4ddf53ac58bd0b1',1,'config_switcher.h']]],

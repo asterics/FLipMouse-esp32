@@ -42,6 +42,7 @@ var searchData=
   ['log_5flevel_5fdebounce',['LOG_LEVEL_DEBOUNCE',['../task__debouncer_8c.html#a121e23632a06de078319c8810993409b',1,'task_debouncer.c']]],
   ['log_5flevel_5fdns',['LOG_LEVEL_DNS',['../captdns_8c.html#a8845e4d3890a5bfa6fae387daf4485bc',1,'captdns.c']]],
   ['log_5flevel_5fhid',['LOG_LEVEL_HID',['../handler__hid_8c.html#a465b380d44009ca55b2f2e2dd22f4d1a',1,'handler_hid.c']]],
+  ['log_5flevel_5fio',['LOG_LEVEL_IO',['../hal__io_8c.html#a0a460d654cff178250ccb226d504e89d',1,'hal_io.c']]],
   ['log_5flevel_5fserial',['LOG_LEVEL_SERIAL',['../hal__serial_8c.html#aa2f9f3ab3ea3e3a75f53e6a54e88db65',1,'hal_serial.c']]],
   ['log_5flevel_5fstorage',['LOG_LEVEL_STORAGE',['../hal__storage_8c.html#adacd33c7df6443c8387bacf3875607f8',1,'hal_storage.c']]],
   ['log_5flevel_5fvb',['LOG_LEVEL_VB',['../handler__vb_8c.html#a515e21c351e9f99729e4bf953c45d83f',1,'handler_vb.c']]],

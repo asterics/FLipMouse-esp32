@@ -4,7 +4,6 @@ var searchData=
   ['hal_5fadc_5ftask_5fpriority',['HAL_ADC_TASK_PRIORITY',['../common_8h.html#aada14457de325b91960d3b65b95d7897',1,'common.h']]],
   ['hal_5fble_5ftask_5fpriority_5fbase',['HAL_BLE_TASK_PRIORITY_BASE',['../common_8h.html#ae32520c54c76cda98bb5f97b731549c0',1,'common.h']]],
   ['hal_5fconfig_5ftask_5fpriority',['HAL_CONFIG_TASK_PRIORITY',['../common_8h.html#aa232edf6b71b1a686e308663f2c19d5a',1,'common.h']]],
-  ['hal_5fio_5fadc_5ftask_5fpriority',['HAL_IO_ADC_TASK_PRIORITY',['../hal__adc_8h.html#aec5255c5a049b277c1de3cfc79dfdd57',1,'hal_adc.h']]],
   ['hal_5fio_5fir_5fmem_5fblocks',['HAL_IO_IR_MEM_BLOCKS',['../hal__io_8h.html#a8e09474b15adae0b00d1c683e91eea64',1,'hal_io.h']]],
   ['hal_5fio_5flongaction_5ftimeout',['HAL_IO_LONGACTION_TIMEOUT',['../hal__io_8h.html#a7501b46689ced3389164f900567a5025',1,'hal_io.h']]],
   ['hal_5fio_5fpin_5flongaction',['HAL_IO_PIN_LONGACTION',['../hal__io_8h.html#a8db74aa62b01eaaa7e9b0080050d488f',1,'hal_io.h']]],

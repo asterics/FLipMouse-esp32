@@ -1,6 +1,7 @@
 var searchData=
 [
   ['canceltimer',['cancelTimer',['../task__debouncer_8c.html#adc07ae860205196c6c285f6926bf2e04',1,'task_debouncer.c']]],
+  ['captdnsdeinit',['captdnsDeinit',['../captdns_8c.html#a8839b10051f013921d546b10cf160d9b',1,'captdnsDeinit(void):&#160;captdns.c'],['../captdns_8h.html#a8839b10051f013921d546b10cf160d9b',1,'captdnsDeinit(void):&#160;captdns.c']]],
   ['captdnsinit',['captdnsInit',['../captdns_8c.html#a82f468eb219b14b853eb183149894e92',1,'captdnsInit(void):&#160;captdns.c'],['../captdns_8h.html#a82f468eb219b14b853eb183149894e92',1,'captdnsInit(void):&#160;captdns.c']]],
   ['captdnsrecv',['captdnsRecv',['../captdns_8c.html#ae3d5d80203823fee0be8b7a591e5a32d',1,'captdns.c']]],
   ['captdnstask',['captdnsTask',['../captdns_8c.html#afbeefb54f301b1f8179ecb1a6efb69a9',1,'captdns.c']]],

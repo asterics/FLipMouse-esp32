@@ -80,6 +80,9 @@ $(function() {
 <code>#include &lt;freertos/queue.h&gt;</code><br />
 <code>#include &lt;freertos/task.h&gt;</code><br />
 <code>#include &lt;esp_log.h&gt;</code><br />
+<code>#include &quot;esp_ota_ops.h&quot;</code><br />
+<code>#include &quot;esp_flash_partitions.h&quot;</code><br />
+<code>#include &quot;esp_partition.h&quot;</code><br />
 <code>#include &quot;<a class="el" href="common_8h_source.html">common.h</a>&quot;</code><br />
 <code>#include &lt;inttypes.h&gt;</code><br />
 <code>#include &quot;<a class="el" href="hal__serial_8h_source.html">hal_serial.h</a>&quot;</code><br />
@@ -210,9 +213,9 @@ The command parser itself is based on the cmd_parser project. See: &lt;addlinkhe
 
 <p>Maximum length of a command (EXcluding the prefix, e.g. "AT RO" with prefix "AT " results in length 2) </p>
 
-<p class="definition">Definition at line <a class="el" href="task__commands_8h_source.html#l00092">92</a> of file <a class="el" href="task__commands_8h_source.html">task_commands.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="task__commands_8h_source.html#l00095">95</a> of file <a class="el" href="task__commands_8h_source.html">task_commands.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="task__commands_8c_source.html#l01733">cmdParser()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="task__commands_8c_source.html#l01764">cmdParser()</a>.</p>
 
 </div>
 </div>
@@ -230,9 +233,9 @@ The command parser itself is based on the cmd_parser project. See: &lt;addlinkhe
 
 <p>Maximum length of a command (including parameters, prefix and command itself -&gt; full line) </p>
 
-<p class="definition">Definition at line <a class="el" href="task__commands_8h_source.html#l00094">94</a> of file <a class="el" href="task__commands_8h_source.html">task_commands.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="task__commands_8h_source.html#l00097">97</a> of file <a class="el" href="task__commands_8h_source.html">task_commands.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="task__commands_8c_source.html#l01733">cmdParser()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="task__commands_8c_source.html#l01764">cmdParser()</a>.</p>
 
 </div>
 </div>
@@ -250,9 +253,9 @@ The command parser itself is based on the cmd_parser project. See: &lt;addlinkhe
 
 <p>Prefix, which is located directly prior to any implemented command. </p>
 
-<p class="definition">Definition at line <a class="el" href="task__commands_8h_source.html#l00090">90</a> of file <a class="el" href="task__commands_8h_source.html">task_commands.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="task__commands_8h_source.html#l00093">93</a> of file <a class="el" href="task__commands_8h_source.html">task_commands.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="task__commands_8c_source.html#l01733">cmdParser()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="task__commands_8c_source.html#l01764">cmdParser()</a>.</p>
 
 </div>
 </div>
@@ -268,9 +271,9 @@ The command parser itself is based on the cmd_parser project. See: &lt;addlinkhe
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="task__commands_8h_source.html#l00065">65</a> of file <a class="el" href="task__commands_8h_source.html">task_commands.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="task__commands_8h_source.html#l00068">68</a> of file <a class="el" href="task__commands_8h_source.html">task_commands.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="task__commands_8c_source.html#l01689">taskCommandsInit()</a>, and <a class="el" href="task__commands_8c_source.html#l01709">taskCommandsRestart()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="task__commands_8c_source.html#l01720">taskCommandsInit()</a>, and <a class="el" href="task__commands_8c_source.html#l01740">taskCommandsRestart()</a>.</p>
 
 </div>
 </div>
@@ -292,7 +295,7 @@ The command parser itself is based on the cmd_parser project. See: &lt;addlinkhe
 <dd>
 Although we have void* parameters, the given data is either an (int32_t) or a (char*), depending on given parameter types. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="task__commands_8h_source.html#l00101">101</a> of file <a class="el" href="task__commands_8h_source.html">task_commands.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="task__commands_8h_source.html#l00104">104</a> of file <a class="el" href="task__commands_8h_source.html">task_commands.h</a>.</p>
 
 </div>
 </div>
@@ -388,7 +391,7 @@ We malloc in the parser for each string parameter. </dd></dl>
 </td></tr>
 </table>
 
-<p class="definition">Definition at line <a class="el" href="task__commands_8h_source.html#l00104">104</a> of file <a class="el" href="task__commands_8h_source.html">task_commands.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="task__commands_8h_source.html#l00107">107</a> of file <a class="el" href="task__commands_8h_source.html">task_commands.h</a>.</p>
 
 </div>
 </div>
@@ -429,7 +432,7 @@ We malloc in the parser for each string parameter. </dd></dl>
 </td></tr>
 </table>
 
-<p class="definition">Definition at line <a class="el" href="task__commands_8h_source.html#l00117">117</a> of file <a class="el" href="task__commands_8h_source.html">task_commands.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="task__commands_8h_source.html#l00120">120</a> of file <a class="el" href="task__commands_8h_source.html">task_commands.h</a>.</p>
 
 </div>
 </div>
@@ -463,7 +466,7 @@ We malloc in the parser for each string parameter. </dd></dl>
 </td></tr>
 </table>
 
-<p class="definition">Definition at line <a class="el" href="task__commands_8h_source.html#l00148">148</a> of file <a class="el" href="task__commands_8h_source.html">task_commands.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="task__commands_8h_source.html#l00151">151</a> of file <a class="el" href="task__commands_8h_source.html">task_commands.h</a>.</p>
 
 </div>
 </div>
@@ -517,9 +520,9 @@ We malloc in the parser for each string parameter. </dd></dl>
 <dl class="section note"><dt>Note</dt><dd>This is part of an external project, see <a href="https://gitlab.com/ba.1150/cmd_parser_esp32">https://gitlab.com/ba.1150/cmd_parser_esp32</a> </dd></dl>
 <dl class="section return"><dt>Returns</dt><dd>See cmd_retval. SUCCESS on success. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="task__commands_8c_source.html#l01733">1733</a> of file <a class="el" href="task__commands_8c_source.html">task_commands.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="task__commands_8c_source.html#l01764">1764</a> of file <a class="el" href="task__commands_8c_source.html">task_commands.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="task__commands_8c_source.html#l01359">task_commands()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="task__commands_8c_source.html#l01384">task_commands()</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
@@ -554,9 +557,9 @@ Here is the caller graph for this function:</div>
 <p>This method starts the command parser task, which handles incoming UART bytes &amp; responses if necessary. If necessary, this task deletes itself &amp; starts a CIM task (it MUST be the other way as well to restart the AT command parser) </p><dl class="section see"><dt>See also</dt><dd><a class="el" href="task__commands_8h.html#a26091155b4d85093239033d689f363d0" title="Restart the command parser task. ">taskCommandsRestart</a> </dd></dl>
 <dl class="section return"><dt>Returns</dt><dd>ESP_OK on success, ESP_FAIL otherwise </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="task__commands_8c_source.html#l01689">1689</a> of file <a class="el" href="task__commands_8c_source.html">task_commands.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="task__commands_8c_source.html#l01720">1720</a> of file <a class="el" href="task__commands_8c_source.html">task_commands.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c_source.html#l00114">app_main()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c_source.html#l00125">app_main()</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -625,7 +628,7 @@ Here is the caller graph for this function:</div>
 <p>Restart the command parser task</p>
 <p>This method is used, if the CIM parser detects AT commands and stops itself, providing the AT command set again. </p><dl class="section return"><dt>Returns</dt><dd>ESP_OK on success, ESP_FAIL otherwise (cannot start task, task already running) </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="task__commands_8c_source.html#l01709">1709</a> of file <a class="el" href="task__commands_8c_source.html">task_commands.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="task__commands_8c_source.html#l01740">1740</a> of file <a class="el" href="task__commands_8c_source.html">task_commands.c</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">

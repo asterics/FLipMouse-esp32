@@ -82,7 +82,7 @@ Macros</h2></td></tr>
 <tr class="memitem:a7ce0df38eb467e59f209470c8f5ac4e6"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="task__webgui_8c.html#a7ce0df38eb467e59f209470c8f5ac4e6">LOG_TAG</a>&#160;&#160;&#160;&quot;web&quot;</td></tr>
 <tr class="memdesc:a7ce0df38eb467e59f209470c8f5ac4e6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Logging tag for this module.  <a href="#a7ce0df38eb467e59f209470c8f5ac4e6">More...</a><br /></td></tr>
 <tr class="separator:a7ce0df38eb467e59f209470c8f5ac4e6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a72bbc128e233a045692e0d9dcdcf21c6"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="task__webgui_8c.html#a72bbc128e233a045692e0d9dcdcf21c6">LOG_LEVEL_WEB</a>&#160;&#160;&#160;ESP_LOG_INFO</td></tr>
+<tr class="memitem:a72bbc128e233a045692e0d9dcdcf21c6"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="task__webgui_8c.html#a72bbc128e233a045692e0d9dcdcf21c6">LOG_LEVEL_WEB</a>&#160;&#160;&#160;ESP_LOG_DEBUG</td></tr>
 <tr class="memdesc:a72bbc128e233a045692e0d9dcdcf21c6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Log level for the web/websocket server.  <a href="#a72bbc128e233a045692e0d9dcdcf21c6">More...</a><br /></td></tr>
 <tr class="separator:a72bbc128e233a045692e0d9dcdcf21c6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a127eb8041749ad8b0a010e0b0b9c8255"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="task__webgui_8c.html#a127eb8041749ad8b0a010e0b0b9c8255">CONFIG_AP_AUTHMODE</a>&#160;&#160;&#160;WIFI_AUTH_WPA2_PSK</td></tr>
@@ -111,6 +111,9 @@ Macros</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
+<tr class="memitem:a88f50c2c18db3f5be0149ec7921bf64b"><td class="memItemLeft" align="right" valign="top">esp_err_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="task__webgui_8c.html#a88f50c2c18db3f5be0149ec7921bf64b">wifiEnDisable</a> (int onoff)</td></tr>
+<tr class="memdesc:a88f50c2c18db3f5be0149ec7921bf64b"><td class="mdescLeft">&#160;</td><td class="mdescRight">AP mode config, filled in init.  <a href="#a88f50c2c18db3f5be0149ec7921bf64b">More...</a><br /></td></tr>
+<tr class="separator:a88f50c2c18db3f5be0149ec7921bf64b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:adf50753dada544362b8f4fb5f8eefde5"><td class="memItemLeft" align="right" valign="top">static int8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="task__webgui_8c.html#adf50753dada544362b8f4fb5f8eefde5">getNumberOfWifiStations</a> (void)</td></tr>
 <tr class="memdesc:adf50753dada544362b8f4fb5f8eefde5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the number of currently connected Wifi stations.  <a href="#adf50753dada544362b8f4fb5f8eefde5">More...</a><br /></td></tr>
 <tr class="separator:adf50753dada544362b8f4fb5f8eefde5"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -123,6 +126,9 @@ Functions</h2></td></tr>
 <tr class="memitem:a3f8ca93e9a4e4726ea422a81dd72b7d8"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="task__webgui_8c.html#a3f8ca93e9a4e4726ea422a81dd72b7d8">redirect</a> (char *resource, int fd)</td></tr>
 <tr class="memdesc:a3f8ca93e9a4e4726ea422a81dd72b7d8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Helper, sending redirect header.  <a href="#a3f8ca93e9a4e4726ea422a81dd72b7d8">More...</a><br /></td></tr>
 <tr class="separator:a3f8ca93e9a4e4726ea422a81dd72b7d8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae5ad2f76f20781fd8c89e542bcc8a551"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="task__webgui_8c.html#ae5ad2f76f20781fd8c89e542bcc8a551">wifi_timer_cb</a> (TimerHandle_t xTimer)</td></tr>
+<tr class="memdesc:ae5ad2f76f20781fd8c89e542bcc8a551"><td class="mdescLeft">&#160;</td><td class="mdescRight">Timer callback for disabling wifi.  <a href="#ae5ad2f76f20781fd8c89e542bcc8a551">More...</a><br /></td></tr>
+<tr class="separator:ae5ad2f76f20781fd8c89e542bcc8a551"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:adc293b203ede5bd0fec29f304ce67eda"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="task__webgui_8c.html#adc293b203ede5bd0fec29f304ce67eda">fat_serve</a> (char *resource, int fd)</td></tr>
 <tr class="memdesc:adc293b203ede5bd0fec29f304ce67eda"><td class="mdescLeft">&#160;</td><td class="mdescRight">Serve static content from FAT.  <a href="#adc293b203ede5bd0fec29f304ce67eda">More...</a><br /></td></tr>
 <tr class="separator:adc293b203ede5bd0fec29f304ce67eda"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -130,17 +136,14 @@ Functions</h2></td></tr>
 <tr class="memdesc:aef8b19daf6cb6fae49c2da83a52f6c6b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Handle an incoming HTTP connection.  <a href="#aef8b19daf6cb6fae49c2da83a52f6c6b">More...</a><br /></td></tr>
 <tr class="separator:aef8b19daf6cb6fae49c2da83a52f6c6b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:adcc5b062c057f73762b1f19b2f6a8185"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="task__webgui_8c.html#adcc5b062c057f73762b1f19b2f6a8185">http_server</a> (void *pvParameters)</td></tr>
-<tr class="memdesc:adcc5b062c057f73762b1f19b2f6a8185"><td class="mdescLeft">&#160;</td><td class="mdescRight">CONTINOUS TASK - Main webserver task.  <a href="#adcc5b062c057f73762b1f19b2f6a8185">More...</a><br /></td></tr>
+<tr class="memdesc:adcc5b062c057f73762b1f19b2f6a8185"><td class="mdescLeft">&#160;</td><td class="mdescRight">Main webserver task.  <a href="#adcc5b062c057f73762b1f19b2f6a8185">More...</a><br /></td></tr>
 <tr class="separator:adcc5b062c057f73762b1f19b2f6a8185"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a11dd6a5edc46c297b26382ebce3c34cb"><td class="memItemLeft" align="right" valign="top">static esp_err_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="task__webgui_8c.html#a11dd6a5edc46c297b26382ebce3c34cb">wifi_event_handler</a> (void *ctx, system_event_t *event)</td></tr>
 <tr class="memdesc:a11dd6a5edc46c297b26382ebce3c34cb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Event handler for wifi status updates.  <a href="#a11dd6a5edc46c297b26382ebce3c34cb">More...</a><br /></td></tr>
 <tr class="separator:a11dd6a5edc46c297b26382ebce3c34cb"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af4fe29c8fc1fde365cdb8344cb402156"><td class="memItemLeft" align="right" valign="top">esp_err_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="task__webgui_8c.html#af4fe29c8fc1fde365cdb8344cb402156">taskWebGUIEnDisable</a> (int onoff)</td></tr>
-<tr class="memdesc:af4fe29c8fc1fde365cdb8344cb402156"><td class="mdescLeft">&#160;</td><td class="mdescRight">En- or Disable WiFi interface.  <a href="#af4fe29c8fc1fde365cdb8344cb402156">More...</a><br /></td></tr>
-<tr class="separator:af4fe29c8fc1fde365cdb8344cb402156"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae5ad2f76f20781fd8c89e542bcc8a551"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="task__webgui_8c.html#ae5ad2f76f20781fd8c89e542bcc8a551">wifi_timer_cb</a> (TimerHandle_t xTimer)</td></tr>
-<tr class="memdesc:ae5ad2f76f20781fd8c89e542bcc8a551"><td class="mdescLeft">&#160;</td><td class="mdescRight">Timer callback for disabling wifi.  <a href="#ae5ad2f76f20781fd8c89e542bcc8a551">More...</a><br /></td></tr>
-<tr class="separator:ae5ad2f76f20781fd8c89e542bcc8a551"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a907217aa3488ac68c36595c15da821e0"><td class="memItemLeft" align="right" valign="top">esp_err_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="task__webgui_8c.html#a907217aa3488ac68c36595c15da821e0">taskWebGUIEnDisable</a> (int onoff, bool fromISR)</td></tr>
+<tr class="memdesc:a907217aa3488ac68c36595c15da821e0"><td class="mdescLeft">&#160;</td><td class="mdescRight">En- or Disable WiFi interface.  <a href="#a907217aa3488ac68c36595c15da821e0">More...</a><br /></td></tr>
+<tr class="separator:a907217aa3488ac68c36595c15da821e0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a669b9245d5040c0162481f7b24dbeea7"><td class="memItemLeft" align="right" valign="top">esp_err_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="task__webgui_8c.html#a669b9245d5040c0162481f7b24dbeea7">taskWebGUIInit</a> (void)</td></tr>
 <tr class="memdesc:a669b9245d5040c0162481f7b24dbeea7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Init the web / DNS server and the web gui.  <a href="#a669b9245d5040c0162481f7b24dbeea7">More...</a><br /></td></tr>
 <tr class="separator:a669b9245d5040c0162481f7b24dbeea7"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -160,10 +163,17 @@ Variables</h2></td></tr>
 <tr class="memdesc:a0a007ed6b248ffb43a3ac085a39ae273"><td class="mdescLeft">&#160;</td><td class="mdescRight">Static HTTP redirect header.  <a href="#a0a007ed6b248ffb43a3ac085a39ae273">More...</a><br /></td></tr>
 <tr class="separator:a0a007ed6b248ffb43a3ac085a39ae273"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac9cde9bd90c8143f07f9efcea032c9e1"><td class="memItemLeft" align="right" valign="top">SemaphoreHandle_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="task__webgui_8c.html#ac9cde9bd90c8143f07f9efcea032c9e1">fsSem</a></td></tr>
+<tr class="memdesc:ac9cde9bd90c8143f07f9efcea032c9e1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Mutex to lock FS access (only one file after another will be sent)  <a href="#ac9cde9bd90c8143f07f9efcea032c9e1">More...</a><br /></td></tr>
 <tr class="separator:ac9cde9bd90c8143f07f9efcea032c9e1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa27d3d77bf2e584af8b5d716c12b34fa"><td class="memItemLeft" align="right" valign="top">wifi_config_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="task__webgui_8c.html#aa27d3d77bf2e584af8b5d716c12b34fa">ap_config</a></td></tr>
-<tr class="memdesc:aa27d3d77bf2e584af8b5d716c12b34fa"><td class="mdescLeft">&#160;</td><td class="mdescRight">AP mode config, filled in init.  <a href="#aa27d3d77bf2e584af8b5d716c12b34fa">More...</a><br /></td></tr>
-<tr class="separator:aa27d3d77bf2e584af8b5d716c12b34fa"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8a8919c79faf725f484abbdd3151a07f"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="task__webgui_8c.html#a8a8919c79faf725f484abbdd3151a07f">http_sockfd</a></td></tr>
+<tr class="memdesc:a8a8919c79faf725f484abbdd3151a07f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Webserver socket - general bind.  <a href="#a8a8919c79faf725f484abbdd3151a07f">More...</a><br /></td></tr>
+<tr class="separator:a8a8919c79faf725f484abbdd3151a07f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acb4d5bd2cca56bab370c1398b68e9003"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="task__webgui_8c.html#acb4d5bd2cca56bab370c1398b68e9003">http_new_sockfd</a></td></tr>
+<tr class="memdesc:acb4d5bd2cca56bab370c1398b68e9003"><td class="mdescLeft">&#160;</td><td class="mdescRight">Webserver socket - new connection.  <a href="#acb4d5bd2cca56bab370c1398b68e9003">More...</a><br /></td></tr>
+<tr class="separator:acb4d5bd2cca56bab370c1398b68e9003"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a991c575f1c4a93ff7d3b358ff19806b9"><td class="memItemLeft" align="right" valign="top">struct netconn *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="task__webgui_8c.html#a991c575f1c4a93ff7d3b358ff19806b9">ws_conn</a></td></tr>
+<tr class="memdesc:a991c575f1c4a93ff7d3b358ff19806b9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Websocket conn reference.  <a href="#a991c575f1c4a93ff7d3b358ff19806b9">More...</a><br /></td></tr>
+<tr class="separator:a991c575f1c4a93ff7d3b358ff19806b9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4c0381f5a7dcb7609ee5cfe1fd540e47"><td class="memItemLeft" align="right" valign="top">TimerHandle_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="task__webgui_8c.html#a4c0381f5a7dcb7609ee5cfe1fd540e47">wifiTimer</a></td></tr>
 <tr class="memdesc:a4c0381f5a7dcb7609ee5cfe1fd540e47"><td class="mdescLeft">&#160;</td><td class="mdescRight">Timer handle for auto-disabling wifi.  <a href="#a4c0381f5a7dcb7609ee5cfe1fd540e47">More...</a><br /></td></tr>
 <tr class="separator:a4c0381f5a7dcb7609ee5cfe1fd540e47"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -173,9 +183,6 @@ Variables</h2></td></tr>
 <tr class="memitem:ac9102aa6e5ae70986ec840ec85676e31"><td class="memItemLeft" align="right" valign="top">TaskHandle_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="task__webgui_8c.html#ac9102aa6e5ae70986ec840ec85676e31">wifiHTTPServerHandle_t</a> = NULL</td></tr>
 <tr class="memdesc:ac9102aa6e5ae70986ec840ec85676e31"><td class="mdescLeft">&#160;</td><td class="mdescRight">Task handle for http server task.  <a href="#ac9102aa6e5ae70986ec840ec85676e31">More...</a><br /></td></tr>
 <tr class="separator:ac9102aa6e5ae70986ec840ec85676e31"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a51afaf9187cd21748bc4143cf6ff0239"><td class="memItemLeft" align="right" valign="top">uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="task__webgui_8c.html#a51afaf9187cd21748bc4143cf6ff0239">wifiActive</a> = 0</td></tr>
-<tr class="memdesc:a51afaf9187cd21748bc4143cf6ff0239"><td class="mdescLeft">&#160;</td><td class="mdescRight">Signals any Wifi related task to quit, if set to zero.  <a href="#a51afaf9187cd21748bc4143cf6ff0239">More...</a><br /></td></tr>
-<tr class="separator:a51afaf9187cd21748bc4143cf6ff0239"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>CONTINOUS TASK - Web server &amp; WebGUI handling. </p>
@@ -186,7 +193,7 @@ Variables</h2></td></tr>
 <a class="el" href="task__commands_8c.html#a7b36c39275d773aaedcb327ef4e1516f">task_commands</a> </dd>
 <dd>
 atcmd_api</dd></dl>
-<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000012">Todo:</a></b></dt><dd><p class="startdd">Add wifi settings to cfg struct in hal_storage/common; default fallback should be defined </p>
+<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000011">Todo:</a></b></dt><dd><p class="startdd">Add wifi settings to cfg struct in hal_storage/common; default fallback should be defined </p>
 <p class="enddd">After implementing, test everything.... </p>
 </dd></dl>
 
@@ -262,6 +269,8 @@ atcmd_api</dd></dl>
 
 <p class="definition">Definition at line <a class="el" href="task__webgui_8c_source.html#l00059">59</a> of file <a class="el" href="task__webgui_8c_source.html">task_webgui.c</a>.</p>
 
+<p class="reference">Referenced by <a class="el" href="task__webgui_8c_source.html#l00627">wifiEnDisable()</a>.</p>
+
 </div>
 </div>
 <a id="a662ff68ed47fa2c45ce0f2b67f9ef3dc"></a>
@@ -280,7 +289,7 @@ atcmd_api</dd></dl>
 
 <p class="definition">Definition at line <a class="el" href="task__webgui_8c_source.html#l00055">55</a> of file <a class="el" href="task__webgui_8c_source.html">task_webgui.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="task__webgui_8c_source.html#l00612">taskWebGUIInit()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="task__webgui_8c_source.html#l00739">taskWebGUIInit()</a>, and <a class="el" href="task__webgui_8c_source.html#l00627">wifiEnDisable()</a>.</p>
 
 </div>
 </div>
@@ -300,7 +309,7 @@ atcmd_api</dd></dl>
 
 <p class="definition">Definition at line <a class="el" href="task__webgui_8c_source.html#l00053">53</a> of file <a class="el" href="task__webgui_8c_source.html">task_webgui.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="task__webgui_8c_source.html#l00612">taskWebGUIInit()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="task__webgui_8c_source.html#l00627">wifiEnDisable()</a>.</p>
 
 </div>
 </div>
@@ -329,7 +338,7 @@ atcmd_api</dd></dl>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">#define LOG_LEVEL_WEB&#160;&#160;&#160;ESP_LOG_INFO</td>
+          <td class="memname">#define LOG_LEVEL_WEB&#160;&#160;&#160;ESP_LOG_DEBUG</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -338,7 +347,7 @@ atcmd_api</dd></dl>
 
 <p class="definition">Definition at line <a class="el" href="task__webgui_8c_source.html#l00046">46</a> of file <a class="el" href="task__webgui_8c_source.html">task_webgui.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="task__webgui_8c_source.html#l00612">taskWebGUIInit()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="task__webgui_8c_source.html#l00739">taskWebGUIInit()</a>.</p>
 
 </div>
 </div>
@@ -358,7 +367,7 @@ atcmd_api</dd></dl>
 
 <p class="definition">Definition at line <a class="el" href="task__webgui_8c_source.html#l00044">44</a> of file <a class="el" href="task__webgui_8c_source.html">task_webgui.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="task__webgui_8c_source.html#l00198">fat_serve()</a>, <a class="el" href="task__webgui_8c_source.html#l00367">http_server()</a>, <a class="el" href="task__webgui_8c_source.html#l00317">http_server_netconn_serve()</a>, <a class="el" href="task__webgui_8c_source.html#l00186">redirect()</a>, <a class="el" href="task__webgui_8c_source.html#l00505">taskWebGUIEnDisable()</a>, <a class="el" href="task__webgui_8c_source.html#l00612">taskWebGUIInit()</a>, <a class="el" href="task__webgui_8c_source.html#l00434">wifi_event_handler()</a>, <a class="el" href="task__webgui_8c_source.html#l00585">wifi_timer_cb()</a>, <a class="el" href="task__webgui_8c_source.html#l00117">wifiStartStopOffTimer()</a>, and <a class="el" href="task__webgui_8c_source.html#l00163">ws_server()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="task__webgui_8c_source.html#l00262">fat_serve()</a>, <a class="el" href="task__webgui_8c_source.html#l00431">http_server()</a>, <a class="el" href="task__webgui_8c_source.html#l00381">http_server_netconn_serve()</a>, <a class="el" href="task__webgui_8c_source.html#l00231">redirect()</a>, <a class="el" href="task__webgui_8c_source.html#l00575">taskWebGUIEnDisable()</a>, <a class="el" href="task__webgui_8c_source.html#l00739">taskWebGUIInit()</a>, <a class="el" href="task__webgui_8c_source.html#l00502">wifi_event_handler()</a>, <a class="el" href="task__webgui_8c_source.html#l00243">wifi_timer_cb()</a>, <a class="el" href="task__webgui_8c_source.html#l00627">wifiEnDisable()</a>, <a class="el" href="task__webgui_8c_source.html#l00147">wifiStartStopOffTimer()</a>, and <a class="el" href="task__webgui_8c_source.html#l00193">ws_server()</a>.</p>
 
 </div>
 </div>
@@ -374,7 +383,7 @@ atcmd_api</dd></dl>
       </table>
 </div><div class="memdoc">
 
-<p class="reference">Referenced by <a class="el" href="task__webgui_8c_source.html#l00317">http_server_netconn_serve()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="task__webgui_8c_source.html#l00381">http_server_netconn_serve()</a>.</p>
 
 </div>
 </div>
@@ -414,9 +423,9 @@ atcmd_api</dd></dl>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="task__webgui_8c_source.html#l00198">198</a> of file <a class="el" href="task__webgui_8c_source.html">task_webgui.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="task__webgui_8c_source.html#l00262">262</a> of file <a class="el" href="task__webgui_8c_source.html">task_webgui.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="task__webgui_8c_source.html#l00317">http_server_netconn_serve()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="task__webgui_8c_source.html#l00381">http_server_netconn_serve()</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -431,7 +440,7 @@ Here is the caller graph for this function:</div>
 <div class="center"><img src="task__webgui_8c_adc293b203ede5bd0fec29f304ce67eda_icgraph.png" border="0" usemap="#task__webgui_8c_adc293b203ede5bd0fec29f304ce67eda_icgraph" alt=""/></div>
 <map name="task__webgui_8c_adc293b203ede5bd0fec29f304ce67eda_icgraph" id="task__webgui_8c_adc293b203ede5bd0fec29f304ce67eda_icgraph">
 <area shape="rect" id="node2" href="task__webgui_8c.html#aef8b19daf6cb6fae49c2da83a52f6c6b" title="Handle an incoming HTTP connection. " alt="" coords="129,5,269,47"/>
-<area shape="rect" id="node3" href="task__webgui_8c.html#adcc5b062c057f73762b1f19b2f6a8185" title="CONTINOUS TASK &#45; Main webserver task. " alt="" coords="317,13,404,39"/>
+<area shape="rect" id="node3" href="task__webgui_8c.html#adcc5b062c057f73762b1f19b2f6a8185" title="Main webserver task. " alt="" coords="317,13,404,39"/>
 <area shape="rect" id="node4" href="task__webgui_8h.html#a669b9245d5040c0162481f7b24dbeea7" title="Init the web / DNS server and the web gui. " alt="" coords="452,13,568,39"/>
 <area shape="rect" id="node5" href="flipmouse__fabi__esp32__kbdmouse__main_8c.html#abce06be17fc37d675118a678a8100a36" title="Main task, created by esp&#45;idf. " alt="" coords="616,13,695,39"/>
 </map>
@@ -466,17 +475,22 @@ Here is the caller graph for this function:</div>
 <p>Get the number of currently connected Wifi stations. </p>
 <dl class="section return"><dt>Returns</dt><dd>Number of connected clients </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="task__webgui_8c_source.html#l00099">99</a> of file <a class="el" href="task__webgui_8c_source.html">task_webgui.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="task__webgui_8c_source.html#l00129">129</a> of file <a class="el" href="task__webgui_8c_source.html">task_webgui.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="task__webgui_8c_source.html#l00434">wifi_event_handler()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="task__webgui_8c_source.html#l00502">wifi_event_handler()</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="task__webgui_8c_adf50753dada544362b8f4fb5f8eefde5_icgraph.png" border="0" usemap="#task__webgui_8c_adf50753dada544362b8f4fb5f8eefde5_icgraph" alt=""/></div>
 <map name="task__webgui_8c_adf50753dada544362b8f4fb5f8eefde5_icgraph" id="task__webgui_8c_adf50753dada544362b8f4fb5f8eefde5_icgraph">
-<area shape="rect" id="node2" href="task__webgui_8c.html#a11dd6a5edc46c297b26382ebce3c34cb" title="Event handler for wifi status updates. " alt="" coords="224,5,355,32"/>
-<area shape="rect" id="node3" href="task__webgui_8h.html#a669b9245d5040c0162481f7b24dbeea7" title="Init the web / DNS server and the web gui. " alt="" coords="403,5,519,32"/>
-<area shape="rect" id="node4" href="flipmouse__fabi__esp32__kbdmouse__main_8c.html#abce06be17fc37d675118a678a8100a36" title="Main task, created by esp&#45;idf. " alt="" coords="567,5,645,32"/>
+<area shape="rect" id="node2" href="task__webgui_8c.html#a11dd6a5edc46c297b26382ebce3c34cb" title="Event handler for wifi status updates. " alt="" coords="224,31,355,57"/>
+<area shape="rect" id="node3" href="task__webgui_8c.html#a88f50c2c18db3f5be0149ec7921bf64b" title="AP mode config, filled in init. " alt="" coords="403,31,505,57"/>
+<area shape="rect" id="node4" href="task__webgui_8c.html#adcc5b062c057f73762b1f19b2f6a8185" title="Main webserver task. " alt="" coords="589,5,676,32"/>
+<area shape="rect" id="node7" href="task__webgui_8h.html#a907217aa3488ac68c36595c15da821e0" title="En&#45; or Disable WiFi interface. " alt="" coords="553,56,712,83"/>
+<area shape="rect" id="node5" href="task__webgui_8h.html#a669b9245d5040c0162481f7b24dbeea7" title="Init the web / DNS server and the web gui. " alt="" coords="907,56,1023,83"/>
+<area shape="rect" id="node6" href="flipmouse__fabi__esp32__kbdmouse__main_8c.html#abce06be17fc37d675118a678a8100a36" title="Main task, created by esp&#45;idf. " alt="" coords="1071,81,1149,108"/>
+<area shape="rect" id="node8" href="flipmouse__fabi__esp32__kbdmouse__main_8c.html#a93e2ea21db142b4c7172565051a18cb1" title="Switch radio mode. " alt="" coords="917,107,1012,133"/>
+<area shape="rect" id="node9" href="task__webgui_8c.html#ae5ad2f76f20781fd8c89e542bcc8a551" title="Timer callback for disabling wifi. " alt="" coords="760,56,859,83"/>
 </map>
 </div>
 
@@ -506,7 +520,7 @@ Here is the caller graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-<p>CONTINOUS TASK - Main webserver task. </p>
+<p>Main webserver task. </p>
 <p>This task is used to handle incoming connections via netconn_accept. Each time a connection is opened, it will be served by http_server_netconn_serve.</p>
 <dl class="section see"><dt>See also</dt><dd><a class="el" href="task__webgui_8c.html#aef8b19daf6cb6fae49c2da83a52f6c6b" title="Handle an incoming HTTP connection. ">http_server_netconn_serve</a> </dd></dl>
 <dl class="params"><dt>Parameters</dt><dd>
@@ -516,17 +530,35 @@ Here is the caller graph for this function:</div>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="task__webgui_8c_source.html#l00367">367</a> of file <a class="el" href="task__webgui_8c_source.html">task_webgui.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="task__webgui_8c_source.html#l00431">431</a> of file <a class="el" href="task__webgui_8c_source.html">task_webgui.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="task__webgui_8c_source.html#l00612">taskWebGUIInit()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="task__webgui_8c_source.html#l00739">taskWebGUIInit()</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="task__webgui_8c_adcc5b062c057f73762b1f19b2f6a8185_cgraph.png" border="0" usemap="#task__webgui_8c_adcc5b062c057f73762b1f19b2f6a8185_cgraph" alt=""/></div>
 <map name="task__webgui_8c_adcc5b062c057f73762b1f19b2f6a8185_cgraph" id="task__webgui_8c_adcc5b062c057f73762b1f19b2f6a8185_cgraph">
-<area shape="rect" id="node2" href="task__webgui_8c.html#aef8b19daf6cb6fae49c2da83a52f6c6b" title="Handle an incoming HTTP connection. " alt="" coords="140,5,280,47"/>
-<area shape="rect" id="node3" href="task__webgui_8c.html#adc293b203ede5bd0fec29f304ce67eda" title="Serve static content from FAT. " alt="" coords="328,13,404,39"/>
-<area shape="rect" id="node4" href="task__webgui_8c.html#a3f8ca93e9a4e4726ea422a81dd72b7d8" title="Helper, sending redirect header. " alt="" coords="452,13,517,39"/>
+<area shape="rect" id="node2" href="task__webgui_8c.html#a88f50c2c18db3f5be0149ec7921bf64b" title="AP mode config, filled in init. " alt="" coords="159,157,261,184"/>
+<area shape="rect" id="node20" href="task__webgui_8c.html#aef8b19daf6cb6fae49c2da83a52f6c6b" title="Handle an incoming HTTP connection. " alt="" coords="140,230,280,271"/>
+<area shape="rect" id="node3" href="captdns_8c.html#a8839b10051f013921d546b10cf160d9b" title="captdnsDeinit" alt="" coords="342,56,445,83"/>
+<area shape="rect" id="node4" href="task__webgui_8c.html#a11dd6a5edc46c297b26382ebce3c34cb" title="Event handler for wifi status updates. " alt="" coords="328,107,459,133"/>
+<area shape="rect" id="node8" href="captdns_8c.html#a82f468eb219b14b853eb183149894e92" title="captdnsInit" alt="" coords="350,157,437,184"/>
+<area shape="rect" id="node16" href="task__webgui_8c.html#a5f462e5b8bd4803c256bf22a004eacde" title="CONTINOUS TASK &#45; Websocket server task. " alt="" coords="352,233,435,260"/>
+<area shape="rect" id="node5" href="task__webgui_8c.html#a7f89c77fa56e7ac560e2720baedf07eb" title="Simply reset &amp; start OR stop the auto&#45;off timer. " alt="" coords="534,5,682,32"/>
+<area shape="rect" id="node6" href="task__webgui_8c.html#adf50753dada544362b8f4fb5f8eefde5" title="Get the number of currently connected Wifi stations. " alt="" coords="523,56,693,83"/>
+<area shape="rect" id="node7" href="hal__serial_8c.html#a57242c09ec880fbd08e1a4cd5e64d8e5" title="Remove the additional function for outputting the serial data. " alt="" coords="507,107,709,133"/>
+<area shape="rect" id="node9" href="captdns_8c.html#afbeefb54f301b1f8179ecb1a6efb69a9" title="captdnsTask" alt="" coords="559,157,657,184"/>
+<area shape="rect" id="node10" href="captdns_8c.html#ae3d5d80203823fee0be8b7a591e5a32d" title="captdnsRecv" alt="" coords="757,157,856,184"/>
+<area shape="rect" id="node11" href="captdns_8c.html#adec91475451453070cedc420696c90f1" title="my_ntohs" alt="" coords="1035,81,1113,108"/>
+<area shape="rect" id="node12" href="captdns_8c.html#a5ba2df190357425ca8f277eed3a16d32" title="labelToStr" alt="" coords="905,107,986,133"/>
+<area shape="rect" id="node13" href="captdns_8c.html#a01294bcdad17e226e50f0c707fee3852" title="strToLabel" alt="" coords="904,157,987,184"/>
+<area shape="rect" id="node14" href="captdns_8c.html#a21dfd38acc9e61af1ce25d3fe687e22f" title="setn16" alt="" coords="915,208,976,235"/>
+<area shape="rect" id="node15" href="captdns_8c.html#a4868ba2e5fb29569ef87f4d56c52fc5a" title="setn32" alt="" coords="915,259,976,285"/>
+<area shape="rect" id="node17" href="hal__serial_8c.html#a143968f329a010a1075a81b976579605" title="Set an additional function for outputting the serial data. " alt="" coords="520,208,696,235"/>
+<area shape="rect" id="node18" href="websocket_8c.html#a215997a5d454937f96cf800e1a44e599" title="WS_write_data" alt="" coords="553,259,663,285"/>
+<area shape="rect" id="node19" href="websocket_8c.html#afc7ea5da54622021156f0df84063abb4" title="ws_server_netconn_serve" alt="" coords="521,309,695,336"/>
+<area shape="rect" id="node21" href="task__webgui_8c.html#adc293b203ede5bd0fec29f304ce67eda" title="Serve static content from FAT. " alt="" coords="355,335,431,361"/>
+<area shape="rect" id="node22" href="task__webgui_8c.html#a3f8ca93e9a4e4726ea422a81dd72b7d8" title="Helper, sending redirect header. " alt="" coords="575,360,641,387"/>
 </map>
 </div>
 <div class="dynheader">
@@ -573,9 +605,9 @@ Here is the caller graph for this function:</div>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="task__webgui_8c_source.html#l00317">317</a> of file <a class="el" href="task__webgui_8c_source.html">task_webgui.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="task__webgui_8c_source.html#l00381">381</a> of file <a class="el" href="task__webgui_8c_source.html">task_webgui.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="task__webgui_8c_source.html#l00367">http_server()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="task__webgui_8c_source.html#l00431">http_server()</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -590,7 +622,7 @@ Here is the caller graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="task__webgui_8c_aef8b19daf6cb6fae49c2da83a52f6c6b_icgraph.png" border="0" usemap="#task__webgui_8c_aef8b19daf6cb6fae49c2da83a52f6c6b_icgraph" alt=""/></div>
 <map name="task__webgui_8c_aef8b19daf6cb6fae49c2da83a52f6c6b_icgraph" id="task__webgui_8c_aef8b19daf6cb6fae49c2da83a52f6c6b_icgraph">
-<area shape="rect" id="node2" href="task__webgui_8c.html#adcc5b062c057f73762b1f19b2f6a8185" title="CONTINOUS TASK &#45; Main webserver task. " alt="" coords="193,13,280,39"/>
+<area shape="rect" id="node2" href="task__webgui_8c.html#adcc5b062c057f73762b1f19b2f6a8185" title="Main webserver task. " alt="" coords="193,13,280,39"/>
 <area shape="rect" id="node3" href="task__webgui_8h.html#a669b9245d5040c0162481f7b24dbeea7" title="Init the web / DNS server and the web gui. " alt="" coords="328,13,444,39"/>
 <area shape="rect" id="node4" href="flipmouse__fabi__esp32__kbdmouse__main_8c.html#abce06be17fc37d675118a678a8100a36" title="Main task, created by esp&#45;idf. " alt="" coords="492,13,571,39"/>
 </map>
@@ -626,9 +658,9 @@ Here is the caller graph for this function:</div>
 
 <p>Helper, sending redirect header. </p>
 
-<p class="definition">Definition at line <a class="el" href="task__webgui_8c_source.html#l00186">186</a> of file <a class="el" href="task__webgui_8c_source.html">task_webgui.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="task__webgui_8c_source.html#l00231">231</a> of file <a class="el" href="task__webgui_8c_source.html">task_webgui.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="task__webgui_8c_source.html#l00198">fat_serve()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="task__webgui_8c_source.html#l00262">fat_serve()</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
@@ -636,7 +668,7 @@ Here is the caller graph for this function:</div>
 <map name="task__webgui_8c_a3f8ca93e9a4e4726ea422a81dd72b7d8_icgraph" id="task__webgui_8c_a3f8ca93e9a4e4726ea422a81dd72b7d8_icgraph">
 <area shape="rect" id="node2" href="task__webgui_8c.html#adc293b203ede5bd0fec29f304ce67eda" title="Serve static content from FAT. " alt="" coords="119,13,195,39"/>
 <area shape="rect" id="node3" href="task__webgui_8c.html#aef8b19daf6cb6fae49c2da83a52f6c6b" title="Handle an incoming HTTP connection. " alt="" coords="243,5,383,47"/>
-<area shape="rect" id="node4" href="task__webgui_8c.html#adcc5b062c057f73762b1f19b2f6a8185" title="CONTINOUS TASK &#45; Main webserver task. " alt="" coords="431,13,517,39"/>
+<area shape="rect" id="node4" href="task__webgui_8c.html#adcc5b062c057f73762b1f19b2f6a8185" title="Main webserver task. " alt="" coords="431,13,517,39"/>
 <area shape="rect" id="node5" href="task__webgui_8h.html#a669b9245d5040c0162481f7b24dbeea7" title="Init the web / DNS server and the web gui. " alt="" coords="565,13,681,39"/>
 <area shape="rect" id="node6" href="flipmouse__fabi__esp32__kbdmouse__main_8c.html#abce06be17fc37d675118a678a8100a36" title="Main task, created by esp&#45;idf. " alt="" coords="729,13,808,39"/>
 </map>
@@ -644,8 +676,8 @@ Here is the caller graph for this function:</div>
 
 </div>
 </div>
-<a id="af4fe29c8fc1fde365cdb8344cb402156"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af4fe29c8fc1fde365cdb8344cb402156">&#9670;&nbsp;</a></span>taskWebGUIEnDisable()</h2>
+<a id="a907217aa3488ac68c36595c15da821e0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a907217aa3488ac68c36595c15da821e0">&#9670;&nbsp;</a></span>taskWebGUIEnDisable()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -654,8 +686,18 @@ Here is the caller graph for this function:</div>
           <td class="memname">esp_err_t taskWebGUIEnDisable </td>
           <td>(</td>
           <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>onoff</em></td><td>)</td>
+          <td class="paramname"><em>onoff</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>fromISR</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -667,19 +709,45 @@ Here is the caller graph for this function:</div>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">onoff</td><td>If != 0, switch on WiFi, switch off if 0. </td></tr>
+    <tr><td class="paramname">fromISR</td><td>Set to != 0 if this function is called from ISR context. Otherwise a reset will happen. </td></tr>
   </table>
   </dd>
 </dl>
 <dl class="section see"><dt>See also</dt><dd><a class="el" href="common_8h.html#a7c133f995819f3e61446b4881e582b13" title="Minutes between last client disconnected and WiFi is switched off. ">WIFI_OFF_TIME</a> </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="task__webgui_8c_source.html#l00505">505</a> of file <a class="el" href="task__webgui_8c_source.html">task_webgui.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="task__webgui_8c_source.html#l00575">575</a> of file <a class="el" href="task__webgui_8c_source.html">task_webgui.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c_source.html#l00082">switch_radio()</a>, and <a class="el" href="task__webgui_8c_source.html#l00585">wifi_timer_cb()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c_source.html#l00083">switch_radio()</a>, and <a class="el" href="task__webgui_8c_source.html#l00243">wifi_timer_cb()</a>.</p>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="task__webgui_8c_a907217aa3488ac68c36595c15da821e0_cgraph.png" border="0" usemap="#task__webgui_8c_a907217aa3488ac68c36595c15da821e0_cgraph" alt=""/></div>
+<map name="task__webgui_8c_a907217aa3488ac68c36595c15da821e0_cgraph" id="task__webgui_8c_a907217aa3488ac68c36595c15da821e0_cgraph">
+<area shape="rect" id="node2" href="task__webgui_8c.html#a88f50c2c18db3f5be0149ec7921bf64b" title="AP mode config, filled in init. " alt="" coords="212,132,315,159"/>
+<area shape="rect" id="node3" href="captdns_8c.html#a8839b10051f013921d546b10cf160d9b" title="captdnsDeinit" alt="" coords="377,56,479,83"/>
+<area shape="rect" id="node4" href="task__webgui_8c.html#a11dd6a5edc46c297b26382ebce3c34cb" title="Event handler for wifi status updates. " alt="" coords="363,107,493,133"/>
+<area shape="rect" id="node8" href="captdns_8c.html#a82f468eb219b14b853eb183149894e92" title="captdnsInit" alt="" coords="385,157,471,184"/>
+<area shape="rect" id="node16" href="task__webgui_8c.html#a5f462e5b8bd4803c256bf22a004eacde" title="CONTINOUS TASK &#45; Websocket server task. " alt="" coords="387,233,469,260"/>
+<area shape="rect" id="node5" href="task__webgui_8c.html#a7f89c77fa56e7ac560e2720baedf07eb" title="Simply reset &amp; start OR stop the auto&#45;off timer. " alt="" coords="569,5,717,32"/>
+<area shape="rect" id="node6" href="task__webgui_8c.html#adf50753dada544362b8f4fb5f8eefde5" title="Get the number of currently connected Wifi stations. " alt="" coords="557,56,728,83"/>
+<area shape="rect" id="node7" href="hal__serial_8c.html#a57242c09ec880fbd08e1a4cd5e64d8e5" title="Remove the additional function for outputting the serial data. " alt="" coords="541,107,744,133"/>
+<area shape="rect" id="node9" href="captdns_8c.html#afbeefb54f301b1f8179ecb1a6efb69a9" title="captdnsTask" alt="" coords="594,157,691,184"/>
+<area shape="rect" id="node10" href="captdns_8c.html#ae3d5d80203823fee0be8b7a591e5a32d" title="captdnsRecv" alt="" coords="792,157,891,184"/>
+<area shape="rect" id="node11" href="captdns_8c.html#adec91475451453070cedc420696c90f1" title="my_ntohs" alt="" coords="1069,81,1148,108"/>
+<area shape="rect" id="node12" href="captdns_8c.html#a5ba2df190357425ca8f277eed3a16d32" title="labelToStr" alt="" coords="939,107,1021,133"/>
+<area shape="rect" id="node13" href="captdns_8c.html#a01294bcdad17e226e50f0c707fee3852" title="strToLabel" alt="" coords="939,157,1021,184"/>
+<area shape="rect" id="node14" href="captdns_8c.html#a21dfd38acc9e61af1ce25d3fe687e22f" title="setn16" alt="" coords="949,208,1011,235"/>
+<area shape="rect" id="node15" href="captdns_8c.html#a4868ba2e5fb29569ef87f4d56c52fc5a" title="setn32" alt="" coords="949,259,1011,285"/>
+<area shape="rect" id="node17" href="hal__serial_8c.html#a143968f329a010a1075a81b976579605" title="Set an additional function for outputting the serial data. " alt="" coords="555,208,731,235"/>
+<area shape="rect" id="node18" href="websocket_8c.html#a215997a5d454937f96cf800e1a44e599" title="WS_write_data" alt="" coords="587,259,698,285"/>
+<area shape="rect" id="node19" href="websocket_8c.html#afc7ea5da54622021156f0df84063abb4" title="ws_server_netconn_serve" alt="" coords="555,309,730,336"/>
+</map>
+</div>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><img src="task__webgui_8c_af4fe29c8fc1fde365cdb8344cb402156_icgraph.png" border="0" usemap="#task__webgui_8c_af4fe29c8fc1fde365cdb8344cb402156_icgraph" alt=""/></div>
-<map name="task__webgui_8c_af4fe29c8fc1fde365cdb8344cb402156_icgraph" id="task__webgui_8c_af4fe29c8fc1fde365cdb8344cb402156_icgraph">
+<div class="center"><img src="task__webgui_8c_a907217aa3488ac68c36595c15da821e0_icgraph.png" border="0" usemap="#task__webgui_8c_a907217aa3488ac68c36595c15da821e0_icgraph" alt=""/></div>
+<map name="task__webgui_8c_a907217aa3488ac68c36595c15da821e0_icgraph" id="task__webgui_8c_a907217aa3488ac68c36595c15da821e0_icgraph">
 <area shape="rect" id="node2" href="flipmouse__fabi__esp32__kbdmouse__main_8c.html#a93e2ea21db142b4c7172565051a18cb1" title="Switch radio mode. " alt="" coords="369,5,464,32"/>
 <area shape="rect" id="node4" href="task__webgui_8c.html#ae5ad2f76f20781fd8c89e542bcc8a551" title="Timer callback for disabling wifi. " alt="" coords="212,56,311,83"/>
 <area shape="rect" id="node3" href="flipmouse__fabi__esp32__kbdmouse__main_8c.html#abce06be17fc37d675118a678a8100a36" title="Main task, created by esp&#45;idf. " alt="" coords="523,31,601,57"/>
@@ -708,51 +776,54 @@ Here is the caller graph for this function:</div>
 <p>Init the web / DNS server and the web gui. </p>
 <p>This init function initializes the wifi, web server, dns server (captive portal) and the websocket.</p>
 <p>The web page is served from FAT file system (same partition as config files) via the http_server task. Communication between web page and FLipMouse/FABI is done by a websocket, which is provided via the ws_server task.</p>
-<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000013">Todo:</a></b></dt><dd>Activate/fix/test captive portal</dd></dl>
+<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000012">Todo:</a></b></dt><dd>Activate/fix/test captive portal</dd></dl>
 <dl class="section note"><dt>Note</dt><dd>Wifi is not enabled by default (BLE has priority), see taskWebGUIEnDisable </dd>
 <dd>
 IP Adress of the device is <b>192.168.10.1</b> </dd></dl>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="task__webgui_8c.html#af4fe29c8fc1fde365cdb8344cb402156" title="En- or Disable WiFi interface. ">taskWebGUIEnDisable</a> </dd>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="task__webgui_8c.html#a907217aa3488ac68c36595c15da821e0" title="En- or Disable WiFi interface. ">taskWebGUIEnDisable</a> </dd>
 <dd>
 <a class="el" href="task__webgui_8c.html#a662ff68ed47fa2c45ce0f2b67f9ef3dc" title="Hotspot default password. ">CONFIG_AP_PASSWORD</a> </dd>
 <dd>
 <a class="el" href="common_8h.html#a2ca9c660566d3b177436abdb6d2d6713" title="NVS key for wifi password. ">NVS_WIFIPW</a> </dd></dl>
 <dl class="section return"><dt>Returns</dt><dd>ESP_OK on success, ESP_FAIL otherwise </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="task__webgui_8c_source.html#l00612">612</a> of file <a class="el" href="task__webgui_8c_source.html">task_webgui.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="task__webgui_8c_source.html#l00739">739</a> of file <a class="el" href="task__webgui_8c_source.html">task_webgui.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c_source.html#l00114">app_main()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c_source.html#l00125">app_main()</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="task__webgui_8c_a669b9245d5040c0162481f7b24dbeea7_cgraph.png" border="0" usemap="#task__webgui_8c_a669b9245d5040c0162481f7b24dbeea7_cgraph" alt=""/></div>
 <map name="task__webgui_8c_a669b9245d5040c0162481f7b24dbeea7_cgraph" id="task__webgui_8c_a669b9245d5040c0162481f7b24dbeea7_cgraph">
-<area shape="rect" id="node2" href="hal__storage_8c.html#a63ec8e05a2bb4c214600e94b8ab05eea" title="Load a string from NVS (global, no slot assignment) " alt="" coords="175,56,350,83"/>
-<area shape="rect" id="node3" href="task__webgui_8c.html#a11dd6a5edc46c297b26382ebce3c34cb" title="Event handler for wifi status updates. " alt="" coords="197,107,328,133"/>
-<area shape="rect" id="node7" href="captdns_8c.html#a82f468eb219b14b853eb183149894e92" title="captdnsInit" alt="" coords="219,157,306,184"/>
-<area shape="rect" id="node15" href="hal__storage_8c.html#aead99606f84645b2bb6ae000461bf819" title="Start a storage transaction. " alt="" coords="173,208,353,235"/>
-<area shape="rect" id="node17" href="hal__storage_8c.html#a00b5db14e24d7ada8a42aa6b3f1a1cb7" title="Finish a storage transaction. " alt="" coords="169,259,356,285"/>
-<area shape="rect" id="node18" href="task__webgui_8c.html#ae5ad2f76f20781fd8c89e542bcc8a551" title="Timer callback for disabling wifi. " alt="" coords="213,309,312,336"/>
-<area shape="rect" id="node20" href="task__webgui_8c.html#adcc5b062c057f73762b1f19b2f6a8185" title="CONTINOUS TASK &#45; Main webserver task. " alt="" coords="219,360,306,387"/>
-<area shape="rect" id="node24" href="task__webgui_8c.html#a5f462e5b8bd4803c256bf22a004eacde" title="CONTINOUS TASK &#45; Websocket server task. " alt="" coords="221,444,304,471"/>
-<area shape="rect" id="node4" href="task__webgui_8c.html#a7f89c77fa56e7ac560e2720baedf07eb" title="Simply reset &amp; start OR stop the auto&#45;off timer. " alt="" coords="431,5,579,32"/>
-<area shape="rect" id="node5" href="task__webgui_8c.html#adf50753dada544362b8f4fb5f8eefde5" title="Get the number of currently connected Wifi stations. " alt="" coords="420,56,591,83"/>
-<area shape="rect" id="node6" href="hal__serial_8c.html#a57242c09ec880fbd08e1a4cd5e64d8e5" title="Remove the additional function for outputting the serial data. " alt="" coords="404,107,607,133"/>
-<area shape="rect" id="node8" href="captdns_8c.html#afbeefb54f301b1f8179ecb1a6efb69a9" title="captdnsTask" alt="" coords="457,157,554,184"/>
-<area shape="rect" id="node9" href="captdns_8c.html#ae3d5d80203823fee0be8b7a591e5a32d" title="captdnsRecv" alt="" coords="655,157,753,184"/>
-<area shape="rect" id="node10" href="captdns_8c.html#adec91475451453070cedc420696c90f1" title="my_ntohs" alt="" coords="932,81,1011,108"/>
-<area shape="rect" id="node11" href="captdns_8c.html#a5ba2df190357425ca8f277eed3a16d32" title="labelToStr" alt="" coords="802,107,883,133"/>
-<area shape="rect" id="node12" href="captdns_8c.html#a01294bcdad17e226e50f0c707fee3852" title="strToLabel" alt="" coords="801,157,884,184"/>
-<area shape="rect" id="node13" href="captdns_8c.html#a21dfd38acc9e61af1ce25d3fe687e22f" title="setn16" alt="" coords="812,208,873,235"/>
-<area shape="rect" id="node14" href="captdns_8c.html#a4868ba2e5fb29569ef87f4d56c52fc5a" title="setn32" alt="" coords="812,259,873,285"/>
-<area shape="rect" id="node16" href="hal__storage_8c.html#a606e5842dd354f1fb4a738ba95c6d5d1" title="internal function to init the filesystem if handle is invalid " alt="" coords="454,208,557,235"/>
-<area shape="rect" id="node19" href="task__webgui_8c.html#af4fe29c8fc1fde365cdb8344cb402156" title="En&#45; or Disable WiFi interface. " alt="" coords="426,301,585,328"/>
-<area shape="rect" id="node21" href="task__webgui_8c.html#aef8b19daf6cb6fae49c2da83a52f6c6b" title="Handle an incoming HTTP connection. " alt="" coords="435,353,575,394"/>
-<area shape="rect" id="node22" href="task__webgui_8c.html#adc293b203ede5bd0fec29f304ce67eda" title="Serve static content from FAT. " alt="" coords="666,360,742,387"/>
-<area shape="rect" id="node23" href="task__webgui_8c.html#a3f8ca93e9a4e4726ea422a81dd72b7d8" title="Helper, sending redirect header. " alt="" coords="810,360,875,387"/>
-<area shape="rect" id="node25" href="hal__serial_8c.html#a143968f329a010a1075a81b976579605" title="Set an additional function for outputting the serial data. " alt="" coords="417,419,593,445"/>
-<area shape="rect" id="node26" href="websocket_8c.html#a215997a5d454937f96cf800e1a44e599" title="WS_write_data" alt="" coords="450,469,561,496"/>
-<area shape="rect" id="node27" href="websocket_8c.html#afc7ea5da54622021156f0df84063abb4" title="ws_server_netconn_serve" alt="" coords="418,520,593,547"/>
+<area shape="rect" id="node2" href="hal__storage_8c.html#a63ec8e05a2bb4c214600e94b8ab05eea" title="Load a string from NVS (global, no slot assignment) " alt="" coords="175,32,350,59"/>
+<area shape="rect" id="node3" href="hal__storage_8c.html#aead99606f84645b2bb6ae000461bf819" title="Start a storage transaction. " alt="" coords="173,83,353,109"/>
+<area shape="rect" id="node5" href="hal__storage_8c.html#a00b5db14e24d7ada8a42aa6b3f1a1cb7" title="Finish a storage transaction. " alt="" coords="169,133,356,160"/>
+<area shape="rect" id="node6" href="task__webgui_8c.html#ae5ad2f76f20781fd8c89e542bcc8a551" title="Timer callback for disabling wifi. " alt="" coords="213,184,312,211"/>
+<area shape="rect" id="node27" href="task__webgui_8c.html#adcc5b062c057f73762b1f19b2f6a8185" title="Main webserver task. " alt="" coords="219,247,306,273"/>
+<area shape="rect" id="node4" href="hal__storage_8c.html#a606e5842dd354f1fb4a738ba95c6d5d1" title="internal function to init the filesystem if handle is invalid " alt="" coords="438,79,541,105"/>
+<area shape="rect" id="node7" href="task__webgui_8c.html#a907217aa3488ac68c36595c15da821e0" title="En&#45; or Disable WiFi interface. " alt="" coords="410,129,569,156"/>
+<area shape="rect" id="node26" href="hal__storage_8c.html#aa5da838bef47becbd2b5bd96a60c75b3" title="Get number of currently loaded slot. " alt="" coords="404,181,575,222"/>
+<area shape="rect" id="node8" href="task__webgui_8c.html#a88f50c2c18db3f5be0149ec7921bf64b" title="AP mode config, filled in init. " alt="" coords="623,139,725,165"/>
+<area shape="rect" id="node9" href="captdns_8c.html#a8839b10051f013921d546b10cf160d9b" title="captdnsDeinit" alt="" coords="787,56,890,83"/>
+<area shape="rect" id="node10" href="task__webgui_8c.html#a11dd6a5edc46c297b26382ebce3c34cb" title="Event handler for wifi status updates. " alt="" coords="773,107,904,133"/>
+<area shape="rect" id="node14" href="captdns_8c.html#a82f468eb219b14b853eb183149894e92" title="captdnsInit" alt="" coords="795,157,882,184"/>
+<area shape="rect" id="node22" href="task__webgui_8c.html#a5f462e5b8bd4803c256bf22a004eacde" title="CONTINOUS TASK &#45; Websocket server task. " alt="" coords="797,217,880,244"/>
+<area shape="rect" id="node11" href="task__webgui_8c.html#a7f89c77fa56e7ac560e2720baedf07eb" title="Simply reset &amp; start OR stop the auto&#45;off timer. " alt="" coords="979,5,1127,32"/>
+<area shape="rect" id="node12" href="task__webgui_8c.html#adf50753dada544362b8f4fb5f8eefde5" title="Get the number of currently connected Wifi stations. " alt="" coords="968,56,1139,83"/>
+<area shape="rect" id="node13" href="hal__serial_8c.html#a57242c09ec880fbd08e1a4cd5e64d8e5" title="Remove the additional function for outputting the serial data. " alt="" coords="952,107,1155,133"/>
+<area shape="rect" id="node15" href="captdns_8c.html#afbeefb54f301b1f8179ecb1a6efb69a9" title="captdnsTask" alt="" coords="1005,157,1102,184"/>
+<area shape="rect" id="node16" href="captdns_8c.html#ae3d5d80203823fee0be8b7a591e5a32d" title="captdnsRecv" alt="" coords="1203,157,1301,184"/>
+<area shape="rect" id="node17" href="captdns_8c.html#adec91475451453070cedc420696c90f1" title="my_ntohs" alt="" coords="1480,81,1559,108"/>
+<area shape="rect" id="node18" href="captdns_8c.html#a5ba2df190357425ca8f277eed3a16d32" title="labelToStr" alt="" coords="1350,107,1431,133"/>
+<area shape="rect" id="node19" href="captdns_8c.html#a01294bcdad17e226e50f0c707fee3852" title="strToLabel" alt="" coords="1349,157,1432,184"/>
+<area shape="rect" id="node20" href="captdns_8c.html#a21dfd38acc9e61af1ce25d3fe687e22f" title="setn16" alt="" coords="1360,208,1421,235"/>
+<area shape="rect" id="node21" href="captdns_8c.html#a4868ba2e5fb29569ef87f4d56c52fc5a" title="setn32" alt="" coords="1360,259,1421,285"/>
+<area shape="rect" id="node23" href="hal__serial_8c.html#a143968f329a010a1075a81b976579605" title="Set an additional function for outputting the serial data. " alt="" coords="965,208,1141,235"/>
+<area shape="rect" id="node24" href="websocket_8c.html#a215997a5d454937f96cf800e1a44e599" title="WS_write_data" alt="" coords="998,259,1109,285"/>
+<area shape="rect" id="node25" href="websocket_8c.html#afc7ea5da54622021156f0df84063abb4" title="ws_server_netconn_serve" alt="" coords="966,309,1141,336"/>
+<area shape="rect" id="node28" href="task__webgui_8c.html#aef8b19daf6cb6fae49c2da83a52f6c6b" title="Handle an incoming HTTP connection. " alt="" coords="419,298,559,339"/>
+<area shape="rect" id="node29" href="task__webgui_8c.html#adc293b203ede5bd0fec29f304ce67eda" title="Serve static content from FAT. " alt="" coords="636,305,712,332"/>
+<area shape="rect" id="node30" href="task__webgui_8c.html#a3f8ca93e9a4e4726ea422a81dd72b7d8" title="Helper, sending redirect header. " alt="" coords="806,305,871,332"/>
 </map>
 </div>
 <div class="dynheader">
@@ -816,9 +887,9 @@ Here is the caller graph for this function:</div>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="task__webgui_8c_source.html#l00434">434</a> of file <a class="el" href="task__webgui_8c_source.html">task_webgui.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="task__webgui_8c_source.html#l00502">502</a> of file <a class="el" href="task__webgui_8c_source.html">task_webgui.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="task__webgui_8c_source.html#l00612">taskWebGUIInit()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="task__webgui_8c_source.html#l00627">wifiEnDisable()</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -834,8 +905,13 @@ Here is the caller graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="task__webgui_8c_a11dd6a5edc46c297b26382ebce3c34cb_icgraph.png" border="0" usemap="#task__webgui_8c_a11dd6a5edc46c297b26382ebce3c34cb_icgraph" alt=""/></div>
 <map name="task__webgui_8c_a11dd6a5edc46c297b26382ebce3c34cb_icgraph" id="task__webgui_8c_a11dd6a5edc46c297b26382ebce3c34cb_icgraph">
-<area shape="rect" id="node2" href="task__webgui_8h.html#a669b9245d5040c0162481f7b24dbeea7" title="Init the web / DNS server and the web gui. " alt="" coords="184,5,300,32"/>
-<area shape="rect" id="node3" href="flipmouse__fabi__esp32__kbdmouse__main_8c.html#abce06be17fc37d675118a678a8100a36" title="Main task, created by esp&#45;idf. " alt="" coords="348,5,427,32"/>
+<area shape="rect" id="node2" href="task__webgui_8c.html#a88f50c2c18db3f5be0149ec7921bf64b" title="AP mode config, filled in init. " alt="" coords="184,31,287,57"/>
+<area shape="rect" id="node3" href="task__webgui_8c.html#adcc5b062c057f73762b1f19b2f6a8185" title="Main webserver task. " alt="" coords="371,5,457,32"/>
+<area shape="rect" id="node6" href="task__webgui_8h.html#a907217aa3488ac68c36595c15da821e0" title="En&#45; or Disable WiFi interface. " alt="" coords="335,56,493,83"/>
+<area shape="rect" id="node4" href="task__webgui_8h.html#a669b9245d5040c0162481f7b24dbeea7" title="Init the web / DNS server and the web gui. " alt="" coords="688,56,804,83"/>
+<area shape="rect" id="node5" href="flipmouse__fabi__esp32__kbdmouse__main_8c.html#abce06be17fc37d675118a678a8100a36" title="Main task, created by esp&#45;idf. " alt="" coords="852,81,931,108"/>
+<area shape="rect" id="node7" href="flipmouse__fabi__esp32__kbdmouse__main_8c.html#a93e2ea21db142b4c7172565051a18cb1" title="Switch radio mode. " alt="" coords="699,107,793,133"/>
+<area shape="rect" id="node8" href="task__webgui_8c.html#ae5ad2f76f20781fd8c89e542bcc8a551" title="Timer callback for disabling wifi. " alt="" coords="541,56,640,83"/>
 </map>
 </div>
 
@@ -865,15 +941,34 @@ Here is the caller graph for this function:</div>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="task__webgui_8c_source.html#l00585">585</a> of file <a class="el" href="task__webgui_8c_source.html">task_webgui.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="task__webgui_8c_source.html#l00243">243</a> of file <a class="el" href="task__webgui_8c_source.html">task_webgui.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="task__webgui_8c_source.html#l00612">taskWebGUIInit()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="task__webgui_8c_source.html#l00739">taskWebGUIInit()</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="task__webgui_8c_ae5ad2f76f20781fd8c89e542bcc8a551_cgraph.png" border="0" usemap="#task__webgui_8c_ae5ad2f76f20781fd8c89e542bcc8a551_cgraph" alt=""/></div>
 <map name="task__webgui_8c_ae5ad2f76f20781fd8c89e542bcc8a551_cgraph" id="task__webgui_8c_ae5ad2f76f20781fd8c89e542bcc8a551_cgraph">
-<area shape="rect" id="node2" href="task__webgui_8c.html#af4fe29c8fc1fde365cdb8344cb402156" title="En&#45; or Disable WiFi interface. " alt="" coords="152,5,311,32"/>
+<area shape="rect" id="node2" href="task__webgui_8c.html#a907217aa3488ac68c36595c15da821e0" title="En&#45; or Disable WiFi interface. " alt="" coords="158,132,317,159"/>
+<area shape="rect" id="node21" href="hal__storage_8c.html#aa5da838bef47becbd2b5bd96a60c75b3" title="Get number of currently loaded slot. " alt="" coords="152,183,323,225"/>
+<area shape="rect" id="node3" href="task__webgui_8c.html#a88f50c2c18db3f5be0149ec7921bf64b" title="AP mode config, filled in init. " alt="" coords="371,132,473,159"/>
+<area shape="rect" id="node4" href="captdns_8c.html#a8839b10051f013921d546b10cf160d9b" title="captdnsDeinit" alt="" coords="535,56,638,83"/>
+<area shape="rect" id="node5" href="task__webgui_8c.html#a11dd6a5edc46c297b26382ebce3c34cb" title="Event handler for wifi status updates. " alt="" coords="521,107,652,133"/>
+<area shape="rect" id="node9" href="captdns_8c.html#a82f468eb219b14b853eb183149894e92" title="captdnsInit" alt="" coords="543,157,630,184"/>
+<area shape="rect" id="node17" href="task__webgui_8c.html#a5f462e5b8bd4803c256bf22a004eacde" title="CONTINOUS TASK &#45; Websocket server task. " alt="" coords="545,233,628,260"/>
+<area shape="rect" id="node6" href="task__webgui_8c.html#a7f89c77fa56e7ac560e2720baedf07eb" title="Simply reset &amp; start OR stop the auto&#45;off timer. " alt="" coords="727,5,875,32"/>
+<area shape="rect" id="node7" href="task__webgui_8c.html#adf50753dada544362b8f4fb5f8eefde5" title="Get the number of currently connected Wifi stations. " alt="" coords="716,56,887,83"/>
+<area shape="rect" id="node8" href="hal__serial_8c.html#a57242c09ec880fbd08e1a4cd5e64d8e5" title="Remove the additional function for outputting the serial data. " alt="" coords="700,107,903,133"/>
+<area shape="rect" id="node10" href="captdns_8c.html#afbeefb54f301b1f8179ecb1a6efb69a9" title="captdnsTask" alt="" coords="753,157,850,184"/>
+<area shape="rect" id="node11" href="captdns_8c.html#ae3d5d80203823fee0be8b7a591e5a32d" title="captdnsRecv" alt="" coords="951,157,1049,184"/>
+<area shape="rect" id="node12" href="captdns_8c.html#adec91475451453070cedc420696c90f1" title="my_ntohs" alt="" coords="1228,81,1307,108"/>
+<area shape="rect" id="node13" href="captdns_8c.html#a5ba2df190357425ca8f277eed3a16d32" title="labelToStr" alt="" coords="1098,107,1179,133"/>
+<area shape="rect" id="node14" href="captdns_8c.html#a01294bcdad17e226e50f0c707fee3852" title="strToLabel" alt="" coords="1097,157,1180,184"/>
+<area shape="rect" id="node15" href="captdns_8c.html#a21dfd38acc9e61af1ce25d3fe687e22f" title="setn16" alt="" coords="1108,208,1169,235"/>
+<area shape="rect" id="node16" href="captdns_8c.html#a4868ba2e5fb29569ef87f4d56c52fc5a" title="setn32" alt="" coords="1108,259,1169,285"/>
+<area shape="rect" id="node18" href="hal__serial_8c.html#a143968f329a010a1075a81b976579605" title="Set an additional function for outputting the serial data. " alt="" coords="713,208,889,235"/>
+<area shape="rect" id="node19" href="websocket_8c.html#a215997a5d454937f96cf800e1a44e599" title="WS_write_data" alt="" coords="746,259,857,285"/>
+<area shape="rect" id="node20" href="websocket_8c.html#afc7ea5da54622021156f0df84063abb4" title="ws_server_netconn_serve" alt="" coords="714,309,889,336"/>
 </map>
 </div>
 <div class="dynheader">
@@ -883,6 +978,106 @@ Here is the caller graph for this function:</div>
 <map name="task__webgui_8c_ae5ad2f76f20781fd8c89e542bcc8a551_icgraph" id="task__webgui_8c_ae5ad2f76f20781fd8c89e542bcc8a551_icgraph">
 <area shape="rect" id="node2" href="task__webgui_8h.html#a669b9245d5040c0162481f7b24dbeea7" title="Init the web / DNS server and the web gui. " alt="" coords="152,5,268,32"/>
 <area shape="rect" id="node3" href="flipmouse__fabi__esp32__kbdmouse__main_8c.html#abce06be17fc37d675118a678a8100a36" title="Main task, created by esp&#45;idf. " alt="" coords="316,5,395,32"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="a88f50c2c18db3f5be0149ec7921bf64b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a88f50c2c18db3f5be0149ec7921bf64b">&#9670;&nbsp;</a></span>wifiEnDisable()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">esp_err_t wifiEnDisable </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>onoff</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>AP mode config, filled in init. </p>
+<p>En- or Disable WiFi interface. (non-public method)</p>
+<p>En- or Disable WiFi interface. (non-public method)</p>
+<p>This method is used to call wifi related functions for en- / disabling. These cannot be called from ISR context and should be used synchronized some way. Here, we will use taskWebGUIEnDisable to set corresponding flags.</p>
+<p>The http_server task will check these flags and control the wifi corresponding to these flags.</p>
+<dl class="section return"><dt>Returns</dt><dd>ESP_OK on success, ESP_FAIL otherwise </dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">onoff</td><td>If != 0, switch on WiFi, switch off if 0. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="common_8h.html#a7c133f995819f3e61446b4881e582b13" title="Minutes between last client disconnected and WiFi is switched off. ">WIFI_OFF_TIME</a> </dd>
+<dd>
+<a class="el" href="task__webgui_8c.html#a907217aa3488ac68c36595c15da821e0" title="En- or Disable WiFi interface. ">taskWebGUIEnDisable</a> </dd>
+<dd>
+<a class="el" href="task__webgui_8c.html#adcc5b062c057f73762b1f19b2f6a8185" title="Main webserver task. ">http_server</a> </dd>
+<dd>
+WIFI_TO_DEACTIVATE </dd>
+<dd>
+<a class="el" href="common_8h.html#ad09111ac9ffb080e1d1d29a1256c2b51" title="Bitmask used to signal a FLipMouse/FABI needs to activate the Wifi. ">WIFI_TO_ACTIVATE</a></dd></dl>
+<p>This method is used to call wifi related functions for en- / disabling. These cannot be called from ISR context and should be used synchronized some way. Here, we will use taskWebGUIEnDisable to set corresponding flags.</p>
+<p>The http_server task will check these flags and control the wifi corresponding to these flags.</p>
+<dl class="section return"><dt>Returns</dt><dd>ESP_OK on success, ESP_FAIL otherwise </dd></dl>
+<dl class="section warning"><dt>Warning</dt><dd>Not ISR safe, this should be called only with care (HTTP/WS/DNS tasks are killed) </dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">onoff</td><td>If != 0, switch on WiFi, switch off if 0. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="common_8h.html#a7c133f995819f3e61446b4881e582b13" title="Minutes between last client disconnected and WiFi is switched off. ">WIFI_OFF_TIME</a> </dd>
+<dd>
+<a class="el" href="task__webgui_8c.html#a907217aa3488ac68c36595c15da821e0" title="En- or Disable WiFi interface. ">taskWebGUIEnDisable</a> </dd>
+<dd>
+<a class="el" href="task__webgui_8c.html#adcc5b062c057f73762b1f19b2f6a8185" title="Main webserver task. ">http_server</a> </dd>
+<dd>
+WIFI_TO_DEACTIVATE </dd>
+<dd>
+<a class="el" href="common_8h.html#ad09111ac9ffb080e1d1d29a1256c2b51" title="Bitmask used to signal a FLipMouse/FABI needs to activate the Wifi. ">WIFI_TO_ACTIVATE</a> </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="task__webgui_8c_source.html#l00627">627</a> of file <a class="el" href="task__webgui_8c_source.html">task_webgui.c</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="task__webgui_8c_source.html#l00431">http_server()</a>, and <a class="el" href="task__webgui_8c_source.html#l00575">taskWebGUIEnDisable()</a>.</p>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="task__webgui_8c_a88f50c2c18db3f5be0149ec7921bf64b_cgraph.png" border="0" usemap="#task__webgui_8c_a88f50c2c18db3f5be0149ec7921bf64b_cgraph" alt=""/></div>
+<map name="task__webgui_8c_a88f50c2c18db3f5be0149ec7921bf64b_cgraph" id="task__webgui_8c_a88f50c2c18db3f5be0149ec7921bf64b_cgraph">
+<area shape="rect" id="node2" href="captdns_8c.html#a8839b10051f013921d546b10cf160d9b" title="captdnsDeinit" alt="" coords="170,56,273,83"/>
+<area shape="rect" id="node3" href="task__webgui_8c.html#a11dd6a5edc46c297b26382ebce3c34cb" title="Event handler for wifi status updates. " alt="" coords="156,107,287,133"/>
+<area shape="rect" id="node7" href="captdns_8c.html#a82f468eb219b14b853eb183149894e92" title="captdnsInit" alt="" coords="178,157,265,184"/>
+<area shape="rect" id="node15" href="task__webgui_8c.html#a5f462e5b8bd4803c256bf22a004eacde" title="CONTINOUS TASK &#45; Websocket server task. " alt="" coords="180,233,263,260"/>
+<area shape="rect" id="node4" href="task__webgui_8c.html#a7f89c77fa56e7ac560e2720baedf07eb" title="Simply reset &amp; start OR stop the auto&#45;off timer. " alt="" coords="362,5,510,32"/>
+<area shape="rect" id="node5" href="task__webgui_8c.html#adf50753dada544362b8f4fb5f8eefde5" title="Get the number of currently connected Wifi stations. " alt="" coords="351,56,521,83"/>
+<area shape="rect" id="node6" href="hal__serial_8c.html#a57242c09ec880fbd08e1a4cd5e64d8e5" title="Remove the additional function for outputting the serial data. " alt="" coords="335,107,537,133"/>
+<area shape="rect" id="node8" href="captdns_8c.html#afbeefb54f301b1f8179ecb1a6efb69a9" title="captdnsTask" alt="" coords="387,157,485,184"/>
+<area shape="rect" id="node9" href="captdns_8c.html#ae3d5d80203823fee0be8b7a591e5a32d" title="captdnsRecv" alt="" coords="585,157,684,184"/>
+<area shape="rect" id="node10" href="captdns_8c.html#adec91475451453070cedc420696c90f1" title="my_ntohs" alt="" coords="863,81,941,108"/>
+<area shape="rect" id="node11" href="captdns_8c.html#a5ba2df190357425ca8f277eed3a16d32" title="labelToStr" alt="" coords="733,107,814,133"/>
+<area shape="rect" id="node12" href="captdns_8c.html#a01294bcdad17e226e50f0c707fee3852" title="strToLabel" alt="" coords="732,157,815,184"/>
+<area shape="rect" id="node13" href="captdns_8c.html#a21dfd38acc9e61af1ce25d3fe687e22f" title="setn16" alt="" coords="743,208,804,235"/>
+<area shape="rect" id="node14" href="captdns_8c.html#a4868ba2e5fb29569ef87f4d56c52fc5a" title="setn32" alt="" coords="743,259,804,285"/>
+<area shape="rect" id="node16" href="hal__serial_8c.html#a143968f329a010a1075a81b976579605" title="Set an additional function for outputting the serial data. " alt="" coords="348,208,524,235"/>
+<area shape="rect" id="node17" href="websocket_8c.html#a215997a5d454937f96cf800e1a44e599" title="WS_write_data" alt="" coords="381,259,491,285"/>
+<area shape="rect" id="node18" href="websocket_8c.html#afc7ea5da54622021156f0df84063abb4" title="ws_server_netconn_serve" alt="" coords="349,309,523,336"/>
+</map>
+</div>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="task__webgui_8c_a88f50c2c18db3f5be0149ec7921bf64b_icgraph.png" border="0" usemap="#task__webgui_8c_a88f50c2c18db3f5be0149ec7921bf64b_icgraph" alt=""/></div>
+<map name="task__webgui_8c_a88f50c2c18db3f5be0149ec7921bf64b_icgraph" id="task__webgui_8c_a88f50c2c18db3f5be0149ec7921bf64b_icgraph">
+<area shape="rect" id="node2" href="task__webgui_8c.html#adcc5b062c057f73762b1f19b2f6a8185" title="Main webserver task. " alt="" coords="192,5,279,32"/>
+<area shape="rect" id="node5" href="task__webgui_8h.html#a907217aa3488ac68c36595c15da821e0" title="En&#45; or Disable WiFi interface. " alt="" coords="156,56,315,83"/>
+<area shape="rect" id="node3" href="task__webgui_8h.html#a669b9245d5040c0162481f7b24dbeea7" title="Init the web / DNS server and the web gui. " alt="" coords="509,56,625,83"/>
+<area shape="rect" id="node4" href="flipmouse__fabi__esp32__kbdmouse__main_8c.html#abce06be17fc37d675118a678a8100a36" title="Main task, created by esp&#45;idf. " alt="" coords="673,81,752,108"/>
+<area shape="rect" id="node6" href="flipmouse__fabi__esp32__kbdmouse__main_8c.html#a93e2ea21db142b4c7172565051a18cb1" title="Switch radio mode. " alt="" coords="520,107,615,133"/>
+<area shape="rect" id="node7" href="task__webgui_8c.html#ae5ad2f76f20781fd8c89e542bcc8a551" title="Timer callback for disabling wifi. " alt="" coords="363,56,461,83"/>
 </map>
 </div>
 
@@ -913,17 +1108,22 @@ Here is the caller graph for this function:</div>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="task__webgui_8c_source.html#l00117">117</a> of file <a class="el" href="task__webgui_8c_source.html">task_webgui.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="task__webgui_8c_source.html#l00147">147</a> of file <a class="el" href="task__webgui_8c_source.html">task_webgui.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="task__webgui_8c_source.html#l00434">wifi_event_handler()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="task__webgui_8c_source.html#l00502">wifi_event_handler()</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="task__webgui_8c_a7f89c77fa56e7ac560e2720baedf07eb_icgraph.png" border="0" usemap="#task__webgui_8c_a7f89c77fa56e7ac560e2720baedf07eb_icgraph" alt=""/></div>
 <map name="task__webgui_8c_a7f89c77fa56e7ac560e2720baedf07eb_icgraph" id="task__webgui_8c_a7f89c77fa56e7ac560e2720baedf07eb_icgraph">
-<area shape="rect" id="node2" href="task__webgui_8c.html#a11dd6a5edc46c297b26382ebce3c34cb" title="Event handler for wifi status updates. " alt="" coords="201,5,332,32"/>
-<area shape="rect" id="node3" href="task__webgui_8h.html#a669b9245d5040c0162481f7b24dbeea7" title="Init the web / DNS server and the web gui. " alt="" coords="380,5,496,32"/>
-<area shape="rect" id="node4" href="flipmouse__fabi__esp32__kbdmouse__main_8c.html#abce06be17fc37d675118a678a8100a36" title="Main task, created by esp&#45;idf. " alt="" coords="544,5,623,32"/>
+<area shape="rect" id="node2" href="task__webgui_8c.html#a11dd6a5edc46c297b26382ebce3c34cb" title="Event handler for wifi status updates. " alt="" coords="201,31,332,57"/>
+<area shape="rect" id="node3" href="task__webgui_8c.html#a88f50c2c18db3f5be0149ec7921bf64b" title="AP mode config, filled in init. " alt="" coords="380,31,483,57"/>
+<area shape="rect" id="node4" href="task__webgui_8c.html#adcc5b062c057f73762b1f19b2f6a8185" title="Main webserver task. " alt="" coords="567,5,653,32"/>
+<area shape="rect" id="node7" href="task__webgui_8h.html#a907217aa3488ac68c36595c15da821e0" title="En&#45; or Disable WiFi interface. " alt="" coords="531,56,689,83"/>
+<area shape="rect" id="node5" href="task__webgui_8h.html#a669b9245d5040c0162481f7b24dbeea7" title="Init the web / DNS server and the web gui. " alt="" coords="884,56,1000,83"/>
+<area shape="rect" id="node6" href="flipmouse__fabi__esp32__kbdmouse__main_8c.html#abce06be17fc37d675118a678a8100a36" title="Main task, created by esp&#45;idf. " alt="" coords="1048,81,1127,108"/>
+<area shape="rect" id="node8" href="flipmouse__fabi__esp32__kbdmouse__main_8c.html#a93e2ea21db142b4c7172565051a18cb1" title="Switch radio mode. " alt="" coords="895,107,989,133"/>
+<area shape="rect" id="node9" href="task__webgui_8c.html#ae5ad2f76f20781fd8c89e542bcc8a551" title="Timer callback for disabling wifi. " alt="" coords="737,56,836,83"/>
 </map>
 </div>
 
@@ -951,9 +1151,9 @@ Here is the caller graph for this function:</div>
 <dd>
 <a class="el" href="hal__serial_8h.html#af78683f30da18cfc19c2c91006ec6155" title="Send serial bytes to USB-Serial (USB-CDC) ">halSerialSendUSBSerial</a> </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="task__webgui_8c_source.html#l00163">163</a> of file <a class="el" href="task__webgui_8c_source.html">task_webgui.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="task__webgui_8c_source.html#l00193">193</a> of file <a class="el" href="task__webgui_8c_source.html">task_webgui.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="task__webgui_8c_source.html#l00612">taskWebGUIInit()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="task__webgui_8c_source.html#l00627">wifiEnDisable()</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -969,38 +1169,19 @@ Here is the caller graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="task__webgui_8c_a5f462e5b8bd4803c256bf22a004eacde_icgraph.png" border="0" usemap="#task__webgui_8c_a5f462e5b8bd4803c256bf22a004eacde_icgraph" alt=""/></div>
 <map name="task__webgui_8c_a5f462e5b8bd4803c256bf22a004eacde_icgraph" id="task__webgui_8c_a5f462e5b8bd4803c256bf22a004eacde_icgraph">
-<area shape="rect" id="node2" href="task__webgui_8h.html#a669b9245d5040c0162481f7b24dbeea7" title="Init the web / DNS server and the web gui. " alt="" coords="136,5,252,32"/>
-<area shape="rect" id="node3" href="flipmouse__fabi__esp32__kbdmouse__main_8c.html#abce06be17fc37d675118a678a8100a36" title="Main task, created by esp&#45;idf. " alt="" coords="300,5,379,32"/>
+<area shape="rect" id="node2" href="task__webgui_8c.html#a88f50c2c18db3f5be0149ec7921bf64b" title="AP mode config, filled in init. " alt="" coords="136,31,239,57"/>
+<area shape="rect" id="node3" href="task__webgui_8c.html#adcc5b062c057f73762b1f19b2f6a8185" title="Main webserver task. " alt="" coords="323,5,409,32"/>
+<area shape="rect" id="node6" href="task__webgui_8h.html#a907217aa3488ac68c36595c15da821e0" title="En&#45; or Disable WiFi interface. " alt="" coords="287,56,445,83"/>
+<area shape="rect" id="node4" href="task__webgui_8h.html#a669b9245d5040c0162481f7b24dbeea7" title="Init the web / DNS server and the web gui. " alt="" coords="640,56,756,83"/>
+<area shape="rect" id="node5" href="flipmouse__fabi__esp32__kbdmouse__main_8c.html#abce06be17fc37d675118a678a8100a36" title="Main task, created by esp&#45;idf. " alt="" coords="804,81,883,108"/>
+<area shape="rect" id="node7" href="flipmouse__fabi__esp32__kbdmouse__main_8c.html#a93e2ea21db142b4c7172565051a18cb1" title="Switch radio mode. " alt="" coords="651,107,745,133"/>
+<area shape="rect" id="node8" href="task__webgui_8c.html#ae5ad2f76f20781fd8c89e542bcc8a551" title="Timer callback for disabling wifi. " alt="" coords="493,56,592,83"/>
 </map>
 </div>
 
 </div>
 </div>
 <h2 class="groupheader">Variable Documentation</h2>
-<a id="aa27d3d77bf2e584af8b5d716c12b34fa"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa27d3d77bf2e584af8b5d716c12b34fa">&#9670;&nbsp;</a></span>ap_config</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">wifi_config_t ap_config</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<b>Initial value:</b><div class="fragment"><div class="line">= {</div><div class="line">  .ap = {</div><div class="line">    </div><div class="line">    .authmode = <a class="code" href="task__webgui_8c.html#a127eb8041749ad8b0a010e0b0b9c8255">CONFIG_AP_AUTHMODE</a>,</div><div class="line">    .ssid_hidden = <a class="code" href="task__webgui_8c.html#a9e16b6184201cabb833a4a1dda7070cd">CONFIG_AP_SSID_HIDDEN</a>,</div><div class="line">    .max_connection = <a class="code" href="task__webgui_8c.html#a154bdcc8101dd42dc2fffdbf53b8a542">CONFIG_AP_MAX_CONNECTIONS</a>,</div><div class="line">    .beacon_interval = <a class="code" href="task__webgui_8c.html#a164f6057a67e9e860429d82eb61d0aa2">CONFIG_AP_BEACON_INTERVAL</a>,           </div><div class="line">  },</div><div class="line">}</div><div class="ttc" id="task__webgui_8c_html_a127eb8041749ad8b0a010e0b0b9c8255"><div class="ttname"><a href="task__webgui_8c.html#a127eb8041749ad8b0a010e0b0b9c8255">CONFIG_AP_AUTHMODE</a></div><div class="ttdeci">#define CONFIG_AP_AUTHMODE</div><div class="ttdoc">Authentication mode for wifi hotspot. </div><div class="ttdef"><b>Definition:</b> <a href="task__webgui_8c_source.html#l00049">task_webgui.c:49</a></div></div>
-<div class="ttc" id="task__webgui_8c_html_a164f6057a67e9e860429d82eb61d0aa2"><div class="ttname"><a href="task__webgui_8c.html#a164f6057a67e9e860429d82eb61d0aa2">CONFIG_AP_BEACON_INTERVAL</a></div><div class="ttdeci">#define CONFIG_AP_BEACON_INTERVAL</div><div class="ttdoc">Wifi beacon interval. </div><div class="ttdef"><b>Definition:</b> <a href="task__webgui_8c_source.html#l00061">task_webgui.c:61</a></div></div>
-<div class="ttc" id="task__webgui_8c_html_a9e16b6184201cabb833a4a1dda7070cd"><div class="ttname"><a href="task__webgui_8c.html#a9e16b6184201cabb833a4a1dda7070cd">CONFIG_AP_SSID_HIDDEN</a></div><div class="ttdeci">#define CONFIG_AP_SSID_HIDDEN</div><div class="ttdoc">Set AP visibility, 1 if it should be hidden. </div><div class="ttdef"><b>Definition:</b> <a href="task__webgui_8c_source.html#l00051">task_webgui.c:51</a></div></div>
-<div class="ttc" id="task__webgui_8c_html_a154bdcc8101dd42dc2fffdbf53b8a542"><div class="ttname"><a href="task__webgui_8c.html#a154bdcc8101dd42dc2fffdbf53b8a542">CONFIG_AP_MAX_CONNECTIONS</a></div><div class="ttdeci">#define CONFIG_AP_MAX_CONNECTIONS</div><div class="ttdoc">Wifi max number of connection. </div><div class="ttdef"><b>Definition:</b> <a href="task__webgui_8c_source.html#l00059">task_webgui.c:59</a></div></div>
-</div><!-- fragment -->
-<p>AP mode config, filled in init. </p>
-
-<p class="definition">Definition at line <a class="el" href="task__webgui_8c_source.html#l00077">77</a> of file <a class="el" href="task__webgui_8c_source.html">task_webgui.c</a>.</p>
-
-<p class="reference">Referenced by <a class="el" href="task__webgui_8c_source.html#l00612">taskWebGUIInit()</a>.</p>
-
-</div>
-</div>
 <a id="a47050fc742d4864291d317dc39914ad1"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a47050fc742d4864291d317dc39914ad1">&#9670;&nbsp;</a></span>base_path</h2>
 
@@ -1025,7 +1206,7 @@ Here is the caller graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="task__webgui_8c_source.html#l00064">64</a> of file <a class="el" href="task__webgui_8c_source.html">task_webgui.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="task__webgui_8c_source.html#l00198">fat_serve()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="task__webgui_8c_source.html#l00262">fat_serve()</a>.</p>
 
 </div>
 </div>
@@ -1040,11 +1221,12 @@ Here is the caller graph for this function:</div>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Mutex to lock FS access </p>
+
+<p>Mutex to lock FS access (only one file after another will be sent) </p>
 
 <p class="definition">Definition at line <a class="el" href="task__webgui_8c_source.html#l00074">74</a> of file <a class="el" href="task__webgui_8c_source.html">task_webgui.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="task__webgui_8c_source.html#l00198">fat_serve()</a>, and <a class="el" href="task__webgui_8c_source.html#l00612">taskWebGUIInit()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="task__webgui_8c_source.html#l00262">fat_serve()</a>, and <a class="el" href="task__webgui_8c_source.html#l00739">taskWebGUIInit()</a>.</p>
 
 </div>
 </div>
@@ -1072,7 +1254,28 @@ Here is the caller graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="task__webgui_8c_source.html#l00069">69</a> of file <a class="el" href="task__webgui_8c_source.html">task_webgui.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="task__webgui_8c_source.html#l00198">fat_serve()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="task__webgui_8c_source.html#l00262">fat_serve()</a>.</p>
+
+</div>
+</div>
+<a id="acb4d5bd2cca56bab370c1398b68e9003"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acb4d5bd2cca56bab370c1398b68e9003">&#9670;&nbsp;</a></span>http_new_sockfd</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int http_new_sockfd</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Webserver socket - new connection. </p>
+<dl class="section note"><dt>Note</dt><dd>This is global to close the socket after the http task is deleted </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="task__webgui_8c_source.html#l00082">82</a> of file <a class="el" href="task__webgui_8c_source.html">task_webgui.c</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="task__webgui_8c_source.html#l00431">http_server()</a>, and <a class="el" href="task__webgui_8c_source.html#l00627">wifiEnDisable()</a>.</p>
 
 </div>
 </div>
@@ -1100,27 +1303,28 @@ Here is the caller graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="task__webgui_8c_source.html#l00071">71</a> of file <a class="el" href="task__webgui_8c_source.html">task_webgui.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="task__webgui_8c_source.html#l00198">fat_serve()</a>, and <a class="el" href="task__webgui_8c_source.html#l00186">redirect()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="task__webgui_8c_source.html#l00262">fat_serve()</a>, and <a class="el" href="task__webgui_8c_source.html#l00231">redirect()</a>.</p>
 
 </div>
 </div>
-<a id="a51afaf9187cd21748bc4143cf6ff0239"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a51afaf9187cd21748bc4143cf6ff0239">&#9670;&nbsp;</a></span>wifiActive</h2>
+<a id="a8a8919c79faf725f484abbdd3151a07f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8a8919c79faf725f484abbdd3151a07f">&#9670;&nbsp;</a></span>http_sockfd</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">uint8_t wifiActive = 0</td>
+          <td class="memname">int http_sockfd</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>Signals any Wifi related task to quit, if set to zero. </p>
+<p>Webserver socket - general bind. </p>
+<dl class="section note"><dt>Note</dt><dd>This is global to close the socket after the http task is deleted </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="task__webgui_8c_source.html#l00095">95</a> of file <a class="el" href="task__webgui_8c_source.html">task_webgui.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="task__webgui_8c_source.html#l00078">78</a> of file <a class="el" href="task__webgui_8c_source.html">task_webgui.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="task__webgui_8c_source.html#l00367">http_server()</a>, <a class="el" href="task__webgui_8c_source.html#l00505">taskWebGUIEnDisable()</a>, and <a class="el" href="task__webgui_8c_source.html#l00163">ws_server()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="task__webgui_8c_source.html#l00431">http_server()</a>, and <a class="el" href="task__webgui_8c_source.html#l00627">wifiEnDisable()</a>.</p>
 
 </div>
 </div>
@@ -1138,9 +1342,9 @@ Here is the caller graph for this function:</div>
 
 <p>Task handle for http server task. </p>
 
-<p class="definition">Definition at line <a class="el" href="task__webgui_8c_source.html#l00093">93</a> of file <a class="el" href="task__webgui_8c_source.html">task_webgui.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="task__webgui_8c_source.html#l00125">125</a> of file <a class="el" href="task__webgui_8c_source.html">task_webgui.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="task__webgui_8c_source.html#l00612">taskWebGUIInit()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="task__webgui_8c_source.html#l00739">taskWebGUIInit()</a>, and <a class="el" href="task__webgui_8c_source.html#l00627">wifiEnDisable()</a>.</p>
 
 </div>
 </div>
@@ -1168,7 +1372,7 @@ Here is the caller graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="task__webgui_8c_source.html#l00066">66</a> of file <a class="el" href="task__webgui_8c_source.html">task_webgui.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="task__webgui_8c_source.html#l00612">taskWebGUIInit()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="task__webgui_8c_source.html#l00739">taskWebGUIInit()</a>, and <a class="el" href="task__webgui_8c_source.html#l00627">wifiEnDisable()</a>.</p>
 
 </div>
 </div>
@@ -1186,9 +1390,9 @@ Here is the caller graph for this function:</div>
 
 <p>Timer handle for auto-disabling wifi. </p>
 
-<p class="definition">Definition at line <a class="el" href="task__webgui_8c_source.html#l00088">88</a> of file <a class="el" href="task__webgui_8c_source.html">task_webgui.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="task__webgui_8c_source.html#l00120">120</a> of file <a class="el" href="task__webgui_8c_source.html">task_webgui.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="task__webgui_8c_source.html#l00612">taskWebGUIInit()</a>, and <a class="el" href="task__webgui_8c_source.html#l00117">wifiStartStopOffTimer()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="task__webgui_8c_source.html#l00739">taskWebGUIInit()</a>, and <a class="el" href="task__webgui_8c_source.html#l00147">wifiStartStopOffTimer()</a>.</p>
 
 </div>
 </div>
@@ -1206,9 +1410,30 @@ Here is the caller graph for this function:</div>
 
 <p>Task handle for websocket task. </p>
 
-<p class="definition">Definition at line <a class="el" href="task__webgui_8c_source.html#l00091">91</a> of file <a class="el" href="task__webgui_8c_source.html">task_webgui.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="task__webgui_8c_source.html#l00123">123</a> of file <a class="el" href="task__webgui_8c_source.html">task_webgui.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="task__webgui_8c_source.html#l00612">taskWebGUIInit()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="task__webgui_8c_source.html#l00627">wifiEnDisable()</a>.</p>
+
+</div>
+</div>
+<a id="a991c575f1c4a93ff7d3b358ff19806b9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a991c575f1c4a93ff7d3b358ff19806b9">&#9670;&nbsp;</a></span>ws_conn</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">struct netconn* ws_conn</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Websocket conn reference. </p>
+<dl class="section note"><dt>Note</dt><dd>Global reference to close after task is deleted </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="task__webgui_8c_source.html#l00086">86</a> of file <a class="el" href="task__webgui_8c_source.html">task_webgui.c</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="task__webgui_8c_source.html#l00627">wifiEnDisable()</a>, and <a class="el" href="task__webgui_8c_source.html#l00193">ws_server()</a>.</p>
 
 </div>
 </div>

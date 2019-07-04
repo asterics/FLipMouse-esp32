@@ -15,6 +15,5 @@ var searchData=
   ['storehandle',['storeHandle',['../hal__storage_8c.html#abc16a2117a92da3dc8843a60780fd1a2',1,'hal_storage.c']]],
   ['strongmode',['strongmode',['../structadcData.html#a62810368e3b696872cc81f4914b60bd5',1,'adcData']]],
   ['svc_5ffeatures',['svc_features',['../structhidd__feature__t.html#a254c99f1e3115e399a088611e1e93123',1,'hidd_feature_t']]],
-  ['switchradiosem',['switchRadioSem',['../flipmouse__fabi__esp32__kbdmouse__main_8c.html#aaf12ce68f07ec96638046d2dbe8ffbea',1,'flipmouse_fabi_esp32_kbdmouse_main.c']]],
   ['systemstatus',['systemStatus',['../flipmouse__fabi__esp32__kbdmouse__main_8c.html#a6c818282ed7e6036d8fe7d3c944bfb41',1,'systemStatus():&#160;flipmouse_fabi_esp32_kbdmouse_main.c'],['../common_8h.html#a6c818282ed7e6036d8fe7d3c944bfb41',1,'systemStatus():&#160;flipmouse_fabi_esp32_kbdmouse_main.c']]]
 ];

@@ -51,5 +51,7 @@ var searchData=
   ['hidreportrefvendorout',['hidReportRefVendorOut',['../hid__device__le__prf_8c.html#ab10f28e980e8f3e10c6da21e6e2859ae',1,'hid_device_le_prf.c']]],
   ['hids_5fnb',['hids_nb',['../structhidd__inst__t.html#ac791116e6308c4dba843b9f683d992f1',1,'hidd_inst_t']]],
   ['http_5fhtml_5fhdr',['http_html_hdr',['../task__webgui_8c.html#a84019f692b38960767e6beb15d0c4a2b',1,'task_webgui.c']]],
-  ['http_5fredir_5fhdr',['http_redir_hdr',['../task__webgui_8c.html#a0a007ed6b248ffb43a3ac085a39ae273',1,'task_webgui.c']]]
+  ['http_5fnew_5fsockfd',['http_new_sockfd',['../task__webgui_8c.html#acb4d5bd2cca56bab370c1398b68e9003',1,'task_webgui.c']]],
+  ['http_5fredir_5fhdr',['http_redir_hdr',['../task__webgui_8c.html#a0a007ed6b248ffb43a3ac085a39ae273',1,'task_webgui.c']]],
+  ['http_5fsockfd',['http_sockfd',['../task__webgui_8c.html#a8a8919c79faf725f484abbdd3151a07f',1,'task_webgui.c']]]
 ];

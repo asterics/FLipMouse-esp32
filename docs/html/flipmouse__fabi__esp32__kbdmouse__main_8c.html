@@ -97,6 +97,7 @@ $(function() {
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="define-members"></a>
 Macros</h2></td></tr>
 <tr class="memitem:a7ce0df38eb467e59f209470c8f5ac4e6"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c.html#a7ce0df38eb467e59f209470c8f5ac4e6">LOG_TAG</a>&#160;&#160;&#160;&quot;app_main&quot;</td></tr>
+<tr class="memdesc:a7ce0df38eb467e59f209470c8f5ac4e6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Logging tag for this module.  <a href="#a7ce0df38eb467e59f209470c8f5ac4e6">More...</a><br /></td></tr>
 <tr class="separator:a7ce0df38eb467e59f209470c8f5ac4e6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
@@ -119,8 +120,6 @@ Variables</h2></td></tr>
 <tr class="memitem:a6c818282ed7e6036d8fe7d3c944bfb41"><td class="memItemLeft" align="right" valign="top">EventGroupHandle_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c.html#a6c818282ed7e6036d8fe7d3c944bfb41">systemStatus</a></td></tr>
 <tr class="memdesc:a6c818282ed7e6036d8fe7d3c944bfb41"><td class="mdescLeft">&#160;</td><td class="mdescRight">General system status.  <a href="#a6c818282ed7e6036d8fe7d3c944bfb41">More...</a><br /></td></tr>
 <tr class="separator:a6c818282ed7e6036d8fe7d3c944bfb41"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aaf12ce68f07ec96638046d2dbe8ffbea"><td class="memItemLeft" align="right" valign="top">SemaphoreHandle_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c.html#aaf12ce68f07ec96638046d2dbe8ffbea">switchRadioSem</a></td></tr>
-<tr class="separator:aaf12ce68f07ec96638046d2dbe8ffbea"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4701c432a28c389e4b8557f2fa3323d1"><td class="memItemLeft" align="right" valign="top">QueueHandle_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c.html#a4701c432a28c389e4b8557f2fa3323d1">config_switcher</a></td></tr>
 <tr class="memdesc:a4701c432a28c389e4b8557f2fa3323d1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Queue to receive config changing commands.  <a href="#a4701c432a28c389e4b8557f2fa3323d1">More...</a><br /></td></tr>
 <tr class="separator:a4701c432a28c389e4b8557f2fa3323d1"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -134,6 +133,7 @@ Variables</h2></td></tr>
 <tr class="memdesc:a4d504fcad8a2fb54bd8af573af7d4834"><td class="mdescLeft">&#160;</td><td class="mdescRight">Queue for sending mouse/keyboard/joystick reports.  <a href="#a4d504fcad8a2fb54bd8af573af7d4834">More...</a><br /></td></tr>
 <tr class="separator:a4d504fcad8a2fb54bd8af573af7d4834"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6947f233576122b1180eaee0cc8b1c9e"><td class="memItemLeft" align="right" valign="top">uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c.html#a6947f233576122b1180eaee0cc8b1c9e">isWifiOn</a> = 0</td></tr>
+<tr class="memdesc:a6947f233576122b1180eaee0cc8b1c9e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Flag for active wifi.  <a href="#a6947f233576122b1180eaee0cc8b1c9e">More...</a><br /></td></tr>
 <tr class="separator:a6947f233576122b1180eaee0cc8b1c9e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
@@ -155,9 +155,11 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c_source.html#l00054">54</a> of file <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c_source.html">flipmouse_fabi_esp32_kbdmouse_main.c</a>.</p>
+<p>Logging tag for this module. </p>
 
-<p class="reference">Referenced by <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c_source.html#l00114">app_main()</a>.</p>
+<p class="definition">Definition at line <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c_source.html#l00055">55</a> of file <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c_source.html">flipmouse_fabi_esp32_kbdmouse_main.c</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c_source.html#l00125">app_main()</a>, and <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c_source.html#l00083">switch_radio()</a>.</p>
 
 </div>
 </div>
@@ -180,7 +182,7 @@ Variables</h2></td></tr>
 <p>Main task, created by esp-idf. </p>
 <p>This task is used to initialize all queues &amp; flags. In addition, all necessary tasks are created After initialisation, this task deletes itself. </p>
 
-<p class="definition">Definition at line <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c_source.html#l00114">114</a> of file <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c_source.html">flipmouse_fabi_esp32_kbdmouse_main.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c_source.html#l00125">125</a> of file <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c_source.html">flipmouse_fabi_esp32_kbdmouse_main.c</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -189,52 +191,52 @@ Here is the call graph for this function:</div>
 <area shape="rect" id="node2" href="hal__io_8c.html#aa5ee74913a09cba6dca62bfdc9f8342b" title="Initializing IO HAL. " alt="" coords="188,157,259,184"/>
 <area shape="rect" id="node9" href="hal__serial_8c.html#a2d03c06463b09e33d87d90eb273819b0" title="Initialize the serial HAL. " alt="" coords="178,639,269,665"/>
 <area shape="rect" id="node13" href="hal__adc_8c.html#a6f0d302f35e5b7f7a1144f0ddace35d2" title="Init the ADC driver module. " alt="" coords="183,791,263,817"/>
-<area shape="rect" id="node19" href="hal__adc_8c.html#ae549c157d94729e8b06cb391f0f2c97b" title="Calibration function. " alt="" coords="621,917,736,944"/>
-<area shape="rect" id="node20" href="handler__hid_8c.html#af174e6f6da855a0d9928d6fe1a639c65" title="Init for the HID handler. " alt="" coords="167,1247,279,1273"/>
+<area shape="rect" id="node19" href="hal__adc_8c.html#ae549c157d94729e8b06cb391f0f2c97b" title="Calibration function. " alt="" coords="619,917,733,944"/>
+<area shape="rect" id="node20" href="handler__hid_8c.html#af174e6f6da855a0d9928d6fe1a639c65" title="Init for the HID handler. " alt="" coords="167,1171,279,1197"/>
 <area shape="rect" id="node22" href="handler__vb_8c.html#ac54a8826a70d3aaf5c284bab02b93444" title="Init for the VB handler. " alt="" coords="169,867,278,893"/>
-<area shape="rect" id="node25" href="task__commands_8c.html#aedb896e40753227f80768e09d3748419" title="Init the command parser. " alt="" coords="157,360,289,387"/>
-<area shape="rect" id="node27" href="task__debouncer_8c.html#a79d88e490be7198b9cc37556c66b837b" title="Debouncing main task. " alt="" coords="166,461,281,488"/>
-<area shape="rect" id="node31" href="hal__io_8c.html#a645ccf6a4abeccd8639c66f11138af4a" title="Add long press handler for Wifi button. " alt="" coords="132,1297,315,1324"/>
-<area shape="rect" id="node32" href="flipmouse__fabi__esp32__kbdmouse__main_8c.html#a93e2ea21db142b4c7172565051a18cb1" title="Switch radio mode. " alt="" coords="403,1019,497,1045"/>
-<area shape="rect" id="node35" href="config__switcher_8c.html#aafed047c8d04b814a85239e031cbad7b" title="Initializing the config switching functionality. " alt="" coords="160,968,287,995"/>
-<area shape="rect" id="node39" href="hal__ble_8c.html#a559e9af2167a8f1b05a8304234418ed3" title="Main init function to start HID interface (C interface) " alt="" coords="182,1576,265,1603"/>
-<area shape="rect" id="node44" href="task__webgui_8c.html#a669b9245d5040c0162481f7b24dbeea7" title="Init the web / DNS server and the web gui. " alt="" coords="165,1196,281,1223"/>
-<area shape="rect" id="node3" href="config__switcher_8c.html#a921538bec34d128a44a748fd5a2c391f" title="Get the current config struct. " alt="" coords="618,259,739,285"/>
-<area shape="rect" id="node4" href="hal__io_8c.html#addfc4a2f0cb7848979817346b6f53afc" title="GPIO ISR handler for buttons (internal/external) " alt="" coords="392,5,508,32"/>
-<area shape="rect" id="node5" href="hal__io_8c.html#a410f1d9b7e6031b9e626af17fba411d1" title="Timer callback for calling longpress handler. " alt="" coords="381,56,519,83"/>
+<area shape="rect" id="node28" href="task__commands_8c.html#aedb896e40753227f80768e09d3748419" title="Init the command parser. " alt="" coords="157,385,289,412"/>
+<area shape="rect" id="node32" href="task__debouncer_8c.html#a79d88e490be7198b9cc37556c66b837b" title="Debouncing main task. " alt="" coords="166,461,281,488"/>
+<area shape="rect" id="node36" href="hal__io_8c.html#a645ccf6a4abeccd8639c66f11138af4a" title="Add long press handler for Wifi button. " alt="" coords="132,1221,315,1248"/>
+<area shape="rect" id="node37" href="flipmouse__fabi__esp32__kbdmouse__main_8c.html#a93e2ea21db142b4c7172565051a18cb1" title="Switch radio mode. " alt="" coords="403,1069,497,1096"/>
+<area shape="rect" id="node40" href="config__switcher_8c.html#aafed047c8d04b814a85239e031cbad7b" title="Initializing the config switching functionality. " alt="" coords="160,968,287,995"/>
+<area shape="rect" id="node42" href="hal__ble_8c.html#a559e9af2167a8f1b05a8304234418ed3" title="Main init function to start HID interface (C interface) " alt="" coords="182,1424,265,1451"/>
+<area shape="rect" id="node47" href="task__webgui_8c.html#a669b9245d5040c0162481f7b24dbeea7" title="Init the web / DNS server and the web gui. " alt="" coords="165,1120,281,1147"/>
+<area shape="rect" id="node3" href="config__switcher_8c.html#a921538bec34d128a44a748fd5a2c391f" title="Get the current config struct. " alt="" coords="615,259,737,285"/>
+<area shape="rect" id="node4" href="hal__io_8c.html#addfc4a2f0cb7848979817346b6f53afc" title="GPIO ISR handler for buttons (internal/external) " alt="" coords="392,157,508,184"/>
+<area shape="rect" id="node5" href="hal__io_8c.html#a410f1d9b7e6031b9e626af17fba411d1" title="Timer callback for calling longpress handler. " alt="" coords="381,208,519,235"/>
 <area shape="rect" id="node6" href="hal__io_8c.html#af049ec6b187a1b5b1575120758561ae8" title="HAL TASK &#45; IR receiving (recording) task. " alt="" coords="387,107,513,133"/>
-<area shape="rect" id="node7" href="hal__io_8c.html#ad83b58c9ee836526a874392c0757f42d" title="HAL TASK &#45; LED update task. " alt="" coords="396,208,504,235"/>
-<area shape="rect" id="node8" href="hal__io_8c.html#a5c30b3b4a88e8f23489485659d53c7c0" title="HAL TASK &#45; Buzzer update task. " alt="" coords="389,259,511,285"/>
-<area shape="rect" id="node10" href="hal__serial_8c.html#a4d756bd77bd3ad6e8b7f7411a1624baa" title="Initialize I2C for reading ADC values from LPC. " alt="" coords="623,639,734,665"/>
-<area shape="rect" id="node11" href="hal__serial_8c.html#a6689f99c3a8e5f787a3d995260d8d298" title="CONTINOUS TASK &#45; Process HID commands &amp; send via HID wire to LPC. " alt="" coords="387,664,513,691"/>
-<area shape="rect" id="node12" href="hal__serial_8c.html#ab3a538fb88a9732f0afc0188cc3c9c38" title="UART RX task for AT command pattern detection and parsing. " alt="" coords="390,563,510,589"/>
-<area shape="rect" id="node14" href="hal__adc_8c.html#aa8d7ae84ad54c532e5cefccc8c3cf59e" title="halAdcStrongTimeout" alt="" coords="377,765,523,792"/>
-<area shape="rect" id="node15" href="hal__adc_8c.html#a3f107a97695c86ef78b2e8853f0836a3" title="halAdcStrongDelay" alt="" coords="383,816,517,843"/>
-<area shape="rect" id="node16" href="hal__adc_8c.html#a4135bb73c2271b4a27db8d8d81884de7" title="Reload ADC config. " alt="" coords="379,715,521,741"/>
-<area shape="rect" id="node17" href="hal__adc_8c.html#accb1d998767113559a5a93fd9d0abb2c" title="Validate the input value and replace with default if not matching. " alt="" coords="645,703,712,729"/>
-<area shape="rect" id="node18" href="hal__adc_8c.html#aee719704e643d27c1faab768cf4bc22e" title="HAL TASK &#45; Threshold task for ADC. " alt="" coords="605,753,753,780"/>
-<area shape="rect" id="node21" href="handler__hid_8c.html#a0c3d624513602eb74b3734c970d73e6d" title="VB event handler, triggering HID actions. " alt="" coords="406,1475,494,1501"/>
+<area shape="rect" id="node7" href="hal__io_8c.html#ad83b58c9ee836526a874392c0757f42d" title="HAL TASK &#45; LED update task. " alt="" coords="396,5,504,32"/>
+<area shape="rect" id="node8" href="hal__io_8c.html#a5c30b3b4a88e8f23489485659d53c7c0" title="HAL TASK &#45; Buzzer update task. " alt="" coords="389,56,511,83"/>
+<area shape="rect" id="node10" href="hal__serial_8c.html#a4d756bd77bd3ad6e8b7f7411a1624baa" title="Initialize I2C for reading ADC values from LPC. " alt="" coords="621,588,731,615"/>
+<area shape="rect" id="node11" href="hal__serial_8c.html#a6689f99c3a8e5f787a3d995260d8d298" title="CONTINOUS TASK &#45; Process HID commands &amp; send via HID wire to LPC. " alt="" coords="387,563,513,589"/>
+<area shape="rect" id="node12" href="hal__serial_8c.html#ab3a538fb88a9732f0afc0188cc3c9c38" title="UART RX task for AT command pattern detection and parsing. " alt="" coords="390,664,510,691"/>
+<area shape="rect" id="node14" href="hal__adc_8c.html#aa8d7ae84ad54c532e5cefccc8c3cf59e" title="halAdcStrongTimeout" alt="" coords="377,715,523,741"/>
+<area shape="rect" id="node15" href="hal__adc_8c.html#a3f107a97695c86ef78b2e8853f0836a3" title="halAdcStrongDelay" alt="" coords="383,765,517,792"/>
+<area shape="rect" id="node16" href="hal__adc_8c.html#a4135bb73c2271b4a27db8d8d81884de7" title="Reload ADC config. " alt="" coords="379,816,521,843"/>
+<area shape="rect" id="node17" href="hal__adc_8c.html#accb1d998767113559a5a93fd9d0abb2c" title="Validate the input value and replace with default if not matching. " alt="" coords="643,765,709,792"/>
+<area shape="rect" id="node18" href="hal__adc_8c.html#aee719704e643d27c1faab768cf4bc22e" title="HAL TASK &#45; Threshold task for ADC. " alt="" coords="602,715,750,741"/>
+<area shape="rect" id="node21" href="handler__hid_8c.html#a0c3d624513602eb74b3734c970d73e6d" title="VB event handler, triggering HID actions. " alt="" coords="406,1323,494,1349"/>
 <area shape="rect" id="node23" href="handler__vb_8c.html#a60c71b4a6cc8a9a3e9e8a3c8e36cffa0" title="VB event handler, triggering VB general actions. " alt="" coords="407,867,493,893"/>
-<area shape="rect" id="node24" href="fct__macros_8c.html#a6379aedd63a1b0be6343382aa863a456" title="FUNCTION &#45; Macro execution. " alt="" coords="639,867,719,893"/>
-<area shape="rect" id="node26" href="task__commands_8c.html#a7b36c39275d773aaedcb327ef4e1516f" title="task_commands" alt="" coords="391,309,509,336"/>
-<area shape="rect" id="node28" href="task__debouncer_8c.html#adc07ae860205196c6c285f6926bf2e04" title="Cancel a possibly running debouncing timer. " alt="" coords="632,436,725,463"/>
-<area shape="rect" id="node29" href="task__debouncer_8c.html#ac7261ec119f3d0f8c09a484a3395caf8" title="Look for a possibly running debouncing timer. " alt="" coords="613,500,745,527"/>
-<area shape="rect" id="node30" href="task__debouncer_8c.html#a9c2bdf28ee91c441212941b4ef5621ca" title="Start a timer with a given config and debounce time. " alt="" coords="409,461,491,488"/>
-<area shape="rect" id="node33" href="task__webgui_8c.html#af4fe29c8fc1fde365cdb8344cb402156" title="En&#45; or Disable WiFi interface. " alt="" coords="599,1272,758,1299"/>
-<area shape="rect" id="node34" href="hal__storage_8c.html#aa5da838bef47becbd2b5bd96a60c75b3" title="Get number of currently loaded slot. " alt="" coords="593,986,764,1027"/>
-<area shape="rect" id="node36" href="config__switcher_8c.html#af5af5079d1982d42e165039e6de7e40a" title="CONTINOUS TASK &#45; Config switcher task, internal config reloading. " alt="" coords="381,968,519,995"/>
-<area shape="rect" id="node37" href="hal__storage_8c.html#aead99606f84645b2bb6ae000461bf819" title="Start a storage transaction. " alt="" coords="589,1145,769,1172"/>
-<area shape="rect" id="node38" href="hal__storage_8c.html#a00b5db14e24d7ada8a42aa6b3f1a1cb7" title="Finish a storage transaction. " alt="" coords="585,1061,772,1088"/>
-<area shape="rect" id="node40" href="hal__ble_8c.html#a50ba83bf77cdec4ac247bf44f357f310" title="Callback for GAP events. " alt="" coords="385,1525,515,1552"/>
-<area shape="rect" id="node41" href="hal__ble_8c.html#af6354ad49deff7e2dfb1b8e9072660ee" title="Callback for HID events. " alt="" coords="380,1576,520,1603"/>
-<area shape="rect" id="node42" href="hid__device__le__prf_8c.html#acb0d2b8e95e7bbabf1e3bdab379d18d5" title="hidd_register_cb" alt="" coords="391,1627,509,1653"/>
-<area shape="rect" id="node43" href="hal__ble_8c.html#ac0a136577e62fc87b368eaec618cf31e" title="CONTINOUS TASK &#45; sending HID commands via BLE. " alt="" coords="403,1677,497,1704"/>
-<area shape="rect" id="node45" href="hal__storage_8c.html#a63ec8e05a2bb4c214600e94b8ab05eea" title="Load a string from NVS (global, no slot assignment) " alt="" coords="363,1221,537,1248"/>
-<area shape="rect" id="node46" href="task__webgui_8c.html#a11dd6a5edc46c297b26382ebce3c34cb" title="Event handler for wifi status updates. " alt="" coords="385,1272,515,1299"/>
-<area shape="rect" id="node47" href="captdns_8c.html#a82f468eb219b14b853eb183149894e92" title="captdnsInit" alt="" coords="407,1323,493,1349"/>
-<area shape="rect" id="node48" href="task__webgui_8c.html#ae5ad2f76f20781fd8c89e542bcc8a551" title="Timer callback for disabling wifi. " alt="" coords="401,1373,499,1400"/>
-<area shape="rect" id="node49" href="task__webgui_8c.html#adcc5b062c057f73762b1f19b2f6a8185" title="CONTINOUS TASK &#45; Main webserver task. " alt="" coords="407,1424,493,1451"/>
-<area shape="rect" id="node50" href="task__webgui_8c.html#a5f462e5b8bd4803c256bf22a004eacde" title="CONTINOUS TASK &#45; Websocket server task. " alt="" coords="409,1120,491,1147"/>
+<area shape="rect" id="node24" href="fct__macros_8c.html#a6379aedd63a1b0be6343382aa863a456" title="FUNCTION &#45; Macro execution. " alt="" coords="636,816,716,843"/>
+<area shape="rect" id="node25" href="fct__infrared_8c.html#a18c2e233aa3a793f43ccb3f67fe90122" title="FUNCTION &#45; Infrared command sending. " alt="" coords="615,867,737,893"/>
+<area shape="rect" id="node26" href="hal__storage_8c.html#aead99606f84645b2bb6ae000461bf819" title="Start a storage transaction. " alt="" coords="818,1069,998,1096"/>
+<area shape="rect" id="node27" href="hal__storage_8c.html#a00b5db14e24d7ada8a42aa6b3f1a1cb7" title="Finish a storage transaction. " alt="" coords="815,968,1001,995"/>
+<area shape="rect" id="node29" href="task__commands_8c.html#a7b36c39275d773aaedcb327ef4e1516f" title="task_commands" alt="" coords="391,360,509,387"/>
+<area shape="rect" id="node30" href="task__commands_8c.html#adf3aa67816eecac3e756189c9d61cbd2" title="checkqueues" alt="" coords="627,373,725,400"/>
+<area shape="rect" id="node31" href="hal__serial_8c.html#a0bb04b089362a7c58d189b0fc61bef96" title="Read parsed AT commands from USB&#45;Serial (USB&#45;CDC) " alt="" coords="585,323,767,349"/>
+<area shape="rect" id="node33" href="task__debouncer_8c.html#adc07ae860205196c6c285f6926bf2e04" title="Cancel a possibly running debouncing timer. " alt="" coords="629,449,723,476"/>
+<area shape="rect" id="node34" href="task__debouncer_8c.html#ac7261ec119f3d0f8c09a484a3395caf8" title="Look for a possibly running debouncing timer. " alt="" coords="610,500,742,527"/>
+<area shape="rect" id="node35" href="task__debouncer_8c.html#a9c2bdf28ee91c441212941b4ef5621ca" title="Start a timer with a given config and debounce time. " alt="" coords="409,461,491,488"/>
+<area shape="rect" id="node38" href="task__webgui_8c.html#a907217aa3488ac68c36595c15da821e0" title="En&#45; or Disable WiFi interface. " alt="" coords="597,1187,755,1213"/>
+<area shape="rect" id="node39" href="hal__storage_8c.html#aa5da838bef47becbd2b5bd96a60c75b3" title="Get number of currently loaded slot. " alt="" coords="591,1121,761,1162"/>
+<area shape="rect" id="node41" href="config__switcher_8c.html#af5af5079d1982d42e165039e6de7e40a" title="TASK &#45; Config switcher task, internal config reloading. " alt="" coords="381,968,519,995"/>
+<area shape="rect" id="node43" href="hal__ble_8c.html#a50ba83bf77cdec4ac247bf44f357f310" title="Callback for GAP events. " alt="" coords="385,1424,515,1451"/>
+<area shape="rect" id="node44" href="hal__ble_8c.html#af6354ad49deff7e2dfb1b8e9072660ee" title="Callback for HID events. " alt="" coords="380,1475,520,1501"/>
+<area shape="rect" id="node45" href="hid__device__le__prf_8c.html#acb0d2b8e95e7bbabf1e3bdab379d18d5" title="hidd_register_cb" alt="" coords="391,1525,509,1552"/>
+<area shape="rect" id="node46" href="hal__ble_8c.html#ac0a136577e62fc87b368eaec618cf31e" title="CONTINOUS TASK &#45; sending HID commands via BLE. " alt="" coords="403,1373,497,1400"/>
+<area shape="rect" id="node48" href="hal__storage_8c.html#a63ec8e05a2bb4c214600e94b8ab05eea" title="Load a string from NVS (global, no slot assignment) " alt="" coords="363,1221,537,1248"/>
+<area shape="rect" id="node49" href="task__webgui_8c.html#ae5ad2f76f20781fd8c89e542bcc8a551" title="Timer callback for disabling wifi. " alt="" coords="401,1120,499,1147"/>
+<area shape="rect" id="node50" href="task__webgui_8c.html#adcc5b062c057f73762b1f19b2f6a8185" title="Main webserver task. " alt="" coords="407,1171,493,1197"/>
 </map>
 </div>
 
@@ -277,26 +279,40 @@ Here is the call graph for this function:</div>
 </div><div class="memdoc">
 
 <p>Switch radio mode. </p>
-<p>This method is used to switch between the radio modes (radio_status_t). It will be called via the IO long press handler. Modes are currently switched in following order (wrap around):</p><ul>
-<li>BLE</li>
-<li>BLE_PAIRING</li>
-<li>WIFI</li>
-</ul>
-<p>Actual switching is done in app_main, mostly because this method is executed in timer task context, with limited stack.</p>
+<p>This method is used to switch wifi on or off. It will be called by the long press timer, after the give amount of time for a long press has passed (to avoid unintenionally activation/deactivation of the wifi).</p>
+<dl class="section warning"><dt>Warning</dt><dd>WiFi can only be enabled ONCE each start!</dd></dl>
 <dl class="section see"><dt>See also</dt><dd><a class="el" href="hal__io_8h.html#a645ccf6a4abeccd8639c66f11138af4a" title="Add long press handler for Wifi button. ">halIOAddLongPressHandler</a> </dd>
 <dd>
 <a class="el" href="hal__io_8h.html#a7501b46689ced3389164f900567a5025" title="Timeout ([ms]) for triggering long press action handler. ">HAL_IO_LONGACTION_TIMEOUT</a> </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c_source.html#l00082">82</a> of file <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c_source.html">flipmouse_fabi_esp32_kbdmouse_main.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c_source.html#l00083">83</a> of file <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c_source.html">flipmouse_fabi_esp32_kbdmouse_main.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c_source.html#l00114">app_main()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c_source.html#l00125">app_main()</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="flipmouse__fabi__esp32__kbdmouse__main_8c_a93e2ea21db142b4c7172565051a18cb1_cgraph.png" border="0" usemap="#flipmouse__fabi__esp32__kbdmouse__main_8c_a93e2ea21db142b4c7172565051a18cb1_cgraph" alt=""/></div>
 <map name="flipmouse__fabi__esp32__kbdmouse__main_8c_a93e2ea21db142b4c7172565051a18cb1_cgraph" id="flipmouse__fabi__esp32__kbdmouse__main_8c_a93e2ea21db142b4c7172565051a18cb1_cgraph">
-<area shape="rect" id="node2" href="task__webgui_8c.html#af4fe29c8fc1fde365cdb8344cb402156" title="En&#45; or Disable WiFi interface. " alt="" coords="154,5,313,32"/>
-<area shape="rect" id="node3" href="hal__storage_8c.html#aa5da838bef47becbd2b5bd96a60c75b3" title="Get number of currently loaded slot. " alt="" coords="148,57,319,98"/>
+<area shape="rect" id="node2" href="task__webgui_8c.html#a907217aa3488ac68c36595c15da821e0" title="En&#45; or Disable WiFi interface. " alt="" coords="154,132,313,159"/>
+<area shape="rect" id="node21" href="hal__storage_8c.html#aa5da838bef47becbd2b5bd96a60c75b3" title="Get number of currently loaded slot. " alt="" coords="148,183,319,225"/>
+<area shape="rect" id="node3" href="task__webgui_8c.html#a88f50c2c18db3f5be0149ec7921bf64b" title="AP mode config, filled in init. " alt="" coords="367,132,469,159"/>
+<area shape="rect" id="node4" href="captdns_8c.html#a8839b10051f013921d546b10cf160d9b" title="captdnsDeinit" alt="" coords="531,56,634,83"/>
+<area shape="rect" id="node5" href="task__webgui_8c.html#a11dd6a5edc46c297b26382ebce3c34cb" title="Event handler for wifi status updates. " alt="" coords="517,107,648,133"/>
+<area shape="rect" id="node9" href="captdns_8c.html#a82f468eb219b14b853eb183149894e92" title="captdnsInit" alt="" coords="539,157,626,184"/>
+<area shape="rect" id="node17" href="task__webgui_8c.html#a5f462e5b8bd4803c256bf22a004eacde" title="CONTINOUS TASK &#45; Websocket server task. " alt="" coords="541,233,624,260"/>
+<area shape="rect" id="node6" href="task__webgui_8c.html#a7f89c77fa56e7ac560e2720baedf07eb" title="Simply reset &amp; start OR stop the auto&#45;off timer. " alt="" coords="723,5,871,32"/>
+<area shape="rect" id="node7" href="task__webgui_8c.html#adf50753dada544362b8f4fb5f8eefde5" title="Get the number of currently connected Wifi stations. " alt="" coords="712,56,883,83"/>
+<area shape="rect" id="node8" href="hal__serial_8c.html#a57242c09ec880fbd08e1a4cd5e64d8e5" title="Remove the additional function for outputting the serial data. " alt="" coords="696,107,899,133"/>
+<area shape="rect" id="node10" href="captdns_8c.html#afbeefb54f301b1f8179ecb1a6efb69a9" title="captdnsTask" alt="" coords="749,157,846,184"/>
+<area shape="rect" id="node11" href="captdns_8c.html#ae3d5d80203823fee0be8b7a591e5a32d" title="captdnsRecv" alt="" coords="947,157,1045,184"/>
+<area shape="rect" id="node12" href="captdns_8c.html#adec91475451453070cedc420696c90f1" title="my_ntohs" alt="" coords="1224,81,1303,108"/>
+<area shape="rect" id="node13" href="captdns_8c.html#a5ba2df190357425ca8f277eed3a16d32" title="labelToStr" alt="" coords="1094,107,1175,133"/>
+<area shape="rect" id="node14" href="captdns_8c.html#a01294bcdad17e226e50f0c707fee3852" title="strToLabel" alt="" coords="1093,157,1176,184"/>
+<area shape="rect" id="node15" href="captdns_8c.html#a21dfd38acc9e61af1ce25d3fe687e22f" title="setn16" alt="" coords="1104,208,1165,235"/>
+<area shape="rect" id="node16" href="captdns_8c.html#a4868ba2e5fb29569ef87f4d56c52fc5a" title="setn32" alt="" coords="1104,259,1165,285"/>
+<area shape="rect" id="node18" href="hal__serial_8c.html#a143968f329a010a1075a81b976579605" title="Set an additional function for outputting the serial data. " alt="" coords="709,208,885,235"/>
+<area shape="rect" id="node19" href="websocket_8c.html#a215997a5d454937f96cf800e1a44e599" title="WS_write_data" alt="" coords="742,259,853,285"/>
+<area shape="rect" id="node20" href="websocket_8c.html#afc7ea5da54622021156f0df84063abb4" title="ws_server_netconn_serve" alt="" coords="710,309,885,336"/>
 </map>
 </div>
 <div class="dynheader">
@@ -335,13 +351,13 @@ Here is the caller graph for this function:</div>
 </ul>
 <dl class="section see"><dt>See also</dt><dd><a class="el" href="common_8h.html#ab05a6082c57cf5ad37e922cbfde77a88" title="Maximum length for a slot name. ">SLOTNAME_LENGTH</a> </dd>
 <dd>
-<a class="el" href="config__switcher_8c.html#af5af5079d1982d42e165039e6de7e40a" title="CONTINOUS TASK - Config switcher task, internal config reloading. ">configSwitcherTask</a> </dd>
+<a class="el" href="config__switcher_8c.html#af5af5079d1982d42e165039e6de7e40a" title="TASK - Config switcher task, internal config reloading. ">configSwitcherTask</a> </dd>
 <dd>
 currentConfig </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c_source.html#l00061">61</a> of file <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c_source.html">flipmouse_fabi_esp32_kbdmouse_main.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c_source.html#l00063">63</a> of file <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c_source.html">flipmouse_fabi_esp32_kbdmouse_main.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c_source.html#l00114">app_main()</a>, <a class="el" href="task__commands_8c_source.html#l00161">checkqueues()</a>, <a class="el" href="task__commands_8c_source.html#l00629">cmdLo()</a>, <a class="el" href="task__commands_8c_source.html#l00644">cmdNe()</a>, <a class="el" href="config__switcher_8c_source.html#l00307">configSwitcherInit()</a>, <a class="el" href="config__switcher_8c_source.html#l00171">configSwitcherTask()</a>, <a class="el" href="config__switcher_8c_source.html#l00095">configTriggerUpdate()</a>, and <a class="el" href="handler__vb_8c_source.html#l00071">handler_vb()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c_source.html#l00125">app_main()</a>, <a class="el" href="task__commands_8c_source.html#l00161">checkqueues()</a>, <a class="el" href="task__commands_8c_source.html#l00654">cmdLo()</a>, <a class="el" href="task__commands_8c_source.html#l00669">cmdNe()</a>, <a class="el" href="config__switcher_8c_source.html#l00285">configSwitcherInit()</a>, <a class="el" href="config__switcher_8c_source.html#l00150">configSwitcherTask()</a>, <a class="el" href="config__switcher_8c_source.html#l00087">configTriggerUpdate()</a>, and <a class="el" href="handler__vb_8c_source.html#l00071">handler_vb()</a>.</p>
 
 </div>
 </div>
@@ -368,9 +384,9 @@ currentConfig </dd></dl>
 <dd>
 <a class="el" href="common_8h.html#a9d086131b0622a8aaeb0db9b1ccbe725" title="Bitmask used to signal a FLipMouse/FABI has at least one connected Wifi client. ">WIFI_CLIENT_CONNECTED</a> </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c_source.html#l00058">58</a> of file <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c_source.html">flipmouse_fabi_esp32_kbdmouse_main.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c_source.html#l00061">61</a> of file <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c_source.html">flipmouse_fabi_esp32_kbdmouse_main.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c_source.html#l00114">app_main()</a>, <a class="el" href="config__switcher_8c_source.html#l00124">configUpdate()</a>, <a class="el" href="hal__adc_8c_source.html#l00478">halAdcProcessPressure()</a>, <a class="el" href="handler__hid_8c_source.html#l00076">handler_hid()</a>, <a class="el" href="task__commands_8c_source.html#l00175">sendHIDCmd()</a>, <a class="el" href="task__webgui_8c_source.html#l00505">taskWebGUIEnDisable()</a>, <a class="el" href="task__webgui_8c_source.html#l00612">taskWebGUIInit()</a>, and <a class="el" href="task__webgui_8c_source.html#l00434">wifi_event_handler()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c_source.html#l00125">app_main()</a>, <a class="el" href="config__switcher_8c_source.html#l00116">configUpdate()</a>, <a class="el" href="hal__adc_8c_source.html#l00501">halAdcProcessPressure()</a>, <a class="el" href="handler__hid_8c_source.html#l00076">handler_hid()</a>, <a class="el" href="task__webgui_8c_source.html#l00431">http_server()</a>, <a class="el" href="task__commands_8c_source.html#l00175">sendHIDCmd()</a>, <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c_source.html#l00083">switch_radio()</a>, <a class="el" href="task__webgui_8c_source.html#l00575">taskWebGUIEnDisable()</a>, <a class="el" href="task__webgui_8c_source.html#l00739">taskWebGUIInit()</a>, <a class="el" href="task__webgui_8c_source.html#l00502">wifi_event_handler()</a>, <a class="el" href="task__webgui_8c_source.html#l00627">wifiEnDisable()</a>, and <a class="el" href="task__webgui_8c_source.html#l00193">ws_server()</a>.</p>
 
 </div>
 </div>
@@ -395,9 +411,9 @@ VB_EVENT </dd>
 <dd>
 <a class="el" href="common_8h.html#ad6059b78a688863c1e512ebbcefd4e65a49a3126aa6dc99c32cc5d7653359bcee">VB_RELEASE_EVENT</a> </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c_source.html#l00062">62</a> of file <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c_source.html">flipmouse_fabi_esp32_kbdmouse_main.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c_source.html#l00064">64</a> of file <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c_source.html">flipmouse_fabi_esp32_kbdmouse_main.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c_source.html#l00114">app_main()</a>, <a class="el" href="hal__io_8c_source.html#l00120">gpio_isr_handler()</a>, <a class="el" href="hal__adc_8c_source.html#l00478">halAdcProcessPressure()</a>, <a class="el" href="hal__adc_8c_source.html#l00162">halAdcProcessStrongMode()</a>, <a class="el" href="hal__adc_8c_source.html#l00961">halAdcTaskThreshold()</a>, and <a class="el" href="task__debouncer_8c_source.html#l00366">task_debouncer()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c_source.html#l00125">app_main()</a>, <a class="el" href="hal__io_8c_source.html#l00122">gpio_isr_handler()</a>, <a class="el" href="hal__adc_8c_source.html#l00501">halAdcProcessPressure()</a>, <a class="el" href="hal__adc_8c_source.html#l00162">halAdcProcessStrongMode()</a>, <a class="el" href="hal__adc_8c_source.html#l01015">halAdcTaskThreshold()</a>, and <a class="el" href="task__debouncer_8c_source.html#l00366">task_debouncer()</a>.</p>
 
 </div>
 </div>
@@ -417,9 +433,9 @@ VB_EVENT </dd>
 <p>Queue for sending HID commands to BLE.</p>
 <dl class="section see"><dt>See also</dt><dd><a class="el" href="common_8h.html#a29f0fa9b007be5e086562312cd1b1a1d" title="One HID command, maybe an element of a command chain. ">hid_cmd_t</a> </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c_source.html#l00064">64</a> of file <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c_source.html">flipmouse_fabi_esp32_kbdmouse_main.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c_source.html#l00066">66</a> of file <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c_source.html">flipmouse_fabi_esp32_kbdmouse_main.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c_source.html#l00114">app_main()</a>, <a class="el" href="task__commands_8c_source.html#l00161">checkqueues()</a>, <a class="el" href="hal__adc_8c_source.html#l01282">halAdcInit()</a>, <a class="el" href="hal__adc_8c_source.html#l00478">halAdcProcessPressure()</a>, <a class="el" href="hal__ble_8c_source.html#l00195">halBLETask()</a>, <a class="el" href="handler__hid_8c_source.html#l00076">handler_hid()</a>, and <a class="el" href="task__commands_8c_source.html#l00175">sendHIDCmd()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c_source.html#l00125">app_main()</a>, <a class="el" href="task__commands_8c_source.html#l00161">checkqueues()</a>, <a class="el" href="hal__adc_8c_source.html#l01344">halAdcInit()</a>, <a class="el" href="hal__adc_8c_source.html#l00501">halAdcProcessPressure()</a>, <a class="el" href="hal__ble_8c_source.html#l00195">halBLETask()</a>, <a class="el" href="handler__hid_8c_source.html#l00076">handler_hid()</a>, and <a class="el" href="task__commands_8c_source.html#l00175">sendHIDCmd()</a>.</p>
 
 </div>
 </div>
@@ -437,9 +453,9 @@ VB_EVENT </dd>
 
 <p>Queue for sending HID commands to USB. </p>
 
-<p class="definition">Definition at line <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c_source.html#l00063">63</a> of file <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c_source.html">flipmouse_fabi_esp32_kbdmouse_main.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c_source.html#l00065">65</a> of file <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c_source.html">flipmouse_fabi_esp32_kbdmouse_main.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c_source.html#l00114">app_main()</a>, <a class="el" href="task__commands_8c_source.html#l00161">checkqueues()</a>, <a class="el" href="hal__adc_8c_source.html#l01282">halAdcInit()</a>, <a class="el" href="hal__adc_8c_source.html#l00478">halAdcProcessPressure()</a>, <a class="el" href="hal__serial_8c_source.html#l00279">halSerialHIDTask()</a>, <a class="el" href="hal__serial_8c_source.html#l00455">halSerialReset()</a>, <a class="el" href="handler__hid_8c_source.html#l00076">handler_hid()</a>, and <a class="el" href="task__commands_8c_source.html#l00175">sendHIDCmd()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c_source.html#l00125">app_main()</a>, <a class="el" href="task__commands_8c_source.html#l00161">checkqueues()</a>, <a class="el" href="hal__adc_8c_source.html#l01344">halAdcInit()</a>, <a class="el" href="hal__adc_8c_source.html#l00501">halAdcProcessPressure()</a>, <a class="el" href="hal__serial_8c_source.html#l00279">halSerialHIDTask()</a>, <a class="el" href="hal__serial_8c_source.html#l00455">halSerialReset()</a>, <a class="el" href="handler__hid_8c_source.html#l00076">handler_hid()</a>, <a class="el" href="task__commands_8c_source.html#l00175">sendHIDCmd()</a>, and <a class="el" href="task__commands_8c_source.html#l01384">task_commands()</a>.</p>
 
 </div>
 </div>
@@ -455,27 +471,11 @@ VB_EVENT </dd>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c_source.html#l00065">65</a> of file <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c_source.html">flipmouse_fabi_esp32_kbdmouse_main.c</a>.</p>
+<p>Flag for active wifi. </p>
 
-<p class="reference">Referenced by <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c_source.html#l00082">switch_radio()</a>.</p>
+<p class="definition">Definition at line <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c_source.html#l00069">69</a> of file <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c_source.html">flipmouse_fabi_esp32_kbdmouse_main.c</a>.</p>
 
-</div>
-</div>
-<a id="aaf12ce68f07ec96638046d2dbe8ffbea"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aaf12ce68f07ec96638046d2dbe8ffbea">&#9670;&nbsp;</a></span>switchRadioSem</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">SemaphoreHandle_t switchRadioSem</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p class="definition">Definition at line <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c_source.html#l00060">60</a> of file <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c_source.html">flipmouse_fabi_esp32_kbdmouse_main.c</a>.</p>
-
-<p class="reference">Referenced by <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c_source.html#l00114">app_main()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c_source.html#l00083">switch_radio()</a>.</p>
 
 </div>
 </div>
@@ -500,9 +500,9 @@ VB_EVENT </dd>
 <dd>
 <a class="el" href="common_8h.html#a59e62fd512b662afffc660c5177eea1e" title="AT command queue is empty. ">SYSTEM_EMPTY_CMD_QUEUE</a> </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c_source.html#l00059">59</a> of file <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c_source.html">flipmouse_fabi_esp32_kbdmouse_main.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c_source.html#l00062">62</a> of file <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c_source.html">flipmouse_fabi_esp32_kbdmouse_main.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c_source.html#l00114">app_main()</a>, <a class="el" href="config__switcher_8c_source.html#l00171">configSwitcherTask()</a>, <a class="el" href="hal__adc_8c_source.html#l00883">halAdcCalibrate()</a>, <a class="el" href="hal__serial_8c_source.html#l00368">halSerialReceiveUSBSerial()</a>, <a class="el" href="handler__hid_8c_source.html#l00076">handler_hid()</a>, <a class="el" href="handler__vb_8c_source.html#l00071">handler_vb()</a>, <a class="el" href="task__commands_8c_source.html#l01359">task_commands()</a>, and <a class="el" href="task__debouncer_8c_source.html#l00366">task_debouncer()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c_source.html#l00125">app_main()</a>, <a class="el" href="config__switcher_8c_source.html#l00150">configSwitcherTask()</a>, <a class="el" href="hal__adc_8c_source.html#l00922">halAdcCalibrate()</a>, <a class="el" href="hal__serial_8c_source.html#l00368">halSerialReceiveUSBSerial()</a>, <a class="el" href="handler__hid_8c_source.html#l00076">handler_hid()</a>, <a class="el" href="handler__vb_8c_source.html#l00071">handler_vb()</a>, <a class="el" href="task__commands_8c_source.html#l01384">task_commands()</a>, and <a class="el" href="task__debouncer_8c_source.html#l00366">task_debouncer()</a>.</p>
 
 </div>
 </div>

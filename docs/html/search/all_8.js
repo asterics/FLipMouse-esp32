@@ -10,7 +10,6 @@ var searchData=
   ['hal_5fconfig_5ftask_5fpriority',['HAL_CONFIG_TASK_PRIORITY',['../common_8h.html#aa232edf6b71b1a686e308663f2c19d5a',1,'common.h']]],
   ['hal_5fio_2ec',['hal_io.c',['../hal__io_8c.html',1,'']]],
   ['hal_5fio_2eh',['hal_io.h',['../hal__io_8h.html',1,'']]],
-  ['hal_5fio_5fadc_5ftask_5fpriority',['HAL_IO_ADC_TASK_PRIORITY',['../hal__adc_8h.html#aec5255c5a049b277c1de3cfc79dfdd57',1,'hal_adc.h']]],
   ['hal_5fio_5fir_5fmem_5fblocks',['HAL_IO_IR_MEM_BLOCKS',['../hal__io_8h.html#a8e09474b15adae0b00d1c683e91eea64',1,'hal_io.h']]],
   ['hal_5fio_5flongaction_5ftimeout',['HAL_IO_LONGACTION_TIMEOUT',['../hal__io_8h.html#a7501b46689ced3389164f900567a5025',1,'hal_io.h']]],
   ['hal_5fio_5fpin_5flongaction',['HAL_IO_PIN_LONGACTION',['../hal__io_8h.html#a8db74aa62b01eaaa7e9b0080050d488f',1,'hal_io.h']]],
@@ -491,9 +490,11 @@ var searchData=
   ['hids_5fnb',['hids_nb',['../structhidd__inst__t.html#ac791116e6308c4dba843b9f683d992f1',1,'hidd_inst_t']]],
   ['hids_5freport_5fref_5ft',['hids_report_ref_t',['../structhids__report__ref__t.html',1,'']]],
   ['http_5fhtml_5fhdr',['http_html_hdr',['../task__webgui_8c.html#a84019f692b38960767e6beb15d0c4a2b',1,'task_webgui.c']]],
+  ['http_5fnew_5fsockfd',['http_new_sockfd',['../task__webgui_8c.html#acb4d5bd2cca56bab370c1398b68e9003',1,'task_webgui.c']]],
   ['http_5fredir_5fhdr',['http_redir_hdr',['../task__webgui_8c.html#a0a007ed6b248ffb43a3ac085a39ae273',1,'task_webgui.c']]],
   ['http_5fserver',['http_server',['../task__webgui_8c.html#adcc5b062c057f73762b1f19b2f6a8185',1,'task_webgui.c']]],
   ['http_5fserver_5fnetconn_5fserve',['http_server_netconn_serve',['../task__webgui_8c.html#aef8b19daf6cb6fae49c2da83a52f6c6b',1,'task_webgui.c']]],
+  ['http_5fsockfd',['http_sockfd',['../task__webgui_8c.html#a8a8919c79faf725f484abbdd3151a07f',1,'task_webgui.c']]],
   ['howto_20add_20a_20new_20function',['Howto add a new function',['../md__home_beni_sync_Projects_FH_FLipMouse-esp32_main_README_add_new_Function.html',1,'']]],
   ['how_20configuration_20is_20handled',['How configuration is handled',['../md__home_beni_sync_Projects_FH_FLipMouse-esp32_main_README_slotdescription.html',1,'']]]
 ];

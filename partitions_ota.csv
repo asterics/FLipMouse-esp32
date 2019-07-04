@@ -1,0 +1,18 @@
+# Espressif ESP32 Partition Table, added one FAT partition
+# Name,   Type, SubType, Offset,  Size
+
+#16k NVS
+nvs,      data, nvs,     0x9000,  0x4000
+#8k OTA infos
+otadata,  data, ota,     0xd000,  0x2000
+#4k PHY data
+phy_init, data, phy,     0xf000,  0x1000
+
+#512k factory (UART Bootloader)
+factory,  0,    0,       0x10000, 0x80000
+
+#2MB OTA
+ota_0,    0,    ota_0,  0x90000, 0x200000
+
+#1.4MB storage
+storage,  data, spiffs,   0x290000,  0x170000

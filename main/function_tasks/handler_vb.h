@@ -44,6 +44,7 @@
 #include "../config_switcher.h"
 #include "fct_macros.h"
 #include "fct_infrared.h"
+#include "task_mqtt.h"
 
 
 /** @brief Init for the VB handler

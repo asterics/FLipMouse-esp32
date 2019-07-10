@@ -663,9 +663,14 @@ esp_err_t wifiEnDisable(int onoff)
   } else {
 	//based on softAP example of Espressif.
 	tcpip_adapter_init();
-    ESP_ERROR_CHECK(esp_event_loop_init(wifi_event_handler, NULL))
+	//if event loop init fails, we might have an already initialized event loop
+	//in this case, just add the handler of this file.
+    if(esp_event_loop_init(wifi_event_handler, NULL) != ESP_OK)
+    {
+		esp_event_loop_set_cb(wifi_event_handler,NULL);
+	}
     wifi_init_config_t cfg = WIFI_INIT_CONFIG_DEFAULT();
-    ESP_ERROR_CHECK(esp_wifi_init(&cfg));
+    esp_wifi_init(&cfg);
     wifi_config_t wifi_config = {
         .ap = {
             .ssid = CONFIG_AP_SSID,

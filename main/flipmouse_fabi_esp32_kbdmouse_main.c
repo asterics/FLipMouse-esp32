@@ -139,8 +139,6 @@ void app_main()
         hid_ble = xQueueCreate(32,sizeof(hid_cmd_t));
         hid_usb = xQueueCreate(32,sizeof(hid_cmd_t));
         debouncer_in = xQueueCreate(32,sizeof(raw_action_t));
-        //semphores
-        switchRadioSem = xSemaphoreCreateBinary();
         
     //exit critical section & resume all tasks for initialising
     xTaskResumeAll();

@@ -257,7 +257,7 @@ esp_err_t cmdMa(char* orig, void* p1, void* p2) {
   } else {
     vbaction.cmd = T_MACRO;
     vbaction.cmdparam = malloc(strnlen((char*)p1,ATCMD_LENGTH)+1);
-    strncpy(vbaction.cmdparam,(char*)p1,strnlen((char*)p1,ATCMD_LENGTH));
+    strncpy(vbaction.cmdparam,(char*)p1,strnlen((char*)p1,ATCMD_LENGTH)+1);
   }
   return ESP_OK;
 }
@@ -844,7 +844,7 @@ esp_err_t cmdIp(char* orig, void* p1, void* p2) {
     //set action type
     vbaction.cmd = T_SENDIR;
     vbaction.cmdparam = malloc(strnlen((char*)p1,ATCMD_LENGTH)+1);
-    strncpy(vbaction.cmdparam,(char*)p1,strnlen((char*)p1,ATCMD_LENGTH));
+    strncpy(vbaction.cmdparam,(char*)p1,strnlen((char*)p1,ATCMD_LENGTH)+1);
   }
   return ESP_OK;
 }
@@ -944,19 +944,19 @@ esp_err_t cmdIx(char* orig, void* p1, void* p2) {
 esp_err_t cmdMq(char* orig, void* p1, void* p2) {
   if(requestVBUpdate == VB_SINGLESHOT)
   {
-    taskMQTTPublish((char*)p1);
+    return taskMQTTPublish((char*)p1);
   } else {
     //set action type
     vbaction.cmd = T_MQTT;
     vbaction.cmdparam = malloc(strnlen((char*)p1,ATCMD_LENGTH)+1);
-    strncpy(vbaction.cmdparam,(char*)p1,strnlen((char*)p1,ATCMD_LENGTH));
+    strncpy(vbaction.cmdparam,(char*)p1,strnlen((char*)p1,ATCMD_LENGTH)+1);
   }
   return ESP_OK;
 }
 esp_err_t cmdMh(char* orig, void* p1, void* p2) {
   return halStorageNVSStoreString(NVS_MQTT_BROKER,(char*)p1);
 }
-esp_err_t cmdMs(char* orig, void* p1, void* p2) {
+esp_err_t cmdMl(char* orig, void* p1, void* p2) {
   return halStorageNVSStoreString(NVS_MQTT_DELIM,(char*)p1);
 }
 esp_err_t cmdWp(char* orig, void* p1, void* p2) {
@@ -1067,7 +1067,7 @@ const onecmd_t commands[] = {
   // smart home commands
   {"MQ", {PARAM_STRING,PARAM_NONE},{5,0},{ATCMD_LENGTH-strlen(CMD_PREFIX)-CMD_LENGTH,0},cmdMq,0,NOCAST},
   {"MH", {PARAM_STRING,PARAM_NONE},{6,0},{100,0},cmdMh,0,NOCAST},
-  {"MS", {PARAM_STRING,PARAM_NONE},{1,0},{1,0},cmdMs,0,NOCAST},
+  {"ML", {PARAM_STRING,PARAM_NONE},{1,0},{1,0},cmdMl,0,NOCAST},
   {"WP", {PARAM_STRING,PARAM_NONE},{0,0},{63,0},cmdWp,0,NOCAST},
   {"WH", {PARAM_STRING,PARAM_NONE},{4,0},{31,0},cmdWh,0,NOCAST},
 };

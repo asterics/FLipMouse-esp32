@@ -157,14 +157,16 @@ If set to 1, the axis/slider/hat will be released to its idle position on a VB r
 **SmartHome interface**
 | Command | Parameter | Description | Available since | Implemented in v3 | fct_* file / handler |
 |:--------|:----------|:------------|:--------------|:--------------------|:---------------------|
-| AT MQ | string (5-240chars)  | publish this data on the given topic, e.g.: "lights/livingroom:ON" | v3 | yes | handler_vb |
-| AT MH | string (6-100chars)  | set a new MQTT broker, e.g.: "localhost:1883" <sup>[E](#footnoteE)</sup> | v3 | yes | no |
-| AT MS | string (1char) | set a new MQTT delimiter symbol (topic vs data, default: ":") for AT MQ | v3 | yes | no |
-| AT WP | string (8-63chars) | set a new WiFi password (when this device is connected as WiFi client!) <sup>[E](#footnoteE)</sup>  | v3 | yes | no |
-| AT WH | string (4-31chars) | set a new WiFi name to connect to (when this device is connected as WiFi client!) <sup>[E](#footnoteE)</sup>  | v3 | yes | no |
+| AT MQ | string (5-240chars)  | publish this data on the given topic, e.g.: "lights/livingroom:ON" <sup>[E](#footnoteE)</sup> | v3 | yes | handler_vb |
+| AT MH | string (6-100chars)  | set a new MQTT broker, e.g.: "mqtt://localhost:1883" <sup>[E](#footnoteE)</sup> | v3 | yes | no |
+| AT ML | string (1char) | set a new MQTT delimiter symbol (topic vs data, default: ":") for AT MQ | v3 | yes | no |
+| AT WP | string (8-63chars) | set a new WiFi password (when this device is connected as WiFi client!) <sup>[E](#footnoteF)</sup>  | v3 | yes | no |
+| AT WH | string (4-31chars) | set a new WiFi name to connect to (when this device is connected as WiFi client!) <sup>[E](#footnoteF)</sup>  | v3 | yes | no |
+| AT RE | string (8-200chars) | calling a REST API via HTTP get. If not connected yet, Wifi will be activated in station mode | v3 | no | handler_vb |
 
-<a name="footnoteE"><b>E</b></a>: Note that you need to restart the device for applying these changes. Note that for MQTT,
-currently no QoS or retain is implemented
+<a name="footnoteE"><b>E</b></a>: No QoS or retain flags are implemented for MQTT. Please note, that WiFi is only started on the first execution of an AT MQ command.
+<a name="footnoteF"><b>E</b></a>: Please note, that WiFi in station mode will be activated on the first call of a WiFi related command (e.g. AT MQ or AT RE).
+After WiFi is enabled in station mode, it is possible to activate the SoftAP mode for the configuration GUI, but once this is done, the device must be restarted to restore full functionality!
 
 
 ## Button assignments - FLipMouse

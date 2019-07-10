@@ -113,6 +113,8 @@ esp_err_t halStorageNVSLoadString(const char *key, char *string)
   if (ret != ESP_OK) return ret;
 
   // Read
+  ret = nvs_get_str(my_handle, key, NULL, &len);
+  if (ret != ESP_OK && ret != ESP_ERR_NVS_NOT_FOUND) return ret;
   ret = nvs_get_str(my_handle, key, string, &len);
   if (ret != ESP_OK && ret != ESP_ERR_NVS_NOT_FOUND) return ret;
   

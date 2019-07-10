@@ -105,7 +105,7 @@ esp_err_t taskWebGUIInit(void);
  * @note Calling this method prior to initializing wifi with taskWebGUIInit will
  * result in an error!
  * @return ESP_OK on success, ESP_FAIL otherwise
- * @param onoff If != 0, switch on WiFi, switch off if 0.
+ * @param onoff If 0, switch off WiFI completely. If 1 switch on in station mode (and start mqtt). If 2 switch on in AP mode (for configuring via webgui)
  * @param fromISR Set to != 0 if this function is called from ISR context. Otherwise a reset will happen.
  * @see WIFI_OFF_TIME
  * */

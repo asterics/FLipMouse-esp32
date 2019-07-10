@@ -154,6 +154,14 @@ static void handler_vb(void *event_handler_arg, esp_event_base_t event_base, int
             fct_infrared_send(current->cmdparam);
           }
           break;
+        case T_MQTT:
+          if(current->cmdparam == NULL)
+          {
+            ESP_LOGE(LOG_TAG,"Param is null, cannot send MQTT publish");
+          } else {
+            taskMQTTPublish(current->cmdparam);
+          }
+          break;
         default:
           ESP_LOGE(LOG_TAG,"Unknown VB cmd type");
           break;

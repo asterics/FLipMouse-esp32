@@ -419,7 +419,8 @@ typedef enum {
   T_CONFIGCHANGE = 1, /** @brief Config change request */
   T_CALIBRATE, /** @brief Calibrationrequest */
   T_SENDIR, /** @brief Send an IR command */
-  T_MACRO /** @brief Trigger macro execution */
+  T_MACRO, /** @brief Trigger macro execution */
+  T_MQTT /** @brief Trigger a MQTT publish */
 } vb_cmd_type_t;
 
 /** @brief Complete configuration for the current settings.
@@ -580,6 +581,18 @@ void strip(char *s);
 
 /** @brief NVS key for wifi password */
 #define NVS_WIFIPW  "nvswifipw"
+
+/** @brief NVS key for wifi name  (when connected as client!) */
+#define NVS_STATIONNAME  "nvsstationname"
+
+/** @brief NVS key for wifi password (when connected as client!)*/
+#define NVS_STATIONPW  "nvsstationpw"
+
+/** @brief NVS key for the MQTT topic/data limiter */
+#define NVS_MQTT_DELIM  "nvsmqdelim"
+
+/** @brief NVS key for the MQTT broker */
+#define NVS_MQTT_BROKER  "nvsmqbroker"
 
 /** @brief Minutes between last client disconnected and WiFi is switched off */
 #define WIFI_OFF_TIME 5

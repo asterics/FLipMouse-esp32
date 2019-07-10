@@ -940,6 +940,32 @@ esp_err_t cmdIx(char* orig, void* p1, void* p2) {
   return ESP_OK;
 }
 
+/* SmartHome related commands */
+esp_err_t cmdMq(char* orig, void* p1, void* p2) {
+  if(requestVBUpdate == VB_SINGLESHOT)
+  {
+    taskMQTTPublish((char*)p1);
+  } else {
+    //set action type
+    vbaction.cmd = T_MQTT;
+    vbaction.cmdparam = malloc(strnlen((char*)p1,ATCMD_LENGTH)+1);
+    strncpy(vbaction.cmdparam,(char*)p1,strnlen((char*)p1,ATCMD_LENGTH));
+  }
+  return ESP_OK;
+}
+esp_err_t cmdMh(char* orig, void* p1, void* p2) {
+  return halStorageNVSStoreString(NVS_MQTT_BROKER,(char*)p1);
+}
+esp_err_t cmdMs(char* orig, void* p1, void* p2) {
+  return halStorageNVSStoreString(NVS_MQTT_DELIM,(char*)p1);
+}
+esp_err_t cmdWp(char* orig, void* p1, void* p2) {
+  return halStorageNVSStoreString(NVS_STATIONPW,(char*)p1);
+}
+esp_err_t cmdWh(char* orig, void* p1, void* p2) {
+  return halStorageNVSStoreString(NVS_STATIONNAME,(char*)p1);
+}
+
 #define CMD_TARGET_TYPE generalConfig_t
 
 /*++++ command struct ++++*/
@@ -1038,6 +1064,12 @@ const onecmd_t commands[] = {
   {"IT", {PARAM_NUMBER,PARAM_NONE},{2,0},{100,0},NULL,offsetof(CMD_TARGET_TYPE,irtimeout),UINT8},
   {"IL", {PARAM_NONE,PARAM_NONE},{0,0},{0,0},cmdIl,0,NOCAST},
   {"IX", {PARAM_NUMBER,PARAM_NONE},{1,0},{99,0},cmdIx,0,NOCAST},
+  // smart home commands
+  {"MQ", {PARAM_STRING,PARAM_NONE},{5,0},{ATCMD_LENGTH-strlen(CMD_PREFIX)-CMD_LENGTH,0},cmdMq,0,NOCAST},
+  {"MH", {PARAM_STRING,PARAM_NONE},{6,0},{100,0},cmdMh,0,NOCAST},
+  {"MS", {PARAM_STRING,PARAM_NONE},{1,0},{1,0},cmdMs,0,NOCAST},
+  {"WP", {PARAM_STRING,PARAM_NONE},{0,0},{63,0},cmdWp,0,NOCAST},
+  {"WH", {PARAM_STRING,PARAM_NONE},{4,0},{31,0},cmdWh,0,NOCAST},
 };
 
 #if 0

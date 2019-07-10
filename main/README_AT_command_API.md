@@ -153,6 +153,20 @@ If set to 1, the axis/slider/hat will be released to its idle position on a VB r
 | AT IX | number (1-99) | Delete one IR slot. | v3 | yes | no |
 | AT II | string (2-32chars) | Set an idle IR command. Will be sent AFTER EACH normally sent command. | v2.7 | no | no |
 
+
+**SmartHome interface**
+| Command | Parameter | Description | Available since | Implemented in v3 | fct_* file / handler |
+|:--------|:----------|:------------|:--------------|:--------------------|:---------------------|
+| AT MQ | string (5-240chars)  | publish this data on the given topic, e.g.: "lights/livingroom:ON" | v3 | yes | handler_vb |
+| AT MH | string (6-100chars)  | set a new MQTT broker, e.g.: "localhost:1883" <sup>[E](#footnoteE)</sup> | v3 | yes | no |
+| AT MS | string (1char) | set a new MQTT delimiter symbol (topic vs data, default: ":") for AT MQ | v3 | yes | no |
+| AT WP | string (8-63chars) | set a new WiFi password (when this device is connected as WiFi client!) <sup>[E](#footnoteE)</sup>  | v3 | yes | no |
+| AT WH | string (4-31chars) | set a new WiFi name to connect to (when this device is connected as WiFi client!) <sup>[E](#footnoteE)</sup>  | v3 | yes | no |
+
+<a name="footnoteE"><b>E</b></a>: Note that you need to restart the device for applying these changes. Note that for MQTT,
+currently no QoS or retain is implemented
+
+
 ## Button assignments - FLipMouse
 
 The FLipMouse version 2 has 1 internal push-button and 2 jack plugs for external buttons. 

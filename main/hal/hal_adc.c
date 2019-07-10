@@ -46,7 +46,7 @@
 #define LOG_TAG "hal_adc"
 
 /** @brief ADC log level */
-#define LOG_LEVEL_ADC ESP_LOG_INFO
+#define LOG_LEVEL_ADC ESP_LOG_ERROR
 
 /** @brief Define how much ADC readings are skipped until one is printed */
 #define HAL_ADC_RAW_DIVIDER 16

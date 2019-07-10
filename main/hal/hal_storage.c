@@ -329,9 +329,10 @@ void halStorageCreateDefault(uint32_t tid)
   fclose(target);
 }
 
-/** @brief Get number of currently loaded slot
+/** @brief Get number of currently loaded slot (0-x)
  * 
- * An empty device will return 0
+ * An empty device will return 0, if a slot is loaded, numbering starts
+ * with 0.
  * 
  * @see storageCurrentSlotNumber
  * @return Currently loaded slot number

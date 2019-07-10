@@ -97,7 +97,7 @@ void switch_radio(void)
         taskWebGUIEnDisable(1,true);
     } else {
         uint8_t slotnr = halStorageGetCurrentSlotNumber();
-        if(slotnr == 0) slotnr++;
+        slotnr++;
         LED((slotnr%2)*0xFF,((slotnr/2)%2)*0xFF,((slotnr/4)%2)*0xFF,0);
         isWifiOn = 0;
         taskWebGUIEnDisable(0,true);

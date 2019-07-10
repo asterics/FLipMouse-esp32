@@ -1,0 +1,17 @@
+digraph "taskMQTTInit"
+{
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node15 [label="taskMQTTInit",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black"];
+  Node15 -> Node16 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node16 [label="taskMQTTPublish",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$task__mqtt_8h.html#a6afc039be68c1a831778fe33bd2412a9",tooltip="Publish data via MQTT. "];
+  Node16 -> Node17 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node17 [label="handler_vb",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$handler__vb_8c.html#a60c71b4a6cc8a9a3e9e8a3c8e36cffa0",tooltip="VB event handler, triggering VB general actions. "];
+  Node17 -> Node18 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node18 [label="handler_vb_init",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$handler__vb_8h.html#ac54a8826a70d3aaf5c284bab02b93444",tooltip="Init for the VB handler. "];
+  Node18 -> Node19 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node19 [label="app_main",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$flipmouse__fabi__esp32__kbdmouse__main_8c.html#abce06be17fc37d675118a678a8100a36",tooltip="Main task, created by esp-idf. "];
+  Node16 -> Node20 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node20 [label="cmdMq",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$task__commands_8c.html#a6687f2598d6dc738c90d3be28cf90184"];
+}

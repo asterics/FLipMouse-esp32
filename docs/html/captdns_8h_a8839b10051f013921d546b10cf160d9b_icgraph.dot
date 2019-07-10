@@ -1,0 +1,23 @@
+digraph "captdnsDeinit"
+{
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node1 [label="captdnsDeinit",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black"];
+  Node1 -> Node2 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="wifiEnDisable",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$task__webgui_8c.html#a88f50c2c18db3f5be0149ec7921bf64b",tooltip="AP mode config, filled in init. "];
+  Node2 -> Node3 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node3 [label="http_server",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$task__webgui_8c.html#adcc5b062c057f73762b1f19b2f6a8185",tooltip="Main webserver task. "];
+  Node3 -> Node4 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node4 [label="taskWebGUIInit",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$task__webgui_8h.html#a669b9245d5040c0162481f7b24dbeea7",tooltip="Init the web / DNS server and the web gui. "];
+  Node4 -> Node5 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node5 [label="app_main",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$flipmouse__fabi__esp32__kbdmouse__main_8c.html#abce06be17fc37d675118a678a8100a36",tooltip="Main task, created by esp-idf. "];
+  Node2 -> Node6 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node6 [label="taskWebGUIEnDisable",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$task__webgui_8h.html#a907217aa3488ac68c36595c15da821e0",tooltip="En- or Disable WiFi interface. "];
+  Node6 -> Node7 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node7 [label="switch_radio",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$flipmouse__fabi__esp32__kbdmouse__main_8c.html#a93e2ea21db142b4c7172565051a18cb1",tooltip="Switch radio mode. "];
+  Node7 -> Node5 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node6 -> Node8 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node8 [label="wifi_timer_cb",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$task__webgui_8c.html#ae5ad2f76f20781fd8c89e542bcc8a551",tooltip="Timer callback for disabling wifi. "];
+  Node8 -> Node4 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+}

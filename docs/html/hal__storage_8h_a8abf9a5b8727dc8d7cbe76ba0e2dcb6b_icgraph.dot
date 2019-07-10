@@ -1,0 +1,19 @@
+digraph "halStorageDeleteSlot"
+{
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node28 [label="halStorageDeleteSlot",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black"];
+  Node28 -> Node29 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node29 [label="cmdDe",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$task__commands_8c.html#a0d9cf254674af930139a09407bec9b43"];
+  Node28 -> Node30 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node30 [label="cmdDl",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$task__commands_8c.html#afbad6064c581c3d233152a3c9db07fbb"];
+  Node28 -> Node31 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node31 [label="cmdDn",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$task__commands_8c.html#ac030838bfc9da5b3dc3b3357b0606485"];
+  Node28 -> Node32 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node32 [label="configSwitcherTask",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$config__switcher_8c.html#af5af5079d1982d42e165039e6de7e40a",tooltip="TASK - Config switcher task, internal config reloading. "];
+  Node32 -> Node33 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node33 [label="configSwitcherInit",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$config__switcher_8h.html#aafed047c8d04b814a85239e031cbad7b",tooltip="Initializing the config switching functionality. "];
+  Node33 -> Node34 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node34 [label="app_main",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$flipmouse__fabi__esp32__kbdmouse__main_8c.html#abce06be17fc37d675118a678a8100a36",tooltip="Main task, created by esp-idf. "];
+}

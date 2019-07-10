@@ -1,0 +1,29 @@
+digraph "halBLEReset"
+{
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node26 [label="halBLEReset",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black"];
+  Node26 -> Node27 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node27 [label="cmdRa",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$task__commands_8c.html#a0e44fbe2c01b87dee45a6fd1094ab522"];
+  Node26 -> Node28 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node28 [label="configUpdate",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$config__switcher_8h.html#af8fae43accd789bf2355c79ff44c2ae9",tooltip="Request config update. "];
+  Node28 -> Node29 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node29 [label="configSwitcherTask",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$config__switcher_8c.html#af5af5079d1982d42e165039e6de7e40a",tooltip="TASK - Config switcher task, internal config reloading. "];
+  Node29 -> Node30 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node30 [label="configSwitcherInit",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$config__switcher_8h.html#aafed047c8d04b814a85239e031cbad7b",tooltip="Initializing the config switching functionality. "];
+  Node30 -> Node31 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node31 [label="app_main",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$flipmouse__fabi__esp32__kbdmouse__main_8c.html#abce06be17fc37d675118a678a8100a36",tooltip="Main task, created by esp-idf. "];
+  Node28 -> Node32 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node32 [label="task_commands",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$task__commands_8c.html#a7b36c39275d773aaedcb327ef4e1516f"];
+  Node32 -> Node33 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node33 [label="taskCommandsInit",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$task__commands_8h.html#aedb896e40753227f80768e09d3748419",tooltip="Init the command parser. "];
+  Node33 -> Node31 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node32 -> Node34 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node34 [label="taskCommandsRestart",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$task__commands_8h.html#a26091155b4d85093239033d689f363d0",tooltip="Restart the command parser task. "];
+  Node26 -> Node35 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node35 [label="halBLETask",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$hal__ble_8c.html#ac0a136577e62fc87b368eaec618cf31e",tooltip="CONTINOUS TASK - sending HID commands via BLE. "];
+  Node35 -> Node36 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node36 [label="halBLEInit",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$hal__ble_8h.html#a559e9af2167a8f1b05a8304234418ed3",tooltip="Main init function to start HID interface (C interface) "];
+  Node36 -> Node31 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+}

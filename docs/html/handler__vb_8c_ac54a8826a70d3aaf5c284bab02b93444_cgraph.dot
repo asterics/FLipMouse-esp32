@@ -1,0 +1,38 @@
+digraph "handler_vb_init"
+{
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node70 [label="handler_vb_init",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black"];
+  Node70 -> Node71 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node71 [label="handler_vb",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$handler__vb_8c.html#a60c71b4a6cc8a9a3e9e8a3c8e36cffa0",tooltip="VB event handler, triggering VB general actions. "];
+  Node71 -> Node72 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node72 [label="fct_macro",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$fct__macros_8c.html#a6379aedd63a1b0be6343382aa863a456",tooltip="FUNCTION - Macro execution. "];
+  Node71 -> Node73 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node73 [label="halAdcCalibrate",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$hal__adc_8c.html#ae549c157d94729e8b06cb391f0f2c97b",tooltip="Calibration function. "];
+  Node71 -> Node74 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node74 [label="fct_infrared_send",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$fct__infrared_8c.html#a18c2e233aa3a793f43ccb3f67fe90122",tooltip="FUNCTION - Infrared command sending. "];
+  Node74 -> Node75 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node75 [label="halStorageStartTransaction",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$hal__storage_8c.html#aead99606f84645b2bb6ae000461bf819",tooltip="Start a storage transaction. "];
+  Node75 -> Node76 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node76 [label="halStorageInit",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$hal__storage_8c.html#a606e5842dd354f1fb4a738ba95c6d5d1",tooltip="internal function to init the filesystem if handle is invalid "];
+  Node74 -> Node77 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node77 [label="halStorageLoadIR",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$hal__storage_8c.html#aa728fac6a17066ecb910c19338ae5288",tooltip="Load an IR command by name. "];
+  Node77 -> Node78 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node78 [label="halStorageChecks",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$hal__storage_8c.html#a4b6566ef5b69c85d422df52435c95d36",tooltip="Internal helper to check for a valid WL handle and the correct tid. "];
+  Node74 -> Node79 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node79 [label="halStorageFinishTransaction",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$hal__storage_8c.html#a00b5db14e24d7ada8a42aa6b3f1a1cb7",tooltip="Finish a storage transaction. "];
+  Node71 -> Node80 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node80 [label="taskMQTTPublish",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$task__mqtt_8c.html#a6afc039be68c1a831778fe33bd2412a9",tooltip="Publish data via MQTT. "];
+  Node80 -> Node81 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node81 [label="taskMQTTInit",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$task__mqtt_8c.html#ae7ad6f5bfc7cbfc9f6a223fcf697c8f6",tooltip="Init the MQTT task and the wifi. "];
+  Node81 -> Node82 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node82 [label="halStorageNVSLoadString",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$hal__storage_8c.html#a63ec8e05a2bb4c214600e94b8ab05eea",tooltip="Load a string from NVS (global, no slot assignment) "];
+  Node81 -> Node83 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node83 [label="wifi_mqtt_event_handler",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$task__mqtt_8c.html#abb6e44eb5d4a8e840debd2406c055252",tooltip="Default event handler for Wifi. "];
+  Node83 -> Node84 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node84 [label="wifi_get_reason",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$task__mqtt_8c.html#a5a85685932ce7bf4b7239ab1b133cbdd"];
+  Node81 -> Node85 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node85 [label="mqtt_event_handler",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$task__mqtt_8c.html#a5af8e8260f5604ece0ee37eb577e0e26",tooltip="Default event_handler for mqtt. "];
+  Node80 -> Node82 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+}

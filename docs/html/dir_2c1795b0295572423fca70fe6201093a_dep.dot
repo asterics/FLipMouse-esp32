@@ -1,0 +1,17 @@
+digraph "/home/beni/Projects/FLipMouse-esp32/main/hal" {
+  compound=true
+  node [ fontsize="10", fontname="Helvetica"];
+  edge [ labelfontsize="10", labelfontname="Helvetica"];
+  subgraph clusterdir_5c982d53a68cdbcd421152b4020263a9 {
+    graph [ bgcolor="#ddddee", pencolor="black", label="main" fontname="Helvetica", fontsize="10", URL="dir_5c982d53a68cdbcd421152b4020263a9.html"]
+  dir_2c1795b0295572423fca70fe6201093a [shape=box, label="hal", style="filled", fillcolor="#eeeeff", pencolor="black", URL="dir_2c1795b0295572423fca70fe6201093a.html"];
+  }
+  dir_1b962a8abc6754dfc035bfd01f2fa850 [shape=box label="helper" URL="dir_1b962a8abc6754dfc035bfd01f2fa850.html"];
+  dir_dd44d79ba9a472f66a6851d54403189f [shape=box label="function_tasks" URL="dir_dd44d79ba9a472f66a6851d54403189f.html"];
+  dir_1b962a8abc6754dfc035bfd01f2fa850->dir_dd44d79ba9a472f66a6851d54403189f [headlabel="1", labeldistance=1.5 headhref="dir_000004_000002.html"];
+  dir_1b962a8abc6754dfc035bfd01f2fa850->dir_2c1795b0295572423fca70fe6201093a [headlabel="1", labeldistance=1.5 headhref="dir_000004_000003.html"];
+  dir_dd44d79ba9a472f66a6851d54403189f->dir_1b962a8abc6754dfc035bfd01f2fa850 [headlabel="4", labeldistance=1.5 headhref="dir_000002_000004.html"];
+  dir_dd44d79ba9a472f66a6851d54403189f->dir_2c1795b0295572423fca70fe6201093a [headlabel="3", labeldistance=1.5 headhref="dir_000002_000003.html"];
+  dir_2c1795b0295572423fca70fe6201093a->dir_1b962a8abc6754dfc035bfd01f2fa850 [headlabel="1", labeldistance=1.5 headhref="dir_000003_000004.html"];
+  dir_2c1795b0295572423fca70fe6201093a->dir_dd44d79ba9a472f66a6851d54403189f [headlabel="7", labeldistance=1.5 headhref="dir_000003_000002.html"];
+}

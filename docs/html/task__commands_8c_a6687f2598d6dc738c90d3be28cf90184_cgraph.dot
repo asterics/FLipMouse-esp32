@@ -1,0 +1,20 @@
+digraph "cmdMq"
+{
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node319 [label="cmdMq",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black"];
+  Node319 -> Node320 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node320 [label="taskMQTTPublish",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$task__mqtt_8c.html#a6afc039be68c1a831778fe33bd2412a9",tooltip="Publish data via MQTT. "];
+  Node320 -> Node321 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node321 [label="taskMQTTInit",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$task__mqtt_8c.html#ae7ad6f5bfc7cbfc9f6a223fcf697c8f6",tooltip="Init the MQTT task and the wifi. "];
+  Node321 -> Node322 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node322 [label="halStorageNVSLoadString",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$hal__storage_8c.html#a63ec8e05a2bb4c214600e94b8ab05eea",tooltip="Load a string from NVS (global, no slot assignment) "];
+  Node321 -> Node323 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node323 [label="wifi_mqtt_event_handler",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$task__mqtt_8c.html#abb6e44eb5d4a8e840debd2406c055252",tooltip="Default event handler for Wifi. "];
+  Node323 -> Node324 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node324 [label="wifi_get_reason",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$task__mqtt_8c.html#a5a85685932ce7bf4b7239ab1b133cbdd"];
+  Node321 -> Node325 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node325 [label="mqtt_event_handler",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$task__mqtt_8c.html#a5af8e8260f5604ece0ee37eb577e0e26",tooltip="Default event_handler for mqtt. "];
+  Node320 -> Node322 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+}

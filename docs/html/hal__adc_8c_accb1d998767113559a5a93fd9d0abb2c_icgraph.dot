@@ -1,0 +1,27 @@
+digraph "validate"
+{
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node136 [label="validate",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black"];
+  Node136 -> Node137 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node137 [label="halAdcUpdateConfig",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$hal__adc_8h.html#a4135bb73c2271b4a27db8d8d81884de7",tooltip="Reload ADC config. "];
+  Node137 -> Node138 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node138 [label="configUpdate",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$config__switcher_8h.html#af8fae43accd789bf2355c79ff44c2ae9",tooltip="Request config update. "];
+  Node138 -> Node139 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node139 [label="configSwitcherTask",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$config__switcher_8c.html#af5af5079d1982d42e165039e6de7e40a",tooltip="TASK - Config switcher task, internal config reloading. "];
+  Node139 -> Node140 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node140 [label="configSwitcherInit",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$config__switcher_8h.html#aafed047c8d04b814a85239e031cbad7b",tooltip="Initializing the config switching functionality. "];
+  Node140 -> Node141 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node141 [label="app_main",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$flipmouse__fabi__esp32__kbdmouse__main_8c.html#abce06be17fc37d675118a678a8100a36",tooltip="Main task, created by esp-idf. "];
+  Node138 -> Node142 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node142 [label="task_commands",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$task__commands_8c.html#a7b36c39275d773aaedcb327ef4e1516f"];
+  Node142 -> Node143 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node143 [label="taskCommandsInit",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$task__commands_8h.html#aedb896e40753227f80768e09d3748419",tooltip="Init the command parser. "];
+  Node143 -> Node141 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node142 -> Node144 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node144 [label="taskCommandsRestart",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$task__commands_8h.html#a26091155b4d85093239033d689f363d0",tooltip="Restart the command parser task. "];
+  Node137 -> Node145 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node145 [label="halAdcInit",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$hal__adc_8h.html#a6f0d302f35e5b7f7a1144f0ddace35d2",tooltip="Init the ADC driver module. "];
+  Node145 -> Node141 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+}

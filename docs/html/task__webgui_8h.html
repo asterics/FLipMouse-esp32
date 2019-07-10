@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.13"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>FLipMouse/FABI ESP32 firmware: /home/beni/sync/Projects/FH/FLipMouse-esp32/main/function_tasks/task_webgui.h File Reference</title>
+<title>FLipMouse/FABI ESP32 firmware: /home/beni/Projects/FLipMouse-esp32/main/function_tasks/task_webgui.h File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -144,7 +144,7 @@ atcmd_api </dd></dl>
 
 <p class="definition">Definition at line <a class="el" href="task__webgui_8h_source.html#l00070">70</a> of file <a class="el" href="task__webgui_8h_source.html">task_webgui.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="task__webgui_8c_source.html#l00739">taskWebGUIInit()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="task__webgui_8c_source.html#l00744">taskWebGUIInit()</a>.</p>
 
 </div>
 </div>
@@ -221,6 +221,17 @@ atcmd_api </dd></dl>
 <dl class="section return"><dt>Returns</dt><dd>ESP_OK on success, ESP_FAIL otherwise </dd></dl>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
+    <tr><td class="paramname">onoff</td><td>If 0, switch off WiFI completely. If 1 switch on in station mode (and start mqtt). If 2 switch on in AP mode (for configuring via webgui) </td></tr>
+    <tr><td class="paramname">fromISR</td><td>Set to != 0 if this function is called from ISR context. Otherwise a reset will happen. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="common_8h.html#a7c133f995819f3e61446b4881e582b13" title="Minutes between last client disconnected and WiFi is switched off. ">WIFI_OFF_TIME</a></dd></dl>
+<p>This method is used to enable or disable the wifi interface. In order to provide a safe FLipMouse/FABI device, the Wifi hotspot is for configuration purposes only. Therefore, an enabled Wifi hotspot will be automatically disabled within a defined time (see WIFI_OFF_TIME) after the last client was disconnected. In addition, other parts of the software might disable the Wifi prior to the automatic disconnect.</p>
+<dl class="section note"><dt>Note</dt><dd>Calling this method prior to initializing wifi with taskWebGUIInit will result in an error! </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>ESP_OK on success, ESP_FAIL otherwise </dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
     <tr><td class="paramname">onoff</td><td>If != 0, switch on WiFi, switch off if 0. </td></tr>
     <tr><td class="paramname">fromISR</td><td>Set to != 0 if this function is called from ISR context. Otherwise a reset will happen. </td></tr>
   </table>
@@ -236,24 +247,6 @@ Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="task__webgui_8h_a907217aa3488ac68c36595c15da821e0_cgraph.png" border="0" usemap="#task__webgui_8h_a907217aa3488ac68c36595c15da821e0_cgraph" alt=""/></div>
 <map name="task__webgui_8h_a907217aa3488ac68c36595c15da821e0_cgraph" id="task__webgui_8h_a907217aa3488ac68c36595c15da821e0_cgraph">
-<area shape="rect" id="node2" href="task__webgui_8c.html#a88f50c2c18db3f5be0149ec7921bf64b" title="AP mode config, filled in init. " alt="" coords="212,132,315,159"/>
-<area shape="rect" id="node3" href="captdns_8c.html#a8839b10051f013921d546b10cf160d9b" title="captdnsDeinit" alt="" coords="377,56,479,83"/>
-<area shape="rect" id="node4" href="task__webgui_8c.html#a11dd6a5edc46c297b26382ebce3c34cb" title="Event handler for wifi status updates. " alt="" coords="363,107,493,133"/>
-<area shape="rect" id="node8" href="captdns_8c.html#a82f468eb219b14b853eb183149894e92" title="captdnsInit" alt="" coords="385,157,471,184"/>
-<area shape="rect" id="node16" href="task__webgui_8c.html#a5f462e5b8bd4803c256bf22a004eacde" title="CONTINOUS TASK &#45; Websocket server task. " alt="" coords="387,233,469,260"/>
-<area shape="rect" id="node5" href="task__webgui_8c.html#a7f89c77fa56e7ac560e2720baedf07eb" title="Simply reset &amp; start OR stop the auto&#45;off timer. " alt="" coords="569,5,717,32"/>
-<area shape="rect" id="node6" href="task__webgui_8c.html#adf50753dada544362b8f4fb5f8eefde5" title="Get the number of currently connected Wifi stations. " alt="" coords="557,56,728,83"/>
-<area shape="rect" id="node7" href="hal__serial_8c.html#a57242c09ec880fbd08e1a4cd5e64d8e5" title="Remove the additional function for outputting the serial data. " alt="" coords="541,107,744,133"/>
-<area shape="rect" id="node9" href="captdns_8c.html#afbeefb54f301b1f8179ecb1a6efb69a9" title="captdnsTask" alt="" coords="594,157,691,184"/>
-<area shape="rect" id="node10" href="captdns_8c.html#ae3d5d80203823fee0be8b7a591e5a32d" title="captdnsRecv" alt="" coords="792,157,891,184"/>
-<area shape="rect" id="node11" href="captdns_8c.html#adec91475451453070cedc420696c90f1" title="my_ntohs" alt="" coords="1069,81,1148,108"/>
-<area shape="rect" id="node12" href="captdns_8c.html#a5ba2df190357425ca8f277eed3a16d32" title="labelToStr" alt="" coords="939,107,1021,133"/>
-<area shape="rect" id="node13" href="captdns_8c.html#a01294bcdad17e226e50f0c707fee3852" title="strToLabel" alt="" coords="939,157,1021,184"/>
-<area shape="rect" id="node14" href="captdns_8c.html#a21dfd38acc9e61af1ce25d3fe687e22f" title="setn16" alt="" coords="949,208,1011,235"/>
-<area shape="rect" id="node15" href="captdns_8c.html#a4868ba2e5fb29569ef87f4d56c52fc5a" title="setn32" alt="" coords="949,259,1011,285"/>
-<area shape="rect" id="node17" href="hal__serial_8c.html#a143968f329a010a1075a81b976579605" title="Set an additional function for outputting the serial data. " alt="" coords="555,208,731,235"/>
-<area shape="rect" id="node18" href="websocket_8c.html#a215997a5d454937f96cf800e1a44e599" title="WS_write_data" alt="" coords="587,259,698,285"/>
-<area shape="rect" id="node19" href="websocket_8c.html#afc7ea5da54622021156f0df84063abb4" title="ws_server_netconn_serve" alt="" coords="555,309,730,336"/>
 </map>
 </div>
 <div class="dynheader">
@@ -261,10 +254,6 @@ Here is the caller graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="task__webgui_8h_a907217aa3488ac68c36595c15da821e0_icgraph.png" border="0" usemap="#task__webgui_8h_a907217aa3488ac68c36595c15da821e0_icgraph" alt=""/></div>
 <map name="task__webgui_8h_a907217aa3488ac68c36595c15da821e0_icgraph" id="task__webgui_8h_a907217aa3488ac68c36595c15da821e0_icgraph">
-<area shape="rect" id="node2" href="flipmouse__fabi__esp32__kbdmouse__main_8c.html#a93e2ea21db142b4c7172565051a18cb1" title="Switch radio mode. " alt="" coords="369,5,464,32"/>
-<area shape="rect" id="node4" href="task__webgui_8c.html#ae5ad2f76f20781fd8c89e542bcc8a551" title="Timer callback for disabling wifi. " alt="" coords="212,56,311,83"/>
-<area shape="rect" id="node3" href="flipmouse__fabi__esp32__kbdmouse__main_8c.html#abce06be17fc37d675118a678a8100a36" title="Main task, created by esp&#45;idf. " alt="" coords="523,31,601,57"/>
-<area shape="rect" id="node5" href="task__webgui_8h.html#a669b9245d5040c0162481f7b24dbeea7" title="Init the web / DNS server and the web gui. " alt="" coords="359,56,475,83"/>
 </map>
 </div>
 
@@ -312,7 +301,7 @@ IP Adress of the device is <b>192.168.10.1</b> </dd></dl>
 <a class="el" href="common_8h.html#a2ca9c660566d3b177436abdb6d2d6713" title="NVS key for wifi password. ">NVS_WIFIPW</a> </dd></dl>
 <dl class="section return"><dt>Returns</dt><dd>ESP_OK on success, ESP_FAIL otherwise </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="task__webgui_8c_source.html#l00739">739</a> of file <a class="el" href="task__webgui_8c_source.html">task_webgui.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="task__webgui_8c_source.html#l00744">744</a> of file <a class="el" href="task__webgui_8c_source.html">task_webgui.c</a>.</p>
 
 <p class="reference">Referenced by <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c_source.html#l00125">app_main()</a>.</p>
 <div class="dynheader">
@@ -320,35 +309,32 @@ Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="task__webgui_8h_a669b9245d5040c0162481f7b24dbeea7_cgraph.png" border="0" usemap="#task__webgui_8h_a669b9245d5040c0162481f7b24dbeea7_cgraph" alt=""/></div>
 <map name="task__webgui_8h_a669b9245d5040c0162481f7b24dbeea7_cgraph" id="task__webgui_8h_a669b9245d5040c0162481f7b24dbeea7_cgraph">
-<area shape="rect" id="node2" href="hal__storage_8c.html#a63ec8e05a2bb4c214600e94b8ab05eea" title="Load a string from NVS (global, no slot assignment) " alt="" coords="175,32,350,59"/>
-<area shape="rect" id="node3" href="hal__storage_8c.html#aead99606f84645b2bb6ae000461bf819" title="Start a storage transaction. " alt="" coords="173,83,353,109"/>
-<area shape="rect" id="node5" href="hal__storage_8c.html#a00b5db14e24d7ada8a42aa6b3f1a1cb7" title="Finish a storage transaction. " alt="" coords="169,133,356,160"/>
-<area shape="rect" id="node6" href="task__webgui_8c.html#ae5ad2f76f20781fd8c89e542bcc8a551" title="Timer callback for disabling wifi. " alt="" coords="213,184,312,211"/>
-<area shape="rect" id="node27" href="task__webgui_8c.html#adcc5b062c057f73762b1f19b2f6a8185" title="Main webserver task. " alt="" coords="219,247,306,273"/>
-<area shape="rect" id="node4" href="hal__storage_8c.html#a606e5842dd354f1fb4a738ba95c6d5d1" title="internal function to init the filesystem if handle is invalid " alt="" coords="438,79,541,105"/>
-<area shape="rect" id="node7" href="task__webgui_8c.html#a907217aa3488ac68c36595c15da821e0" title="En&#45; or Disable WiFi interface. " alt="" coords="410,129,569,156"/>
-<area shape="rect" id="node26" href="hal__storage_8c.html#aa5da838bef47becbd2b5bd96a60c75b3" title="Get number of currently loaded slot. " alt="" coords="404,181,575,222"/>
-<area shape="rect" id="node8" href="task__webgui_8c.html#a88f50c2c18db3f5be0149ec7921bf64b" title="AP mode config, filled in init. " alt="" coords="623,139,725,165"/>
-<area shape="rect" id="node9" href="captdns_8c.html#a8839b10051f013921d546b10cf160d9b" title="captdnsDeinit" alt="" coords="787,56,890,83"/>
-<area shape="rect" id="node10" href="task__webgui_8c.html#a11dd6a5edc46c297b26382ebce3c34cb" title="Event handler for wifi status updates. " alt="" coords="773,107,904,133"/>
-<area shape="rect" id="node14" href="captdns_8c.html#a82f468eb219b14b853eb183149894e92" title="captdnsInit" alt="" coords="795,157,882,184"/>
-<area shape="rect" id="node22" href="task__webgui_8c.html#a5f462e5b8bd4803c256bf22a004eacde" title="CONTINOUS TASK &#45; Websocket server task. " alt="" coords="797,217,880,244"/>
-<area shape="rect" id="node11" href="task__webgui_8c.html#a7f89c77fa56e7ac560e2720baedf07eb" title="Simply reset &amp; start OR stop the auto&#45;off timer. " alt="" coords="979,5,1127,32"/>
-<area shape="rect" id="node12" href="task__webgui_8c.html#adf50753dada544362b8f4fb5f8eefde5" title="Get the number of currently connected Wifi stations. " alt="" coords="968,56,1139,83"/>
-<area shape="rect" id="node13" href="hal__serial_8c.html#a57242c09ec880fbd08e1a4cd5e64d8e5" title="Remove the additional function for outputting the serial data. " alt="" coords="952,107,1155,133"/>
-<area shape="rect" id="node15" href="captdns_8c.html#afbeefb54f301b1f8179ecb1a6efb69a9" title="captdnsTask" alt="" coords="1005,157,1102,184"/>
-<area shape="rect" id="node16" href="captdns_8c.html#ae3d5d80203823fee0be8b7a591e5a32d" title="captdnsRecv" alt="" coords="1203,157,1301,184"/>
-<area shape="rect" id="node17" href="captdns_8c.html#adec91475451453070cedc420696c90f1" title="my_ntohs" alt="" coords="1480,81,1559,108"/>
-<area shape="rect" id="node18" href="captdns_8c.html#a5ba2df190357425ca8f277eed3a16d32" title="labelToStr" alt="" coords="1350,107,1431,133"/>
-<area shape="rect" id="node19" href="captdns_8c.html#a01294bcdad17e226e50f0c707fee3852" title="strToLabel" alt="" coords="1349,157,1432,184"/>
-<area shape="rect" id="node20" href="captdns_8c.html#a21dfd38acc9e61af1ce25d3fe687e22f" title="setn16" alt="" coords="1360,208,1421,235"/>
-<area shape="rect" id="node21" href="captdns_8c.html#a4868ba2e5fb29569ef87f4d56c52fc5a" title="setn32" alt="" coords="1360,259,1421,285"/>
-<area shape="rect" id="node23" href="hal__serial_8c.html#a143968f329a010a1075a81b976579605" title="Set an additional function for outputting the serial data. " alt="" coords="965,208,1141,235"/>
-<area shape="rect" id="node24" href="websocket_8c.html#a215997a5d454937f96cf800e1a44e599" title="WS_write_data" alt="" coords="998,259,1109,285"/>
-<area shape="rect" id="node25" href="websocket_8c.html#afc7ea5da54622021156f0df84063abb4" title="ws_server_netconn_serve" alt="" coords="966,309,1141,336"/>
-<area shape="rect" id="node28" href="task__webgui_8c.html#aef8b19daf6cb6fae49c2da83a52f6c6b" title="Handle an incoming HTTP connection. " alt="" coords="419,298,559,339"/>
-<area shape="rect" id="node29" href="task__webgui_8c.html#adc293b203ede5bd0fec29f304ce67eda" title="Serve static content from FAT. " alt="" coords="636,305,712,332"/>
-<area shape="rect" id="node30" href="task__webgui_8c.html#a3f8ca93e9a4e4726ea422a81dd72b7d8" title="Helper, sending redirect header. " alt="" coords="806,305,871,332"/>
+<area shape="rect" id="node2" href="hal__storage_8c.html#a63ec8e05a2bb4c214600e94b8ab05eea" title="Load a string from NVS (global, no slot assignment) " alt="" coords="175,56,350,83"/>
+<area shape="rect" id="node3" href="task__webgui_8c.html#a11dd6a5edc46c297b26382ebce3c34cb" title="Event handler for wifi status updates. " alt="" coords="197,107,328,133"/>
+<area shape="rect" id="node7" href="captdns_8c.html#a82f468eb219b14b853eb183149894e92" title="captdnsInit" alt="" coords="219,157,306,184"/>
+<area shape="rect" id="node15" href="hal__storage_8c.html#aead99606f84645b2bb6ae000461bf819" title="Start a storage transaction. " alt="" coords="173,208,353,235"/>
+<area shape="rect" id="node17" href="hal__storage_8c.html#a00b5db14e24d7ada8a42aa6b3f1a1cb7" title="Finish a storage transaction. " alt="" coords="169,259,356,285"/>
+<area shape="rect" id="node18" href="task__webgui_8c.html#ae5ad2f76f20781fd8c89e542bcc8a551" title="Timer callback for disabling wifi. " alt="" coords="213,309,312,336"/>
+<area shape="rect" id="node20" href="task__webgui_8c.html#adcc5b062c057f73762b1f19b2f6a8185" title="CONTINOUS TASK &#45; Main webserver task. " alt="" coords="219,360,306,387"/>
+<area shape="rect" id="node24" href="task__webgui_8c.html#a5f462e5b8bd4803c256bf22a004eacde" title="CONTINOUS TASK &#45; Websocket server task. " alt="" coords="221,444,304,471"/>
+<area shape="rect" id="node4" href="task__webgui_8c.html#a7f89c77fa56e7ac560e2720baedf07eb" title="Simply reset &amp; start OR stop the auto&#45;off timer. " alt="" coords="431,5,579,32"/>
+<area shape="rect" id="node5" href="task__webgui_8c.html#adf50753dada544362b8f4fb5f8eefde5" title="Get the number of currently connected Wifi stations. " alt="" coords="420,56,591,83"/>
+<area shape="rect" id="node6" href="hal__serial_8c.html#a57242c09ec880fbd08e1a4cd5e64d8e5" title="Remove the additional function for outputting the serial data. " alt="" coords="404,107,607,133"/>
+<area shape="rect" id="node8" href="captdns_8c.html#afbeefb54f301b1f8179ecb1a6efb69a9" title="captdnsTask" alt="" coords="457,157,554,184"/>
+<area shape="rect" id="node9" href="captdns_8c.html#ae3d5d80203823fee0be8b7a591e5a32d" title="captdnsRecv" alt="" coords="655,157,753,184"/>
+<area shape="rect" id="node10" href="captdns_8c.html#adec91475451453070cedc420696c90f1" title="my_ntohs" alt="" coords="932,81,1011,108"/>
+<area shape="rect" id="node11" href="captdns_8c.html#a5ba2df190357425ca8f277eed3a16d32" title="labelToStr" alt="" coords="802,107,883,133"/>
+<area shape="rect" id="node12" href="captdns_8c.html#a01294bcdad17e226e50f0c707fee3852" title="strToLabel" alt="" coords="801,157,884,184"/>
+<area shape="rect" id="node13" href="captdns_8c.html#a21dfd38acc9e61af1ce25d3fe687e22f" title="setn16" alt="" coords="812,208,873,235"/>
+<area shape="rect" id="node14" href="captdns_8c.html#a4868ba2e5fb29569ef87f4d56c52fc5a" title="setn32" alt="" coords="812,259,873,285"/>
+<area shape="rect" id="node16" href="hal__storage_8c.html#a606e5842dd354f1fb4a738ba95c6d5d1" title="internal function to init the filesystem if handle is invalid " alt="" coords="454,208,557,235"/>
+<area shape="rect" id="node19" href="task__webgui_8c.html#af4fe29c8fc1fde365cdb8344cb402156" title="En&#45; or Disable WiFi interface. " alt="" coords="426,301,585,328"/>
+<area shape="rect" id="node21" href="task__webgui_8c.html#aef8b19daf6cb6fae49c2da83a52f6c6b" title="Handle an incoming HTTP connection. " alt="" coords="435,353,575,394"/>
+<area shape="rect" id="node22" href="task__webgui_8c.html#adc293b203ede5bd0fec29f304ce67eda" title="Serve static content from FAT. " alt="" coords="666,360,742,387"/>
+<area shape="rect" id="node23" href="task__webgui_8c.html#a3f8ca93e9a4e4726ea422a81dd72b7d8" title="Helper, sending redirect header. " alt="" coords="810,360,875,387"/>
+<area shape="rect" id="node25" href="hal__serial_8c.html#a143968f329a010a1075a81b976579605" title="Set an additional function for outputting the serial data. " alt="" coords="417,419,593,445"/>
+<area shape="rect" id="node26" href="websocket_8c.html#a215997a5d454937f96cf800e1a44e599" title="WS_write_data" alt="" coords="450,469,561,496"/>
+<area shape="rect" id="node27" href="websocket_8c.html#afc7ea5da54622021156f0df84063abb4" title="ws_server_netconn_serve" alt="" coords="418,520,593,547"/>
 </map>
 </div>
 <div class="dynheader">

@@ -1,0 +1,15 @@
+digraph "cmdRa"
+{
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node346 [label="cmdRa",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black"];
+  Node346 -> Node347 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node347 [label="halBLEReset",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$hal__ble_8c.html#accf307974a0046bce38582d0260bf841",tooltip="Reset the BLE data. "];
+  Node347 -> Node348 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node348 [label="hid_dev_send_report",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$hid__dev_8c.html#a8ae7c69dfd4b740534df123a303a8832"];
+  Node348 -> Node349 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node349 [label="hid_dev_rpt_by_id",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$hid__dev_8c.html#a1a247bc038a3368cea0bde2303aa8301"];
+  Node346 -> Node350 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node350 [label="halSerialReset",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$hal__serial_8c.html#ab2261f95747ee5806ebdec880d09ca89",tooltip="Reset the serial HID report data. "];
+}

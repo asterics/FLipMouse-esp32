@@ -495,6 +495,6 @@ var searchData=
   ['http_5fserver',['http_server',['../task__webgui_8c.html#adcc5b062c057f73762b1f19b2f6a8185',1,'task_webgui.c']]],
   ['http_5fserver_5fnetconn_5fserve',['http_server_netconn_serve',['../task__webgui_8c.html#aef8b19daf6cb6fae49c2da83a52f6c6b',1,'task_webgui.c']]],
   ['http_5fsockfd',['http_sockfd',['../task__webgui_8c.html#a8a8919c79faf725f484abbdd3151a07f',1,'task_webgui.c']]],
-  ['howto_20add_20a_20new_20function',['Howto add a new function',['../md__home_beni_sync_Projects_FH_FLipMouse-esp32_main_README_add_new_Function.html',1,'']]],
-  ['how_20configuration_20is_20handled',['How configuration is handled',['../md__home_beni_sync_Projects_FH_FLipMouse-esp32_main_README_slotdescription.html',1,'']]]
+  ['howto_20add_20a_20new_20function',['Howto add a new function',['../md__home_beni_Projects_FLipMouse-esp32_main_README_add_new_Function.html',1,'']]],
+  ['how_20configuration_20is_20handled',['How configuration is handled',['../md__home_beni_Projects_FLipMouse-esp32_main_README_slotdescription.html',1,'']]]
 ];

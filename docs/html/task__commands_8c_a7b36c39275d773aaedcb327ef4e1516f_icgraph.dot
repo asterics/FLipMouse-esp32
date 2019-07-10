@@ -1,0 +1,13 @@
+digraph "task_commands"
+{
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node558 [label="task_commands",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black"];
+  Node558 -> Node559 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node559 [label="taskCommandsInit",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$task__commands_8h.html#aedb896e40753227f80768e09d3748419",tooltip="Init the command parser. "];
+  Node559 -> Node560 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node560 [label="app_main",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$flipmouse__fabi__esp32__kbdmouse__main_8c.html#abce06be17fc37d675118a678a8100a36",tooltip="Main task, created by esp-idf. "];
+  Node558 -> Node561 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node561 [label="taskCommandsRestart",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$task__commands_8h.html#a26091155b4d85093239033d689f363d0",tooltip="Restart the command parser task. "];
+}

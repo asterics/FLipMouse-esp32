@@ -1,0 +1,21 @@
+digraph "wifi_get_reason"
+{
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node33 [label="wifi_get_reason",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black"];
+  Node33 -> Node34 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node34 [label="wifi_mqtt_event_handler",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$task__mqtt_8c.html#abb6e44eb5d4a8e840debd2406c055252",tooltip="Default event handler for Wifi. "];
+  Node34 -> Node35 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node35 [label="taskMQTTInit",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$task__mqtt_8h.html#ae7ad6f5bfc7cbfc9f6a223fcf697c8f6",tooltip="Init the MQTT task and the wifi. "];
+  Node35 -> Node36 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node36 [label="taskMQTTPublish",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$task__mqtt_8h.html#a6afc039be68c1a831778fe33bd2412a9",tooltip="Publish data via MQTT. "];
+  Node36 -> Node37 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node37 [label="handler_vb",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$handler__vb_8c.html#a60c71b4a6cc8a9a3e9e8a3c8e36cffa0",tooltip="VB event handler, triggering VB general actions. "];
+  Node37 -> Node38 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node38 [label="handler_vb_init",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$handler__vb_8h.html#ac54a8826a70d3aaf5c284bab02b93444",tooltip="Init for the VB handler. "];
+  Node38 -> Node39 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node39 [label="app_main",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$flipmouse__fabi__esp32__kbdmouse__main_8c.html#abce06be17fc37d675118a678a8100a36",tooltip="Main task, created by esp-idf. "];
+  Node36 -> Node40 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node40 [label="cmdMq",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$task__commands_8c.html#a6687f2598d6dc738c90d3be28cf90184"];
+}

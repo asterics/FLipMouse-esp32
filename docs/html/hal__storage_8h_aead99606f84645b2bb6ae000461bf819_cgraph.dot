@@ -1,0 +1,9 @@
+digraph "halStorageStartTransaction"
+{
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node232 [label="halStorageStartTransaction",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black"];
+  Node232 -> Node233 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node233 [label="halStorageInit",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$hal__storage_8c.html#a606e5842dd354f1fb4a738ba95c6d5d1",tooltip="internal function to init the filesystem if handle is invalid "];
+}

@@ -1,0 +1,42 @@
+digraph "halSerialInitI2C"
+{
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node24 [label="halSerialInitI2C",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black"];
+  Node24 -> Node25 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node25 [label="halSerialHIDTask",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$hal__serial_8c.html#a6689f99c3a8e5f787a3d995260d8d298",tooltip="CONTINOUS TASK - Process HID commands & send via HID wire to LPC. "];
+  Node25 -> Node26 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node26 [label="halSerialInit",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$hal__serial_8h.html#a2d03c06463b09e33d87d90eb273819b0",tooltip="Initialize the serial HAL. "];
+  Node26 -> Node27 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node27 [label="app_main",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$flipmouse__fabi__esp32__kbdmouse__main_8c.html#abce06be17fc37d675118a678a8100a36",tooltip="Main task, created by esp-idf. "];
+  Node24 -> Node26 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node24 -> Node28 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node28 [label="halSerialReceiveI2CADC",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$hal__serial_8h.html#a5dd33d8e55ba33bdecfa78bc11c618b3",tooltip="Read ADC data via I2C from LPC chip. "];
+  Node28 -> Node29 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node29 [label="halAdcReportRaw",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$hal__adc_8c.html#a8743abcde6f190545c429f072c16106d",tooltip="Report raw values via serial interface. "];
+  Node29 -> Node30 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node30 [label="halAdcProcessPressure",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$hal__adc_8c.html#a78419739020988cffc83ffcbc7103b05",tooltip="Process pressure sensor (sip & puff) "];
+  Node30 -> Node31 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node31 [label="halAdcTaskThreshold",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$hal__adc_8c.html#aee719704e643d27c1faab768cf4bc22e",tooltip="HAL TASK - Threshold task for ADC. "];
+  Node31 -> Node32 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node32 [label="halAdcUpdateConfig",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$hal__adc_8h.html#a4135bb73c2271b4a27db8d8d81884de7",tooltip="Reload ADC config. "];
+  Node32 -> Node33 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node33 [label="configUpdate",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$config__switcher_8h.html#af8fae43accd789bf2355c79ff44c2ae9",tooltip="Request config update. "];
+  Node33 -> Node34 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node34 [label="configSwitcherTask",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$config__switcher_8c.html#af5af5079d1982d42e165039e6de7e40a",tooltip="TASK - Config switcher task, internal config reloading. "];
+  Node34 -> Node35 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node35 [label="configSwitcherInit",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$config__switcher_8h.html#aafed047c8d04b814a85239e031cbad7b",tooltip="Initializing the config switching functionality. "];
+  Node35 -> Node27 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node33 -> Node36 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node36 [label="task_commands",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$task__commands_8c.html#a7b36c39275d773aaedcb327ef4e1516f"];
+  Node36 -> Node37 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node37 [label="taskCommandsInit",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$task__commands_8h.html#aedb896e40753227f80768e09d3748419",tooltip="Init the command parser. "];
+  Node37 -> Node27 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node36 -> Node38 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node38 [label="taskCommandsRestart",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$task__commands_8h.html#a26091155b4d85093239033d689f363d0",tooltip="Restart the command parser task. "];
+  Node32 -> Node39 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node39 [label="halAdcInit",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$hal__adc_8h.html#a6f0d302f35e5b7f7a1144f0ddace35d2",tooltip="Init the ADC driver module. "];
+  Node39 -> Node27 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node29 -> Node31 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+}

@@ -1,0 +1,35 @@
+digraph "halStorageGetNameForNumber"
+{
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node79 [label="halStorageGetNameForNumber",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black"];
+  Node79 -> Node80 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node80 [label="halStorageGetNumberForName",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$hal__storage_8h.html#aae19bcf97360ccd7af4ddf906ff85141",tooltip="Get the number of a slotname. "];
+  Node80 -> Node81 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node81 [label="cmdDn",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$task__commands_8c.html#ac030838bfc9da5b3dc3b3357b0606485"];
+  Node80 -> Node82 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node82 [label="storeSlot",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$task__commands_8c.html#a78b669ea961463eb05d2016e0b41ff86",tooltip="Save current config to flash. "];
+  Node82 -> Node83 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node83 [label="cmdSa",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$task__commands_8c.html#ab06b29638d917a9356bda072e158449e"];
+  Node82 -> Node84 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node84 [label="sendErrorBack",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$task__commands_8c.html#acea81ba8a182ae78feb2db6418fc1806"];
+  Node84 -> Node85 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node85 [label="keyboard_helper_parsekeycode",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$task__commands_8c.html#a48f6d7719b9f1d99a9ead7c2aa623e22"];
+  Node85 -> Node86 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node86 [label="cmdKh",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$task__commands_8c.html#aec535c106610969fcf7b9589f08c4d6e"];
+  Node85 -> Node87 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node87 [label="cmdKp",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$task__commands_8c.html#a43e8a43643ac7048c95d0c6922dcdcd9"];
+  Node85 -> Node88 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node88 [label="cmdKr",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$task__commands_8c.html#a8762283490f363d0f98506fa908a228c"];
+  Node85 -> Node89 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node89 [label="cmdKt",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$task__commands_8c.html#ab90e3fb0ef55d084b15aae27f76ab0d9"];
+  Node80 -> Node90 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node90 [label="halStorageLoadName",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$hal__storage_8h.html#a57cdf5734cdbad3dbb5f18f71dd27501",tooltip="Load a slot by a slot name. "];
+  Node90 -> Node91 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node91 [label="configSwitcherTask",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$config__switcher_8c.html#af5af5079d1982d42e165039e6de7e40a",tooltip="TASK - Config switcher task, internal config reloading. "];
+  Node91 -> Node92 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node92 [label="configSwitcherInit",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$config__switcher_8h.html#aafed047c8d04b814a85239e031cbad7b",tooltip="Initializing the config switching functionality. "];
+  Node92 -> Node93 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node93 [label="app_main",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$flipmouse__fabi__esp32__kbdmouse__main_8c.html#abce06be17fc37d675118a678a8100a36",tooltip="Main task, created by esp-idf. "];
+}

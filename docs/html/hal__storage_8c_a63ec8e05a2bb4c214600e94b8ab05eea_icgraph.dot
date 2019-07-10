@@ -1,0 +1,23 @@
+digraph "halStorageNVSLoadString"
+{
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node298 [label="halStorageNVSLoadString",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black"];
+  Node298 -> Node299 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node299 [label="taskMQTTInit",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$task__mqtt_8h.html#ae7ad6f5bfc7cbfc9f6a223fcf697c8f6",tooltip="Init the MQTT task and the wifi. "];
+  Node299 -> Node300 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node300 [label="taskMQTTPublish",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$task__mqtt_8h.html#a6afc039be68c1a831778fe33bd2412a9",tooltip="Publish data via MQTT. "];
+  Node300 -> Node301 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node301 [label="cmdMq",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$task__commands_8c.html#a6687f2598d6dc738c90d3be28cf90184"];
+  Node300 -> Node302 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node302 [label="handler_vb",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$handler__vb_8c.html#a60c71b4a6cc8a9a3e9e8a3c8e36cffa0",tooltip="VB event handler, triggering VB general actions. "];
+  Node302 -> Node303 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node303 [label="handler_vb_init",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$handler__vb_8h.html#ac54a8826a70d3aaf5c284bab02b93444",tooltip="Init for the VB handler. "];
+  Node303 -> Node304 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node304 [label="app_main",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$flipmouse__fabi__esp32__kbdmouse__main_8c.html#abce06be17fc37d675118a678a8100a36",tooltip="Main task, created by esp-idf. "];
+  Node298 -> Node300 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node298 -> Node305 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node305 [label="taskWebGUIInit",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$task__webgui_8h.html#a669b9245d5040c0162481f7b24dbeea7",tooltip="Init the web / DNS server and the web gui. "];
+  Node305 -> Node304 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+}

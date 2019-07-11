@@ -35,10 +35,10 @@
  * 
  * */
 
-#include "task_mqtt.h"
+#include "task_smarthome.h"
 
 /** @brief Logging tag for this module */
-#define LOG_TAG "mqtt"
+#define LOG_TAG "SH"
 /** @brief Log level for the web/websocket server */
 #define LOG_LEVEL_MQTT ESP_LOG_DEBUG
 

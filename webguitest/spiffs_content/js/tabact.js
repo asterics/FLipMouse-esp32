@@ -97,6 +97,12 @@ function initAdditionalData(atCmd) {
             L('#' + C.ADDITIONAL_FIELD_SELECT).innerHTML = L.createSelectItems(flip.getSlots());
             L('[for=' + C.ADDITIONAL_FIELD_SELECT + ']')[0].innerHTML = 'Slot';
             break;
+        case C.AT_CMD_REST:
+            L.setVisible('#WRAPPER_' + C.ADDITIONAL_FIELD_TEXT);
+            break;
+        case C.AT_CMD_MQTT_PUBLISH:
+            L.setVisible('#WRAPPER_' + C.ADDITIONAL_FIELD_TEXT);
+            break;
     }
 }
 

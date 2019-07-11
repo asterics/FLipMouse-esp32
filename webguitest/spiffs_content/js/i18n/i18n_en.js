@@ -46,6 +46,12 @@ i18n[C.AT_CMD_RELEASE_MOUSE_M] = 'Release middle mouse button';
 i18n[C.AT_CMD_MOUSEWHEEL_UP] = 'Move mouse wheel up';
 i18n[C.AT_CMD_MOUSEWHEEL_DOWN] = 'Move mouse wheel down';
 
+i18n[C.AT_CMD_MQTT_BROKER] = 'MQTT broker URL';
+i18n[C.AT_CMD_MQTT_PUBLISH] = 'MQTT Publish Message';
+i18n[C.AT_CMD_WIFI_SSID] = 'WiFi Name';
+i18n[C.AT_CMD_WIFI_PW] = 'WiFi password';
+i18n[C.AT_CMD_REST] = 'HTTP REST Call';
+
 i18n[C.AT_CMD_CALIBRATION] = 'Trigger zeropoint calibration';
 i18n[C.AT_CMD_NEXT_SLOT] = 'Load next slot';
 i18n[C.AT_CMD_LOAD_SLOT] = 'Load slot by name';

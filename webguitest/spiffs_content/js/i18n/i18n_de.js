@@ -46,6 +46,12 @@ i18n[C.AT_CMD_RELEASE_MOUSE_M] = 'Auslassen mittlere Maustaste';
 i18n[C.AT_CMD_MOUSEWHEEL_UP] = 'Mausrad nach oben bewegen';
 i18n[C.AT_CMD_MOUSEWHEEL_DOWN] = 'Mausrad nach unten bewegen';
 
+i18n[C.AT_CMD_MQTT_BROKER] = 'MQTT Broker festlegen';
+i18n[C.AT_CMD_MQTT_PUBLISH] = 'MQTT Publish Nachricht';
+i18n[C.AT_CMD_WIFI_SSID] = 'WLAN Name';
+i18n[C.AT_CMD_WIFI_PW] = 'WLAN Passwort';
+i18n[C.AT_CMD_REST] = 'HTTP REST Aufruf';
+
 i18n[C.AT_CMD_CALIBRATION] = 'Starte Nullpunkt Kalibrierung';
 i18n[C.AT_CMD_NEXT_SLOT] = 'Nächsten Slot laden';
 i18n[C.AT_CMD_LOAD_SLOT] = 'Slot per Name laden';

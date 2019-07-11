@@ -118,6 +118,8 @@ static esp_err_t mqtt_event_handler(esp_mqtt_event_handle_t event)
         case MQTT_EVENT_CONNECTED:
             ESP_LOGI(LOG_TAG, "MQTT_EVENT_CONNECTED");
             xEventGroupSetBits(smarthomestatus, SH_MQTT_ACTIVE);
+            //if we got connected -> start
+            esp_mqtt_client_start(mqtt_client);
             break;
         case MQTT_EVENT_DISCONNECTED:
             ESP_LOGI(LOG_TAG, "MQTT_EVENT_DISCONNECTED");
@@ -149,101 +151,69 @@ static esp_err_t mqtt_event_handler(esp_mqtt_event_handle_t event)
 }
 
 
-/** @brief Init the MQTT task and the wifi
+/** @brief Init the REST client and wifi (if necessary)
  * 
- * This init function initializes the wifi in station mode and the MQTT task.
+ * This init function initializes the REST client.
+ * In addition, if wifi is not active, initialize it here.
  * 
- * @see NVS_STATIONNAME
- * @see NVS_STATIONPW
+ * @see SH_REST_INITIALIZED
+ * @see taskWifiInit
+ * @see taskRESTDeInit
+ * @note Please activate only if necessary by any configuration.
+ * @note Memory will be freed only on taskRESTDeInit
+ * @return ESP_OK on success, ESP_FAIL otherwise
+ * */
+esp_err_t taskRESTInit(void)
+{
+  //check if already initialized, if yes we are finished here, if no:
+  //set bit immediately and continue
+  if(xEventGroupGetBits(smarthomestatus) & SH_REST_INITIALIZED) return ESP_OK;
+  xEventGroupSetBits(smarthomestatus, SH_REST_INITIALIZED);
+  
+  //check if we need to initialize wifi before
+  if(!(xEventGroupGetBits(smarthomestatus) & SH_WIFI_INITIALIZED))
+  {
+    taskWifiInit();
+  }
+  
+  ///TODO ab hier...
+}
+
+/** @brief Init the MQTT client and wifi (if necessary)
+ * 
+ * This init function initializes the MQTT client.
+ * In addition, if wifi is not active, initialize it here.
+ * 
  * @see NVS_MQTT_BROKER
+ * @see SH_MQTT_INITIALIZED
+ * @see taskWifiInit
  * @note Please activate only if necessary by any configuration.
  * @return ESP_OK on success, ESP_FAIL otherwise
  * */
 esp_err_t taskMQTTInit(void)
 {
-  //nothing to start...
-  if(mqttactive != 0) return ESP_OK;
+  //check if already initialized, if yes we are finished here, if no:
+  //set bit immediately and continue
+  if(xEventGroupGetBits(smarthomestatus) & SH_MQTT_INITIALIZED) return ESP_OK;
+  xEventGroupSetBits(smarthomestatus, SH_MQTT_INITIALIZED);
+  
+  //check if we need to initialize wifi before
+  if(!(xEventGroupGetBits(smarthomestatus) & SH_WIFI_INITIALIZED))
+  {
+    taskWifiInit();
+  }
   
   esp_log_level_set(LOG_TAG, LOG_LEVEL_MQTT);
-  
-  char wifipw[64];
-  char wifiname[32];
+
   /** @brief MQTT broker host name/ip */
   char mqttbroker[101];
   esp_err_t ret;
 
-  //get wifi connection infos
-  ret = halStorageNVSLoadString(NVS_STATIONNAME,wifiname);
-  if(ret != ESP_OK)
-  {
-    ESP_LOGE(LOG_TAG,"Error reading wifi name, cannot connect: %d",ret);
-    return ESP_FAIL;
-  }
-  
-  ret = halStorageNVSLoadString(NVS_STATIONPW,wifipw);
-  if(ret != ESP_OK)
-  {
-    ESP_LOGE(LOG_TAG,"Error reading wifi password, cannot connect: %d",ret);
-    return ESP_FAIL;
-  }
-  
   //get mqtt broker URL
   ret = halStorageNVSLoadString(NVS_MQTT_BROKER,mqttbroker);
   if(ret != ESP_OK)
   {
     ESP_LOGE(LOG_TAG,"Error reading MQTT broker, cannot connect: %d",ret);
-    return ESP_FAIL;
-  }
-
-  //init Wifi in station mode
-  tcpip_adapter_init();
-  //if event loop init fails, we might have an already initialized event loop
-	//in this case, just add the handler of this file.
-  if(esp_event_loop_init(wifi_sh_event_handler, NULL) != ESP_OK)
-  {
-		if(esp_event_loop_set_cb(wifi_sh_event_handler,NULL) != ESP_OK)
-    {
-      ESP_LOGE(LOG_TAG,"Error initialising event loop");
-      return ESP_FAIL;
-    }
-	}
-  
-  wifi_init_config_t cfg = WIFI_INIT_CONFIG_DEFAULT();
-  if(esp_wifi_init(&cfg) != ESP_OK)
-  {
-    ESP_LOGE(LOG_TAG,"Error init wifi, cannot connect");
-    return ESP_FAIL;
-  }
-    
-  if(esp_wifi_set_storage(WIFI_STORAGE_RAM) != ESP_OK)
-  {
-    ESP_LOGE(LOG_TAG,"Error setting wifi storage, cannot connect");
-    return ESP_FAIL;
-  }
-  //wifi_config_t wifi_config;
-  strncpy((char*)wifi_config.sta.ssid,wifiname,31);
-  strncpy((char*)wifi_config.sta.password,wifipw,63);
-      /*wifi_config_t wifi_config = {
-        .sta = {
-            .ssid = "aat-technikum2.4GHz",
-            .password = "2AATractive$$"
-        },
-    };*/
-  
-  if(esp_wifi_set_mode(WIFI_MODE_STA) != ESP_OK)
-  {
-    ESP_LOGE(LOG_TAG,"Error setting wifi mode, cannot connect");
-    return ESP_FAIL;
-  }
-  if(esp_wifi_set_config(ESP_IF_WIFI_STA, &wifi_config) != ESP_OK)
-  {
-    ESP_LOGE(LOG_TAG,"Error setting wifi config, cannot connect");
-    return ESP_FAIL;
-  }
-  ESP_LOGI(LOG_TAG, "start the WIFI SSID:[%s]/[%s]", wifi_config.sta.ssid,wifi_config.sta.password);
-  if(esp_wifi_start() != ESP_OK)
-  {
-    ESP_LOGE(LOG_TAG,"Error starting wifi, cannot connect");
     return ESP_FAIL;
   }
   
@@ -254,8 +224,6 @@ esp_err_t taskMQTTInit(void)
   };
   mqtt_client = esp_mqtt_client_init(&mqtt_cfg);
   
-  //now we are initialized, do not do this again...
-  mqttactive = 1;
   return ESP_OK;
 }
 
@@ -341,41 +309,58 @@ esp_err_t taskWifiInit(void)
     ESP_LOGE(LOG_TAG,"Error starting wifi, cannot connect");
     return ESP_FAIL;
   }
-  
-  //init mqtt
-  esp_mqtt_client_config_t mqtt_cfg = {
-    .uri = mqttbroker,
-    .event_handle = mqtt_event_handler,
-  };
-  mqtt_client = esp_mqtt_client_init(&mqtt_cfg);
-  
-  //now we are initialized, do not do this again...
-  mqttactive = 1;
+
   return ESP_OK;
 }
 
-/** @brief Deinit the MQTT task and the wifi
+/** @brief Deinit MQTT
  * 
- * This function deactives MQTT/WiFi in station mode. It is necessary
- * if the webGUI should be switched on.
+ * This function deactives MQTT
  * 
  * @return ESP_OK on success, ESP_FAIL otherwise
  * */
 esp_err_t taskMQTTDeInit(void)
 {
-  //nothing to stop...
-  if(mqttactive == 0) return ESP_OK;
-  
-  esp_mqtt_client_stop(mqtt_client);
-  esp_mqtt_client_destroy(mqtt_client);
-  
-  esp_wifi_disconnect();
-  esp_wifi_stop();
-  esp_wifi_deinit();
-  
-  mqttactive = 0;
-  
-  //TODO: de-init wifi and stop MQTT task
+  //only if mqtt is initialized
+  if(xEventGroupGetBits(smarthomestatus) & SH_MQTT_INITIALIZED)
+  {
+    esp_mqtt_client_stop(mqtt_client);
+    esp_mqtt_client_destroy(mqtt_client);
+  }
+  return ESP_OK;
+}
+
+/** @brief Deinit REST
+ * 
+ * This function deactives the REST client
+ * 
+ * @return ESP_OK on success, ESP_FAIL otherwise
+ * */
+esp_err_t taskRESTDeInit(void)
+{
+  //only if mqtt is initialized
+  if(xEventGroupGetBits(smarthomestatus) & SH_REST_INITIALIZED)
+  {
+    ///TODO
+  }
+  return ESP_OK;
+}
+
+/** @brief Deinit wifi
+ * 
+ * This function deactives WiFi in station mode.
+ * 
+ * @return ESP_OK on success, ESP_FAIL otherwise
+ * */
+esp_err_t taskWifiDeInit(void)
+{
+  //only if mqtt is initialized
+  if(xEventGroupGetBits(smarthomestatus) & SH_WIFI_INITIALIZED)
+  {
+    esp_wifi_disconnect();
+    esp_wifi_stop();
+    esp_wifi_deinit();
+  }
   return ESP_OK;
 }
 
@@ -393,20 +378,11 @@ esp_err_t taskMQTTDeInit(void)
  * */
 esp_err_t taskMQTTPublish(char* topic_payload)
 {
-  
-      //if we got our IP, connect mqtt...
-      esp_mqtt_client_start(mqtt_client);
-  
-  ///TODO: auf MQTT flag prüfen, starten/init und dann auf flag warten
-  if(mqttactive == 0)
+  //we can call it multiple times, if the flag is set, init does nothing
+  if(taskMQTTInit() != ESP_OK)
   {
-    if(taskMQTTInit() != ESP_OK)
-    {
-      ESP_LOGE(LOG_TAG,"Error init MQTT");
-      return ESP_FAIL;
-    } else {
-      ESP_LOGI(LOG_TAG,"Publish without initialised MQTT, init now");
-    }
+    ESP_LOGE(LOG_TAG,"Error init MQTT");
+    return ESP_FAIL;
   }
   
   char delim[3] = ":";

@@ -420,7 +420,8 @@ typedef enum {
   T_CALIBRATE, /** @brief Calibrationrequest */
   T_SENDIR, /** @brief Send an IR command */
   T_MACRO, /** @brief Trigger macro execution */
-  T_MQTT /** @brief Trigger a MQTT publish */
+  T_MQTT, /** @brief Trigger a MQTT publish */
+  T_REST /** @brief Trigger a REST call */
 } vb_cmd_type_t;
 
 /** @brief Complete configuration for the current settings.
@@ -579,7 +580,7 @@ typedef struct raw_action {
 /** @brief Strips away \\r\\t and \\n */
 void strip(char *s);
 
-/** @brief NVS key for wifi password */
+/** @brief NVS key for wifi password in SoftAP mode (configuration GUI) */
 #define NVS_WIFIPW  "nvswifipw"
 
 /** @brief NVS key for wifi name  (when connected as client!) */

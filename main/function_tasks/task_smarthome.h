@@ -55,6 +55,7 @@
 #include "esp_wifi.h"
 #include "esp_event_loop.h"
 #include "esp_event_legacy.h"
+#include "esp_http_client.h"
 #include "nvs.h"
 #include "nvs_flash.h"
 #include "esp_log.h"
@@ -111,6 +112,17 @@ esp_err_t taskREST(char* URL);
  * @see NVS_MQTT_BROKER
  */
 esp_err_t taskMQTTPublish(char* topic_payload);
+
+/** @brief Init Wifi
+ * 
+ * This init function initializes the wifi in station mode.
+ * 
+ * @see NVS_STATIONNAME
+ * @see NVS_STATIONPW
+ * @note Please activate only if necessary by any configuration.
+ * @return ESP_OK on success, ESP_FAIL otherwise
+ * */
+esp_err_t taskWifiInit(void);
 
 
 

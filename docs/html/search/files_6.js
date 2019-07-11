@@ -6,8 +6,8 @@ var searchData=
   ['task_5fcommands_2eh',['task_commands.h',['../task__commands_8h.html',1,'']]],
   ['task_5fdebouncer_2ec',['task_debouncer.c',['../task__debouncer_8c.html',1,'']]],
   ['task_5fdebouncer_2eh',['task_debouncer.h',['../task__debouncer_8h.html',1,'']]],
-  ['task_5fmqtt_2ec',['task_mqtt.c',['../task__mqtt_8c.html',1,'']]],
-  ['task_5fmqtt_2eh',['task_mqtt.h',['../task__mqtt_8h.html',1,'']]],
+  ['task_5fsmarthome_2ec',['task_smarthome.c',['../task__smarthome_8c.html',1,'']]],
+  ['task_5fsmarthome_2eh',['task_smarthome.h',['../task__smarthome_8h.html',1,'']]],
   ['task_5fwebgui_2ec',['task_webgui.c',['../task__webgui_8c.html',1,'']]],
   ['task_5fwebgui_2eh',['task_webgui.h',['../task__webgui_8h.html',1,'']]],
   ['tones_2eh',['tones.h',['../tones_8h.html',1,'']]]

@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.13"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>FLipMouse/FABI ESP32 firmware: /home/beni/Projects/FLipMouse-esp32/main/function_tasks/handler_vb.h File Reference</title>
+<title>FLipMouse/FABI ESP32 firmware: /home/beni/sync/Projects/FH/FLipMouse-esp32/main/function_tasks/handler_vb.h File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -79,7 +79,7 @@ $(function() {
 <code>#include &quot;<a class="el" href="config__switcher_8h_source.html">../config_switcher.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="fct__macros_8h_source.html">fct_macros.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="fct__infrared_8h_source.html">fct_infrared.h</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="task__mqtt_8h_source.html">task_mqtt.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="task__smarthome_8h_source.html">task_smarthome.h</a>&quot;</code><br />
 </div>
 <p><a href="handler__vb_8h_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
@@ -157,7 +157,7 @@ Functions</h2></td></tr>
 <dl class="section return"><dt>Returns</dt><dd>true if active, false if not </dd></dl>
 <dl class="section note"><dt>Note</dt><dd>We don't care if press/release is active here. Any associated action will return true. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="handler__vb_8c_source.html#l00521">521</a> of file <a class="el" href="handler__vb_8c_source.html">handler_vb.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="handler__vb_8c_source.html#l00529">529</a> of file <a class="el" href="handler__vb_8c_source.html">handler_vb.c</a>.</p>
 
 <p class="reference">Referenced by <a class="el" href="hal__adc_8c_source.html#l00501">halAdcProcessPressure()</a>.</p>
 <div class="dynheader">
@@ -170,7 +170,7 @@ Here is the caller graph for this function:</div>
 <area shape="rect" id="node4" href="hal__adc_8h.html#a4135bb73c2271b4a27db8d8d81884de7" title="Reload ADC config. " alt="" coords="587,107,729,133"/>
 <area shape="rect" id="node5" href="config__switcher_8h.html#af8fae43accd789bf2355c79ff44c2ae9" title="Request config update. " alt="" coords="777,69,876,96"/>
 <area shape="rect" id="node12" href="hal__adc_8h.html#a6f0d302f35e5b7f7a1144f0ddace35d2" title="Init the ADC driver module. " alt="" coords="787,132,867,159"/>
-<area shape="rect" id="node6" href="config__switcher_8c.html#af5af5079d1982d42e165039e6de7e40a" title="CONTINOUS TASK &#45; Config switcher task, internal config reloading. " alt="" coords="924,12,1061,39"/>
+<area shape="rect" id="node6" href="config__switcher_8c.html#af5af5079d1982d42e165039e6de7e40a" title="TASK &#45; Config switcher task, internal config reloading. " alt="" coords="924,12,1061,39"/>
 <area shape="rect" id="node9" href="task__commands_8c.html#a7b36c39275d773aaedcb327ef4e1516f" title="task_commands" alt="" coords="933,69,1052,96"/>
 <area shape="rect" id="node7" href="config__switcher_8h.html#aafed047c8d04b814a85239e031cbad7b" title="Initializing the config switching functionality. " alt="" coords="1125,5,1251,32"/>
 <area shape="rect" id="node8" href="flipmouse__fabi__esp32__kbdmouse__main_8c.html#abce06be17fc37d675118a678a8100a36" title="Main task, created by esp&#45;idf. " alt="" coords="1315,56,1393,83"/>
@@ -223,7 +223,7 @@ We will malloc for each command here. To free the memory, call handler_vb_clearC
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>ESP_OK if added, ESP_FAIL if not added (out of memory) </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="handler__vb_8c_source.html#l00257">257</a> of file <a class="el" href="handler__vb_8c_source.html">handler_vb.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="handler__vb_8c_source.html#l00265">265</a> of file <a class="el" href="handler__vb_8c_source.html">handler_vb.c</a>.</p>
 
 <p class="reference">Referenced by <a class="el" href="task__commands_8c_source.html#l00213">sendVBCmd()</a>.</p>
 <div class="dynheader">
@@ -269,9 +269,9 @@ Here is the caller graph for this function:</div>
 <p>This method clears all stored VB commands and frees the allocated memory.</p>
 <dl class="section return"><dt>Returns</dt><dd>ESP_OK if commands are cleared, ESP_FAIL otherwise </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="handler__vb_8c_source.html#l00403">403</a> of file <a class="el" href="handler__vb_8c_source.html">handler_vb.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="handler__vb_8c_source.html#l00411">411</a> of file <a class="el" href="handler__vb_8c_source.html">handler_vb.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="handler__vb_8c_source.html#l00362">handler_vb_setCmdChain()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="handler__vb_8c_source.html#l00370">handler_vb_setCmdChain()</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
@@ -309,9 +309,9 @@ Here is the caller graph for this function:</div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>ESP_OK if deleted, ESP_FAIL if not in list </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="handler__vb_8c_source.html#l00207">207</a> of file <a class="el" href="handler__vb_8c_source.html">handler_vb.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="handler__vb_8c_source.html#l00215">215</a> of file <a class="el" href="handler__vb_8c_source.html">handler_vb.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="task__commands_8c_source.html#l00714">cmdNc()</a>, <a class="el" href="handler__vb_8c_source.html#l00257">handler_vb_addCmd()</a>, and <a class="el" href="task__commands_8c_source.html#l00175">sendHIDCmd()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="task__commands_8c_source.html#l00714">cmdNc()</a>, <a class="el" href="handler__vb_8c_source.html#l00265">handler_vb_addCmd()</a>, and <a class="el" href="task__commands_8c_source.html#l00175">sendHIDCmd()</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
@@ -372,9 +372,9 @@ Here is the caller graph for this function:</div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>ESP_OK if everything went fine, ESP_FAIL otherwise </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="handler__vb_8c_source.html#l00465">465</a> of file <a class="el" href="handler__vb_8c_source.html">handler_vb.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="handler__vb_8c_source.html#l00473">473</a> of file <a class="el" href="handler__vb_8c_source.html">handler_vb.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="task__commands_8c_source.html#l01615">storeSlot()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="task__commands_8c_source.html#l01628">storeSlot()</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
@@ -413,7 +413,7 @@ Here is the caller graph for this function:</div>
 <dl class="section warning"><dt>Warning</dt><dd>Modifying this chain without acquiring the vbCmdSem could result in undefined behaviour!. </dd></dl>
 <dl class="section return"><dt>Returns</dt><dd>Pointer to root of VB chain </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="handler__vb_8c_source.html#l00352">352</a> of file <a class="el" href="handler__vb_8c_source.html">handler_vb.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="handler__vb_8c_source.html#l00360">360</a> of file <a class="el" href="handler__vb_8c_source.html">handler_vb.c</a>.</p>
 
 </div>
 </div>
@@ -436,7 +436,7 @@ Here is the caller graph for this function:</div>
 <p>Init for the VB handler. </p>
 <p>We create the mutex and add handler_vb to the system event queue. </p><dl class="section return"><dt>Returns</dt><dd>ESP_OK on success, ESP_FAIL on an error. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="handler__vb_8c_source.html#l00183">183</a> of file <a class="el" href="handler__vb_8c_source.html">handler_vb.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="handler__vb_8c_source.html#l00191">191</a> of file <a class="el" href="handler__vb_8c_source.html">handler_vb.c</a>.</p>
 
 <p class="reference">Referenced by <a class="el" href="flipmouse__fabi__esp32__kbdmouse__main_8c_source.html#l00125">app_main()</a>.</p>
 <div class="dynheader">
@@ -444,15 +444,24 @@ Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="handler__vb_8h_ac54a8826a70d3aaf5c284bab02b93444_cgraph.png" border="0" usemap="#handler__vb_8h_ac54a8826a70d3aaf5c284bab02b93444_cgraph" alt=""/></div>
 <map name="handler__vb_8h_ac54a8826a70d3aaf5c284bab02b93444_cgraph" id="handler__vb_8h_ac54a8826a70d3aaf5c284bab02b93444_cgraph">
-<area shape="rect" id="node2" href="handler__vb_8c.html#a60c71b4a6cc8a9a3e9e8a3c8e36cffa0" title="VB event handler, triggering VB general actions. " alt="" coords="163,56,248,83"/>
-<area shape="rect" id="node3" href="fct__macros_8c.html#a6379aedd63a1b0be6343382aa863a456" title="FUNCTION &#45; Macro execution. " alt="" coords="317,5,397,32"/>
-<area shape="rect" id="node4" href="hal__adc_8c.html#ae549c157d94729e8b06cb391f0f2c97b" title="Calibration function. " alt="" coords="300,56,415,83"/>
-<area shape="rect" id="node5" href="fct__infrared_8c.html#a18c2e233aa3a793f43ccb3f67fe90122" title="FUNCTION &#45; Infrared command sending. " alt="" coords="296,107,419,133"/>
-<area shape="rect" id="node6" href="hal__storage_8c.html#aead99606f84645b2bb6ae000461bf819" title="Start a storage transaction. " alt="" coords="470,56,650,83"/>
-<area shape="rect" id="node8" href="hal__storage_8c.html#aa728fac6a17066ecb910c19338ae5288" title="Load an IR command by name. " alt="" coords="497,107,623,133"/>
-<area shape="rect" id="node10" href="hal__storage_8c.html#a00b5db14e24d7ada8a42aa6b3f1a1cb7" title="Finish a storage transaction. " alt="" coords="467,157,653,184"/>
-<area shape="rect" id="node7" href="hal__storage_8c.html#a606e5842dd354f1fb4a738ba95c6d5d1" title="internal function to init the filesystem if handle is invalid " alt="" coords="715,56,817,83"/>
-<area shape="rect" id="node9" href="hal__storage_8c.html#a4b6566ef5b69c85d422df52435c95d36" title="Internal helper to check for a valid WL handle and the correct tid. " alt="" coords="701,107,831,133"/>
+<area shape="rect" id="node2" href="handler__vb_8c.html#a60c71b4a6cc8a9a3e9e8a3c8e36cffa0" title="VB event handler, triggering VB general actions. " alt="" coords="163,107,248,133"/>
+<area shape="rect" id="node3" href="fct__macros_8c.html#a6379aedd63a1b0be6343382aa863a456" title="FUNCTION &#45; Macro execution. " alt="" coords="319,5,399,32"/>
+<area shape="rect" id="node4" href="hal__adc_8c.html#ae549c157d94729e8b06cb391f0f2c97b" title="Calibration function. " alt="" coords="302,56,417,83"/>
+<area shape="rect" id="node5" href="fct__infrared_8c.html#a18c2e233aa3a793f43ccb3f67fe90122" title="FUNCTION &#45; Infrared command sending. " alt="" coords="298,107,421,133"/>
+<area shape="rect" id="node11" href="task__smarthome_8c.html#a6afc039be68c1a831778fe33bd2412a9" title="Publish data via MQTT. " alt="" coords="296,208,423,235"/>
+<area shape="rect" id="node19" href="task__smarthome_8c.html#abd03f69dfd15d91c58fce02e1c476626" title="Trigger a REST call via http/s GET. " alt="" coords="523,157,605,184"/>
+<area shape="rect" id="node6" href="hal__storage_8c.html#aead99606f84645b2bb6ae000461bf819" title="Start a storage transaction. " alt="" coords="474,5,654,32"/>
+<area shape="rect" id="node8" href="hal__storage_8c.html#aa728fac6a17066ecb910c19338ae5288" title="Load an IR command by name. " alt="" coords="501,56,627,83"/>
+<area shape="rect" id="node10" href="hal__storage_8c.html#a00b5db14e24d7ada8a42aa6b3f1a1cb7" title="Finish a storage transaction. " alt="" coords="471,107,657,133"/>
+<area shape="rect" id="node7" href="hal__storage_8c.html#a606e5842dd354f1fb4a738ba95c6d5d1" title="internal function to init the filesystem if handle is invalid " alt="" coords="722,5,825,32"/>
+<area shape="rect" id="node9" href="hal__storage_8c.html#a4b6566ef5b69c85d422df52435c95d36" title="Internal helper to check for a valid WL handle and the correct tid. " alt="" coords="709,56,838,83"/>
+<area shape="rect" id="node12" href="task__smarthome_8c.html#ae7ad6f5bfc7cbfc9f6a223fcf697c8f6" title="Init the MQTT client and wifi (if necessary) " alt="" coords="513,208,615,235"/>
+<area shape="rect" id="node15" href="hal__storage_8c.html#a63ec8e05a2bb4c214600e94b8ab05eea" title="Load a string from NVS (global, no slot assignment) " alt="" coords="889,284,1064,311"/>
+<area shape="rect" id="node13" href="task__smarthome_8c.html#a8da1bd05d2cb75035c66535221908a63" title="Check for eventgroup before accessing it. Will be initialized if not available. " alt="" coords="916,183,1037,209"/>
+<area shape="rect" id="node14" href="task__smarthome_8c.html#a5684a2bbe23145855d2a166fa8379ece" title="Init Wifi. " alt="" coords="729,132,817,159"/>
+<area shape="rect" id="node18" href="task__smarthome_8c.html#a5af8e8260f5604ece0ee37eb577e0e26" title="Default event_handler for mqtt. " alt="" coords="705,233,841,260"/>
+<area shape="rect" id="node16" href="task__smarthome_8c.html#a070dec70b0e96f3a031a3fa803b517cd" title="Default event handler for Wifi. " alt="" coords="901,132,1052,159"/>
+<area shape="rect" id="node17" href="task__smarthome_8c.html#a5a85685932ce7bf4b7239ab1b133cbdd" title="Import from internal wifi code for decoding error messages. " alt="" coords="1112,132,1225,159"/>
 </map>
 </div>
 <div class="dynheader">
@@ -492,7 +501,7 @@ Here is the caller graph for this function:</div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>ESP_OK if chain is saved, ESP_FAIL otherwise (lock was not free, deleting old chain failed..) </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="handler__vb_8c_source.html#l00362">362</a> of file <a class="el" href="handler__vb_8c_source.html">handler_vb.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="handler__vb_8c_source.html#l00370">370</a> of file <a class="el" href="handler__vb_8c_source.html">handler_vb.c</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">

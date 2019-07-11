@@ -6,6 +6,7 @@ var searchData=
   ['serialsendingsem',['serialsendingsem',['../hal__serial_8c.html#af8aa2305d1905c876a30e25bf34cc480',1,'hal_serial.c']]],
   ['slotname',['slotName',['../structgeneralConfig.html#a1d383c1fdfd705732cac3a1d435078e0',1,'generalConfig']]],
   ['slotversion',['slotversion',['../structgeneralConfig.html#a346d50e48981b23684bd04c371212a08',1,'generalConfig']]],
+  ['smarthomestatus',['smarthomestatus',['../task__smarthome_8c.html#ae574ef13e6c84129431de8584f0d9a8c',1,'task_smarthome.c']]],
   ['sockfd',['sockFd',['../captdns_8c.html#a5d4975d0f40bc307555843159c622cb1',1,'captdns.c']]],
   ['state',['state',['../structesp__hidd__cb__param__t_1_1hidd__init__finish__evt__param.html#a33c7c87def3302bcaa923c620d31b1d9',1,'esp_hidd_cb_param_t::hidd_init_finish_evt_param::state()'],['../structesp__hidd__cb__param__t_1_1hidd__deinit__finish__evt__param.html#aead8cf8834062cfa90a418aeb7dd7a71',1,'esp_hidd_cb_param_t::hidd_deinit_finish_evt_param::state()']]],
   ['status',['status',['../structhalIOIR.html#acc1ca503a0bbc3afd243a97708623157',1,'halIOIR']]],

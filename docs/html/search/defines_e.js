@@ -17,7 +17,7 @@ var searchData=
   ['task_5fhal_5fir_5fsend_5fstacksize',['TASK_HAL_IR_SEND_STACKSIZE',['../hal__io_8h.html#a5822ca81a5eecda08d725fea3f98ed6a',1,'hal_io.h']]],
   ['task_5fhal_5fled_5fpriority',['TASK_HAL_LED_PRIORITY',['../hal__io_8h.html#aae2c47fa297e6591a48b145b8223ed8a',1,'hal_io.h']]],
   ['task_5fhal_5fled_5fstacksize',['TASK_HAL_LED_STACKSIZE',['../hal__io_8h.html#af104025de9174910a63b2a995c55efcb',1,'hal_io.h']]],
-  ['task_5fmqtt_5fstacksize',['TASK_MQTT_STACKSIZE',['../task__mqtt_8h.html#abf45b50ab8b57f04bef31dc53b4ca880',1,'task_mqtt.h']]],
+  ['task_5fmqtt_5fstacksize',['TASK_MQTT_STACKSIZE',['../task__smarthome_8h.html#abf45b50ab8b57f04bef31dc53b4ca880',1,'task_smarthome.h']]],
   ['task_5fwebgui_5fserver_5fstacksize',['TASK_WEBGUI_SERVER_STACKSIZE',['../task__webgui_8h.html#a86d5d3c993fa016a56ba00fad8999acc',1,'task_webgui.h']]],
   ['task_5fwebgui_5fwebsocket_5fstacksize',['TASK_WEBGUI_WEBSOCKET_STACKSIZE',['../task__webgui_8h.html#ade7be3b4d9fe3cc3d775bd69aaf1708e',1,'task_webgui.h']]],
   ['task_5fwebgui_5fwsport',['TASK_WEBGUI_WSPORT',['../task__webgui_8h.html#aef5090f2bc5184eff59e3dba3992ed7b',1,'task_webgui.h']]],

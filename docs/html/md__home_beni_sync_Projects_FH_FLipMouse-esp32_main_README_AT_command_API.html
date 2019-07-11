@@ -295,6 +295,24 @@ $(function() {
 <tr>
 <td align="left">AT II </td><td align="left">string (2-32chars) </td><td align="left">Set an idle IR command. Will be sent AFTER EACH normally sent command. </td><td align="left">v2.7 </td><td align="left">no </td><td align="left">no </td></tr>
 </table>
+<p><b>SmartHome interface</b> </p><table class="doxtable">
+<tr>
+<th align="left">Command </th><th align="left">Parameter </th><th align="left">Description </th><th align="left">Available since </th><th align="left">Implemented in v3 </th><th align="left">fct_* file / handler  </th></tr>
+<tr>
+<td align="left">AT MQ </td><td align="left">string (5-240chars) </td><td align="left">publish this data on the given topic, e.g.: "lights/livingroom:ON" <sup><a href="#footnoteE">E</a></sup> </td><td align="left">v3 </td><td align="left">yes </td><td align="left">handler_vb </td></tr>
+<tr>
+<td align="left">AT MH </td><td align="left">string (6-100chars) </td><td align="left">set a new MQTT broker, e.g.: "mqtt://localhost:1883" <sup><a href="#footnoteE">E</a></sup> </td><td align="left">v3 </td><td align="left">yes </td><td align="left">no </td></tr>
+<tr>
+<td align="left">AT ML </td><td align="left">string (1char) </td><td align="left">set a new MQTT delimiter symbol (topic vs data, default: ":") for AT MQ </td><td align="left">v3 </td><td align="left">yes </td><td align="left">no </td></tr>
+<tr>
+<td align="left">AT WP </td><td align="left">string (8-63chars) </td><td align="left">set a new WiFi password (when this device is connected as WiFi client!) <sup><a href="#footnoteF">F</a></sup> </td><td align="left">v3 </td><td align="left">yes </td><td align="left">no </td></tr>
+<tr>
+<td align="left">AT WH </td><td align="left">string (4-31chars) </td><td align="left">set a new WiFi name to connect to (when this device is connected as WiFi client!) <sup><a href="#footnoteF">F</a></sup> </td><td align="left">v3 </td><td align="left">yes </td><td align="left">no </td></tr>
+<tr>
+<td align="left">AT RE </td><td align="left">string (8-200chars) </td><td align="left">calling a REST API via HTTP get. If not connected yet, Wifi will be activated in station mode <sup><a href="#footnoteG">G</a></sup> </td><td align="left">v3 </td><td align="left">yes </td><td align="left">handler_vb </td></tr>
+</table>
+<p><a class="anchor" id="footnoteE"></a><b>E</b>: No QoS or retain flags are implemented for MQTT. Please note, that WiFi is only started on the first execution of an AT MQ command. <a class="anchor" id="footnoteF"></a><b>F</b>: Please note, that WiFi in station mode will be activated on the first call of a WiFi related command (e.g. AT MQ or AT RE). <a class="anchor" id="footnoteG"></a><b>G</b>: Due to a limitation in the esp-idf, you cannot use HTTPS without providing a server certificate. We consider extracting the certificate for each host too complicated, please use HTTP instead. We also thought of integrating the whole Mozilla certificate DB, but this would take REALLY long to try all certificates.</p>
+<p>After WiFi is enabled in station mode, it is possible to activate the SoftAP mode for the configuration GUI, but once this is done, the device must be restarted to restore full functionality!</p>
 <h2>Button assignments - FLipMouse</h2>
 <p>The FLipMouse version 2 has 1 internal push-button and 2 jack plugs for external buttons. Version 3 uses the second internal button, which was previously the program button for the Teensy, as virtual button 0.</p>
 <p><b>Note:</b> VB0 (internal button 2) is configured as activation button to switch on/off WiFi for configuring the FLipMouse. Feedback to the user is still not defined, will be announced here.</p>

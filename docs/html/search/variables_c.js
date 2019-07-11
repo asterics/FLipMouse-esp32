@@ -9,6 +9,5 @@ var searchData=
   ['mouse_5freport',['mouse_report',['../hal__ble_8c.html#a359f5b8a6d8ac389b52a139a014c3b40',1,'hal_ble.c']]],
   ['moused',['mouseD',['../task__commands_8c.html#a5ee87bd3682f64133f841ef3a9f80054',1,'task_commands.c']]],
   ['mouser',['mouseR',['../task__commands_8c.html#ad97b0745c847abd384df54394439466f',1,'task_commands.c']]],
-  ['mqtt_5fclient',['mqtt_client',['../task__mqtt_8c.html#ad9332f302ae79b5195a71d791a9ccecd',1,'task_mqtt.c']]],
-  ['mqttactive',['mqttactive',['../task__mqtt_8c.html#aaf505e44bed8d31b21c3687d3d1a8326',1,'task_mqtt.c']]]
+  ['mqtt_5fclient',['mqtt_client',['../task__smarthome_8c.html#ad9332f302ae79b5195a71d791a9ccecd',1,'task_smarthome.c']]]
 ];

@@ -162,6 +162,14 @@ static void handler_vb(void *event_handler_arg, esp_event_base_t event_base, int
             taskMQTTPublish(current->cmdparam);
           }
           break;
+        case T_REST:
+          if(current->cmdparam == NULL)
+          {
+            ESP_LOGE(LOG_TAG,"Param is null, cannot send REST message");
+          } else {
+            taskREST(current->cmdparam);
+          }
+          break;
         default:
           ESP_LOGE(LOG_TAG,"Unknown VB cmd type");
           break;

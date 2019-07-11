@@ -953,6 +953,18 @@ esp_err_t cmdMq(char* orig, void* p1, void* p2) {
   }
   return ESP_OK;
 }
+esp_err_t cmdRe(char* orig, void* p1, void* p2) {
+  if(requestVBUpdate == VB_SINGLESHOT)
+  {
+    return taskREST((char*)p1);
+  } else {
+    //set action type
+    vbaction.cmd = T_REST;
+    vbaction.cmdparam = malloc(strnlen((char*)p1,ATCMD_LENGTH)+1);
+    strncpy(vbaction.cmdparam,(char*)p1,strnlen((char*)p1,ATCMD_LENGTH)+1);
+  }
+  return ESP_OK;
+}
 esp_err_t cmdMh(char* orig, void* p1, void* p2) {
   return halStorageNVSStoreString(NVS_MQTT_BROKER,(char*)p1);
 }
@@ -1066,6 +1078,7 @@ const onecmd_t commands[] = {
   {"IX", {PARAM_NUMBER,PARAM_NONE},{1,0},{99,0},cmdIx,0,NOCAST},
   // smart home commands
   {"MQ", {PARAM_STRING,PARAM_NONE},{5,0},{ATCMD_LENGTH-strlen(CMD_PREFIX)-CMD_LENGTH,0},cmdMq,0,NOCAST},
+  {"RE", {PARAM_STRING,PARAM_NONE},{5,0},{ATCMD_LENGTH-strlen(CMD_PREFIX)-CMD_LENGTH,0},cmdRe,0,NOCAST},
   {"MH", {PARAM_STRING,PARAM_NONE},{6,0},{100,0},cmdMh,0,NOCAST},
   {"ML", {PARAM_STRING,PARAM_NONE},{1,0},{1,0},cmdMl,0,NOCAST},
   {"WP", {PARAM_STRING,PARAM_NONE},{0,0},{63,0},cmdWp,0,NOCAST},

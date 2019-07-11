@@ -55,6 +55,7 @@
 #include "esp_wifi.h"
 #include "esp_event_loop.h"
 #include "esp_event_legacy.h"
+#include "esp_http_client.h"
 #include "nvs.h"
 #include "nvs_flash.h"
 #include "esp_log.h"
@@ -67,18 +68,6 @@
  * @note This is the default character, if no other is set via "AT MS".
  * It is used to split the "AT MQ" string into topic and payload. */
 #define MQTT_DELIMITER ':'
-
-/** @brief Init the MQTT task and the wifi
- * 
- * This init function initializes the wifi in station mode and the MQTT task.
- * 
- * @see NVS_STATIONNAME
- * @see NVS_STATIONPW
- * @see NVS_MQTT_BROKER
- * @note Please activate only if necessary by any configuration.
- * @return ESP_OK on success, ESP_FAIL otherwise
- * */
-esp_err_t taskMQTTInit(void);
 
 /** @brief Deinit the MQTT task and the wifi
  * 
@@ -101,7 +90,39 @@ esp_err_t taskMQTTDeInit(void);
  * @see MQTT_DELIMITER
  * @return ESP_OK on success, ESP_FAIL otherwise
  * */
+esp_err_t taskREST(char* URL);
+
+/** @brief Publish data via MQTT
+ * 
+ * This function publishes the given data.
+ * The parameter topic_payload will be split into the topic name
+ * and the corresponding payload to publish.
+ * The splitting is done by the currently set MQTT delimiter character,
+ * which can be modified with "AT MS". MQTT_DELIMITER will be used
+ * if no other character is set.
+ * 
+ * @see MQTT_DELIMITER
+ * @param topic_payload Topic name and payload to be published. E.g.,
+ * "/topic1:ON". Delimiter can be changed via NVS key NVS_MQTT_DELIM.
+ * @return ESP_OK on success, ESP_FAIL otherwise
+ * @note Wifi will be enabled here, if MQTT is not active.
+ * @note Wifi credentials and broker information must be in NVS BEFORE calling this function.
+ * @see NVS_STATIONNAME
+ * @see NVS_STATIONPW
+ * @see NVS_MQTT_BROKER
+ */
 esp_err_t taskMQTTPublish(char* topic_payload);
+
+/** @brief Init Wifi
+ * 
+ * This init function initializes the wifi in station mode.
+ * 
+ * @see NVS_STATIONNAME
+ * @see NVS_STATIONPW
+ * @note Please activate only if necessary by any configuration.
+ * @return ESP_OK on success, ESP_FAIL otherwise
+ * */
+esp_err_t taskWifiInit(void);
 
 
 

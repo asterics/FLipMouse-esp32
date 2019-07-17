@@ -1,5 +1,5 @@
 #content{
-    margin: 2em;
+    margin: 1.5em;
 }
 
 div[data-tabs] {
@@ -208,4 +208,17 @@ button.selected, .custom-radio:checked ~ label {
 .disconnectedIndicator {
     color: red;
     display: inline;
+}
+
+#menuButtons div {
+    width: 18.4%;
+}
+
+/* exclude first div */
+#menuButtons div + div {
+    margin-left: 2%;
+}
+
+.menubutton {
+    height: 90%;
 }

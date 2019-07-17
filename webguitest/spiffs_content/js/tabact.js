@@ -99,9 +99,11 @@ function initAdditionalData(atCmd) {
             break;
         case C.AT_CMD_REST:
             L.setVisible('#WRAPPER_' + C.ADDITIONAL_FIELD_TEXT);
+            L('[for=' + C.ADDITIONAL_FIELD_TEXT + ']')[0].innerHTML = 'REST URL';
             break;
         case C.AT_CMD_MQTT_PUBLISH:
             L.setVisible('#WRAPPER_' + C.ADDITIONAL_FIELD_TEXT);
+            L('[for=' + C.ADDITIONAL_FIELD_TEXT + ']')[0].innerHTML = 'MQTT parameter';
             break;
     }
 }

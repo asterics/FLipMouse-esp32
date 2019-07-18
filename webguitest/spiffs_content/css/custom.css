@@ -222,3 +222,8 @@ button.selected, .custom-radio:checked ~ label {
 .menubutton {
     height: 90%;
 }
+
+.btnTransparent {
+    background-color: transparent;
+    border: 1px solid #bbb;
+}

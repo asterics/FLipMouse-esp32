@@ -74,9 +74,11 @@ function FlipMouse(initFinished) {
      *
      * @param atCmd
      * @param onlyIfEmptyQueue if set to true, the command is sent only if the queue is empty
+     * @param timeout maximum time after the returned promise resolves, regardless if data was received or not. Default 3000ms.
      * @return {Promise}
      */
-    thiz.sendATCmd = function (atCmd, onlyIfEmptyQueue) {
+    thiz.sendATCmd = function (atCmd, onlyIfEmptyQueue, timeout) {
+        var timeoutResolve = timeout || 3000;
         if(onlyIfEmptyQueue && _atCmdQueue.length > 0) {
             console.log('did not send cmd: "' + atCmd + "' because another command is executing.");
             return new Promise(function (resolve, reject) {
@@ -110,12 +112,16 @@ function FlipMouse(initFinished) {
             setTimeout(function () {
                 _timestampLastAtCmd = new Date().getTime();
                 console.log("sending to FlipMouse: " + nextCmd.cmd);
-                _communicator.sendData(nextCmd.cmd).then(nextCmd.resolveFn, nextCmd.rejectFn);
+                _communicator.sendData(nextCmd.cmd, timeoutResolve).then(nextCmd.resolveFn, nextCmd.rejectFn);
                 sendNext();
             }, timeout);
         }
 
         return promise;
+    };
+
+    thiz.sendATCmdWithParam = function(atCmd, param, timeout) {
+        return thiz.sendATCmd(atCmd + ' ' + param, false, timeout);
     };
 
     /**

@@ -12,7 +12,8 @@ window.i18n = {
     'CONNECTED': 'connected',
     'NOT_CONNECTED': 'not connected',
     'IN_DEADZONE' : 'inside of Deadzone',
-    'OUT_DEADZONE' : 'out of Deadzone'
+    'OUT_DEADZONE' : 'out of Deadzone',
+    'UNSAVED_MODE' : '*currently testing, not yet saved!'
 };
 
 i18n[C.BTN_MODE_BUTTON_1] = 'Button 1';

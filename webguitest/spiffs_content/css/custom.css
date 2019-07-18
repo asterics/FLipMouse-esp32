@@ -46,6 +46,10 @@ br {
     margin-bottom: 0.5em;
 }
 
+.space-bottom-2x {
+    margin-bottom: 1em;
+}
+
 .headerConnectIndicator {
     float: right;
     font-size: 1.5em;

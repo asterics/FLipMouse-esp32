@@ -23,6 +23,7 @@
     <script src="js/tabsip.js"></script>
     <script src="js/tabslot.js"></script>
     <script src="js/tabact.js"></script>
+    <script src="js/tabglob.js"></script>
 </head>
 <body>
 <div id="content">
@@ -353,7 +354,7 @@
                 <div class="row">
                     <label class="three columns text-right text-normal" for="INPUT_LEARN_CAT_KEYBOARD" data-i18n>Action Input // Eingabe Aktion</label>
                     <input type="text" id="INPUT_LEARN_CAT_KEYBOARD" class="six columns" onkeydown="tabAction.handleKeyBoardEvent(event)" oninput="tabAction.handleOnKeyboardInput(event)" autocomplete="off"/>
-                   <button onclick="tabAction.resetRec()" class="two columns" data-i18n>Reset // Löschen</button>
+                    <button onclick="tabAction.resetRec()" class="two columns" data-i18n>Reset // Löschen</button>
                 </div>
                 <div class="row">
                     <label id="labelSpecialKeys" class="three columns text-right text-normal" data-i18n>Special Keys // Spezialtasten</label>
@@ -443,7 +444,54 @@
         </section>
         <section aria-labelledby="tabGlobalHeader" data-tabs-pane class="tabs-pane" id="tabGlobal">
             <div tabindex="-1">
-                <h2 id="tabGlobalHeader" style="display: none" aria-hidden="false" data-i18n>Tab 5 - FlipMouse globale Einstellungen // Tab 5 - FlipMouse globale Einstellungen</h2>
+                <h2 id="tabGlobalHeader" style="display: none" aria-hidden="false" data-i18n>Tab 5 - FlipMouse global properties // Tab 5 - FlipMouse globale Parameter</h2>
+            </div>
+            <div class="row">
+                <h3 data-i18n>Gobal properties // Globale Parameter</h3>
+            </div>
+            <div class="row">
+                <label class="three columns text-right text-normal" for="PARAM_MQTT_BROKER" data-i18n>MQTT broker</label>
+                <input type="text" id="PARAM_MQTT_BROKER" class="five columns" placeholder="new MQTT broker"/>
+                <div class="three columns">
+                    <button onclick="flip.sendATCmdWithParam(C.AT_CMD_MQTT_BROKER, L('#PARAM_MQTT_BROKER').value); tabGlobal.showCheckmark(this)">
+                        <span data-i18n>Set // Setzen</span>
+                        <span style="display: none">&#x2714;</span>
+                    </button>
+                </div>
+                <div class="one column show-mobile space-bottom-2x"></div>
+            </div>
+            <div class="row">
+                <label class="three columns text-right text-normal" for="PARAM_MQTT_DELIM" data-i18n>MQTT delimiter // MQTT Trennzeichen</label>
+                <input type="text" id="PARAM_MQTT_DELIM" class="five columns" placeholder="new MQTT delimiter"/>
+                <div class="three columns">
+                    <button onclick="flip.sendATCmdWithParam(C.AT_CMD_MQTT_DELIMITER, L('#PARAM_MQTT_DELIM').value); tabGlobal.showCheckmark(this)">
+                        <span data-i18n>Set // Setzen</span>
+                        <span style="display: none">&#x2714;</span>
+                    </button>
+                </div>
+                <div class="one column show-mobile space-bottom-2x"></div>
+            </div>
+            <div class="row">
+                <label class="three columns text-right text-normal" for="PARAM_WIFI_NAME" data-i18n>WiFi name // WiFi Name</label>
+                <input type="text" id="PARAM_WIFI_NAME" class="five columns" placeholder="new WiFi name"/>
+                <div class="three columns">
+                    <button onclick="flip.sendATCmdWithParam(C.AT_CMD_WIFI_NAME, L('#PARAM_WIFI_NAME').value); tabGlobal.showCheckmark(this)">
+                        <span data-i18n>Set // Setzen</span>
+                        <span style="display: none">&#x2714;</span>
+                    </button>
+                </div>
+                <div class="one column show-mobile space-bottom-2x"></div>
+            </div>
+            <div class="row">
+                <label class="three columns text-right text-normal" for="PARAM_WIFI_PASSWORD" data-i18n>WiFi password // WiFi Passwort</label>
+                <input type="password" id="PARAM_WIFI_PASSWORD" class="five columns" placeholder="new WiFi password"/>
+                <div class="three columns">
+                    <button onclick="flip.sendATCmdWithParam(C.AT_CMD_WIFI_PASSWORD, L('#PARAM_WIFI_PASSWORD').value); tabGlobal.showCheckmark(this)">
+                        <span data-i18n>Set // Setzen</span>
+                        <span style="display: none">&#x2714;</span>
+                    </button>
+                </div>
+                <div class="one column show-mobile space-bottom-2x"></div>
             </div>
         </section>
     </main>

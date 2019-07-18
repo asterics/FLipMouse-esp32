@@ -167,7 +167,9 @@ esp_err_t fct_infrared_record(char* cmdName, uint8_t outputtoserial)
           sprintf(&output[i*8],"%08X\r\n",cfg->buffer[i].val);
         }
         halSerialSendUSBSerial(output,strnlen(output,8*cfg->count + 4),10);
-      }
+      } else {
+		halSerialSendUSBSerial("OK",2,10); 
+	  }
       break;
     case IR_OVERFLOW:
       ESP_LOGW(LOG_TAG,"IR cmd too long");

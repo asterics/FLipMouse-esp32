@@ -566,7 +566,6 @@ esp_err_t halStorageGetNumberOfIRCmds(uint32_t tid, uint8_t *slotsavailable)
       *slotsavailable = count;
       return ESP_OK;
     }
-    count++;
     if(count == 250) break;
   } while(1);
   return ESP_FAIL;

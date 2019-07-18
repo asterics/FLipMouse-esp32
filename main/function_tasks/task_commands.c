@@ -830,7 +830,7 @@ esp_err_t cmdJh(char* orig, void* p1, void* p2) {
 }
 esp_err_t cmdIr(char* orig, void* p1, void* p2) {
   //trigger record
-  if(fct_infrared_record((char*)p1,1) == ESP_OK)
+  if(fct_infrared_record((char*)p1,0) == ESP_OK)
   {
     ESP_LOGD(LOG_TAG,"Recorded IR cmd %s",(char*)p1);
     return ESP_OK;
@@ -895,7 +895,6 @@ esp_err_t cmdIl(char* orig, void* p1, void* p2) {
     uint8_t printed = 0;
     char name[SLOTNAME_LENGTH+1];
     char output[SLOTNAME_LENGTH+10];
-    halStorageGetNumberOfIRCmds(tid,&count);
     if(halStorageGetNumberOfIRCmds(tid,&count) == ESP_OK)
     {
       for(uint8_t i = 0; i<100;i++)

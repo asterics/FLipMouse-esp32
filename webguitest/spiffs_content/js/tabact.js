@@ -18,7 +18,7 @@ window.tabAction.init = function (actionCategory) {
         if (!response) {
             return;
         }
-        var list = response.trim().split('\r\n');
+        var list = response.trim().split('\n');
         var irNames = list.map(function (element) {
             return element.substring(element.indexOf(':') + 1);
         });

@@ -150,9 +150,10 @@ window.L.removeAllChildren = function (selector) {
     });
 };
 
-window.L.createElement = function (tagName, className, inner) {
+window.L.createElement = function (tagName, className, inner, style) {
     var e = document.createElement(tagName);
     e.className = className;
+    e.style.cssText = style || '';
     if (inner) {
         inner = inner instanceof Array ? inner : [inner];
         inner.forEach(function (innerElem) {

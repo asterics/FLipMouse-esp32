@@ -326,19 +326,23 @@
                 <fieldset role="radiogroup" aria-labelledby="fieldsetActionCategoryLabel">
                     <legend id="fieldsetActionCategoryLabel" class="three columns text-right text-normal" data-i18n>Action category // Aktions-Kategorie</legend>
                     <div class="eight columns">
-                        <div class="three columns">
+                        <div class="act-category-btn">
                             <input checked aria-hidden="false" type="radio" name="actCatRadio" role="radio" id="LEARN_CAT_KEYBOARD" class="custom-radio" onchange="tabAction.selectActionCategory(this)"/>
                             <label for="LEARN_CAT_KEYBOARD" class="button btnTransparent" data-i18n>Keyboard // Tastatur</label>
                         </div>
-                        <div class="three columns">
+                        <div class="act-category-btn">
                             <input aria-hidden="false" type="radio" name="actCatRadio" role="radio" id="LEARN_CAT_MOUSE" class="custom-radio" onchange="tabAction.selectActionCategory(this)"/>
                             <label for="LEARN_CAT_MOUSE" class="button btnTransparent" data-i18n>Mouse // Maus</label>
                         </div>
-                        <div class="three columns">
+                        <div class="act-category-btn">
+                            <input aria-hidden="false" type="radio" name="actCatRadio" role="radio" id="LEARN_CAT_IR" class="custom-radio" onchange="tabAction.selectActionCategory(this)"/>
+                            <label for="LEARN_CAT_IR" class="button btnTransparent" data-i18n>Infrared // Infrarot</label>
+                        </div>
+                        <div class="act-category-btn">
                             <input aria-hidden="false" type="radio" name="actCatRadio" role="radio" id="LEARN_CAT_FLIPACTIONS" class="custom-radio" onchange="tabAction.selectActionCategory(this)"/>
                             <label for="LEARN_CAT_FLIPACTIONS" class="button btnTransparent" data-i18n>other // andere</label>
                         </div>
-                        <div class="three columns">
+                        <div class="act-category-btn">
                             <input aria-hidden="false" type="radio" name="actCatRadio" role="radio" id="LEARN_CAT_CUSTOM" class="custom-radio" onchange="tabAction.selectActionCategory(this)"/>
                             <label for="LEARN_CAT_CUSTOM" class="button btnTransparent">Custom</label>
                         </div>
@@ -377,6 +381,26 @@
                 <select id="SELECT_LEARN_CAT_MOUSE" class="eight columns" onchange="tabAction.selectAtCmd(this.value)">
                 </select>
             </div>
+            <div id="WRAPPER_LEARN_CAT_IR" class="row" style="display: none">
+                <div class="row">
+                    <label class="three columns text-right text-normal" for="SELECT_LEARN_CAT_IR" data-i18n>IR command // IR Kommando</label>
+                    <select id="SELECT_LEARN_CAT_IR" class="three columns">
+                    </select>
+                    <div style="display: flex" class="five columns">
+                        <button class="column" onclick="tabAction.deleteIRCommand(L('#SELECT_LEARN_CAT_IR').value)" data-i18n>Delete // Löschen</button>
+                        <button class="column" onclick="flip.sendATCmdWithParam(C.AT_CMD_IR_PLAY, L('#SELECT_LEARN_CAT_IR').value)" data-i18n>Play // Abspielen</button>
+                        <button class="column" onclick="tabAction.selectAtCmd(C.AT_CMD_IR_PLAY + ' ' + L('#SELECT_LEARN_CAT_IR').value)" data-i18n>set action // Aktion setzen</button>
+                    </div>
+                </div>
+                <div class="row">
+                    <label class="three columns text-right text-normal" for="INPUT_LEARN_CAT_IR" data-i18n>new command // neues Kommando</label>
+                    <input type="text" id="INPUT_LEARN_CAT_IR" class="six columns" placeholder="command name" oninput="L('#record-action').disabled = !this.value">
+                    <button id="record-action" disabled onclick="tabAction.recordIRCommand()" class="u-full-width" style="position: relative;">
+                        <span id="record-action-button-normal" style="position: relative" data-i18n>Record // Aufnahme</span>
+                        <span id="record-action-button-saving" style="display: none" data-i18n>recording... // wird  aufgenommen...</span>
+                    </button>
+                </div>
+            </div>
             <div id="WRAPPER_LEARN_CAT_FLIPACTIONS" class="row" style="display: none">
                 <label class="three columns text-right text-normal" for="SELECT_LEARN_CAT_FLIPACTIONS" data-i18n>Action // Aktion</label>
                 <select id="SELECT_LEARN_CAT_FLIPACTIONS" class="eight columns" onchange="tabAction.selectAtCmd(this.value)">
@@ -398,7 +422,6 @@
                 </select>
                 <button class="two columns" onclick="tabAction.setAtCmdWithAdditionalData(L('#ADDITIONAL_FIELD_SELECT').value)" data-i18n>Test // Testen</button>
             </div>
-
 
             <br/>
             <h3 data-i18n>Current saved mapping // Aktuelle gespeicherte Konfiguration</h3>

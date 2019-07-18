@@ -1,17 +1,29 @@
 window.tabAction = {};
 
-window.tabAction.init = function () {
+window.tabAction.init = function (actionCategory) {
+    actionCategory = actionCategory || C.LEARN_CAT_KEYBOARD;
     tabAction.initBtnModeActionTable();
-    var modes = flip.getConfig(flip.FLIPMOUSE_MODE) == C.FLIPMOUSE_MODE_MOUSE ? C.BTN_MODES_WITHOUT_STICK : C.BTN_MODES;
+    var modes = flip.getConfig(flip.FLIPMOUSE_MODE) === C.FLIPMOUSE_MODE_MOUSE ? C.BTN_MODES_WITHOUT_STICK : C.BTN_MODES;
     L('#selectActionButton').innerHTML = L.createSelectItems(modes);
     L('#currentAction').innerHTML = getReadable(flip.getConfig(C.BTN_MODES[0]));
     L('#' + flip.getConfig(flip.FLIPMOUSE_MODE)).checked = true;
+    L('#' + actionCategory).checked = true;
 
     L('#SELECT_LEARN_CAT_MOUSE').innerHTML = L.createSelectItems(C.AT_CMDS_MOUSE);
     L('#SELECT_LEARN_CAT_FLIPACTIONS').innerHTML = L.createSelectItems(C.AT_CMDS_FLIP);
     L('#SELECT_LEARN_CAT_KEYBOARD_SPECIAL').innerHTML = L.createSelectItems(C.SUPPORTED_KEYCODES, function (code) {
         return C.KEYCODE_MAPPING[code];
     }, 'SELECT_SPECIAL_KEY');
+    flip.sendATCmd(C.AT_CMD_IR_LIST).then(response => {
+        if (!response) {
+            return;
+        }
+        var list = response.split('\n');
+        var irNames = list.map(function (element) {
+            return element.substring(element.indexOf(':') + 1);
+        });
+        L('#SELECT_LEARN_CAT_IR').innerHTML = L.createSelectItems(irNames);
+    })
 };
 
 window.tabAction.initBtnModeActionTable = function () {
@@ -60,7 +72,6 @@ function refreshCurrentAction(btnMode) {
 }
 
 window.tabAction.selectActionCategory = function (elem) {
-    console.log(elem.id);
     L.setVisible('[id^=WRAPPER_LEARN_CAT]', false);
     L.setVisible('#WRAPPER_' + elem.id);
 
@@ -119,6 +130,7 @@ function resetSelects() {
     //L('#SELECT_'+ C.LEARN_CAT_KEYBOARD).value = atCmd; //TODO add if implemented
     L('#SELECT_'+ C.LEARN_CAT_MOUSE).value = atCmd;
     L('#SELECT_'+ C.LEARN_CAT_FLIPACTIONS).value = atCmd;
+    L('#SELECT_'+ C.LEARN_CAT_IR).value = atCmd;
 }
 
 function processForQueue(queueElem) {
@@ -210,6 +222,20 @@ tabAction.saveRec = function () {
         L.toggle('#start-rec-button-normal', '#start-rec-button-rec');
     }
     tabAction.setAtCmd(getAtCmd(tabAction.queue));
+};
+
+tabAction.deleteIRCommand = function (irCmd) {
+    if (!irCmd) {
+        return;
+    }
+    flip.sendATCmdWithParam(C.AT_CMD_IR_DELETE, irCmd);
+    tabAction.init(C.LEARN_CAT_IR);
+};
+
+tabAction.recordIRCommand = function () {
+    actionAndToggle(flip.sendATCmdWithParam, [C.AT_CMD_IR_RECORD, L('#INPUT_LEARN_CAT_IR').value, 10000], ['#record-action-button-normal', '#record-action-button-saving']).then(function () {
+        tabAction.init(C.LEARN_CAT_IR);
+    });
 };
 
 function getQueueElem(event) {

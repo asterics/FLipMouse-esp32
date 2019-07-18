@@ -32,6 +32,12 @@ button:disabled, button:disabled div{
     width: 7em;
 }
 
+.act-category-btn {
+    min-width: 7em;
+    width: 10vw;
+    display: inline-block;
+}
+
 br {
     line-height: 250%;
 }

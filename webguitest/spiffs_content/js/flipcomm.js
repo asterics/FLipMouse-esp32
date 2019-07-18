@@ -37,6 +37,7 @@ function FlipMouse(initFinished) {
     ];
 
     var _config = {};
+    var _unsavedConfig = {};
     var _liveData = {};
     var AT_CMD_LENGTH = 5;
 
@@ -169,6 +170,7 @@ function FlipMouse(initFinished) {
     thiz.save = function (updateProgressHandler) {
         updateProgressHandler = updateProgressHandler || function () {
         };
+        _unsavedConfig = {};
         var progress = 0;
         sendAtCmdNoResultHandling('AT DE');
         thiz.pauseLiveValueListener();
@@ -254,6 +256,11 @@ function FlipMouse(initFinished) {
         return _config[slot] ? _config[slot][constant] : null;
     };
 
+    thiz.isConfigUnsaved = function (constant, slot) {
+        slot = slot || _currentSlot;
+        return _unsavedConfig[slot] ? _unsavedConfig[slot].indexOf(constant) > -1 : false;
+    };
+
     thiz.setConfig = function (constant, value, slot) {
         slot = slot || _currentSlot;
         if (_config[slot]) {
@@ -325,6 +332,8 @@ function FlipMouse(initFinished) {
         }
         if(!dontSetConfig) {
             thiz.setConfig(buttonModeConstant, atCmd);
+            _unsavedConfig[_currentSlot] = _unsavedConfig[_currentSlot] || [];
+            _unsavedConfig[_currentSlot].push(buttonModeConstant);
         }
         return new Promise(function (resolve) {
             var promises = [];

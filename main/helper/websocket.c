@@ -193,59 +193,69 @@ void ws_server_netconn_serve(struct netconn *conn) {
 							break;
 
 						//get payload length
-						if (p_frame_hdr->payload_length <= WS_STD_LEN) {
+                                                uint64_t payloadLen = 0;
+                                                uint8_t offset = 0;
+                                                //determine payload length type.
+                                                //according to RFC6455
+                                                switch(p_frame_hdr->payload_length)
+                                                {
+                                                        //next 2 bytes are used as 16bit payload length
+                                                        case 126:
+                                                                payloadLen = buf[sizeof(WS_frame_header_t)+1];
+                                                                payloadLen += buf[sizeof(WS_frame_header_t)]<<8;
+                                                                ESP_LOGI("WS","16bit payload length: %llu",payloadLen);
+                                                                offset = 2;
+                                                                break;
+                                                        //next 4 bytes are used as 64bit payload length
+                                                        case 127:
+                                                                ESP_LOGE("WS","Error: 64bit length fields not supported (too less memory in ESP32)!");
+                                                                break;
+                                                        //short frames 0-125 bytes
+                                                        default: 
+                                                                payloadLen = p_frame_hdr->payload_length;
+                                                                offset = 0;
+                                                                break;
+                                                }
 
-							//get beginning of mask or payload
-							p_buf = (char*) &buf[sizeof(WS_frame_header_t)];
+                                                //get beginning of mask or payload
+                                                p_buf = (char*) &buf[sizeof(WS_frame_header_t)+offset];
 
-							//check if content is masked
-							if (p_frame_hdr->mask) {
+                                                //check if content is masked
+                                                if (p_frame_hdr->mask) {
 
-								//allocate memory for decoded message
-                                                                //note: we added here 2 additional bytes to insert a \r\n termination
-								p_payload = malloc(p_frame_hdr->payload_length + 3);
-                                                                //note: variant without \r\n
-                                                                p_payload = malloc(p_frame_hdr->payload_length + 1);
+                                                        //allocate memory for decoded message
+                                                        p_payload = malloc(payloadLen + 1);
 
-								//check if malloc succeeded
-								if (p_payload != NULL) {
+                                                        //check if malloc succeeded
+                                                        if (p_payload != NULL) {
 
-									//decode playload
-									for (i = 0; i < p_frame_hdr->payload_length;
-											i++)
-										p_payload[i] = (p_buf + WS_MASK_L)[i]
-												^ p_buf[i % WS_MASK_L];
-												
-									//add \r\n\0 terminator
-									//p_payload[p_frame_hdr->payload_length] = '\r';
-									//p_payload[p_frame_hdr->payload_length+1] = '\n';
-									//p_payload[p_frame_hdr->payload_length+2] = 0;
-                                                                        
-                                                                        //add \0 terminator
-									p_payload[p_frame_hdr->payload_length] = 0;
-								}
-							} else
-								//content is not masked
-								p_payload = p_buf;
+                                                                //decode playload
+                                                                for (i = 0; i < payloadLen;
+                                                                                i++)
+                                                                        p_payload[i] = (p_buf + WS_MASK_L)[i]
+                                                                                        ^ p_buf[i % WS_MASK_L];
+                                                                                        
+                                                                //add \0 terminator
+                                                                p_payload[payloadLen] = 0;
+                                                        }
+                                                } else {
+                                                        //content is not masked
+                                                        p_payload = p_buf;
+                                                }
 
-							//do stuff
-							if ((p_payload != NULL)	&& (p_frame_hdr->opcode == WS_OP_TXT)) {
+                                                //do stuff
+                                                if ((p_payload != NULL)	&& (p_frame_hdr->opcode == WS_OP_TXT)) {
 
-                                                                //save incoming buffer pointer & length to an AT command struct
-                                                                atcmd_t incoming;
-                                                                //payload will be freed in receiving task
-                                                                incoming.buf = (uint8_t *)p_payload;
-                                                                incoming.len = p_frame_hdr->payload_length;
-                                                                
-                                                                
-                                                                
-								//send message
-                                                                ESP_LOGI("websocket","Sent incoming command: %s",p_payload);
-								xQueueSendFromISR(halSerialATCmds,&incoming,0);
-							}
-
-						} //p_frame_hdr->payload_length<126
-
+                                                        //save incoming buffer pointer & length to an AT command struct
+                                                        atcmd_t incoming;
+                                                        //payload will be freed in receiving task
+                                                        incoming.buf = (uint8_t *)p_payload;
+                                                        incoming.len = p_frame_hdr->payload_length;
+                                                        
+                                                        //send message
+                                                        ESP_LOGI("websocket","Sent incoming command: %s",p_payload);
+                                                        xQueueSendFromISR(halSerialATCmds,&incoming,0);
+                                                }
 						//free input buffer
 						netbuf_delete(inbuf);
 

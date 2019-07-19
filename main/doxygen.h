@@ -62,5 +62,7 @@
 /*++++ All global todos, roadmap, ... ++++*/
 /**
  * @file 
- * @todo Implement learning mode
+ * @todo Implement learning mode (output of triggered buttons to serial/WS)
+ * @todo Implement WS long payload
+ * @todo Implement .set upload for config files
 */

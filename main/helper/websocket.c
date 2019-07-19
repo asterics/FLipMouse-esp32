@@ -199,22 +199,26 @@ void ws_server_netconn_serve(struct netconn *conn) {
                                                 //according to RFC6455
                                                 switch(p_frame_hdr->payload_length)
                                                 {
-                                                        ///@todo Is this network to host decoding of 16/64bits correct?!?
                                                         //next 2 bytes are used as 16bit payload length
-                                                        case 126: 
-                                                                payloadLen = ntohs(buf[sizeof(WS_frame_header_t)]);
+                                                        case 126:
+                                                                payloadLen = buf[sizeof(WS_frame_header_t)+1];
+                                                                payloadLen += buf[sizeof(WS_frame_header_t)]<<8;
+                                                                ESP_LOGI("WS","16bit payload length: %llu",payloadLen);
                                                                 offset = 2;
+                                                                break;
                                                         //next 4 bytes are used as 64bit payload length
                                                         case 127:
-                                                                payloadLen = ntohl(buf[sizeof(WS_frame_header_t)]);
-                                                                payloadLen += ntohl(buf[sizeof(WS_frame_header_t)+4]);
-                                                                offset = 8;
+                                                                ESP_LOGE("WS","Error: 64bit length fields not supported (too less memory in ESP32)!");
+                                                                break;
                                                         //short frames 0-125 bytes
-                                                        default: payloadLen = p_frame_hdr->payload_length; break;
+                                                        default: 
+                                                                payloadLen = p_frame_hdr->payload_length;
+                                                                offset = 0;
+                                                                break;
                                                 }
 
                                                 //get beginning of mask or payload
-                                                p_buf = (char*) &buf[sizeof(WS_frame_header_t)];
+                                                p_buf = (char*) &buf[sizeof(WS_frame_header_t)+offset];
 
                                                 //check if content is masked
                                                 if (p_frame_hdr->mask) {
@@ -228,15 +232,16 @@ void ws_server_netconn_serve(struct netconn *conn) {
                                                                 //decode playload
                                                                 for (i = 0; i < payloadLen;
                                                                                 i++)
-                                                                        p_payload[i] = (p_buf + WS_MASK_L + offset)[i]
-                                                                                        ^ p_buf[offset+(i % WS_MASK_L)];
+                                                                        p_payload[i] = (p_buf + WS_MASK_L)[i]
+                                                                                        ^ p_buf[i % WS_MASK_L];
                                                                                         
                                                                 //add \0 terminator
                                                                 p_payload[payloadLen] = 0;
                                                         }
-                                                } else
+                                                } else {
                                                         //content is not masked
-                                                        p_payload = p_buf+offset;
+                                                        p_payload = p_buf;
+                                                }
 
                                                 //do stuff
                                                 if ((p_payload != NULL)	&& (p_frame_hdr->opcode == WS_OP_TXT)) {
@@ -246,8 +251,6 @@ void ws_server_netconn_serve(struct netconn *conn) {
                                                         //payload will be freed in receiving task
                                                         incoming.buf = (uint8_t *)p_payload;
                                                         incoming.len = p_frame_hdr->payload_length;
-                                                        
-                                                        
                                                         
                                                         //send message
                                                         ESP_LOGI("websocket","Sent incoming command: %s",p_payload);

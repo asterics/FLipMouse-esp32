@@ -193,6 +193,26 @@ void ws_server_netconn_serve(struct netconn *conn) {
 							break;
 
 						//get payload length
+                                                uint64_t payloadLen = 0;
+                                                uint8_t offset = 0;
+                                                //determine payload length type.
+                                                //according to RFC6455
+                                                switch(p_frame_hdr->payload_length)
+                                                {
+                                                        ///@todo Is this network to host decoding of 16/64bits correct?!?
+                                                        //next 2 bytes are used as 16bit payload length
+                                                        case 126: 
+                                                                payloadLen = ntohs(buf[sizeof(WS_frame_header_t)]);
+                                                                offset = 2;
+                                                        //next 4 bytes are used as 64bit payload length
+                                                        case 127:
+                                                                payloadLen = ntohl(buf[sizeof(WS_frame_header_t)]);
+                                                                payloadLen += ntohl(buf[sizeof(WS_frame_header_t)+4]);
+                                                                offset = 8;
+                                                        //short frames 0-125 bytes
+                                                        default: payloadLen = p_frame_hdr->payload_length; break;
+                                                }
+                                                
 						if (p_frame_hdr->payload_length <= WS_STD_LEN) {
 
 							//get beginning of mask or payload
@@ -202,31 +222,23 @@ void ws_server_netconn_serve(struct netconn *conn) {
 							if (p_frame_hdr->mask) {
 
 								//allocate memory for decoded message
-                                                                //note: we added here 2 additional bytes to insert a \r\n termination
-								p_payload = malloc(p_frame_hdr->payload_length + 3);
-                                                                //note: variant without \r\n
-                                                                p_payload = malloc(p_frame_hdr->payload_length + 1);
+                                                                p_payload = malloc(payloadLen + 1);
 
 								//check if malloc succeeded
 								if (p_payload != NULL) {
 
 									//decode playload
-									for (i = 0; i < p_frame_hdr->payload_length;
+									for (i = 0; i < payloadLen;
 											i++)
-										p_payload[i] = (p_buf + WS_MASK_L)[i]
-												^ p_buf[i % WS_MASK_L];
+										p_payload[i] = (p_buf + WS_MASK_L + offset)[i]
+												^ p_buf[offset+(i % WS_MASK_L)];
 												
-									//add \r\n\0 terminator
-									//p_payload[p_frame_hdr->payload_length] = '\r';
-									//p_payload[p_frame_hdr->payload_length+1] = '\n';
-									//p_payload[p_frame_hdr->payload_length+2] = 0;
-                                                                        
                                                                         //add \0 terminator
-									p_payload[p_frame_hdr->payload_length] = 0;
+									p_payload[payloadLen] = 0;
 								}
 							} else
 								//content is not masked
-								p_payload = p_buf;
+								p_payload = p_buf+offset;
 
 							//do stuff
 							if ((p_payload != NULL)	&& (p_frame_hdr->opcode == WS_OP_TXT)) {

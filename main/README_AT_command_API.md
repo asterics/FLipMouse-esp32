@@ -162,12 +162,13 @@ If set to 1, the axis/slider/hat will be released to its idle position on a VB r
 | AT ML | string (1char) | set a new MQTT delimiter symbol (topic vs data, default: ":") for AT MQ | v3 | yes | no |
 | AT WP | string (8-63chars) | set a new WiFi password (when this device is connected as WiFi client!) <sup>[F](#footnoteF)</sup>  | v3 | yes | no |
 | AT WH | string (4-31chars) | set a new WiFi name to connect to (when this device is connected as WiFi client!) <sup>[F](#footnoteF)</sup>  | v3 | yes | no |
-| AT RE | string (8-200chars) | calling a REST API via HTTP get. If not connected yet, Wifi will be activated in station mode <sup>[G](#footnoteG)</sup>  | v3 | yes | handler_vb |
+| AT RE | string (8-514chars) | calling a REST API via HTTP get. If not connected yet, Wifi will be activated in station mode <sup>[G](#footnoteG)</sup>  | v3 | yes | handler_vb |
 
 <a name="footnoteE"><b>E</b></a>: No QoS or retain flags are implemented for MQTT. Please note, that WiFi is only started on the first execution of an AT MQ command.
 <a name="footnoteF"><b>F</b></a>: Please note, that WiFi in station mode will be activated on the first call of a WiFi related command (e.g. AT MQ or AT RE).
 <a name="footnoteG"><b>G</b></a>: Due to a limitation in the esp-idf, you cannot use HTTPS without providing a server certificate. We consider extracting the certificate
 for each host too complicated, please use HTTP instead. We also thought of integrating the whole Mozilla certificate DB, but this would take REALLY long to try all certificates.
+Maximum length of URL is 514 characters (including "http://").
 
 
 After WiFi is enabled in station mode, it is possible to activate the SoftAP mode for the configuration GUI, but once this is done, the device must be restarted to restore full functionality!

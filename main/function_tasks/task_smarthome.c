@@ -228,6 +228,14 @@ esp_err_t taskWifiInit(void)
 {
   if(checkeventgroup() != ESP_OK) return ESP_FAIL;
   
+  //check if the web GUI is active.
+  //if yes, we cannot resume, otherwise the SoftAP will terminate
+  if(xEventGroupGetBits(connectionRoutingStatus) & WIFI_ACTIVE)
+  {
+    ESP_LOGW(LOG_TAG_WIFI,"Cannot enable station mode while WebGUI is active");
+    return ESP_FAIL;
+  }
+  
   //check if already initialized, if yes we are finished here, if no:
   //set bit immediately and continue
   if(xEventGroupGetBits(smarthomestatus) & SH_WIFI_INITIALIZED) return ESP_OK;
@@ -420,6 +428,9 @@ esp_err_t taskMQTTPublish(char* topic_payload)
  * There might be a timeout or missed REST call if wifi is not active.
  * Nevertheless, we will wait 5s for the Wifi to be active.
  * @return ESP_OK on success, ESP_FAIL otherwise
+ * 
+ * @todo Implement a queue for REST commands. Currently, we will block here all handler_vb actions.
+ * @todo Somewhere in storing the REST URL, we corrupt the heap by one byte (Bad head at 0x3ffe7f40. Expected 0xabba1234 got 0xabba0034)
  * */
 esp_err_t taskREST(char* uri)
 {
@@ -440,6 +451,13 @@ esp_err_t taskREST(char* uri)
   //copy the given URL, because we cannot be sure how
   //this string will be valid.
   char* url = malloc(strnlen(uri,ATCMD_LENGTH)+1);
+  
+  if(url == NULL)
+  {
+    ESP_LOGE(LOG_TAG_REST,"Error malloc URI");
+    return ESP_FAIL;
+  }
+  
   strncpy(url,uri,strnlen(uri,ATCMD_LENGTH)+1);
   
   //init with empty config
@@ -458,12 +476,14 @@ esp_err_t taskREST(char* uri)
   if(esp_http_client_set_url(client,uri) != ESP_OK)
   {
     ESP_LOGE(LOG_TAG_REST,"Error setting URI");
+    esp_http_client_cleanup(client);
     return ESP_FAIL;
   }
   //preform call
   if(esp_http_client_perform(client) != ESP_OK)
   {
     ESP_LOGE(LOG_TAG_REST,"Error http_client_perform");
+    esp_http_client_cleanup(client);
     return ESP_FAIL;
   }
   //cleanup & return

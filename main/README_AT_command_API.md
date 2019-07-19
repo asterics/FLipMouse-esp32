@@ -179,7 +179,7 @@ The FLipMouse version 2 has 1 internal push-button and 2 jack plugs for external
 Version 3 uses the second internal button, which was previously the program button for the Teensy, as virtual button 0.
 
 **Note:** VB0 (internal button 2) is configured as activation button to switch on/off WiFi for configuring the FLipMouse.
-Feedback to the user is still not defined, will be announced here.
+After pressing this button for 5s, Wifi will be activated in SoftAP mode and the LED will turn purple.
 
 In addition other functions are mapped to virtual buttons, so they can be configured the same.
 Following number mapping is used for the __AT BM__ command:

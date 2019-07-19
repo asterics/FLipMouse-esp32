@@ -3,3 +3,4 @@ sdkconfig.old
 *.iml
 *.kicad_pcb-bak
 *.bak
+node_modules/

@@ -114,11 +114,11 @@ input[type=range]:focus::-ms-fill-upper {
 }
 
 .colored-thumb input[type=range]::-webkit-slider-thumb {
-    background: #9be7ff; !important;
+    background: #9be7ff !important;
 }
 .colored-thumb input[type=range]::-moz-range-thumb {
-    background: #9be7ff; !important;
+    background: #9be7ff !important;
 }
 .colored-thumb input[type=range]::-ms-thumb {
-    background: #9be7ff; !important;
+    background: #9be7ff !important;
 }

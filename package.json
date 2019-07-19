@@ -1,0 +1,30 @@
+{
+  "name": "flipmouse-esp32",
+  "version": "1.0.0",
+  "description": "This repository contains the ongoing progress on the firmware for the FLipMouse version3.\r It will be API compatible with version 2, but with major improvements on speed (instead of one CortexM0 we will have a dual-core Tensilica and an additional CortexM0 for USB).",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "minify": "grunt && cp -r webgui/minified webgui/minified_gz && gzip -r webgui/minified_gz"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/asterics/FLipMouse-esp32.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/asterics/FLipMouse-esp32/issues"
+  },
+  "homepage": "https://github.com/asterics/FLipMouse-esp32#readme",
+  "devDependencies": {
+    "grunt": "^1.0.4",
+    "grunt-contrib-copy": "^1.0.0",
+    "grunt-contrib-cssmin": "^3.0.0",
+    "grunt-contrib-htmlmin": "^3.1.0",
+    "grunt-contrib-uglify": "^4.0.1"
+  }
+}

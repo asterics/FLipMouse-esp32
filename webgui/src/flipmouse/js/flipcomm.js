@@ -85,7 +85,7 @@ function FlipMouse(initFinished) {
                 reject(_AT_CMD_BUSY_RESPONSE);
             });
         }
-        var promise = new Promise((resolve, reject) => {
+        var promise = new Promise(function(resolve, reject) {
             if (_atCmdQueue.length > 0) {
                 console.log("adding cmd to queue: " + atCmd);
             }
@@ -130,7 +130,7 @@ function FlipMouse(initFinished) {
      * @return {Promise}
      */
     thiz.testConnection = function (onlyIfEmptyQueue) {
-        return new Promise((resolve) => {
+        return new Promise(function(resolve) {
             thiz.sendATCmd('AT', onlyIfEmptyQueue).then(function (response) {
                 resolve(response && response.indexOf(_AT_CMD_OK_RESPONSE) > -1 ? true : false);
             }, function (response) {
@@ -152,7 +152,7 @@ function FlipMouse(initFinished) {
     };
 
     thiz.refreshConfig = function () {
-        return new Promise((resolve, reject) => {
+        return new Promise(function(resolve, reject) {
             thiz.sendATCmd('AT LA').then(function (response) {
                 parseConfig(response);
                 resolve();
@@ -380,7 +380,7 @@ function FlipMouse(initFinished) {
     init();
 
     function init() {
-        var promise = new Promise(resolve => {
+        var promise = new Promise(function(resolve) {
             if(window.location.href.indexOf('mock') > -1) {
                 _communicator = new MockCommunicator();
                 resolve();

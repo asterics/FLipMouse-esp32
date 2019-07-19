@@ -26,7 +26,7 @@ function ARECommunicator(socket) {
         var xmlHttp = new XMLHttpRequest();
         xmlHttp.open("GET", url);
         xmlHttp.send(value);
-        return new Promise((resolve, reject) => {
+        return new Promise(function (resolve, reject) {
             ws.initWebsocket(C.ARE_WEBSOCKET_URL, _websocket).then(function (socket) {
                 _websocket = socket;
                 ws.handleData(_websocket, _valueHandler, timeout).then(resolve);

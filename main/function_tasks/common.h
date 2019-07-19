@@ -90,7 +90,7 @@
 #define VB_MAXIMUM_PARAMETER_SIZE 128
 
 /** @brief maximum length for an AT command (including parameters & 'AT ', e.g., macro text) */
-#define ATCMD_LENGTH   256
+#define ATCMD_LENGTH   1024
 
 /** @brief Bitmask for testing if a function task should send data to USB queues */
 #define DATATO_USB (1<<7)

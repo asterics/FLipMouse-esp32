@@ -4,6 +4,9 @@
  * The MIT License (MIT)
  *
  * Copyright (c) 2017, Thomas Barth, barth-dev.de
+ * 
+ * Copyright (c) 2019, Benjamin Aigner, beni@asterics-foundation.org
+ * Implementation of 16bit length field for frames longer than 125bytes.
  *
  * Permission is hereby granted, free of charge, to any person
  * obtaining a copy of this software and associated documentation
@@ -61,8 +64,8 @@ esp_err_t WS_write_data(char* p_data, size_t length) {
 	if (WS_conn == NULL)
 		return ERR_CONN;
 
-	//currently only frames with a payload length <WS_STD_LEN are supported
-	if (length > WS_STD_LEN)
+	//currently only 16bit length field is supported
+	if (length > 0xFFFF)
 		return ERR_VAL;
 
 	//netconn_write result buffer
@@ -71,17 +74,38 @@ esp_err_t WS_write_data(char* p_data, size_t length) {
 	//prepare header
 	WS_frame_header_t hdr;
 	hdr.FIN = 0x1;
-	hdr.payload_length = length;
+	
 	hdr.mask = 0;
 	hdr.reserved = 0;
 	hdr.opcode = WS_OP_TXT;
+                
+        //determine length field type
+        if(length <= WS_STD_LEN)
+        {
+                hdr.payload_length = length;
+        } else if(length <= 0xFFFF) {
+                hdr.payload_length = 126;
+        } else {
+                hdr.payload_length = 127;
+        }
 
 	//send header
 	result = netconn_write(WS_conn, &hdr, sizeof(WS_frame_header_t), NETCONN_COPY);
 
 	//check if header was send
-	if (result != ERR_OK)
+	if (result != ERR_OK) {
+                ESP_LOGE("WS","header");
 		return result;
+        }
+        
+        //send additional length field, if necessary
+        if(hdr.payload_length == 126)
+        {
+                char len = (length & 0xFF00) >> 8;
+                netconn_write(WS_conn, &len, 1, NETCONN_COPY);
+                len = length & 0x00FF;
+                netconn_write(WS_conn, &len, 1, NETCONN_COPY);
+        }
 
 	//send payload
 	return netconn_write(WS_conn, p_data, length, NETCONN_COPY);

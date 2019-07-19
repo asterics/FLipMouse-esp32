@@ -18,9 +18,9 @@ a[data-tab] {
 button, .button {
     font-size: 1em;
     width: 100%;
-    height: auto; !important;
+    height: auto !important;
     white-space: normal;
-    padding: 0; !important;
+    padding: 0 !important;
 }
 
 button:disabled, button:disabled div{
@@ -70,7 +70,7 @@ br {
 
 .text-normal {
     font-style: normal;
-    font-weight: normal; !important;
+    font-weight: normal !important;
 }
 
 .value-bar {
@@ -95,13 +95,13 @@ br {
 }
 
 .half-width {
-    width: 48%; !important;
+    width: 48% !important;
     float: left;
 }
 
 .tbody li {
     list-style-type: none;
-    margin: 0; !important;
+    margin: 0 !important;
 }
 
 .thead div {
@@ -166,13 +166,13 @@ label {
 
 .zoombutton {
     position: absolute;
-    line-height: 0; !important;
+    line-height: 0 !important;
     text-decoration: none;
     border: thin solid;
     height: 1.5em;
     width: 1.5em;
     text-align: center;
-    padding: 0; !important;
+    padding: 0 !important;
 }
 
 .center-div

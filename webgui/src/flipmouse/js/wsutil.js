@@ -14,7 +14,7 @@ ws.initWebsocket = function(url, existingWebsocket, timeoutMs, numberOfRetries) 
     timeoutMs = timeoutMs ? timeoutMs : 1500;
     numberOfRetries = numberOfRetries ? numberOfRetries : 0;
     var hasReturned = false;
-    var promise = new Promise((resolve, reject) => {
+    var promise = new Promise(function(resolve, reject) {
         setTimeout(function () {
             if(!hasReturned) {
                 console.info('opening websocket timed out: ' + url);
@@ -70,7 +70,7 @@ ws.initWebsocket = function(url, existingWebsocket, timeoutMs, numberOfRetries) 
  */
 ws.handleData = function (socket, valueHandler, timeout) {
     timeout = timeout || 3000;
-    return new Promise(resolve => {
+    return new Promise(function(resolve) {
         var result = '';
         var timeoutHandler = setTimeout(function () {
             //console.log("timeout von command: " + value);

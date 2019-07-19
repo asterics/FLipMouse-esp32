@@ -14,7 +14,7 @@ window.tabAction.init = function (actionCategory) {
     L('#SELECT_LEARN_CAT_KEYBOARD_SPECIAL').innerHTML = L.createSelectItems(C.SUPPORTED_KEYCODES, function (code) {
         return C.KEYCODE_MAPPING[code];
     }, 'SELECT_SPECIAL_KEY');
-    flip.sendATCmd(C.AT_CMD_IR_LIST).then(response => {
+    flip.sendATCmd(C.AT_CMD_IR_LIST).then(function(response) {
         if (!response) {
             return;
         }

@@ -78,17 +78,18 @@ $(function() {
 <p class="enddd">Maybe we can replace this switch statement with a more flexible solution.  </p>
 </dd>
 <dt><a class="anchor" id="_todo000002"></a>File <a class="el" href="doxygen_8h.html">doxygen.h</a>  </dt>
-<dd>Implement learning mode  </dd>
+<dd><p class="startdd">Implement learning mode (output of triggered buttons to serial/WS) </p>
+<p>Implement WS long payload </p>
+<p class="enddd">Implement .set upload for config files  </p>
+</dd>
 <dt><a class="anchor" id="_todo000006"></a>Global <a class="el" href="structgeneralConfig.html#a5604b791b1617a88bc4b93558ffb3233">generalConfig::button_learn</a>  </dt>
 <dd>Move to "volatile" storage, independent from slot change  </dd>
-<dt><a class="anchor" id="_todo000014"></a>File <a class="el" href="hal__adc_8c.html">hal_adc.c</a>  </dt>
+<dt><a class="anchor" id="_todo000015"></a>File <a class="el" href="hal__adc_8c.html">hal_adc.c</a>  </dt>
 <dd>Add CIM reporting (if we implement it at all)  </dd>
-<dt><a class="anchor" id="_todo000015"></a>File <a class="el" href="hal__adc_8h.html">hal_adc.h</a>  </dt>
+<dt><a class="anchor" id="_todo000016"></a>File <a class="el" href="hal__adc_8h.html">hal_adc.h</a>  </dt>
 <dd>Add raw value reporting for: CIM mode and serial interface  </dd>
-<dt><a class="anchor" id="_todo000016"></a>Global <a class="el" href="hal__serial_8c.html#a8ed6a618f134d6b923ba216de84253f6">HAL_SERIAL_UART_TIMEOUT_MS</a>  </dt>
+<dt><a class="anchor" id="_todo000017"></a>Global <a class="el" href="hal__serial_8c.html#a8ed6a618f134d6b923ba216de84253f6">HAL_SERIAL_UART_TIMEOUT_MS</a>  </dt>
 <dd>Documentation updates, this define is now used differently...  </dd>
-<dt><a class="anchor" id="_todo000017"></a>Global <a class="el" href="hal__storage_8h.html#a670ba7fad19e9a70672d73897785712f">halStorageLoadNumber</a>  (uint8_t slotnumber, uint32_t tid, uint8_t outputSerial)</dt>
-<dd>Ab hier wäre es wieder passend den debouncer zu aktivieren?!?  </dd>
 <dt><a class="anchor" id="_todo000018"></a>Global <a class="el" href="hal__storage_8h.html#a16be2ae040ef4db3b7fb11b46d07c7a1">halStorageStore</a>  (uint32_t tid, char *cfgstring, uint8_t slotnumber)</dt>
 <dd>not necessary anymore?  </dd>
 <dt><a class="anchor" id="_todo000001"></a>Global <a class="el" href="hid__device__le__prf_8c.html#a8fb6489bfedb7d288643295c3a78b421">hidReportMap</a>  []</dt>
@@ -101,11 +102,19 @@ $(function() {
 <dd>Is this the same behaviour? Create a slot if AT LI is called...  </dd>
 <dt><a class="anchor" id="_todo000010"></a>Global <a class="el" href="task__debouncer_8h.html#a79d88e490be7198b9cc37556c66b837b">task_debouncer</a>  (void *param)</dt>
 <dd>Add anti-tremor &amp; deadtime functionality  </dd>
-<dt><a class="anchor" id="_todo000011"></a>File <a class="el" href="task__webgui_8c.html">task_webgui.c</a>  </dt>
+<dt><a class="anchor" id="_todo000012"></a>File <a class="el" href="task__webgui_8c.html">task_webgui.c</a>  </dt>
 <dd><p class="startdd">Add wifi settings to cfg struct in hal_storage/common; default fallback should be defined </p>
 <p class="enddd">After implementing, test everything....  </p>
 </dd>
-<dt><a class="anchor" id="_todo000012"></a>Global <a class="el" href="task__webgui_8c.html#a669b9245d5040c0162481f7b24dbeea7">taskWebGUIInit</a>  (void)</dt>
+<dt><a class="anchor" id="_todo000011"></a>Global <a class="el" href="task__smarthome_8h.html#ada3e20e5219fc786b19060f089dd8b24">taskREST</a>  (char *URL)</dt>
+<dd><p class="startdd">Implement a queue for REST commands. Currently, we will block here all handler_vb actions. </p>
+<p class="enddd">Somewhere in storing the REST URL, we corrupt the heap by one byte (Bad head at 0x3ffe7f40. Expected 0xabba1234 got 0xabba0034)  </p>
+</dd>
+<dt><a class="anchor" id="_todo000011"></a>Global <a class="el" href="task__smarthome_8h.html#ada3e20e5219fc786b19060f089dd8b24">taskREST</a>  (char *URL)</dt>
+<dd><p class="startdd">Implement a queue for REST commands. Currently, we will block here all handler_vb actions. </p>
+<p class="enddd">Somewhere in storing the REST URL, we corrupt the heap by one byte (Bad head at 0x3ffe7f40. Expected 0xabba1234 got 0xabba0034)  </p>
+</dd>
+<dt><a class="anchor" id="_todo000013"></a>Global <a class="el" href="task__webgui_8c.html#a669b9245d5040c0162481f7b24dbeea7">taskWebGUIInit</a>  (void)</dt>
 <dd><p class="startdd">Activate/fix/test captive portal</p>
 <p class="enddd">Activate/fix/test captive portal</p>
 </dd>

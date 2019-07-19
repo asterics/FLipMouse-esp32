@@ -188,9 +188,9 @@ Functions</h2></td></tr>
 <p>This function deactives MQTT</p>
 <dl class="section return"><dt>Returns</dt><dd>ESP_OK on success, ESP_FAIL otherwise </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="task__smarthome_8c_source.html#l00313">313</a> of file <a class="el" href="task__smarthome_8c_source.html">task_smarthome.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="task__smarthome_8c_source.html#l00321">321</a> of file <a class="el" href="task__smarthome_8c_source.html">task_smarthome.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="task__smarthome_8c_source.html#l00334">taskWifiDeInit()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="task__smarthome_8c_source.html#l00342">taskWifiDeInit()</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -248,9 +248,9 @@ Wifi credentials and broker information must be in NVS BEFORE calling this funct
 <dl class="section see"><dt>See also</dt><dd><a class="el" href="task__smarthome_8h.html#a028c7f08d77e361f5624a8259b88788a" title="Default mqtt delimter character. ">MQTT_DELIMITER</a> </dd></dl>
 <dl class="section return"><dt>Returns</dt><dd>ESP_OK on success, ESP_FAIL otherwise </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="task__smarthome_8c_source.html#l00366">366</a> of file <a class="el" href="task__smarthome_8c_source.html">task_smarthome.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="task__smarthome_8c_source.html#l00374">374</a> of file <a class="el" href="task__smarthome_8c_source.html">task_smarthome.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="task__commands_8c_source.html#l00944">cmdMq()</a>, and <a class="el" href="handler__vb_8c_source.html#l00071">handler_vb()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="task__commands_8c_source.html#l00943">cmdMq()</a>, and <a class="el" href="handler__vb_8c_source.html#l00071">handler_vb()</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -302,11 +302,14 @@ Here is the caller graph for this function:</div>
 <p>Publish data via MQTT.</p>
 <p>This function calls the given URL via http/s GET. If Wifi is not initialized, it will be started. On the first call, there might be a delay until wifi is connected.</p>
 <dl class="section note"><dt>Note</dt><dd>Wifi is activated here, if this was not done before. There might be a timeout or missed REST call if wifi is not active. Nevertheless, we will wait 5s for the Wifi to be active. </dd></dl>
-<dl class="section return"><dt>Returns</dt><dd>ESP_OK on success, ESP_FAIL otherwise </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>ESP_OK on success, ESP_FAIL otherwise</dd></dl>
+<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000011">Todo:</a></b></dt><dd><p class="startdd">Implement a queue for REST commands. Currently, we will block here all handler_vb actions. </p>
+<p class="enddd">Somewhere in storing the REST URL, we corrupt the heap by one byte (Bad head at 0x3ffe7f40. Expected 0xabba1234 got 0xabba0034) </p>
+</dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="task__smarthome_8c_source.html#l00424">424</a> of file <a class="el" href="task__smarthome_8c_source.html">task_smarthome.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="task__smarthome_8c_source.html#l00435">435</a> of file <a class="el" href="task__smarthome_8c_source.html">task_smarthome.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="task__commands_8c_source.html#l00956">cmdRe()</a>, and <a class="el" href="handler__vb_8c_source.html#l00071">handler_vb()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="task__commands_8c_source.html#l00955">cmdRe()</a>, and <a class="el" href="handler__vb_8c_source.html#l00071">handler_vb()</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -359,7 +362,7 @@ Here is the caller graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="task__smarthome_8c_source.html#l00227">227</a> of file <a class="el" href="task__smarthome_8c_source.html">task_smarthome.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="task__smarthome_8c_source.html#l00178">taskMQTTInit()</a>, and <a class="el" href="task__smarthome_8c_source.html#l00424">taskREST()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="task__smarthome_8c_source.html#l00178">taskMQTTInit()</a>, and <a class="el" href="task__smarthome_8c_source.html#l00435">taskREST()</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">

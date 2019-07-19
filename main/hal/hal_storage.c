@@ -1078,7 +1078,38 @@ esp_err_t halStorageLoadNumber(uint8_t slotnumber, uint32_t tid, uint8_t outputS
       free(at);
     }
   }
-  ///@todo Ab hier wäre es wieder passend den debouncer zu aktivieren?!?
+  
+  //// print out NVS keys to the serial/WS interface ////
+  // we don't implement it in the normal loop, because these
+  // settings are NOT in the config text file.
+  // Therefore, we only need to output these values on request for
+  // printing the whole config via serial/WS.
+  if(outputSerial == 1)
+  {
+    char *outputstring = malloc(ATCMD_LENGTH+1);
+    if(outputstring != NULL)
+    { 
+      //print out MQTT broker URL ("AT MH")
+      sprintf(outputstring,"AT MQ ");
+      esp_err_t ret = halStorageNVSLoadString(NVS_MQTT_BROKER,&outputstring[6]);
+      if(ret == ESP_OK) halSerialSendUSBSerial(outputstring, \
+        strnlen(outputstring,ATCMD_LENGTH),100/portTICK_PERIOD_MS);
+      //print out MQTT delimiter ("AT ML")
+      sprintf(outputstring,"AT ML ");
+      ret = halStorageNVSLoadString(NVS_MQTT_DELIM,&outputstring[6]);
+      if(ret == ESP_OK) halSerialSendUSBSerial(outputstring, \
+        strnlen(outputstring,ATCMD_LENGTH),100/portTICK_PERIOD_MS);
+      //print out Wifi station name ("AT WH")
+      sprintf(outputstring,"AT WH ");
+      ret = halStorageNVSLoadString(NVS_STATIONNAME,&outputstring[6]);
+      if(ret == ESP_OK) halSerialSendUSBSerial(outputstring, \
+        strnlen(outputstring,ATCMD_LENGTH),100/portTICK_PERIOD_MS);
+      
+      //clean up
+      free(outputstring);
+    } else ESP_LOGE(LOG_TAG,"Error allocating memory for NVS output!");
+  }
+
   ESP_LOGI(LOG_TAG,"Loaded slot %s,nr: %d, %u commands",slotname,slotnumber,cmdcount);
   
   //save current slot number, if processed by parser

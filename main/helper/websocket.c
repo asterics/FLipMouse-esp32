@@ -212,52 +212,47 @@ void ws_server_netconn_serve(struct netconn *conn) {
                                                         //short frames 0-125 bytes
                                                         default: payloadLen = p_frame_hdr->payload_length; break;
                                                 }
-                                                
-						if (p_frame_hdr->payload_length <= WS_STD_LEN) {
 
-							//get beginning of mask or payload
-							p_buf = (char*) &buf[sizeof(WS_frame_header_t)];
+                                                //get beginning of mask or payload
+                                                p_buf = (char*) &buf[sizeof(WS_frame_header_t)];
 
-							//check if content is masked
-							if (p_frame_hdr->mask) {
+                                                //check if content is masked
+                                                if (p_frame_hdr->mask) {
 
-								//allocate memory for decoded message
-                                                                p_payload = malloc(payloadLen + 1);
+                                                        //allocate memory for decoded message
+                                                        p_payload = malloc(payloadLen + 1);
 
-								//check if malloc succeeded
-								if (p_payload != NULL) {
+                                                        //check if malloc succeeded
+                                                        if (p_payload != NULL) {
 
-									//decode playload
-									for (i = 0; i < payloadLen;
-											i++)
-										p_payload[i] = (p_buf + WS_MASK_L + offset)[i]
-												^ p_buf[offset+(i % WS_MASK_L)];
-												
-                                                                        //add \0 terminator
-									p_payload[payloadLen] = 0;
-								}
-							} else
-								//content is not masked
-								p_payload = p_buf+offset;
+                                                                //decode playload
+                                                                for (i = 0; i < payloadLen;
+                                                                                i++)
+                                                                        p_payload[i] = (p_buf + WS_MASK_L + offset)[i]
+                                                                                        ^ p_buf[offset+(i % WS_MASK_L)];
+                                                                                        
+                                                                //add \0 terminator
+                                                                p_payload[payloadLen] = 0;
+                                                        }
+                                                } else
+                                                        //content is not masked
+                                                        p_payload = p_buf+offset;
 
-							//do stuff
-							if ((p_payload != NULL)	&& (p_frame_hdr->opcode == WS_OP_TXT)) {
+                                                //do stuff
+                                                if ((p_payload != NULL)	&& (p_frame_hdr->opcode == WS_OP_TXT)) {
 
-                                                                //save incoming buffer pointer & length to an AT command struct
-                                                                atcmd_t incoming;
-                                                                //payload will be freed in receiving task
-                                                                incoming.buf = (uint8_t *)p_payload;
-                                                                incoming.len = p_frame_hdr->payload_length;
-                                                                
-                                                                
-                                                                
-								//send message
-                                                                ESP_LOGI("websocket","Sent incoming command: %s",p_payload);
-								xQueueSendFromISR(halSerialATCmds,&incoming,0);
-							}
-
-						} //p_frame_hdr->payload_length<126
-
+                                                        //save incoming buffer pointer & length to an AT command struct
+                                                        atcmd_t incoming;
+                                                        //payload will be freed in receiving task
+                                                        incoming.buf = (uint8_t *)p_payload;
+                                                        incoming.len = p_frame_hdr->payload_length;
+                                                        
+                                                        
+                                                        
+                                                        //send message
+                                                        ESP_LOGI("websocket","Sent incoming command: %s",p_payload);
+                                                        xQueueSendFromISR(halSerialATCmds,&incoming,0);
+                                                }
 						//free input buffer
 						netbuf_delete(inbuf);
 

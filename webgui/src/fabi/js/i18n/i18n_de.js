@@ -12,7 +12,8 @@ window.i18n = {
     'CONNECTED': 'verbunden',
     'NOT_CONNECTED': 'nicht verbunden',
     'IN_DEADZONE' : 'innerhalb der Deadzone',
-    'OUT_DEADZONE' : 'außerhalb der Deadzone'
+    'OUT_DEADZONE' : 'außerhalb der Deadzone',
+    'UNSAVED_MODE' : '*wird gerade getestet, noch nicht gespeichert!'
 };
 
 i18n[C.BTN_MODE_BUTTON_1] = 'Button 1';
@@ -45,6 +46,12 @@ i18n[C.AT_CMD_RELEASE_MOUSE_R] = 'Auslassen rechte Maustaste';
 i18n[C.AT_CMD_RELEASE_MOUSE_M] = 'Auslassen mittlere Maustaste';
 i18n[C.AT_CMD_MOUSEWHEEL_UP] = 'Mausrad nach oben bewegen';
 i18n[C.AT_CMD_MOUSEWHEEL_DOWN] = 'Mausrad nach unten bewegen';
+
+i18n[C.AT_CMD_MQTT_BROKER] = 'MQTT Broker festlegen';
+i18n[C.AT_CMD_MQTT_PUBLISH] = 'MQTT Publish Nachricht';
+i18n[C.AT_CMD_WIFI_SSID] = 'WLAN Name';
+i18n[C.AT_CMD_WIFI_PW] = 'WLAN Passwort';
+i18n[C.AT_CMD_REST] = 'HTTP REST Aufruf';
 
 i18n[C.AT_CMD_CALIBRATION] = 'Starte Nullpunkt Kalibrierung';
 i18n[C.AT_CMD_NEXT_SLOT] = 'Nächsten Slot laden';

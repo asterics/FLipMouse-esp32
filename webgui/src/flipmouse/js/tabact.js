@@ -1,19 +1,23 @@
 window.tabAction = {};
 
+tabAction.btn_modes = C.BTN_MODES;
+
 window.tabAction.init = function (actionCategory) {
     actionCategory = actionCategory || C.LEARN_CAT_KEYBOARD;
     tabAction.initBtnModeActionTable();
-    var modes = flip.getConfig(flip.FLIPMOUSE_MODE) === C.FLIPMOUSE_MODE_MOUSE ? C.BTN_MODES_WITHOUT_STICK : C.BTN_MODES;
-    L('#selectActionButton').innerHTML = L.createSelectItems(modes);
-    L('#currentAction').innerHTML = getReadable(flip.getConfig(C.BTN_MODES[0]));
+
+    tabAction.btn_modes = flip.getConfig(flip.FLIPMOUSE_MODE) === C.FLIPMOUSE_MODE_MOUSE ? C.BTN_MODES_WITHOUT_STICK : C.BTN_MODES;
     L('#' + flip.getConfig(flip.FLIPMOUSE_MODE)).checked = true;
     L('#' + actionCategory).checked = true;
 
+    L('#selectActionButton').innerHTML = L.createSelectItems(tabAction.btn_modes);
+    L('#currentAction').innerHTML = getReadable(flip.getConfig(tabAction.btn_modes[0]));
     L('#SELECT_LEARN_CAT_MOUSE').innerHTML = L.createSelectItems(C.AT_CMDS_MOUSE);
     L('#SELECT_LEARN_CAT_FLIPACTIONS').innerHTML = L.createSelectItems(C.AT_CMDS_FLIP);
     L('#SELECT_LEARN_CAT_KEYBOARD_SPECIAL').innerHTML = L.createSelectItems(C.SUPPORTED_KEYCODES, function (code) {
         return C.KEYCODE_MAPPING[code];
     }, 'SELECT_SPECIAL_KEY');
+
     flip.sendATCmd(C.AT_CMD_IR_LIST).then(function(response) {
         if (!response) {
             return;
@@ -32,9 +36,8 @@ window.tabAction.initBtnModeActionTable = function () {
     var ariaDesc = '<span class="hidden" aria-hidden="false">' + L.translate('DESCRIPTION') + '</span>';
     var ariaAction = '<span class="hidden" aria-hidden="false">' + L.translate('CURR_ACTION') + '</span>';
     var ariaAtCmd = '<span class="hidden" aria-hidden="false">' + L.translate('CURR_AT_CMD') + '</span>';
-    var modes = flip.getConfig(flip.FLIPMOUSE_MODE) === C.FLIPMOUSE_MODE_MOUSE ? C.BTN_MODES_WITHOUT_STICK : C.BTN_MODES;
     var anyConfigUnsaved = false;
-    modes.forEach(function (btnMode) {
+    tabAction.btn_modes.forEach(function (btnMode) {
         var liElm = L.createElement('li', 'row', null, backColor ? 'background-color: #e0e0e0;' : null);
         var changeA = L.createElement('a', '', L.translate(btnMode));
         changeA.href = 'javascript:tabAction.selectActionButton("' + btnMode + '")';

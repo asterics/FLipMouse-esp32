@@ -18,7 +18,7 @@ function ARECommunicator(socket) {
         _valueHandler = handler;
     };
 
-    this.sendData = function (value) {
+    this.sendData = function (value, timeout) {
         if (!value) return;
 
         //use GET sendDataToInputPort() for legacy reasons (phones that do only support GET requests)
@@ -26,10 +26,10 @@ function ARECommunicator(socket) {
         var xmlHttp = new XMLHttpRequest();
         xmlHttp.open("GET", url);
         xmlHttp.send(value);
-        return new Promise((resolve, reject) => {
+        return new Promise(function (resolve, reject) {
             ws.initWebsocket(C.ARE_WEBSOCKET_URL, _websocket).then(function (socket) {
                 _websocket = socket;
-                ws.handleData(_websocket, _valueHandler).then(resolve);
+                ws.handleData(_websocket, _valueHandler, timeout).then(resolve);
             }, function () {
                 reject();
             });

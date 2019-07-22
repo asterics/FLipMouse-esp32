@@ -49,10 +49,11 @@
     <div class="row hide-mobile" style="margin-bottom: 1.5em"></div>
 
     <div data-tabs class="row" id="tabMenu" role="menubar" tabindex="-1" accesskey="0">
-
-        <div class="four columns hide-mobile showscreenreader"><button role="menuitem" onclick="toTab('#tabPuff')" class="menubutton button-primary hide-init" accesskey="2" data-tab id="tabPuffBtn" data-i18n>Sip and Puff // Saug-Pustesteuerung</button></div>
-        <div class="four columns hide-mobile showscreenreader pull-left" id="slotTabDiv"><button role="menuitem" onclick="toTab('#tabSlots')" class="menubutton button-primary" accesskey="3" data-tab id="tabSlotsBtn" data-i18n>Slot configuration // Slot-Konfiguration</button></div>
-        <div class="four columns hide-mobile showscreenreader"><button role="menuitem" onclick="toTab('#tabActions')" class="menubutton button-primary" accesskey="4" data-tab id="tabActionsBtn" data-i18n>Action configuration // Konfiguration Aktionen</button></div>
+        <div id="menuButtons" style="display: flex">
+            <div class="hide-mobile showscreenreader"><button role="menuitem" onclick="toTab('#tabPuff')" class="menubutton button-primary hide-init" accesskey="2" data-tab id="tabPuffBtn" data-i18n>Sip and Puff // Saug-Puste-Steuerung</button></div>
+            <div class="hide-mobile showscreenreader" id="slotTabDiv"><button role="menuitem" onclick="toTab('#tabSlots')" class="menubutton button-primary" accesskey="3" data-tab id="tabSlotsBtn" data-i18n>Slots // Slots</button></div>
+            <div class="hide-mobile showscreenreader"><button role="menuitem" onclick="toTab('#tabActions')" class="menubutton button-primary" accesskey="4" data-tab id="tabActionsBtn" data-i18n>Actions // Aktionen</button></div>
+        </div>
         <div class="show-mobile" aria-hidden="true"><button id="toNavLink" onclick="toNav()" class="button button-primary" data-tab data-i18n>&#x2630; Menu // &#x2630; Menü</button></div>
         <div class="show-mobile" aria-hidden="true"><button id="toNavBackLink" style="display: none" onclick="toNavBack()" class="button button-primary" data-i18n>&#8592; Back // &#8592; Zurück</button></div>
     </div>
@@ -198,21 +199,21 @@
                 <fieldset role="radiogroup" aria-labelledby="fieldsetActionCategoryLabel">
                     <legend id="fieldsetActionCategoryLabel" class="three columns text-right text-normal" data-i18n>Action category // Aktions-Kategorie</legend>
                     <div class="eight columns">
-                        <div class="three columns">
+                        <div class="act-category-btn">
                             <input checked aria-hidden="false" type="radio" name="actCatRadio" role="radio" id="LEARN_CAT_KEYBOARD" class="custom-radio" onchange="tabAction.selectActionCategory(this)"/>
-                            <label for="LEARN_CAT_KEYBOARD" class="button" data-i18n>Keyboard // Tastatur</label>
+                            <label for="LEARN_CAT_KEYBOARD" class="button btnTransparent" data-i18n>Keyboard // Tastatur</label>
                         </div>
-                        <div class="three columns">
+                        <div class="act-category-btn">
                             <input aria-hidden="false" type="radio" name="actCatRadio" role="radio" id="LEARN_CAT_MOUSE" class="custom-radio" onchange="tabAction.selectActionCategory(this)"/>
-                            <label for="LEARN_CAT_MOUSE" class="button" data-i18n>Mouse // Maus</label>
+                            <label for="LEARN_CAT_MOUSE" class="button btnTransparent" data-i18n>Mouse // Maus</label>
                         </div>
-                        <div class="three columns">
+                        <div class="act-category-btn">
                             <input aria-hidden="false" type="radio" name="actCatRadio" role="radio" id="LEARN_CAT_FLIPACTIONS" class="custom-radio" onchange="tabAction.selectActionCategory(this)"/>
-                            <label for="LEARN_CAT_FLIPACTIONS" class="button">Flip</label>
+                            <label for="LEARN_CAT_FLIPACTIONS" class="button btnTransparent" data-i18n>other // andere</label>
                         </div>
-                        <div class="three columns">
+                        <div class="act-category-btn">
                             <input aria-hidden="false" type="radio" name="actCatRadio" role="radio" id="LEARN_CAT_CUSTOM" class="custom-radio" onchange="tabAction.selectActionCategory(this)"/>
-                            <label for="LEARN_CAT_CUSTOM" class="button">Custom</label>
+                            <label for="LEARN_CAT_CUSTOM" class="button btnTransparent">Custom</label>
                         </div>
                     </div>
                 </fieldset>
@@ -227,11 +228,11 @@
                     <label id="labelSpecialKeys" class="three columns text-right text-normal" data-i18n>Special Keys // Spezialtasten</label>
                     <div class="eight columns">
                         <fieldset role="group" aria-labelledby="labelSpecialKeys">
-                            <button class="special-key" data-i18n onclick="tabAction.addSpecialKey(C.JS_KEYCODE_CTRL)">Ctrl // Strg</button>
-                            <button class="special-key" onclick="tabAction.addSpecialKey(C.JS_KEYCODE_ALT)">Alt</button>
-                            <button class="special-key" onclick="tabAction.addSpecialKey(C.JS_KEYCODE_SHIFT)">Shift</button>
-                            <button class="special-key" onclick="tabAction.addSpecialKey(C.JS_KEYCODE_GUI)">Win</button>
-                            <button class="special-key" onclick="tabAction.addSpecialKey(C.JS_KEYCODE_TAB)">Tab</button>
+                            <button class="special-key btnTransparent" data-i18n onclick="tabAction.addSpecialKey(C.JS_KEYCODE_CTRL)">Ctrl // Strg</button>
+                            <button class="special-key btnTransparent" onclick="tabAction.addSpecialKey(C.JS_KEYCODE_ALT)">Alt</button>
+                            <button class="special-key btnTransparent" onclick="tabAction.addSpecialKey(C.JS_KEYCODE_SHIFT)">Shift</button>
+                            <button class="special-key btnTransparent" onclick="tabAction.addSpecialKey(C.JS_KEYCODE_GUI)">Win</button>
+                            <button class="special-key btnTransparent" onclick="tabAction.addSpecialKey(C.JS_KEYCODE_TAB)">Tab</button>
                             <select aria-hidden="true" id="SELECT_LEARN_CAT_KEYBOARD_SPECIAL" onchange="tabAction.addSpecialKey(this.value)">
                             </select>
                         </fieldset>
@@ -241,7 +242,7 @@
                     <label class="three columns text-right text-normal" data-i18n>Recorded AT Command // Aufgenommenes AT Kommando</label>
                     <div id="recordedAtCmd" class="six columns space-bottom" data-i18n>(none) // (leer)</div>
                     <div id="recordedActionA11y" aria-live="assertive" role="alert" aria-hidden="false" class="hidden"></div>
-                    <button id="buttonRecOK" onclick="tabAction.saveRec()" disabled class="two columns">OK</button>
+                    <button id="buttonRecOK" onclick="tabAction.saveRec()" disabled class="two columns" data-i18n="">Test // Testen</button>
                 </div>
             </div>
             <div id="WRAPPER_LEARN_CAT_MOUSE" class="row" style="display: none">
@@ -257,20 +258,19 @@
             <div id="WRAPPER_LEARN_CAT_CUSTOM" class="row" style="display: none">
                 <label class="three columns text-right text-normal" for="INPUT_LEARN_CAT_CUSTOM" data-i18n>AT command // AT Kommando</label>
                 <input type="text" id="INPUT_LEARN_CAT_CUSTOM" class="six columns">
-                <button class="two columns" onclick="tabAction.selectAtCmd(L('#INPUT_LEARN_CAT_CUSTOM').value)">OK</button>
+                <button class="two columns" onclick="tabAction.selectAtCmd(L('#INPUT_LEARN_CAT_CUSTOM').value)" data-i18n>Test // Testen</button>
             </div>
             <div id="WRAPPER_ADDITIONAL_FIELD_TEXT" class="row" style="display: none">
                 <label class="three columns text-right text-normal" for="ADDITIONAL_FIELD_TEXT" data-i18n>AT command // AT Kommando</label>
                 <input type="text" id="ADDITIONAL_FIELD_TEXT" class="six columns">
-                <button class="two columns" onclick="tabAction.setAtCmdWithAdditionalData(L('#ADDITIONAL_FIELD_TEXT').value)">OK</button>
+                <button class="two columns" onclick="tabAction.setAtCmdWithAdditionalData(L('#ADDITIONAL_FIELD_TEXT').value)" data-i18n>Test // Testen</button>
             </div>
             <div id="WRAPPER_ADDITIONAL_FIELD_SELECT" class="row" style="display: none">
                 <label class="three columns text-right text-normal" for="ADDITIONAL_FIELD_SELECT" data-i18n></label>
                 <select id="ADDITIONAL_FIELD_SELECT" class="six columns">
                 </select>
-                <button class="two columns" onclick="tabAction.setAtCmdWithAdditionalData(L('#ADDITIONAL_FIELD_SELECT').value)">OK</button>
+                <button class="two columns" onclick="tabAction.setAtCmdWithAdditionalData(L('#ADDITIONAL_FIELD_SELECT').value)" data-i18n>Test // Testen</button>
             </div>
-
 
             <br/>
             <h3 data-i18n>Current saved mapping // Aktuelle gespeicherte Konfiguration</h3>
@@ -281,7 +281,7 @@
             </div>
             <ol id="currentConfigTb" class="tbody"></ol>
 
-            <br/>
+            <br id="tabActSaveBtnSpacer"/>
             <button id="save-action" onclick="actionAndToggle(flip.save, [], ['#save-action-button-normal', '#save-action-button-saving'], '#save-action-value-bar').then(function() {tabAction.init()})" class="u-full-width" style="position: relative;">
                 <i id="save-action-value-bar" class="value-bar color-lightercyan" style="width: 0%;"></i>
                 <span id="save-action-button-normal" style="position: relative" data-i18n>Save // Speichern</span>
@@ -449,8 +449,8 @@
         if(tabNav.hasChildNodes()) {
             return;
         }
-        var navItems = L('#tabMenu').children;
-        for (var i = 0; i < navItems.length-2; i++) {
+        var navItems = L('#menuButtons').children;
+        for (var i = 0; i < navItems.length; i++) {
             var clone = navItems[i].cloneNode(true);
             clone.className = '';
             tabNav.appendChild(clone);

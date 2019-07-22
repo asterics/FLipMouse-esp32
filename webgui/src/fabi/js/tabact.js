@@ -1,20 +1,20 @@
 window.tabAction = {};
 
-window.tabAction.init = function () {
-    tabAction.initBtnModeActionTable();
-    var modes = C.BTN_MODES_WITHOUT_STICK;
+tabAction.btn_modes = C.BTN_MODES;
 
-    flip.isSipAndPuffLive().then((result) => {
-	if (result === false) {
-	    modes = modes.slice(0,-4);  //remove sip and puff options
-	}
-	L('#selectActionButton').innerHTML = L.createSelectItems(modes);
-	L('#currentAction').innerHTML = getReadable(flip.getConfig(C.BTN_MODES[0]));
-	L('#SELECT_LEARN_CAT_MOUSE').innerHTML = L.createSelectItems(C.AT_CMDS_MOUSE);
-	L('#SELECT_LEARN_CAT_FLIPACTIONS').innerHTML = L.createSelectItems(C.AT_CMDS_FLIP);
-	L('#SELECT_LEARN_CAT_KEYBOARD_SPECIAL').innerHTML = L.createSelectItems(C.SUPPORTED_KEYCODES, function (code) {
+window.tabAction.init = function (actionCategory) {
+    actionCategory = actionCategory || C.LEARN_CAT_KEYBOARD;
+    tabAction.initBtnModeActionTable();
+
+    flip.isSipAndPuffLive().then(function (isSipPuff) {
+        tabAction.btn_modes = isSipPuff ? C.BTN_MODES : C.BTN_MODES_WITHOUT_SIP_PUFF;
+        L('#selectActionButton').innerHTML = L.createSelectItems(tabAction.btn_modes);
+        L('#currentAction').innerHTML = getReadable(flip.getConfig(tabAction.btn_modes[0]));
+        L('#SELECT_LEARN_CAT_MOUSE').innerHTML = L.createSelectItems(C.AT_CMDS_MOUSE);
+        L('#SELECT_LEARN_CAT_FLIPACTIONS').innerHTML = L.createSelectItems(C.AT_CMDS_FLIP);
+        L('#SELECT_LEARN_CAT_KEYBOARD_SPECIAL').innerHTML = L.createSelectItems(C.SUPPORTED_KEYCODES, function (code) {
             return C.KEYCODE_MAPPING[code];
-	}, 'SELECT_SPECIAL_KEY');
+        }, 'SELECT_SPECIAL_KEY');
     });
 };
 
@@ -24,26 +24,30 @@ window.tabAction.initBtnModeActionTable = function () {
     var ariaDesc = '<span class="hidden" aria-hidden="false">' + L.translate('DESCRIPTION') + '</span>';
     var ariaAction = '<span class="hidden" aria-hidden="false">' + L.translate('CURR_ACTION') + '</span>';
     var ariaAtCmd = '<span class="hidden" aria-hidden="false">' + L.translate('CURR_AT_CMD') + '</span>';
-    var modes = C.BTN_MODES_WITHOUT_STICK;
-    modes.forEach(function (btnMode) {
-        var liElm = L.createElement('li', 'row');
+    var anyConfigUnsaved = false;
+    tabAction.btn_modes.forEach(function (btnMode) {
+        var liElm = L.createElement('li', 'row', null, backColor ? 'background-color: #e0e0e0;' : null);
         var changeA = L.createElement('a', '', L.translate(btnMode));
         changeA.href = 'javascript:tabAction.selectActionButton("' + btnMode + '")';
         changeA.title = L.translate('CHANGE_TOOLTIP', L.translate(btnMode));
         var descriptionDiv = L.createElement('div', 'two columns', [ariaDesc, changeA]);
         var currentActionDiv = L.createElement('div', 'four columns', [ariaAction, getReadable(flip.getConfig(btnMode))]);
-        var currentAtCmdDiv = L.createElement('div', 'four columns', [ariaAtCmd, flip.getConfig(btnMode)]);
+        anyConfigUnsaved = anyConfigUnsaved || flip.isConfigUnsaved(btnMode);
+        var cmdDivText = flip.isConfigUnsaved(btnMode) ? '<b style="color: red">' + flip.getConfig(btnMode) + ' *</b>' : flip.getConfig(btnMode);
+        var currentAtCmdDiv = L.createElement('div', 'four columns', [ariaAtCmd, cmdDivText]);
         var spacerDiv = L.createElement('div', 'one column show-mobile space-bottom');
         liElm.appendChild(descriptionDiv);
         liElm.appendChild(currentActionDiv);
         liElm.appendChild(currentAtCmdDiv);
         liElm.appendChild(spacerDiv);
-        if(backColor) {
-            liElm.style = 'background-color: #e0e0e0;';
-        }
         L('#currentConfigTb').appendChild(liElm);
         backColor = !backColor;
     });
+    L.setVisible('#tabActSaveBtnSpacer', !anyConfigUnsaved, 'initial');
+    if (anyConfigUnsaved) {
+        var liElm = L.createElement('li', 'row',  '<b style="color: red">' + L.translate('UNSAVED_MODE') + '</b>', 'margin-top: 1em');
+        L('#currentConfigTb').appendChild(liElm);
+    }
 };
 
 window.tabAction.selectActionButton = function (btnMode) {
@@ -59,7 +63,6 @@ function refreshCurrentAction(btnMode) {
 }
 
 window.tabAction.selectActionCategory = function (elem) {
-    console.log(elem.id);
     L.setVisible('[id^=WRAPPER_LEARN_CAT]', false);
     L.setVisible('#WRAPPER_' + elem.id);
 
@@ -85,6 +88,7 @@ tabAction.setAtCmd = function (atCmd) {
     if(atCmd && selectedButton) {
         flip.setButtonAction(selectedButton, atCmd);
         refreshCurrentAction(L('#selectActionButton').value);
+        tabAction.initBtnModeActionTable();
     }
 };
 
@@ -100,6 +104,14 @@ function initAdditionalData(atCmd) {
             L.setVisible('#WRAPPER_' + C.ADDITIONAL_FIELD_SELECT);
             L('#' + C.ADDITIONAL_FIELD_SELECT).innerHTML = L.createSelectItems(flip.getSlots());
             L('[for=' + C.ADDITIONAL_FIELD_SELECT + ']')[0].innerHTML = 'Slot';
+            break;
+        case C.AT_CMD_REST:
+            L.setVisible('#WRAPPER_' + C.ADDITIONAL_FIELD_TEXT);
+            L('[for=' + C.ADDITIONAL_FIELD_TEXT + ']')[0].innerHTML = 'REST URL';
+            break;
+        case C.AT_CMD_MQTT_PUBLISH:
+            L.setVisible('#WRAPPER_' + C.ADDITIONAL_FIELD_TEXT);
+            L('[for=' + C.ADDITIONAL_FIELD_TEXT + ']')[0].innerHTML = 'MQTT parameter';
             break;
     }
 }

@@ -12,7 +12,8 @@ window.i18n = {
     'CONNECTED': 'connected',
     'NOT_CONNECTED': 'not connected',
     'IN_DEADZONE' : 'inside of Deadzone',
-    'OUT_DEADZONE' : 'out of Deadzone'
+    'OUT_DEADZONE' : 'out of Deadzone',
+    'UNSAVED_MODE' : '*currently testing, not yet saved!'
 };
 
 i18n[C.BTN_MODE_BUTTON_1] = 'Button 1';
@@ -47,6 +48,12 @@ i18n[C.AT_CMD_RELEASE_MOUSE_R] = 'Release right mouse button';
 i18n[C.AT_CMD_RELEASE_MOUSE_M] = 'Release middle mouse button';
 i18n[C.AT_CMD_MOUSEWHEEL_UP] = 'Move mouse wheel up';
 i18n[C.AT_CMD_MOUSEWHEEL_DOWN] = 'Move mouse wheel down';
+
+i18n[C.AT_CMD_MQTT_BROKER] = 'MQTT broker URL';
+i18n[C.AT_CMD_MQTT_PUBLISH] = 'MQTT Publish Message';
+i18n[C.AT_CMD_WIFI_SSID] = 'WiFi Name';
+i18n[C.AT_CMD_WIFI_PW] = 'WiFi password';
+i18n[C.AT_CMD_REST] = 'HTTP REST Call';
 
 i18n[C.AT_CMD_CALIBRATION] = 'Trigger zeropoint calibration';
 i18n[C.AT_CMD_NEXT_SLOT] = 'Load next slot';

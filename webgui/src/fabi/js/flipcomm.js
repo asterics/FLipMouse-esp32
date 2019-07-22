@@ -37,6 +37,7 @@ function FlipMouse(initFinished) {
     ];
 
     var _config = {};
+    var _unsavedConfig = {};
     var _liveData = {};
     var AT_CMD_LENGTH = 5;
 
@@ -73,16 +74,18 @@ function FlipMouse(initFinished) {
      *
      * @param atCmd
      * @param onlyIfEmptyQueue if set to true, the command is sent only if the queue is empty
+     * @param timeout maximum time after the returned promise resolves, regardless if data was received or not. Default 3000ms.
      * @return {Promise}
      */
-    thiz.sendATCmd = function (atCmd, onlyIfEmptyQueue) {
+    thiz.sendATCmd = function (atCmd, onlyIfEmptyQueue, timeout) {
+        var timeoutResolve = timeout || 3000;
         if(onlyIfEmptyQueue && _atCmdQueue.length > 0) {
             console.log('did not send cmd: "' + atCmd + "' because another command is executing.");
             return new Promise(function (resolve, reject) {
                 reject(_AT_CMD_BUSY_RESPONSE);
             });
         }
-        var promise = new Promise((resolve, reject) => {
+        var promise = new Promise(function(resolve, reject) {
             if (_atCmdQueue.length > 0) {
                 console.log("adding cmd to queue: " + atCmd);
             }
@@ -109,12 +112,16 @@ function FlipMouse(initFinished) {
             setTimeout(function () {
                 _timestampLastAtCmd = new Date().getTime();
                 console.log("sending to FlipMouse: " + nextCmd.cmd);
-                _communicator.sendData(nextCmd.cmd).then(nextCmd.resolveFn, nextCmd.rejectFn);
+                _communicator.sendData(nextCmd.cmd, timeoutResolve).then(nextCmd.resolveFn, nextCmd.rejectFn);
                 sendNext();
             }, timeout);
         }
 
         return promise;
+    };
+
+    thiz.sendATCmdWithParam = function(atCmd, param, timeout) {
+        return thiz.sendATCmd(atCmd + ' ' + param, false, timeout);
     };
 
     /**
@@ -123,7 +130,7 @@ function FlipMouse(initFinished) {
      * @return {Promise}
      */
     thiz.testConnection = function (onlyIfEmptyQueue) {
-        return new Promise((resolve) => {
+        return new Promise(function(resolve) {
             thiz.sendATCmd('AT', onlyIfEmptyQueue).then(function (response) {
                 resolve(response && response.indexOf(_AT_CMD_OK_RESPONSE) > -1 ? true : false);
             }, function (response) {
@@ -145,7 +152,7 @@ function FlipMouse(initFinished) {
     };
 
     thiz.refreshConfig = function () {
-        return new Promise((resolve, reject) => {
+        return new Promise(function(resolve, reject) {
             thiz.sendATCmd('AT LA').then(function (response) {
                 parseConfig(response);
                 resolve();
@@ -169,6 +176,7 @@ function FlipMouse(initFinished) {
     thiz.save = function (updateProgressHandler) {
         updateProgressHandler = updateProgressHandler || function () {
         };
+        _unsavedConfig = {};
         var progress = 0;
         sendAtCmdNoResultHandling('AT DE');
         thiz.pauseLiveValueListener();
@@ -251,23 +259,27 @@ function FlipMouse(initFinished) {
 
     // return 'true' if SipAndPuff device is available, else 'false'
     thiz.isSipAndPuffLive = function () {
-        return new Promise(
-            function(resolve, reject) {
-		thiz.startLiveValueListener(function () {
-		    thiz.stopLiveValueListener();
-		    resolve(true);
-                })
-		setTimeout(function() {
-		    thiz.stopLiveValueListener();
-		    resolve(false);
-		}, 2000);
-	    }
-	);
+        return new Promise(function (resolve, reject) {
+                thiz.startLiveValueListener(function () {
+                    thiz.stopLiveValueListener();
+                    resolve(true);
+                });
+                setTimeout(function () {
+                    thiz.stopLiveValueListener();
+                    resolve(false);
+                }, 2000);
+            }
+        );
     };
 
     thiz.getConfig = function (constant, slot) {
         slot = slot || _currentSlot;
         return _config[slot] ? _config[slot][constant] : null;
+    };
+
+    thiz.isConfigUnsaved = function (constant, slot) {
+        slot = slot || _currentSlot;
+        return _unsavedConfig[slot] ? _unsavedConfig[slot].indexOf(constant) > -1 : false;
     };
 
     thiz.setConfig = function (constant, value, slot) {
@@ -341,6 +353,8 @@ function FlipMouse(initFinished) {
         }
         if(!dontSetConfig) {
             thiz.setConfig(buttonModeConstant, atCmd);
+            _unsavedConfig[_currentSlot] = _unsavedConfig[_currentSlot] || [];
+            _unsavedConfig[_currentSlot].push(buttonModeConstant);
         }
         return new Promise(function (resolve) {
             var promises = [];
@@ -357,17 +371,7 @@ function FlipMouse(initFinished) {
         var progress = 0;
         var progressPerItem = 100/C.DEFAULT_CONFIGURATION.length;
         promises.push(thiz.sendATCmd('AT DE')); //delete all slots
-        C.DEFAULT_CONFIGURATION.forEach(function (cmd) {
-            var promise = thiz.sendATCmd(cmd);
-            promises.push(promise);
-            promise.then(function () {
-                if(L.isFunction(progressCallback)) {
-                    progress += progressPerItem;
-                    progressCallback(progress);
-                }
-            });
-        });
-        promises.push(thiz.sendATCmd('AT SA ' + C.DEFAULT_SLOTNAME)); //save slot
+        promises.push(thiz.sendATCmd('AT LA')); //save slot
         promises.push(thiz.calibrate());
 
         return new Promise(function (resolve) {
@@ -391,7 +395,7 @@ function FlipMouse(initFinished) {
     init();
 
     function init() {
-        var promise = new Promise(resolve => {
+        var promise = new Promise(function(resolve) {
             if(window.location.href.indexOf('mock') > -1) {
                 _communicator = new MockCommunicator();
                 resolve();

@@ -1,5 +1,5 @@
 #content{
-    margin: 2em;
+    margin: 1.5em;
 }
 
 div[data-tabs] {
@@ -18,9 +18,9 @@ a[data-tab] {
 button, .button {
     font-size: 1em;
     width: 100%;
-    height: auto; !important;
+    height: auto !important;
     white-space: normal;
-    padding: 0; !important;
+    padding: 0 !important;
 }
 
 button:disabled, button:disabled div{
@@ -32,12 +32,22 @@ button:disabled, button:disabled div{
     width: 7em;
 }
 
+.act-category-btn {
+    min-width: 7em;
+    width: 10vw;
+    display: inline-block;
+}
+
 br {
     line-height: 250%;
 }
 
 .space-bottom {
     margin-bottom: 0.5em;
+}
+
+.space-bottom-2x {
+    margin-bottom: 1em;
 }
 
 .headerConnectIndicator {
@@ -60,7 +70,7 @@ br {
 
 .text-normal {
     font-style: normal;
-    font-weight: normal; !important;
+    font-weight: normal !important;
 }
 
 .value-bar {
@@ -85,13 +95,13 @@ br {
 }
 
 .half-width {
-    width: 48%; !important;
+    width: 48% !important;
     float: left;
 }
 
 .tbody li {
     list-style-type: none;
-    margin: 0; !important;
+    margin: 0 !important;
 }
 
 .thead div {
@@ -156,13 +166,13 @@ label {
 
 .zoombutton {
     position: absolute;
-    line-height: 0; !important;
+    line-height: 0 !important;
     text-decoration: none;
     border: thin solid;
     height: 1.5em;
     width: 1.5em;
     text-align: center;
-    padding: 0; !important;
+    padding: 0 !important;
 }
 
 .center-div
@@ -214,6 +224,20 @@ button.selected, .custom-radio:checked ~ label {
     display: none;
 }
 
-.pull-left {
-    margin-left: 0;
+#menuButtons div {
+    width: 18.4%;
+}
+
+/* exclude first div */
+#menuButtons div + div {
+    margin-left: 2%;
+}
+
+.menubutton {
+    height: 90%;
+}
+
+.btnTransparent {
+    background-color: transparent;
+    border: 1px solid #bbb;
 }

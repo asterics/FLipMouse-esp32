@@ -8,7 +8,7 @@ function MockCommunicator() {
         _valueHandler = handler;
     };
 
-    this.sendData = function (value) {
+    this.sendData = function (value, timeout) {
         if (!value) return;
         thiz.pressure = thiz.pressure || 500;
         thiz.x = thiz.x || 0;
@@ -43,10 +43,12 @@ function MockCommunicator() {
             } else if (value.indexOf('AT CA') > -1) {
                 thiz.x = 0;
                 thiz.y = 0;
+            } else if (value.indexOf('AT IL') > -1) {
+                resolve('IRCommand0:play\nIRCommand1:pause\nIRCommand2:stop');
             }
             setTimeout(function () {
                 resolve();
-            }, 3000);
+            }, timeout);
         });
     };
 }

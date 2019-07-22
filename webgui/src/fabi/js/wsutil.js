@@ -14,7 +14,7 @@ ws.initWebsocket = function(url, existingWebsocket, timeoutMs, numberOfRetries) 
     timeoutMs = timeoutMs ? timeoutMs : 1500;
     numberOfRetries = numberOfRetries ? numberOfRetries : 0;
     var hasReturned = false;
-    var promise = new Promise((resolve, reject) => {
+    var promise = new Promise(function(resolve, reject) {
         setTimeout(function () {
             if(!hasReturned) {
                 console.info('opening websocket timed out: ' + url);
@@ -62,18 +62,20 @@ ws.initWebsocket = function(url, existingWebsocket, timeoutMs, numberOfRetries) 
 
 /**
  * handles got from flipmouse over a websocket. Data containing live values are passed to valueHandler function, other data resolves
- * the returned promise. Each promise is resolved after a maximum of 3000ms, independent of data got over the websocket.
+ * the returned promise.
  * @param socket
  * @param valueHandler
+ * @param timeout maximum time after the promise is resolved (optional). Default 3000ms.
  * @return {Promise}
  */
-ws.handleData = function (socket, valueHandler) {
-    return new Promise(resolve => {
+ws.handleData = function (socket, valueHandler, timeout) {
+    timeout = timeout || 3000;
+    return new Promise(function(resolve) {
         var result = '';
         var timeoutHandler = setTimeout(function () {
             //console.log("timeout von command: " + value);
             resolve(result);
-        }, 3000);
+        }, timeout);
         socket.onmessage = function (evt) {
             if (evt.data && evt.data.indexOf(C.LIVE_VALUE_CONSTANT) > -1) {
                 if (L.isFunction(valueHandler)) {

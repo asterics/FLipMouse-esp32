@@ -6,13 +6,13 @@ function WsCommunicator(wsUrl, socket) {
         _valueHandler = handler;
     };
 
-    this.sendData = function (value) {
+    this.sendData = function (value, timeout) {
         if (!value) return;
-        return new Promise((resolve, reject) => {
+        return new Promise(function(resolve, reject) {
             ws.initWebsocket(wsUrl, _websocket).then(function (socket) {
                 socket.send(value);
                 _websocket = socket;
-                ws.handleData(_websocket, _valueHandler).then(resolve);
+                ws.handleData(_websocket, _valueHandler, timeout).then(resolve);
             }, function () {
                 reject();
             });

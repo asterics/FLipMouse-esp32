@@ -18,7 +18,6 @@ a[data-tab] {
 button, .button {
     font-size: 1em;
     width: 100%;
-    height: auto !important;
     white-space: normal;
     padding: 0 !important;
 }
@@ -225,7 +224,7 @@ button.selected, .custom-radio:checked ~ label {
 }
 
 #menuButtons div {
-    width: 18.4%;
+    width: 49%;
 }
 
 /* exclude first div */

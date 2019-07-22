@@ -1,5 +1,5 @@
 module.exports = function (grunt) {
-    var source = 'webgui/src/flipmouse/';
+    var source = 'webgui/src/';
     var destination = 'webgui/minified/';
 
     grunt.initConfig({
@@ -34,9 +34,15 @@ module.exports = function (grunt) {
         copy: {
             main: {
                 files: [{
-                    cwd: source,
+                    cwd: source + 'flipmouse/',
                     src: ['index.htm', 'favicon.ico'],
-                    dest: destination,
+                    dest: destination + 'flipmouse/',
+                    expand: true
+                },
+                {
+                    cwd: source + 'fabi/',
+                    src: ['index.htm', 'favicon.ico'],
+                    dest: destination + 'fabi/',
                     expand: true
                 }]
             }

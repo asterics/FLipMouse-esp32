@@ -49,10 +49,10 @@
     <div class="row hide-mobile" style="margin-bottom: 1.5em"></div>
 
     <div data-tabs class="row" id="tabMenu" role="menubar" tabindex="-1" accesskey="0">
-        <div id="menuButtons" style="display: flex">
-            <div class="hide-mobile showscreenreader"><button role="menuitem" onclick="toTab('#tabPuff')" class="menubutton button-primary hide-init" accesskey="2" data-tab id="tabPuffBtn" data-i18n>Sip and Puff // Saug-Puste-Steuerung</button></div>
-            <div class="hide-mobile showscreenreader" id="slotTabDiv"><button role="menuitem" onclick="toTab('#tabSlots')" class="menubutton button-primary" accesskey="3" data-tab id="tabSlotsBtn" data-i18n>Slots // Slots</button></div>
+        <div id="menuButtons" class="menuButtons" style="display: flex">
+            <div class="hide-mobile showscreenreader"><button role="menuitem" onclick="toTab('#tabSlots')" class="menubutton button-primary" accesskey="3" data-tab id="tabSlotsBtn" data-i18n>Slots // Slots</button></div>
             <div class="hide-mobile showscreenreader"><button role="menuitem" onclick="toTab('#tabActions')" class="menubutton button-primary" accesskey="4" data-tab id="tabActionsBtn" data-i18n>Actions // Aktionen</button></div>
+            <div class="hide-mobile showscreenreader" style="display: none !important;" id="tabPuffBtnWrapper"><button id="tabPuffBtn" role="menuitem" onclick="toTab('#tabPuff')" class="menubutton button-primary" accesskey="2" data-tab data-i18n>Sip and Puff // Saug-Puste-Steuerung</button></div>
         </div>
         <div class="show-mobile" aria-hidden="true"><button id="toNavLink" onclick="toNav()" class="button button-primary" data-tab data-i18n>&#x2630; Menu // &#x2630; Menü</button></div>
         <div class="show-mobile" aria-hidden="true"><button id="toNavBackLink" style="display: none" onclick="toNavBack()" class="button button-primary" data-i18n>&#8592; Back // &#8592; Zurück</button></div>
@@ -314,8 +314,10 @@
 
                 flip.isSipAndPuffLive().then((result) => {
                     if (result === true) {
-                        document.getElementById("tabPuffBtn").classList.remove("hide-init");
-                        document.getElementById("slotTabDiv").classList.remove("pull-left");
+                        L("#tabPuffBtnWrapper").style.display = "inline-block";
+                        L('.menuButtons > div').forEach(function (element) {
+                            element.style.width = '31.66%';
+                        })
                     }
                 });
 
@@ -449,9 +451,10 @@
         if(tabNav.hasChildNodes()) {
             return;
         }
-        var navItems = L('#menuButtons').children;
+        var navItems = L('.menuButtons > div');
         for (var i = 0; i < navItems.length; i++) {
             var clone = navItems[i].cloneNode(true);
+            clone.style.width = '100%';
             clone.className = '';
             tabNav.appendChild(clone);
         }

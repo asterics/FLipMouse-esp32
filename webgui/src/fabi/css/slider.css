@@ -1,0 +1,124 @@
+/* from http://danielstern.ca/range.css/#/ */
+/* all */
+input[type=range] {
+    -webkit-appearance: none;
+    width: 100%;
+    margin-top: 1em;
+}
+input[type=range]:focus {
+    box-shadow: 0 0 10px 2px #33C3F0;
+    outline: none;
+}
+input[type=range]::-webkit-slider-runnable-track {
+    width: 100%;
+    height: 11.4px;
+    cursor: pointer;
+    box-shadow: 0px 0px 0px rgba(0, 0, 0, 0), 0px 0px 0px rgba(13, 13, 13, 0);
+    background: rgba(204, 239, 249, 0.78);
+    border-radius: 3.7px;
+    border: 1px solid #b6b6b7;
+}
+input[type=range]::-webkit-slider-thumb {
+    box-shadow: 0px 0px 1px #000031, 0px 0px 0px #00004b;
+    border: 2px solid #5a5a5a;
+    height: 40px;
+    width: 40px;
+    border-radius: 26px;
+    background: #ffffff;
+    cursor: pointer;
+    -webkit-appearance: none;
+    margin-top: -15.3px;
+}
+input[type=range]:focus::-webkit-slider-runnable-track {
+    background: rgba(227, 246, 252, 0.78);
+}
+input[type=range]::-moz-range-track {
+    width: 100%;
+    height: 11.4px;
+    cursor: pointer;
+    box-shadow: 0px 0px 0px rgba(0, 0, 0, 0), 0px 0px 0px rgba(13, 13, 13, 0);
+    background: rgba(204, 239, 249, 0.78);
+    border-radius: 3.7px;
+    border: 1px solid #b6b6b7;
+}
+input[type=range]::-moz-range-thumb {
+    box-shadow: 0px 0px 1px #000031, 0px 0px 0px #00004b;
+    border: 2px solid #5a5a5a;
+    height: 40px;
+    width: 40px;
+    border-radius: 26px;
+    background: #ffffff;
+    cursor: pointer;
+}
+input[type=range]::-ms-track {
+    width: 100%;
+    height: 11.4px;
+    cursor: pointer;
+    background: transparent;
+    border-color: transparent;
+    color: transparent;
+    padding: 10px 0;
+}
+input[type=range]::-ms-fill-lower {
+    background: rgba(181, 232, 246, 0.78);
+    border: 1px solid #b6b6b7;
+    border-radius: 7.4px;
+    box-shadow: 0px 0px 0px rgba(0, 0, 0, 0), 0px 0px 0px rgba(13, 13, 13, 0);
+}
+input[type=range]::-ms-fill-upper {
+    background: rgba(204, 239, 249, 0.78);
+    border: 1px solid #b6b6b7;
+    border-radius: 7.4px;
+    box-shadow: 0px 0px 0px rgba(0, 0, 0, 0), 0px 0px 0px rgba(13, 13, 13, 0);
+}
+input[type=range]::-ms-thumb {
+    box-shadow: 0px 0px 1px #000031, 0px 0px 0px #00004b;
+    border: 2px solid #5a5a5a;
+    height: 40px;
+    width: 40px;
+    border-radius: 40px;
+    background: #ffffff;
+    cursor: pointer;
+    margin-top: 0px;
+}
+input[type=range]:focus::-ms-fill-lower {
+    background: rgba(204, 239, 249, 0.78);
+}
+input[type=range]:focus::-ms-fill-upper {
+    background: rgba(227, 246, 252, 0.78);
+}
+
+
+/* Larger than tablet */
+@media (min-width: 750px) {
+    input[type=range]::-webkit-slider-thumb {
+        margin-top: -7.8px !important;
+        height: 25px !important;
+        width: 25px !important;
+    }
+
+    input[type=range]::-moz-range-thumb {
+        height: 25px !important;
+        width: 25px !important;
+    }
+
+    input[type=range]::-ms-thumb {
+        height: 25px !important;
+        width: 25px !important;
+        margin-top: 2.5px !important;
+    }
+
+    input[type=range]::-ms-track {
+        padding: 10px 0 !important;
+    }
+}
+
+.colored-thumb input[type=range]::-webkit-slider-thumb {
+    background: #9be7ff; !important;
+}
+.colored-thumb input[type=range]::-moz-range-thumb {
+    background: #9be7ff; !important;
+}
+.colored-thumb input[type=range]::-ms-thumb {
+    background: #9be7ff; !important;
+}

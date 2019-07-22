@@ -1,1 +1,0 @@
-function WsCommunicator(o,n){var s=n,u=null;this.setValueHandler=function(n){u=n},this.sendData=function(e,i){if(e)return new Promise(function(t,n){ws.initWebsocket(o,s).then(function(n){n.send(e),s=n,ws.handleData(s,u,i).then(t)},function(){n()})})}}

@@ -66,6 +66,7 @@ function FlipMouse(initFinished) {
     var _atCmdQueue = [];
     var _sendingAtCmds = false;
     var _communicator;
+    var _isSipPuff = undefined;
 
     /**
      * sends the given AT command to the FLipMouse. If sending of the last command is not completed yet, the given AT command
@@ -260,12 +261,17 @@ function FlipMouse(initFinished) {
     // return 'true' if SipAndPuff device is available, else 'false'
     thiz.isSipAndPuffLive = function () {
         return new Promise(function (resolve, reject) {
-                thiz.startLiveValueListener(function () {
+            if (_isSipPuff !== undefined) {
+                resolve(_isSipPuff);
+            }
+            thiz.startLiveValueListener(function () {
                     thiz.stopLiveValueListener();
+                    _isSipPuff = true;
                     resolve(true);
                 });
                 setTimeout(function () {
                     thiz.stopLiveValueListener();
+                    _isSipPuff = false;
                     resolve(false);
                 }, 2000);
             }

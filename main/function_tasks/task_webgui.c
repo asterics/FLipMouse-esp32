@@ -291,13 +291,13 @@ void fat_serve(char* resource, int fd) {
     //Captive portal:
     //for all devices which do NOT want a redirect, serve index file
     if(strcmp(resource,"/generate_204") == 0) {
-      sprintf(file,"%s%s",base_path,"/index.htm");
+      sprintf(file,"%s%s%s",base_path,"/index.htm",".gz");
       force_html = 1; //force content type
     } else if(strcmp(resource,"/gen_204") == 0) {
-      sprintf(file,"%s%s",base_path,"/index.htm");
+      sprintf(file,"%s%s%s",base_path,"/index.htm",".gz");
       force_html = 1; //force content type
     } else {
-      sprintf(file,"%s%s",base_path,resource);
+      sprintf(file,"%s%s%s",base_path,resource,".gz");
     }
     ESP_LOGI(LOG_TAG,"serving from FAT: %s",file);
 		
@@ -305,7 +305,7 @@ void fat_serve(char* resource, int fd) {
 		FILE* f = fopen(file, "r");
 		if(f == NULL) {
       ESP_LOGW(LOG_TAG,"Resource not found: %s, opening index.htm", file);
-      sprintf(file,"%s%s",base_path,"/index.htm");
+      sprintf(file,"%s%s%s",base_path,"/index.htm",".gz");
       f = fopen(file, "r");
       force_html = 1; //force content type
       if(f == NULL)
@@ -343,12 +343,21 @@ void fat_serve(char* resource, int fd) {
     ESP_LOGD(LOG_TAG,"Hdr: %s",hdr);
     #endif
     
+    //enable gzip compression by sending corresponding header
+    snprintf(hdr,36,"Content-Encoding: gzip\r\n");
+    send(fd, hdr, strlen(hdr),MSG_MORE);
+    #if (LOG_LEVEL_WEB >= ESP_LOG_DEBUG)
+    ESP_LOGD(LOG_TAG,"Hdr: %s",hdr);
+    #endif
+    
     //send http header (content length)
     snprintf(hdr,36,"Content-Length: %d\r\n\r\n",sz);
     send(fd, hdr, strlen(hdr),MSG_MORE);
     #if (LOG_LEVEL_WEB >= ESP_LOG_DEBUG)
     ESP_LOGD(LOG_TAG,"Hdr: %s",hdr);
     #endif
+    
+    
     
 		//allocate a buffer in size of one FAT block
 		char* buffer = malloc(512);

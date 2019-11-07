@@ -1,0 +1,39 @@
+{
+  "name": "flipmouse",
+  "version": "1.0.0",
+  "description": "Standalone GUI for the FLipMouse v2/v3",
+  "main": "main.js",
+  "directories": {
+    "lib": "lib"
+  },
+  "scripts": {
+    "start": "electron .",
+    "install": "electron-rebuild -f -w serialport"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/asterics/FLipMouse-esp32.git"
+  },
+  "keywords": [
+    "Assistive",
+    "Technology",
+    "Mouthmouse",
+    "Alternative",
+    "Input",
+    "devices"
+  ],
+  "author": "Benjamin Klaus & Benjamin Aigner",
+  "license": "CC-BY-NC-SA-4.0",
+  "bugs": {
+    "url": "https://github.com/asterics/FLipMouse-esp32/issues"
+  },
+  "homepage": "https://github.com/asterics/FLipMouse-esp32#readme",
+  "devDependencies": {
+    "electron": "^7.1.0",
+    "electron-rebuild": "electron/electron-rebuild",
+    "serialport": "^7.1.5"
+  },
+  "dependencies": {
+    "node-abi": "^2.12.0"
+  }
+}

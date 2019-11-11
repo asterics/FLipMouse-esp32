@@ -313,6 +313,7 @@
             window.flip = new FlipMouse(function (config) {
                 initWithConfig(config);
                 tabSlot.initSlots();
+                tabSlot.initPorts();
                 toTab(getCurrentTabId(), true);
                 testConnection();
                 setInterval(function () {

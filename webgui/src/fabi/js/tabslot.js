@@ -1,5 +1,30 @@
 window.tabSlot = {};
 
+window.tabSlot.selectPort = function (select) {
+        _serialport = select.value;
+        console.log("Selected port: " + _serialport);
+        //TODO: set port in communicator
+        L('.port-select').forEach(function (elem) {
+            elem.value = select.value;
+        });
+    };
+    
+tabSlot.initPorts = function () {
+    //TODO: get ports from communicator, but how?!?
+    if(window.flip._communicator) {
+        var slots = window.flip._communicator.getPorts();
+    } else {
+        console.log("_communicator not available");
+        return;
+    }
+    //TODO: en/disable connect/disconnect buttons
+    /*L('#delete-slot-button').disabled = slots.length <= 1;
+    L('#create-slot-button').disabled = true;*/
+    L('.port-select').forEach(function (elem) {
+        elem.innerHTML = L.createSelectItems(slots);
+    });
+};
+
 tabSlot.initSlots = function () {
     var slots = flip.getSlots();
     L('#delete-slot-button').disabled = slots.length <= 1;

@@ -11,6 +11,7 @@ function SerialCommunicator() {
 
     //serial port instance
     var _port;
+    var _serialport;
 
     this.setValueHandler = function (handler) {
         _valueHandler = handler;
@@ -26,6 +27,15 @@ function SerialCommunicator() {
         _port.pipe(parser);
     };
     
+    this.getPorts = function() {
+        if(_port) {
+            var list = new Array();
+            _port.list().forEach( function(port) {
+                list.push(port['path'] + port['manufacturer']);
+            });
+            return list;
+        }
+    };
     
 
     

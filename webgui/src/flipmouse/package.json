@@ -8,7 +8,7 @@
   },
   "scripts": {
     "start": "electron .",
-    "install": "electron-rebuild -f -w serialport"
+    "install": "electron-rebuild"
   },
   "repository": {
     "type": "git",
@@ -29,11 +29,10 @@
   },
   "homepage": "https://github.com/asterics/FLipMouse-esp32#readme",
   "devDependencies": {
-    "electron": "^7.1.0",
-    "electron-rebuild": "electron/electron-rebuild",
-    "serialport": "^7.1.5"
+    "electron": "^5.0.5",
+    "electron-rebuild": "^1.8.5"
   },
   "dependencies": {
-    "node-abi": "^2.12.0"
+    "serialport": "^7.1.5"
   }
 }

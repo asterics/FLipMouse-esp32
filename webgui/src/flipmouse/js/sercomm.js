@@ -13,13 +13,13 @@ function SerialCommunicator() {
     };
     
     this.connect = function(serialport) {
-        _port = new SerialPort(serialport, {
+        /*_port = new SerialPort(serialport, {
           baudRate: 115200
         })
         
         lineReader = createInterface({
           input: _port
-        });
+        });*/
     };
     
     //source: https://stackoverflow.com/questions/52186691/data-stream-and-promises-node-js-with-serialport

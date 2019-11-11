@@ -385,7 +385,11 @@ function FlipMouse(initFinished) {
         //If no, activate mock,ARE or FM3 Websocket
         var userAgent = navigator.userAgent.toLowerCase();
         if (userAgent.indexOf(' electron/') > -1) {
-           _communicator = new SerialCommunicator();
+            var promise = new Promise(function(resolve) {
+                _communicator = new SerialCommunicator();
+                resolve();
+                return;
+            });
         } else {
             var promise = new Promise(function(resolve) {
                 

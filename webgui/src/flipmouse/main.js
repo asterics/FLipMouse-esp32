@@ -9,12 +9,15 @@ function createWindow () {
     width: 800,
     height: 600,
     webPreferences: {
-      nodeIntegration: true
+      nodeIntegration: true,
+      toolbar: false
     }
   })
 
   // and load the index.html of the app.
   win.loadFile('index.htm')
+  win.setMenuBarVisibility(false);
+  win.setAutoHideMenuBar(true);
 }
 
 app.on('ready', createWindow) 

@@ -41,3 +41,18 @@ Additional packaging:
 
 * macOS can be built only on macOS
 * For building a windows installer, you have to install `mono-complete`
+
+
+
+# Second try, electron-forge
+
+`sudo npm install -g @electron-forge/cli`
+Install: `apt install rpm`
+
+
+
+
+# On Win10
+ * Install node from nodejs.org
+ * Open command prompt, type in `npm install` in the corresponding subfolder (FABI/FLipMouse)
+

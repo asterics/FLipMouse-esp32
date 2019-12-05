@@ -61,7 +61,7 @@ function FlipMouse(initFinished) {
     var _SLOT_CONSTANT = 'Slot:';
     var _AT_CMD_BUSY_RESPONSE = 'BUSY';
     var _AT_CMD_OK_RESPONSE = 'OK';
-    var _AT_CMD_MIN_WAITTIME_MS = 50;
+    var _AT_CMD_MIN_WAITTIME_MS = 5000;
     var _timestampLastAtCmd = new Date().getTime();
     var _atCmdQueue = [];
     var _sendingAtCmds = false;

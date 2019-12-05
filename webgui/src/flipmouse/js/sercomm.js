@@ -16,40 +16,93 @@ function SerialCommunicator() {
         _valueHandler = handler;
     };
     
-    this.connect = function(serialport) {
-        console.log("Connecting to: " + serialport);
-        _port = new SerialPort(serialport, {
-          baudRate: 115200 })
-	    
-	    //attach parser to serial port
-        _port.pipe(parser);
-        //on a fully received line,
-        //check if the data is a reported raw value
-        //or returned data for a dedicated command (see sendData)
-        parser.on('data', function(data) {
-			console.log("data evt: " + data);
+    function ping(port_name){
+		try {
+		   const port = new SerialPort(port_name,{
+			 baudRate: 115200,
+			 parser: new SerialPort.parsers.Readline('\n')
+		   });
+		   port.on('open',function(){
+		     port.write("AT ID \r\n");
+		     data = port.read();
+		     //TODO: test for valid id
+		     console.log(i + data);
+		     port.close();
+		  });
+		
+		  return new Promise(resolve => port.on("close", resolve));
+	   } catch(err) {
+		   console.log("Not a valid port");
+		   return new Promise(function (resolve, reject) { 
+			   reject();
+		   });
+	   }
+	
+	   
+	}
+	
+    
+    this.connect = async function() {
+		 
 
-			if (data && data.toString().indexOf(C.LIVE_VALUE_CONSTANT) > -1) {
-				if (L.isFunction(_valueHandler)) {
-					_valueHandler(data.toString());
-				}
-				return;
-			}
+			let portname = await this.getValidPort();
 			
-			if(_internalValueFunction) {
-				_internalValueFunction(data);
-			}
-		});
+			serialport = "/dev/ttyACM0";
+			
+			
+		 //})();
+		
+		/*(async function() {
+			const portlist = await SerialPort.list();
+			let serialport = "";
+			for(const port of portlist) {
+				//open port
+				probePort = new SerialPort(port['comName'], {baudRate: 115200 })
+				probePort.pipe(parser);
+				
+				//send data
+				
+				//await  for feedback
+				
+				// if flipmouse -> set _port & return
+			}*/
+			
+			
+			
+			//is port defined?
+			
+			//attach parser to serial port
+			_port = new SerialPort(serialport, {
+				baudRate: 115200 })
+			_port.pipe(parser);
+			console.log("Found valid device @" + serialport);
+				    
+        
+			//on a fully received line,
+			//check if the data is a reported raw value
+			//or returned data for a dedicated command (see sendData)
+			parser.on('data', function(data) {
+				console.log("data evt: " + data);
+
+				if (data && data.toString().indexOf(C.LIVE_VALUE_CONSTANT) > -1) {
+					if (L.isFunction(_valueHandler)) {
+						_valueHandler(data.toString());
+					}
+					return;
+				}
+				
+				if(_internalValueFunction) {
+					_internalValueFunction(data);
+				}
+			});
+		//})();
     };
     
-    this.getPorts = function() {
-        if(_port) {
-            var list = new Array();
-            _port.list().forEach( function(port) {
-                list.push(port['path'] + port['manufacturer']);
-            });
-            return list;
-        }
+    this.getValidPort = async function() {
+		const portlist = await SerialPort.list();
+		for(let i = 0; i<portlist.length; i++) {
+			await ping(portlist[i].comName);	
+		}
     };
 
     
@@ -59,9 +112,22 @@ function SerialCommunicator() {
     };
 
     this.sendData = function (value, timeout) {
-        if (!value) return;
+		const that = this;
+        (async function() {
         
-        if(!_port) this.connect('/dev/ttyACM0');
+			if (!value) return;
+        
+        
+			if(!_port) await that.connect();
+		
+        //if still no port exists, we cannot send data...
+        if(!_port) {
+			console.log("no ports found");
+			return new Promise(function(resolve) {
+				resolve("");
+			});
+        }
+        
         //send data via serial port
         _port.write(value, function(err) {
           if (err) {
@@ -96,5 +162,6 @@ function SerialCommunicator() {
                 }, 50);
             }
         });
+       })();
     };
 }

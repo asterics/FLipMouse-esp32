@@ -16,7 +16,7 @@ function SerialCommunicator() {
         _valueHandler = handler;
     };
 
-    function isATCOM({ comName }, device = 'FABI v2.3') {
+    function isATCOM({ comName }, device = 'FLipMouse') {
         return new Promise((resolve, reject) => {
             const port = new SerialPort(
                 comName,
@@ -29,7 +29,7 @@ function SerialCommunicator() {
                         let found = false;
                         port.on('data', chunk => {
                             const msg = chunk.toString();
-                            if (msg.startsWith(device)) {
+                            if (msg.toLowerCase().startsWith(device.toLowerCase())) {
                                 found = true;
                                 console.log(
                                     `Found AT COM device at ${comName}`
@@ -61,7 +61,7 @@ function SerialCommunicator() {
 
     this.init = function() {
         return SerialPort.list().then(function(ports, errors) {
-            const device = 'FABI v2.3'; // Proper AT COM device name
+            const device = 'FLipMouse'; // Proper AT COM device name
             console.log(`Searching for ${device} ...`);
             if (typeof errors === 'undefined') {
                 // race to (first) success, cf. https://stackoverflow.com/a/37235274/5728717
@@ -80,7 +80,25 @@ function SerialCommunicator() {
                         reject => Promise.resolve(reject)
                     )
                     .then(port => {
-                        _port = port;
+                        _port = new SerialPort(port['path'], {
+                            baudRate: 115200
+                        });;
+                        _port.pipe(parser);
+                        //on a fully received line,
+                        //check if the data is a reported raw value
+                        //or returned data for a dedicated command (see sendData)
+                        parser.on('data', function(data) {
+                            console.log("data evt: " + data);
+                            if (data && data.toString().indexOf(C.LIVE_VALUE_CONSTANT) > -1) {
+                                if (L.isFunction(_valueHandler)) {
+                                    _valueHandler(data.toString());
+                                }
+                                return;
+                            }
+                            if(_internalValueFunction) {
+                                _internalValueFunction(data);
+                            }
+                        });
                         return Promise.resolve();
                     })
                     .catch(() => {

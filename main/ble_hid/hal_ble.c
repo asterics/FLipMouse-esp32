@@ -536,7 +536,7 @@ void halBLEReset(uint8_t exceptDevice)
   }
   //and once again for the joystick.
   if(!(exceptDevice & (1<<1))) {
-    uint8_t j[sizeof(keyboard_report)] = {0};
+    uint8_t j[sizeof(joystick_report)] = {0};
     if(memcmp(joystick_report,j,sizeof(joystick_report)) != 0) {
       memset(joystick_report,0,sizeof(joystick_report));
       send = 1;

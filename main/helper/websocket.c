@@ -168,12 +168,26 @@ void ws_server_netconn_serve(struct netconn *conn) {
 					p_SHA1_Inp[i] = *(p_buf + sizeof(WS_sec_WS_keys) + i);
 
 				// calculate hash
-                                esp_sha(SHA1, (unsigned char*) p_SHA1_Inp, strlen(p_SHA1_Inp),
+				mbedtls_sha1_ret((unsigned char*) p_SHA1_Inp, strlen(p_SHA1_Inp),
 						(unsigned char*) p_SHA1_result);
-
-				//hex to base64
-				p_buf = (char*) base64_encode((unsigned char*) p_SHA1_result,
-						SHA1_RES_L, (size_t*) &i);
+						
+				//length calculation from old base64 wpa utils
+				size_t olen = SHA1_RES_L * 4 / 3 + 4; /* 3-byte blocks to 4-byte */
+				olen += olen / 72; /* line feeds */
+				olen++; /* nul termination */
+				olen++; //just to be sure...
+				//WPA utils did the malloc, mbedTLS requires us to do this
+				p_buf = malloc(olen);
+				//do the base64 stuff
+				if(p_buf != NULL)
+				{
+					size_t outlen;
+					if(mbedtls_base64_encode((unsigned char*)p_buf,olen, \
+						(size_t*) &i, (unsigned char*) p_SHA1_result,SHA1_RES_L) != 0)
+					{
+						ESP_LOGE("WS","Base64: too less memory");
+					}
+				}
 
 				//free SHA1 input
 				free(p_SHA1_Inp);
@@ -191,7 +205,7 @@ void ws_server_netconn_serve(struct netconn *conn) {
 					sprintf(p_payload, WS_srv_hs, i - 1, p_buf);
 
 					//send handshake
-                                        netconn_write(conn, p_payload, strlen(p_payload),
+                    netconn_write(conn, p_payload, strlen(p_payload),
 							NETCONN_COPY);
 
 					//free base 64 encoded sec key

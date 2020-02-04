@@ -199,275 +199,277 @@ void halBLETask(void * params)
   //Empty queue if initialized (there might be something left from last connection)
   if(hid_ble != NULL) xQueueReset(hid_ble);
   
-  //check if queue is initialized
-  if(hid_ble != NULL)
-  {
-    while(1)
-    {
-      //pend on MQ, if timeout triggers, just wait again.
-      if(xQueueReceive(hid_ble,&rx,portMAX_DELAY))
-      {
-        //if we are not connected, discard.
-        if(sec_conn == false) continue;
-        
-        //parse command (similar to usb_bridge controller)
-        switch(rx.cmd[0] & 0xF0)
-        {
-          //general cmds
-          case 0x00:
-            switch(rx.cmd[0] & 0x0F)
-            {
-              //reset report
-              case 0:
-                halBLEReset(0);
-                break;
-              //mouse X/Y report
-              case 1:
-                mouse_report[1] = rx.cmd[1];
-                mouse_report[2] = rx.cmd[2];
-                hid_dev_send_report(hidd_le_env.gatt_if, hid_conn_id,
-                  HID_RPT_ID_MOUSE_IN, HID_REPORT_TYPE_INPUT, HID_MOUSE_IN_RPT_LEN, mouse_report);
-                //reset the mouse_report's relative values (X/Y/wheel/pan)
-                mouse_report[1] = 0;
-                mouse_report[2] = 0;
-                break;
-              default: break;
-            }
-            break;
-          
-          //mouse handling
-          case 0x10:
-            switch(rx.cmd[0] & 0x0F)
-            {
-              case 0: //move X
-                mouse_report[1] = rx.cmd[1];
-                break;
-              case 1: //move Y
-                mouse_report[2] = rx.cmd[1];
-                break;
-              case 2: //move wheel
-                mouse_report[3] = rx.cmd[1];
-                break;
-              /* Press & release */
-              case 3: //left
-                mouse_report[0] |= (1<<0);
-                //send press report, wait for free EP (sending release is done after switch)
-                hid_dev_send_report(hidd_le_env.gatt_if, hid_conn_id,
-                  HID_RPT_ID_MOUSE_IN, HID_REPORT_TYPE_INPUT, HID_MOUSE_IN_RPT_LEN, mouse_report);
-                mouse_report[0] &= ~(1<<0);
-                break;
-              case 4: //right
-                mouse_report[0] |= (1<<1);
-                //send press report, wait for free EP (sending release is done after switch)
-                hid_dev_send_report(hidd_le_env.gatt_if, hid_conn_id,
-                  HID_RPT_ID_MOUSE_IN, HID_REPORT_TYPE_INPUT, HID_MOUSE_IN_RPT_LEN, mouse_report);
-                mouse_report[0] &= ~(1<<1);
-                break;
-              case 5: //middle
-                mouse_report[0] |= (1<<2);
-                //send press report, wait for free EP (sending release is done after switch)
-                hid_dev_send_report(hidd_le_env.gatt_if, hid_conn_id,
-                  HID_RPT_ID_MOUSE_IN, HID_REPORT_TYPE_INPUT, HID_MOUSE_IN_RPT_LEN, mouse_report);
-                mouse_report[0] &= ~(1<<2);
-                break;
-              /* Press */
-              case 6: //left
-                mouse_report[0] |= (1<<0);
-                break;
-              case 7: //right
-                mouse_report[0] |= (1<<1);
-                break;
-              case 8: //middle
-                mouse_report[0] |= (1<<2);
-                break;
-              /* Release */
-              case 9: //left
-                mouse_report[0] &= ~(1<<0);
-                break;
-              case 10: //right
-                mouse_report[0] &= ~(1<<1);
-                break;
-              case 11: //middle
-                mouse_report[0] &= ~(1<<2);
-                break;
-              /* Toggle */
-              case 12: //left
-                mouse_report[0] ^= (1<<0);
-                break;
-              case 13: //right
-                mouse_report[0] ^= (1<<1);
-                break;
-              case 14: //middle
-                mouse_report[0] ^= (1<<2);
-                break;
-              case 15: //reset mouse (excepting keyboard & joystick)
-                halBLEReset((1<<0)|(1<<1));
-                break;
-            }
-            hid_dev_send_report(hidd_le_env.gatt_if, hid_conn_id,
-              HID_RPT_ID_MOUSE_IN, HID_REPORT_TYPE_INPUT, HID_MOUSE_IN_RPT_LEN, mouse_report);
-            //reset the mouse_report's relative values (X/Y/wheel/pan)
-            mouse_report[1] = 0;
-            mouse_report[2] = 0;
-            mouse_report[3] = 0;
-            mouse_report[4] = 0;
-            break;
-          //Keyboard handling
-          case 0x20:
-            switch(rx.cmd[0] & 0x0F)
-            {
-              case 0: //Press & release a key
-                //press key & send
-                add_keycode(rx.cmd[1], &keyboard_report[2]);
-                hid_dev_send_report(hidd_le_env.gatt_if, hid_conn_id,
-                  HID_RPT_ID_KEY_IN, HID_REPORT_TYPE_INPUT, HID_KEYBOARD_IN_RPT_LEN, keyboard_report);
-                //remove keycode
-                //sending the second report is done after this switch
-                remove_keycode(rx.cmd[1], &keyboard_report[2]);
-                break;
-              case 1: //Press a key
-                add_keycode(rx.cmd[1], &keyboard_report[2]);
-                break;
-              case 2: //Release a key
-                remove_keycode(rx.cmd[1], &keyboard_report[2]);
-                break;
-              case 3:
-                if(is_in_keycode_arr(rx.cmd[1],&keyboard_report[2])) remove_keycode(rx.cmd[1], &keyboard_report[2]);
-                else add_keycode(rx.cmd[1], &keyboard_report[2]);
-                break;
-              case 4: //Press & release a modifier (mask!)
-                keyboard_report[0] |= rx.cmd[1];
-                hid_dev_send_report(hidd_le_env.gatt_if, hid_conn_id,
-                  HID_RPT_ID_KEY_IN, HID_REPORT_TYPE_INPUT, HID_KEYBOARD_IN_RPT_LEN, keyboard_report);
-                //remove modifier
-                //sending the second report is done after this switch
-                keyboard_report[0] &= ~rx.cmd[1];
-                break;
-              case 5: //Press a modifier (mask!)
-                keyboard_report[0] |= rx.cmd[1];
-                break;
-              case 6: //Release a modifier (mask!)
-                keyboard_report[0] &= ~rx.cmd[1];
-                break;
-              case 7: //Toggle a modifier (mask!)
-                keyboard_report[0] ^= rx.cmd[1];
-                break;
-              case 15: //reset mouse (excepting mouse & joystick)
-                halBLEReset((1<<1)|(1<<2));
-                break;
-            }
-            hid_dev_send_report(hidd_le_env.gatt_if, hid_conn_id,
-              HID_RPT_ID_KEY_IN, HID_REPORT_TYPE_INPUT, HID_KEYBOARD_IN_RPT_LEN, keyboard_report);
-            break;
-          case 0x30:
-            switch(rx.cmd[0] & 0x0F)
-            {
-              case 0: //Press & release button/hat
-                //test if it is buttons or hat?
-                if((rx.cmd[1] & (1<<7)) == 0)
-                {
-                  //buttons, map to corresponding bits in 4 bytes
-                  if(rx.cmd[1] <= 7) joystick_report[0] |= (1<<rx.cmd[1]);
-                  else if(rx.cmd[1] <= 15) joystick_report[1] |= (1<<(rx.cmd[1]-8));
-                  else if(rx.cmd[1] <= 24) joystick_report[2] |= (1<<(rx.cmd[1]-16));
-                  else if(rx.cmd[1] <= 31) joystick_report[3] |= (1<<(rx.cmd[1]-24));
-                } else {
-                  //hat, remove bit 7 and set to report (don't touch 4 bits of X)
-                  joystick_report[4] = (joystick_report[4] & 0xF0) | (rx.cmd[1] & 0x0F);
-                }
-                //send press action
-                hid_dev_send_report(hidd_le_env.gatt_if, hid_conn_id,
-                  HID_RPT_ID_JOY_IN, HID_REPORT_TYPE_INPUT, HID_JOYSTICK_IN_RPT_LEN, joystick_report);
-                //release button/hat
-                //test if it is buttons or hat?
-                if((rx.cmd[1] & (1<<7)) == 0)
-                {
-                  //buttons, map to corresponding bits in 4 bytes
-                  if(rx.cmd[1] <= 7) joystick_report[0] &= ~(1<<rx.cmd[1]);
-                  else if(rx.cmd[1] <= 15) joystick_report[1] &= ~(1<<(rx.cmd[1]-8));
-                  else if(rx.cmd[1] <= 24) joystick_report[2] &= ~(1<<(rx.cmd[1]-16));
-                  else if(rx.cmd[1] <= 31) joystick_report[3] &= ~(1<<(rx.cmd[1]-24));
-                } else {
-                  //hat release means always 15.
-                  joystick_report[4] = (joystick_report[4] & 0xF0) | 0x0F;
-                }
-                break;
-              case 1: //Press button/hat
-                //test if it is buttons or hat?
-                if((rx.cmd[1] & (1<<7)) == 0)
-                {
-                  //buttons, map to corresponding bits in 4 bytes
-                  if(rx.cmd[1] <= 7) joystick_report[0] |= (1<<rx.cmd[1]);
-                  else if(rx.cmd[1] <= 15) joystick_report[1] |= (1<<(rx.cmd[1]-8));
-                  else if(rx.cmd[1] <= 24) joystick_report[2] |= (1<<(rx.cmd[1]-16));
-                  else if(rx.cmd[1] <= 31) joystick_report[3] |= (1<<(rx.cmd[1]-24));
-                } else {
-                  //hat, remove bit 7 and set to report (don't touch 4 bits of X)
-                  joystick_report[4] = (joystick_report[4] & 0xF0) | (rx.cmd[1] & 0x0F);
-                }
-                break;
-              case 2: //Release button/hat
-                //test if it is buttons or hat?
-                if((rx.cmd[1] & (1<<7)) == 0)
-                {
-                  //buttons, map to corresponding bits in 4 bytes
-                  if(rx.cmd[1] <= 7) joystick_report[0] &= ~(1<<rx.cmd[1]);
-                  else if(rx.cmd[1] <= 15) joystick_report[1] &= ~(1<<(rx.cmd[1]-8));
-                  else if(rx.cmd[1] <= 24) joystick_report[2] &= ~(1<<(rx.cmd[1]-16));
-                  else if(rx.cmd[1] <= 31) joystick_report[3] &= ~(1<<(rx.cmd[1]-24));
-                } else {
-                  //hat release means always 15.
-                  joystick_report[4] = (joystick_report[4] & 0xF0) | 0x0F;
-                }
-                break;
-              case 4: //X Axis
-                //preserve 4 bits of hat
-                joystick_report[4] = (joystick_report[4] & 0x0F) | ((rx.cmd[1] & 0x0F) << 4);
-                //preserve 2 bits of Y
-                joystick_report[5] = (joystick_report[5] & 0xC0) | ((rx.cmd[1] & 0xF0) >> 4) | ((rx.cmd[2] & 0x03) << 4);
-                break;
-              case 5: //Y Axis
-                //preserve 6 bits of X
-                joystick_report[5] = (joystick_report[5] & 0x3F) | ((rx.cmd[1] & 0x03) << 6);
-                //save remaining Y
-                joystick_report[6] = ((rx.cmd[1] & 0xFC) >> 2) | ((rx.cmd[2] & 0x03) << 6);
-                break;
-              case 6: //Z Axis
-                joystick_report[7] = rx.cmd[1];
-                joystick_report[8] = (joystick_report[8] & 0xFC) | (rx.cmd[2] & 0x03);
-                break;
-              case 7: //Z-rotate
-                //preserve 2 bits of Z-axis
-                joystick_report[8] = (joystick_report[8] & 0x03) | ((rx.cmd[1] & 0x3F) << 2);
-                //preserve slider left & combine 2 bits of LSB & MSB to one nibble
-                joystick_report[9] = (joystick_report[9] & 0xF0) | ((rx.cmd[1] & 0xC0) >> 6) | ((rx.cmd[2] & 0x03) << 2);
-                break;
-              case 8: //slider left
-                //preserve 4 bits of Z-rotate, add low nibble of first byte
-                joystick_report[9] = (joystick_report[9] & 0x0F) | ((rx.cmd[1] & 0x0F) << 4);
-                //preserve 2 bits of slider right, add high nibble of first byte and second byte
-                joystick_report[10] = (joystick_report[10] & 0xC0) | ((rx.cmd[1] & 0xF0) >> 4) | ((rx.cmd[2] & 0x03) << 4);
-                break;
-              case 9: //slider right
-                //preserve 6 bits of slider left, add 2 bits for slider right
-                joystick_report[10] = (joystick_report[10] & 0x3F) | ((rx.cmd[1] & 0x03) << 6);
-                //save remaining slider right
-                joystick_report[11] = ((rx.cmd[1] & 0xFC) >> 2) | ((rx.cmd[2] & 0x03) << 6);
-                break;
-              case 15: //reset joystick (excepting mouse & keyboard)
-                halBLEReset((1<<0)|(1<<2));
-                break;
-            }
-            hid_dev_send_report(hidd_le_env.gatt_if, hid_conn_id,
-              HID_RPT_ID_JOY_IN, HID_REPORT_TYPE_INPUT, HID_JOYSTICK_IN_RPT_LEN, joystick_report);
-            break;
-          }   
-      }
-    }
-  } else {
-    ESP_LOGE(LOG_TAG,"ble hid queue not initialized, retry in 1s");
-    vTaskDelay(1000/portTICK_PERIOD_MS);
-  }
+  
+	while(1)
+	{
+		//check if queue is initialized
+	  if(hid_ble == NULL)
+	  {
+		ESP_LOGE(LOG_TAG,"ble hid queue not initialized, retry in 1s");
+		vTaskDelay(1000/portTICK_PERIOD_MS);
+		continue;
+	  }
+		
+	  //pend on MQ, if timeout triggers, just wait again.
+	  if(xQueueReceive(hid_ble,&rx,portMAX_DELAY))
+	  {
+		//if we are not connected, discard.
+		if(sec_conn == false) continue;
+		
+		//parse command (similar to usb_bridge controller)
+		switch(rx.cmd[0] & 0xF0)
+		{
+		  //general cmds
+		  case 0x00:
+			switch(rx.cmd[0] & 0x0F)
+			{
+			  //reset report
+			  case 0:
+				halBLEReset(0);
+				break;
+			  //mouse X/Y report
+			  case 1:
+				mouse_report[1] = rx.cmd[1];
+				mouse_report[2] = rx.cmd[2];
+				hid_dev_send_report(hidd_le_env.gatt_if, hid_conn_id,
+				  HID_RPT_ID_MOUSE_IN, HID_REPORT_TYPE_INPUT, HID_MOUSE_IN_RPT_LEN, mouse_report);
+				//reset the mouse_report's relative values (X/Y/wheel/pan)
+				mouse_report[1] = 0;
+				mouse_report[2] = 0;
+				break;
+			  default: break;
+			}
+			break;
+		  
+		  //mouse handling
+		  case 0x10:
+			switch(rx.cmd[0] & 0x0F)
+			{
+			  case 0: //move X
+				mouse_report[1] = rx.cmd[1];
+				break;
+			  case 1: //move Y
+				mouse_report[2] = rx.cmd[1];
+				break;
+			  case 2: //move wheel
+				mouse_report[3] = rx.cmd[1];
+				break;
+			  /* Press & release */
+			  case 3: //left
+				mouse_report[0] |= (1<<0);
+				//send press report, wait for free EP (sending release is done after switch)
+				hid_dev_send_report(hidd_le_env.gatt_if, hid_conn_id,
+				  HID_RPT_ID_MOUSE_IN, HID_REPORT_TYPE_INPUT, HID_MOUSE_IN_RPT_LEN, mouse_report);
+				mouse_report[0] &= ~(1<<0);
+				break;
+			  case 4: //right
+				mouse_report[0] |= (1<<1);
+				//send press report, wait for free EP (sending release is done after switch)
+				hid_dev_send_report(hidd_le_env.gatt_if, hid_conn_id,
+				  HID_RPT_ID_MOUSE_IN, HID_REPORT_TYPE_INPUT, HID_MOUSE_IN_RPT_LEN, mouse_report);
+				mouse_report[0] &= ~(1<<1);
+				break;
+			  case 5: //middle
+				mouse_report[0] |= (1<<2);
+				//send press report, wait for free EP (sending release is done after switch)
+				hid_dev_send_report(hidd_le_env.gatt_if, hid_conn_id,
+				  HID_RPT_ID_MOUSE_IN, HID_REPORT_TYPE_INPUT, HID_MOUSE_IN_RPT_LEN, mouse_report);
+				mouse_report[0] &= ~(1<<2);
+				break;
+			  /* Press */
+			  case 6: //left
+				mouse_report[0] |= (1<<0);
+				break;
+			  case 7: //right
+				mouse_report[0] |= (1<<1);
+				break;
+			  case 8: //middle
+				mouse_report[0] |= (1<<2);
+				break;
+			  /* Release */
+			  case 9: //left
+				mouse_report[0] &= ~(1<<0);
+				break;
+			  case 10: //right
+				mouse_report[0] &= ~(1<<1);
+				break;
+			  case 11: //middle
+				mouse_report[0] &= ~(1<<2);
+				break;
+			  /* Toggle */
+			  case 12: //left
+				mouse_report[0] ^= (1<<0);
+				break;
+			  case 13: //right
+				mouse_report[0] ^= (1<<1);
+				break;
+			  case 14: //middle
+				mouse_report[0] ^= (1<<2);
+				break;
+			  case 15: //reset mouse (excepting keyboard & joystick)
+				halBLEReset((1<<0)|(1<<1));
+				break;
+			}
+			hid_dev_send_report(hidd_le_env.gatt_if, hid_conn_id,
+			  HID_RPT_ID_MOUSE_IN, HID_REPORT_TYPE_INPUT, HID_MOUSE_IN_RPT_LEN, mouse_report);
+			//reset the mouse_report's relative values (X/Y/wheel/pan)
+			mouse_report[1] = 0;
+			mouse_report[2] = 0;
+			mouse_report[3] = 0;
+			mouse_report[4] = 0;
+			break;
+		  //Keyboard handling
+		  case 0x20:
+			switch(rx.cmd[0] & 0x0F)
+			{
+			  case 0: //Press & release a key
+				//press key & send
+				add_keycode(rx.cmd[1], &keyboard_report[2]);
+				hid_dev_send_report(hidd_le_env.gatt_if, hid_conn_id,
+				  HID_RPT_ID_KEY_IN, HID_REPORT_TYPE_INPUT, HID_KEYBOARD_IN_RPT_LEN, keyboard_report);
+				//remove keycode
+				//sending the second report is done after this switch
+				remove_keycode(rx.cmd[1], &keyboard_report[2]);
+				break;
+			  case 1: //Press a key
+				add_keycode(rx.cmd[1], &keyboard_report[2]);
+				break;
+			  case 2: //Release a key
+				remove_keycode(rx.cmd[1], &keyboard_report[2]);
+				break;
+			  case 3:
+				if(is_in_keycode_arr(rx.cmd[1],&keyboard_report[2])) remove_keycode(rx.cmd[1], &keyboard_report[2]);
+				else add_keycode(rx.cmd[1], &keyboard_report[2]);
+				break;
+			  case 4: //Press & release a modifier (mask!)
+				keyboard_report[0] |= rx.cmd[1];
+				hid_dev_send_report(hidd_le_env.gatt_if, hid_conn_id,
+				  HID_RPT_ID_KEY_IN, HID_REPORT_TYPE_INPUT, HID_KEYBOARD_IN_RPT_LEN, keyboard_report);
+				//remove modifier
+				//sending the second report is done after this switch
+				keyboard_report[0] &= ~rx.cmd[1];
+				break;
+			  case 5: //Press a modifier (mask!)
+				keyboard_report[0] |= rx.cmd[1];
+				break;
+			  case 6: //Release a modifier (mask!)
+				keyboard_report[0] &= ~rx.cmd[1];
+				break;
+			  case 7: //Toggle a modifier (mask!)
+				keyboard_report[0] ^= rx.cmd[1];
+				break;
+			  case 15: //reset mouse (excepting mouse & joystick)
+				halBLEReset((1<<1)|(1<<2));
+				break;
+			}
+			hid_dev_send_report(hidd_le_env.gatt_if, hid_conn_id,
+			  HID_RPT_ID_KEY_IN, HID_REPORT_TYPE_INPUT, HID_KEYBOARD_IN_RPT_LEN, keyboard_report);
+			break;
+		  case 0x30:
+			switch(rx.cmd[0] & 0x0F)
+			{
+			  case 0: //Press & release button/hat
+				//test if it is buttons or hat?
+				if((rx.cmd[1] & (1<<7)) == 0)
+				{
+				  //buttons, map to corresponding bits in 4 bytes
+				  if(rx.cmd[1] <= 7) joystick_report[0] |= (1<<rx.cmd[1]);
+				  else if(rx.cmd[1] <= 15) joystick_report[1] |= (1<<(rx.cmd[1]-8));
+				  else if(rx.cmd[1] <= 24) joystick_report[2] |= (1<<(rx.cmd[1]-16));
+				  else if(rx.cmd[1] <= 31) joystick_report[3] |= (1<<(rx.cmd[1]-24));
+				} else {
+				  //hat, remove bit 7 and set to report (don't touch 4 bits of X)
+				  joystick_report[4] = (joystick_report[4] & 0xF0) | (rx.cmd[1] & 0x0F);
+				}
+				//send press action
+				hid_dev_send_report(hidd_le_env.gatt_if, hid_conn_id,
+				  HID_RPT_ID_JOY_IN, HID_REPORT_TYPE_INPUT, HID_JOYSTICK_IN_RPT_LEN, joystick_report);
+				//release button/hat
+				//test if it is buttons or hat?
+				if((rx.cmd[1] & (1<<7)) == 0)
+				{
+				  //buttons, map to corresponding bits in 4 bytes
+				  if(rx.cmd[1] <= 7) joystick_report[0] &= ~(1<<rx.cmd[1]);
+				  else if(rx.cmd[1] <= 15) joystick_report[1] &= ~(1<<(rx.cmd[1]-8));
+				  else if(rx.cmd[1] <= 24) joystick_report[2] &= ~(1<<(rx.cmd[1]-16));
+				  else if(rx.cmd[1] <= 31) joystick_report[3] &= ~(1<<(rx.cmd[1]-24));
+				} else {
+				  //hat release means always 15.
+				  joystick_report[4] = (joystick_report[4] & 0xF0) | 0x0F;
+				}
+				break;
+			  case 1: //Press button/hat
+				//test if it is buttons or hat?
+				if((rx.cmd[1] & (1<<7)) == 0)
+				{
+				  //buttons, map to corresponding bits in 4 bytes
+				  if(rx.cmd[1] <= 7) joystick_report[0] |= (1<<rx.cmd[1]);
+				  else if(rx.cmd[1] <= 15) joystick_report[1] |= (1<<(rx.cmd[1]-8));
+				  else if(rx.cmd[1] <= 24) joystick_report[2] |= (1<<(rx.cmd[1]-16));
+				  else if(rx.cmd[1] <= 31) joystick_report[3] |= (1<<(rx.cmd[1]-24));
+				} else {
+				  //hat, remove bit 7 and set to report (don't touch 4 bits of X)
+				  joystick_report[4] = (joystick_report[4] & 0xF0) | (rx.cmd[1] & 0x0F);
+				}
+				break;
+			  case 2: //Release button/hat
+				//test if it is buttons or hat?
+				if((rx.cmd[1] & (1<<7)) == 0)
+				{
+				  //buttons, map to corresponding bits in 4 bytes
+				  if(rx.cmd[1] <= 7) joystick_report[0] &= ~(1<<rx.cmd[1]);
+				  else if(rx.cmd[1] <= 15) joystick_report[1] &= ~(1<<(rx.cmd[1]-8));
+				  else if(rx.cmd[1] <= 24) joystick_report[2] &= ~(1<<(rx.cmd[1]-16));
+				  else if(rx.cmd[1] <= 31) joystick_report[3] &= ~(1<<(rx.cmd[1]-24));
+				} else {
+				  //hat release means always 15.
+				  joystick_report[4] = (joystick_report[4] & 0xF0) | 0x0F;
+				}
+				break;
+			  case 4: //X Axis
+				//preserve 4 bits of hat
+				joystick_report[4] = (joystick_report[4] & 0x0F) | ((rx.cmd[1] & 0x0F) << 4);
+				//preserve 2 bits of Y
+				joystick_report[5] = (joystick_report[5] & 0xC0) | ((rx.cmd[1] & 0xF0) >> 4) | ((rx.cmd[2] & 0x03) << 4);
+				break;
+			  case 5: //Y Axis
+				//preserve 6 bits of X
+				joystick_report[5] = (joystick_report[5] & 0x3F) | ((rx.cmd[1] & 0x03) << 6);
+				//save remaining Y
+				joystick_report[6] = ((rx.cmd[1] & 0xFC) >> 2) | ((rx.cmd[2] & 0x03) << 6);
+				break;
+			  case 6: //Z Axis
+				joystick_report[7] = rx.cmd[1];
+				joystick_report[8] = (joystick_report[8] & 0xFC) | (rx.cmd[2] & 0x03);
+				break;
+			  case 7: //Z-rotate
+				//preserve 2 bits of Z-axis
+				joystick_report[8] = (joystick_report[8] & 0x03) | ((rx.cmd[1] & 0x3F) << 2);
+				//preserve slider left & combine 2 bits of LSB & MSB to one nibble
+				joystick_report[9] = (joystick_report[9] & 0xF0) | ((rx.cmd[1] & 0xC0) >> 6) | ((rx.cmd[2] & 0x03) << 2);
+				break;
+			  case 8: //slider left
+				//preserve 4 bits of Z-rotate, add low nibble of first byte
+				joystick_report[9] = (joystick_report[9] & 0x0F) | ((rx.cmd[1] & 0x0F) << 4);
+				//preserve 2 bits of slider right, add high nibble of first byte and second byte
+				joystick_report[10] = (joystick_report[10] & 0xC0) | ((rx.cmd[1] & 0xF0) >> 4) | ((rx.cmd[2] & 0x03) << 4);
+				break;
+			  case 9: //slider right
+				//preserve 6 bits of slider left, add 2 bits for slider right
+				joystick_report[10] = (joystick_report[10] & 0x3F) | ((rx.cmd[1] & 0x03) << 6);
+				//save remaining slider right
+				joystick_report[11] = ((rx.cmd[1] & 0xFC) >> 2) | ((rx.cmd[2] & 0x03) << 6);
+				break;
+			  case 15: //reset joystick (excepting mouse & keyboard)
+				halBLEReset((1<<0)|(1<<2));
+				break;
+			}
+			hid_dev_send_report(hidd_le_env.gatt_if, hid_conn_id,
+			  HID_RPT_ID_JOY_IN, HID_REPORT_TYPE_INPUT, HID_JOYSTICK_IN_RPT_LEN, joystick_report);
+			break;
+		  }   
+	  }
+	}
 }
 
 /** @brief Activate/deactivate pairing mode

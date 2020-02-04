@@ -14,7 +14,26 @@ __Following 3 steps are necessary to completely update/flash the firmware and th
 Please follow the step-by-step instructions of Espressif's ESP-IDF manual to setup the build infrastructure:
 [Setup Toolchain](https://esp-idf.readthedocs.io/en/latest/get-started/index.html#setup-toolchain)
 
+Due to frequent changes in the esp-idf, the sdkconfig must be created:
+* Execute `make menuconfig` in this directory
+* Change: `Serial flasher config` -> `Flash size` to __4MB__
+* Change: `Partition table` -> `Partition table` to __Custom partition table CSV__
+* Change: `Component config` -> `Bluetooth` to enabled
+
+Optional (for runtime statistics):
+* Change: `Component config`->`FreeRTOS`->`Enable FreeRTOS trace facility` to enabled
+
+Optional (extensive stack/heap debugging):
+* Change `Component config`->`Heap memory debugging`->`Heap corruption detection` to whatever you need
+
 After a successful setup, you should be able to build the FLipMouse/FABI firmware by executing 'make flash monitor'.
+
+__Note:__ Due to frequent changes within the esp-idf and all build tools, there might be the chance that the firmware does
+not build. These steps were tested with:
+* master branch (on 04.02.2020)
+* release v4.1 (on 04.02.2020)
+
+__Note:__ The esp-idf requires different compiler versions for different releases/branches!
 
 ## Building the LPC11U14 firmware (USB bridging chip)
 

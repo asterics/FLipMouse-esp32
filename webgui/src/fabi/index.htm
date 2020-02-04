@@ -17,6 +17,7 @@
     <script src="js/wsutil.js"></script>
     <script src="js/arecomm.js"></script>
     <script src="js/wscomm.js"></script>
+    <script src="js/sercomm.js"></script>
     <script src="js/flipcomm.js"></script>
     <script src="js/mockcomm.js"></script>
     <script src="js/tabbasic.js"></script>
@@ -32,7 +33,12 @@
             <span aria-hidden="true" class="show-mobile headerConnectIndicator green connectedIndicator" style="display: none" title="connected">&#x2713;</span>
             <span aria-hidden="true" class="show-mobile headerConnectIndicator red disconnectedIndicator" title="not connected">&#x2717;</span>
         </div>
+            
         <div class="three columns hide-mobile showscreenreader">
+            <label class="seven columns" for="selectPorts" data-i18n>Select Serial Port // Seriellen Anschluss wählen</label>
+            <select aria-hidden="true" id="selectPorts" class="port-select row u-full-width" onchange="tabSlot.selectPort(this)">
+            </select>
+            
             <div class="row">
                 <label class="seven columns" for="selectSlots" data-i18n>Select Slot // Slot auswählen</label>
                 <div class="five columns text-right">
@@ -44,6 +50,7 @@
             </div>
             <select aria-hidden="true" id="selectSlots" class="slot-select row u-full-width" onchange="tabSlot.selectSlot(this)">
             </select>
+            
         </div>
     </header>
     <div class="row hide-mobile" style="margin-bottom: 1.5em"></div>
@@ -306,6 +313,7 @@
             window.flip = new FlipMouse(function (config) {
                 initWithConfig(config);
                 tabSlot.initSlots();
+                tabSlot.initPorts();
                 toTab(getCurrentTabId(), true);
                 testConnection();
                 setInterval(function () {

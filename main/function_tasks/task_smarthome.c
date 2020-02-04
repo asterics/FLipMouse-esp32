@@ -75,10 +75,6 @@ EventGroupHandle_t smarthomestatus;
 #define SH_WIFI_ACTIVE (1<<2)
 #define SH_WIFI_INITIALIZED (1<<3)
 
-
-/** @brief Import from internal wifi code for decoding error messages */
-extern const char* wifi_get_reason(int err);
-
 /** @brief Check for eventgroup before accessing it. Will be initialized if not available
  * @return ESP_OK if create was sucessful or event group was already initialized. ESP_FAIL of creating failed.*/
 esp_err_t checkeventgroup(void)
@@ -109,7 +105,7 @@ static esp_err_t wifi_sh_event_handler(void *ctx, system_event_t *event)
       esp_wifi_connect();
       disconnected = &event->event_info.disconnected;
       ESP_LOGD(LOG_TAG_WIFI, "SYSTEM_EVENT_STA_DISCONNECTED, ssid:%s, ssid_len:%d, bssid:" MACSTR ", reason:%d,%s", \
-                   disconnected->ssid, disconnected->ssid_len, MAC2STR(disconnected->bssid), disconnected->reason, wifi_get_reason(disconnected->reason));
+                   disconnected->ssid, disconnected->ssid_len, MAC2STR(disconnected->bssid), disconnected->reason, esp_err_to_name(disconnected->reason));
       ESP_LOGI(LOG_TAG_WIFI,"STA_DISCONNECT, now connecting");
       xEventGroupClearBits(smarthomestatus, SH_WIFI_ACTIVE);
       break;

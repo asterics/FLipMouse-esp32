@@ -41,6 +41,7 @@ window.tabBasic.cursorPosValueHandler = function (data) {
     var minX = data[flip.LIVE_MOV_X_MIN];
     var minY = data[flip.LIVE_MOV_Y_MIN];
     var cursorPosVal = parseInt(L('#cursorPosVal').innerHTML);
+    cursorPosVal =  isNaN(cursorPosVal) ? 0 : cursorPosVal;
     var deadX = flip.getConfig(flip.DEADZONE_X);
     var deadY = flip.getConfig(flip.DEADZONE_Y);
     var maxAbs = Math.max(maxX, maxY, Math.abs(minX), Math.abs(minY), cursorPosVal, Math.round(deadX*1.1), Math.round(deadY*1.1));

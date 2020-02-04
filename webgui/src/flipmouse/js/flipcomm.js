@@ -380,26 +380,39 @@ function FlipMouse(initFinished) {
     init();
 
     function init() {
-        var promise = new Promise(function(resolve) {
-            if(window.location.href.indexOf('mock') > -1) {
-                _communicator = new MockCommunicator();
-                resolve();
-                return;
-            }
-
-            ws.initWebsocket(C.FLIP_WEBSOCKET_URL).then(function (socket) {
-                _communicator = new WsCommunicator(C.FLIP_WEBSOCKET_URL, socket);
-                resolve();
-            }, function error () {
-                ws.initWebsocket(C.ARE_WEBSOCKET_URL).then(function (socket) {
-                    _communicator = new ARECommunicator(socket);
-                    resolve();
-                }, function error () {
-                    console.warn("could not establish any websocket connection - using mock mode!");
-                    _communicator = new MockCommunicator();
+        //check here if running from electron.
+        //If yes, activate the serial port related stuff.
+        //If no, activate mock,ARE or FM3 Websocket
+        var userAgent = navigator.userAgent.toLowerCase();
+        if (userAgent.indexOf(' electron/') > -1) {
+            var promise = new Promise(function(resolve) {
+                _communicator = new SerialCommunicator();
+                _communicator.init().then(function () {
                     resolve();
                 });
-        })});
+            });
+        } else {
+            var promise = new Promise(function(resolve) {
+                if(window.location.href.indexOf('mock') > -1) {
+                    _communicator = new MockCommunicator();
+                    resolve();
+                    return;
+                }
+
+                ws.initWebsocket(C.FLIP_WEBSOCKET_URL).then(function (socket) {
+                    _communicator = new WsCommunicator(C.FLIP_WEBSOCKET_URL, socket);
+                    resolve();
+                }, function error () {
+                    ws.initWebsocket(C.ARE_WEBSOCKET_URL).then(function (socket) {
+                        _communicator = new ARECommunicator(socket);
+                        resolve();
+                    }, function error () {
+                        console.warn("could not establish any websocket connection - using mock mode!");
+                        _communicator = new MockCommunicator();
+                        resolve();
+                    });
+            })});
+        }
 
         promise.then(function () {
             thiz.resetMinMaxLiveValues();

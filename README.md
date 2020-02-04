@@ -14,6 +14,8 @@ __Following 3 steps are necessary to completely update/flash the firmware and th
 Please follow the step-by-step instructions of Espressif's ESP-IDF manual to setup the build infrastructure:
 [Setup Toolchain](https://esp-idf.readthedocs.io/en/latest/get-started/index.html#setup-toolchain)
 
+Now change your directory into the root directory of this repository.
+
 Due to frequent changes in the esp-idf, the sdkconfig must be created:
 * Execute `make menuconfig` in this directory
 * Change: `Serial flasher config` -> `Flash size` to __4MB__

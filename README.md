@@ -14,6 +14,12 @@ __Following 3 steps are necessary to completely update/flash the firmware and th
 Please follow the step-by-step instructions of Espressif's ESP-IDF manual to setup the build infrastructure:
 [Setup Toolchain](https://esp-idf.readthedocs.io/en/latest/get-started/index.html#setup-toolchain)
 
+Due to major changes in the esp-idf, the sdkconfig must be recreated for the first build:
+* Execute `make menuconfig` in this directory
+* Change: `Serial flasher config` -> `Flash size` to __4MB__
+* Change: `Partition table` -> `Partition table` to __Custom partition table CSV__
+* Change: `Component config` -> `Bluetooth` to enabled
+
 After a successful setup, you should be able to build the FLipMouse/FABI firmware by executing 'make flash monitor'.
 
 ## Building the LPC11U14 firmware (USB bridging chip)

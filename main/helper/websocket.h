@@ -32,9 +32,11 @@
  */
 
 #include "esp_heap_caps.h"
-#include "hwcrypto/sha.h"
+//#include "hwcrypto/sha.h"
+#include "mbedtls/sha1.h"
+#include "mbedtls/base64.h"
 #include "esp_system.h"
-#include "wpa2/utils/base64.h"
+//#include "wpa2/utils/base64.h"
 #include <string.h>
 #include <stdlib.h>
 

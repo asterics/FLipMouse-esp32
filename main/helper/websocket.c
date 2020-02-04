@@ -168,12 +168,13 @@ void ws_server_netconn_serve(struct netconn *conn) {
 					p_SHA1_Inp[i] = *(p_buf + sizeof(WS_sec_WS_keys) + i);
 
 				// calculate hash
-                                esp_sha(SHA1, (unsigned char*) p_SHA1_Inp, strlen(p_SHA1_Inp),
+				mbedtls_sha1_ret((unsigned char*) p_SHA1_Inp, strlen(p_SHA1_Inp),
 						(unsigned char*) p_SHA1_result);
 
 				//hex to base64
+				/*mbedtls_base64_encode(,,(unsigned char*) p_SHA1_result,SHA1_RES_L)
 				p_buf = (char*) base64_encode((unsigned char*) p_SHA1_result,
-						SHA1_RES_L, (size_t*) &i);
+						SHA1_RES_L, (size_t*) &i);*/
 
 				//free SHA1 input
 				free(p_SHA1_Inp);

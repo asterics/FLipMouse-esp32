@@ -1252,7 +1252,7 @@ esp_err_t halStorageDeleteSlot(int16_t slotnr, uint32_t tid)
  * */
 esp_err_t halStorageStore(uint32_t tid, char *cfgstring, uint8_t slotnumber)
 {
-  char file[sizeof(base_path)+12];
+  char file[sizeof(base_path)+32];
   
   if(halStorageChecks(tid) != ESP_OK) return ESP_FAIL;
   
@@ -1317,7 +1317,7 @@ esp_err_t halStorageStore(uint32_t tid, char *cfgstring, uint8_t slotnumber)
  * */
 esp_err_t halStorageStoreIR(uint32_t tid, halIOIR_t *cfg, char *cmdName)
 {
-  char file[sizeof(base_path)+12];
+  char file[sizeof(base_path)+32];
   char nullterm = '\0';
   uint32_t namelen;
 

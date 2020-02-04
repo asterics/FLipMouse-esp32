@@ -894,7 +894,7 @@ esp_err_t cmdIl(char* orig, void* p1, void* p2) {
     uint8_t count = 0;
     uint8_t printed = 0;
     char name[SLOTNAME_LENGTH+1];
-    char output[SLOTNAME_LENGTH+10];
+    char output[SLOTNAME_LENGTH+32];
     if(halStorageGetNumberOfIRCmds(tid,&count) == ESP_OK)
     {
       for(uint8_t i = 0; i<100;i++)

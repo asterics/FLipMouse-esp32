@@ -37,6 +37,7 @@ function SerialCommunicator() {
                                 port.close();
                             } else {
                                 console.error(`No ${device} at ${comName}.`);
+                                port.close();
                                 reject();
                             }
                         });
@@ -102,8 +103,8 @@ function SerialCommunicator() {
                         return Promise.resolve();
                     })
                     .catch(() => {
-                        // throw 'No AT command capabale COM port found.';
-                        console.error('No AT command capabale COM port found.');
+                        // throw 'No AT command capable COM port found.';
+                        console.error('No AT command capable COM port found.');
                     });
             } else {
                 console.error(errors);

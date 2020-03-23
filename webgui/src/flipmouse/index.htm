@@ -249,6 +249,12 @@
                 <select id="selectSlots2" class="slot-select u-full-width" onchange="tabSlot.selectSlot(this)">
                 </select>
             </div>
+            
+            <div class="row">
+                <label for="selectProcess" data-i18n>Select activation program // Aktivierendes Programm wählen</label>
+                <select id="selectProcess" class="process-select u-full-width" onchange="tabSlot.selectProcess(this)">
+                </select>
+            </div>
 
             <br/>
             <div class="row">
@@ -511,6 +517,7 @@
             window.flip = new FlipMouse(function (config) {
                 initWithConfig(config);
                 tabSlot.initSlots();
+                tabSlot.initProcesses();
                 toTab(getCurrentTabId(), true);
                 testConnection();
                 setInterval(function () {

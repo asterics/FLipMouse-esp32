@@ -1,4 +1,5 @@
 window.tabSlot = {};
+var ps = require('ps-node');
 
 window.tabSlot.selectPort = function (select) {
         _serialport = select.value;
@@ -35,6 +36,39 @@ tabSlot.initSlots = function () {
     });
 };
 
+tabSlot.initProcesses = function () {
+	ps.lookup({}, function(err, resultList ) {
+		if (err) {
+			throw new Error( err );
+		}
+		//sort list descending by PID (lists recently opened programs first)
+		resultList.sort(function(a, b) {
+			return parseInt(b.pid) - parseInt(a.pid);
+		});
+		//note: on Linux/Mac the first entry is the ps command -> do not list.
+		resultList.shift();
+		//we just need process names
+		resultList = resultList.map(a => a.command);
+		//remove duplicates (we trigger on one process name anyway and the list is shorter)
+		resultList = resultList.filter((v, i, a) => a.indexOf(v) === i); 
+		
+		//add the process list to the GUI
+		L('.process-select').forEach(function (elem) {
+			elem.innerHTML = L.createSelectItems(resultList);
+			//TODO: get selections from local json
+			//elem.value = flip.getCurrentSlot();
+		});
+	});
+};
+
+window.tabSlot.selectProcess = function (select) {
+    //TODO: save to local json
+    //TODO: load config into runner...
+    L('.process-select').forEach(function (elem) {
+        elem.value = select.value;
+    });
+};
+
 
 window.tabSlot.selectSlot = function (select) {
     var config = flip.setSlot(select.value);
@@ -42,6 +76,7 @@ window.tabSlot.selectSlot = function (select) {
         elem.value = select.value;
     });
     tabAction.init();
+    tabSlot.initProcesses();
     initWithConfig(config);
 };
 

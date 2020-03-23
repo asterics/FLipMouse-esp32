@@ -33,6 +33,7 @@
     "electron-rebuild": "^1.8.5"
   },
   "dependencies": {
-    "serialport": "^7.1.5"
+    "serialport": "^7.1.5",
+    "ps-node": "^0.1.6"
   }
 }

@@ -166,7 +166,7 @@ function SerialCommunicator() {
                     console.log("got result: " + result);
                     resolve(result);
                     _internalValueFunction = null;
-                }, 50);
+                }, 200);
             };
         });
     };

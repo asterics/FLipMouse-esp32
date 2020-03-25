@@ -34,7 +34,8 @@
     "electron-rebuild": "^1.8.5"
   },
   "dependencies": {
-    "serialport": "^7.1.5",
-    "ps-node": "^0.1.6"
+    "active-win": "^6.1.0",
+    "ps-node": "^0.1.6",
+    "serialport": "^7.1.5"
   }
 }

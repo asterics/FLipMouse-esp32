@@ -24,6 +24,7 @@
     <script src="js/tabsip.js"></script>
     <script src="js/tabslot.js"></script>
     <script src="js/tabact.js"></script>
+    <script src="js/tabir.js"></script>
     <script src="js/tabglob.js"></script>
 </head>
 <body>
@@ -56,7 +57,8 @@
             <div class="hide-mobile showscreenreader"><button role="menuitem" onclick="toTab('#tabPuff')" class="menubutton button-primary" accesskey="2" data-tab id="tabPuffBtn" data-i18n>Sip and Puff // Saug-Puste-Steuerung</button></div>
             <div class="hide-mobile showscreenreader"><button role="menuitem" onclick="toTab('#tabSlots')" class="menubutton button-primary" accesskey="3" data-tab id="tabSlotsBtn" data-i18n>Slots // Slots</button></div>
             <div class="hide-mobile showscreenreader"><button role="menuitem" onclick="toTab('#tabActions')" class="menubutton button-primary" accesskey="4" data-tab id="tabActionsBtn" data-i18n>Actions // Aktionen</button></div>
-            <div class="hide-mobile showscreenreader"><button role="menuitem" onclick="toTab('#tabGlobal')" class="menubutton button-primary" accesskey="5" data-tab id="tabGlobalBtn" data-i18n>Global // Global</button></div>
+            <div class="hide-mobile showscreenreader"><button role="menuitem" onclick="toTab('#tabIR')" class="menubutton button-primary" accesskey="5" data-tab id="tabIRBtn" data-i18n>Infrared // Infrarot</button></div>
+            <div class="hide-mobile showscreenreader"><button role="menuitem" onclick="toTab('#tabGlobal')" class="menubutton button-primary" accesskey="6" data-tab id="tabGlobalBtn" data-i18n>Global // Global</button></div>
         </div>
         <div class="show-mobile" aria-hidden="true"><button id="toNavLink" onclick="toNav()" class="button button-primary" data-tab data-i18n>&#x2630; Menu // &#x2630; Menü</button></div>
         <div class="show-mobile" aria-hidden="true"><button id="toNavBackLink" style="display: none" onclick="toNavBack()" class="button button-primary" data-i18n>&#8592; Back // &#8592; Zurück</button></div>
@@ -263,7 +265,7 @@
                 <button id="create-slot-button" disabled onclick="tabSlot.createSlot(['#create-slot-button-normal', '#create-slot-button-saving'], '#create-slot-value-bar')" class="u-full-width" style="position: relative;">
                     <i id="create-slot-value-bar" class="value-bar color-lightercyan" style="width: 0%;"></i>
                     <span id="create-slot-button-normal" style="position: relative" data-i18n>Create Slot // Slot anlegen</span>
-                    <span id="create-slot-button-saving" style="display: none" data-i18n>creating slot... // Slot wird anlgelegt...</span>
+                    <span id="create-slot-button-saving" style="display: none" data-i18n>creating slot... // Slot wird angelegt...</span>
                 </button>
             </div>
 
@@ -443,9 +445,52 @@
                 </span>
             </button>
         </section>
+        <section aria-labelledby="tabIRHeader" data-tabs-pane class="tabs-pane" id="tabIR">
+            <div tabindex="-1">
+                <h2 id="tabIRHeader" style="display: none" aria-hidden="false" data-i18n>Tab 5 - FlipMouse Slot configuration // Tab 5 - FlipMouse Slot Konfiguration</h2>
+            </div>
+            <div class="row">
+                <div data-i18n>
+                    <label for="newIRLabelEn">Record new IR command</label>
+                    <label for="newIRLabelDe">Neuen IR Befehl aufzeichnen</label>
+                </div>
+                <div data-i18n class="u-full-width">
+                    <input id="newIRLabelEn" oninput="tabIR.saveIRLabelChanged(this)" type="text" class="u-full-width" placeholder="insert name for new IR command" maxlength="15"/>
+                    <input id="newIRLabelDe" oninput="tabIR.saveIRLabelChanged(this)" type="text" class="u-full-width" placeholder="Name für neuen IR Befehl eingeben" maxlength="15"/>
+                </div>
+                <button id="create-ir-button" disabled onclick="tabIR.createIR(['#create-ir-button-normal', '#create-ir-button-saving'], '#create-ir-value-bar')" class="u-full-width" style="position: relative;">
+                    <i id="create-ir-value-bar" class="value-bar color-lightercyan" style="width: 0%;"></i>
+                    <span id="create-ir-button-normal" style="position: relative" data-i18n>Recording IR command // IR Befehl aufnehmen</span>
+                    <span id="create-ir-button-saving" style="display: none" data-i18n>Recording... // Aufzeichnen...</span>
+                </button>
+            </div>
+
+            <br/>
+            <div class="row">
+                <label for="selectIRDelete" data-i18n>Delete IR command // IR Befehl löschen</label>
+                <select id="selectIRDelete" class="ir-select u-full-width">
+                </select>
+                <button id="delete-ir-button" onclick="tabIR.deleteIR(['#delete-ir-button-normal', '#delete-ir-button-saving'], '#delete-ir-value-bar')" class="u-full-width" style="position: relative;">
+                    <i id="delete-ir-value-bar" class="value-bar color-lightercyan" style="width: 0%;"></i>
+                    <span id="delete-ir-button-normal" style="position: relative" data-i18n>Delete IR command // IR Befehl löschen</span>
+                    <span id="delete-ir-button-saving" style="display: none" data-i18n>Deleting... // Wird gelöscht...</span>
+                </button>
+            </div>
+
+            <br/>
+            <div class="row">
+                <label for="reset-ir-button" data-i18n>Delete all IR commands // Alle IR Befehle löschen</label>
+                <button id="reset-ir-button" onclick="tabIR.resetConfig(['#reset-ir-button-normal', '#reset-ir-button-saving'], '#reset-ir-value-bar')" class="u-full-width" style="position: relative;">
+                    <i id="reset-ir-value-bar" class="value-bar color-lightercyan" style="width: 0%;"></i>
+                    <span id="reset-ir-button-normal" style="position: relative" data-i18n>Delete all // Alle löschen</span>
+                    <span id="reset-ir-button-saving" style="display: none" data-i18n>Deleting all... // Wird gelöscht...</span>
+                </button>
+            </div>
+        </section>
+        
         <section aria-labelledby="tabGlobalHeader" data-tabs-pane class="tabs-pane" id="tabGlobal">
             <div tabindex="-1">
-                <h2 id="tabGlobalHeader" style="display: none" aria-hidden="false" data-i18n>Tab 5 - FlipMouse global properties // Tab 5 - FlipMouse globale Parameter</h2>
+                <h2 id="tabGlobalHeader" style="display: none" aria-hidden="false" data-i18n>Tab 6 - FlipMouse global properties // Tab 6 - FlipMouse globale Parameter</h2>
             </div>
             <div class="row">
                 <h3 data-i18n>Gobal properties // Globale Parameter</h3>

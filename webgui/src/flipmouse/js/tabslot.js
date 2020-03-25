@@ -37,11 +37,7 @@ tabSlot.initSlots = function () {
 
 tabSlot.initProcesses = function () {
 	if(!C.IS_ELECTRON) {
-		var resultList = ["not available / nicht verfügbar"];
-		//add the process list to the GUI
-		L('.process-select').forEach(function (elem) {
-			elem.innerHTML = L.createSelectItems(resultList);
-		});
+		L.setVisible('#processSelectionDiv', false);
 		return;
 	}
 	//get current process list & active process for given slot

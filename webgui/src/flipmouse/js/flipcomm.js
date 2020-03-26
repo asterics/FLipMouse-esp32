@@ -370,7 +370,7 @@ function FlipMouse(initFinished) {
         var promises = [];
         var progress = 0;
         var progressPerItem = 100/C.DEFAULT_CONFIGURATION.length;
-        promises.push(thiz.sendATCmd('AT IL')); //delete all IR commands
+        promises.push(thiz.sendATCmd(C.AT_CMD_IR_DELETEALL)); //delete all IR commands
 
         return new Promise(function (resolve) {
             Promise.all(promises).then(function () {

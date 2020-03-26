@@ -365,19 +365,6 @@ function FlipMouse(initFinished) {
             });
         });
     };
-    
-    thiz.deleteAllIR = function(progressCallback) {
-        var promises = [];
-        var progress = 0;
-        var progressPerItem = 100/C.DEFAULT_CONFIGURATION.length;
-        promises.push(thiz.sendATCmd(C.AT_CMD_IR_DELETEALL)); //delete all IR commands
-
-        return new Promise(function (resolve) {
-            Promise.all(promises).then(function () {
-                resolve();
-            });
-        });
-    };
 
     thiz.setFlipmouseMode = function (modeConstant, dontSetConfig) {
         if(!C.FLIPMOUSE_MODES.includes(modeConstant)) {
@@ -485,7 +472,7 @@ function FlipMouse(initFinished) {
     function parseConfig(atCmdsString) {
         return parseConfigElement(atCmdsString.split('\n'));
     }
-
+    
     function parseConfigElement(remainingList, config) {
         if (!remainingList || remainingList.length == 0) {
             return _config;

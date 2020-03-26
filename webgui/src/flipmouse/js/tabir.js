@@ -1,41 +1,64 @@
 window.tabIR = {};
 
 tabIR.initIR = function () {
-    /*var slots = flip.getSlots();
-    L('#delete-slot-button').disabled = slots.length <= 1;
-    L('#create-slot-button').disabled = true;
-    L('.slot-select').forEach(function (elem) {
-        elem.innerHTML = L.createSelectItems(slots);
-        elem.value = flip.getCurrentSlot();
-    });*/
+    flip.sendATCmd(C.AT_CMD_IR_LIST).then(function(response) {
+		var list = response.trim().split('\n');
+		//map returned list for IR commands & remove parts without "IRCommand"
+		var irNames = list.map(function (element) {
+			if(element.startsWith("IRCommand")) {
+				return element.substring(element.indexOf(':') + 1);
+			}
+		});
+		//remove any undefined elements
+		irNames = irNames.filter(function (el) {
+		  return el != undefined;
+		});
+		//use array only if valid
+		if(irNames.length > 0) {
+			L('.ir-select').forEach(function (elem) {
+				elem.innerHTML = L.createSelectItems(irNames);
+			});
+			//enable play/delete button if no IR cmd available
+			L('#delete-ir-button').disabled = false;
+			L('#play-ir-button').disabled = false;
+		} else {
+			L('.ir-select').forEach(function (elem) { elem.innerHTML = ""; });
+			//disable play/delete button if no IR cmd available
+			L('#delete-ir-button').disabled = true;
+			L('#play-ir-button').disabled = true;
+		}
+	    
+		//disable IR create button, until a name is entered
+		L('#create-ir-button').disabled = true;
+    });
 };
 
-window.tabIR.saveSlotLabelChanged = function (element) {
-    L('#create-slot-button').disabled = !element.value;
+window.tabIR.saveIRLabelChanged = function (element) {
+    L('#create-ir-button').disabled = !element.value;
 };
 
-window.tabIR.createSlot = function (toggleElementList, progressBarId) {
-	///TODO
-    /*var slotName = L('#newSlotLabelEn') ? L('#newSlotLabelEn').value : L('#newSlotLabelDe').value;
-    actionAndToggle(flip.createSlot, [slotName], toggleElementList, progressBarId).then(function () {
-        tabSlot.initSlots();
-        L.setValue('#newSlotLabelEn', '');
-        L.setValue('#newSlotLabelDe', '');
-    });*/
+window.tabIR.createIR = function (toggleElementList, progressBarId) {
+    var irCmd = L('#newIRLabelEn') ? L('#newIRLabelEn').value : L('#newIRLabelDe').value;
+    actionAndToggle(flip.sendATCmdWithParam, [C.AT_CMD_IR_RECORD, irCmd, 10000], toggleElementList).then(function () {
+		tabIR.initIR();
+		L.setValue('#newIRLabelEn', '');
+        L.setValue('#newIRLabelDe', '');
+	});
 };
 
-window.tabIR.deleteSlot = function (toggleElementList, progressBarId) {
-	///TODO...
-    /*var slotName = L('#selectSlotDelete').value;
-    var confirmMessage = L.translate('CONFIRM_DELETE_IR', slotName);
+window.tabIR.deleteIR = function (toggleElementList, progressBarId) {
+    var irCmd = L('#selectIRDelete').value;
+    var confirmMessage = L.translate('CONFIRM_DELETE_IR', irCmd);
     if(!window.confirm(confirmMessage)){
         return;
     }
-    actionAndToggle(flip.deleteSlot, [slotName], toggleElementList, progressBarId).then(function () {
-        tabSlot.initSlots();
-        L.setValue('#newSlotLabelEn', '');
-        L.setValue('#newSlotLabelDe', '');
-    });*/
+    flip.sendATCmdWithParam(C.AT_CMD_IR_DELETE, irCmd);
+    tabIR.initIR();
+};
+
+window.tabIR.playIR = function (toggleElementList) {
+    var irCmd = L('#selectIRDelete').value;
+    flip.sendATCmdWithParam(C.AT_CMD_IR_PLAY, irCmd);
 };
 
 window.tabIR.resetConfig = function (toggleElementList, progressBarId) {
@@ -43,5 +66,6 @@ window.tabIR.resetConfig = function (toggleElementList, progressBarId) {
     if(!window.confirm(confirmMessage)){
         return;
     }
-    actionAndToggle(flip.deleteAllIR, [], toggleElementList, progressBarId);
+    flip.sendATCmd(C.AT_CMD_IR_DELETEALL);
+    tabIR.initIR();
 };

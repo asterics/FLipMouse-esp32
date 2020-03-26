@@ -391,18 +391,9 @@
                     <select id="SELECT_LEARN_CAT_IR" class="three columns">
                     </select>
                     <div style="display: flex" class="five columns">
-                        <button class="column" onclick="tabAction.deleteIRCommand(L('#SELECT_LEARN_CAT_IR').value)" data-i18n>Delete // Löschen</button>
                         <button class="column" onclick="flip.sendATCmdWithParam(C.AT_CMD_IR_PLAY, L('#SELECT_LEARN_CAT_IR').value)" data-i18n>Play // Abspielen</button>
                         <button class="column" onclick="tabAction.selectAtCmd(C.AT_CMD_IR_PLAY + ' ' + L('#SELECT_LEARN_CAT_IR').value)" data-i18n>set action // Aktion setzen</button>
                     </div>
-                </div>
-                <div class="row">
-                    <label class="three columns text-right text-normal" for="INPUT_LEARN_CAT_IR" data-i18n>new command // neues Kommando</label>
-                    <input type="text" id="INPUT_LEARN_CAT_IR" class="three columns" placeholder="command name" oninput="L('#record-action').disabled = !this.value">
-                    <button id="record-action" disabled onclick="tabAction.recordIRCommand()" class="three columns" style="position: relative;">
-                        <span id="record-action-button-normal" style="position: relative" data-i18n>Record // Aufnahme</span>
-                        <span id="record-action-button-saving" style="display: none" data-i18n>recording... // wird  aufgenommen...</span>
-                    </button>
                 </div>
             </div>
             <div id="WRAPPER_LEARN_CAT_FLIPACTIONS" class="row" style="display: none">
@@ -460,20 +451,23 @@
                 </div>
                 <button id="create-ir-button" disabled onclick="tabIR.createIR(['#create-ir-button-normal', '#create-ir-button-saving'], '#create-ir-value-bar')" class="u-full-width" style="position: relative;">
                     <i id="create-ir-value-bar" class="value-bar color-lightercyan" style="width: 0%;"></i>
-                    <span id="create-ir-button-normal" style="position: relative" data-i18n>Recording IR command // IR Befehl aufnehmen</span>
+                    <span id="create-ir-button-normal" style="position: relative" data-i18n>Record IR command // IR Befehl aufnehmen</span>
                     <span id="create-ir-button-saving" style="display: none" data-i18n>Recording... // Aufzeichnen...</span>
                 </button>
             </div>
 
             <br/>
             <div class="row">
-                <label for="selectIRDelete" data-i18n>Delete IR command // IR Befehl löschen</label>
+                <label for="selectIRDelete" data-i18n>Play/Delete IR command // IR Befehl wiedergeben/löschen</label>
                 <select id="selectIRDelete" class="ir-select u-full-width">
                 </select>
-                <button id="delete-ir-button" onclick="tabIR.deleteIR(['#delete-ir-button-normal', '#delete-ir-button-saving'], '#delete-ir-value-bar')" class="u-full-width" style="position: relative;">
+                <button id="delete-ir-button" disabled="true"  onclick="tabIR.deleteIR(['#delete-ir-button-normal', '#delete-ir-button-saving'], '#delete-ir-value-bar')" class="u-full-width" style="position: relative;">
                     <i id="delete-ir-value-bar" class="value-bar color-lightercyan" style="width: 0%;"></i>
                     <span id="delete-ir-button-normal" style="position: relative" data-i18n>Delete IR command // IR Befehl löschen</span>
                     <span id="delete-ir-button-saving" style="display: none" data-i18n>Deleting... // Wird gelöscht...</span>
+                </button>
+                <button id="play-ir-button" disabled="true" onclick="tabIR.playIR(['#play-ir-button-normal', '#play-ir-button-saving'], '#play-ir-value-bar')" class="u-full-width" style="position: relative;">
+                    <span id="play-ir-button-normal" style="position: relative" data-i18n>Play IR command // IR Befehl wiedergeben</span>
                 </button>
             </div>
 
@@ -556,6 +550,7 @@
             window.flip = new FlipMouse(function (config) {
                 initWithConfig(config);
                 tabSlot.initSlots();
+                tabIR.initIR();
                 toTab(getCurrentTabId(), true);
                 testConnection();
                 setInterval(function () {
@@ -680,6 +675,8 @@
             toSlots();
         } else if (tabId.indexOf('#tabActions') > -1) {
             toActions();
+        } else if (tabId.indexOf('#tabIR') > -1) {
+            toIR();
         } else if (tabId.indexOf('#tabNav') > -1) {
             toNav();
         }
@@ -695,6 +692,11 @@
 
     function toSlots() {
         flip.stopLiveValueListener();
+    }
+    
+    function toIR() {
+        flip.stopLiveValueListener();
+        tabIR.initIR();
     }
 
     function toActions() {

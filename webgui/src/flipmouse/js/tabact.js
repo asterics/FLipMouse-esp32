@@ -227,20 +227,6 @@ tabAction.saveRec = function () {
     tabAction.setAtCmd(getAtCmd(tabAction.queue));
 };
 
-tabAction.deleteIRCommand = function (irCmd) {
-    if (!irCmd) {
-        return;
-    }
-    flip.sendATCmdWithParam(C.AT_CMD_IR_DELETE, irCmd);
-    tabAction.init(C.LEARN_CAT_IR);
-};
-
-tabAction.recordIRCommand = function () {
-    actionAndToggle(flip.sendATCmdWithParam, [C.AT_CMD_IR_RECORD, L('#INPUT_LEARN_CAT_IR').value, 10000], ['#record-action-button-normal', '#record-action-button-saving']).then(function () {
-        tabAction.init(C.LEARN_CAT_IR);
-    });
-};
-
 function getQueueElem(event) {
     return {
         key: event.key,

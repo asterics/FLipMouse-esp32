@@ -2,6 +2,8 @@ window.lang = 'en';
 window.i18n = {
     'CONFIRM_DELETE_SLOT': 'Do you really want to delete the slot "{?}"?',
     'CONFIRM_RESET_SLOTS': 'Do you really want to reset the FLipMouse to the default configuration?',
+	'CONFIRM_DELETE_IR': 'Do you really want to delete the IR command "{?}"?',
+	'CONFIRM_DELETE_ALL_IR': 'Do you really want to delete all IR commands?',
     'CHANGE_TOOLTIP': 'click to change action for "{?}"',
     'NONE_BRACKET': '(none)',
     'SELECT_SPECIAL_KEY': 'Select key',

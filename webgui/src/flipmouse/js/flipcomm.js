@@ -365,6 +365,19 @@ function FlipMouse(initFinished) {
             });
         });
     };
+    
+    thiz.deleteAllIR = function(progressCallback) {
+        var promises = [];
+        var progress = 0;
+        var progressPerItem = 100/C.DEFAULT_CONFIGURATION.length;
+        promises.push(thiz.sendATCmd('AT IL')); //delete all IR commands
+
+        return new Promise(function (resolve) {
+            Promise.all(promises).then(function () {
+                resolve();
+            });
+        });
+    };
 
     thiz.setFlipmouseMode = function (modeConstant, dontSetConfig) {
         if(!C.FLIPMOUSE_MODES.includes(modeConstant)) {

@@ -2,6 +2,8 @@ window.lang = 'de';
 window.i18n = {
     'CONFIRM_DELETE_SLOT': 'Möchten Sie den Slot "{?}" wirklich löschen?',
     'CONFIRM_RESET_SLOTS': 'Möchten Sie die FLipMouse wirklich auf die Standardeinstellungen zurücksetzen?',
+    'CONFIRM_DELETE_IR': 'Möchten Sie den Infrarot Befehl "{?}" wirklich löschen?',
+	'CONFIRM_DELETE_ALL_IR': 'Möchten Sie wirklich alle Infrarot Befehle löschen',
     'CHANGE_TOOLTIP': 'klicken um Aktion für "{?}" zu ändern',
     'NONE_BRACKET': '(leer)',
     'SELECT_SPECIAL_KEY': 'Wähle Taste',

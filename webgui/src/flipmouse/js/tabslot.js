@@ -36,17 +36,16 @@ tabSlot.initSlots = function () {
 };
 
 tabSlot.initProcesses = function () {
-	if(!C.IS_ELECTRON) {
-		L.setVisible('#processSelectionDiv', false);
-		return;
-	}
-	//get current process list & active process for given slot
-	electronUtils.getProcessListForSlot(flip.getCurrentSlot()).then(list => {
-		L('.process-select').forEach(function (elem) {
-			elem.innerHTML = L.createSelectItems(list.processList);
-			elem.value = list.activationProcess;
+	if(C.IS_ELECTRON) {
+		L.setVisible('#processSelectionDiv', true);
+		//get current process list & active process for given slot
+		electronUtils.getProcessListForSlot(flip.getCurrentSlot()).then(list => {
+			L('.process-select').forEach(function (elem) {
+				elem.innerHTML = L.createSelectItems(list.processList);
+				elem.value = list.activationProcess;
+			});
 		});
-	}); 
+	}
 };
 
 window.tabSlot.selectProcess = function (select) {

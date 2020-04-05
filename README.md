@@ -21,15 +21,15 @@ __Note:__ Due to frequent breaking changes within the esp-idf and all build tool
 
 To get this version, use the following commands:
 
-`git clone -b release/v4.1 --recursive https://github.com/espressif/esp-idf.git`
-`cd esp-idf`
-`./install.sh`
-`. ./export.sh`
+  `git clone -b release/v4.1 --recursive https://github.com/espressif/esp-idf.git`
+  `cd esp-idf`  
+  `./install.sh`  
+  `. ./export.sh`  
 
+																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																												
+__Now change your directory into the root directory of this repository.__
 
-Now change your directory into the root directory of this repository.
-
-Due to frequent changes in the esp-idf, the sdkconfig must be created:
+Create the sdkconfig:
 * Execute `make menuconfig` in this directory
 * Change: `Serial flasher config` -> `Flash size` to __4MB__
 * Change: `Partition table` -> `Partition table` to __Custom partition table CSV__

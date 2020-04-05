@@ -1,11 +1,11 @@
 # FLipMouse goes ESP32
 
-This repository contains the ongoing progress on the firmware for the FLipMouse version3.
-It will be API compatible with version 2, but with major improvements on speed (instead of one CortexM0 we will have a dual-core Tensilica and an additional CortexM0 for USB).
+This repository contains the ongoing progress on the firmware for the FLipMouse version 3.
+It will be API-compatible with FLipMouse v2, but with major improvements on speed (instead of one CortexM0 we will have a dual-core Tensilica and an additional CortexM0 for USB).
 
-If you want to have a look at the FLipMouse, follow [this](https://github.com/asterics/FLipMouse) link to the main repository.
+If you want to have a look at the FLipMouse v2, follow [this](https://github.com/asterics/FLipMouse) link to the main repository.
 
-The BLE-HID stuff is based on the other [repository](https://github.com/asterics/esp32_mouse_keyboard), where we use the ESP32 as BLE module replacement (EZKey modules are really buggy and expensive).
+The BLE-HID stuff is based on the other [repository](https://github.com/asterics/esp32_mouse_keyboard), where we use the ESP32 as BLE module replacement.
 
 __Following 3 steps are necessary to completely update/flash the firmware and the necessary support files/devices:__
 
@@ -13,6 +13,19 @@ __Following 3 steps are necessary to completely update/flash the firmware and th
 
 Please follow the step-by-step instructions of Espressif's ESP-IDF manual to setup the build infrastructure:
 [Setup Toolchain](https://esp-idf.readthedocs.io/en/latest/get-started/index.html#setup-toolchain)
+
+
+__Note:__ Due to frequent breaking changes within the esp-idf and all build tools, we recommend to use a specific version of the tools:
+* release v4.1 (on 04.02.2020)
+* master branch (on 04.02.2020)
+
+To get this version, use the following commands:
+
+`git clone -b release/v4.1 --recursive https://github.com/espressif/esp-idf.git`
+`cd esp-idf`
+`./install.sh`
+`. ./export.sh`
+
 
 Now change your directory into the root directory of this repository.
 
@@ -30,12 +43,7 @@ Optional (extensive stack/heap debugging):
 
 After a successful setup, you should be able to build the FLipMouse/FABI firmware by executing 'make flash monitor'.
 
-__Note:__ Due to frequent changes within the esp-idf and all build tools, there might be the chance that the firmware does
-not build. These steps were tested with:
-* master branch (on 04.02.2020)
-* release v4.1 (on 04.02.2020)
 
-__Note:__ The esp-idf requires different compiler versions for different releases/branches!
 
 ## Building the LPC11U14 firmware (USB bridging chip)
 

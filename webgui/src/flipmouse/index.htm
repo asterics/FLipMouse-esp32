@@ -25,6 +25,7 @@
     <script src="js/tabslot.js"></script>
     <script src="js/tabact.js"></script>
     <script src="js/tabglob.js"></script>
+    <script src="js/elecutils.js"></script>
 </head>
 <body>
 <div id="content">
@@ -247,6 +248,12 @@
             <div class="row">
                 <label for="selectSlots2" data-i18n>Select active slot // Aktiven Slot auswählen</label>
                 <select id="selectSlots2" class="slot-select u-full-width" onchange="tabSlot.selectSlot(this)">
+                </select>
+            </div>
+            
+            <div id="processSelectionDiv" style="display: none"  class="row">
+                <label for="selectProcess" data-i18n>Select activation program // Aktivierendes Programm wählen</label>
+                <select id="selectProcess" class="process-select u-full-width" onchange="tabSlot.selectProcess(this)">
                 </select>
             </div>
 
@@ -511,6 +518,7 @@
             window.flip = new FlipMouse(function (config) {
                 initWithConfig(config);
                 tabSlot.initSlots();
+                tabSlot.initProcesses();
                 toTab(getCurrentTabId(), true);
                 testConnection();
                 setInterval(function () {

@@ -1,13 +1,13 @@
 window.tabSlot = {};
 
 window.tabSlot.selectPort = function (select) {
-        _serialport = select.value;
-        console.log("Selected port: " + _serialport);
-        //TODO: set port in communicator
-        L('.port-select').forEach(function (elem) {
-            elem.value = select.value;
-        });
-    };
+	_serialport = select.value;
+	console.log("Selected port: " + _serialport);
+	//TODO: set port in communicator
+	L('.port-select').forEach(function (elem) {
+		elem.value = select.value;
+	});
+};
     
 tabSlot.initPorts = function () {
     //TODO: get ports from communicator, but how?!?
@@ -35,6 +35,27 @@ tabSlot.initSlots = function () {
     });
 };
 
+tabSlot.initProcesses = function () {
+	if(C.IS_ELECTRON) {
+		L.setVisible('#processSelectionDiv', true);
+		//get current process list & active process for given slot
+		electronUtils.getProcessListForSlot(flip.getCurrentSlot()).then(list => {
+			L('.process-select').forEach(function (elem) {
+				elem.innerHTML = L.createSelectItems(list.processList);
+				elem.value = list.activationProcess;
+			});
+		});
+	}
+};
+
+window.tabSlot.selectProcess = function (select) {
+	if(!C.IS_ELECTRON) return;
+	electronUtils.updateSlotAndProcess(flip.getCurrentSlot(), select.value);
+	L('.process-select').forEach(function (elem) {
+		elem.value = select.value;
+	});
+};
+
 
 window.tabSlot.selectSlot = function (select) {
     var config = flip.setSlot(select.value);
@@ -42,6 +63,7 @@ window.tabSlot.selectSlot = function (select) {
         elem.value = select.value;
     });
     tabAction.init();
+    tabSlot.initProcesses();
     initWithConfig(config);
 };
 

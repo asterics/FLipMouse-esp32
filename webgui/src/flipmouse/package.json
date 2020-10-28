@@ -36,6 +36,7 @@
   "dependencies": {
     "active-win": "^6.1.0",
     "ps-node": "^0.1.6",
-    "serialport": "^7.1.5"
+    "serialport": "^9.0.2",
+    "temporary": "^1.1.0"
   }
 }

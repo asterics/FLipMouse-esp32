@@ -32,9 +32,13 @@ function SerialCommunicator() {
                             if (msg.toLowerCase().startsWith(device.toLowerCase())) {
                                 found = true;
                                 console.log(
-                                    `Found AT COM device at ${comName}`
+                                    `Found AT COM device at ${comName}:`
                                 );
+                                var ver = msg.replace(/(\r\n|\n|\r)/gm, "");
+                                ver = ver.split(" ");
+                                console.log(msg);
                                 port.close();
+                                flip.VERSION = ver[1];
                             } else {
                                 console.error(`No ${device} at ${comName}.`);
                                 port.close();

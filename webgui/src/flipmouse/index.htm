@@ -501,6 +501,42 @@
                 </div>
                 <div class="one column show-mobile space-bottom-2x"></div>
             </div>
+            
+            <div class="row">
+                <h3 data-i18n>Updates // Updates</h3>
+            </div>
+            <div id="updatesTh" class="hide-mobile row thead" aria-hidden="true">
+                <div class="two columns" data-i18n>Module // Modul</div>
+                <div class="four columns" data-i18n>Installed version // installierte Version</div>
+                <div class="four columns" data-i18n>Available version // verfügbare Version</div>
+            </div>
+            <ol id="updatesTb" class="tbody"></ol>
+            <div class="row space-bottom">
+                <fieldset role="radiogroup" aria-labelledby="fieldsetUpdateLabel">
+                    <div class="six columns">
+                        <input aria-hidden="false" type="radio" name="moduleRadio" role="radio" id="UPDATE_WWW" class="custom-radio"/>
+                        <label for="UPDATE_WWW" class="button btnTransparent" data-i18n>Load update from Internet // Update aus dem Internet laden</label>
+                    </div>
+                    <div class="six columns">
+                        <input aria-hidden="false" type="radio" name="moduleRadio" role="radio" id="UPDATE_LOCAL" class="custom-radio"/>
+                        <label for="UPDATE_LOCAL" class="button btnTransparent" data-i18n>Use local update file // Lokale Update Datei auswählen</label>
+                    </div>
+                </fieldset>
+            </div>
+            <div class="row space-bottom">
+                <label class="three columns text-right text-normal" for="START_UPDATE" data-i18n>Start Update // Update beginnen</label>
+                <div class="three columns" id="START_UPDATE">
+                    <button onclick="tabGlobal.UpdateTeensy(this)">
+                        <span data-i18n>Update Mainboard // Update Mainboard</span>
+                        <span style="display: none">&#x2714;</span>
+                    </button>
+                    <button onclick="tabGlobal.UpdateBluetooth(this)">
+                        <span data-i18n>Update Bluetooth // Update Bluetooth</span>
+                        <span style="display: none">&#x2714;</span>
+                    </button>
+                </div>
+                <!-- <div class="one column show-mobile space-bottom-2x"></div> -->
+            </div>
         </section>
     </main>
 </div>
@@ -643,6 +679,8 @@
             toSlots();
         } else if (tabId.indexOf('#tabActions') > -1) {
             toActions();
+        } else if (tabId.indexOf('#tabGlobal') > -1) {
+            toGlobal();
         } else if (tabId.indexOf('#tabNav') > -1) {
             toNav();
         }
@@ -663,6 +701,11 @@
     function toActions() {
         flip.stopLiveValueListener();
         tabAction.init();
+    }
+    
+    function toGlobal() {
+        flip.stopLiveValueListener();
+        tabGlobal.init();
     }
 
     function toNav() {

@@ -28,6 +28,7 @@ function FlipMouse(initFinished) {
     thiz.LIVE_PRESSURE_MIN = 'LIVE_PRESSURE_MIN';
     thiz.LIVE_PRESSURE_MAX = 'LIVE_PRESSURE_MAX';
     thiz.FLIPMOUSE_MODE = 'FLIPMOUSE_MODE';
+    thiz.VERSION = '';
 
     thiz.SIP_PUFF_IDS = [
         L.getIDSelector(thiz.SIP_THRESHOLD),
@@ -54,6 +55,7 @@ function FlipMouse(initFinished) {
     AT_CMD_MAPPING[thiz.PUFF_STRONG_THRESHOLD] = 'AT SP';
     AT_CMD_MAPPING[thiz.ORIENTATION_ANGLE] = 'AT RO';
     AT_CMD_MAPPING[thiz.FLIPMOUSE_MODE] = 'AT MM';
+    AT_CMD_MAPPING[thiz.VERSION] = 'AT ID';
     var VALUE_AT_CMDS = Object.values(AT_CMD_MAPPING);
     var debouncers = {};
     var _valueHandler = null;

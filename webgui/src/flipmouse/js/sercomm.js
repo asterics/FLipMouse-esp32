@@ -22,6 +22,7 @@ function SerialCommunicator() {
                 comName,
                 {
                     baudRate: 115200,
+                    highWaterMark: 1024,
                     parser: new SerialPort.parsers.Readline('\n')
                 },
                 function(error) {
@@ -132,7 +133,28 @@ function SerialCommunicator() {
       if(_port) _port.close();
       _port = null;
     };
+    
+    //send raw data without line endings (used for transferring binary data, e.g. updates)
+    this.sendRawData = function (value, timeout) {
+		if (!value) return;
+        if (!_port) {
+            throw 'sercomm: port not initialized. call init() before sending data.';
+        }
+		//send data via serial port
+        _port.write(value, function(err) {
+          if (err) {
+            return console.log('Error on write: ', err.message);
+          }
+          //console.log('message written');
+        });
+        console.log('finished write');
+        _port.drain(function() {
+			console.log('finished drain');
+			flip.inRawMode = false;
+		});
+	}
 
+	//send data line based (for all AT commands)
     this.sendData = function (value, timeout) {
         if (!value) return;
         if (!_port) {

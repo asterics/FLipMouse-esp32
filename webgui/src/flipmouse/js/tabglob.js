@@ -42,13 +42,14 @@ window.tabGlobal.init = function () {
     xhr.onload = function() {
 		var status = xhr.status;
 		var version;
-		window.tabGlobal.updateVersionTeensy = version;
+		
 		//parse tagname from GitHub response
 		if (status === 200) {
 			version = xhr.response['tag_name'];
 		} else {
 			version = '???';
 		}
+		window.tabGlobal.updateVersionTeensy = version;
 		
 		//build up list entry.
 		var liElm = L.createElement('li', 'row', null, backColor ? 'background-color: #e0e0e0;' : null);
@@ -116,7 +117,7 @@ window.tabGlobal.UpdateTeensy = async function (elem) {
 	
 	//source: https://javascript.info/fetch-progress
 	// Step 1: start the fetch and obtain a reader
-	let response = await fetch("https://github.com/asterics/FLipMouse/releases/download/"+window.tabGlobal.updateVersionTeensy+"/FLipWare.ino.hex");
+	let response = await fetch("https://github.com/asterics/FLipMouse/releases/download/"+ window.tabGlobal.updateVersionTeensy +"/FLipWare.ino.hex");
 
 	const reader = response.body.getReader();
 
@@ -131,6 +132,7 @@ window.tabGlobal.UpdateTeensy = async function (elem) {
 	  const {done, value} = await reader.read();
 
 	  if (done) {
+		await myFile.end();
 		//check which binary we need...
 		var binary = "";
 		switch(os.platform()) {
@@ -139,7 +141,6 @@ window.tabGlobal.UpdateTeensy = async function (elem) {
 			case "darwin": binary = "./tycmd.mac"; break;
 		}
 		let spawn = require("child_process").spawn;
-
 		let bat = spawn(binary, [
 			"upload",          // we want to upload
 			tmpfile.path+'/FLipWare.ino.hex' // this hex file
@@ -161,7 +162,7 @@ window.tabGlobal.UpdateTeensy = async function (elem) {
 	  }
 
 	  myFile.write(value);
-	  chunks.push(value);
+	  //chunks.push(value);
 	  receivedLength += value.length;
 
 	  console.log(`Received ${receivedLength} of ${contentLength}`)
@@ -169,6 +170,21 @@ window.tabGlobal.UpdateTeensy = async function (elem) {
 }
 
 window.tabGlobal.UpdateBluetooth = function (elem) {
-	console.log(elem.id);
+	//TODO: change path to either internet or selected file.<
+	var filepath = '/home/beni/Projects/FLipMouse-esp32-asterics/webgui/src/flipmouse/hidd_demos.bin';
+	var fileContent = fs.createReadStream(filepath,{ highWaterMark: 1 * 32 });
 	
+	//issue addon update request -> Teensy switches to USB->UART passthrough
+	//for the bootloader from the addon.
+	flip.sendATCmd(C.AT_CMD_UPGRADE_ADDON).then(function(response) {
+		//disable all other AT commands
+		//will be re-enabled if the drain event sendRawData is emitted
+		flip.inRawMode = true;
+		//read all at once & send to the raw data sending function.
+		fs.readFile(filepath, (err, data) => {
+			flip.sendRawData(data,20000);
+		});
+	});
 }
+
+

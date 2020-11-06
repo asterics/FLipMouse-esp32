@@ -36,6 +36,8 @@ function FlipMouse(initFinished) {
         L.getIDSelector(thiz.PUFF_THRESHOLD),
         L.getIDSelector(thiz.PUFF_STRONG_THRESHOLD)
     ];
+    
+    thiz.inRawMode = false;
 
     var _config = {};
     var _unsavedConfig = {};
@@ -81,7 +83,7 @@ function FlipMouse(initFinished) {
      */
     thiz.sendATCmd = function (atCmd, onlyIfEmptyQueue, timeout) {
         var timeoutResolve = timeout || 3000;
-        if(onlyIfEmptyQueue && _atCmdQueue.length > 0) {
+        if((onlyIfEmptyQueue && _atCmdQueue.length > 0) || thiz.inRawMode) {
             console.log('did not send cmd: "' + atCmd + "' because another command is executing.");
             return new Promise(function (resolve, reject) {
                 reject(_AT_CMD_BUSY_RESPONSE);
@@ -124,6 +126,10 @@ function FlipMouse(initFinished) {
 
     thiz.sendATCmdWithParam = function(atCmd, param, timeout) {
         return thiz.sendATCmd(atCmd + ' ' + param, false, timeout);
+    };
+    
+    thiz.sendRawData = function(data, timeout) {
+        return _communicator.sendRawData(data, timeout);
     };
 
     /**
@@ -390,6 +396,7 @@ function FlipMouse(initFinished) {
             var promise = new Promise(function(resolve) {
                 _communicator = new SerialCommunicator();
                 _communicator.init().then(function () {
+					thiz.communicator = _communicator;
                     resolve();
                 });
             });

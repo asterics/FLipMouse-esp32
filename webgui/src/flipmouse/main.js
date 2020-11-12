@@ -55,7 +55,7 @@ function createWindow () {
   // and load the index.html of the app.
   win.loadFile('index.htm');
   win.setMenuBarVisibility(false);
-  win.setAutoHideMenuBar(true);
+  //win.setAutoHideMenuBar(true);
 }
 
 app.on('ready', createWindow) 

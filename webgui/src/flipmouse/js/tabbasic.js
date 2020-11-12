@@ -34,6 +34,10 @@ window.tabBasic.cursorPosZoomReset = function () {
 };
 
 window.tabBasic.cursorPosValueHandler = function (data) {
+	var up = data[flip.LIVE_UP];
+	var down = data[flip.LIVE_DOWN];
+	var left = data[flip.LIVE_LEFT];
+	var right = data[flip.LIVE_RIGHT];
     var x = data[flip.LIVE_MOV_X];
     var y = data[flip.LIVE_MOV_Y];
     var maxX = data[flip.LIVE_MOV_X_MAX];
@@ -60,6 +64,18 @@ window.tabBasic.cursorPosValueHandler = function (data) {
     L('#cursorPos').style = 'top: ' + percentageY + '%; left: ' + percentageX + '%;';
     L('#cursorPosVal').innerHTML = maxAbs;
     L('#deadZonePos').style = 'top: ' + (100 - percentageDzY) / 2 + '%; left: ' + (100 - percentageDzX) / 2 + '%; height: ' + (percentageDzY) + '%; width: ' + (percentageDzX) + '%;';
+    
+    L('#upPos').style = 'top: ' + (50-(up / 1024 * 100)/2) + '%; left: 48%; height: ' + (up / 1024 * 100)/2 + '%; width: 4%;';
+    L('#downPos').style = 'top: 50%; left: 48%; height: ' + (down / 1024 * 100)/2 + '%; width: 4%;';
+    
+    L('#leftPos').style = 'top: 48%; left: ' + (50-(left / 1024 * 100)/2) + '%; height: 4%; width: ' + (left / 1024 * 100)/2 + '%;';
+    L('#rightPos').style = 'top: 48%; left: 50%; height: 4%; width: ' + (right / 1024 * 100)/2 + '%;';
+    
+    L('#upPosVal').innerHTML = up;
+    L('#downPosVal').innerHTML = down;
+    L('#leftPosVal').innerHTML = left;
+    L('#rightPosVal').innerHTML = right;
+    
     L('#deadZonePos').className = 'back-layer color-' + (inDeadzone ? 'lightcyan' : 'lightercyan');
     L('#orientationSign').style = 'transform: rotate(' + (flip.getConfig(flip.ORIENTATION_ANGLE)+90)%360 + 'deg);';
 };

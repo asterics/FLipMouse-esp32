@@ -30,9 +30,13 @@
   "homepage": "https://github.com/asterics/FLipMouse-esp32#readme",
   "devDependencies": {
     "electron": "^7.2.4",
+    "electron-json-storage": "^4.1.8",
     "electron-rebuild": "^1.8.5"
   },
   "dependencies": {
-    "serialport": "^7.1.5"
+    "active-win": "^6.1.0",
+    "ps-node": "^0.1.6",
+    "serialport": "^9.0.2",
+    "temporary": "^1.1.0"
   }
 }

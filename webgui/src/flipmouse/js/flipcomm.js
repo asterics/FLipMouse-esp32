@@ -269,6 +269,10 @@ function FlipMouse(initFinished) {
         slot = slot || _currentSlot;
         return _config[slot] ? _config[slot][constant] : null;
     };
+    thiz.getAllConfig = function (slot) {
+        slot = slot || _currentSlot;
+        return _config[slot] ? _config[slot] : null;
+    };
 
     thiz.isConfigUnsaved = function (constant, slot) {
         slot = slot || _currentSlot;
@@ -481,6 +485,11 @@ function FlipMouse(initFinished) {
     function parseConfig(atCmdsString) {
         return parseConfigElement(atCmdsString.split('\n'));
     }
+    
+    //TODO: do we need both versions? I didn't want to remove the other one to avoid breaking anything
+    thiz.parseConfig = function(atCmdsString) {
+        return parseConfigElement(atCmdsString.split('\n'));
+    }
 
     function parseConfigElement(remainingList, config) {
         if (!remainingList || remainingList.length == 0) {
@@ -535,5 +544,29 @@ function FlipMouse(initFinished) {
                 resolve();
             });
         });
+    }
+
+    thiz.getSlotConfigText = function(slotName) {
+        var config = _config[slotName];
+        var ret = "Slot:"+slotName+"\n";
+
+		Object.keys(config).forEach(function (key) {
+			var atCmd = AT_CMD_MAPPING[key];
+			if(C.BTN_MODES.includes(key)) {
+				var index = C.BTN_MODES.indexOf(key) + 1;
+				var indexFormatted = ("0" + index).slice(-2); //1 => 01
+				ret = ret + C.AT_CMD_BTN_MODE + ' ' + indexFormatted + "\n";
+				ret = ret + config[key] + "\n";
+
+			} else if(key == thiz.FLIPMOUSE_MODE) {
+				ret = ret + atCmd + " " + C.FLIPMOUSE_MODES.indexOf(config[key]) + "\n";
+				//C.FLIPMOUSE_MODES = FLIPMOUSE_MODE_MOUSE
+				//promises.push(thiz.setFlipmouseMode(config[key], true));
+			} else {
+				ret = ret + atCmd + ' ' + config[key] + "\n";
+			}
+		});
+		
+        return ret;
     }
 }

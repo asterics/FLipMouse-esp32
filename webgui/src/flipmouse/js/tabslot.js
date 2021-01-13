@@ -93,6 +93,48 @@ window.tabSlot.deleteSlot = function (toggleElementList, progressBarId) {
     });
 };
 
+window.tabSlot.uploadSlot = function () {
+	
+	var file = L('#selectSlotUpload').files;
+    var reader=new FileReader();
+    reader.readAsText(file[0]);
+    reader.onloadend = function(e) {
+		flip.parseConfig(e.target.result);
+		tabSlot.initSlots();
+	};
+};
+
+window.tabSlot.downloadSlot = function () {
+    var slotName = L('#selectSlotDelete').value;
+    var d = new Date();
+    var datestr = d.getDate() + "." + (d.getMonth()+1) + "." + d.getFullYear()
+    downloadasTextFile(slotName + "-" + datestr + ".set",flip.getSlotConfigText(slotName));
+};
+
+window.tabSlot.downloadAllSlots = function () {
+	var configstr = "";
+	flip.getSlots().forEach( function(item) {
+		configstr = configstr + flip.getSlotConfigText(item) + "\n";
+	});
+    var d = new Date();
+    var datestr = d.getDate() + "." + (d.getMonth()+1) + "." + d.getFullYear()
+    downloadasTextFile("flipmouseconfig-" + datestr + ".set",configstr);
+};
+
+//THX: https://phpcoder.tech/wp-content/cache/all/create-dynamically-generated-text-file-and-download-using-javascript/index.html
+function downloadasTextFile(filename, text) {
+    var element = document.createElement('a');
+    element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
+    element.setAttribute('download', filename);
+
+    element.style.display = 'none';
+    document.body.appendChild(element);
+
+    element.click();
+
+    document.body.removeChild(element);
+}
+
 window.tabSlot.resetConfig = function (toggleElementList, progressBarId) {
     var confirmMessage = L.translate('CONFIRM_RESET_SLOTS');
     if(!window.confirm(confirmMessage)){

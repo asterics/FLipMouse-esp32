@@ -7,6 +7,8 @@ If you want to have a look at the FLipMouse v2, follow [this](https://github.com
 
 The BLE-HID stuff is based on the other [repository](https://github.com/asterics/esp32_mouse_keyboard), where we use the ESP32 as BLE module replacement.
 
+Online demo version of Web GUI: https://asterics.github.io/FLipMouse-esp32/
+
 __Following 3 steps are necessary to completely update/flash the firmware and the necessary support files/devices:__
 
 ## Building the ESP32 firmware
